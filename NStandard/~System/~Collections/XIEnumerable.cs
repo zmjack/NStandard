@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace NStandard
 {
@@ -99,7 +100,15 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="separator"></param>
         /// <returns></returns>
-        public static string Join<TSource>(this IEnumerable<TSource> @this, string separator) => string.Join(separator, @this);
+        public static string Join<TSource>(this IEnumerable<TSource> @this, string separator)
+        {
+#if NET35
+            return string.Join(separator, @this.Select(x => x.ToString()).ToArray());
+#endif
+#if NETSTANDARD2_0
+            return string.Join(separator, @this);
+#endif
+        }
 
     }
 }

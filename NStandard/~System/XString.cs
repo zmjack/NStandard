@@ -29,10 +29,11 @@ namespace NStandard
             return string.IsNullOrWhiteSpace(@this);
 #endif
 #if NET35
-            if (@this == null) return true; 
-            for(int i = 0; i < @this.Length; i++) {
-                if(!char.IsWhiteSpace(@this[i])) return false;
-            } 
+            if (@this == null) return true;
+            for (int i = 0; i < @this.Length; i++)
+            {
+                if (!char.IsWhiteSpace(@this[i])) return false;
+            }
             return true;
 #endif
         }
@@ -289,7 +290,7 @@ namespace NStandard
             if (match.Success)
             {
                 if (target is null)
-                    return string.Join("", match.Groups.OfType<Group>().Skip(1).Select(g => g.Value));
+                    return string.Join("", match.Groups.OfType<Group>().Skip(1).Select(g => g.Value).ToArray());
                 else return regex.Replace(match.Groups[0].Value, target);
             }
             else return null;

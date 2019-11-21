@@ -38,7 +38,7 @@ namespace NStandard.Converts
         /// <param name="bytes"></param>
         /// <param name="separator"></param>
         /// <returns></returns>
-        public static string HexString(byte[] bytes, string separator) => string.Join(separator, bytes.Select(x => x.ToString("x2")));
+        public static string HexString(byte[] bytes, string separator) => string.Join(separator, bytes.Select(x => x.ToString("x2")).ToArray());
 
         /// <summary>
         /// Decodes all the bytes in the specified byte(UTF-8) array into a string.
