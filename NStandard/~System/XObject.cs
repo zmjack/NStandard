@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Dynamic;
 using System.Linq;
 using System.Reflection;
+#if NETSTANDARD2_0
+using System.Dynamic;
+#endif
 
 namespace NStandard
 {
@@ -103,6 +105,7 @@ namespace NStandard
             where TSelf : class
             => @this is null;
 
+#if NETSTANDARD2_0
         /// <summary>
         /// Converts the specified object to <see cref="ExpandoObject"/>.
         /// </summary>
@@ -123,33 +126,46 @@ namespace NStandard
             }
             return obj;
         }
+#endif
 
         // Method
+#if NETSTANDARD2_0
+        [Obsolete("This method will be removed.")]
         public static object Invoke(this object @this, string methodName, params object[] parameters)
             => @this.GetType().GetTypeInfo().GetDeclaredMethod(methodName).Invoke(@this, parameters);
+        [Obsolete("This method will be removed.")]
         public static object Invoke<TThis>(this object @this, string methodName, params object[] parameters)
             => typeof(TThis).GetTypeInfo().GetDeclaredMethod(methodName).Invoke(@this, parameters);
 
         // Property
+        [Obsolete("This method will be removed.")]
         public static object GetPropertyValue(this object @this, string propertyName)
             => @this.GetType().GetTypeInfo().GetDeclaredProperty(propertyName).GetValue(@this);
+        [Obsolete("This method will be removed.")]
         public static object GetPropertyValue<TThis>(this object @this, string propertyName)
             => typeof(TThis).GetTypeInfo().GetDeclaredProperty(propertyName).GetValue(@this);
 
+        [Obsolete("This method will be removed.")]
         public static void SetPropertyValue(this object @this, string propertyName, object value)
             => @this.GetType().GetTypeInfo().GetDeclaredProperty(propertyName).SetValue(@this, value);
+        [Obsolete("This method will be removed.")]
         public static void SetPropertyValue<TThis>(this object @this, string propertyName, object value)
             => typeof(TThis).GetTypeInfo().GetDeclaredProperty(propertyName).SetValue(@this, value);
 
         // Field
+        [Obsolete("This method will be removed.")]
         public static object GetFieldValue(this object @this, string filedName)
             => @this.GetType().GetTypeInfo().GetDeclaredField(filedName).GetValue(@this);
+        [Obsolete("This method will be removed.")]
         public static object GetFieldValue<TThis>(this object @this, string filedName)
             => typeof(TThis).GetTypeInfo().GetDeclaredField(filedName).GetValue(@this);
 
+        [Obsolete("This method will be removed.")]
         public static void SetFieldValue(this object @this, string filedName, object value)
             => @this.GetType().GetTypeInfo().GetDeclaredField(filedName).SetValue(@this, value);
+        [Obsolete("This method will be removed.")]
         public static void SetFieldValue<TThis>(this object @this, string filedName, object value)
             => typeof(TThis).GetTypeInfo().GetDeclaredField(filedName).SetValue(@this, value);
+#endif
     }
 }

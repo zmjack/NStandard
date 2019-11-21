@@ -23,7 +23,19 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static bool IsNullOrWhiteSpace(this string @this) => string.IsNullOrWhiteSpace(@this);
+        public static bool IsNullOrWhiteSpace(this string @this)
+        {
+#if NETSTANDARD2_0
+            return string.IsNullOrWhiteSpace(@this);
+#endif
+#if NET35
+            if (@this == null) return true; 
+            for(int i = 0; i < @this.Length; i++) {
+                if(!char.IsWhiteSpace(@this[i])) return false;
+            } 
+            return true;
+#endif
+        }
 
         /// <summary>
         /// Indicates whether the specified string is an System.String.Empty string.
@@ -197,14 +209,14 @@ namespace NStandard
                 {
                     var line = @this.Slice(startIndex, findIndex);
                     startIndex = findIndex + newLineLength;
-                    if (!(ignoreEmptyOrWhiteSpace && string.IsNullOrWhiteSpace(line)))
+                    if (!(ignoreEmptyOrWhiteSpace && IsNullOrWhiteSpace(line)))
                         yield return line;
                 }
 
                 if (startIndex != @this.Length)
                 {
                     var line = @this.Slice(startIndex, @this.Length);
-                    if (!(ignoreEmptyOrWhiteSpace && string.IsNullOrWhiteSpace(line)))
+                    if (!(ignoreEmptyOrWhiteSpace && IsNullOrWhiteSpace(line)))
                         yield return line;
                 }
             }

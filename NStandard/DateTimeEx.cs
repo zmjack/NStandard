@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace NStandard
 {
@@ -143,6 +144,35 @@ namespace NStandard
 
             return week0.AddDays(week * 7);
         }
+
+        /// <summary>
+        /// Converts the specified string representation of a date and time to its System.DateTime
+        ///     equivalent using the specified format and culture-specific format information.
+        ///     The format of the string representation must match the specified format exactly.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
+        public static DateTime ParseExtract(string s, string format)
+        {
+            return DateTime.ParseExact(s, format, CultureInfo.CurrentCulture);
+        }
+
+        /// <summary>
+        /// Converts the specified string representation of a date and time to its System.DateTime
+        ///     equivalent using the specified format, culture-specific format information, and
+        ///     style. The format of the string representation must match the specified format
+        ///     exactly. The method returns a value that indicates whether the conversion succeeded.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="format"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static bool TryParseExtract(string s, string format, out DateTime result)
+        {
+            return DateTime.TryParseExact(s, format, CultureInfo.CurrentCulture, DateTimeStyles.None, out result);
+        }
+
 
         ///// <summary>
         ///// [NOT RECOMMEND] The difference between the days in start_date and end_date. The months and years of the dates are ignored.
