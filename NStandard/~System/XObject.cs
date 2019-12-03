@@ -43,8 +43,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="convert"></param>
         /// <returns></returns>
-        public static TRet For<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet> convert)
-            => convert(@this);
+        public static TRet For<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet> convert) => convert(@this);
 
         /// <summary>
         /// Casts the element to the specified type through the specified flow.
@@ -64,6 +63,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="filters"></param>
         /// <returns></returns>
+        [Obsolete("Replace with the new function: TRet For<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet> convert)", true)]
         public static TRet For<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet>[] filters)
             where TRet : class
         {
@@ -74,6 +74,34 @@ namespace NStandard
                     return result;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Casts the element to the specified type through the specified convert method.
+        /// </summary>
+        /// <typeparam name="TSelf"></typeparam>
+        /// <typeparam name="TRet"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="filters"></param>
+        /// <returns></returns>
+        public static TRet Return<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet> onNormalReturn, Func<TSelf, TRet> onExceptionReturn)
+        {
+            try { return onNormalReturn(@this); }
+            catch { return onExceptionReturn(@this); }
+        }
+
+        /// <summary>
+        /// Casts the element to the specified type through the specified convert method.
+        /// </summary>
+        /// <typeparam name="TSelf"></typeparam>
+        /// <typeparam name="TRet"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="filters"></param>
+        /// <returns></returns>
+        public static TRet Return<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet> onNormalReturn, TRet exceptionReturn)
+        {
+            try { return onNormalReturn(@this); }
+            catch { return exceptionReturn; }
         }
 
         /// <summary>
@@ -101,9 +129,7 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static bool IsNull<TSelf>(this TSelf @this)
-            where TSelf : class
-            => @this is null;
+        public static bool IsNull<TSelf>(this TSelf @this) where TSelf : class => @this is null;
 
 #if NETSTANDARD2_0
         /// <summary>

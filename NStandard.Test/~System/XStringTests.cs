@@ -132,7 +132,7 @@ namespace NStandard.Test
         public void CapitalizeFirst()
         {
             Assert.Equal("zmjack", "Zmjack".CapitalizeFirst(false));
-            Assert.Equal("Zmjack", "Zmjack".CapitalizeFirst());
+            Assert.Equal("Zmjack", "zmjack".CapitalizeFirst());
         }
 
         [Fact]

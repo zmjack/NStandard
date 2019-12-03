@@ -298,7 +298,7 @@ namespace NStandard
 
         /// <summary>
         /// Projects the specified string to a new string by using regular expressions (using Single-line Mode).
-        ///     If there is no match, this method returns null.
+        ///     If there is no match, return null.
         /// </summary>
         /// <param name="this"></param>
         /// <param name="regex"></param>
@@ -309,7 +309,7 @@ namespace NStandard
 
         /// <summary>
         /// Projects the specified string to a new string by using regular expressions.
-        ///     If there is no match, this method returns null.
+        ///     If there is no match, return null.
         /// </summary>
         /// <param name="this"></param>
         /// <param name="regex"></param>
@@ -337,7 +337,7 @@ namespace NStandard
             int pos;
 
             if (!padRight)
-                pos = (@this.Length % unitLength).For(_ => _ > 0 ? _ : unitLength);
+                pos = (@this.Length % unitLength).For(x => x > 0 ? x : unitLength);
             else pos = unitLength;
 
             foreach (var ch in @this)

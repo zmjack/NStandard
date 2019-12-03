@@ -38,7 +38,6 @@ namespace NStandard.Test
             arr.Shuffle();
         }
 
-
         [Fact]
         public void JaggedArrayTest()
         {
