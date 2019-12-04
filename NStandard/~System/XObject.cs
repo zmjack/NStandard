@@ -46,6 +46,21 @@ namespace NStandard
         public static TRet For<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet> convert) => convert(@this);
 
         /// <summary>
+        /// Casts the element to the specified type through the specified convert method.
+        /// </summary>
+        /// <typeparam name="TSelf"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="convert"></param>
+        /// <returns></returns>
+        public static TSelf NFor<TSelf>(this TSelf @this, Func<TSelf, TSelf> convert, int degree = 1)
+        {
+            var param = @this;
+            for (int i = 0; i < degree; i++)
+                param = convert(param);
+            return param;
+        }
+
+        /// <summary>
         /// Casts the element to the specified type through the specified flow.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>
