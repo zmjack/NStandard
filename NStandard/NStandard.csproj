@@ -8,13 +8,13 @@
     <Company>dawnx.net</Company>
     <PackageId>NStandard</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.4</Version>
+    <Version>0.0.5</Version>
     <Description>DotNet Core extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
     <PackageProjectUrl>https://github.com/zmjack/NStandard</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
-    <Copyright>Copyright © dawnx.net 2018-2019</Copyright>
+    <Copyright>Copyright © dawnx.net 2019-2020</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
