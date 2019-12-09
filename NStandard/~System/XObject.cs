@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 #if NETSTANDARD2_0
+using System.Reflection;
 using System.Dynamic;
 #endif
 
