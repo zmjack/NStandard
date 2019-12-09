@@ -2,7 +2,7 @@
 
 namespace NStandard.Algorithms.Test
 {
-    public class KmpTest
+    public class KmpTests
     {
         [Fact]
         public void Test1()
