@@ -8,7 +8,7 @@
     <Company>dawnx.net</Company>
     <PackageId>NStandard</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.6</Version>
+    <Version>0.0.6.1</Version>
     <Description>DotNet Core extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
