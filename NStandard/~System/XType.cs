@@ -58,6 +58,14 @@ namespace NStandard
             }
         }
 
+        public static bool IsNullable(this Type @this)
+        {
+            var genericType = @this.GetGenericTypeDefinition();
+            if (@this.IsGenericType && genericType == typeof(Nullable<>))
+                return true;
+            else return false;
+        }
+
         private static bool RecursiveSearchExtends(Type type, Type extendType, bool generic)
         {
             if (type != null)

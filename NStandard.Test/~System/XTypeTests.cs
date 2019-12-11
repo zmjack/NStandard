@@ -1,3 +1,4 @@
+using System;
 using Xunit;
 
 namespace NStandard.Test
@@ -11,14 +12,18 @@ namespace NStandard.Test
         private class ClassC : ClassB { }
 
         [Fact]
-        public void Test1()
+        public void IsImplementTest()
         {
             Assert.True(typeof(ClassC).IsImplement<InterfaceA<int>>());
             Assert.True(typeof(ClassC).IsImplement(typeof(InterfaceA<int>)));
             Assert.True(typeof(ClassC).IsImplement(typeof(InterfaceA<>)));
 
             Assert.True(typeof(ClassC).IsImplement<InterfaceB>());
+        }
 
+        [Fact]
+        public void IsExtendTest()
+        {
             Assert.False(typeof(ClassC).IsExtend<ClassA<int>>());
             Assert.False(typeof(ClassC).IsExtend(typeof(ClassA<int>)));
             Assert.False(typeof(ClassC).IsExtend(typeof(ClassA<>)));
@@ -29,6 +34,12 @@ namespace NStandard.Test
 
             Assert.True(typeof(ClassC).IsExtend<ClassB>());
             Assert.True(typeof(ClassC).IsExtend(typeof(ClassB)));
+        }
+
+        [Fact]
+        public void IsNullableTest()
+        {
+            Assert.True(typeof(DateTime?).IsNullable());
         }
 
     }
