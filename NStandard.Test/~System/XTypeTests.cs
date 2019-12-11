@@ -43,5 +43,18 @@ namespace NStandard.Test
             Assert.True(typeof(DateTime?).IsNullable());
         }
 
+        [Fact]
+        public void CreateDefaultInstanceTest()
+        {
+            var str = typeof(string).CreateDefaultInstance();
+            Assert.Null(str);
+
+            var ndt = typeof(DateTime?).CreateDefaultInstance();
+            Assert.Null(ndt);
+
+            var dt = typeof(DateTime).CreateDefaultInstance();
+            Assert.Equal(new DateTime(), dt);
+        }
+
     }
 }

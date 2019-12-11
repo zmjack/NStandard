@@ -68,6 +68,11 @@ namespace NStandard
             else return false;
         }
 
+        public static object CreateDefaultInstance(this Type @this)
+        {
+            return @this.IsValueType ? Activator.CreateInstance(@this) : null;
+        }
+
         private static bool RecursiveSearchExtends(Type type, Type extendType, bool generic)
         {
             if (type != null)
