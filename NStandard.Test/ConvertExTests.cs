@@ -21,5 +21,11 @@ namespace NStandard.Test
 
             Assert.Throws<InvalidCastException>(() => Convert.ChangeType("2019/12/11 8:58:57", typeof(DateTime?)));
         }
+
+        [Fact]
+        public void Test2()
+        {
+            var ndt = ConvertEx.ChangeType("2019/12/11 8:58:57", typeof(string));
+        }
     }
 }

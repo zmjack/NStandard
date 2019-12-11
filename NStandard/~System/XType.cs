@@ -60,9 +60,11 @@ namespace NStandard
 
         public static bool IsNullable(this Type @this)
         {
-            var genericType = @this.GetGenericTypeDefinition();
-            if (@this.IsGenericType && genericType == typeof(Nullable<>))
-                return true;
+            if (@this.IsGenericType)
+            {
+                var genericType = @this.GetGenericTypeDefinition();
+                return genericType == typeof(Nullable<>);
+            }
             else return false;
         }
 

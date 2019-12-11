@@ -39,6 +39,7 @@ namespace NStandard.Test
         [Fact]
         public void IsNullableTest()
         {
+            Assert.False(typeof(DateTime).IsNullable());
             Assert.True(typeof(DateTime?).IsNullable());
         }
 
