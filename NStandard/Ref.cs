@@ -17,13 +17,11 @@ namespace NStandard
 
         public Ref(T value) => RefValue = value;
 
-        public static bool operator ==(Ref<T> left, T right) => false;
-        public static bool operator !=(Ref<T> left, T right) => true;
-
         public static bool operator ==(Ref<T> left, Ref<T> right) => left.RefValue == right.RefValue;
         public static bool operator !=(Ref<T> left, Ref<T> right) => left.RefValue != right.RefValue;
 
-        public static implicit operator T(Ref<T> @this) => @this.Value;
+        public static implicit operator T(Ref<T> operand) => operand.Value;
+        public static implicit operator Ref<T>(T operand) => new Ref<T>(operand);
 
         public override bool Equals(object obj)
         {

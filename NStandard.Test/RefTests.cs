@@ -7,19 +7,17 @@ namespace NStandard.Test
         [Fact]
         public void RRTest()
         {
-            Ref<int> ra = Ref.Bind(0);
-            Ref<int> rb = Ref.Bind(0);
+            var rs = new Ref<int>[] { 8, 8 };
 
-            Assert.True(ra.Value == rb.Value);
-            Assert.False(ra.Value != rb.Value);
+            Assert.True(rs[0].Value == rs[1].Value);
+            Assert.False(rs[0].RefValue == rs[1].RefValue);
+            Assert.False(rs[0] == rs[1]);
 
-            Assert.False(ra.RefValue == rb.RefValue);
-            Assert.True(ra.RefValue != rb.RefValue);
+            Assert.False(rs[0].Value != rs[1].Value);
+            Assert.True(rs[0].RefValue != rs[1].RefValue);
+            Assert.True(rs[0] != rs[1]);
 
-            Assert.False(ra == rb);         // Compare as Ref<int>
-            Assert.True(ra != rb);          // Compare as Ref<int>
-
-            Assert.True(ra.Equals(rb));
+            Assert.True(rs[0].Equals(rs[1]));
         }
 
         [Fact]
@@ -30,19 +28,17 @@ namespace NStandard.Test
 
             Assert.True(ri.Value == i);
             Assert.True(i == ri.Value);
-            Assert.False(ri.Value != i);
-            Assert.False(i != ri.Value);
-
             Assert.False(ri.RefValue == (object)i);
             Assert.False((object)i == ri.RefValue);
+            Assert.False(ri == i);
+            Assert.False(i == ri);
+
+            Assert.False(ri.Value != i);
+            Assert.False(i != ri.Value);
             Assert.True(ri.RefValue != (object)i);
             Assert.True((object)i != ri.RefValue);
-
-            Assert.False(ri == i);           // Compare as Ref<int> (left-side)
-            Assert.True(ri != i);            // Compare as Ref<int> (left-side)
-
-            Assert.True(i == ri);            // Compare as int
-            Assert.False(i != ri);           // Compare as int
+            Assert.True(ri != i);
+            Assert.True(i != ri);
 
             Assert.True(ri.Equals(i));
             Assert.True(i.Equals(ri));
@@ -56,19 +52,17 @@ namespace NStandard.Test
 
             Assert.True(rd.Value == i);
             Assert.True(i == rd.Value);
-            Assert.False(rd.Value != i);
-            Assert.False(i != rd.Value);
-
             Assert.False(rd.RefValue == (object)i);
             Assert.False((object)i == rd.RefValue);
+            Assert.False(rd == i);
+            Assert.False(i == rd);
+
+            Assert.False(rd.Value != i);
+            Assert.False(i != rd.Value);
             Assert.True(rd.RefValue != (object)i);
             Assert.True((object)i != rd.RefValue);
-
-            Assert.False(rd == i);           // Compare as Ref<double> (left-side)
-            Assert.True(rd != i);            // Compare as Ref<double> (left-side)
-
-            Assert.True(i == rd);            // Compare as double
-            Assert.False(i != rd);           // Compare as double
+            Assert.True(rd != i);
+            Assert.True(i != rd);
 
             Assert.False(rd.Equals(i));
             Assert.False(i.Equals(rd));
