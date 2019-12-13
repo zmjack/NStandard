@@ -5,6 +5,13 @@ namespace NStandard.Test
     public class RefTests
     {
         [Fact]
+        public void AssertTest()
+        {
+            var rs = new Ref<int>[] { 8, 8 };
+            Assert.Equal(rs[0], rs[1]);         // Ref<>.Equals(object obj);
+        }
+
+        [Fact]
         public void RRTest()
         {
             var rs = new Ref<int>[] { 8, 8 };
