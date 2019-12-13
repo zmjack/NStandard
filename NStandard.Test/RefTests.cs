@@ -5,13 +5,13 @@ namespace NStandard.Test
     public class RefTests
     {
         [Fact]
-        public void AssertTest()
+        public void AssertTest1()
         {
             int eight = 8;
             var rs = new Ref<int>[] { eight, eight };
             Assert.Equal(rs[0], rs[1]);
             Assert.False(rs[0] == rs[1]);
-            Assert.False(rs[0].RefValue == rs[1].RefValue);
+            Assert.NotSame(rs[0].RefValue, rs[1].RefValue);
         }
 
         [Fact]
@@ -21,7 +21,7 @@ namespace NStandard.Test
             var rs = new[] { new Ref<int>(eight), new Ref<int>(eight) };
             Assert.Equal(rs[0], rs[1]);
             Assert.True(rs[0] == rs[1]);
-            Assert.True(rs[0].RefValue == rs[1].RefValue);
+            Assert.Same(rs[0].RefValue, rs[1].RefValue);
         }
 
         [Fact]
