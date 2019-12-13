@@ -7,8 +7,21 @@ namespace NStandard.Test
         [Fact]
         public void AssertTest()
         {
-            var rs = new Ref<int>[] { 8, 8 };
-            Assert.Equal(rs[0], rs[1]);         // Ref<>.Equals(object obj);
+            int eight = 8;
+            var rs = new Ref<int>[] { eight, eight };
+            Assert.Equal(rs[0], rs[1]);
+            Assert.False(rs[0] == rs[1]);
+            Assert.False(rs[0].RefValue == rs[1].RefValue);
+        }
+
+        [Fact]
+        public void AssertTest2()
+        {
+            object eight = 8;
+            var rs = new[] { new Ref<int>(eight), new Ref<int>(eight) };
+            Assert.Equal(rs[0], rs[1]);
+            Assert.True(rs[0] == rs[1]);
+            Assert.True(rs[0].RefValue == rs[1].RefValue);
         }
 
         [Fact]

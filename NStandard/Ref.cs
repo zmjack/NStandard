@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NStandard
+﻿namespace NStandard
 {
     public static class Ref
     {
         public static Ref<T> Bind<T>(T value) where T : struct => new Ref<T>(value);
     }
 
-    public class Ref<T>
-        where T : struct
+    public class Ref<T> where T : struct
     {
         public object RefValue;
         public T Value => (T)RefValue;
 
         public Ref(T value) => RefValue = value;
+        public Ref(object value) => RefValue = value;
 
         public static bool operator ==(Ref<T> left, Ref<T> right) => left.RefValue == right.RefValue;
         public static bool operator !=(Ref<T> left, Ref<T> right) => left.RefValue != right.RefValue;
