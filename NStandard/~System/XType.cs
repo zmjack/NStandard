@@ -18,6 +18,54 @@ namespace NStandard
             return @this.Name.StartsWith("<>f__AnonymousType");
         }
 
+        public static bool IsBasic(this Type @this, bool includeNullable = false)
+        {
+            switch (@this)
+            {
+                case Type _ when @this == typeof(char):
+                case Type _ when @this == typeof(bool):
+                case Type _ when @this == typeof(byte):
+                case Type _ when @this == typeof(sbyte):
+                case Type _ when @this == typeof(short):
+                case Type _ when @this == typeof(ushort):
+                case Type _ when @this == typeof(int):
+                case Type _ when @this == typeof(uint):
+                case Type _ when @this == typeof(long):
+                case Type _ when @this == typeof(ulong):
+                case Type _ when @this == typeof(float):
+                case Type _ when @this == typeof(double):
+                case Type _ when @this == typeof(decimal):
+                case Type _ when @this == typeof(Guid):
+                case Type _ when @this == typeof(DateTime):
+                case Type _ when @this == typeof(Enum):
+                case Type _ when @this == typeof(string): return true;
+            }
+
+            if (includeNullable)
+            {
+                switch (@this)
+                {
+                    case Type _ when @this == typeof(char?):
+                    case Type _ when @this == typeof(bool?):
+                    case Type _ when @this == typeof(byte?):
+                    case Type _ when @this == typeof(sbyte?):
+                    case Type _ when @this == typeof(short?):
+                    case Type _ when @this == typeof(ushort?):
+                    case Type _ when @this == typeof(int?):
+                    case Type _ when @this == typeof(uint?):
+                    case Type _ when @this == typeof(long?):
+                    case Type _ when @this == typeof(ulong?):
+                    case Type _ when @this == typeof(float?):
+                    case Type _ when @this == typeof(double?):
+                    case Type _ when @this == typeof(decimal?):
+                    case Type _ when @this == typeof(Guid?):
+                    case Type _ when @this == typeof(DateTime?): return true;
+                }
+            }
+
+            return false;
+        }
+
         public static bool IsType<TType>(this Type @this) => IsType(@this, typeof(TType));
         public static bool IsType(this Type @this, Type type)
         {

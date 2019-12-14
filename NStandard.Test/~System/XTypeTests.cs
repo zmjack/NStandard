@@ -56,5 +56,14 @@ namespace NStandard.Test
             Assert.Equal(new DateTime(), dt);
         }
 
+        [Fact]
+        public void IsBasicTypeTest()
+        {
+            Assert.True(typeof(int).IsBasic());
+            Assert.True(typeof(int).IsBasic(true));
+            Assert.False(typeof(int?).IsBasic());
+            Assert.True(typeof(int?).IsBasic(true));
+        }
+
     }
 }
