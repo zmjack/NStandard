@@ -9,7 +9,7 @@ namespace NStandard
     public static partial class XArray
     {
         /// <summary>
-        /// Use a method to initailize each element of an array.
+        /// Use a method to initialize each element of an array.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>
         /// <param name="this"></param>
@@ -27,7 +27,7 @@ namespace NStandard
         }
 
         /// <summary>
-        /// Use a method to initailize each element of an array.
+        /// Use a method to initialize each element of an array.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>
         /// <param name="this"></param>

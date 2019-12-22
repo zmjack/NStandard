@@ -59,10 +59,10 @@ namespace NStandard.Test
         [Fact]
         public void IsBasicTypeTest()
         {
-            Assert.True(typeof(int).IsBasic());
-            Assert.True(typeof(int).IsBasic(true));
-            Assert.False(typeof(int?).IsBasic());
-            Assert.True(typeof(int?).IsBasic(true));
+            Assert.True(typeof(int).IsBasicType());
+            Assert.True(typeof(int).IsBasicType(true));
+            Assert.False(typeof(int?).IsBasicType());
+            Assert.True(typeof(int?).IsBasicType(true));
         }
 
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Collections;
 #if NETSTANDARD2_0
 using System.Reflection;
 using System.Dynamic;
@@ -145,6 +146,48 @@ namespace NStandard
         /// <param name="this"></param>
         /// <returns></returns>
         public static bool IsNull<TSelf>(this TSelf @this) where TSelf : class => @this is null;
+
+        public static void Dump<TSelf>(this TSelf @this)
+        {
+            Console.WriteLine($"<{typeof(TSelf).GetSimplifiedName()}>");
+            Dump(@this, null, 0);
+        }
+
+        private static void Dump(object instance, string name, int paddingLeft)
+        {
+            var type = instance.GetType();
+            switch (type)
+            {
+                case Type _ when type.IsBasicType():
+                    if (name is null)
+                        Console.WriteLine($"{" ".Repeat(paddingLeft)}<{type.GetSimplifiedName()}>{instance}");
+                    else if (name == string.Empty)
+                        Console.WriteLine($"{" ".Repeat(paddingLeft)}<{type.GetSimplifiedName()}>{instance},");
+                    else Console.WriteLine($"{" ".Repeat(paddingLeft)}{name}: <{type.GetSimplifiedName()}>{instance},");
+                    break;
+
+                case Type _ when type.IsExtend<Array>():
+                    Console.WriteLine($"{" ".Repeat(paddingLeft)}[");
+                    var enumerator = (instance as IEnumerable).GetEnumerator();
+                    for (var element = enumerator.TakeElement(); element != null; element = enumerator.TakeElement())
+                    {
+                        Dump(element, string.Empty, paddingLeft + 4);
+                    }
+                    Console.WriteLine($"{" ".Repeat(paddingLeft)}]");
+                    break;
+
+                default:
+                    Console.WriteLine($"{" ".Repeat(paddingLeft)}{{");
+                    var props = type.GetProperties();
+                    foreach (var prop in props)
+                    {
+                        Dump(prop.GetValue(instance, null), prop.Name, paddingLeft + 4);
+                    }
+                    Console.WriteLine($"{" ".Repeat(paddingLeft)}}}");
+                    break;
+            }
+        }
+
 
 #if NETSTANDARD2_0
         /// <summary>

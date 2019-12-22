@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Xunit;
@@ -47,6 +48,30 @@ namespace NStandard.Test
             var result = s.Return(x => int.Parse(x), x => -1);
 
             Assert.Equal(-1, result);
+        }
+
+        [Fact]
+        public void DumpTest()
+        {
+            using (var agent = new ConsoleAgent())
+            {
+                new object[] { "1", new { a = 1, b = new { a = 1, b = 2 } } }.Dump();
+
+                var output = agent.ReadAllText();
+
+                Assert.Equal(@"<object[]>
+[
+    <string>1,
+    {
+        a: <int>1,
+        {
+            a: <int>1,
+            b: <int>2,
+        }
+    }
+]
+", output);
+            }
 
         }
 
