@@ -13,7 +13,6 @@ namespace NStandard
             return @this.GetMethods().First(x => x.ToString() == formatName);
         }
 
-        //TODO: Use more smart method to rebulid this
         public static string GetSimplifiedName(this Type @this)
         {
             var isArray = @this.IsArray;
