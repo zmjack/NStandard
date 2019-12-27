@@ -10,6 +10,15 @@ namespace NStandard
 {
     public static class StringEx
     {
+        public static string[] SplitIntoLines(string source, int lineLength)
+        {
+            var ret = source.AsKvPairs()
+                .GroupBy(x => x.Key / lineLength)
+                .Select(g => new string(g.Select(x => x.Value).ToArray()))
+                .ToArray();
+            return ret;
+        }
+
         /// <summary>
         /// Get the common starts of the specified strings.
         /// </summary>
@@ -167,7 +176,7 @@ namespace NStandard
 
             var prePattern = new[] { "/", "+", "*", "[", "]", "(", ")", "?", "|", "^" }
                 .Aggregate(format, (_acc, ch) => _acc.Replace(ch, $"\\{ch}"));
-            var pattern = new int[members.Length].Let(i => i)                   // IntegerRange(0, members.Length - 1)
+            var pattern = new int[members.Length].Let(i => i)
                 .Aggregate(prePattern, (acc, i) => acc.Replace($"{{{i}}}\\?", @"(.*?)").Replace($"{{{i}}}", @"(.*)"))
                 .For(x => $"^{x}$");
             var regex = new Regex(pattern, RegexOptions.Singleline);
@@ -175,7 +184,7 @@ namespace NStandard
             var match = regex.Match(source);
             if (match.Success)
             {
-                foreach (var i in new int[members.Length].Let(i => i + 1))      // IntegerRange(1, members.Length))
+                foreach (var i in new int[members.Length].Let(i => i + 1))
                 {
                     var value = match.Groups[i].Value;
                     switch (members[i - 1])

@@ -14,6 +14,18 @@ namespace NStandard.Test
         }
 
         [Fact]
+        public void SplitIntoLines()
+        {
+            Assert.Equal(new[] { "ABCDEF", "123456" }, StringEx.SplitIntoLines("ABCDEF123456", 6));
+        }
+
+        [Fact]
+        public void CommonStartsTest()
+        {
+            Assert.Equal("AB", StringEx.CommonStarts("ABC", "AB123", "ABC23"));
+        }
+
+        [Fact]
         public void CamelCaseTest()
         {
             Assert.Equal("", StringEx.CamelCase(""));
@@ -33,12 +45,6 @@ namespace NStandard.Test
             Assert.Equal("gate2-name", StringEx.KebabCase("gate2Name"));
             Assert.Equal("dawnx-v2", StringEx.KebabCase("DAWNXV2"));
             Assert.Throws<ArgumentException>(() => StringEx.KebabCase("Exception\0"));
-        }
-
-        [Fact]
-        public void CommonStartsTest()
-        {
-            Assert.Equal("AB", StringEx.CommonStarts("ABC", "AB123", "ABC23"));
         }
 
         [Fact]
