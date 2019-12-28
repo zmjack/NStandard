@@ -6,6 +6,7 @@ namespace NStandard
     {
         TRet Execute(T origin);
     }
+
     public class Flow<T, TRet> : IFlow<T, TRet>
     {
         public Func<T, TRet> Ret { get; }
