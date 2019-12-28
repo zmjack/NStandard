@@ -157,9 +157,17 @@ namespace NStandard
 
         private static void Dump(object instance, TextWriter writer, string name, int paddingLeft)
         {
-            var type = instance.GetType();
+            var type = instance?.GetType();
             switch (type)
             {
+                case null:
+                    if (name is null)
+                        writer.WriteLine($"{" ".Repeat(paddingLeft)}<null>{instance}");
+                    else if (name == string.Empty)
+                        writer.WriteLine($"{" ".Repeat(paddingLeft)}<null>{instance},");
+                    else writer.WriteLine($"{" ".Repeat(paddingLeft)}{name}: <null>{instance},");
+                    break;
+
                 case Type _ when type.IsBasicType():
                     if (name is null)
                         writer.WriteLine($"{" ".Repeat(paddingLeft)}<{type.GetSimplifiedName()}>{instance}");
@@ -185,7 +193,7 @@ namespace NStandard
                     {
                         Dump(prop.GetValue(instance, null), writer, prop.Name, paddingLeft + 4);
                     }
-                    writer.WriteLine($"{" ".Repeat(paddingLeft)}}}");
+                    writer.WriteLine($"{" ".Repeat(paddingLeft)}}},");
                     break;
             }
         }
