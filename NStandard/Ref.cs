@@ -13,23 +13,23 @@
         public Ref(T value) => RefValue = value;
         public Ref(object value) => RefValue = value;
 
-        public static bool operator ==(Ref<T> left, Ref<T> right) => left.RefValue == right.RefValue;
-        public static bool operator !=(Ref<T> left, Ref<T> right) => left.RefValue != right.RefValue;
-
-        public static implicit operator T(Ref<T> operand) => operand.Value;
-        public static implicit operator Ref<T>(T operand) => new Ref<T>(operand);
-
         public override bool Equals(object obj)
         {
             switch (obj)
             {
                 case Ref<T> _obj: return Value.Equals(_obj.Value);
                 case T _obj: return Value.Equals(_obj);
-                default: return obj.Return(x => Value.Equals(x), x => false);
+                default: return obj.Return(x => Value.Equals(x), @default: false);
             }
         }
 
         public override int GetHashCode() => RefValue.GetHashCode();
+        public static bool operator ==(Ref<T> left, Ref<T> right) => left.RefValue == right.RefValue;
+        public static bool operator !=(Ref<T> left, Ref<T> right) => left.RefValue != right.RefValue;
+
+        public static implicit operator T(Ref<T> operand) => operand.Value;
+        public static implicit operator Ref<T>(T operand) => new Ref<T>(operand);
+
         public override string ToString() => RefValue.ToString();
     }
 }

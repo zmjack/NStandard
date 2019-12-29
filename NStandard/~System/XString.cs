@@ -11,6 +11,8 @@ namespace NStandard
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XString
     {
+        public static VString VString(this string @this) => new VString(@this);
+
         /// <summary>
         /// Indicates whether the specified string is null or an System.String.Empty string.
         /// </summary>

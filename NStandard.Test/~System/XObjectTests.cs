@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Xunit;
@@ -67,8 +66,8 @@ namespace NStandard.Test
         {
             a: <int>1,
             b: <int>2,
-        }
-    }
+        },
+    },
 ]
 ", output);
             }
