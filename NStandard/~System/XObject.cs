@@ -15,13 +15,17 @@ namespace NStandard
     public static class XObject
     {
         /// <summary>
-        /// Do a task for itself, but no return.
+        /// Do a task for itself.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>
         /// <param name="this"></param>
         /// <param name="task"></param>
         /// <returns></returns>
-        public static void With<TSelf>(this TSelf @this, Action<TSelf> task) => task(@this);
+        public static TSelf With<TSelf>(this TSelf @this, Action<TSelf> task)
+        {
+            task(@this);
+            return @this;
+        }
 
         /// <summary>
         /// Do a task for itself, then return itself.
@@ -30,6 +34,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="task"></param>
         /// <returns></returns>
+        [Obsolete("Replace with the new function: TSelf With<TSelf>(this TSelf @this, Action<TSelf> task)")]
         public static TSelf Then<TSelf>(this TSelf @this, Action<TSelf> task)
         {
             task(@this);
