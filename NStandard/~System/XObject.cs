@@ -236,10 +236,5 @@ namespace NStandard
         }
 #endif
 
-        public static object Invoke(this object @this, string methodName, params object[] parameters) => @this.GetType().GetMethod(methodName).Invoke(@this, parameters);
-        public static object GetPropertyValue(this object @this, string propertyName) => @this.GetType().GetProperty(propertyName).GetValue(@this, null);
-        public static void SetPropertyValue(this object @this, string propertyName, object value) => @this.GetType().GetProperty(propertyName).SetValue(@this, value);
-        public static object GetFieldValue(this object @this, string filedName) => @this.GetType().GetField(filedName).GetValue(@this);
-        public static void SetFieldValue(this object @this, string filedName, object value) => @this.GetType().GetField(filedName).SetValue(@this, value);
     }
 }
