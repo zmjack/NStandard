@@ -35,7 +35,7 @@ namespace NStandard
         public static string GetString<T>(T obj) where T : struct
         {
             if (obj is VString)
-                return ObjectEx.GetFieldValue(obj, nameof(String)) as string;
+                return obj.GetReflector().Field<string>(nameof(String)).Value;
             else return null;
         }
     }

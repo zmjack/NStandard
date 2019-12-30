@@ -198,6 +198,8 @@ namespace NStandard
             }
         }
 
+        public static Reflector GetReflector(this object @this) => new Reflector(@this);
+
 
 #if NETSTANDARD2_0
         /// <summary>

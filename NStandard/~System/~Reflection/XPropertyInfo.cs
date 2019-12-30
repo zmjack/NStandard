@@ -7,10 +7,8 @@ namespace NStandard
     public static class XPropertyInfo
     {
 #if NET35
-        public static void SetValue(this PropertyInfo @this, object obj, object value)
-        {
-            @this.SetValue(obj, value, null);
-        }
+        public static object GetValue(this PropertyInfo @this, object obj) => @this.GetValue(obj, null);
+        public static void SetValue(this PropertyInfo @this, object obj, object value) => @this.SetValue(obj, value, null);
 #endif
     }
 }

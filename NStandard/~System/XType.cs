@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -8,6 +9,8 @@ namespace NStandard
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XType
     {
+        internal const BindingFlags DeclaredOnlyLookup = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
+
         public static MethodInfo GetMethodViaQualifiedName(this Type @this, string formatName)
         {
             return @this.GetMethods().First(x => x.ToString() == formatName);
@@ -177,5 +180,16 @@ namespace NStandard
             }
             else return false;
         }
+
+        public static EventInfo GetDeclaredEvent(this Type @this, string name) => @this.GetEvent(name, DeclaredOnlyLookup);
+        public static FieldInfo GetDeclaredField(this Type @this, string name) => @this.GetField(name, DeclaredOnlyLookup);
+        public static MethodInfo GetDeclaredMethod(this Type @this, string name) => @this.GetMethod(name, DeclaredOnlyLookup);
+        public static IEnumerable<MethodInfo> GetDeclaredMethods(this Type @this, string name)
+        {
+            yield return @this.GetMethod(name, DeclaredOnlyLookup);
+        }
+        public static Type GetDeclaredNestedType(this Type @this, string name) => @this.GetNestedType(name, DeclaredOnlyLookup);
+        public static PropertyInfo GetDeclaredProperty(this Type @this, string name) => @this.GetProperty(name, DeclaredOnlyLookup);
+
     }
 }
