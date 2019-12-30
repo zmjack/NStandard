@@ -11,7 +11,7 @@ The expansion library will have more functional support and will require more de
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Standard</PackageTags>
-    <Version>0.0.17</Version>
+    <Version>0.0.18</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 

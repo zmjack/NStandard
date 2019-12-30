@@ -5,15 +5,13 @@ using System.Text;
 
 namespace NStandard
 {
-    public class PropertyReflector
+    public class PropertyReflector : Reflector
     {
         public readonly PropertyInfo FieldInfo;
-        public readonly object Object;
 
-        public PropertyReflector(PropertyInfo fieldInfo, object obj)
+        public PropertyReflector(PropertyInfo fieldInfo, object obj) : base(obj)
         {
             FieldInfo = fieldInfo;
-            Object = obj;
         }
 
         public virtual object Value
