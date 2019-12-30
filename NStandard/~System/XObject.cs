@@ -199,6 +199,8 @@ namespace NStandard
         }
 
         public static Reflector GetReflector(this object @this) => new Reflector(@this, @this.GetType());
+        public static Reflector GetReflector(this object @this, Type type) => new Reflector(@this, type);
+        public static Reflector GetReflector<T>(this T @this) => new Reflector(@this, typeof(T));
 
 
 #if NETSTANDARD2_0
