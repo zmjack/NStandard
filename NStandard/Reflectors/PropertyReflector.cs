@@ -7,12 +7,12 @@ namespace NStandard
 {
     public class PropertyReflector : Reflector
     {
-        public readonly PropertyInfo FieldInfo;
+        public readonly PropertyInfo PropertyInfo;
         public object DeclaringObject;
 
         public PropertyReflector(PropertyInfo propertyInfo, object declaringObj, Type propertyType) : base(propertyType)
         {
-            FieldInfo = propertyInfo;
+            PropertyInfo = propertyInfo;
             DeclaringObject = declaringObj;
 
             Object = Value;
@@ -20,8 +20,8 @@ namespace NStandard
 
         public virtual object Value
         {
-            get => FieldInfo.GetValue(DeclaringObject);
-            set => FieldInfo.SetValue(DeclaringObject, value);
+            get => PropertyInfo.GetValue(DeclaringObject);
+            set => PropertyInfo.SetValue(DeclaringObject, value);
         }
     }
 
@@ -31,8 +31,8 @@ namespace NStandard
 
         public new T Value
         {
-            get => (T)FieldInfo.GetValue(DeclaringObject);
-            set => FieldInfo.SetValue(DeclaringObject, value);
+            get => (T)PropertyInfo.GetValue(DeclaringObject);
+            set => PropertyInfo.SetValue(DeclaringObject, value);
         }
     }
 }
