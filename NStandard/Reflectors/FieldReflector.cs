@@ -8,29 +8,31 @@ namespace NStandard
     public class FieldReflector : Reflector
     {
         public readonly FieldInfo FieldInfo;
-        public object DeclaredObject;
+        public object DeclaringObject;
 
-        public FieldReflector(FieldInfo fieldInfo, object declaredObject) : base(fieldInfo.GetValue(declaredObject))
+        public FieldReflector(FieldInfo fieldInfo, object declaringObj, Type fieldType) : base(fieldType)
         {
             FieldInfo = fieldInfo;
-            DeclaredObject = declaredObject;
+            DeclaringObject = declaringObj;
+
+            Object = Value;
         }
 
         public virtual object Value
         {
-            get => FieldInfo.GetValue(DeclaredObject);
-            set => FieldInfo.SetValue(DeclaredObject, value);
+            get => FieldInfo.GetValue(DeclaringObject);
+            set => FieldInfo.SetValue(DeclaringObject, value);
         }
     }
 
     public class FieldReflector<T> : FieldReflector
     {
-        public FieldReflector(FieldInfo fieldInfo, object declaredObject) : base(fieldInfo, declaredObject) { }
+        public FieldReflector(FieldInfo fieldInfo, object declaringObj) : base(fieldInfo, declaringObj, typeof(T)) { }
 
         public new T Value
         {
-            get => (T)FieldInfo.GetValue(DeclaredObject);
-            set => FieldInfo.SetValue(DeclaredObject, value);
+            get => (T)FieldInfo.GetValue(DeclaringObject);
+            set => FieldInfo.SetValue(DeclaringObject, value);
         }
     }
 }
