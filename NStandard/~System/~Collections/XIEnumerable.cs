@@ -102,11 +102,10 @@ namespace NStandard
         /// <returns></returns>
         public static string Join<TSource>(this IEnumerable<TSource> @this, string separator)
         {
-#if NET35
-            return string.Join(separator, @this.Select(x => x.ToString()).ToArray());
-#endif
 #if NETSTANDARD2_0
             return string.Join(separator, @this);
+#else
+            return string.Join(separator, @this.Select(x => x.ToString()).ToArray());
 #endif
         }
 

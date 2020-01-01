@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
-using Xunit;
+﻿using Xunit;
 
 namespace NStandard.Test
 {
@@ -32,7 +28,7 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void Test1()
+        public void FieldAndPropertyTest()
         {
             var cls = new Outter();
             var reflector = cls.GetReflector();
@@ -52,7 +48,7 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void Test2()
+        public void GenericFieldAndPropertyTest()
         {
             var cls = new Outter();
             var reflector = cls.GetReflector();
@@ -72,11 +68,19 @@ namespace NStandard.Test
         }
 
         [Fact]
+        public void MethodTest()
+        {
+            var cls = new Outter { PublicProperty = 4 };
+            var reflector = cls.GetReflector();
+            Assert.Equal("0 0 0 4", reflector.Method("ToString").Invoke() as string);
+            Assert.Equal("0 0 0 4", reflector.Method("ToString").Invoke() as string);
+        }
+
+        [Fact]
         public void InvokeAndChainTest()
         {
             var cls = new Outter { PublicProperty = 4 };
             var reflector = cls.GetReflector();
-            Assert.Equal("0 0 0 4", reflector.Invoke("ToString") as string);
 
             Assert.NotNull(reflector.DeclaredField("Inner").Property("Public"));
             Assert.Null(reflector.DeclaredField("Inner").Property("Private"));

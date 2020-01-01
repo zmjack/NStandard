@@ -29,8 +29,7 @@ namespace NStandard
         {
 #if NETSTANDARD2_0
             return string.IsNullOrWhiteSpace(@this);
-#endif
-#if NET35
+#else
             if (@this == null) return true;
             for (int i = 0; i < @this.Length; i++)
             {

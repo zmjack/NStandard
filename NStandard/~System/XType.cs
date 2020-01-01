@@ -9,11 +9,15 @@ namespace NStandard
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XType
     {
-        internal const BindingFlags DeclaredOnlyLookup = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
+        public const BindingFlags DeclaredOnlyLookup = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
 
-        public static MethodInfo GetMethodViaQualifiedName(this Type @this, string formatName)
+        public static MethodInfo GetMethodViaQualifiedName(this Type @this, string qualifiedName)
         {
-            return @this.GetMethods().First(x => x.ToString() == formatName);
+            return @this.GetMethods().First(x => x.ToString() == qualifiedName);
+        }
+        public static MethodInfo GetMethodViaQualifiedName(this Type @this, string qualifiedName, BindingFlags bindingAttr)
+        {
+            return @this.GetMethods(bindingAttr).First(x => x.ToString() == qualifiedName);
         }
 
         public static string GetSimplifiedName(this Type @this)
