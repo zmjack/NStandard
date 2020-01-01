@@ -41,8 +41,6 @@ namespace NStandard
         public PropertyReflector DeclaredProperty(string name, Type type) => Type.GetDeclaredProperty(name)?.For(x => new PropertyReflector(x, Object, type));
         public PropertyReflector<T> DeclaredProperty<T>(string name) => Type.GetDeclaredProperty(name)?.For(x => new PropertyReflector<T>(x, Object));
 
-        public object Invoke(string methodName, params object[] parameters) => Type.GetMethod(methodName).Invoke(Object, parameters);
-
     }
 
 }
