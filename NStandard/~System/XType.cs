@@ -69,6 +69,14 @@ namespace NStandard
             return @this.Name.StartsWith("<>f__AnonymousType");
         }
 
+        public static bool IsType<TType>(this Type @this) => IsType(@this, typeof(TType));
+        public static bool IsType(this Type @this, Type type)
+        {
+            if (type.IsGenericType)
+                return @this.FullName.StartsWith(type.FullName);
+            else return @this.FullName == type.FullName;
+        }
+
         public static bool IsBasicType(this Type @this, bool includeNullable = false)
         {
             switch (@this)
@@ -88,8 +96,8 @@ namespace NStandard
                 case Type _ when @this == typeof(decimal):
                 case Type _ when @this == typeof(Guid):
                 case Type _ when @this == typeof(DateTime):
-                case Type _ when @this == typeof(Enum):
-                case Type _ when @this == typeof(string): return true;
+                case Type _ when @this == typeof(string):
+                case Type _ when @this.IsEnum: return true;
             }
 
             if (includeNullable)
@@ -117,12 +125,42 @@ namespace NStandard
             return false;
         }
 
-        public static bool IsType<TType>(this Type @this) => IsType(@this, typeof(TType));
-        public static bool IsType(this Type @this, Type type)
+        public static bool IsNumberType(this Type @this, bool includeNullable = false)
         {
-            if (type.IsGenericType)
-                return @this.FullName.StartsWith(type.FullName);
-            else return @this.FullName == type.FullName;
+            switch (@this)
+            {
+                case Type _ when @this == typeof(byte):
+                case Type _ when @this == typeof(sbyte):
+                case Type _ when @this == typeof(short):
+                case Type _ when @this == typeof(ushort):
+                case Type _ when @this == typeof(int):
+                case Type _ when @this == typeof(uint):
+                case Type _ when @this == typeof(long):
+                case Type _ when @this == typeof(ulong):
+                case Type _ when @this == typeof(float):
+                case Type _ when @this == typeof(double):
+                case Type _ when @this == typeof(decimal): return true;
+            }
+
+            if (includeNullable)
+            {
+                switch (@this)
+                {
+                    case Type _ when @this == typeof(byte?):
+                    case Type _ when @this == typeof(sbyte?):
+                    case Type _ when @this == typeof(short?):
+                    case Type _ when @this == typeof(ushort?):
+                    case Type _ when @this == typeof(int?):
+                    case Type _ when @this == typeof(uint?):
+                    case Type _ when @this == typeof(long?):
+                    case Type _ when @this == typeof(ulong?):
+                    case Type _ when @this == typeof(float?):
+                    case Type _ when @this == typeof(double?):
+                    case Type _ when @this == typeof(decimal?): return true;
+                }
+            }
+
+            return false;
         }
 
         public static bool IsImplement<TInterface>(this Type @this)
@@ -190,10 +228,31 @@ namespace NStandard
         public static MethodInfo GetDeclaredMethod(this Type @this, string name) => @this.GetMethod(name, DeclaredOnlyLookup);
         public static IEnumerable<MethodInfo> GetDeclaredMethods(this Type @this, string name)
         {
-            yield return @this.GetMethod(name, DeclaredOnlyLookup);
+            foreach (MethodInfo method in @this.GetMethods(DeclaredOnlyLookup))
+            {
+                if (method.Name == name)
+                    yield return method;
+            }
         }
         public static Type GetDeclaredNestedType(this Type @this, string name) => @this.GetNestedType(name, DeclaredOnlyLookup);
         public static PropertyInfo GetDeclaredProperty(this Type @this, string name) => @this.GetProperty(name, DeclaredOnlyLookup);
+
+        public static MethodInfo GetToStringMethod(this Type @this) => @this.GetMethodViaQualifiedName("System.String ToString()");
+        public static MethodInfo GetGetHashCodeMethod(this Type @this) => @this.GetMethodViaQualifiedName("Int32 GetHashCode()");
+
+        public static Type MakeNullableType(this Type @this)
+        {
+            if (@this.IsValueType && !@this.IsNullable())
+                return typeof(Nullable<>).MakeGenericType(@this);
+            else throw new ArgumentException($"The type {@this.Name} must be a non-nullable value type");
+        }
+
+        public static Type MakeNonNullableType(this Type @this)
+        {
+            if (@this.IsNullable())
+                return @this.GetGenericArguments()[0];
+            else throw new ArgumentException($"The type {@this.Name} must be a nullable value type");
+        }
 
     }
 }

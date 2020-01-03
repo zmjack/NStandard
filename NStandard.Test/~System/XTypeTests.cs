@@ -65,5 +65,25 @@ namespace NStandard.Test
             Assert.True(typeof(int?).IsBasicType(true));
         }
 
+        [Fact]
+        public void ObjectBasicMethodTest()
+        {
+            var number = 416;
+            Assert.Equal("416", number.GetType().GetToStringMethod().Invoke(number, null));
+            Assert.Equal(416, number.GetType().GetGetHashCodeMethod().Invoke(number, null));
+        }
+
+        [Fact]
+        public void MakeNullableTypeTest()
+        {
+            Assert.Equal(typeof(int?), typeof(int).MakeNullableType());
+        }
+
+        [Fact]
+        public void MakeNonNullableTypeTest()
+        {
+            Assert.Equal(typeof(int), typeof(int?).MakeNonNullableType());
+        }
+
     }
 }

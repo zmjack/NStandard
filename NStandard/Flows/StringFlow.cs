@@ -1,7 +1,11 @@
 ﻿using NStandard.Converts;
 using System;
-using System.Net;
 using System.Text;
+#if NETSTANDARD2_0
+using System.Net;
+#else
+using System.Web;
+#endif
 
 namespace NStandard.Flows
 {
@@ -21,6 +25,12 @@ namespace NStandard.Flows
 
         public static IFlow<string, string> UrlDecode = new Flow<string, string>(WebUtility.UrlDecode);
         public static IFlow<string, string> HtmlDecode = new Flow<string, string>(WebUtility.HtmlDecode);
+#else
+        public static IFlow<string, string> UrlEncode = new Flow<string, string>(HttpUtility.UrlEncode);
+        public static IFlow<string, string> HtmlEncode = new Flow<string, string>(HttpUtility.HtmlEncode);
+
+        public static IFlow<string, string> UrlDecode = new Flow<string, string>(HttpUtility.UrlDecode);
+        public static IFlow<string, string> HtmlDecode = new Flow<string, string>(HttpUtility.HtmlDecode);
 #endif
     }
 

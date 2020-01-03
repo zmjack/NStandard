@@ -9,7 +9,7 @@ namespace NStandard.IO.Test
         [Fact]
         public void Test1()
         {
-            using var stream = SequenceInputStream.Create(EnumerableEx.Concat(new[]
+            using var stream = new SequenceInputStream(EnumerableEx.Concat(new[]
             {
                 new MemoryStream("123".Bytes()),
                 new MemoryStream("456".Bytes()),

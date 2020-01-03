@@ -29,17 +29,20 @@ namespace NStandard
         public PropertyReflector Property(string name, Type type, BindingFlags bindingAttr) => Type.GetProperty(name, bindingAttr)?.For(x => new PropertyReflector(x, Object, type));
         public PropertyReflector<T> Property<T>(string name, BindingFlags bindingAttr) => Type.GetProperty(name, bindingAttr)?.For(x => new PropertyReflector<T>(x, Object));
 
-        public MethodReflector Method(string name) => new MethodReflector(Type.GetMethod(name), Object);
-        public MethodReflector MethodViaQualifiedName(string name) => new MethodReflector(Type.GetMethodViaQualifiedName(name), Object);
-        public MethodReflector Method(string name, BindingFlags bindingAttr) => new MethodReflector(Type.GetMethod(name, bindingAttr), Object);
-        public MethodReflector MethodViaQualifiedName(string name, BindingFlags bindingAttr) => new MethodReflector(Type.GetMethodViaQualifiedName(name, bindingAttr), Object);
-
         public FieldReflector DeclaredField(string name) => Type.GetDeclaredField(name)?.For(x => new FieldReflector(x, Object, x.FieldType));
         public FieldReflector DeclaredField(string name, Type type) => Type.GetDeclaredField(name)?.For(x => new FieldReflector(x, Object, type));
         public FieldReflector<T> DeclaredField<T>(string name) => Type.GetDeclaredField(name)?.For(x => new FieldReflector<T>(x, Object));
         public PropertyReflector DeclaredProperty(string name) => Type.GetDeclaredProperty(name)?.For(x => new PropertyReflector(x, Object, x.PropertyType));
         public PropertyReflector DeclaredProperty(string name, Type type) => Type.GetDeclaredProperty(name)?.For(x => new PropertyReflector(x, Object, type));
         public PropertyReflector<T> DeclaredProperty<T>(string name) => Type.GetDeclaredProperty(name)?.For(x => new PropertyReflector<T>(x, Object));
+
+        public MethodReflector Method(string name) => new MethodReflector(Type.GetMethod(name), Object);
+        public MethodReflector MethodViaQualifiedName(string name) => new MethodReflector(Type.GetMethodViaQualifiedName(name), Object);
+        public MethodReflector Method(string name, BindingFlags bindingAttr) => new MethodReflector(Type.GetMethod(name, bindingAttr), Object);
+        public MethodReflector MethodViaQualifiedName(string name, BindingFlags bindingAttr) => new MethodReflector(Type.GetMethodViaQualifiedName(name, bindingAttr), Object);
+
+        public MethodReflector ToStringMethod() => new MethodReflector(Type.GetToStringMethod(), Object);
+        public MethodReflector GetHashCodeMethod() => new MethodReflector(Type.GetGetHashCodeMethod(), Object);
 
     }
 

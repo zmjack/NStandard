@@ -93,5 +93,15 @@ namespace NStandard.Test
             Assert.NotNull(reflector.DeclaredField<InnerSuper>("Inner").DeclaredProperty("Private"));
         }
 
+        [Fact]
+        public void ObjectBasicMethodTest()
+        {
+            var number = 416;
+            var reflector = number.GetReflector();
+
+            Assert.Equal("416", reflector.ToStringMethod().Invoke());
+            Assert.Equal(416, reflector.GetHashCodeMethod().Invoke());
+        }
+
     }
 }
