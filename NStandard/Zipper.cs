@@ -6,7 +6,7 @@ namespace NStandard
 #if NETSTANDARD2_0
     public static class Zipper
     {
-    #region No selector
+        #region No selector
         public static IEnumerable<(T1, T2)> Create<T1, T2>(
             IEnumerable<T1> arg1,
             IEnumerable<T2> arg2)
@@ -681,9 +681,9 @@ namespace NStandard
                 }
             }
         }
-    #endregion
+        #endregion
 
-    #region Has selector
+        #region Has selector
         public static IEnumerable<TRet> Create<T1, T2, TRet>(
             IEnumerable<T1> arg1,
             IEnumerable<T2> arg2,
@@ -1373,7 +1373,7 @@ namespace NStandard
                 }
             }
         }
-    #endregion
+        #endregion
 
     }
 #endif
