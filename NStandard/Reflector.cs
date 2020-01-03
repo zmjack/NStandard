@@ -8,8 +8,8 @@ namespace NStandard
         public object Object { get; internal set; }
         public Type Type { get; private set; }
 
-        internal Reflector(Type objType) => Type = objType;
-        public Reflector(object obj, Type objType)
+        public Reflector(Type objType) => Type = objType;
+        public Reflector(Type objType, object obj)
         {
             Object = obj;
             Type = objType;

@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using Xunit;
 
 namespace NStandard.Test
 {
@@ -12,6 +14,8 @@ namespace NStandard.Test
             public readonly long PublicField = 0;
             public long PublicProperty { get; set; }
 
+            [SuppressMessage("Code Quality", "IDE0052:Remove unread private members", Justification = "<Pending>")]
+            [SuppressMessage("Style", "IDE0044:Add readonly modifier", Justification = "<Pending>")]
             private Inner Inner = new Inner();
 
             public override string ToString() => $"{PrivateField} {PrivateProperty} {PublicField} {PublicProperty}";
@@ -20,6 +24,8 @@ namespace NStandard.Test
         private class InnerSuper
         {
             public int Public { get; set; }
+
+            [SuppressMessage("Code Quality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
             private int Private { get; set; }
         }
 
@@ -72,8 +78,8 @@ namespace NStandard.Test
         {
             var cls = new Outter { PublicProperty = 4 };
             var reflector = cls.GetReflector();
-            Assert.Equal("0 0 0 4", reflector.Method("ToString").Invoke() as string);
-            Assert.Equal("0 0 0 4", reflector.Method("ToString").Invoke() as string);
+            Assert.Equal("0 0 0 4", reflector.Method("ToString").Call() as string);
+            Assert.Equal("0 0 0 4", reflector.Method("ToString").Call() as string);
         }
 
         [Fact]
@@ -99,8 +105,22 @@ namespace NStandard.Test
             var number = 416;
             var reflector = number.GetReflector();
 
-            Assert.Equal("416", reflector.ToStringMethod().Invoke());
-            Assert.Equal(416, reflector.GetHashCodeMethod().Invoke());
+            Assert.Equal("416", reflector.ToStringMethod().Call());
+            Assert.Equal(416, reflector.GetHashCodeMethod().Call());
+        }
+
+        [Fact]
+        public void OnlyTypeReflectorTest()
+        {
+            var cls = new Outter { PublicProperty = 416 };
+            var field = typeof(Outter).GetTypeReflector().DeclaredProperty<long>(nameof(Outter.PublicProperty));
+
+            Assert.Equal(0, field.Value);   // Default value
+            Assert.Throws<AccessViolationException>(() => field.Value = 417);
+
+            Assert.Equal(416, field.GetValue(cls));
+            field.SetValue(cls, 417);
+            Assert.Equal(417, cls.PublicProperty);
         }
 
     }

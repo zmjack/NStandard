@@ -13,7 +13,8 @@ namespace NStandard
             DeclaringObject = declaringObj;
         }
 
-        public object Invoke(params object[] parameters) => MethodInfo.Invoke(DeclaringObject, parameters);
+        public object Call(params object[] parameters) => MethodInfo.Invoke(DeclaringObject, parameters);
+        public object Invoke(object obj, params object[] parameters) => MethodInfo.Invoke(obj, parameters);
     }
 
 }
