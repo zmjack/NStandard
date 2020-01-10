@@ -13,6 +13,8 @@ The expansion library will have more functional support and will require more de
     <PackageTags>Standard</PackageTags>
     <Version>0.1.7</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageIcon>_icon.png</PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +23,10 @@ The expansion library will have more functional support and will require more de
 
   <ItemGroup>
     <None Include="..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="_icon.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
