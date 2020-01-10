@@ -4,14 +4,14 @@ namespace NStandard
 {
     public static class Usable
     {
-        public static Usable<T> Create<T>(T origin, Action onUsing, Action onUsed) => new Usable<T>(origin, onUsing, onUsed);
-        public static Usable<T, TUsingReturn> Create<T, TUsingReturn>(T origin, Func<TUsingReturn> onUsing, Action<TUsingReturn> onUsed)
+        public static Usable<T> Begin<T>(T origin, Action onUsing, Action onUsed) => new Usable<T>(origin, onUsing, onUsed);
+        public static Usable<T, TUsingReturn> Begin<T, TUsingReturn>(T origin, Func<TUsingReturn> onUsing, Action<TUsingReturn> onUsed)
         {
             return new Usable<T, TUsingReturn>(origin, onUsing, onUsed);
         }
 
-        public static Usable<object> Create(Action onUsing, Action onUsed) => new Usable<object>(null, onUsing, onUsed);
-        public static Usable<object, TUsingReturn> Create<T, TUsingReturn>(Func<TUsingReturn> onUsing, Action<TUsingReturn> onUsed)
+        public static Usable<object> Begin(Action onUsing, Action onUsed) => new Usable<object>(null, onUsing, onUsed);
+        public static Usable<object, TUsingReturn> Begin<T, TUsingReturn>(Func<TUsingReturn> onUsing, Action<TUsingReturn> onUsed)
         {
             return new Usable<object, TUsingReturn>(null, onUsing, onUsed);
         }
