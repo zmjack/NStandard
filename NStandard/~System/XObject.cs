@@ -148,11 +148,76 @@ namespace NStandard
         /// <returns></returns>
         public static bool IsNull<TSelf>(this TSelf @this) where TSelf : class => @this is null;
 
+        /// <summary>
+        /// Convert a basic struct to another basic struct with same memory sequence.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static T As<T>(this object @this) where T : struct
+        {
+            var bytes = @this switch
+            {
+                char t => BitConverter.GetBytes(t),
+                bool t => BitConverter.GetBytes(t),
+                byte t => BitConverter.GetBytes(t),
+                sbyte t => BitConverter.GetBytes(t),
+                short t => BitConverter.GetBytes(t),
+                ushort t => BitConverter.GetBytes(t),
+                int t => BitConverter.GetBytes(t),
+                uint t => BitConverter.GetBytes(t),
+                long t => BitConverter.GetBytes(t),
+                ulong t => BitConverter.GetBytes(t),
+                float t => BitConverter.GetBytes(t),
+                double t => BitConverter.GetBytes(t),
+                _ => throw new NotSupportedException(),
+            };
+
+            switch (typeof(T))
+            {
+                case Type t when t == typeof(char): return (T)(object)BitConverter.ToChar(bytes, 0);
+                case Type t when t == typeof(bool): return (T)(object)BitConverter.ToBoolean(bytes, 0);
+                case Type t when t == typeof(byte): return (T)(object)bytes[0];
+                case Type t when t == typeof(sbyte): return (T)(object)(sbyte)bytes[0];
+                case Type t when t == typeof(short): return (T)(object)BitConverter.ToInt16(bytes, 0);
+                case Type t when t == typeof(ushort): return (T)(object)BitConverter.ToUInt16(bytes, 0);
+                case Type t when t == typeof(int): return (T)(object)BitConverter.ToInt32(bytes, 0);
+                case Type t when t == typeof(uint): return (T)(object)BitConverter.ToUInt32(bytes, 0);
+                case Type t when t == typeof(long): return (T)(object)BitConverter.ToInt64(bytes, 0);
+                case Type t when t == typeof(ulong): return (T)(object)BitConverter.ToUInt64(bytes, 0);
+                case Type t when t == typeof(float): return (T)(object)BitConverter.ToSingle(bytes, 0);
+                case Type t when t == typeof(double): return (T)(object)BitConverter.ToDouble(bytes, 0);
+                default: throw new NotSupportedException();
+            };
+        }
+
+        public static string GetDumpString<TSelf>(this TSelf @this)
+        {
+            using (var memory = new MemoryStream())
+            using (var writer = new StreamWriter(memory))
+            {
+                Dump(@this, writer);
+                writer.Flush();
+                memory.Seek(0, SeekOrigin.Begin);
+                return memory.ToArray().String();
+            }
+        }
         public static void Dump<TSelf>(this TSelf @this) => Dump(@this, Console.Out);
         public static void Dump<TSelf>(this TSelf @this, TextWriter writer)
         {
-            writer.WriteLine($"<{typeof(TSelf).GetSimplifiedName()}>");
-            Dump(@this, writer, null, 0);
+            var type = @this?.GetType();
+            switch (type)
+            {
+                case null:
+                case Type _ when type.IsBasicType():
+                    Dump(@this, writer, null, 0);
+                    break;
+
+                default:
+                    writer.WriteLine($"<{typeof(TSelf).GetSimplifiedName()}>");
+                    Dump(@this, writer, null, 0);
+                    break;
+            }
         }
 
         private static void Dump(object instance, TextWriter writer, string name, int paddingLeft)
@@ -162,10 +227,10 @@ namespace NStandard
             {
                 case null:
                     if (name is null)
-                        writer.WriteLine($"{" ".Repeat(paddingLeft)}<null>{instance}");
+                        writer.WriteLine($"{" ".Repeat(paddingLeft)}<null>");
                     else if (name == string.Empty)
-                        writer.WriteLine($"{" ".Repeat(paddingLeft)}<null>{instance},");
-                    else writer.WriteLine($"{" ".Repeat(paddingLeft)}{name}: <null>{instance},");
+                        writer.WriteLine($"{" ".Repeat(paddingLeft)}<null>,");
+                    else writer.WriteLine($"{" ".Repeat(paddingLeft)}{name}: <null>,");
                     break;
 
                 case Type _ when type.IsBasicType():
