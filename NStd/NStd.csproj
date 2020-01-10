@@ -2,21 +2,20 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net35;net40</TargetFrameworks>
-    <RootNamespace>NStandard</RootNamespace>
+    <RootNamespace>NStd</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Authors>zmjack</Authors>
     <Company>dawnx.net</Company>
-    <PackageId>NStandard</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.7.2</Version>
+    <Version>0.2.0</Version>
     <Description>DotNet Core extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/zmjack/NStandard</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/zmjack/NStd</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/zmjack/NStd</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
-    <Copyright>Copyright © dawnx.net 2019-2020</Copyright>
+    <Copyright>Copyright © dawnx.net 2020</Copyright>
     <LangVersion>8.0</LangVersion>
-    <PackageTags>Standard</PackageTags>
+    <PackageTags>System Standard Extension</PackageTags>
     <PackageIcon>_icon.png</PackageIcon>
     <PackageIconUrl />
   </PropertyGroup>

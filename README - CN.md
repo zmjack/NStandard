@@ -1,4 +1,4 @@
-# NStandard
+# NStd (NStandard)
 
 DotNet Core 标准库扩展。
 
