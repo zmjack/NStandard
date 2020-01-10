@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using System.Threading;
 
 namespace NStandard
@@ -29,7 +30,7 @@ namespace NStandard
         {
             _writer.Flush();
             _stream.Seek(0, SeekOrigin.Begin);
-            var ret = _stream.ToArray().String();
+            var ret = Encoding.UTF8.GetString(_stream.ToArray());
             _writer.Dispose();
             _stream.Dispose();
             Initialize();

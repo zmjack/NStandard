@@ -3,8 +3,7 @@ using System.Text;
 
 namespace NStandard
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static class XByte
+    public static partial class XArray
     {
         /// <summary>
         /// Decodes all the bytes in the specified byte(UTF-8) array into a string.
