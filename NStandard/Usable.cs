@@ -11,7 +11,7 @@ namespace NStandard
         }
 
         public static Usable<object> Begin(Action onUsing, Action onUsed) => new Usable<object>(null, onUsing, onUsed);
-        public static Usable<object, TUsingReturn> Begin<T, TUsingReturn>(Func<TUsingReturn> onUsing, Action<TUsingReturn> onUsed)
+        public static Usable<object, TUsingReturn> Begin<TUsingReturn>(Func<TUsingReturn> onUsing, Action<TUsingReturn> onUsed)
         {
             return new Usable<object, TUsingReturn>(null, onUsing, onUsed);
         }
