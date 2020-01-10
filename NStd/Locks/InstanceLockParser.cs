@@ -1,0 +1,56 @@
+﻿using NStd;
+using NStd.Flows;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading;
+
+namespace NStd.Locks
+{
+    public class InstanceLockParser<TInstance>
+    {
+        public string LockName { get; }
+        public Expression<Func<TInstance, object>>[] Flags { get; protected set; }
+        protected Func<TInstance, object>[] FlagLambdas { get; }
+
+        public InstanceLockParser(string lockName, params Expression<Func<TInstance, object>>[] flags)
+        {
+            LockName = lockName;
+
+            var isAllExpressionValid = flags.All(x =>
+            {
+                switch (x.Body.NodeType)
+                {
+                    case ExpressionType.Convert:
+                        return (x.Body as UnaryExpression).Operand.Type.IsBasicType();
+                    case ExpressionType.MemberAccess:
+                        return x.Body.Type.IsBasicType();
+                    case ExpressionType.Constant:
+                        return (x.Body as ConstantExpression).Type.IsBasicType();
+                    default: return false;
+                }
+            });
+
+            if (!isAllExpressionValid)
+                throw new ArgumentException("Every expression's return type must be basic type.");
+
+            Flags = flags;
+            FlagLambdas = Flags.Select(x => x.Compile()).ToArray();
+        }
+
+        public virtual Lock Parse(TInstance instance)
+        {
+            return new Lock(string.Intern(
+                $"[{LockName.Flow(StringFlow.UrlEncode)}<{typeof(TInstance).FullName}>]:" +
+                $"{FlagLambdas.Select(x => x(instance).ToString().Flow(StringFlow.UrlEncode)).Join(" ")}"));
+        }
+
+        public virtual Lock ParseThreadLock(TInstance instance)
+        {
+            return new Lock(string.Intern(
+                $"[({Thread.CurrentThread.ManagedThreadId}){LockName.Flow(StringFlow.UrlEncode)}<{typeof(TInstance).FullName}>]:" +
+                $"{FlagLambdas.Select(x => x(instance).ToString().Flow(StringFlow.UrlEncode)).Join(" ")}"));
+        }
+
+    }
+}

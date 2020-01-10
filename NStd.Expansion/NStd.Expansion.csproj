@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>NStandard</RootNamespace>
+    <Description>DotNet Core extensions for system library.
+The expansion library will have more functional support and will require more dependencies.</Description>
+    <Authors>zmjack</Authors>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/zmjack/NStandard</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Standard</PackageTags>
+    <Version>0.1.7.1</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageIcon>_icon.png</PackageIcon>
+    <PackageIconUrl />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="_icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
