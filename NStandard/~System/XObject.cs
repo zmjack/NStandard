@@ -154,7 +154,15 @@ namespace NStandard
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static T As<T>(this object @this) where T : struct
+        public static T As<T>(this object @this) where T : struct => (T)As(@this, typeof(T));
+
+        /// <summary>
+        /// Convert a basic struct to another basic struct with same memory sequence.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static object As(this object @this, Type type)
         {
             var bytes = @this switch
             {
@@ -173,20 +181,20 @@ namespace NStandard
                 _ => throw new NotSupportedException(),
             };
 
-            switch (typeof(T))
+            switch (type)
             {
-                case Type t when t == typeof(char): return (T)(object)BitConverter.ToChar(bytes, 0);
-                case Type t when t == typeof(bool): return (T)(object)BitConverter.ToBoolean(bytes, 0);
-                case Type t when t == typeof(byte): return (T)(object)bytes[0];
-                case Type t when t == typeof(sbyte): return (T)(object)(sbyte)bytes[0];
-                case Type t when t == typeof(short): return (T)(object)BitConverter.ToInt16(bytes, 0);
-                case Type t when t == typeof(ushort): return (T)(object)BitConverter.ToUInt16(bytes, 0);
-                case Type t when t == typeof(int): return (T)(object)BitConverter.ToInt32(bytes, 0);
-                case Type t when t == typeof(uint): return (T)(object)BitConverter.ToUInt32(bytes, 0);
-                case Type t when t == typeof(long): return (T)(object)BitConverter.ToInt64(bytes, 0);
-                case Type t when t == typeof(ulong): return (T)(object)BitConverter.ToUInt64(bytes, 0);
-                case Type t when t == typeof(float): return (T)(object)BitConverter.ToSingle(bytes, 0);
-                case Type t when t == typeof(double): return (T)(object)BitConverter.ToDouble(bytes, 0);
+                case Type t when t == typeof(char): return BitConverter.ToChar(bytes, 0);
+                case Type t when t == typeof(bool): return BitConverter.ToBoolean(bytes, 0);
+                case Type t when t == typeof(byte): return bytes[0];
+                case Type t when t == typeof(sbyte): return (sbyte)bytes[0];
+                case Type t when t == typeof(short): return BitConverter.ToInt16(bytes, 0);
+                case Type t when t == typeof(ushort): return BitConverter.ToUInt16(bytes, 0);
+                case Type t when t == typeof(int): return BitConverter.ToInt32(bytes, 0);
+                case Type t when t == typeof(uint): return BitConverter.ToUInt32(bytes, 0);
+                case Type t when t == typeof(long): return BitConverter.ToInt64(bytes, 0);
+                case Type t when t == typeof(ulong): return BitConverter.ToUInt64(bytes, 0);
+                case Type t when t == typeof(float): return BitConverter.ToSingle(bytes, 0);
+                case Type t when t == typeof(double): return BitConverter.ToDouble(bytes, 0);
                 default: throw new NotSupportedException();
             };
         }
