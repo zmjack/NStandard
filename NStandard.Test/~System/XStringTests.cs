@@ -106,13 +106,43 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void ProjectToArrayTest()
+        public void ProjectToArrayTest1()
         {
+            var result = "A|1|11|B|2|22".ProjectToArray(new Regex(@"(?:(?:^|\|)(.+?\|.+?\|.+?)(?=\||$))*"));
             Assert.Equal(new string[][]
             {
                 new [] { "A|1|11|B|2|22" },
                 new [] { "A|1|11", "B|2|22" },
-            }, "A|1|11|B|2|22".ProjectToArray(new Regex(@"(?:(?:^|\|)(.+?\|.+?\|.+?)(?=\||$))*")));
+            }, result);
+        }
+        [Fact]
+        public void ProjectToArrayTest2()
+        {
+            var declRegex = new Regex(@"(.+)? (.+?)\((?:(?:\[In\] )?(.+?) (.+?)(?:, |(?=\))))*\);");
+
+            {
+                var result = "void F(short a, [In] int b);".ProjectToArray(declRegex);
+                Assert.Equal(new string[][]
+                {
+                    new[] { "void F(short a, [In] int b);" },
+                    new[] { "void" },
+                    new[] { "F" },
+                    new[] { "short", "int" },
+                    new[] { "a", "b" },
+                }, result);
+            }
+
+            {
+                var result = "void F();".ProjectToArray(declRegex);
+                Assert.Equal(new string[][]
+                {
+                    new[] { "void F(short a, [In] int b);" },
+                    new[] { "void" },
+                    new[] { "F" },
+                    Array.Empty<string>(),
+                    Array.Empty<string>(),
+                }, result);
+            }
         }
 
         [Fact]
