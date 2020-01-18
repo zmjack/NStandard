@@ -12,16 +12,14 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime FirstDayOfMonth(this DateTime @this)
-            => @this.AddDays(1 - @this.Day);
+        public static DateTime FirstDayOfMonth(this DateTime @this) => @this.AddDays(1 - @this.Day);
 
         /// <summary>
         /// Gets the last day of the month.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime LastDayOfMonth(this DateTime @this)
-            => @this.AddDays(DateTime.DaysInMonth(@this.Year, @this.Month) - @this.Day);
+        public static DateTime LastDayOfMonth(this DateTime @this) => @this.AddDays(DateTime.DaysInMonth(@this.Year, @this.Month) - @this.Day);
 
         /// <summary>
         /// Gets a past day for the specified day of week.
@@ -105,8 +103,7 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static long UnixTimeSeconds(this DateTime @this)
-            => DateTimeEx.ToUnixTimeSeconds(@this);
+        public static long UnixTimeSeconds(this DateTime @this) => DateTimeEx.ToUnixTimeSeconds(@this);
 
         /// <summary>
         /// Get the start point of the sepecified month.
