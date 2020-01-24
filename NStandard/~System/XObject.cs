@@ -179,6 +179,8 @@ namespace NStandard
         /// <returns></returns>
         public static object As(this object @this, Type type)
         {
+            if (@this.GetType() == type) return @this;
+
             var bytes = @this switch
             {
                 char t => BitConverter.GetBytes(t),

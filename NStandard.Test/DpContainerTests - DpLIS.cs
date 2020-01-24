@@ -56,14 +56,12 @@ namespace NStandard.Test
             }
 
             public int[] FindResult() => this[Sequence.Length - 1];
-
         }
 
         [Fact]
         public void DpLISTest()
         {
             var lis1 = new DpLIS(new[] { 2, 7, 1, 5, 6, 4, 3, 8, 9 });
-            var s = lis1.FindResult();
 
             Assert.Equal(new[] { 2 }, lis1[0]);
             Assert.Equal(new[] { 2, 7 }, lis1[1]);
@@ -74,6 +72,7 @@ namespace NStandard.Test
             Assert.Equal(new[] { 2, 5, 6 }, lis1[6]);
             Assert.Equal(new[] { 2, 5, 6, 8 }, lis1[7]);
             Assert.Equal(new[] { 2, 5, 6, 8, 9 }, lis1[8]);
+            Assert.Equal(new[] { 2, 5, 6, 8, 9 }, lis1.FindResult());
         }
 
     }
