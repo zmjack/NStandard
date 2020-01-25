@@ -11,11 +11,12 @@ namespace NStandard
         {
             get
             {
+                var @this = this as Dictionary<TIn, TOut>;
                 if (!ContainsKey(key))
-                    this[key] = StateTransfer(key);
-                return this[key];
+                    @this[key] = StateTransfer(key);
+                return @this[key];
             }
-            set => this[key] = value;
+            set => (this as Dictionary<TIn, TOut>)[key] = value;
         }
     }
 
