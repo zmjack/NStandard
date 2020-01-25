@@ -19,18 +19,4 @@ namespace NStandard
         }
     }
 
-    public class DpContainer<TData, TIn, TOut> : DpContainer<TIn, TOut>
-    {
-        public TData Data;
-        public Func<TData, TIn, TOut> StateTransferFunction;
-
-        public DpContainer(TData data, Func<TData, TIn, TOut> stateTransferFunction)
-        {
-            Data = data;
-            StateTransferFunction = stateTransferFunction;
-        }
-
-        public override TOut StateTransfer(TIn x) => StateTransferFunction(Data, x);
-    }
-
 }
