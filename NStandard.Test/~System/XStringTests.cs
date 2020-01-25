@@ -136,7 +136,7 @@ namespace NStandard.Test
                 var result = "void F();".ProjectToArray(declRegex);
                 Assert.Equal(new string[][]
                 {
-                    new[] { "void F(short a, [In] int b);" },
+                    new[] { "void F();" },
                     new[] { "void" },
                     new[] { "F" },
                     Array.Empty<string>(),
