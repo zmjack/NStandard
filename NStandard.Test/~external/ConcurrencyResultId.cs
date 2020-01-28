@@ -10,5 +10,11 @@
             ThreadId = threadId;
             InvokeNumber = invokeNumber;
         }
+
+        public override string ToString()
+        {
+            return $"Thread:{ThreadId}({InvokeNumber})";
+        }
+
     }
 }
