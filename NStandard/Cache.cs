@@ -28,6 +28,12 @@ namespace NStandard
             }
         }
 
+        public Cache(CacheDelegate<T> cacheDelegate)
+        {
+            CacheDelegate = cacheDelegate;
+            UpdateCacheExpirationDelegate = x => DateTime.MaxValue;
+        }
+
         public Cache(CacheDelegate<T> cacheDelegate, TimeSpan slidingExpiration)
         {
             CacheDelegate = cacheDelegate;
