@@ -41,6 +41,7 @@ namespace NStandard
             return ret;
         }
 
+#if EXPERIMENT
         /// <summary>
         /// Converts jagged array to multidimensional array.
         /// </summary>
@@ -61,6 +62,7 @@ namespace NStandard
                             ret[i0, i1, i2, i3] = @this[i0][i1][i2][i3];
             return ret;
         }
+#endif
         #endregion
 
     }

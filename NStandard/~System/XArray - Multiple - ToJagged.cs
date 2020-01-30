@@ -47,6 +47,7 @@
             return ret;
         }
 
+#if EXPERIMENT
         /// <summary>
         /// Converts jagged array to multidimensional array.
         /// </summary>
@@ -226,6 +227,7 @@
             }
             return ret;
         }
+#endif
         #endregion
     }
 }

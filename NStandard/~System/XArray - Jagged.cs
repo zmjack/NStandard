@@ -36,7 +36,7 @@ namespace NStandard
             return @this;
         }
 
-#if NETSTANDARD2_0
+#if EXPERIMENT
         /// <summary>
         /// Do action for each item of multidimensional array.
         /// </summary>

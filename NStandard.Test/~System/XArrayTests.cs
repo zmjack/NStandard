@@ -17,9 +17,70 @@ namespace NStandard.Test
         [Fact]
         public void LetTest2()
         {
+            new int[2, 2].Let((i0, i1) => i0 * 2 + i1).Then(arr =>
+            {
+                Assert.Equal(new[,] { { 0, 1 }, { 2, 3 } }, arr);
+            });
+
+            new int[2, 2].Let(i => i).Then(arr =>
+            {
+                Assert.Equal(new[,] { { 0, 1 }, { 2, 3 } }, arr);
+            });
+
+            new int[2, 2].Let(new[] { 0, 1, 2, 3 }).Then(arr =>
+            {
+                Assert.Equal(new[,] { { 0, 1 }, { 2, 3 } }, arr);
+            });
+        }
+
+        [Fact]
+        public void LetTest3()
+        {
+            new int[2, 2, 2].Let((i0, i1, i2) => i0 * 4 + i1 * 2 + i2).Then(arr =>
+            {
+                Assert.Equal(new[, ,] {
+                    { { 0, 1 }, { 2, 3 } },
+                    { { 4, 5 }, { 6, 7 } },
+                }, arr);
+            });
+
+            new int[2, 2, 2].Let(i => i).Then(arr =>
+            {
+                Assert.Equal(new[, ,] {
+                    { { 0, 1 }, { 2, 3 } },
+                    { { 4, 5 }, { 6, 7 } },
+                }, arr);
+            });
+
+            new int[2, 2, 2].Let(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }).Then(arr =>
+            {
+                Assert.Equal(new[, ,] {
+                { { 0, 1 }, { 2, 3 } },
+                { { 4, 5 }, { 6, 7 } },
+                }, arr);
+            });
+        }
+
+        [Fact]
+        public void LetClassTest()
+        {
             var classes = new Class[2].Let(() => new Class());
             Assert.NotNull(classes[0]);
             Assert.NotNull(classes[1]);
+        }
+
+        [Fact]
+        public void ToLinearTest()
+        {
+            new int[2, 2].Let(i => i).Then(arr =>
+            {
+                Assert.Equal(new[] { 0, 1, 2, 3 }, arr.ToLinearArray());
+            });
+
+            new int[2, 2, 2].Let(i => i).Then(arr =>
+            {
+                Assert.Equal(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }, arr.ToLinearArray());
+            });
         }
 
         [Fact]

@@ -9,42 +9,6 @@ namespace NStandard
     public static partial class XArray
     {
         /// <summary>
-        /// Use a method to initialize each element of an array.
-        /// </summary>
-        /// <typeparam name="TSelf"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="init"></param>
-        /// <returns></returns>
-        public static TSelf[] Let<TSelf>(this TSelf[] @this, Func<int, TSelf> init)
-        {
-            int i = 0;
-            foreach (var item in @this)
-            {
-                @this[i] = init(i);
-                i++;
-            }
-            return @this;
-        }
-
-        /// <summary>
-        /// Use a method to initialize each element of an array.
-        /// </summary>
-        /// <typeparam name="TSelf"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="init"></param>
-        /// <returns></returns>
-        public static TSelf[] Let<TSelf>(this TSelf[] @this, Func<TSelf> init)
-        {
-            int i = 0;
-            foreach (var item in @this)
-            {
-                @this[i] = init();
-                i++;
-            }
-            return @this;
-        }
-
-        /// <summary>
         /// Gets the index of the first element in the array.
         ///     Usually, LBound() returns 0, since arrays are zero-based by default.
         ///     but in some rare cases they are not.

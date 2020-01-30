@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NStandard
 {
@@ -37,7 +38,7 @@ namespace NStandard
             return @this;
         }
 
-#if NETSTANDARD2_0
+#if EXPERIMENT
         /// <summary>
         /// Do action for each item of multidimensional array.
         /// </summary>
@@ -167,6 +168,7 @@ namespace NStandard
                         yield return selector(@this[i0, i1, i2]);
         }
 
+#if EXPERIMENT
         /// <summary>
         /// Do action for each item of multidimensional array.
         /// </summary>
@@ -261,6 +263,29 @@ namespace NStandard
                                         for (int i7 = 0; i7 < @this.GetLength(7); i7++)
                                             yield return selector(@this[i0, i1, i2, i3, i4, i5, i6, i7]);
         }
+#endif
         #endregion
+
+        public static T[] ToLinearArray<T>(this T[,] @this)
+        {
+            IEnumerable<T> AsUnidimensionalEnumerable(T[,] @this)
+            {
+                foreach (var item in @this)
+                    yield return item;
+            }
+
+            return AsUnidimensionalEnumerable(@this).ToArray();
+        }
+        public static T[] ToLinearArray<T>(this T[,,] @this)
+        {
+            IEnumerable<T> AsUnidimensionalEnumerable(T[,,] @this)
+            {
+                foreach (var item in @this)
+                    yield return item;
+            }
+
+            return AsUnidimensionalEnumerable(@this).ToArray();
+        }
+
     }
 }
