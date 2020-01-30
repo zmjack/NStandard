@@ -17,46 +17,49 @@ namespace NStandard.Test
         [Fact]
         public void LetTest2()
         {
-            new int[2, 2].Let((i0, i1) => i0 * 2 + i1).Then(arr =>
+            new int[2, 3].Let((i0, i1) => i0 * 3 + i1).Then(arr =>
             {
-                Assert.Equal(new[,] { { 0, 1 }, { 2, 3 } }, arr);
+                Assert.Equal(new[,] { { 0, 1, 2 }, { 3, 4, 5 } }, arr);
             });
 
-            new int[2, 2].Let(i => i).Then(arr =>
+            new int[2, 3].Let(i => i).Then(arr =>
             {
-                Assert.Equal(new[,] { { 0, 1 }, { 2, 3 } }, arr);
+                Assert.Equal(new[,] { { 0, 1, 2 }, { 3, 4, 5 } }, arr);
             });
 
-            new int[2, 2].Let(new[] { 0, 1, 2, 3 }).Then(arr =>
+            new int[2, 3].Let(new[] { 0, 1, 2, 3, 4, 5 }).Then(arr =>
             {
-                Assert.Equal(new[,] { { 0, 1 }, { 2, 3 } }, arr);
+                Assert.Equal(new[,] { { 0, 1, 2 }, { 3, 4, 5 } }, arr);
             });
         }
 
         [Fact]
         public void LetTest3()
         {
-            new int[2, 2, 2].Let((i0, i1, i2) => i0 * 4 + i1 * 2 + i2).Then(arr =>
+            new int[2, 3, 2].Let((i0, i1, i2) => i0 * 6 + i1 * 2 + i2).Then(arr =>
             {
-                Assert.Equal(new[, ,] {
-                    { { 0, 1 }, { 2, 3 } },
-                    { { 4, 5 }, { 6, 7 } },
+                Assert.Equal(new[, ,]
+                {
+                    { { 0, 1 }, { 2, 3 }, { 4, 5 } },
+                    { { 6, 7 }, { 8, 9 }, { 10, 11 } },
                 }, arr);
             });
 
-            new int[2, 2, 2].Let(i => i).Then(arr =>
+            new int[2, 3, 2].Let(i => i).Then(arr =>
             {
-                Assert.Equal(new[, ,] {
-                    { { 0, 1 }, { 2, 3 } },
-                    { { 4, 5 }, { 6, 7 } },
+                Assert.Equal(new[, ,]
+                {
+                    { { 0, 1 }, { 2, 3 }, { 4, 5 } },
+                    { { 6, 7 }, { 8, 9 }, { 10, 11 } },
                 }, arr);
             });
 
-            new int[2, 2, 2].Let(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }).Then(arr =>
+            new int[2, 3, 2].Let(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }).Then(arr =>
             {
-                Assert.Equal(new[, ,] {
-                { { 0, 1 }, { 2, 3 } },
-                { { 4, 5 }, { 6, 7 } },
+                Assert.Equal(new[, ,]
+                {
+                    { { 0, 1 }, { 2, 3 }, { 4, 5 } },
+                    { { 6, 7 }, { 8, 9 }, { 10, 11 } },
                 }, arr);
             });
         }
