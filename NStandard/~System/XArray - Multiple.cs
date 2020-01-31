@@ -151,6 +151,20 @@ namespace NStandard
                 for (int i1 = 0; i1 < @this.GetLength(1); i1++)
                     yield return selector(@this[i0, i1]);
         }
+        /// <summary>
+        /// Do action for each item of multidimensional array.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TRet"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="selector"></param>
+        /// <returns></returns>
+        public static IEnumerable<TRet> Select<T, TRet>(this T[,] @this, Func<T, int, int, TRet> selector)
+        {
+            for (int i0 = 0; i0 < @this.GetLength(0); i0++)
+                for (int i1 = 0; i1 < @this.GetLength(1); i1++)
+                    yield return selector(@this[i0, i1], i0, i1);
+        }
 
         /// <summary>
         /// Do action for each item of multidimensional array.
@@ -166,6 +180,21 @@ namespace NStandard
                 for (int i1 = 0; i1 < @this.GetLength(1); i1++)
                     for (int i2 = 0; i2 < @this.GetLength(2); i2++)
                         yield return selector(@this[i0, i1, i2]);
+        }
+        /// <summary>
+        /// Do action for each item of multidimensional array.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TRet"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        public static IEnumerable<TRet> Select<T, TRet>(this T[,,] @this, Func<T, int, int, int, TRet> selector)
+        {
+            for (int i0 = 0; i0 < @this.GetLength(0); i0++)
+                for (int i1 = 0; i1 < @this.GetLength(1); i1++)
+                    for (int i2 = 0; i2 < @this.GetLength(2); i2++)
+                        yield return selector(@this[i0, i1, i2], i0, i1, i2);
         }
 
 #if EXPERIMENT
