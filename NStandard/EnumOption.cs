@@ -6,19 +6,19 @@ namespace NStandard
 {
     public class EnumOption : IEquatable<EnumOption>
     {
-        public object Value { get; private set; }
+        public object EnumValue { get; private set; }
         public object UnderlyingValue { get; private set; }
 
         public EnumOption(Type enumType, string value)
         {
             var underlyingType = Enum.GetUnderlyingType(enumType);
-            Value = Enum.Parse(enumType, value);
-            UnderlyingValue = Convert.ChangeType(Value, underlyingType);
+            EnumValue = Enum.Parse(enumType, value);
+            UnderlyingValue = Convert.ChangeType(EnumValue, underlyingType);
         }
 
         public bool Equals(EnumOption other)
         {
-            return Value.Equals(other.Value) && UnderlyingValue.Equals(other.UnderlyingValue);
+            return EnumValue.Equals(other.EnumValue) && UnderlyingValue.Equals(other.UnderlyingValue);
         }
     }
 
@@ -26,8 +26,8 @@ namespace NStandard
         where TEnum : struct
         where TUnderlying : struct
     {
-        public new TEnum Value => (TEnum)base.Value;
-        public new TUnderlying UnderlyingValue => (TUnderlying)base.Value;
+        public new TEnum EnumValue => (TEnum)base.EnumValue;
+        public new TUnderlying UnderlyingValue => (TUnderlying)base.EnumValue;
 
         private void CheckUnderlyingType()
         {
@@ -48,7 +48,7 @@ namespace NStandard
 
         public bool Equals(EnumOption<TEnum, TUnderlying> other)
         {
-            return Value.Equals(other.Value) && UnderlyingValue.Equals(other.UnderlyingValue);
+            return EnumValue.Equals(other.EnumValue) && UnderlyingValue.Equals(other.UnderlyingValue);
         }
     }
 
