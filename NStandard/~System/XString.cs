@@ -267,17 +267,6 @@ namespace NStandard
             => regex.Replace(@this, evaluator);
 
         /// <summary>
-        /// Projects the specified string to a new string by using regular expressions (using Single-line Mode).
-        ///     If there is no match, this method returns null.
-        /// </summary>
-        /// <param name="this"></param>
-        /// <param name="regex"></param>
-        /// <param name="target"></param>
-        /// <returns></returns>
-        [Obsolete("Replace with the new function: string Project(this string @this, Regex regex, string target = null)", true)]
-        public static string Project(this string @this, string regex, string target = null) => Project(@this, new Regex(regex, RegexOptions.Singleline), target);
-
-        /// <summary>
         /// Projects the specified string to a new string by using regular expressions.
         ///     If there is no match, this method returns null.
         /// </summary>
@@ -296,17 +285,6 @@ namespace NStandard
             }
             else return null;
         }
-
-        /// <summary>
-        /// Projects the specified string to a new string by using regular expressions (using Single-line Mode).
-        ///     If there is no match, return null.
-        /// </summary>
-        /// <param name="this"></param>
-        /// <param name="regex"></param>
-        /// <returns></returns>
-        [Obsolete("Replace with the new function: string[][] ProjectToArray(this string @this, Regex regex)", true)]
-        public static string[][] ProjectToArray(this string @this, string regex)
-            => ProjectToArray(@this, new Regex(regex, RegexOptions.Singleline));
 
         /// <summary>
         /// Projects the specified string to a new string by using regular expressions.

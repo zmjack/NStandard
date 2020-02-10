@@ -108,6 +108,13 @@ namespace NStandard.Test
         [Fact]
         public void ProjectToArrayTest1()
         {
+            var result = "ABC".ProjectToArray(new Regex(@"^$"));
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void ProjectToArrayTest2()
+        {
             var result = "A|1|11|B|2|22".ProjectToArray(new Regex(@"(?:(?:^|\|)(.+?\|.+?\|.+?)(?=\||$))*"));
             Assert.Equal(new string[][]
             {
@@ -115,8 +122,9 @@ namespace NStandard.Test
                 new [] { "A|1|11", "B|2|22" },
             }, result);
         }
+
         [Fact]
-        public void ProjectToArrayTest2()
+        public void ProjectToArrayTest3()
         {
             var declRegex = new Regex(@"(.+)? (.+?)\((?:(?:\[In\] )?(.+?) (.+?)(?:, |(?=\))))*\);");
 

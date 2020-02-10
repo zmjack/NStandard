@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NStandard.Expansion\NStandard.Expansion.csproj" />
+    <ProjectReference Include="..\NStandard.Experiment\NStandard.Experiment.csproj" />
     <ProjectReference Include="..\NStandard\NStandard.csproj" />
   </ItemGroup>
 
