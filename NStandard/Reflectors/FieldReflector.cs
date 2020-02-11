@@ -40,6 +40,6 @@ namespace NStandard
             set => base.Value = value;
         }
         public new T GetValue(object obj) => (T)base.GetValue(obj);
-        public new void SetValue(object obj, T value) => base.SetValue(obj, value);
+        public void SetValue(object obj, T value) => base.SetValue(obj, value);
     }
 }

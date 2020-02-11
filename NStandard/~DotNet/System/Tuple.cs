@@ -11,14 +11,6 @@ using System.Text;
 
 namespace System
 {
-    internal static class SR
-    {
-        internal const string ArgumentException_TupleIncorrectType = "Argument must be of type {0}.";
-        internal const string ArgumentException_TupleLastArgumentNotATuple = "The last element of an eight element tuple must be a Tuple.";
-
-        internal static string Format(string resourceFormat, object p1) => string.Format(resourceFormat, p1);
-    }
-
     /// <summary>
     /// Helper so we can call some tuple methods recursively without knowing the underlying types.
     /// </summary>

@@ -19,6 +19,10 @@ namespace NStandard
         {
             return @this.GetMethods(bindingAttr).First(x => x.ToString() == qualifiedName);
         }
+        public static MethodInfo GetDeclaredMethodViaQualifiedName(this Type @this, string qualifiedName)
+        {
+            return GetMethodViaQualifiedName(@this, qualifiedName, DeclaredOnlyLookup);
+        }
 
         public static string GetSimplifiedName(this Type @this)
         {

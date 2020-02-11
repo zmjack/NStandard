@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Expansion", "NSta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard", "NStandard\NStandard.csproj", "{59B4A901-C22B-477A-BE77-23A4D0D75768}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Experiment", "NStandard.Experiment\NStandard.Experiment.csproj", "{FC725DBA-56D7-4ADB-BEB4-4B4B46ECB747}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "[NoRelease] NStandard.Experiment", "NStandard.Experiment\[NoRelease] NStandard.Experiment.csproj", "{FC725DBA-56D7-4ADB-BEB4-4B4B46ECB747}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
