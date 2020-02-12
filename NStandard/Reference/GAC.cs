@@ -19,7 +19,7 @@ namespace NStandard.Reference
         public static string GetAssemblyFile(string assembly, Version version, string targetFramework, GACFolders folders, string[] customSearchDirs = null)
         {
             var framework = DotNetFramework.Parse(targetFramework);
-            var nugetVersion = version.MinorRevision == 0
+            var nugetVersion = version.MinorRevision <= 0
                 ? $"{version.Major}.{version.Minor}.{version.Build}"
                 : $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
 

@@ -23,13 +23,10 @@ namespace NStandard.Reference.Test
         [Fact]
         public void NotDeclaredTFMTest()
         {
-            var fws = DotNetFramework.Parse("netcoreapp3.1").CompatibilityFrameworks.Select(x => x.ToString()).ToArray();
-            Assert.Equal(new[]
+            Assert.Throws<NotSupportedException>(() =>
             {
-                "net451", "netstandard1.2",
-                "net45", "netstandard1.1", "netstandard1.0",
-                "net403", "net40", "net35", "net20", "net11"
-            }, fws);
+                DotNetFramework.Parse("netcoreapp??").CompatibilityFrameworks.Select(x => x.ToString()).ToArray();
+            });
         }
 
     }
