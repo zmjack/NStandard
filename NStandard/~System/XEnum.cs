@@ -1,6 +1,4 @@
-﻿using NStandard;
-
-namespace System
+﻿namespace System
 {
     public static class XEnum
     {
