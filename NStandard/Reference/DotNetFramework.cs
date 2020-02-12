@@ -39,6 +39,7 @@ namespace NStandard.Reference
         public static DotNetFramework NetStandard1_5 = new DotNetFramework(".NET Standard", "netstandard", "netstandard1.5", new Version(1, 5, 0), true);
         public static DotNetFramework NetStandard1_6 = new DotNetFramework(".NET Standard", "netstandard", "netstandard1.6", new Version(1, 6, 0), true);
         public static DotNetFramework NetStandard2_0 = new DotNetFramework(".NET Standard", "netstandard", "netstandard2.0", new Version(2, 0, 0), true);
+        public static DotNetFramework NetStandard2_1 = new DotNetFramework(".NET Standard", "netstandard", "netstandard2.1", new Version(2, 1, 0), true);
 
         public static DotNetFramework NetCoreApp1_0 = new DotNetFramework(".NET Core App", "netcoreapp", "netcoreapp1.0", new Version(1, 0, 0), true);
         public static DotNetFramework NetCoreApp1_1 = new DotNetFramework(".NET Core App", "netcoreapp", "netcoreapp1.1", new Version(1, 1, 0), true);
@@ -79,13 +80,14 @@ namespace NStandard.Reference
             NetStandard1_5.CompatibilityFrameworks = CombineFrameworks(new[] { NetStandard1_5 }, NetStandard1_4);
             NetStandard1_6.CompatibilityFrameworks = CombineFrameworks(new[] { NetStandard1_6 }, NetStandard1_5);
             NetStandard2_0.CompatibilityFrameworks = CombineFrameworks(new[] { NetStandard2_0 }, NetStandard1_6);
+            NetStandard2_1.CompatibilityFrameworks = CombineFrameworks(new[] { NetStandard2_1 }, NetStandard2_0);
 
-            NetCoreApp1_0.CompatibilityFrameworks = new[] { NetCoreApp1_0 };
+            NetCoreApp1_0.CompatibilityFrameworks = new[] { NetCoreApp1_0, NetStandard1_0 };
             NetCoreApp1_1.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp1_1 }, NetCoreApp1_0);
-            NetCoreApp2_0.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp2_0 }, NetCoreApp1_1);
+            NetCoreApp2_0.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp2_0, NetStandard2_0 }, NetCoreApp1_1);
             NetCoreApp2_1.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp2_1 }, NetCoreApp2_0);
             NetCoreApp2_2.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp2_2 }, NetCoreApp2_1);
-            NetCoreApp3_0.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp3_0 }, NetCoreApp2_2);
+            NetCoreApp3_0.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp3_0, NetStandard2_1 }, NetCoreApp2_2);
             NetCoreApp3_1.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp3_1 }, NetCoreApp3_0);
 
             Net11.CompatibilityFrameworks = new[] { Net11 };
@@ -108,7 +110,7 @@ namespace NStandard.Reference
         public static readonly DotNetFramework[] SupportedFrameworks = new[]
         {
             NetStandard1_0, NetStandard1_1, NetStandard1_2, NetStandard1_3, NetStandard1_4, NetStandard1_5, NetStandard1_6,
-            NetStandard2_0,
+            NetStandard2_0, NetStandard2_1,
             NetCoreApp1_0, NetCoreApp1_1,
             NetCoreApp2_0, NetCoreApp2_1, NetCoreApp2_2,
             NetCoreApp3_0, NetCoreApp3_1,
