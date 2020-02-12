@@ -111,7 +111,7 @@ namespace NStandard.Reference
             NetStandard2_0,
             NetCoreApp1_0, NetCoreApp1_1,
             NetCoreApp2_0, NetCoreApp2_1, NetCoreApp2_2,
-            NetCoreApp3_0,
+            NetCoreApp3_0, NetCoreApp3_1,
             Net11, Net20, Net35,
             Net40, Net403, Net45, Net451, Net452, Net46, Net461, Net462, Net47, Net471, Net472, Net48,
         };
