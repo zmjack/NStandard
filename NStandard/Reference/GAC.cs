@@ -99,7 +99,7 @@ namespace NStandard.Reference
                 var version = new Version(match.Groups[2].Value);
                 var dll = GetAssemblyFile(assembly, version, targetFramework, folders, customSearchDirs);
 
-                return Assembly.LoadFrom(dll);
+                return Assembly.LoadFile(dll);
             });
         }
 
