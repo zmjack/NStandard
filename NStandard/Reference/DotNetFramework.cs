@@ -46,6 +46,7 @@ namespace NStandard.Reference
         public static DotNetFramework NetCoreApp2_1 = new DotNetFramework(".NET Core App", "netcoreapp", "netcoreapp2.1", new Version(2, 1, 0), true);
         public static DotNetFramework NetCoreApp2_2 = new DotNetFramework(".NET Core App", "netcoreapp", "netcoreapp2.2", new Version(2, 2, 0), true);
         public static DotNetFramework NetCoreApp3_0 = new DotNetFramework(".NET Core App", "netcoreapp", "netcoreapp3.0", new Version(3, 0, 0), true);
+        public static DotNetFramework NetCoreApp3_1 = new DotNetFramework(".NET Core App", "netcoreapp", "netcoreapp3.1", new Version(3, 1, 0), true);
 
         public static DotNetFramework Net11 = new DotNetFramework(".NET Framework", "net", "net11", new Version(1, 1, 0), true);
         public static DotNetFramework Net20 = new DotNetFramework(".NET Framework", "net", "net20", new Version(2, 0, 0), true);
@@ -85,6 +86,7 @@ namespace NStandard.Reference
             NetCoreApp2_1.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp2_1 }, NetCoreApp2_0);
             NetCoreApp2_2.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp2_2 }, NetCoreApp2_1);
             NetCoreApp3_0.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp3_0 }, NetCoreApp2_2);
+            NetCoreApp3_1.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp3_1 }, NetCoreApp3_0);
 
             Net11.CompatibilityFrameworks = new[] { Net11 };
             Net20.CompatibilityFrameworks = CombineFrameworks(new[] { Net20 }, Net11);

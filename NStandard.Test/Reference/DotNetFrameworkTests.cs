@@ -20,5 +20,17 @@ namespace NStandard.Reference.Test
             }, fws);
         }
 
+        [Fact]
+        public void NotDeclaredTFMTest()
+        {
+            var fws = DotNetFramework.Parse("netcoreapp3.1").CompatibilityFrameworks.Select(x => x.ToString()).ToArray();
+            Assert.Equal(new[]
+            {
+                "net451", "netstandard1.2",
+                "net45", "netstandard1.1", "netstandard1.0",
+                "net403", "net40", "net35", "net20", "net11"
+            }, fws);
+        }
+
     }
 }
