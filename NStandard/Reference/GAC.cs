@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace NStandard.Reference
 {
@@ -83,6 +86,21 @@ namespace NStandard.Reference
                 }
             }
             return null;
+        }
+
+        public static ResolveEventHandler CreateAssemblyResolver(string targetFramework, GACFolders folders, string[] customSearchDirs = null)
+        {
+            return new ResolveEventHandler((sender, args) =>
+            {
+                var regex = new Regex("([^,]+), Version=([^,]+), Culture=[^,]+, PublicKeyToken=.+");
+                var match = regex.Match(args.Name);
+
+                var assembly = match.Groups[1].Value;
+                var version = new Version(match.Groups[2].Value);
+                var dll = GetAssemblyFile(assembly, version, targetFramework, folders, customSearchDirs);
+
+                return Assembly.LoadFrom(dll);
+            });
         }
 
     }
