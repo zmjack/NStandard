@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace NStandard
 {
@@ -215,6 +216,13 @@ namespace NStandard
         }
         public static object CreateInstance(this Type @this) => Activator.CreateInstance(@this);
         public static object CreateInstance(this Type @this, params object[] args) => Activator.CreateInstance(@this, args);
+
+        public static Type GetCoClassType(this Type @this)
+        {
+            var attr = @this.GetCustomAttribute<CoClassAttribute>();
+            if (attr == null) throw new InvalidOperationException($"Can not find CoClass from '{@this.FullName}'.");
+            return attr.CoClass;
+        }
 
         private static bool RecursiveSearchExtends(Type type, Type extendType, bool generic)
         {
