@@ -209,10 +209,12 @@ namespace NStandard
             else return false;
         }
 
-        public static object CreateDefaultInstance(this Type @this)
+        public static object Default(this Type @this)
         {
             return @this.IsValueType ? Activator.CreateInstance(@this) : null;
         }
+        public static object CreateInstance(this Type @this) => Activator.CreateInstance(@this);
+        public static object CreateInstance(this Type @this, params object[] args) => Activator.CreateInstance(@this, args);
 
         private static bool RecursiveSearchExtends(Type type, Type extendType, bool generic)
         {

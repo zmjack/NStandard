@@ -44,15 +44,15 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void CreateDefaultInstanceTest()
+        public void DefaultTest()
         {
-            var str = typeof(string).CreateDefaultInstance();
+            var str = typeof(string).Default();
             Assert.Null(str);
 
-            var ndt = typeof(DateTime?).CreateDefaultInstance();
+            var ndt = typeof(DateTime?).Default();
             Assert.Null(ndt);
 
-            var dt = typeof(DateTime).CreateDefaultInstance();
+            var dt = typeof(DateTime).Default();
             Assert.Equal(new DateTime(), dt);
         }
 
