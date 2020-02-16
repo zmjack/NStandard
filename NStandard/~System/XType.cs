@@ -209,7 +209,7 @@ namespace NStandard
             else return false;
         }
 
-        public static object Default(this Type @this)
+        public static object CreateDefault(this Type @this)
         {
             return @this.IsValueType ? Activator.CreateInstance(@this) : null;
         }

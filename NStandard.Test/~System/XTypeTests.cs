@@ -46,13 +46,13 @@ namespace NStandard.Test
         [Fact]
         public void DefaultTest()
         {
-            var str = typeof(string).Default();
+            var str = typeof(string).CreateDefault();
             Assert.Null(str);
 
-            var ndt = typeof(DateTime?).Default();
+            var ndt = typeof(DateTime?).CreateDefault();
             Assert.Null(ndt);
 
-            var dt = typeof(DateTime).Default();
+            var dt = typeof(DateTime).CreateDefault();
             Assert.Equal(new DateTime(), dt);
         }
 
