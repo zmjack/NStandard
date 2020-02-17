@@ -8,7 +8,7 @@ namespace NStandard
         public readonly FieldInfo FieldInfo;
         public readonly object DeclaringObject;
 
-        public FieldReflector(FieldInfo fieldInfo, object declaringObj, Type fieldType) : base(fieldType)
+        public FieldReflector(Type fieldType, FieldInfo fieldInfo, object declaringObj) : base(fieldType)
         {
             FieldInfo = fieldInfo;
             DeclaringObject = declaringObj;
@@ -26,20 +26,20 @@ namespace NStandard
                 else throw new AccessViolationException();
             }
         }
-        public virtual object GetValue(object obj) => FieldInfo.GetValue(obj);
-        public void SetValue(object obj, object value) => FieldInfo.SetValue(obj, value);
+        public virtual object GetValue() => FieldInfo.GetValue(DeclaringObject);
+        public void SetValue(object value) => FieldInfo.SetValue(DeclaringObject, value);
     }
 
     public class FieldReflector<T> : FieldReflector
     {
-        public FieldReflector(FieldInfo fieldInfo, object declaringObj) : base(fieldInfo, declaringObj, typeof(T)) { }
+        public FieldReflector(FieldInfo fieldInfo, object declaringObj) : base(typeof(T), fieldInfo, declaringObj) { }
 
         public new T Value
         {
             get => base.Value.For(x => x is null ? default : (T)x);
             set => base.Value = value;
         }
-        public new T GetValue(object obj) => (T)base.GetValue(obj);
-        public void SetValue(object obj, T value) => base.SetValue(obj, value);
+        public new T GetValue() => (T)base.GetValue();
+        public void SetValue(T value) => base.SetValue(value);
     }
 }

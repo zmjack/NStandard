@@ -115,9 +115,6 @@ namespace NStandard.Test
             var cls = new Outter { PublicProperty = 416 };
             var field = typeof(Outter).GetTypeReflector().DeclaredProperty<long>(nameof(Outter.PublicProperty));
 
-            Assert.Equal(0, field.Value);   // Default value
-            Assert.Throws<AccessViolationException>(() => field.Value = 417);
-
             Assert.Equal(416, field.GetValue(cls));
             field.SetValue(cls, 417);
             Assert.Equal(417, cls.PublicProperty);

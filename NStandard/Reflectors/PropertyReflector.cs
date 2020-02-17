@@ -8,7 +8,7 @@ namespace NStandard
         public readonly PropertyInfo PropertyInfo;
         public readonly object DeclaringObject;
 
-        public PropertyReflector(PropertyInfo propertyInfo, object declaringObj, Type propertyType) : base(propertyType)
+        public PropertyReflector(Type propertyType, PropertyInfo propertyInfo, object declaringObj) : base(propertyType)
         {
             PropertyInfo = propertyInfo;
             DeclaringObject = declaringObj;
@@ -26,13 +26,13 @@ namespace NStandard
                 else throw new AccessViolationException();
             }
         }
-        public virtual object GetValue(object obj) => PropertyInfo.GetValue(obj);
-        public void SetValue(object obj, object value) => PropertyInfo.SetValue(obj, value);
+        public virtual object GetValue() => PropertyInfo.GetValue(DeclaringObject);
+        public void SetValue(object value) => PropertyInfo.SetValue(DeclaringObject, value);
     }
 
     public class PropertyReflector<T> : PropertyReflector
     {
-        public PropertyReflector(PropertyInfo propertyInfo, object declaringObj) : base(propertyInfo, declaringObj, typeof(T)) { }
+        public PropertyReflector(PropertyInfo propertyInfo, object declaringObj) : base(typeof(T), propertyInfo, declaringObj) { }
 
         public new T Value
         {
@@ -40,7 +40,7 @@ namespace NStandard
             set => base.Value = value;
         }
 
-        public new T GetValue(object obj) => (T)base.GetValue(obj);
-        public void SetValue(object obj, T value) => base.SetValue(obj, value);
+        public new T GetValue() => (T)base.GetValue();
+        public void SetValue(T value) => base.SetValue(value);
     }
 }
