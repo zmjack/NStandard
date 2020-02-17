@@ -1,15 +1,28 @@
 using Dawnx.Diagnostics;
+using System;
 using Xunit;
 
 namespace NStandard.Test
 {
-    public class StringScope : Scope<string, StringScope>
-    {
-        public StringScope(string model) : base(model) { }
-    }
-
     public class ScopeTests
     {
+        public class StringScope : Scope<StringScope>
+        {
+            public string Model;
+            public StringScope(string model) { Model = model; }
+        }
+
+        public class WrongScope : Scope<StringScope>
+        {
+            public WrongScope() { }
+        }
+
+        [Fact]
+        public void ExceptionTest()
+        {
+            Assert.Throws<TypeLoadException>(() => new WrongScope());
+        }
+
         [Fact]
         public void NestTest()
         {

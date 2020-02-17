@@ -13,14 +13,17 @@ namespace NStandard
     {
         protected Scope()
         {
+            var scopeType = typeof(Scope<TSelf>).GetGenericArguments()[0];
+            if (GetType() != scopeType) throw new TypeLoadException($"Generic type `TSelf` must be defined as '{GetType().FullName}'.");
+
             var lockParser = new TypeLockParser(nameof(NStandard));
             var _lock = lockParser.ParseThreadLock(GetType());
 
             _lock.UseDoubleCheckLocking(() => Scopes is null, () =>
             {
-                Scopes = new Stack<Scope<TSelf>>();
+                Scopes = new Stack<TSelf>();
             });
-            Scopes.Push(this);
+            Scopes.Push(this as TSelf);
         }
         public void Dispose() { Disposing(); Scopes.Pop(); }
 
@@ -28,43 +31,9 @@ namespace NStandard
 
         // Use TSelf to make sure the ThreadStatic attribute working correctly.
         [ThreadStatic]
-        public static Stack<Scope<TSelf>> Scopes;
+        public static Stack<TSelf> Scopes;
 
-        public static Scope<TSelf> Current => Scopes?.Peek();
-
+        public static TSelf Current => (Scopes?.Count > 0 ? Scopes.Peek() : null) ?? null;
     }
 
-    /// <summary>
-    /// Cooperate with 'using' keyword to use thread safe <see cref="Scope{T, TSelf}"/>.
-    /// </summary>
-    /// <typeparam name="TModel"></typeparam>
-    /// <typeparam name="TSelf"></typeparam>
-    public abstract class Scope<TModel, TSelf> : IDisposable
-        where TSelf : Scope<TModel, TSelf>
-    {
-        public TModel Model { get; protected set; }
-
-        protected Scope(TModel model)
-        {
-            var lockParser = new TypeLockParser(nameof(NStandard));
-            var _lock = lockParser.ParseThreadLock(GetType());
-
-            _lock.UseDoubleCheckLocking(() => Scopes is null, () =>
-            {
-                Scopes = new Stack<Scope<TModel, TSelf>>();
-            });
-            Model = model;
-            Scopes.Push(this);
-        }
-        public void Dispose() { Disposing(); Scopes.Pop(); }
-
-        public virtual void Disposing() { }
-
-        // Use TSelf to make sure the ThreadStatic attribute working correctly.
-        [ThreadStatic]
-        public static Stack<Scope<TModel, TSelf>> Scopes;
-
-        public static Scope<TModel, TSelf> Current => (Scopes?.Count > 0 ? Scopes.Peek() : null) ?? null;
-
-    }
 }
