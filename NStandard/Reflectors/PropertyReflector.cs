@@ -8,7 +8,7 @@ namespace NStandard
         public readonly PropertyInfo PropertyInfo;
         public readonly object DeclaringObject;
 
-        public PropertyReflector(Type propertyType, PropertyInfo propertyInfo, object declaringObj) : base(propertyType)
+        public PropertyReflector(Type propertyType, PropertyInfo propertyInfo, object declaringObj) : base(propertyType, declaringObj)
         {
             PropertyInfo = propertyInfo;
             DeclaringObject = declaringObj;

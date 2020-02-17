@@ -8,7 +8,7 @@ namespace NStandard
         public readonly FieldInfo FieldInfo;
         public readonly object DeclaringObject;
 
-        public FieldReflector(Type fieldType, FieldInfo fieldInfo, object declaringObj) : base(fieldType)
+        public FieldReflector(Type fieldType, FieldInfo fieldInfo, object declaringObj) : base(fieldType, declaringObj)
         {
             FieldInfo = fieldInfo;
             DeclaringObject = declaringObj;
