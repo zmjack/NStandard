@@ -1,10 +1,58 @@
 # NStandard
 
-DotNet Core 标准库扩展。
+DotNet 标准库扩展。
 
 
 
-## Flow（流式转换/管道机制）
+## 设计模式
+
+### Scope 范围影响设计
+
+Scope 类型提供了范围影响设计方案。范围内的任意部分能够获取并使用范围变量，以此来影响部分代码行为。
+
+---
+
+假设数据库交互案例：
+
+当使用 **MockSaveChanges** 方法时，如果没有指定事务，则新建事务使用；否则使用指定事务。
+
+```c#
+private class FakeTransaction : Scope<FakeTransaction>
+{
+    public string Name { get; private set; }
+    public FakeTransaction(string name) => Name = name;
+}
+
+private string MockSaveChanges()
+{
+    return FakeTransaction.Current?.Name ?? "[New transaction]";
+}
+
+[Fact]
+public void NotScopedTest()
+{
+    var ret = MockSaveChanges();
+    Assert.Equal("[New transaction]", ret);
+}
+
+[Fact]
+public void ScopedTest()
+{
+    using (new FakeTransaction("Transaction 1"))
+    {
+        var ret = MockSaveChanges();
+        Assert.Equal("Transaction 1", ret);
+    }
+}
+```
+
+**FakeTransaction** 类是假定的事务容器；**MockSaveChanges** 方法是假定的提交方法。
+
+**MockSaveChanges** 方法会判断自己是否处于事务容器范围定义中，并以此来进行不同的执行行为。
+
+<br/>
+
+### Flow（流式转换/管道机制）
 
 Flow 提供“由单个类型实例通过一系列转换方法后得到新的类型实例”的实现方案。
 
@@ -54,9 +102,11 @@ var result = str.Flow(StringFlow.Base64);
 
 **Flow** 实现用于简化序列流式转换编写，提高重用度。其他应用场景，包括加解密场景等同样适用。
 
+<br/>
 
+## 快速计算
 
-## Zipper (多序列融合)
+### Zipper (多序列融合)
 
 **Zipper** 提供“一种多个独立序列进行同时遍历”的实现方案。
 
@@ -67,8 +117,8 @@ var result = str.Flow(StringFlow.Base64);
 ```c#
 var starts = new[] { "2010-9-1", "2012-4-16", "2017-5-1" };
 var ends = new[] { "2010-9-2", "2012-4-18", "2017-5-4"};
-var result = Zipper.Create(starts, ends, (start, end) =>
-                           (DateTime.Parse(end) - DateTime.Parse(start).Days);
+var result = Zipper.Create(starts, ends, 
+	(start, end) => (DateTime.Parse(end) - DateTime.Parse(start).Days);
 ```
 
 ---
@@ -81,6 +131,5 @@ var result = Zipper.Create(starts, ends, (start, end) =>
 - **NET40 / NETSTANDARD2_0**
   不带选择器方法最多支持 **7** 个序列，返回类型 **Tuple**（标准库实现）；
   带选择器方法最多支持 **7** 个序列（**Tuple** 最多只支持 7 个参数）。
-
 
 
