@@ -2,7 +2,10 @@
 
 DotNet 标准库扩展。
 
+- [English Readme](https://github.com/zmjack/NStandard/blob/master/README.md)
+- [中文自述](https://github.com/zmjack/NStandard/blob/master/README-CN.md)
 
+<br/>
 
 ## 设计模式
 
