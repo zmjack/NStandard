@@ -48,32 +48,18 @@ namespace NStandard
         public static TRet For<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet> convert) => convert(@this);
 
         /// <summary>
-        /// Casts the element to the specified type through the specified convert method.
+        /// Convert a function to its higher-order form.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>
+        /// <param name="delegate"></param>
         /// <param name="this"></param>
-        /// <param name="convert"></param>
         /// <returns></returns>
-        public static TSelf NFor<TSelf>(this TSelf @this, Func<TSelf, TSelf> convert, int degree = 1)
+        public static TSelf Higher<TSelf>(this FuncConvertDelegate<TSelf> @this, TSelf @delegate, int degree = 1)
+            where TSelf : Delegate
         {
-            var param = @this;
+            var param = @delegate;
             for (int i = 0; i < degree; i++)
-                param = convert(param);
-            return param;
-        }
-
-        /// <summary>
-        /// Casts the element to the specified type through the specified convert method.
-        /// </summary>
-        /// <typeparam name="TSelf"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="convert"></param>
-        /// <returns></returns>
-        public static TSelf NFor<TSelf>(this TSelf @this, Func<TSelf, int, TSelf> convert, int degree = 1)
-        {
-            var param = @this;
-            for (int i = 0; i < degree; i++)
-                param = convert(param, i);
+                param = @this(param);
             return param;
         }
 

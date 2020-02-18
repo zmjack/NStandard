@@ -16,28 +16,27 @@ namespace NStandard.Test
             Assert.Equal(new[] { "12", "34", "Unknown" }, result);
         }
 
-        [Fact]
-        public void NForTest()
+        private readonly FuncConvertDelegate<Func<decimal, decimal>> d = func =>
         {
-            Func<decimal, decimal> dx(Func<decimal, decimal> func)
-            {
-                decimal deltaX = 0.000_000_000_000_1m;
-                return x => (func(x + deltaX) - func(x)) / deltaX;
-            }
+            decimal deltaX = 0.000_000_000_000_1m;
+            return x => (func(x + deltaX) - func(x)) / deltaX;
+        };
 
-            Func<decimal, decimal> func = x => x * x * x * x;   // f(x) = x^4
-            {
-                var func_dx = dx(func);                 // f'(x)  = 4 * x^3
-                var func_d2x = dx(dx(func));            // f''(x) = 12 * x^2
-                Assert.Equal(32, (int)func_dx(2));      // f'(2)  = 4 * 2^3  = 32
-                Assert.Equal(48, (int)func_d2x(2));      // f''(x) = 12 * 2^2 = 48
-            }
-            {
-                var func_dx = func.For(dx);             // f'(x)  = 4 * x^3
-                var func_d2x = func.NFor(dx, 2);        // f''(x) = 12 * x^2
-                Assert.Equal(32, (int)func_dx(2));      // f'(2)  = 4 * 2^3  = 32
-                Assert.Equal(48, (int)func_d2x(2));     // f''(x) = 12 * 2^2 = 48
-            }
+        [Fact]
+        public void HigherTest1()
+        {
+            static decimal f0(decimal x) => x * x * x * x;      // f  (x) = x^4
+            Assert.Equal(32, (int)d.Higher(f0, 1)(2));          // f' (x) = 4 * x^3
+            Assert.Equal(48, (int)d.Higher(f0, 2)(2));          // f''(x) = 12 * x^2
+        }
+
+        [Fact]
+        public void HigherTest2()
+        {
+            Func<decimal, decimal> _d(Func<decimal, decimal> f, int n) => n == 1 ? d(f) : _d(d(f), n - 1);
+            static decimal f0(decimal x) => x * x * x * x;      // f  (x) = x^4
+            Assert.Equal(32, (int)_d(f0, 1)(2));                // f' (x) = 4 * x^3
+            Assert.Equal(48, (int)_d(f0, 2)(2));                // f''(x) = 12 * x^2
         }
 
         [Fact]
