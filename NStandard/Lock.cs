@@ -7,6 +7,7 @@ namespace NStandard
     {
         public object ObjectLock { get; }
 
+        public Lock() : this(new object()) { }
         public Lock(object objectLock)
         {
             ObjectLock = objectLock;
