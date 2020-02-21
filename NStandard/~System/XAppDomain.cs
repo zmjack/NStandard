@@ -1,8 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace NStandard
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XAppDomain
     {
         //TODO: Long-term Maintenance

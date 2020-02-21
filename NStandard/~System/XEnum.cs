@@ -1,7 +1,9 @@
 ﻿using NStandard;
+using System.ComponentModel;
 
 namespace System
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XEnum
     {
         public static long ToInt64(this Enum @this) => (long)Convert.ChangeType(@this, typeof(long));
