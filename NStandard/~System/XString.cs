@@ -241,8 +241,7 @@ namespace NStandard
         /// <param name="regex"></param>
         /// <param name="replacement"></param>
         /// <returns></returns>
-        public static string RegexReplace(this string @this, string regex, string replacement)
-            => new Regex(regex, RegexOptions.Singleline).Replace(@this, replacement);
+        public static string RegexReplace(this string @this, Regex regex, string replacement) => regex.Replace(@this, replacement);
 
         /// <summary>
         /// In a specified input string, replaces all strings that match a regular expression
@@ -252,19 +251,7 @@ namespace NStandard
         /// <param name="regex"></param>
         /// <param name="replacement"></param>
         /// <returns></returns>
-        public static string RegexReplace(this string @this, Regex regex, string replacement)
-            => regex.Replace(@this, replacement);
-
-        /// <summary>
-        /// In a specified input string, replaces all strings that match a regular expression
-        //      pattern with a specified replacement string.
-        /// </summary>
-        /// <param name="this"></param>
-        /// <param name="regex"></param>
-        /// <param name="replacement"></param>
-        /// <returns></returns>
-        public static string RegexReplace(this string @this, Regex regex, MatchEvaluator evaluator)
-            => regex.Replace(@this, evaluator);
+        public static string RegexReplace(this string @this, Regex regex, MatchEvaluator evaluator) => regex.Replace(@this, evaluator);
 
         /// <summary>
         /// Projects the specified string to a new string by using regular expressions.
