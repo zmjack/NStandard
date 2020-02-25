@@ -6,14 +6,14 @@ namespace NStandard
 {
     public class Cache<T>
     {
-        protected CacheDelegate<T> CacheDelegate;
-        protected UpdateCacheExpirationDelegate UpdateCacheExpirationDelegate;
+        protected CacheDelegate<T> CacheValue;
+        protected UpdateCacheExpirationDelegate UpdateCacheExpiration;
         public event CacheUpdateEventDelegate<T> OnCacheUpdate;
 
         public DateTime CacheTime { get; protected set; }
         public DateTime Expiration { get; protected set; }
 
-        protected T _CacheValue;
+        protected T _Value;
 
         public T Value
         {
@@ -22,35 +22,35 @@ namespace NStandard
             {
                 if (DateTime.Now >= Expiration)
                     Update();
-                return _CacheValue;
+                return _Value;
             }
         }
 
         public Cache(CacheDelegate<T> cacheDelegate)
         {
-            CacheDelegate = cacheDelegate;
-            UpdateCacheExpirationDelegate = x => DateTime.MaxValue;
+            CacheValue = cacheDelegate;
+            UpdateCacheExpiration = x => DateTime.MaxValue;
         }
 
         public Cache(CacheDelegate<T> cacheDelegate, TimeSpan slidingExpiration)
         {
-            CacheDelegate = cacheDelegate;
-            UpdateCacheExpirationDelegate = x => x.Add(slidingExpiration);
+            CacheValue = cacheDelegate;
+            UpdateCacheExpiration = x => x.Add(slidingExpiration);
         }
 
-        public Cache(CacheDelegate<T> cacheDelegate, UpdateCacheExpirationDelegate updateCacheExpirationDelegate)
+        public Cache(CacheDelegate<T> cache, UpdateCacheExpirationDelegate updateCacheExpiration)
         {
-            CacheDelegate = cacheDelegate;
-            UpdateCacheExpirationDelegate = updateCacheExpirationDelegate;
+            CacheValue = cache;
+            UpdateCacheExpiration = updateCacheExpiration;
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void Update()
         {
             CacheTime = DateTime.Now;
-            Expiration = UpdateCacheExpirationDelegate(CacheTime);
-            _CacheValue = CacheDelegate();
-            OnCacheUpdate?.Invoke(CacheTime, _CacheValue);
+            Expiration = UpdateCacheExpiration(CacheTime);
+            _Value = CacheValue();
+            OnCacheUpdate?.Invoke(CacheTime, _Value);
         }
     }
 

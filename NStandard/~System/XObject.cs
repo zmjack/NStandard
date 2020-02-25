@@ -113,8 +113,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="sequence"></param>
         /// <returns></returns>
-        public static bool In<TSource>(this TSource @this, params TSource[] sequence)
-            => sequence.Contains(@this);
+        public static bool In<TSource>(this TSource @this, params TSource[] sequence) => sequence.Contains(@this);
 
         /// <summary>
         /// Determines whether the specified element in a sequence by using the default equality comparer.
@@ -123,8 +122,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="sequence"></param>
         /// <returns></returns>
-        public static bool In<TSource>(this TSource @this, IEnumerable<TSource> sequence)
-            => sequence.Contains(@this);
+        public static bool In<TSource>(this TSource @this, IEnumerable<TSource> sequence) => sequence.Contains(@this);
 
         /// <summary>
         /// Determines whether the specified object is null.

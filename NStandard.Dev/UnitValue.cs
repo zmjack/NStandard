@@ -24,7 +24,7 @@ namespace NStandard
             if (left.Unit != right.Unit)
                 throw new ArgumentException($"All the `{nameof(Unit)}` must be same.");
 
-            return new UnitValue<TValue>(Dynamic.AddChecked<TValue>(left.Value, right.Value), left.Unit);
+            return new UnitValue<TValue>(Dynamic.OpAddChecked(left.Value, right.Value), left.Unit);
         }
 
         public static UnitValue<TValue> operator *(UnitValue<TValue> left, UnitValue<TValue> right)

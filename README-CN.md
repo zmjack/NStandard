@@ -143,6 +143,8 @@ var result = Zipper.Create(starts, ends,
 
 ---
 
+假设，函数 ***d*** 为求导函数，函数 ***f*** 为原函数：
+
 ```c#
 public void HigherTest1()
 {
@@ -163,7 +165,6 @@ public void HigherTest1()
     Assert.Equal(48, (int)d2(f)(2));
 }
 ```
-如上述示例代码，函数 d 为求导函数，函数 f0 为原函数，那么 d 的高阶函数：
-
-- 一阶函数：
+- ***d*** 的一阶函数 **d.Higher(1)**：***d(f)***
+- ***d*** 的二阶函数 **d.Higher(2)**：***d(d(f))***
 

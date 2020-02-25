@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NStandard.Dev\[NoRelease] NStandard.Dev.csproj" />
     <ProjectReference Include="..\NStandard.Expansion\NStandard.Expansion.csproj" />
-    <ProjectReference Include="..\NStandard.Experiment\[NoRelease] NStandard.Experiment.csproj" />
     <ProjectReference Include="..\NStandard\NStandard.csproj" />
   </ItemGroup>
 
