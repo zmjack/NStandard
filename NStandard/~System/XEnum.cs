@@ -1,5 +1,4 @@
-﻿using NStandard;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace System
 {

@@ -2,14 +2,14 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
- 
+
 using System.Collections.Generic;
- 
+
 namespace System.Reflection
 {
     public static class CustomAttributeExtensions
     {
-#region APIs that return a single attribute
+        #region APIs that return a single attribute
         public static Attribute GetCustomAttribute(this Assembly element, Type attributeType)
         {
             return Attribute.GetCustomAttribute(element, attributeType);
@@ -61,9 +61,9 @@ namespace System.Reflection
         {
             return (T)GetCustomAttribute(element, typeof(T), inherit);
         }
-#endregion
+        #endregion
 
-#region APIs that return all attributes
+        #region APIs that return all attributes
         public static IEnumerable<Attribute> GetCustomAttributes(this Assembly element)
         {
             return Attribute.GetCustomAttributes(element);
@@ -89,9 +89,9 @@ namespace System.Reflection
         {
             return Attribute.GetCustomAttributes(element, inherit);
         }
-#endregion
+        #endregion
 
-#region APIs that return all attributes of a particular type
+        #region APIs that return all attributes of a particular type
         public static IEnumerable<Attribute> GetCustomAttributes(this Assembly element, Type attributeType)
         {
             return Attribute.GetCustomAttributes(element, attributeType);
@@ -143,9 +143,9 @@ namespace System.Reflection
         {
             return (IEnumerable<T>)GetCustomAttributes(element, typeof(T), inherit);
         }
-#endregion
+        #endregion
 
-#region IsDefined
+        #region IsDefined
         public static bool IsDefined(this Assembly element, Type attributeType)
         {
             return Attribute.IsDefined(element, attributeType);
@@ -171,7 +171,7 @@ namespace System.Reflection
         {
             return Attribute.IsDefined(element, attributeType, inherit);
         }
-#endregion
+        #endregion
     }
 }
 #endif

@@ -48,22 +48,6 @@ namespace NStandard
         public static TRet For<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet> convert) => convert(@this);
 
         /// <summary>
-        /// Convert a function to its higher-order form.
-        /// </summary>
-        /// <typeparam name="TSelf"></typeparam>
-        /// <param name="delegate"></param>
-        /// <param name="this"></param>
-        /// <returns></returns>
-        public static TSelf Higher<TSelf>(this FuncConvertDelegate<TSelf> @this, TSelf @delegate, int degree = 1)
-            where TSelf : Delegate
-        {
-            var param = @delegate;
-            for (int i = 0; i < degree; i++)
-                param = @this(param);
-            return param;
-        }
-
-        /// <summary>
         /// Casts the element to the specified type through the specified flow.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>

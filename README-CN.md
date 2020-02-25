@@ -135,4 +135,35 @@ var result = Zipper.Create(starts, ends,
   不带选择器方法最多支持 **7** 个序列，返回类型 **Tuple**（标准库实现）；
   带选择器方法最多支持 **7** 个序列（**Tuple** 最多只支持 7 个参数）。
 
+<br/>
+
+### 高阶函数
+
+转换指定函数为它的高阶形态。
+
+---
+
+```c#
+public void HigherTest1()
+{
+    static HigherFunc<Func<decimal, decimal>> d = func =>
+    {
+        decimal deltaX = 0.000_000_000_000_1m;
+        return x => (func(x + deltaX) - func(x)) / deltaX;
+    };
+    
+    static decimal f(decimal x) => x * x * x * x;   // f  (x) = x^4
+    var d1 = d.Higher(1);   // d1 = d(f)            // f' (x) = 4  * x^3
+    var d2 = d.Higher(2);   // d2 = d(d(f))         // f''(x) = 12 * x^2
+    
+    Assert.Equal(32, (int)d(f)(2));
+    Assert.Equal(32, (int)d1(f)(2));
+    
+    Assert.Equal(48, (int)d(d(f))(2));
+    Assert.Equal(48, (int)d2(f)(2));
+}
+```
+如上述示例代码，函数 d 为求导函数，函数 f0 为原函数，那么 d 的高阶函数：
+
+- 一阶函数：
 

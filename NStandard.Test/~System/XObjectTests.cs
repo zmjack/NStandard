@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using Xunit;
 
@@ -16,7 +17,7 @@ namespace NStandard.Test
             Assert.Equal(new[] { "12", "34", "Unknown" }, result);
         }
 
-        private readonly FuncConvertDelegate<Func<decimal, decimal>> d = func =>
+        private readonly HigherFunc<Func<decimal, decimal>> d = func =>
         {
             decimal deltaX = 0.000_000_000_000_1m;
             return x => (func(x + deltaX) - func(x)) / deltaX;
@@ -25,18 +26,27 @@ namespace NStandard.Test
         [Fact]
         public void HigherTest1()
         {
-            static decimal f0(decimal x) => x * x * x * x;      // f  (x) = x^4
-            Assert.Equal(32, (int)d.Higher(f0, 1)(2));          // f' (x) = 4 * x^3
-            Assert.Equal(48, (int)d.Higher(f0, 2)(2));          // f''(x) = 12 * x^2
+            static decimal f(decimal x) => x * x * x * x;   // f  (x) = x^4
+            var d1 = d.Higher(1);   // d1 = d(f)            // f' (x) = 4  * x^3
+            var d2 = d.Higher(2);   // d2 = d(d(f))         // f''(x) = 12 * x^2
+
+            Assert.Equal(32, (int)d(f)(2));
+            Assert.Equal(32, (int)d1(f)(2));
+
+            Assert.Equal(48, (int)d(d(f))(2));
+            Assert.Equal(48, (int)d2(f)(2));
         }
 
         [Fact]
         public void HigherTest2()
         {
-            Func<decimal, decimal> _d(Func<decimal, decimal> f, int n) => n == 1 ? d(f) : _d(d(f), n - 1);
-            static decimal f0(decimal x) => x * x * x * x;      // f  (x) = x^4
-            Assert.Equal(32, (int)_d(f0, 1)(2));                // f' (x) = 4 * x^3
-            Assert.Equal(48, (int)_d(f0, 2)(2));                // f''(x) = 12 * x^2
+            var md5 = MD5.Create();
+            var computeMD5 = new HigherFunc<byte[]>(x => md5.ComputeHash(x));
+
+            var result1 = computeMD5.Higher(3)("NStandard".Bytes());
+            var result2 = computeMD5(computeMD5(computeMD5("NStandard".Bytes())));
+
+            Assert.Equal(result1, result2);
         }
 
         [Fact]
