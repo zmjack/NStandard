@@ -10,8 +10,8 @@ namespace NStandard.Test
         [Fact]
         public void Test1()
         {
-            var result416 = Dynamic.OpAddChecked(400, 16);
-            Assert.Equal(416, result416);
+            Assert.Equal(416, Dynamic.OpAddChecked(400, 16));
+            Assert.True(Dynamic.OpGreaterThan(400, 16));
         }
 
     }

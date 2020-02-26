@@ -12,29 +12,29 @@ namespace NStandard
 
         private static readonly Dictionary<string, CacheContainer<Type, Delegate>> OpContainers = new Dictionary<string, CacheContainer<Type, Delegate>>
         {
-            [nameof(OpAdd)] = NewOpCacheContainer(Expression.Add),
-            [nameof(OpAddChecked)] = NewOpCacheContainer(Expression.AddChecked),
-            [nameof(OpSubtract)] = NewOpCacheContainer(Expression.Subtract),
-            [nameof(OpSubtractChecked)] = NewOpCacheContainer(Expression.SubtractChecked),
-            [nameof(OpMultiply)] = NewOpCacheContainer(Expression.Multiply),
-            [nameof(OpMultiplyChecked)] = NewOpCacheContainer(Expression.MultiplyChecked),
-            [nameof(OpDivide)] = NewOpCacheContainer(Expression.Divide),
+            [nameof(OpAdd)] = NewOpFunc(Expression.Add),
+            [nameof(OpAddChecked)] = NewOpFunc(Expression.AddChecked),
+            [nameof(OpSubtract)] = NewOpFunc(Expression.Subtract),
+            [nameof(OpSubtractChecked)] = NewOpFunc(Expression.SubtractChecked),
+            [nameof(OpMultiply)] = NewOpFunc(Expression.Multiply),
+            [nameof(OpMultiplyChecked)] = NewOpFunc(Expression.MultiplyChecked),
+            [nameof(OpDivide)] = NewOpFunc(Expression.Divide),
 
-            [nameof(OpLessThan)] = NewOpCacheContainer(Expression.LessThan),
-            [nameof(OpLessThanOrEqual)] = NewOpCacheContainer(Expression.LessThanOrEqual),
-            [nameof(OpEqual)] = NewOpCacheContainer(Expression.Equal),
-            [nameof(OpNotEqual)] = NewOpCacheContainer(Expression.NotEqual),
-            [nameof(OpGreaterThan)] = NewOpCacheContainer(Expression.GreaterThan),
-            [nameof(OpGreaterThanOrEqual)] = NewOpCacheContainer(Expression.GreaterThanOrEqual),
+            [nameof(OpLessThan)] = NewOpFuncReturnBool(Expression.LessThan),
+            [nameof(OpLessThanOrEqual)] = NewOpFuncReturnBool(Expression.LessThanOrEqual),
+            [nameof(OpEqual)] = NewOpFuncReturnBool(Expression.Equal),
+            [nameof(OpNotEqual)] = NewOpFuncReturnBool(Expression.NotEqual),
+            [nameof(OpGreaterThan)] = NewOpFuncReturnBool(Expression.GreaterThan),
+            [nameof(OpGreaterThanOrEqual)] = NewOpFuncReturnBool(Expression.GreaterThanOrEqual),
         };
 
-        private static CacheContainer<Type, Delegate> NewOpCacheContainer(BinaryDelegate @delegate)
+        private static CacheContainer<Type, Delegate> NewOpFunc(BinaryDelegate @delegate)
         {
             var container = new CacheContainer<Type, Delegate>(
                 key => new CacheDelegate<Delegate>(() =>
                 {
                     var const_delegate = Expression.Constant(@delegate);
-                    var method = MakeGenericMethod_Op(key);
+                    var method = OpMethod.MakeGenericMethod(key, key, key);
                     var exp = Expression.Call(method, const_delegate);
 
                     return key switch
@@ -56,12 +56,43 @@ namespace NStandard
             return container;
         }
 
-        private static MethodInfo MakeGenericMethod_Op(Type type) => typeof(Dynamic).GetDeclaredMethod(nameof(Op)).MakeGenericMethod(type);
-        private static Func<TRet, TRet, TRet> Op<TRet>(BinaryDelegate @delegate) where TRet : unmanaged
+        private static CacheContainer<Type, Delegate> NewOpFuncReturnBool(BinaryDelegate @delegate)
         {
-            var leftExp = Expression.Parameter(typeof(TRet), "left");
-            var rightExp = Expression.Parameter(typeof(TRet), "right");
-            var lambda = Expression.Lambda<Func<TRet, TRet, TRet>>(@delegate(leftExp, rightExp), leftExp, rightExp);
+            var container = new CacheContainer<Type, Delegate>(
+                key => new CacheDelegate<Delegate>(() =>
+                {
+                    var const_delegate = Expression.Constant(@delegate);
+                    var method = OpMethod.MakeGenericMethod(key, key, typeof(bool));
+                    var exp = Expression.Call(method, const_delegate);
+
+                    return key switch
+                    {
+                        Type type when type == typeof(sbyte) => Expression.Lambda<Func<Func<sbyte, sbyte, bool>>>(exp).Compile()(),
+                        Type type when type == typeof(byte) => Expression.Lambda<Func<Func<byte, byte, bool>>>(exp).Compile()(),
+                        Type type when type == typeof(short) => Expression.Lambda<Func<Func<short, short, bool>>>(exp).Compile()(),
+                        Type type when type == typeof(ushort) => Expression.Lambda<Func<Func<ushort, ushort, bool>>>(exp).Compile()(),
+                        Type type when type == typeof(int) => Expression.Lambda<Func<Func<int, int, bool>>>(exp).Compile()(),
+                        Type type when type == typeof(uint) => Expression.Lambda<Func<Func<uint, uint, bool>>>(exp).Compile()(),
+                        Type type when type == typeof(long) => Expression.Lambda<Func<Func<long, long, bool>>>(exp).Compile()(),
+                        Type type when type == typeof(ulong) => Expression.Lambda<Func<Func<ulong, ulong, bool>>>(exp).Compile()(),
+                        Type type when type == typeof(float) => Expression.Lambda<Func<Func<float, float, bool>>>(exp).Compile()(),
+                        Type type when type == typeof(double) => Expression.Lambda<Func<Func<double, double, bool>>>(exp).Compile()(),
+                        Type type when type == typeof(decimal) => Expression.Lambda<Func<Func<decimal, decimal, bool>>>(exp).Compile()(),
+                        _ => throw new NotSupportedException("Only these types are supported: sbyte, byte, short, ushort, int, uint, long, ulong, float, double, decimal."),
+                    };
+                }));
+            return container;
+        }
+
+        private static readonly MethodInfo OpMethod = typeof(Dynamic).GetDeclaredMethod(nameof(Op));
+        private static Func<TOp1, TOp2, TRet> Op<TOp1, TOp2, TRet>(BinaryDelegate @delegate)
+            where TOp1 : unmanaged
+            where TOp2 : unmanaged
+            where TRet : unmanaged
+        {
+            var leftExp = Expression.Parameter(typeof(TOp1), "left");
+            var rightExp = Expression.Parameter(typeof(TOp2), "right");
+            var lambda = Expression.Lambda<Func<TOp1, TOp2, TRet>>(@delegate(leftExp, rightExp), leftExp, rightExp);
             return lambda.Compile();
         }
 
@@ -73,11 +104,11 @@ namespace NStandard
         public static TRet OpMultiplyChecked<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpMultiplyChecked)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
         public static TRet OpDivide<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpDivide)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
 
-        public static TRet OpLessThan<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpLessThan)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
-        public static TRet OpLessThanOrEqual<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpLessThanOrEqual)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
-        public static TRet OpEqual<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpEqual)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
-        public static TRet OpNotEqual<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpNotEqual)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
-        public static TRet OpGreaterThan<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpGreaterThan)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
-        public static TRet OpGreaterThanOrEqual<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpGreaterThanOrEqual)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
+        public static bool OpLessThan<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpLessThan)][typeof(TRet)].Value as Func<TRet, TRet, bool>)(left, right);
+        public static bool OpLessThanOrEqual<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpLessThanOrEqual)][typeof(TRet)].Value as Func<TRet, TRet, bool>)(left, right);
+        public static bool OpEqual<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpEqual)][typeof(TRet)].Value as Func<TRet, TRet, bool>)(left, right);
+        public static bool OpNotEqual<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpNotEqual)][typeof(TRet)].Value as Func<TRet, TRet, bool>)(left, right);
+        public static bool OpGreaterThan<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpGreaterThan)][typeof(TRet)].Value as Func<TRet, TRet, bool>)(left, right);
+        public static bool OpGreaterThanOrEqual<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpGreaterThanOrEqual)][typeof(TRet)].Value as Func<TRet, TRet, bool>)(left, right);
     }
 }
