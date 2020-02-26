@@ -19,6 +19,13 @@ namespace NStandard
             [nameof(OpMultiply)] = NewOpCacheContainer(Expression.Multiply),
             [nameof(OpMultiplyChecked)] = NewOpCacheContainer(Expression.MultiplyChecked),
             [nameof(OpDivide)] = NewOpCacheContainer(Expression.Divide),
+
+            [nameof(OpLessThan)] = NewOpCacheContainer(Expression.LessThan),
+            [nameof(OpLessThanOrEqual)] = NewOpCacheContainer(Expression.LessThanOrEqual),
+            [nameof(OpEqual)] = NewOpCacheContainer(Expression.Equal),
+            [nameof(OpNotEqual)] = NewOpCacheContainer(Expression.NotEqual),
+            [nameof(OpGreaterThan)] = NewOpCacheContainer(Expression.GreaterThan),
+            [nameof(OpGreaterThanOrEqual)] = NewOpCacheContainer(Expression.GreaterThanOrEqual),
         };
 
         private static CacheContainer<Type, Delegate> NewOpCacheContainer(BinaryDelegate @delegate)
@@ -65,5 +72,12 @@ namespace NStandard
         public static TRet OpMultiply<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpMultiply)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
         public static TRet OpMultiplyChecked<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpMultiplyChecked)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
         public static TRet OpDivide<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpDivide)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
+
+        public static TRet OpLessThan<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpLessThan)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
+        public static TRet OpLessThanOrEqual<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpLessThanOrEqual)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
+        public static TRet OpEqual<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpEqual)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
+        public static TRet OpNotEqual<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpNotEqual)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
+        public static TRet OpGreaterThan<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpGreaterThan)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
+        public static TRet OpGreaterThanOrEqual<TRet>(TRet left, TRet right) where TRet : unmanaged => (OpContainers[nameof(OpGreaterThanOrEqual)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
     }
 }
