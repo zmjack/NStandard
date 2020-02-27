@@ -47,10 +47,11 @@ namespace NStandard
                         Type type when type == typeof(uint) => Expression.Lambda<Func<Func<uint, uint, uint>>>(exp).Compile()(),
                         Type type when type == typeof(long) => Expression.Lambda<Func<Func<long, long, long>>>(exp).Compile()(),
                         Type type when type == typeof(ulong) => Expression.Lambda<Func<Func<ulong, ulong, ulong>>>(exp).Compile()(),
+                        Type type when type == typeof(char) => Expression.Lambda<Func<Func<char, char, char>>>(exp).Compile()(),
                         Type type when type == typeof(float) => Expression.Lambda<Func<Func<float, float, float>>>(exp).Compile()(),
                         Type type when type == typeof(double) => Expression.Lambda<Func<Func<double, double, double>>>(exp).Compile()(),
                         Type type when type == typeof(decimal) => Expression.Lambda<Func<Func<decimal, decimal, decimal>>>(exp).Compile()(),
-                        _ => throw new NotSupportedException("Only these types are supported: sbyte, byte, short, ushort, int, uint, long, ulong, float, double, decimal."),
+                        _ => throw new NotSupportedException("Only these types are supported: sbyte, byte, short, ushort, int, uint, long, ulong, char, float, double, decimal."),
                     };
                 }));
             return container;
@@ -75,6 +76,7 @@ namespace NStandard
                         Type type when type == typeof(uint) => Expression.Lambda<Func<Func<uint, uint, bool>>>(exp).Compile()(),
                         Type type when type == typeof(long) => Expression.Lambda<Func<Func<long, long, bool>>>(exp).Compile()(),
                         Type type when type == typeof(ulong) => Expression.Lambda<Func<Func<ulong, ulong, bool>>>(exp).Compile()(),
+                        Type type when type == typeof(char) => Expression.Lambda<Func<Func<char, char, bool>>>(exp).Compile()(),
                         Type type when type == typeof(float) => Expression.Lambda<Func<Func<float, float, bool>>>(exp).Compile()(),
                         Type type when type == typeof(double) => Expression.Lambda<Func<Func<double, double, bool>>>(exp).Compile()(),
                         Type type when type == typeof(decimal) => Expression.Lambda<Func<Func<decimal, decimal, bool>>>(exp).Compile()(),

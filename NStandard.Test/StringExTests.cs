@@ -59,5 +59,21 @@ namespace NStandard.Test
             Assert.Equal("45", simple.D);
         }
 
+        [Fact]
+        public void IsValidFileNameTest()
+        {
+            Assert.True(StringEx.IsValidWinFileName("abc.txt"));
+            Assert.False(StringEx.IsValidWinFileName("abc.txt."));
+            Assert.False(StringEx.IsValidWinFileName("abc<>.txt"));
+            Assert.False(StringEx.IsValidWinFileName("CON"));
+            Assert.False(StringEx.IsValidWinFileName("abc\0.txt."));
+
+            Assert.True(StringEx.IsValidUnixFileName("abc.txt"));
+            Assert.True(StringEx.IsValidUnixFileName("abc.txt."));
+            Assert.True(StringEx.IsValidUnixFileName("abc<>.txt"));
+            Assert.True(StringEx.IsValidUnixFileName("CON"));
+            Assert.False(StringEx.IsValidUnixFileName("abc\0.txt."));
+        }
+
     }
 }

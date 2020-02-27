@@ -8,7 +8,7 @@ namespace NStandard.Test
         public void AssertTest1()
         {
             int eight = 8;
-            var rs = new Ref<int>[] { eight, eight };
+            var rs = new[] { new Ref<int>(eight), new Ref<int>(eight) };
             Assert.Equal(rs[0], rs[1]);
             Assert.False(rs[0] == rs[1]);
             Assert.NotSame(rs[0].RefValue, rs[1].RefValue);

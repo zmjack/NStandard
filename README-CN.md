@@ -168,3 +168,42 @@ public void HigherTest1()
 - ***d*** 的一阶函数 **d.Higher(1)**：***d(f)***
 - ***d*** 的二阶函数 **d.Higher(2)**：***d(d(f))***
 
+
+
+## 控制台
+
+### 控制台输出重定向
+
+重定向控制台输出。
+
+---
+
+某些特定的开发场景可能会使用控制台重定向输出。例如，测试 **CliTool** 应用程序。
+
+默认的 **ConsoleAgent** 会将 **Console** 保存到缓存，当需要的时候调用 **ReadAllText** 函数来获取并清空缓存：
+
+```c#
+using (ConsoleAgent.Begin())
+{
+    Console.Write(123);
+    Assert.Equal("123", ConsoleAgent.ReadAllText());
+
+    Console.Write(456);
+    Assert.Equal("456", ConsoleAgent.ReadAllText());
+}
+```
+**ConsoleAgent** 也允许使用使用自定义 **TextWriter**：
+
+```c#
+var output = new StringBuilder();
+var writer = new StringWriter(output);
+using (ConsoleAgent.Begin(writer))
+{
+    Console.Write(123);
+    Assert.Equal("123", output.ToString());
+
+    Console.Write(456);
+    Assert.Equal("123456", output.ToString());
+}
+```
+

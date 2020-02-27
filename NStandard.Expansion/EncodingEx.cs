@@ -2,6 +2,9 @@
 
 namespace NStandard
 {
+    /// <summary>
+    /// [Refer] https://docs.microsoft.com/zh-cn/dotnet/api/system.text.encodinginfo.name?view=netcore-3.1
+    /// </summary>
     public static class EncodingEx
     {
         static EncodingEx()

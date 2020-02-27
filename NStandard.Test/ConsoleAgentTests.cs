@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using Xunit;
 
 namespace NStandard.Test
@@ -6,17 +8,31 @@ namespace NStandard.Test
     public class ConsoleAgentTests
     {
         [Fact]
-        public void Test1()
+        public void UseDefeaultWriterTest()
         {
-            using (var agent = new ConsoleAgent())
+            using (ConsoleAgent.Begin())
             {
-                Console.WriteLine(123);
-                Console.WriteLine(456);
+                Console.Write(123);
+                Assert.Equal("123", ConsoleAgent.ReadAllText());
 
-                var output = agent.ReadAllText();
-                Assert.Equal($@"123{Environment.NewLine}456{Environment.NewLine}", output);
+                Console.Write(456);
+                Assert.Equal("456", ConsoleAgent.ReadAllText());
             }
+        }
 
+        [Fact]
+        public void UseSpecifiedWriterTest()
+        {
+            var output = new StringBuilder();
+            var writer = new StringWriter(output);
+            using (ConsoleAgent.Begin(writer))
+            {
+                Console.Write(123);
+                Assert.Equal("123", output.ToString());
+
+                Console.Write(456);
+                Assert.Equal("123456", output.ToString());
+            }
         }
 
     }
