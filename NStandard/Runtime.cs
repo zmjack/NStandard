@@ -7,7 +7,7 @@ namespace NStandard
         public unsafe static IntPtr AddressOf(object obj)
         {
             var oref = __makeref(obj);
-            var pref = (IntPtr**)(&oref);
+            var pref = (IntPtr**)&oref;
             return **pref;
         }
 
