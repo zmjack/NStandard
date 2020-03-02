@@ -8,20 +8,6 @@ namespace NStandard
     public static class XDateTime
     {
         /// <summary>
-        /// Gets the first day of the month.
-        /// </summary>
-        /// <param name="this"></param>
-        /// <returns></returns>
-        public static DateTime FirstDayOfMonth(this DateTime @this) => @this.AddDays(1 - @this.Day);
-
-        /// <summary>
-        /// Gets the last day of the month.
-        /// </summary>
-        /// <param name="this"></param>
-        /// <returns></returns>
-        public static DateTime LastDayOfMonth(this DateTime @this) => @this.AddDays(DateTime.DaysInMonth(@this.Year, @this.Month) - @this.Day);
-
-        /// <summary>
         /// Gets a past day for the specified day of week.
         /// </summary>
         /// <param name="this"></param>
@@ -113,18 +99,25 @@ namespace NStandard
         public static DateTime BeginningOfYear(this DateTime @this) => new DateTime(@this.Year, 1, 1, 0, 0, 0, 0, @this.Kind);
 
         /// <summary>
-        /// Get the end point of the sepecified month.
-        /// </summary>
-        /// <param name="this"></param>
-        /// <returns></returns>
-        public static DateTime EndOfYear(this DateTime @this) => new DateTime(@this.Year, 12, 31, 23, 59, 59, 999, @this.Kind);
-
-        /// <summary>
         /// Get the start point of the sepecified month.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
         public static DateTime BeginningOfMonth(this DateTime @this) => new DateTime(@this.Year, @this.Month, 1, 0, 0, 0, 0, @this.Kind);
+
+        /// <summary>
+        /// Get the start point of the sepecified day.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateTime BeginningOfDay(this DateTime @this) => @this.Date;
+
+        /// <summary>
+        /// Get the end point of the sepecified month.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateTime EndOfYear(this DateTime @this) => new DateTime(@this.Year, 12, 31, 23, 59, 59, 999, @this.Kind);
 
         /// <summary>
         /// Get the end point of the sepecified month.
@@ -144,13 +137,6 @@ namespace NStandard
                 else return new DateTime(@this.Year, @this.Month, 28, 23, 59, 59, 999, @this.Kind);
             }
         }
-
-        /// <summary>
-        /// Get the start point of the sepecified day.
-        /// </summary>
-        /// <param name="this"></param>
-        /// <returns></returns>
-        public static DateTime BeginningOfDay(this DateTime @this) => @this.Date;
 
         /// <summary>
         /// Get the end point of the sepecified day.

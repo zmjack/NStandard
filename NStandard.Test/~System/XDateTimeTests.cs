@@ -36,8 +36,13 @@ namespace NStandard.Test
              */
 
             var today = new DateTime(2012, 4, 16, 22, 23, 24);
-            Assert.Equal("2012/4/1 22:23:24", today.FirstDayOfMonth().ToString());
-            Assert.Equal("2012/4/30 22:23:24", today.LastDayOfMonth().ToString());
+            Assert.Equal("2012/1/1 0:00:00", today.BeginningOfYear().ToString());
+            Assert.Equal("2012/4/1 0:00:00", today.BeginningOfMonth().ToString());
+            Assert.Equal("2012/4/16 0:00:00", today.BeginningOfDay().ToString());
+
+            Assert.Equal("2012/12/31 23:59:59", today.EndOfYear().ToString());
+            Assert.Equal("2012/4/30 23:59:59", today.EndOfMonth().ToString());
+            Assert.Equal("2012/4/16 23:59:59", today.EndOfDay().ToString());
 
             Assert.Equal("2012/4/9 22:23:24", today.PastDay(DayOfWeek.Monday, false).ToString());
             Assert.Equal("2012/4/16 22:23:24", today.PastDay(DayOfWeek.Monday, true).ToString());
