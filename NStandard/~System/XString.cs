@@ -163,15 +163,13 @@ namespace NStandard
         /// <returns></returns>
         public static string NormalizeNewLine(this string @this)
         {
-            switch (Environment.NewLine)
+            return Environment.NewLine switch
             {
-                case "\r\n":
-                    return new Regex("(?<!\r)\n", RegexOptions.Singleline).Replace(@this, "\r\n");
-                case "\n":
-                    return new Regex("\r\n", RegexOptions.Singleline).Replace(@this, "\n");
-
-                default: return @this;
-            }
+                "\r\n" => new Regex("\r(?!\n)|(?<!\r)\n", RegexOptions.Singleline).Replace(@this, "\r\n"),
+                "\n" => new Regex("\r\n|\r(?!\n)", RegexOptions.Singleline).Replace(@this, "\n"),
+                "\r" => new Regex("\r\n|(?<!\r)\n", RegexOptions.Singleline).Replace(@this, "\n"),
+                _ => throw new NotSupportedException(),
+            };
         }
 
         /// <summary>
@@ -205,8 +203,8 @@ namespace NStandard
             {
                 var newLineLength = Environment.NewLine.Length;
                 var startIndex = 0;
-                var findIndex = -1;
 
+                int findIndex;
                 while ((findIndex = @this.IndexOf(Environment.NewLine, startIndex)) >= 0)
                 {
                     var line = @this.Slice(startIndex, findIndex);

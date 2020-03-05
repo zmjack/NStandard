@@ -55,8 +55,14 @@ namespace NStandard.Test
         [Fact]
         public void NormalizeNewLineTest()
         {
-            Assert.Equal("123456", "123\n456".NormalizeNewLine().Replace(Environment.NewLine, ""));
-            Assert.Equal("123456", "123\r\n456".NormalizeNewLine().Replace(Environment.NewLine, ""));
+            Assert.Equal($"123{Environment.NewLine}456", "123\r456".NormalizeNewLine());
+            Assert.Equal($"123{Environment.NewLine}456", "123\n456".NormalizeNewLine());
+            Assert.Equal($"123{Environment.NewLine}456", "123\r\n456".NormalizeNewLine());
+            Assert.Equal($"123{Environment.NewLine}{Environment.NewLine}456", "123\n\r456".NormalizeNewLine());
+            Assert.Equal($"123{Environment.NewLine}{Environment.NewLine}456", "123\n\r\n456".NormalizeNewLine());
+            Assert.Equal($"123{Environment.NewLine}{Environment.NewLine}456", "123\r\r\n456".NormalizeNewLine());
+            Assert.Equal($"123{Environment.NewLine}{Environment.NewLine}456", "123\r\n\r456".NormalizeNewLine());
+            Assert.Equal($"123{Environment.NewLine}{Environment.NewLine}456", "123\r\n\n456".NormalizeNewLine());
         }
 
         [Fact]
