@@ -325,7 +325,7 @@ namespace NStandard
 
         public static T[] ToLinearArray<T>(this T[,] @this)
         {
-            IEnumerable<T> AsUnidimensionalEnumerable(T[,] @this)
+            static IEnumerable<T> AsUnidimensionalEnumerable(T[,] @this)
             {
                 foreach (var item in @this)
                     yield return item;
@@ -335,13 +335,31 @@ namespace NStandard
         }
         public static T[] ToLinearArray<T>(this T[,,] @this)
         {
-            IEnumerable<T> AsUnidimensionalEnumerable(T[,,] @this)
+            static IEnumerable<T> AsUnidimensionalEnumerable(T[,,] @this)
             {
                 foreach (var item in @this)
                     yield return item;
             }
 
             return AsUnidimensionalEnumerable(@this).ToArray();
+        }
+
+        public static T[,] ToArray2D<T>(this T[] @this, int d2)
+        {
+            var lastIndex = @this.Length - 1;
+            var d1 = (lastIndex / d2) + 1;
+            var ret = new T[d1, d2];
+            ret.Let(i => i < @this.Length ? @this[i] : default);
+            return ret;
+        }
+
+        public static T[,,] ToArray3D<T>(this T[] @this, int d2, int d3)
+        {
+            var lastIndex = @this.Length - 1;
+            var d1 = (lastIndex / (d2 * d3)) + 1;
+            var ret = new T[d1, d2, d3];
+            ret.Let(i => i < @this.Length ? @this[i] : default);
+            return ret;
         }
 
     }

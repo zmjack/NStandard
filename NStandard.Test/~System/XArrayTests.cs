@@ -115,7 +115,38 @@ namespace NStandard.Test
                 Assert.Equal($"{i1},{i2}", v);
                 Assert.Equal($"{i1},{i2}", arr[i1, i2]);
             });
+        }
 
+        [Fact]
+        public void ToMultiArray2DTest()
+        {
+            var arr = new int[8].Let(i => i + 1);
+            var expected = new[,]
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, default },
+            };
+            Assert.Equal(expected, arr.ToArray2D(3));
+        }
+
+        [Fact]
+        public void ToMultiArray3DTest()
+        {
+            var arr = new int[8].Let(i => i + 1);
+            var expected = new[, ,]
+            {
+                {
+                    { 1, 2, 3 },
+                    { 4, 5, 6 },
+                },
+                {
+                    { 7, 8, default },
+                    { default, default, default },
+                },
+            };
+            var actual = arr.ToArray3D(2, 3);
+            Assert.Equal(expected, actual);
         }
 
     }

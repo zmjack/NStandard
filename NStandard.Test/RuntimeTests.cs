@@ -9,11 +9,10 @@ namespace NStandard.Test
     public class RuntimeTests
     {
         [Fact]
-        public unsafe void AddressOfTest1()
+        public unsafe void AddressOfTest()
         {
             var str = "abc";
             var ptr = Runtime.AddressOf(str);
-
             var length = BitConverter.ToInt32(Runtime.ReadMemory(ptr, sizeof(int)), 0);
             var pStrPart = ptr + sizeof(int);
 
@@ -25,7 +24,7 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void AreSameTest1()
+        public void AreSameTest()
         {
             var s1 = "abc";
             var s2 = "abc";

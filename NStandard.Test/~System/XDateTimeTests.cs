@@ -59,21 +59,6 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void TestUnixTimestamp()
-        {
-            var dt = new DateTime(1970, 1, 1, 16, 0, 0, DateTimeKind.Utc);
-
-            Assert.Equal(57600, dt.UnixTimeSeconds());
-            Assert.Equal(57600000, dt.UnixTimeMilliseconds());
-
-            Assert.Equal(dt, DateTimeEx.FromUnixSeconds(57600));
-            Assert.Equal(dt, DateTimeEx.FromUnixMilliseconds(57600_000));
-
-            Assert.Equal(new DateTime(2018, 10, 31, 15, 55, 17),
-                DateTimeEx.FromUnixSeconds(1540972517).ToLocalTime());
-        }
-
-        [Fact]
         public void WeekTest()
         {
             Assert.Equal(0, new DateTime(2017, 1, 1).Week(DayOfWeek.Monday));
