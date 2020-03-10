@@ -2,7 +2,7 @@
 
 namespace NStandard
 {
-    public class Usable
+    public class Usable : IDisposable
     {
         private readonly Action OnDisposing;
 
@@ -14,8 +14,7 @@ namespace NStandard
 
         public void Dispose() => OnDisposing();
 
-
-        public static Usable Begin(Action onUsing, Action onDispose) => new Usable(onUsing, onDispose);
+        public static Usable Begin(Action onUsing, Action onDisposing) => new Usable(onUsing, onDisposing);
         public static Usable<TUsingReturn> Begin<TUsingReturn>(Func<TUsingReturn> onUsing, Action<TUsingReturn> onDisposing)
         {
             return new Usable<TUsingReturn>(onUsing, onDisposing);
