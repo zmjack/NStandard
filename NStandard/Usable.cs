@@ -2,45 +2,37 @@
 
 namespace NStandard
 {
-    public static class Usable
+    public class Usable
     {
-        public static Usable<T> Begin<T>(T origin, Action onUsing, Action onUsed) => new Usable<T>(origin, onUsing, onUsed);
-        public static Usable<T, TUsingReturn> Begin<T, TUsingReturn>(T origin, Func<TUsingReturn> onUsing, Action<TUsingReturn> onUsed)
+        private readonly Action OnDisposing;
+
+        internal Usable(Action onUsing, Action onDisposing)
         {
-            return new Usable<T, TUsingReturn>(origin, onUsing, onUsed);
-        }
-    }
-
-    public class Usable<T> : IDisposable
-    {
-        public T Origin { get; private set; }
-        private readonly Action OnUsed;
-
-        internal Usable(T origin, Action onUsing, Action onUsed)
-        {
-            Origin = origin;
-            OnUsed = onUsed;
-
+            OnDisposing = onDisposing;
             onUsing();
         }
 
-        public void Dispose() => OnUsed();
+        public void Dispose() => OnDisposing();
+
+
+        public static Usable Begin(Action onUsing, Action onDispose) => new Usable(onUsing, onDispose);
+        public static Usable<TUsingReturn> Begin<TUsingReturn>(Func<TUsingReturn> onUsing, Action<TUsingReturn> onDisposing)
+        {
+            return new Usable<TUsingReturn>(onUsing, onDisposing);
+        }
     }
 
-    public class Usable<T, TUsingReturn> : IDisposable
+    public class Usable<TUsingReturn> : IDisposable
     {
-        public T Origin { get; private set; }
-        private readonly Action<TUsingReturn> OnUsed;
+        private readonly Action<TUsingReturn> OnDisposing;
         public TUsingReturn Return { get; private set; }
 
-        internal Usable(T origin, Func<TUsingReturn> onUsing, Action<TUsingReturn> onUsed)
+        internal Usable(Func<TUsingReturn> onUsing, Action<TUsingReturn> onDisposing)
         {
-            Origin = origin;
-            OnUsed = onUsed;
-
+            OnDisposing = onDisposing;
             Return = onUsing();
         }
 
-        public void Dispose() => OnUsed(Return);
+        public void Dispose() => OnDisposing(Return);
     }
 }

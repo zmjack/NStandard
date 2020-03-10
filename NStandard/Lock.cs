@@ -36,10 +36,10 @@ namespace NStandard
         public void TryEnter(ref bool lockTaken) => Monitor.TryEnter(ObjectLock, ref lockTaken);
 #endif
 
-        public Usable<Lock> Begin() => Usable.Begin(this, () => Enter(), () => Exit());
-        public Usable<Lock, bool> TryBegin() => Usable.Begin(this, () => TryEnter(), ret => { if (ret) Exit(); });
-        public Usable<Lock, bool> TryBegin(int millisecondsTimeout) => Usable.Begin(this, () => TryEnter(millisecondsTimeout), ret => { if (ret) Exit(); });
-        public Usable<Lock, bool> TryBegin(TimeSpan timeout) => Usable.Begin(this, () => TryEnter(timeout), ret => { if (ret) Exit(); });
+        public Usable Begin() => Usable.Begin(() => Enter(), () => Exit());
+        public Usable<bool> TryBegin() => Usable.Begin(() => TryEnter(), ret => { if (ret) Exit(); });
+        public Usable<bool> TryBegin(int millisecondsTimeout) => Usable.Begin(() => TryEnter(millisecondsTimeout), ret => { if (ret) Exit(); });
+        public Usable<bool> TryBegin(TimeSpan timeout) => Usable.Begin(() => TryEnter(timeout), ret => { if (ret) Exit(); });
 
         public void UseDoubleCheckLocking(Func<bool> enterCondition, Action task)
         {
