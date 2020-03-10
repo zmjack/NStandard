@@ -24,14 +24,14 @@ namespace NStandard
     public class Usable<TUsingReturn> : IDisposable
     {
         private readonly Action<TUsingReturn> OnDisposing;
-        public TUsingReturn Return { get; private set; }
+        public TUsingReturn Value { get; private set; }
 
         internal Usable(Func<TUsingReturn> onUsing, Action<TUsingReturn> onDisposing)
         {
             OnDisposing = onDisposing;
-            Return = onUsing();
+            Value = onUsing();
         }
 
-        public void Dispose() => OnDisposing(Return);
+        public void Dispose() => OnDisposing(Value);
     }
 }

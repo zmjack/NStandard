@@ -19,7 +19,7 @@ namespace NStandard.Locks.Test
             {
                 using (var _lock = lockParser.Parse<TypeLockTest>().TryBegin(500))
                 {
-                    if (_lock.Return)
+                    if (_lock.Value)
                     {
                         Thread.Sleep(1000);
                         return "Entered";
