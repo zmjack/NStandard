@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NStandard.Algorithms
+namespace NStandard.Algorithm
 {
     public class Kmp
     {

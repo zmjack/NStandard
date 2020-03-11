@@ -24,7 +24,7 @@ namespace NStandard.Test
             public Result this[int residualWeight]
                 => this[(Goods.Length - 1, residualWeight)];
 
-            public override Result StateTransfer((int toGoods, int residualWeight) pair)
+            public override Result StateTransfer((int toGoods, int residualWeight) param)
             {
                 // define: i as toGoods, j as knapsackWeight
                 // dp(i, j) = 0                                         if  i=0, j<w[0]
@@ -32,7 +32,7 @@ namespace NStandard.Test
                 // dp(i, j) = dp(i-1, j)                                if  i>0, j-w[i]<0
                 // dp(i, j) = max(dp(i-1, j), dp(i-1, j-w[i]) + v[i])   if  i>0, j-w[i]>=0
 
-                int i = pair.toGoods, j = pair.residualWeight;
+                int i = param.toGoods, j = param.residualWeight;
 
                 if (i == 0 && j < Goods[0].Weight)
                     return new Result { TotalValue = 0, GoodWeights = new int[0] };

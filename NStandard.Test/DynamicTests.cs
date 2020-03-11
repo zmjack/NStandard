@@ -7,8 +7,11 @@ namespace NStandard.Test
         [Fact]
         public void Test1()
         {
-            Assert.Equal(416, Dynamic.OpAddChecked(400, 16));
-            Assert.True(Dynamic.OpGreaterThan(400, 16));
+            static T AddChecked<T>(T left, T right) where T : unmanaged
+            {
+                return Dynamic.OpAddChecked(left, right);
+            }
+            Assert.Equal(416, AddChecked(400, 16));
         }
 
     }

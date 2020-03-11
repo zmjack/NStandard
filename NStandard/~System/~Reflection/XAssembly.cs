@@ -36,7 +36,7 @@ namespace NStandard
         {
             return @this.GetTypes()
                 .Where(type => type.Assembly.FullName == @this.FullName)
-                .Where(type => type.IsMarkedAs(attribute))
+                .Where(type => type.HasAttribute(attribute))
                 .ToArray();
         }
 

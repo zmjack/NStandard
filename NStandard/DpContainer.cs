@@ -4,7 +4,7 @@ namespace NStandard
 {
     public abstract class DpContainer<TIn, TOut> : Dictionary<TIn, TOut>
     {
-        public abstract TOut StateTransfer(TIn x);
+        public abstract TOut StateTransfer(TIn param);
 
         public new TOut this[TIn key]
         {
