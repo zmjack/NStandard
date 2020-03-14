@@ -114,14 +114,13 @@ namespace NStandard.Test
         [Fact]
         public void ProjectToArrayTest1()
         {
-            var result = "ABC".ProjectToArray(new Regex(@"^$"));
-            Assert.Null(result);
+            Assert.Throws<ArgumentNullException>(() => "ABC".Resolve(new Regex(@"^$")));
         }
 
         [Fact]
         public void ProjectToArrayTest2()
         {
-            var result = "A|1|11|B|2|22".ProjectToArray(new Regex(@"(?:(?:^|\|)(.+?\|.+?\|.+?)(?=\||$))*"));
+            var result = "A|1|11|B|2|22".Resolve(new Regex(@"(?:(?:^|\|)(.+?\|.+?\|.+?)(?=\||$))*"));
             Assert.Equal(new string[][]
             {
                 new [] { "A|1|11|B|2|22" },
@@ -135,7 +134,7 @@ namespace NStandard.Test
             var declRegex = new Regex(@"(.+)? (.+?)\((?:(?:\[In\] )?(.+?) (.+?)(?:, |(?=\))))*\);");
 
             {
-                var result = "void F(short a, [In] int b);".ProjectToArray(declRegex);
+                var result = "void F(short a, [In] int b);".Resolve(declRegex);
                 Assert.Equal(new string[][]
                 {
                     new[] { "void F(short a, [In] int b);" },
@@ -147,7 +146,7 @@ namespace NStandard.Test
             }
 
             {
-                var result = "void F();".ProjectToArray(declRegex);
+                var result = "void F();".Resolve(declRegex);
                 Assert.Equal(new string[][]
                 {
                     new[] { "void F();" },

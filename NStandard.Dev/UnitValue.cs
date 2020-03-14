@@ -29,7 +29,7 @@ namespace NStandard
 
         public static UnitValue<TValue> operator *(UnitValue<TValue> left, UnitValue<TValue> right)
         {
-            var units = left.Unit.ProjectToArray(new Regex(@"^((?:\*|/)?\w+)*$"));
+            var units = left.Unit.Resolve(new Regex(@"^((?:\*|/)?\w+)*$"));
             throw new NotImplementedException();
 
             //var units = EnumerableEx.Concat(left.Units.Select(x =>))

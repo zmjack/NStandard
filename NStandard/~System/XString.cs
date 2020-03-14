@@ -272,19 +272,20 @@ namespace NStandard
         }
 
         /// <summary>
-        /// Projects the specified string to a new string by using regular expressions.
-        ///     If there is no match, return null.
+        /// Projects the specified string to an array by using regular expressions.
         /// </summary>
         /// <param name="this"></param>
         /// <param name="regex"></param>
         /// <returns></returns>
-        public static string[][] ProjectToArray(this string @this, Regex regex)
+        public static string[][] Resolve(this string @this, Regex regex)
         {
             var match = regex.Match(@this);
             if (match.Success)
+            {
                 return match.Groups.OfType<Group>()
                     .Select(g => g.Captures.OfType<Capture>().Select(c => c.Value).ToArray()).ToArray();
-            else return null;
+            }
+            else throw new ArgumentNullException("Can not match the sepecifed Regex.");
         }
 
         /// <summary>
