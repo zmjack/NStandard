@@ -11,9 +11,14 @@ namespace NStandard.Test
         [Fact]
         public void Test1()
         {
-            var cache = new Cache<DateTime>(() => DateTime.Now, TimeSpan.FromSeconds(1));
+            var cache = new Cache<DateTime>
+            {
+                CacheMethod = () => DateTime.Now,
+                UpdateExpirationMethod = cacheTime => cacheTime.Add(TimeSpan.FromSeconds(1)),
+            };
+
             var updateCount = 0;
-            cache.OnCacheUpdate += (cacheTime, value) => updateCount += 1;
+            cache.OnCacheUpdated += (cacheTime, value) => updateCount += 1;
 
             var result = Concurrency.Run(id =>
             {

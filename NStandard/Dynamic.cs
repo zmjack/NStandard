@@ -29,38 +29,47 @@ namespace NStandard
             [nameof(OpGreaterThanOrEqual)] = NewOpFunc(Expression.GreaterThanOrEqual, typeof(bool)),
         };
 
-        private static CacheContainer<Type, Delegate> NewOpFunc(BinaryDelegate @delegate, Type retType = null)
+        private static CacheContainer<Type, Delegate> NewOpFunc(BinaryDelegate @delegate)
         {
-            var container = new CacheContainer<Type, Delegate>(operandType => new CacheDelegate<Delegate>(() =>
+            CacheDelegate<Delegate> cacheMethod(Type operandType)
             {
-                retType ??= operandType;
-
-                var const_delegate = Expression.Constant(@delegate);
-                var method = GetOpMethod(operandType, operandType, retType);
-                var exp = Expression.Call(method, const_delegate);
-
-                switch (operandType)
+                return new CacheDelegate<Delegate>(() =>
                 {
-                    case Type type when type == typeof(sbyte): return Expression.Lambda<Func<Func<sbyte, sbyte, sbyte>>>(exp).Compile()();
-                    case Type type when type == typeof(byte): return Expression.Lambda<Func<Func<byte, byte, byte>>>(exp).Compile()();
-                    case Type type when type == typeof(short): return Expression.Lambda<Func<Func<short, short, short>>>(exp).Compile()();
-                    case Type type when type == typeof(ushort): return Expression.Lambda<Func<Func<ushort, ushort, ushort>>>(exp).Compile()();
-                    case Type type when type == typeof(int): return Expression.Lambda<Func<Func<int, int, int>>>(exp).Compile()();
-                    case Type type when type == typeof(uint): return Expression.Lambda<Func<Func<uint, uint, uint>>>(exp).Compile()();
-                    case Type type when type == typeof(long): return Expression.Lambda<Func<Func<long, long, long>>>(exp).Compile()();
-                    case Type type when type == typeof(ulong): return Expression.Lambda<Func<Func<ulong, ulong, ulong>>>(exp).Compile()();
-                    case Type type when type == typeof(char): return Expression.Lambda<Func<Func<char, char, char>>>(exp).Compile()();
-                    case Type type when type == typeof(float): return Expression.Lambda<Func<Func<float, float, float>>>(exp).Compile()();
-                    case Type type when type == typeof(double): return Expression.Lambda<Func<Func<double, double, double>>>(exp).Compile()();
-                    case Type type when type == typeof(decimal): return Expression.Lambda<Func<Func<decimal, decimal, decimal>>>(exp).Compile()();
-                    default:
-                        var lambdaGenericType = typeof(Func<>).MakeGenericType(typeof(Func<,,>).MakeGenericType(operandType, operandType, retType));
-                        var lambdaMethod = typeof(Expression)
-                            .GetMethodViaQualifiedName("System.Linq.Expressions.Expression`1[TDelegate] Lambda[TDelegate](System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])")
-                            .MakeGenericMethod(lambdaGenericType);
-                        return (lambdaMethod.Invoke(null, new object[] { exp, new ParameterExpression[0] }) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
-                };
-            }));
+                    var const_delegate = Expression.Constant(@delegate);
+                    var method = GetOpMethod(operandType, operandType, operandType);
+                    var exp = Expression.Call(method, const_delegate);
+
+                    // Expression.Lambda<Func<Func<operandType, operandType, operandType>>>(exp).Compile()()
+                    var lambdaGenericType = typeof(Func<>).MakeGenericType(typeof(Func<,,>).MakeGenericType(operandType, operandType, operandType));
+                    var lambdaMethod = typeof(Expression)
+                        .GetMethodViaQualifiedName("System.Linq.Expressions.Expression`1[TDelegate] Lambda[TDelegate](System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])")
+                        .MakeGenericMethod(lambdaGenericType);
+                    return (lambdaMethod.Invoke(null, new object[] { exp, new ParameterExpression[0] }) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
+                });
+            }
+            var container = new CacheContainer<Type, Delegate> { CacheMethod = cacheMethod };
+            return container;
+        }
+
+        private static CacheContainer<Type, Delegate> NewOpFunc(BinaryDelegate @delegate, Type retType)
+        {
+            CacheDelegate<Delegate> cacheMethod(Type operandType)
+            {
+                return new CacheDelegate<Delegate>(() =>
+                {
+                    var const_delegate = Expression.Constant(@delegate);
+                    var method = GetOpMethod(operandType, operandType, retType);
+                    var exp = Expression.Call(method, const_delegate);
+
+                    // Expression.Lambda<Func<Func<operandType, operandType, retType>>>(exp).Compile()()
+                    var lambdaGenericType = typeof(Func<>).MakeGenericType(typeof(Func<,,>).MakeGenericType(operandType, operandType, retType));
+                    var lambdaMethod = typeof(Expression)
+                        .GetMethodViaQualifiedName("System.Linq.Expressions.Expression`1[TDelegate] Lambda[TDelegate](System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])")
+                        .MakeGenericMethod(lambdaGenericType);
+                    return (lambdaMethod.Invoke(null, new object[] { exp, new ParameterExpression[0] }) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
+                });
+            }
+            var container = new CacheContainer<Type, Delegate> { CacheMethod = cacheMethod };
             return container;
         }
 
@@ -77,9 +86,9 @@ namespace NStandard
             return lambda.Compile();
         }
 
-        public static TRet OpAdd<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpAdd)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
-        public static TRet OpAddChecked<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpAddChecked)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
-        public static TRet OpSubtract<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpSubtract)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
+        public static TOperand OpAdd<TOperand>(TOperand left, TOperand right) => (OpContainers[nameof(OpAdd)][typeof(TOperand)].Value as Func<TOperand, TOperand, TOperand>)(left, right);
+        public static TOperand OpAddChecked<TOperand>(TOperand left, TOperand right) => (OpContainers[nameof(OpAddChecked)][typeof(TOperand)].Value as Func<TOperand, TOperand, TOperand>)(left, right);
+        public static TOperand OpSubtract<TOperand>(TOperand left, TOperand right) => (OpContainers[nameof(OpSubtract)][typeof(TOperand)].Value as Func<TOperand, TOperand, TOperand>)(left, right);
         public static TRet OpSubtractChecked<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpSubtractChecked)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
         public static TRet OpMultiply<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpMultiply)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
         public static TRet OpMultiplyChecked<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpMultiplyChecked)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);

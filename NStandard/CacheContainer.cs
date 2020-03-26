@@ -7,26 +7,8 @@ namespace NStandard
 {
     public class CacheContainer<TKey, TValue> : Dictionary<TKey, Cache<TValue>>
     {
-        private readonly Func<TKey, CacheDelegate<TValue>> Cache;
-        protected UpdateCacheExpirationDelegate UpdateCacheExpiration;
-
-        public CacheContainer(Func<TKey, CacheDelegate<TValue>> cache)
-        {
-            Cache = cache;
-            UpdateCacheExpiration = x => DateTime.MaxValue;
-        }
-
-        public CacheContainer(Func<TKey, CacheDelegate<TValue>> cache, TimeSpan slidingExpiration)
-        {
-            Cache = cache;
-            UpdateCacheExpiration = x => x.Add(slidingExpiration);
-        }
-
-        public CacheContainer(Func<TKey, CacheDelegate<TValue>> cache, UpdateCacheExpirationDelegate updateCacheExpiration)
-        {
-            Cache = cache;
-            UpdateCacheExpiration = updateCacheExpiration;
-        }
+        public Func<TKey, CacheDelegate<TValue>> CacheMethod;
+        public UpdateCacheExpirationDelegate UpdateExpirationMethod;
 
         public new Cache<TValue> this[TKey key]
         {
@@ -34,7 +16,13 @@ namespace NStandard
             get
             {
                 if (!ContainsKey(key))
-                    base[key] = new Cache<TValue>(Cache(key), UpdateCacheExpiration);
+                {
+                    base[key] = new Cache<TValue>
+                    {
+                        CacheMethod = CacheMethod?.Invoke(key),
+                        UpdateExpirationMethod = UpdateExpirationMethod,
+                    };
+                }
                 return base[key];
             }
         }

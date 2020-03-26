@@ -6,9 +6,11 @@ namespace NStandard
 {
     public class Cache<T>
     {
-        protected CacheDelegate<T> CacheValue;
-        protected UpdateCacheExpirationDelegate UpdateCacheExpiration;
-        public event CacheUpdateEventDelegate<T> OnCacheUpdate;
+        public static UpdateCacheExpirationDelegate DefaultUpdateExpirationMethod = x => DateTime.MaxValue;
+
+        public CacheDelegate<T> CacheMethod;
+        public UpdateCacheExpirationDelegate UpdateExpirationMethod;
+        public event CacheUpdateEventDelegate<T> OnCacheUpdated;
 
         public DateTime CacheTime { get; protected set; }
         public DateTime Expiration { get; protected set; }
@@ -26,31 +28,15 @@ namespace NStandard
             }
         }
 
-        public Cache(CacheDelegate<T> cacheDelegate)
-        {
-            CacheValue = cacheDelegate;
-            UpdateCacheExpiration = x => DateTime.MaxValue;
-        }
-
-        public Cache(CacheDelegate<T> cacheDelegate, TimeSpan slidingExpiration)
-        {
-            CacheValue = cacheDelegate;
-            UpdateCacheExpiration = x => x.Add(slidingExpiration);
-        }
-
-        public Cache(CacheDelegate<T> cache, UpdateCacheExpirationDelegate updateCacheExpiration)
-        {
-            CacheValue = cache;
-            UpdateCacheExpiration = updateCacheExpiration;
-        }
-
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void Update()
         {
+            if (CacheMethod == null) throw new InvalidOperationException("No cache method is set.");
+
             CacheTime = DateTime.Now;
-            Expiration = UpdateCacheExpiration(CacheTime);
-            _Value = CacheValue();
-            OnCacheUpdate?.Invoke(CacheTime, _Value);
+            Expiration = (UpdateExpirationMethod ?? DefaultUpdateExpirationMethod)(CacheTime);
+            _Value = CacheMethod();
+            OnCacheUpdated?.Invoke(CacheTime, _Value);
         }
     }
 
