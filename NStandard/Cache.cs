@@ -38,6 +38,7 @@ namespace NStandard
             _Value = CacheMethod();
             OnCacheUpdated?.Invoke(CacheTime, _Value);
         }
+
     }
 
 }

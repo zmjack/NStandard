@@ -27,5 +27,12 @@ namespace NStandard
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void UpdateAll()
+        {
+            foreach (var key in Keys)
+                base[key].Update();
+        }
+
     }
 }
