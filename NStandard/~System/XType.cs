@@ -77,9 +77,9 @@ namespace NStandard
         public static bool IsType<TType>(this Type @this) => IsType(@this, typeof(TType));
         public static bool IsType(this Type @this, Type type)
         {
-            if (type.IsGenericType)
-                return @this.FullName.StartsWith(type.FullName);
-            else return @this.FullName == type.FullName;
+            if (type.IsGenericTypeDefinition)
+                return @this.IsGenericType && @this.GetGenericTypeDefinition() == type;
+            else return @this == type;
         }
 
         public static bool IsBasicType(this Type @this, bool includeNullable = false)

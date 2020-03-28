@@ -12,6 +12,14 @@ namespace NStandard.Test
         private class ClassC : ClassB { }
 
         [Fact]
+        public void IsTypeTest()
+        {
+            Assert.True(typeof(ClassA<long>).IsType(typeof(ClassA<>)));
+            Assert.True(typeof(ClassA<long>).IsType(typeof(ClassA<long>)));
+            Assert.False(typeof(ClassA<long>).IsType(typeof(ClassA<int>)));
+        }
+
+        [Fact]
         public void IsImplementTest()
         {
             Assert.True(typeof(ClassC).IsImplement<InterfaceA<int>>());
