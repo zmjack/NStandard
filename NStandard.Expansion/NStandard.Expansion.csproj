@@ -13,7 +13,7 @@ The expansion library will have more functional support and will require more de
     <PackageTags>System Standard Extension</PackageTags>
     <Version>0.3.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageIcon>_icon.png</PackageIcon>
+    <PackageIcon>nstandard.png</PackageIcon>
     <PackageIconUrl />
     <Copyright>Copyright © dawnx.net 2020</Copyright>
   </PropertyGroup>
@@ -27,7 +27,7 @@ The expansion library will have more functional support and will require more de
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <None Include="_icon.png">
+    <None Include="..\nstandard.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

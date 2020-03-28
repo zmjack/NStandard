@@ -22,6 +22,13 @@ namespace NStandard.Test
         }
 
         [Fact]
+        public void AsInterfaceTest()
+        {
+            Assert.Equal(typeof(InterfaceA<int>), typeof(ClassB).AsInterface<InterfaceA<int>>());
+            Assert.Equal(typeof(InterfaceA<int>), typeof(ClassB).AsInterface(typeof(InterfaceA<>)));
+        }
+
+        [Fact]
         public void IsExtendTest()
         {
             Assert.False(typeof(ClassC).IsExtend<ClassA<int>>());
@@ -34,6 +41,13 @@ namespace NStandard.Test
 
             Assert.True(typeof(ClassC).IsExtend<ClassB>());
             Assert.True(typeof(ClassC).IsExtend(typeof(ClassB)));
+        }
+
+        [Fact]
+        public void AsClassTest()
+        {
+            Assert.Equal(typeof(ClassB), typeof(ClassC).AsClass<ClassB>());
+            Assert.Equal(typeof(ClassA<int>), typeof(ClassC).AsClass(typeof(ClassA<int>)));
         }
 
         [Fact]

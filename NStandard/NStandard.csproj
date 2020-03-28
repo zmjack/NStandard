@@ -7,7 +7,7 @@
     <Authors>zmjack</Authors>
     <Company>dawnx.net</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.3.11</Version>
+    <Version>0.3.12</Version>
     <Description>DotNet extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
@@ -16,7 +16,7 @@
     <Copyright>Copyright © dawnx.net 2020</Copyright>
     <LangVersion>8.0</LangVersion>
     <PackageTags>System Standard Extension</PackageTags>
-    <PackageIcon>_icon.png</PackageIcon>
+    <PackageIcon>nstandard.png</PackageIcon>
     <PackageIconUrl />
   </PropertyGroup>
 
@@ -25,7 +25,7 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <None Include="_icon.png">
+    <None Include="..\nstandard.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

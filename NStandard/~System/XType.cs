@@ -33,39 +33,39 @@ namespace NStandard
                 return $"{GetSimplifiedName(@this.GetElementType())}[]";
             else
             {
-                switch (@this)
+                return @this switch
                 {
-                    case Type _ when @this == typeof(object): return "object";
-                    case Type _ when @this == typeof(char): return "char";
-                    case Type _ when @this == typeof(bool): return "bool";
-                    case Type _ when @this == typeof(byte): return "byte";
-                    case Type _ when @this == typeof(sbyte): return "sbyte";
-                    case Type _ when @this == typeof(short): return "short";
-                    case Type _ when @this == typeof(ushort): return "ushort";
-                    case Type _ when @this == typeof(int): return "int";
-                    case Type _ when @this == typeof(uint): return "uint";
-                    case Type _ when @this == typeof(long): return "long";
-                    case Type _ when @this == typeof(ulong): return "ulong";
-                    case Type _ when @this == typeof(float): return "float";
-                    case Type _ when @this == typeof(double): return "double";
-                    case Type _ when @this == typeof(decimal): return "decimal";
-                    case Type _ when @this == typeof(string): return "string";
+                    Type _ when @this == typeof(object) => "object",
+                    Type _ when @this == typeof(char) => "char",
+                    Type _ when @this == typeof(bool) => "bool",
+                    Type _ when @this == typeof(byte) => "byte",
+                    Type _ when @this == typeof(sbyte) => "sbyte",
+                    Type _ when @this == typeof(short) => "short",
+                    Type _ when @this == typeof(ushort) => "ushort",
+                    Type _ when @this == typeof(int) => "int",
+                    Type _ when @this == typeof(uint) => "uint",
+                    Type _ when @this == typeof(long) => "long",
+                    Type _ when @this == typeof(ulong) => "ulong",
+                    Type _ when @this == typeof(float) => "float",
+                    Type _ when @this == typeof(double) => "double",
+                    Type _ when @this == typeof(decimal) => "decimal",
+                    Type _ when @this == typeof(string) => "string",
 
-                    case Type _ when @this == typeof(char?): return "char?";
-                    case Type _ when @this == typeof(bool?): return "bool?";
-                    case Type _ when @this == typeof(byte?): return "byte?";
-                    case Type _ when @this == typeof(sbyte?): return "sbyte?";
-                    case Type _ when @this == typeof(short?): return "short?";
-                    case Type _ when @this == typeof(ushort?): return "ushort?";
-                    case Type _ when @this == typeof(int?): return "int?";
-                    case Type _ when @this == typeof(uint?): return "uint?";
-                    case Type _ when @this == typeof(long?): return "long?";
-                    case Type _ when @this == typeof(ulong?): return "ulong?";
-                    case Type _ when @this == typeof(float?): return "float?";
-                    case Type _ when @this == typeof(double?): return "double?";
-                    case Type _ when @this == typeof(decimal?): return "decimal?";
-                    default: return @this.Name;
-                }
+                    Type _ when @this == typeof(char?) => "char?",
+                    Type _ when @this == typeof(bool?) => "bool?",
+                    Type _ when @this == typeof(byte?) => "byte?",
+                    Type _ when @this == typeof(sbyte?) => "sbyte?",
+                    Type _ when @this == typeof(short?) => "short?",
+                    Type _ when @this == typeof(ushort?) => "ushort?",
+                    Type _ when @this == typeof(int?) => "int?",
+                    Type _ when @this == typeof(uint?) => "uint?",
+                    Type _ when @this == typeof(long?) => "long?",
+                    Type _ when @this == typeof(ulong?) => "ulong?",
+                    Type _ when @this == typeof(float?) => "float?",
+                    Type _ when @this == typeof(double?) => "double?",
+                    Type _ when @this == typeof(decimal?) => "decimal?",
+                    _ => @this.Name,
+                };
             }
         }
 
@@ -175,29 +175,74 @@ namespace NStandard
         }
         public static bool IsImplement(this Type @this, Type @interface)
         {
-            if (@interface.IsGenericType)
-                return @this.GetInterfaces().Any(x => x.FullName.StartsWith(@interface.FullName));
-            else return @this.GetInterfaces().Any(x => x.FullName == @interface.FullName);
+            // Similar to AsInterface Method.
+            if (@interface.IsGenericTypeDefinition)
+                return @this.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == @interface);
+            else return @this.GetInterfaces().Any(x => x == @interface);
         }
 
-        public static bool IsExtend<TExtendType>(this Type @this, bool recursiveSearch = false)
+        public static Type AsInterface<TInterface>(this Type @this)
+            where TInterface : class
         {
-            return IsExtend(@this, typeof(TExtendType), recursiveSearch);
+            return AsInterface(@this, typeof(TInterface));
         }
-        public static bool IsExtend(this Type @this, Type extendType, bool recursiveSearch = false)
+        public static Type AsInterface(this Type @this, Type @interface)
         {
-            if (extendType.IsGenericType)
+            // Similar to IsImplement Method.
+            if (@interface.IsGenericTypeDefinition)
+                return @this.GetInterfaces().FirstOrDefault(x => x.IsGenericType && x.GetGenericTypeDefinition() == @interface);
+            else return @this.GetInterfaces().FirstOrDefault(x => x == @interface);
+        }
+
+        public static bool IsExtend<TExtendType>(this Type @this, bool indirect = false)
+        {
+            return IsExtend(@this, typeof(TExtendType), indirect);
+        }
+        public static bool IsExtend(this Type @this, Type extendType, bool indirect = false)
+        {
+            // Similar to AsClass Method.
+            var baseType = @this.BaseType;
+            if (baseType != null)
             {
-                if (recursiveSearch)
-                    return RecursiveSearchExtends(@this.BaseType, extendType, true);
-                else return @this.BaseType?.FullName.StartsWith(extendType.FullName) ?? false;
+                if (extendType.IsGenericTypeDefinition)
+                {
+                    if (baseType.IsGenericType)
+                    {
+                        if (baseType.GetGenericTypeDefinition() == extendType) return true;
+                    }
+                    else if (baseType == extendType) return true;
+                }
+                else if (baseType == extendType) return true;
+
+                return indirect ? IsExtend(baseType, extendType, indirect) : false;
             }
-            else
+            else return false;
+        }
+
+        public static Type AsClass<TInterface>(this Type @this)
+            where TInterface : class
+        {
+            return AsClass(@this, typeof(TInterface));
+        }
+        public static Type AsClass(this Type @this, Type extendType)
+        {
+            // Similar to IsExtend Method.
+            var baseType = @this.BaseType;
+            if (baseType != null)
             {
-                if (recursiveSearch)
-                    return RecursiveSearchExtends(@this.BaseType, extendType, false);
-                else return @this.BaseType?.FullName == extendType.FullName;
+                if (extendType.IsGenericTypeDefinition)
+                {
+                    if (baseType.IsGenericType)
+                    {
+                        if (baseType.GetGenericTypeDefinition() == extendType) return baseType;
+                    }
+                    else if (baseType == extendType) return baseType;
+                }
+                else if (baseType == extendType) return baseType;
+
+                return AsClass(baseType, extendType);
             }
+            else return null;
         }
 
         public static bool IsNullable(this Type @this)
