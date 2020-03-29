@@ -15,6 +15,7 @@
     <RepositoryType>git</RepositoryType>
     <Copyright>Copyright © dawnx.net 2020</Copyright>
     <LangVersion>8.0</LangVersion>
+    <PackageId>NStandard</PackageId>
     <PackageTags>System Standard Extension</PackageTags>
     <PackageIcon>nstandard.png</PackageIcon>
     <PackageIconUrl />
