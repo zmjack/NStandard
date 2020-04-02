@@ -34,6 +34,7 @@ namespace NStandard.Test
             var o2 = new Operand(16);
             var result = AddChecked(o1, o2);
 
+            Assert.Equal(416, (o1 + o2).Value);
             Assert.Equal(416, result.Value);
         }
 
