@@ -21,9 +21,16 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void Test2()
+        public void Base58Test()
         {
-            var ndt = ConvertEx.ChangeType("2019/12/11 8:58:57", typeof(string));
+            Assert.Equal(256, typeof(ConvertEx).GetTypeReflector().DeclaredField<int[]>("Base58Map").GetValue(null).Length);
+
+            Assert.Equal("zpsEBKbce3iT", ConvertEx.ToBase58String("NStandard".Bytes()));
+            Assert.Equal("NStandard", ConvertEx.FromBase58String("zpsEBKbce3iT").String());
+
+            Assert.Equal("111zpsEBKbce3iT", ConvertEx.ToBase58String("\0\0\0NStandard".Bytes()));
+            Assert.Equal("\0\0\0NStandard", ConvertEx.FromBase58String("111zpsEBKbce3iT").String());
         }
+
     }
 }
