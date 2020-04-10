@@ -18,5 +18,20 @@ namespace NStandard
             return @this.GetCustomAttributes(attribute, inherit).Any();
         }
 
+        public static Attribute[] GetAttributesViaName(this ICustomAttributeProvider @this, string fullName, bool inherit = true)
+        {
+            return @this.GetCustomAttributes(inherit).Where(x => x.GetType().FullName == fullName).OfType<Attribute>().ToArray();
+        }
+
+        public static Attribute GetAttributeViaName(this ICustomAttributeProvider @this, string fullName, bool inherit = true)
+        {
+            return @this.GetCustomAttributes(inherit).Where(x => x.GetType().FullName == fullName).FirstOrDefault() as Attribute;
+        }
+
+        public static bool HasAttributeViaName(this ICustomAttributeProvider @this, string fullName, bool inherit = true)
+        {
+            return @this.GetCustomAttributes(inherit).Where(x => x.GetType().FullName == fullName).Any();
+        }
+
     }
 }
