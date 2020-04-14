@@ -12,11 +12,11 @@ namespace NStandard
         {
             return op switch
             {
-                "+" => (left, right) => left + right,
-                "-" => (left, right) => left - right,
                 "*" => (left, right) => left * right,
                 "/" => (left, right) => left / right,
                 "%" => (left, right) => left % right,
+                "+" => (left, right) => left + right,
+                "-" => (left, right) => left - right,
                 _ => throw new NotSupportedException(),
             };
         }
