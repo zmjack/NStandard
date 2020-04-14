@@ -33,9 +33,9 @@ namespace NStandard
 
         public TOperand Eval(IEnumerable<TOperator> operators, IEnumerable<TOperand> operands)
         {
-            if (operators.Count() != operands.Count()) throw new ArgumentException($"The count of `{nameof(operands)}` and `{nameof(operators)}` must be same.");
+            if (operators.Count() != operands.Count() - 1) throw new ArgumentException($"The count of `{nameof(operators)}` must be 1 less than `{nameof(operands)}`.");
 
-            foreach (var pair in Zipper.Create(operators, operands))
+            foreach (var pair in Zipper.Create(new[] { default(TOperator) }.Concat(operators), operands))
             {
                 var op = pair.Item1;
                 var operand = pair.Item2;

@@ -37,7 +37,7 @@ namespace NStandard
         public double Eval(string exp)
         {
             var parts = exp.Resolve(new Regex(@"^\s*(?:(^|\+|\-|\*|/|%)\s*(\d+|\d+.\d+)\s*)+\s*$"));
-            var operators = parts[1].Select(s => s.IsNullOrEmpty() ? default : s);
+            var operators = parts[1].Skip(1);
             var operands = parts[2].Select(s => double.Parse(s));
 
             return Eval(operators, operands);
