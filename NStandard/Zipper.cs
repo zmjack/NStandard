@@ -170,7 +170,7 @@ namespace NStandard
         #endregion
 
         #region Has selector
-        public static IEnumerable<TRet> Create<T1, T2, TRet>(
+        public static IEnumerable<TRet> Select<T1, T2, TRet>(
             IEnumerable<T1> arg1,
             IEnumerable<T2> arg2,
             Func<T1, T2, TRet> resultSelector)
@@ -188,7 +188,7 @@ namespace NStandard
             }
         }
 
-        public static IEnumerable<TRet> Create<T1, T2, T3, TRet>(
+        public static IEnumerable<TRet> Select<T1, T2, T3, TRet>(
             IEnumerable<T1> arg1,
             IEnumerable<T2> arg2,
             IEnumerable<T3> arg3,
@@ -210,7 +210,7 @@ namespace NStandard
             }
         }
 
-        public static IEnumerable<TRet> Create<T1, T2, T3, T4, TRet>(
+        public static IEnumerable<TRet> Select<T1, T2, T3, T4, TRet>(
             IEnumerable<T1> arg1,
             IEnumerable<T2> arg2,
             IEnumerable<T3> arg3,
@@ -237,7 +237,7 @@ namespace NStandard
         }
 
 #if !NET35
-        public static IEnumerable<TRet> Create<T1, T2, T3, T4, T5, TRet>(
+        public static IEnumerable<TRet> Select<T1, T2, T3, T4, T5, TRet>(
             IEnumerable<T1> arg1,
             IEnumerable<T2> arg2,
             IEnumerable<T3> arg3,
@@ -267,7 +267,7 @@ namespace NStandard
             }
         }
 
-        public static IEnumerable<TRet> Create<T1, T2, T3, T4, T5, T6, TRet>(
+        public static IEnumerable<TRet> Select<T1, T2, T3, T4, T5, T6, TRet>(
             IEnumerable<T1> arg1,
             IEnumerable<T2> arg2,
             IEnumerable<T3> arg3,
@@ -301,7 +301,7 @@ namespace NStandard
             }
         }
 
-        public static IEnumerable<TRet> Create<T1, T2, T3, T4, T5, T6, T7, TRet>(
+        public static IEnumerable<TRet> Select<T1, T2, T3, T4, T5, T6, T7, TRet>(
             IEnumerable<T1> arg1,
             IEnumerable<T2> arg2,
             IEnumerable<T3> arg3,

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace NStandard
 {
@@ -27,46 +28,45 @@ namespace NStandard
 
         public static string GetSimplifiedName(this Type @this)
         {
-            var isArray = @this.IsArray;
-
-            if (isArray)
-                return $"{GetSimplifiedName(@this.GetElementType())}[]";
-            else
+            switch (@this)
             {
-                return @this switch
-                {
-                    Type _ when @this == typeof(object) => "object",
-                    Type _ when @this == typeof(char) => "char",
-                    Type _ when @this == typeof(bool) => "bool",
-                    Type _ when @this == typeof(byte) => "byte",
-                    Type _ when @this == typeof(sbyte) => "sbyte",
-                    Type _ when @this == typeof(short) => "short",
-                    Type _ when @this == typeof(ushort) => "ushort",
-                    Type _ when @this == typeof(int) => "int",
-                    Type _ when @this == typeof(uint) => "uint",
-                    Type _ when @this == typeof(long) => "long",
-                    Type _ when @this == typeof(ulong) => "ulong",
-                    Type _ when @this == typeof(float) => "float",
-                    Type _ when @this == typeof(double) => "double",
-                    Type _ when @this == typeof(decimal) => "decimal",
-                    Type _ when @this == typeof(string) => "string",
+                case Type _ when @this == typeof(object): return "object";
+                case Type _ when @this == typeof(char): return "char";
+                case Type _ when @this == typeof(bool): return "bool";
+                case Type _ when @this == typeof(byte): return "byte";
+                case Type _ when @this == typeof(sbyte): return "sbyte";
+                case Type _ when @this == typeof(short): return "short";
+                case Type _ when @this == typeof(ushort): return "ushort";
+                case Type _ when @this == typeof(int): return "int";
+                case Type _ when @this == typeof(uint): return "uint";
+                case Type _ when @this == typeof(long): return "long";
+                case Type _ when @this == typeof(ulong): return "ulong";
+                case Type _ when @this == typeof(float): return "float";
+                case Type _ when @this == typeof(double): return "double";
+                case Type _ when @this == typeof(decimal): return "decimal";
+                case Type _ when @this == typeof(string): return "string";
 
-                    Type _ when @this == typeof(char?) => "char?",
-                    Type _ when @this == typeof(bool?) => "bool?",
-                    Type _ when @this == typeof(byte?) => "byte?",
-                    Type _ when @this == typeof(sbyte?) => "sbyte?",
-                    Type _ when @this == typeof(short?) => "short?",
-                    Type _ when @this == typeof(ushort?) => "ushort?",
-                    Type _ when @this == typeof(int?) => "int?",
-                    Type _ when @this == typeof(uint?) => "uint?",
-                    Type _ when @this == typeof(long?) => "long?",
-                    Type _ when @this == typeof(ulong?) => "ulong?",
-                    Type _ when @this == typeof(float?) => "float?",
-                    Type _ when @this == typeof(double?) => "double?",
-                    Type _ when @this == typeof(decimal?) => "decimal?",
-                    _ => @this.Name,
-                };
-            }
+                case Type _ when @this == typeof(char?): return "char?";
+                case Type _ when @this == typeof(bool?): return "bool?";
+                case Type _ when @this == typeof(byte?): return "byte?";
+                case Type _ when @this == typeof(sbyte?): return "sbyte?";
+                case Type _ when @this == typeof(short?): return "short?";
+                case Type _ when @this == typeof(ushort?): return "ushort?";
+                case Type _ when @this == typeof(int?): return "int?";
+                case Type _ when @this == typeof(uint?): return "uint?";
+                case Type _ when @this == typeof(long?): return "long?";
+                case Type _ when @this == typeof(ulong?): return "ulong?";
+                case Type _ when @this == typeof(float?): return "float?";
+                case Type _ when @this == typeof(double?): return "double?";
+                case Type _ when @this == typeof(decimal?): return "decimal?";
+
+                default:
+                    if (@this.IsArray) return $"{GetSimplifiedName(@this.GetElementType())}[]";
+                    else if (@this.IsNullable()) return $"{GetSimplifiedName(@this.GetGenericArguments()[0])}?";
+                    else if (@this.IsGenericTypeDefinition) return $"{@this.Name}<>";
+                    else if (@this.IsGenericType) return $"{@this.Name.Project(new Regex(@"^([^`]+)`"))}<{@this.GetGenericArguments().Select(x => GetSimplifiedName(x)).Join(", ")}>";
+                    else return @this.Name;
+            };
         }
 
         public static bool IsAnonymousType(this Type @this)

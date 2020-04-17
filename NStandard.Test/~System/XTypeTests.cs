@@ -1,15 +1,25 @@
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace NStandard.Test
 {
     public class XTypeTests
     {
-        private interface InterfaceA<T> { }
-        private interface InterfaceB { }
-        private class ClassA<T> : InterfaceA<T> { }
-        private class ClassB : ClassA<int>, InterfaceB { }
+        private interface IInterfaceA<T> { }
+        private interface IInterfaceB { }
+        private class ClassA<T> : IInterfaceA<T> { }
+        private class ClassB : ClassA<int>, IInterfaceB { }
         private class ClassC : ClassB { }
+        private struct StructA { }
+
+        [Fact]
+        public void SimplifiedNameTest()
+        {
+            Assert.Equal("StructA?", typeof(StructA?).GetSimplifiedName());
+            Assert.Equal("List<List<int>>", typeof(List<List<int>>).GetSimplifiedName());
+            Assert.Equal("KeyValuePair<string, KeyValuePair<string, List<int>>>", typeof(KeyValuePair<string, KeyValuePair<string, List<int>>>).GetSimplifiedName());
+        }
 
         [Fact]
         public void IsTypeTest()
@@ -22,18 +32,18 @@ namespace NStandard.Test
         [Fact]
         public void IsImplementTest()
         {
-            Assert.True(typeof(ClassC).IsImplement<InterfaceA<int>>());
-            Assert.True(typeof(ClassC).IsImplement(typeof(InterfaceA<int>)));
-            Assert.True(typeof(ClassC).IsImplement(typeof(InterfaceA<>)));
+            Assert.True(typeof(ClassC).IsImplement<IInterfaceA<int>>());
+            Assert.True(typeof(ClassC).IsImplement(typeof(IInterfaceA<int>)));
+            Assert.True(typeof(ClassC).IsImplement(typeof(IInterfaceA<>)));
 
-            Assert.True(typeof(ClassC).IsImplement<InterfaceB>());
+            Assert.True(typeof(ClassC).IsImplement<IInterfaceB>());
         }
 
         [Fact]
         public void AsInterfaceTest()
         {
-            Assert.Equal(typeof(InterfaceA<int>), typeof(ClassB).AsInterface<InterfaceA<int>>());
-            Assert.Equal(typeof(InterfaceA<int>), typeof(ClassB).AsInterface(typeof(InterfaceA<>)));
+            Assert.Equal(typeof(IInterfaceA<int>), typeof(ClassB).AsInterface<IInterfaceA<int>>());
+            Assert.Equal(typeof(IInterfaceA<int>), typeof(ClassB).AsInterface(typeof(IInterfaceA<>)));
         }
 
         [Fact]
