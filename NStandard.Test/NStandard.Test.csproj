@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NStandard.Dev\[NoRelease] NStandard.Dev.csproj" />
-    <ProjectReference Include="..\NStandard.Expansion\NStandard.Expansion.csproj" />
+    <ProjectReference Include="..\NStandard.EncodingEx\NStandard.EncodingEx.csproj" />
     <ProjectReference Include="..\NStandard\NStandard.csproj" />
   </ItemGroup>
 

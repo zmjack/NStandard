@@ -14,7 +14,6 @@ The expansion library will have more functional support and will require more de
     <Version>0.3.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>nstandard.png</PackageIcon>
-    <PackageIconUrl />
     <Copyright>Copyright © dawnx.net 2020</Copyright>
   </PropertyGroup>
 
