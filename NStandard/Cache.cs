@@ -8,7 +8,7 @@ namespace NStandard
     {
         public static UpdateCacheExpirationDelegate DefaultUpdateExpirationMethod = x => DateTime.MaxValue;
 
-        public CacheDelegate<T> CacheMethod;
+        public Func<T> CacheMethod;
         public UpdateCacheExpirationDelegate UpdateExpirationMethod;
         public event CacheUpdateEventDelegate<T> OnCacheUpdated;
 

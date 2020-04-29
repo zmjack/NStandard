@@ -25,7 +25,7 @@ namespace NStandard
 
         public override int GetHashCode() => String.GetHashCode();
         public static bool operator ==(VString left, VString right) => left.Equals(right);
-        public static bool operator !=(VString left, VString right) => !(left == right);
+        public static bool operator !=(VString left, VString right) => !left.Equals(right);
 
         public static implicit operator string(VString operand) => operand.String;
         public static implicit operator VString(string operand) => new VString(operand);

@@ -31,9 +31,9 @@ namespace NStandard
 
         private static CacheContainer<Type, Delegate> NewOpFunc(BinaryDelegate @delegate)
         {
-            CacheDelegate<Delegate> cacheMethod(Type operandType)
+            Func<Delegate> cacheMethod(Type operandType)
             {
-                return new CacheDelegate<Delegate>(() =>
+                return () =>
                 {
                     var const_delegate = Expression.Constant(@delegate);
                     var method = GetOpMethod(operandType, operandType, operandType);
@@ -45,7 +45,7 @@ namespace NStandard
                         .GetMethodViaQualifiedName("System.Linq.Expressions.Expression`1[TDelegate] Lambda[TDelegate](System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])")
                         .MakeGenericMethod(lambdaGenericType);
                     return (lambdaMethod.Invoke(null, new object[] { exp, new ParameterExpression[0] }) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
-                });
+                };
             }
             var container = new CacheContainer<Type, Delegate> { CacheMethod = cacheMethod };
             return container;
@@ -53,9 +53,9 @@ namespace NStandard
 
         private static CacheContainer<Type, Delegate> NewOpFunc(BinaryDelegate @delegate, Type retType)
         {
-            CacheDelegate<Delegate> cacheMethod(Type operandType)
+            Func<Delegate> cacheMethod(Type operandType)
             {
-                return new CacheDelegate<Delegate>(() =>
+                return () =>
                 {
                     var const_delegate = Expression.Constant(@delegate);
                     var method = GetOpMethod(operandType, operandType, retType);
@@ -67,7 +67,7 @@ namespace NStandard
                         .GetMethodViaQualifiedName("System.Linq.Expressions.Expression`1[TDelegate] Lambda[TDelegate](System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])")
                         .MakeGenericMethod(lambdaGenericType);
                     return (lambdaMethod.Invoke(null, new object[] { exp, new ParameterExpression[0] }) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
-                });
+                };
             }
             var container = new CacheContainer<Type, Delegate> { CacheMethod = cacheMethod };
             return container;

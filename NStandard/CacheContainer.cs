@@ -7,7 +7,7 @@ namespace NStandard
 {
     public class CacheContainer<TKey, TValue> : Dictionary<TKey, Cache<TValue>>
     {
-        public Func<TKey, CacheDelegate<TValue>> CacheMethod;
+        public Func<TKey, Func<TValue>> CacheMethod;
         public UpdateCacheExpirationDelegate UpdateExpirationMethod;
 
         public new Cache<TValue> this[TKey key]
