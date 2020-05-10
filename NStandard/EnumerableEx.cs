@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NStandard
 {
@@ -10,5 +11,12 @@ namespace NStandard
                 foreach (var item in enumerable)
                     yield return item;
         }
+
+        public static IEnumerable<T> Create<T>(int count, Func<int, T> generate)
+        {
+            for (int i = 0; i < count; i++)
+                yield return generate(i);
+        }
+
     }
 }
