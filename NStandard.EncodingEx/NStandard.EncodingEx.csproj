@@ -3,15 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>NStandard</RootNamespace>
-    <Description>DotNet Core extensions for system library.
-The expansion library will have more functional support and will require more dependencies.</Description>
+    <Description>DotNet Core extensions for system library.</Description>
     <Authors>zmjack</Authors>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/zmjack/NStandard</PackageProjectUrl>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>System Standard Extension</PackageTags>
-    <Version>0.3.0</Version>
+    <Version>0.4.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>nstandard.png</PackageIcon>
     <Copyright>Copyright © dawnx.net 2020</Copyright>

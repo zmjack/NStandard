@@ -1,3 +1,3 @@
-nuget push "NStandard/bin/Release/NStandard.0.3.23.nupkg" -source nuget.org
-nuget push "NStandard.Expansion/bin/Release/NStandard.Expansion.0.3.0.nupkg" -source nuget.org
+nuget push "NStandard/bin/Release/NStandard.0.4.0.nupkg" -source nuget.org
+nuget push "NStandard.EncodingEx/bin/Release/NStandard.EncodingEx.0.4.0.nupkg" -source nuget.org
 pause
