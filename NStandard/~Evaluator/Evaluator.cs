@@ -6,7 +6,10 @@ namespace NStandard
 {
     public static class Evaluator
     {
-        public static readonly NumberEvaluator Numerical = new NumberEvaluator();
+#if !NET35
+        public static readonly NumericalEvaluator Numerical = new NumericalEvaluator();
+#endif
+        public static readonly NumericalRTEvaluator NumericalRT = new NumericalRTEvaluator();
     }
 
     public abstract class Evaluator<TOperator, TOperand> where TOperator : class

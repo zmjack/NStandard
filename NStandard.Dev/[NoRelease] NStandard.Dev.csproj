@@ -2,7 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>NStandard</RootNamespace>
+    <RootNamespace>NStandard.Dev</RootNamespace>
+    <AssemblyName>NStandard.Dev</AssemblyName>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

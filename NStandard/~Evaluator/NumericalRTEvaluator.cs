@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text.RegularExpressions;
 
 namespace NStandard
 {
-    public class NumberEvaluator : Evaluator<string, double>
+    public class NumericalRTEvaluator : Evaluator<string, double>
     {
         protected override Dictionary<string, int> OpLevels { get; } = new Dictionary<string, int>
         {
@@ -38,10 +40,19 @@ namespace NStandard
 
         public double Eval(string exp)
         {
-            //TODO: Maybe use scan to optimize it.
-            var parts = exp.Resolve(new Regex(@"^(?:\s*(|\d+|\d+.\d+)\s*(\+|-|\*|/|%|\(|\)|$))+\s*"));
+            var parts = exp.Resolve(new Regex(@"^(?:\s*(|\d+|\d+.\d+|0x[\da-fA-F]+|0[0-7]+)\s*(\+|-|\*|/|%|\(|\)|$))+\s*"));
             var operators = parts[2].Where(x => x != "").ToArray();
-            var operands = parts[1].Take(operators.Length + 1).Select(s => double.TryParse(s, out var ret) ? ret : default).ToArray();
+            var operands = parts[1].Take(operators.Length + 1).Select(s =>
+            {
+                if (s.IsNullOrWhiteSpace()) return default;
+
+                return s switch
+                {
+                    string _ when s.StartsWith("0x") => Convert.ToInt64(s, 16),
+                    string _ when s.StartsWith("0") => Convert.ToInt64(s, 8),
+                    _ => Convert.ToDouble(s),
+                };
+            }).ToArray();
             return Eval(operands, operators);
         }
     }

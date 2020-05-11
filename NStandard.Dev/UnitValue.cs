@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace NStandard
+namespace NStandard.Dev
 {
     public static class UnitValue
     {
