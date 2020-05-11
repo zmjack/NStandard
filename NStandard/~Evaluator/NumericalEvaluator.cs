@@ -6,10 +6,9 @@ using System.Linq.Expressions;
 using System.Security.AccessControl;
 using System.Text.RegularExpressions;
 
-#if !NET35
 namespace NStandard
 {
-    public class NumericalEvaluator : Evaluator<string, Expression>
+    public class NumericalEvaluator : Evaluator<Expression, string>
     {
         protected override Dictionary<string, int> OpLevels { get; } = new Dictionary<string, int>
         {
@@ -31,28 +30,35 @@ namespace NStandard
 #if NET35 || NET40 || NET45 || NET451 || NET46
         protected override Dictionary<Tuple<string, string>, Func<Expression, Expression>> BracketFunctions { get; } = new Dictionary<Tuple<string, string>, Func<Expression, Expression>>
         {
-            [Tuple.Create("(", ")")] = n => n,
+            [Tuple.Create("(", ")")] = null,
         };
 #else
         protected override Dictionary<(string Item1, string Item2), Func<Expression, Expression>> BracketFunctions { get; } = new Dictionary<(string Item1, string Item2), Func<Expression, Expression>>
         {
-            [("(", ")")] = n => n,
+            [("(", ")")] = null,
         };
 #endif
+        private readonly string[] RegexSpecialLetters = { "[", "]", "-", ".", "^", "$", "{", "}", "?", "+", "*", "|", "(", ")" };
 
-        public Expression Build(string exp, out ParameterExpression[] parameters)
+        public void Resolve(string exp, out Expression[] operands, out string[] operators, out ParameterExpression[] parameters)
         {
+            var operatorsPart = OpFunctions.Keys
+                .Concat(BracketFunctions.Keys.Select(x => x.Item1))
+                .Concat(BracketFunctions.Keys.Select(x => x.Item2))
+                .Select(x => RegexSpecialLetters.Contains(x) ? $@"\{x}" : x)
+                .Join("|");
+
             var paramList = new List<ParameterExpression>();
-            var parts = exp.Resolve(new Regex(@"^(?:\s*(|\d+|\d+.\d+|0x[\da-fA-F]+|0[0-7]+|\$\w+)\s*(\+|-|\*|/|%|\(|\)|$))+\s*"));
-            var operators = parts[2].Where(x => x != "").ToArray();
-            var operands = parts[1].Take(operators.Length + 1).Select(s =>
+            var parts = exp.Resolve(new Regex($@"^(?:\s*(|\d+|\d+.\d+|0x[\da-fA-F]+|0[0-7]+|\$\w+)\s*({operatorsPart}|$))+\s*"));
+            operators = parts[2].Where(x => x != "").ToArray();
+            operands = parts[1].Take(operators.Length + 1).Select(s =>
             {
                 if (s.IsNullOrWhiteSpace()) return default;
 
                 Expression ret;
 
-                if (s.StartsWith("0x")) ret = Expression.Constant(Convert.ToInt64(s, 16));
-                else if (s.StartsWith("0")) ret = Expression.Constant(Convert.ToInt64(s, 8));
+                if (s.StartsWith("0x")) ret = Expression.Constant((double)Convert.ToInt64(s, 16));
+                else if (s.StartsWith("0")) ret = Expression.Constant((double)Convert.ToInt64(s, 8));
                 else if (s.StartsWith("$"))
                 {
                     var param = Expression.Parameter(typeof(double), s.Substring(1));
@@ -63,9 +69,13 @@ namespace NStandard
 
                 return ret;
             }).ToArray();
-
-            var expression = Eval(operands, operators);
             parameters = paramList.ToArray();
+        }
+
+        public Expression Build(string exp, out ParameterExpression[] parameters)
+        {
+            Resolve(exp, out var operands, out var operators, out parameters);
+            var expression = Eval(operands, operators);
             return expression;
         }
 
@@ -87,4 +97,3 @@ namespace NStandard
 
     }
 }
-#endif

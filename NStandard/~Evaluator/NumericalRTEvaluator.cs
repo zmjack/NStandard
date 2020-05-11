@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace NStandard
 {
-    public class NumericalRTEvaluator : Evaluator<string, double>
+    public class NumericalRTEvaluator : Evaluator<double, string>
     {
         protected override Dictionary<string, int> OpLevels { get; } = new Dictionary<string, int>
         {
@@ -29,12 +29,12 @@ namespace NStandard
 #if NET35 || NET40 || NET45 || NET451 || NET46
         protected override Dictionary<Tuple<string, string>, Func<double, double>> BracketFunctions { get; } = new Dictionary<Tuple<string, string>, Func<double, double>>
         {
-            [Tuple.Create("(", ")")] = n => n,
+            [Tuple.Create("(", ")")] = null,
         };
 #else
         protected override Dictionary<(string Item1, string Item2), Func<double, double>> BracketFunctions { get; } = new Dictionary<(string Item1, string Item2), Func<double, double>>
         {
-            [("(", ")")] = n => n,
+            [("(", ")")] = null,
         };
 #endif
 

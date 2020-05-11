@@ -6,13 +6,11 @@ namespace NStandard
 {
     public static class Evaluator
     {
-#if !NET35
         public static readonly NumericalEvaluator Numerical = new NumericalEvaluator();
-#endif
         public static readonly NumericalRTEvaluator NumericalRT = new NumericalRTEvaluator();
     }
 
-    public abstract class Evaluator<TOperator, TOperand> where TOperator : class
+    public abstract class Evaluator<TOperand, TOperator> where TOperator : class
     {
         protected abstract Dictionary<TOperator, int> OpLevels { get; }
         protected abstract Dictionary<TOperator, Func<TOperand, TOperand, TOperand>> OpFunctions { get; }
@@ -81,9 +79,11 @@ namespace NStandard
                     result = OpFunctions[op](left, result);
                 }
 #if NET35 || NET40 || NET45 || NET451 || NET46
-                result = BracketFunctions[Tuple.Create(openBracket, closeBracket)](result);
+                var func = BracketFunctions[Tuple.Create(openBracket, closeBracket)];
+                if (func != null) result = func(result);
 #else
-                result = BracketFunctions[(openBracket, closeBracket)](result);
+                var func = BracketFunctions[(openBracket, closeBracket)];
+                if (func != null) result = func(result);
 #endif
                 operandStack.Push(result);
                 skipOperand = true;
