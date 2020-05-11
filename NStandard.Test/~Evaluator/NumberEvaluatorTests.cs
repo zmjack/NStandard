@@ -5,6 +5,15 @@ namespace NStandard.Test
     public class NumberEvaluatorTests
     {
         [Fact]
+        public void Test1()
+        {
+            var excepted = 6280752;
+            var exp = "(6280752)";
+            var actual = Evaluator.Numerical.Eval(exp);
+            Assert.Equal(excepted, actual);
+        }
+
+        [Fact]
         public void SimpleTest1()
         {
             var excepted = 3 + 5 * 8.1 - 6;

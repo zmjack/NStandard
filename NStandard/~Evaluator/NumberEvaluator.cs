@@ -39,7 +39,7 @@ namespace NStandard
         public double Eval(string exp)
         {
             //TODO: Maybe use scan to optimize it.
-            var parts = exp.Resolve(new Regex(@"^(?:\s*(|\d+|\d+.\d+)\s*(\+|\-|\*|/|%|\(|\)|$))+\s*"));
+            var parts = exp.Resolve(new Regex(@"^(?:\s*(|\d+|\d+.\d+)\s*(\+|-|\*|/|%|\(|\)|$))+\s*"));
             var operators = parts[2].Where(x => x != "").ToArray();
             var operands = parts[1].Take(operators.Length + 1).Select(s => double.TryParse(s, out var ret) ? ret : default).ToArray();
             return Eval(operands, operators);

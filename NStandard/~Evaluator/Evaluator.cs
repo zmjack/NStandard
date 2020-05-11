@@ -18,16 +18,6 @@ namespace NStandard
 #else
         protected abstract Dictionary<(TOperator Item1, TOperator Item2), Func<TOperand, TOperand>> BracketFunctions { get; }
 #endif
-        public readonly TOperator[] OpenBrackets;
-        public readonly TOperator[] CloseBrackets;
-        public readonly Dictionary<TOperator, TOperator> CloseToOpenBrackets;
-
-        public Evaluator()
-        {
-            OpenBrackets = BracketFunctions.Keys.Select(x => x.Item1).ToArray();
-            CloseBrackets = BracketFunctions.Keys.Select(x => x.Item2).ToArray();
-            CloseToOpenBrackets = BracketFunctions.Keys.ToDictionary(x => x.Item2, x => x.Item1);
-        }
 
         public bool TryEval(IEnumerable<TOperator> operators, IEnumerable<TOperand> operands, out TOperand result)
         {
@@ -49,6 +39,10 @@ namespace NStandard
 
             if (operators.Count() != operandCount - 1) throw new ArgumentException($"The count of `{nameof(operators)}` must be 1 less than `{nameof(operands)}`.");
 
+            var openBrackets = BracketFunctions.Keys.Select(x => x.Item1).ToArray();
+            var closeBrackets = BracketFunctions.Keys.Select(x => x.Item2).ToArray();
+            var closeToOpenBrackets = BracketFunctions.Keys.ToDictionary(x => x.Item2, x => x.Item1);
+
             var operandStack = new Stack<TOperand>();
             var opStack = new Stack<TOperator>();
             var bracketStack = new Stack<TOperator>();
@@ -68,7 +62,7 @@ namespace NStandard
 
             void HandleClose(TOperator closeBracket)
             {
-                var openBracket = CloseToOpenBrackets[closeBracket];
+                var openBracket = closeToOpenBrackets[closeBracket];
 
                 var result = operandStack.Pop();
                 while (opStack.Count > 0)
@@ -83,10 +77,14 @@ namespace NStandard
                     var left = operandStack.Pop();
                     result = OpFunctions[op](left, result);
                 }
+#if NET35 || NET40 || NET45 || NET451 || NET46
+                result = BracketFunctions[Tuple.Create(openBracket, closeBracket)](result);
+#else
+                result = BracketFunctions[(openBracket, closeBracket)](result);
+#endif
                 operandStack.Push(result);
                 skipOperand = true;
             }
-
 
             foreach (var pair in Zipper.Create(operands, operators.Concat(new[] { (TOperator)null })))
             {
@@ -98,12 +96,12 @@ namespace NStandard
                 var op = pair.Item2;
                 if (op is null) break;
 
-                if (OpenBrackets.Contains(op))
+                if (openBrackets.Contains(op))
                 {
                     opStack.Push(op);
                     continue;
                 }
-                if (CloseBrackets.Contains(op))
+                if (closeBrackets.Contains(op))
                 {
                     HandleClose(op);
                     continue;
@@ -114,7 +112,7 @@ namespace NStandard
                     var opLevel = OpLevels[op];
                     for (var prevOp = opStack.Peek(); ; prevOp = opStack.Peek())
                     {
-                        if (OpenBrackets.Contains(prevOp)) break;
+                        if (openBrackets.Contains(prevOp)) break;
 
                         var prevOpLevel = OpLevels[prevOp];
                         if (opLevel >= prevOpLevel)         // opLevel is less than or equal to prevOpLevel
