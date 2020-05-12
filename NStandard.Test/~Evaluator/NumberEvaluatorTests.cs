@@ -6,66 +6,34 @@ namespace NStandard.Test
     public class NumberEvaluatorTests
     {
         [Fact]
-        public void RT_Test1()
+        public void NormalTest1()
         {
-            double excepted = 6280752;
-            var exp = "(6280752)";
-            var actual = Evaluator.NumericalRT.Eval(exp);
+            double excepted = 20120416;
+            var exp = "(20120416)";
+            var actual = Evaluator.Numerical.Eval(exp);
             Assert.Equal(excepted, actual);
         }
 
         [Fact]
-        public void RT_SimpleTest1()
+        public void NormalTest2()
+        {
+            double excepted = 1 + (2 * 3 - 4 * (5 + 6)) + 7;
+            var exp = "1 + (2 * 3 - 4 * (5 + 6)) + 7";
+            var actual = Evaluator.Numerical.Eval(exp);
+            Assert.Equal(excepted, actual);
+        }
+
+        [Fact]
+        public void NormalTest3()
         {
             double excepted = 3 + 5 * 8.1 - 6;
             var exp = "3 + 5 * 8.1 - 6";
-            var actual = Evaluator.NumericalRT.Eval(exp);
+            var actual = Evaluator.Numerical.Eval(exp);
             Assert.Equal(excepted, actual);
         }
 
         [Fact]
-        public void RT_SimpleTest2()
-        {
-            double excepted = 3 + 5 * 8.1 - 6;
-            double[] operands = { 3, 5, 8.1, 6 };
-            string[] ops = { "+", "*", "-" };
-            var actual = Evaluator.NumericalRT.Eval(operands, ops);
-            Assert.Equal(excepted, actual);
-        }
-
-        [Fact]
-        public void RT_BracketTest1()
-        {
-            double excepted = 1 + (2 * 3 - 4 * (5 + 6)) + 7;
-            double[] operands = { 1, default, 2, 3, 4, default, 5, 6, default, default, 7 };
-            string[] ops = { "+", "(", "*", "-", "*", "(", "+", ")", ")", "+" };
-            var actual = Evaluator.NumericalRT.Eval(operands, ops);
-            Assert.Equal(excepted, actual);
-        }
-
-        [Fact]
-        public void RT_BracketTest2()
-        {
-            double excepted = 1 + (2 * 3 - 4 * (5 + 6)) + 7;
-            var exp = "1 + (2 * 3 - 4 * (5 + 6)) + 7";
-            var actual = Evaluator.NumericalRT.Eval(exp);
-            Assert.Equal(excepted, actual);
-        }
-
-        [Fact]
-        public void RT_PerfermaceTest()
-        {
-            double excepted = 1 + (2 * 3 - 4 * (5 + 6)) + 7;
-            var exp = "1 + (2 * 3 - 4 * (5 + 6)) + 7";
-            for (int i = 0; i < 1000; i++)
-            {
-                var actual = Evaluator.NumericalRT.Eval(exp);
-                Assert.Equal(excepted, actual);
-            }
-        }
-
-        [Fact]
-        public void CP_ParameterTest()
+        public void NormalParameterTest()
         {
             var exp = "1 + (2 * $a - 4 * ($b + 6)) + 7";
             var tree = Evaluator.Numerical.Build(exp, out _);
@@ -78,27 +46,54 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void CP_PerfermaceTest1_StaticInvoke()
+        public void ArgumentNumberErrorTest()
+        {
+            var exp = "$a + $b";
+            Assert.Throws<ArgumentException>(() => Evaluator.Numerical.Eval(exp));
+        }
+
+        [Fact]
+        public void InvalidExpStringErrorTest()
+        {
+            var exp = "1 # 2";
+            Assert.Throws<ArgumentException>(() => Evaluator.Numerical.Eval(exp));
+        }
+
+        [Fact]
+        public void UnopenedBracketErrorTest()
+        {
+            var exp = "1 + 2 + (3 + 4))";
+            Assert.Throws<ArgumentException>(() => Evaluator.Numerical.Eval(exp));
+        }
+
+        [Fact]
+        public void UnclosedBracketErrorTest()
+        {
+            var exp = "1 + (2 + (3 + 4)";
+            Assert.Throws<ArgumentException>(() => Evaluator.Numerical.Eval(exp));
+        }
+
+        [Fact]
+        public void PerfermaceOfEvalTest()
         {
             double excepted = 1 + (2 * 3 - 4 * (5 + 6)) + 7;
             var exp = "1 + (2 * 3 - 4 * (5 + 6)) + 7";
-            var del = Evaluator.Numerical.Compile<Func<double>>(exp);
             for (int i = 0; i < 1000; i++)
             {
-                var actual = del();
+                var actual = Evaluator.Numerical.Eval(exp);
                 Assert.Equal(excepted, actual);
             }
         }
 
         [Fact]
-        public void CP_PerfermaceTest2_DynamicInvoke()
+        public void PerfermaceOfCompileTest()
         {
             double excepted = 1 + (2 * 3 - 4 * (5 + 6)) + 7;
             var exp = "1 + (2 * 3 - 4 * (5 + 6)) + 7";
-            var del = Evaluator.Numerical.Compile(exp);
+            var func = Evaluator.Numerical.Compile<Func<double>>(exp);
             for (int i = 0; i < 1000; i++)
             {
-                var actual = del.DynamicInvoke();
+                var actual = func();
                 Assert.Equal(excepted, actual);
             }
         }

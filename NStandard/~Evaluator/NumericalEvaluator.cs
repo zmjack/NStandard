@@ -49,27 +49,30 @@ namespace NStandard
                 .Join("|");
 
             var paramList = new List<ParameterExpression>();
-            var parts = exp.Resolve(new Regex($@"^(?:\s*(|\d+|\d+.\d+|0x[\da-fA-F]+|0[0-7]+|\$\w+)\s*({operatorsPart}|$))+\s*"));
-            operators = parts[2].Where(x => x != "").ToArray();
-            operands = parts[1].Take(operators.Length + 1).Select(s =>
+            if (exp.TryResolve(new Regex($@"^(?:\s*(|\d+|\d+.\d+|0x[\da-fA-F]+|0[0-7]+|\$\w+)\s*({operatorsPart}|$))+\s*"), out var parts))
             {
-                if (s.IsNullOrWhiteSpace()) return default;
-
-                Expression ret;
-
-                if (s.StartsWith("0x")) ret = Expression.Constant((double)Convert.ToInt64(s, 16));
-                else if (s.StartsWith("0")) ret = Expression.Constant((double)Convert.ToInt64(s, 8));
-                else if (s.StartsWith("$"))
+                operators = parts[2].Where(x => x != "").ToArray();
+                operands = parts[1].Take(operators.Length + 1).Select(s =>
                 {
-                    var param = Expression.Parameter(typeof(double), s.Substring(1));
-                    paramList.Add(param);
-                    ret = param;
-                }
-                else ret = Expression.Constant(Convert.ToDouble(s));
+                    if (s.IsNullOrWhiteSpace()) return default;
 
-                return ret;
-            }).ToArray();
-            parameters = paramList.ToArray();
+                    Expression ret;
+
+                    if (s.StartsWith("0x")) ret = Expression.Constant((double)Convert.ToInt64(s, 16));
+                    else if (s.StartsWith("0")) ret = Expression.Constant((double)Convert.ToInt64(s, 8));
+                    else if (s.StartsWith("$"))
+                    {
+                        var param = Expression.Parameter(typeof(double), s.Substring(1));
+                        paramList.Add(param);
+                        ret = param;
+                    }
+                    else ret = Expression.Constant(Convert.ToDouble(s));
+
+                    return ret;
+                }).ToArray();
+                parameters = paramList.ToArray();
+            }
+            else throw new ArgumentException($"Invalid expression string({exp}).");
         }
 
         public Expression Build(string exp, out ParameterExpression[] parameters)
@@ -78,6 +81,8 @@ namespace NStandard
             var expression = Eval(operands, operators);
             return expression;
         }
+
+        public double Eval(string exp) => Compile<Func<double>>(exp)();
 
         public Delegate Compile(string exp)
         {

@@ -279,13 +279,30 @@ namespace NStandard
         /// <returns></returns>
         public static string[][] Resolve(this string @this, Regex regex)
         {
+            if (TryResolve(@this, regex, out var ret)) return ret;
+            else throw new ArgumentNullException("Can not match the sepecifed Regex.");
+        }
+
+        /// <summary>
+        /// Projects the specified string to an array by using regular expressions.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <param name="regex"></param>
+        /// <returns></returns>
+        public static bool TryResolve(this string @this, Regex regex, out string[][] ret)
+        {
             var match = regex.Match(@this);
             if (match.Success)
             {
-                return match.Groups.OfType<Group>()
+                ret = match.Groups.OfType<Group>()
                     .Select(g => g.Captures.OfType<Capture>().Select(c => c.Value).ToArray()).ToArray();
+                return true;
             }
-            else throw new ArgumentNullException("Can not match the sepecifed Regex.");
+            else
+            {
+                ret = null;
+                return false;
+            }
         }
 
         /// <summary>

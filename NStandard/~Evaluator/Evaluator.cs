@@ -7,7 +7,6 @@ namespace NStandard
     public static class Evaluator
     {
         public static readonly NumericalEvaluator Numerical = new NumericalEvaluator();
-        public static readonly NumericalRTEvaluator NumericalRT = new NumericalRTEvaluator();
     }
 
     public abstract class Evaluator<TOperand, TOperator> where TOperator : class
@@ -56,6 +55,9 @@ namespace NStandard
                 {
                     var op = opStack.Pop();
                     var left = operandStack.Pop();
+
+                    if (openBrackets.Contains(op)) throw new ArgumentException($"Unclosed bracket( {op} ).");
+
                     result = OpFunctions[op](left, result);
                 }
                 return result;
@@ -64,20 +66,28 @@ namespace NStandard
             void HandleClose(TOperator closeBracket)
             {
                 var openBracket = closeToOpenBrackets[closeBracket];
-
                 var result = operandStack.Pop();
+                bool closed = false;
                 while (opStack.Count > 0)
                 {
                     var op = opStack.Pop();
                     if (op.Equals(openBracket))
                     {
                         operandStack.Pop();
+                        closed = true;
                         break;
                     }
+                    else
+                    {
+                        if (openBrackets.Contains(op)) throw new ArgumentException($"Unexpected bracket( {op} ).");
 
-                    var left = operandStack.Pop();
-                    result = OpFunctions[op](left, result);
+                        var left = operandStack.Pop();
+                        result = OpFunctions[op](left, result);
+                    }
                 }
+
+                if (!closed) throw new ArgumentException($"Unopened bracket( {closeBracket} ).");
+
 #if NET35 || NET40 || NET45 || NET451 || NET46
                 var func = BracketFunctions[Tuple.Create(openBracket, closeBracket)];
                 if (func != null) result = func(result);
