@@ -3,8 +3,6 @@ using System.Linq.Expressions;
 
 namespace NStandard
 {
-    public delegate TParameter HigherFunc<TParameter>(TParameter @delegate);
-
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XDelegate
     {
@@ -15,14 +13,14 @@ namespace NStandard
         /// <param name="delegate"></param>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static HigherFunc<TSelf> Higher<TSelf>(this HigherFunc<TSelf> @this, int degree)
+        public static SingleOpFunc<TSelf> Higher<TSelf>(this SingleOpFunc<TSelf> @this, int degree)
         {
             var parameter = Expression.Parameter(typeof(TSelf), "Param_0");
             var func = Expression.Constant(@this);
             Expression higher = parameter;
             for (int i = 0; i < degree; i++)
                 higher = Expression.Invoke(func, higher);
-            var lambda = Expression.Lambda<HigherFunc<TSelf>>(higher, parameter);
+            var lambda = Expression.Lambda<SingleOpFunc<TSelf>>(higher, parameter);
             return lambda.Compile();
         }
 

@@ -18,7 +18,7 @@ namespace NStandard
             ["+"] = 4,
             ["-"] = 4,
         };
-        protected override Dictionary<string, Func<Expression, Expression, Expression>> OpFunctions { get; } = new Dictionary<string, Func<Expression, Expression, Expression>>
+        protected override Dictionary<string, BinaryOpFunc<Expression>> OpFunctions { get; } = new Dictionary<string, BinaryOpFunc<Expression>>
         {
             ["*"] = (left, right) => Expression.MultiplyChecked(left, right),
             ["/"] = (left, right) => Expression.Divide(left, right),
@@ -28,12 +28,12 @@ namespace NStandard
         };
 
 #if NET35 || NET40 || NET45 || NET451 || NET46
-        protected override Dictionary<Tuple<string, string>, Func<Expression, Expression>> BracketFunctions { get; } = new Dictionary<Tuple<string, string>, Func<Expression, Expression>>
+        protected override Dictionary<Tuple<string, string>, SingleOpFunc<Expression>> BracketFunctions { get; } = new Dictionary<Tuple<string, string>, SingleOpFunc<Expression>>
         {
             [Tuple.Create("(", ")")] = null,
         };
 #else
-        protected override Dictionary<(string Item1, string Item2), Func<Expression, Expression>> BracketFunctions { get; } = new Dictionary<(string Item1, string Item2), Func<Expression, Expression>>
+        protected override Dictionary<(string Item1, string Item2), SingleOpFunc<Expression>> BracketFunctions { get; } = new Dictionary<(string Item1, string Item2), SingleOpFunc<Expression>>
         {
             [("(", ")")] = null,
         };

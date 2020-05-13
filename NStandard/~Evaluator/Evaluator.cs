@@ -12,11 +12,11 @@ namespace NStandard
     public abstract class Evaluator<TOperand, TOperator> where TOperator : class
     {
         protected abstract Dictionary<TOperator, int> OpLevels { get; }
-        protected abstract Dictionary<TOperator, Func<TOperand, TOperand, TOperand>> OpFunctions { get; }
+        protected abstract Dictionary<TOperator, BinaryOpFunc<TOperand>> OpFunctions { get; }
 #if NET35 || NET40 || NET45 || NET451 || NET46
-        protected abstract Dictionary<Tuple<TOperator, TOperator>, Func<TOperand, TOperand>> BracketFunctions { get; }
+        protected abstract Dictionary<Tuple<TOperator, TOperator>, SingleOpFunc<TOperand>> BracketFunctions { get; }
 #else
-        protected abstract Dictionary<(TOperator Item1, TOperator Item2), Func<TOperand, TOperand>> BracketFunctions { get; }
+        protected abstract Dictionary<(TOperator Item1, TOperator Item2), SingleOpFunc<TOperand>> BracketFunctions { get; }
 #endif
 
         public bool TryEval(IEnumerable<TOperator> operators, IEnumerable<TOperand> operands, out TOperand result)

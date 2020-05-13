@@ -17,7 +17,7 @@ namespace NStandard.Test
             Assert.Equal(new[] { "12", "34", "Unknown" }, result);
         }
 
-        private readonly HigherFunc<Func<decimal, decimal>> d = func =>
+        private readonly SingleOpFunc<Func<decimal, decimal>> d = func =>
         {
             decimal deltaX = 0.000_000_000_000_1m;
             return x => (func(x + deltaX) - func(x)) / deltaX;
@@ -41,7 +41,7 @@ namespace NStandard.Test
         public void HigherTest2()
         {
             var md5 = MD5.Create();
-            var computeMD5 = new HigherFunc<byte[]>(x => md5.ComputeHash(x));
+            var computeMD5 = new SingleOpFunc<byte[]>(x => md5.ComputeHash(x));
 
             var result1 = computeMD5.Higher(3)("NStandard".Bytes());
             var result2 = computeMD5(computeMD5(computeMD5("NStandard".Bytes())));

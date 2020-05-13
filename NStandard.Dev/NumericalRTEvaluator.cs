@@ -18,7 +18,7 @@ namespace NStandard
             ["+"] = 4,
             ["-"] = 4,
         };
-        protected override Dictionary<string, Func<double, double, double>> OpFunctions { get; } = new Dictionary<string, Func<double, double, double>>
+        protected override Dictionary<string, BinaryOpFunc<double>> OpFunctions { get; } = new Dictionary<string, BinaryOpFunc<double>>
         {
             ["*"] = (left, right) => left * right,
             ["/"] = (left, right) => left / right,
@@ -28,12 +28,12 @@ namespace NStandard
         };
 
 #if NET35 || NET40 || NET45 || NET451 || NET46
-        protected override Dictionary<Tuple<string, string>, Func<double, double>> BracketFunctions { get; } = new Dictionary<Tuple<string, string>, Func<double, double>>
+        protected override Dictionary<Tuple<string, string>, SingleOpFunc<double>> BracketFunctions { get; } = new Dictionary<Tuple<string, string>, SingleOpFunc<double>>
         {
             [Tuple.Create("(", ")")] = null,
         };
 #else
-        protected override Dictionary<(string Item1, string Item2), Func<double, double>> BracketFunctions { get; } = new Dictionary<(string Item1, string Item2), Func<double, double>>
+        protected override Dictionary<(string Item1, string Item2), SingleOpFunc<double>> BracketFunctions { get; } = new Dictionary<(string Item1, string Item2), SingleOpFunc<double>>
         {
             [("(", ")")] = null,
         };
