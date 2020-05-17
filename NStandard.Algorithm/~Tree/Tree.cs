@@ -50,11 +50,11 @@ namespace NStandard.Algorithm
                         {
                             Id = entity.Id,
                             Model = entity,
-                        }.Then(_ => new TSelf().CreateForProperties(_, entity)));
+                        }.Then(x => new TSelf().CreateForProperties(x, entity)));
                     }
                 });
 
-            var node = new TSelf().Then(_ => _.AddRange(pendingNodeQueue.ToArray()));
+            var node = new TSelf().Then(x => x.AddRange(pendingNodeQueue.ToArray()));
 
             while (pendingNodeQueue.Any())
             {
@@ -71,7 +71,7 @@ namespace NStandard.Algorithm
                             {
                                 Id = entity.Id,
                                 Model = entity,
-                            }.Then(_ => new TSelf().CreateForProperties(_, entity));
+                            }.Then(x => new TSelf().CreateForProperties(x, entity));
 
                             pendingNode.Add(item);
                             pendingNodeQueue.Enqueue(item);
@@ -199,7 +199,7 @@ namespace NStandard.Algorithm
                     {
                         if (key.IsNullOrEmpty())
                             currentNode.Add(node);
-                        else currentNode.Add(node.Then(_ => _.Key = key));
+                        else currentNode.Add(node.Then(x => x.Key = key));
                     }
                 }
                 else currentNode = subNode;
