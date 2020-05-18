@@ -19,6 +19,7 @@ namespace NStandard
         public VariantString(decimal obj) => String = obj.ToString();
         public VariantString(DateTime obj) => String = obj.ToString();
         public VariantString(bool obj) => String = obj.ToString();
+        public VariantString(Guid obj) => String = obj.ToString();
 
         public VariantString(char? obj) => String = obj?.ToString();
         public VariantString(byte? obj) => String = obj?.ToString();
@@ -31,6 +32,7 @@ namespace NStandard
         public VariantString(decimal? obj) => String = obj?.ToString();
         public VariantString(DateTime? obj) => String = obj?.ToString();
         public VariantString(bool? obj) => String = obj?.ToString();
+        public VariantString(Guid? obj) => String = obj?.ToString();
 
         public static implicit operator VariantString(string str) => new VariantString(str);
         public static implicit operator string(VariantString @this) => @this.String;
@@ -46,6 +48,7 @@ namespace NStandard
         public static implicit operator VariantString(decimal obj) => new VariantString(obj);
         public static implicit operator VariantString(DateTime obj) => new VariantString(obj);
         public static implicit operator VariantString(bool obj) => new VariantString(obj);
+        public static implicit operator VariantString(Guid obj) => new VariantString(obj);
 
         public static implicit operator VariantString(char? obj) => new VariantString(obj);
         public static implicit operator VariantString(byte? obj) => new VariantString(obj);
@@ -58,6 +61,7 @@ namespace NStandard
         public static implicit operator VariantString(decimal? obj) => new VariantString(obj);
         public static implicit operator VariantString(DateTime? obj) => new VariantString(obj);
         public static implicit operator VariantString(bool? obj) => new VariantString(obj);
+        public static implicit operator VariantString(Guid? obj) => new VariantString(obj);
 
         public static implicit operator char(VariantString @this) => char.TryParse(@this.String, out var ret).For(x => x ? ret : default);
         public static implicit operator byte(VariantString @this) => byte.TryParse(@this.String, out var ret).For(x => x ? ret : default);
@@ -75,6 +79,15 @@ namespace NStandard
             if (double.TryParse(@this.String, out var b)) return b > 0;
             return bool.TryParse(@this.String, out var ret).For(x => x ? ret : default);
         }
+#if NET35
+        public static implicit operator Guid(VariantString @this)
+        {
+            try { return new Guid(@this.String); }
+            catch { return Guid.Empty; }
+        }
+#else
+        public static implicit operator Guid(VariantString @this) => Guid.TryParse(@this.String, out var ret).For(x => x ? ret : default);
+#endif
 
         public static implicit operator char?(VariantString @this) => char.TryParse(@this.String, out var ret).For(x => x ? ret : (char?)null);
         public static implicit operator byte?(VariantString @this) => byte.TryParse(@this.String, out var ret).For(x => x ? ret : (byte?)null);
@@ -92,6 +105,15 @@ namespace NStandard
             if (double.TryParse(@this.String, out var b)) return b > 0;
             return bool.TryParse(@this.String, out var ret).For(x => x ? ret : (bool?)null);
         }
+#if NET35
+        public static implicit operator Guid?(VariantString @this)
+        {
+            try { return new Guid(@this.String); }
+            catch { return null; }
+        }
+#else
+        public static implicit operator Guid?(VariantString @this) => Guid.TryParse(@this.String, out var ret).For(x => x ? ret : (Guid?)default);
+#endif
 
         public override string ToString() => String?.ToString() ?? "";
     }
