@@ -16,6 +16,8 @@ namespace NStandard
         public VariantString(uint obj) => String = obj.ToString();
         public VariantString(long obj) => String = obj.ToString();
         public VariantString(ulong obj) => String = obj.ToString();
+        public VariantString(float obj) => String = obj.ToString();
+        public VariantString(double obj) => String = obj.ToString();
         public VariantString(decimal obj) => String = obj.ToString();
         public VariantString(DateTime obj) => String = obj.ToString();
         public VariantString(bool obj) => String = obj.ToString();
@@ -29,6 +31,8 @@ namespace NStandard
         public VariantString(uint? obj) => String = obj?.ToString();
         public VariantString(long? obj) => String = obj?.ToString();
         public VariantString(ulong? obj) => String = obj?.ToString();
+        public VariantString(float? obj) => String = obj?.ToString();
+        public VariantString(double? obj) => String = obj?.ToString();
         public VariantString(decimal? obj) => String = obj?.ToString();
         public VariantString(DateTime? obj) => String = obj?.ToString();
         public VariantString(bool? obj) => String = obj?.ToString();
@@ -45,6 +49,8 @@ namespace NStandard
         public static implicit operator VariantString(uint obj) => new VariantString(obj);
         public static implicit operator VariantString(long obj) => new VariantString(obj);
         public static implicit operator VariantString(ulong obj) => new VariantString(obj);
+        public static implicit operator VariantString(float obj) => new VariantString(obj);
+        public static implicit operator VariantString(double obj) => new VariantString(obj);
         public static implicit operator VariantString(decimal obj) => new VariantString(obj);
         public static implicit operator VariantString(DateTime obj) => new VariantString(obj);
         public static implicit operator VariantString(bool obj) => new VariantString(obj);
@@ -58,6 +64,8 @@ namespace NStandard
         public static implicit operator VariantString(uint? obj) => new VariantString(obj);
         public static implicit operator VariantString(long? obj) => new VariantString(obj);
         public static implicit operator VariantString(ulong? obj) => new VariantString(obj);
+        public static implicit operator VariantString(float? obj) => new VariantString(obj);
+        public static implicit operator VariantString(double? obj) => new VariantString(obj);
         public static implicit operator VariantString(decimal? obj) => new VariantString(obj);
         public static implicit operator VariantString(DateTime? obj) => new VariantString(obj);
         public static implicit operator VariantString(bool? obj) => new VariantString(obj);
@@ -71,6 +79,8 @@ namespace NStandard
         public static implicit operator uint(VariantString @this) => uint.TryParse(@this.String, out var ret).For(x => x ? ret : default);
         public static implicit operator long(VariantString @this) => long.TryParse(@this.String, out var ret).For(x => x ? ret : default);
         public static implicit operator ulong(VariantString @this) => ulong.TryParse(@this.String, out var ret).For(x => x ? ret : default);
+        public static implicit operator float(VariantString @this) => float.TryParse(@this.String, out var ret).For(x => x ? ret : default);
+        public static implicit operator double(VariantString @this) => double.TryParse(@this.String, out var ret).For(x => x ? ret : default);
         public static implicit operator decimal(VariantString @this) => decimal.TryParse(@this.String, out var ret).For(x => x ? ret : default);
         public static implicit operator DateTime(VariantString @this) => DateTime.TryParse(@this.String, out var ret).For(x => x ? ret : default);
         public static implicit operator bool(VariantString @this)
@@ -97,6 +107,8 @@ namespace NStandard
         public static implicit operator uint?(VariantString @this) => uint.TryParse(@this.String, out var ret).For(x => x ? ret : (uint?)null);
         public static implicit operator long?(VariantString @this) => long.TryParse(@this.String, out var ret).For(x => x ? ret : (long?)null);
         public static implicit operator ulong?(VariantString @this) => ulong.TryParse(@this.String, out var ret).For(x => x ? ret : (ulong?)null);
+        public static implicit operator float?(VariantString @this) => float.TryParse(@this.String, out var ret).For(x => x ? ret : (float?)null);
+        public static implicit operator double?(VariantString @this) => double.TryParse(@this.String, out var ret).For(x => x ? ret : (double?)null);
         public static implicit operator decimal?(VariantString @this) => decimal.TryParse(@this.String, out var ret).For(x => x ? ret : (decimal?)null);
         public static implicit operator DateTime?(VariantString @this) => DateTime.TryParse(@this.String, out var ret).For(x => x ? ret : (DateTime?)default);
         public static implicit operator bool?(VariantString @this)
