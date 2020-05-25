@@ -48,6 +48,22 @@ namespace NStandard
         public static TRet For<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet> convert) => convert(@this);
 
         /// <summary>
+        /// Casts the element to the specified type through the specified convert method.
+        /// </summary>
+        /// <typeparam name="TSelf"></typeparam>
+        /// <typeparam name="TRet"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="convert"></param>
+        /// <returns></returns>
+        public static TSelf ForUntil<TSelf>(this TSelf @this, Func<TSelf, TSelf> convert, Func<TSelf, bool> untilCondition)
+        {
+            var ret = @this;
+            while (!untilCondition(ret))
+                ret = convert(ret);
+            return ret;
+        }
+
+        /// <summary>
         /// Casts the element to the specified type through the specified flow.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>

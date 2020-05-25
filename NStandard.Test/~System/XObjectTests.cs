@@ -17,6 +17,14 @@ namespace NStandard.Test
             Assert.Equal(new[] { "12", "34", "Unknown" }, result);
         }
 
+        [Fact]
+        public void ForUntilTest()
+        {
+            var i = 1;
+            var ret = i.ForUntil(i => i * 2, i => i > 1023);
+            Assert.Equal(1024, ret);
+        }
+
         private readonly SingleOpFunc<Func<decimal, decimal>> d = func =>
         {
             decimal deltaX = 0.000_000_000_000_1m;
