@@ -55,10 +55,10 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="convert"></param>
         /// <returns></returns>
-        public static TSelf ForUntil<TSelf>(this TSelf @this, Func<TSelf, TSelf> convert, Func<TSelf, bool> untilCondition)
+        public static TSelf ForUntil<TSelf>(this TSelf @this, Func<TSelf, TSelf> convert, Func<TSelf, bool> until)
         {
             var ret = @this;
-            while (!untilCondition(ret))
+            while (!until(ret))
                 ret = convert(ret);
             return ret;
         }
