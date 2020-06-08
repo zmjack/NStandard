@@ -7,7 +7,7 @@
     <Authors>zmjack</Authors>
     <Company>dawnx.net</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.4.6</Version>
+    <Version>0.4.7-alpha</Version>
     <Description>DotNet extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
@@ -34,6 +34,10 @@
 
   <ItemGroup>
     <Reference Include="System.Web" Condition="'$(TargetFramework)'!='netstandard2.0'" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Security\" />
   </ItemGroup>
 
 </Project>

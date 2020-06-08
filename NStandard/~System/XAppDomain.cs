@@ -13,12 +13,12 @@ namespace NStandard
             var assemblies = @this.GetAssemblies();
             foreach (var assembly in assemblies)
             {
-                switch (assembly.FullName)
+                switch (assembly.GetName().Name)
                 {
-                    case "System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e":
-                    case "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089":
-                    case "mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089":
-                        return assembly;
+                    // "System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e"
+                    // "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                    case "System.Private.CoreLib":
+                    case "mscorlib": return assembly;
                 }
             }
             return null;

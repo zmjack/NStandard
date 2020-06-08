@@ -129,6 +129,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="sequence"></param>
         /// <returns></returns>
+        [Obsolete("The method `Contains` is recommended for more scenarios.", true)]
         public static bool In<TSource>(this TSource @this, params TSource[] sequence) => sequence.Contains(@this);
 
         /// <summary>
@@ -138,6 +139,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="sequence"></param>
         /// <returns></returns>
+        [Obsolete("The method `Contains` is recommended for more scenarios.", true)]
         public static bool In<TSource>(this TSource @this, IEnumerable<TSource> sequence) => sequence.Contains(@this);
 
         /// <summary>
