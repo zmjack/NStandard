@@ -25,6 +25,10 @@ namespace NStandard
             });
             Scopes.Push(this as TSelf);
         }
+
+        /// <summary>
+        /// Do not override this method. Use Disposing instead.
+        /// </summary>
         public void Dispose() { Disposing(); Scopes.Pop(); }
 
         public virtual void Disposing() { }
