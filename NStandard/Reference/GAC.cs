@@ -87,8 +87,10 @@ namespace NStandard.Reference
             return null;
         }
 
-        public static ResolveEventHandler CreateAssemblyResolver(string targetFramework, GACFolders folders, string[] customSearchDirs = null)
+        public static ResolveEventHandler CreateAssemblyResolver(Assembly assembly, string targetFramework, GACFolders folders, string[] customSearchDirs = null)
         {
+            var refAssemblies = assembly.GetReferencedAssemblies();
+
             return new ResolveEventHandler((sender, args) =>
             {
                 var regex = new Regex("([^,]+), Version=([^,]+), Culture=[^,]+, PublicKeyToken=.+");
@@ -96,7 +98,12 @@ namespace NStandard.Reference
 
                 var assembly = match.Groups[1].Value;
                 var version = new Version(match.Groups[2].Value);
-                var dll = GetAssemblyFile(assembly, version, targetFramework, folders, customSearchDirs);
+                var useAssembly = refAssemblies.FirstOrDefault(x => x.Name == assembly);
+
+                string dll;
+                if (useAssembly != null)
+                    dll = GetAssemblyFile(useAssembly.Name, useAssembly.Version, targetFramework, folders, customSearchDirs);
+                else dll = GetAssemblyFile(assembly, version, targetFramework, folders, customSearchDirs);
 
                 return Assembly.LoadFile(dll);
             });
