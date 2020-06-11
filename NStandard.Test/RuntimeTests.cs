@@ -9,14 +9,14 @@ namespace NStandard.Test
         public unsafe void AddressOfTest()
         {
             var str = "abc";
-            var ptr = Runtime.AddressOf(str);
-            var length = BitConverter.ToInt32(Runtime.ReadMemory(ptr, sizeof(int)), 0);
+            var ptr = Native.AddressOf(str);
+            var length = BitConverter.ToInt32(Native.ReadMemory(ptr, sizeof(int)), 0);
             var pStrPart = ptr + sizeof(int);
 
             Assert.Equal(3, length);
             Assert.Equal("abc", str);
 
-            Runtime.WriteMemory(pStrPart, "A".Bytes());
+            Native.WriteMemory(pStrPart, "A".Bytes());
             Assert.Equal("Abc", str);
         }
 
@@ -25,10 +25,10 @@ namespace NStandard.Test
         {
             var s1 = "abc";
             var s2 = "abc";
-            Assert.True(Runtime.AreSame(s1, s2));
+            Assert.True(Native.AreSame(s1, s2));
 
             s2 = "ABC";
-            Assert.False(Runtime.AreSame(s1, s2));
+            Assert.False(Native.AreSame(s1, s2));
         }
 
     }
