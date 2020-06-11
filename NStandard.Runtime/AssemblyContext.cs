@@ -7,14 +7,14 @@ using System.Runtime.Loader;
 
 namespace NStandard
 {
-    public class VirtualAssembly : AssemblyLoadContext
+    public class AssemblyContext : AssemblyLoadContext
     {
         public Assembly RootAssembly;
         public AssemblyName[] ReferencedAssemblies;
         public DotNetFramework Framework;
         public string LocationDirectory;
 
-        public VirtualAssembly(string path, DotNetFramework framework)
+        public AssemblyContext(string path, DotNetFramework framework)
         {
             LocationDirectory = Path.GetDirectoryName(path);
             RootAssembly = LoadFromAssemblyPath(path);
