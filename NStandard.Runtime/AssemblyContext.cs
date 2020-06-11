@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 
-namespace NStandard
+namespace NStandard.Runtime
 {
     public class AssemblyContext : AssemblyLoadContext
     {
@@ -34,9 +34,32 @@ namespace NStandard
             return LoadFromAssemblyPath(dll);
         }
 
-        public virtual Type GetType(string name) => RootAssembly.GetType(name);
-        public virtual Type GetType(string name, bool throwOnError) => RootAssembly.GetType(name, throwOnError);
-        public virtual Type GetType(string name, bool throwOnError, bool ignoreCase) => RootAssembly.GetType(name, throwOnError, ignoreCase);
+        public Assembly LoadAssembly(AssemblyName assemblyName) => Load(assemblyName);
+
+        public virtual Type GetType(string name)
+        {
+            if (name.Count(",") == 1)
+            {
+                var parts = name.Split(',');
+                var typeName = parts[0];
+                var pureAssemblyName = parts[1];
+
+                if (pureAssemblyName == RootAssembly.GetName().Name)
+                    return RootAssembly.GetType(typeName);
+                else
+                {
+                    var assemblyName = ReferencedAssemblies.FirstOrDefault(x => x.Name == pureAssemblyName);
+                    if (assemblyName != null)
+                    {
+                        var assembly = Load(assemblyName);
+                        return assembly.GetType(typeName);
+                    }
+                    else return null;
+                }
+            }
+            else return RootAssembly.GetType(name);
+        }
+
         public virtual Type[] GetTypes() => RootAssembly.GetTypes();
     }
 }
