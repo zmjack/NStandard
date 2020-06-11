@@ -15,9 +15,8 @@ namespace NStandard.Reference
         private static readonly string UserProfileFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 #endif
 
-        public static string GetAssemblyFile(string assembly, Version version, string targetFramework, GACFolders folders, string[] customSearchDirs = null)
+        public static string GetAssemblyFile(string assembly, Version version, DotNetFramework framework, GACFolders folders, string[] customSearchDirs = null)
         {
-            var framework = DotNetFramework.Parse(targetFramework);
             var nugetVersion = version.MinorRevision <= 0
                 ? $"{version.Major}.{version.Minor}.{version.Build}"
                 : $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
@@ -90,6 +89,7 @@ namespace NStandard.Reference
         public static ResolveEventHandler CreateAssemblyResolver(Assembly assembly, string targetFramework, GACFolders folders, string[] customSearchDirs = null)
         {
             var refAssemblies = assembly.GetReferencedAssemblies();
+            var framework = DotNetFramework.Parse(targetFramework);
 
             return new ResolveEventHandler((sender, args) =>
             {
@@ -102,8 +102,8 @@ namespace NStandard.Reference
 
                 string dll;
                 if (useAssembly != null)
-                    dll = GetAssemblyFile(useAssembly.Name, useAssembly.Version, targetFramework, folders, customSearchDirs);
-                else dll = GetAssemblyFile(assembly, version, targetFramework, folders, customSearchDirs);
+                    dll = GetAssemblyFile(useAssembly.Name, useAssembly.Version, framework, folders, customSearchDirs);
+                else dll = GetAssemblyFile(assembly, version, framework, folders, customSearchDirs);
 
                 return Assembly.LoadFile(dll);
             });

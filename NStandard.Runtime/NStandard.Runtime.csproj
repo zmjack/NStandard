@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.4.8</Version>
+    <Authors>zmjack</Authors>
+    <Copyright>Copyright © nstandard.net 2020</Copyright>
+    <Company>nstandard.net</Company>
+    <Description>DotNet extensions for system library.</Description>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>nstandard.net</PackageProjectUrl>
+    <PackageIcon>nstandard.png</PackageIcon>
+    <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>System Standard Extension</PackageTags>
+	<PackageId>NStandard.Runtime</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" Condition="'$(TargetFramework)'=='netstandard2.0'" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NStandard\NStandard.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\nstandard.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

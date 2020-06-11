@@ -5,15 +5,15 @@
     <RootNamespace>NStandard</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Authors>zmjack</Authors>
-    <Company>dawnx.net</Company>
+    <Company>nstandard.net</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.4.7</Version>
+    <Version>0.4.8</Version>
     <Description>DotNet extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/zmjack/NStandard</PackageProjectUrl>
+    <PackageProjectUrl>nstandard.net</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
-    <Copyright>Copyright © dawnx.net 2020</Copyright>
+    <Copyright>Copyright © nstandard.net 2020</Copyright>
     <LangVersion>8.0</LangVersion>
     <PackageId>NStandard</PackageId>
     <PackageTags>System Standard Extension</PackageTags>
