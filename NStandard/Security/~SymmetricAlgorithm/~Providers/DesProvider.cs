@@ -7,18 +7,20 @@ namespace NStandard.Security
     {
         public static readonly byte[] EmptyIV = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-        public DesProvider UseCBC(PaddingMode padding = PaddingMode.PKCS7)
+        public DesProvider(PaddingMode padding = PaddingMode.PKCS7) : base(padding)
         {
-            Mode = CipherMode.CBC;
-            Padding = padding;
-            return this;
         }
 
-        public DesProvider UseECB(PaddingMode padding = PaddingMode.PKCS7)
+        public DesProvider UseCBC(byte[] key)
+        {
+            Mode = CipherMode.CBC;
+            return WithKey(key);
+        }
+
+        public DesProvider UseECB(byte[] key)
         {
             Mode = CipherMode.ECB;
-            Padding = padding;
-            return this;
+            return WithKey(key);
         }
 
         public override DesProvider WithKey(byte[] key)

@@ -12,6 +12,11 @@ namespace NStandard.Security
         public PaddingMode Padding;
         public byte[] Key;
 
+        public SymmetricAlgorithmProvider(PaddingMode padding)
+        {
+            Padding = padding;
+        }
+
         public abstract TSelf WithKey(byte[] key);
 
         public abstract TSymmetricAlgorithm Create();

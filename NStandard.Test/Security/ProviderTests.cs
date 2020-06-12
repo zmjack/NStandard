@@ -23,14 +23,14 @@ namespace NStandard.Security.Test
 
             var aeses = new[]
             {
-                new AesProvider().UseCBC().WithKey(new byte[16].Let(i => (byte)i)),
-                new AesProvider().UseECB().WithKey(new byte[16].Let(i => (byte)i)),
+                new AesProvider().UseCBC(new byte[16].Let(i => (byte)i)),
+                new AesProvider().UseECB(new byte[16].Let(i => (byte)i)),
 
-                new AesProvider().UseCBC().WithKey(new byte[24].Let(i => (byte)i)),
-                new AesProvider().UseECB().WithKey(new byte[24].Let(i => (byte)i)),
+                new AesProvider().UseCBC(new byte[24].Let(i => (byte)i)),
+                new AesProvider().UseECB(new byte[24].Let(i => (byte)i)),
 
-                new AesProvider().UseCBC().WithKey(new byte[32].Let(i => (byte)i)),
-                new AesProvider().UseECB().WithKey(new byte[32].Let(i => (byte)i)),
+                new AesProvider().UseCBC(new byte[32].Let(i => (byte)i)),
+                new AesProvider().UseECB(new byte[32].Let(i => (byte)i)),
             };
 
             foreach (var aes in aeses)
@@ -57,8 +57,8 @@ namespace NStandard.Security.Test
 
             var deses = new[]
             {
-                new DesProvider().UseCBC().WithKey(new byte[8].Let(i => (byte)i)),
-                new DesProvider().UseECB().WithKey(new byte[8].Let(i => (byte)i)),
+                new DesProvider().UseCBC(new byte[8].Let(i => (byte)i)),
+                new DesProvider().UseECB(new byte[8].Let(i => (byte)i)),
             };
 
             foreach (var des in deses)
@@ -85,11 +85,11 @@ namespace NStandard.Security.Test
 
             var tripleDeses = new[]
             {
-                new TripleDesProvider().UseCBC().WithKey(new byte[16].Let(i => (byte)i)),
-                new TripleDesProvider().UseECB().WithKey(new byte[16].Let(i => (byte)i)),
+                new TripleDesProvider().UseCBC(new byte[16].Let(i => (byte)i)),
+                new TripleDesProvider().UseECB(new byte[16].Let(i => (byte)i)),
 
-                new TripleDesProvider().UseCBC().WithKey(new byte[24].Let(i => (byte)i)),
-                new TripleDesProvider().UseECB().WithKey(new byte[24].Let(i => (byte)i)),
+                new TripleDesProvider().UseCBC(new byte[24].Let(i => (byte)i)),
+                new TripleDesProvider().UseECB(new byte[24].Let(i => (byte)i)),
             };
 
             foreach (var tripleDes in tripleDeses)
