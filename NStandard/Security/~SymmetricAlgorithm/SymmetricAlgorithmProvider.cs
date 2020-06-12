@@ -17,7 +17,7 @@ namespace NStandard.Security
             Padding = padding;
         }
 
-        public abstract TSelf WithKey(byte[] key);
+        protected abstract TSelf WithKey(byte[] key);
 
         public abstract TSymmetricAlgorithm Create();
 

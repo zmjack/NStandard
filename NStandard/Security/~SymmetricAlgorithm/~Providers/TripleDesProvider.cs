@@ -24,7 +24,7 @@ namespace NStandard.Security
             return WithKey(key);
         }
 
-        public override TripleDesProvider WithKey(byte[] key)
+        protected override TripleDesProvider WithKey(byte[] key)
         {
             if (!new[] { 16, 24 }.Contains(key.Length))
                 throw new ArgumentException("The length of Key must be 16 or 24.", nameof(key));

@@ -24,7 +24,7 @@ namespace NStandard.Security
             return WithKey(key);
         }
 
-        public override AesProvider WithKey(byte[] key)
+        protected override AesProvider WithKey(byte[] key)
         {
             if (!new[] { 16, 24, 32 }.Contains(key.Length))
                 throw new ArgumentException("The length of Key must be 16 or 24 or 32.", nameof(key));

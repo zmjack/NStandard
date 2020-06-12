@@ -23,7 +23,7 @@ namespace NStandard.Security
             return WithKey(key);
         }
 
-        public override DesProvider WithKey(byte[] key)
+        protected override DesProvider WithKey(byte[] key)
         {
             if (key.Length != 8)
                 throw new ArgumentException("The length of Key must be 8.", nameof(key));
