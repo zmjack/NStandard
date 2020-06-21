@@ -9,12 +9,16 @@ namespace NStandard.Test
     public class XObjectTests
     {
         [Fact]
-        public void ForTest()
+        public void ExtractTest()
         {
             var items = new[] { "a12", "_34", "$56" };
-            var result = items.Select(x => x.Project(new Regex(@"[a-zA-Z]+(\d+)")) ?? x.Project(new Regex(@"_(\d+)")) ?? "Unknown");
+            var result = items.Select(x => x.Extract(new Regex(@"[a-zA-Z]+(\d+)")).FirstOrDefault() ?? x.Extract(new Regex(@"_(\d+)")).FirstOrDefault() ?? "Unknown");
 
             Assert.Equal(new[] { "12", "34", "Unknown" }, result);
+
+            var content = "[abc]-[123]-[a12]";
+            var s = content.Extract(new Regex(@"\[a(.+?)\]")).ToArray();
+
         }
 
         [Fact]

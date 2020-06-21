@@ -64,7 +64,7 @@ namespace NStandard
                     if (@this.IsArray) return $"{GetSimplifiedName(@this.GetElementType())}[]";
                     else if (@this.IsNullable()) return $"{GetSimplifiedName(@this.GetGenericArguments()[0])}?";
                     else if (@this.IsGenericTypeDefinition) return $"{@this.Name}<>";
-                    else if (@this.IsGenericType) return $"{@this.Name.Project(new Regex(@"^([^`]+)`"))}<{@this.GetGenericArguments().Select(x => GetSimplifiedName(x)).Join(", ")}>";
+                    else if (@this.IsGenericType) return $"{@this.Name.Extract(new Regex(@"^([^`]+)`")).FirstOrDefault()}<{@this.GetGenericArguments().Select(x => GetSimplifiedName(x)).Join(", ")}>";
                     else return @this.Name;
             };
         }

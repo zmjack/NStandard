@@ -62,17 +62,17 @@ namespace NStandard.Test
         [Fact]
         public void IsValidFileNameTest()
         {
-            Assert.True(StringEx.IsValidWinFileName("abc.txt"));
-            Assert.False(StringEx.IsValidWinFileName("abc.txt."));
-            Assert.False(StringEx.IsValidWinFileName("abc<>.txt"));
-            Assert.False(StringEx.IsValidWinFileName("CON"));
-            Assert.False(StringEx.IsValidWinFileName("abc\0.txt."));
+            Assert.True(StringEx.IsValidFileName("abc.txt", PlatformID.Win32NT));
+            Assert.False(StringEx.IsValidFileName("abc.txt.", PlatformID.Win32NT));
+            Assert.False(StringEx.IsValidFileName("abc<>.txt", PlatformID.Win32NT));
+            Assert.False(StringEx.IsValidFileName("CON", PlatformID.Win32NT));
+            Assert.False(StringEx.IsValidFileName("abc\0.txt.", PlatformID.Win32NT));
 
-            Assert.True(StringEx.IsValidUnixFileName("abc.txt"));
-            Assert.True(StringEx.IsValidUnixFileName("abc.txt."));
-            Assert.True(StringEx.IsValidUnixFileName("abc<>.txt"));
-            Assert.True(StringEx.IsValidUnixFileName("CON"));
-            Assert.False(StringEx.IsValidUnixFileName("abc\0.txt."));
+            Assert.True(StringEx.IsValidFileName("abc.txt", PlatformID.Unix));
+            Assert.True(StringEx.IsValidFileName("abc.txt.", PlatformID.Unix));
+            Assert.True(StringEx.IsValidFileName("abc<>.txt", PlatformID.Unix));
+            Assert.True(StringEx.IsValidFileName("CON", PlatformID.Unix));
+            Assert.False(StringEx.IsValidFileName("abc\0.txt.", PlatformID.Unix));
         }
 
     }

@@ -253,22 +253,32 @@ namespace NStandard
 
         /// <summary>
         /// Projects the specified string to a new string by using regular expressions.
-        ///     If there is no match, this method returns null.
         /// </summary>
         /// <param name="this"></param>
         /// <param name="regex"></param>
-        /// <param name="target"></param>
+        /// <param name="replacement"></param>
         /// <returns></returns>
-        public static string Project(this string @this, Regex regex, string target = null)
+        public static IEnumerable<string> Extract(this string @this, Regex regex, string replacement = null)
         {
-            var match = regex.Match(@this);
-            if (match.Success)
+            var startat = 0;
+            while (true)
             {
-                if (target is null)
-                    return string.Join("", match.Groups.OfType<Group>().Skip(1).Select(g => g.Value).ToArray());
-                else return regex.Replace(match.Groups[0].Value, target);
+                var match = regex.Match(@this, startat);
+                if (match.Success)
+                {
+                    if (replacement is null)
+                    {
+                        if (match.Groups.Count > 1)
+                            yield return string.Join("", match.Groups.OfType<Group>().Skip(1).Select(g => g.Value).ToArray());
+                        else yield return match.Groups[0].Value;
+                    }
+                    else yield return regex.Replace(match.Groups[0].Value, replacement);
+
+                    startat = match.Index + Math.Max(1, match.Length);
+                    if (startat > @this.Length) break;
+                }
+                else break;
             }
-            else return null;
         }
 
         /// <summary>

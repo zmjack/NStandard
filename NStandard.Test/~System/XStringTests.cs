@@ -1,6 +1,7 @@
 ﻿using Def;
 using NStandard.Flows;
 using System;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Xunit;
@@ -104,11 +105,11 @@ namespace NStandard.Test
         public void ProjectTest()
         {
             var regex = new Regex(@"(.+?)(?:(?=\()|(?=（)|$)");
-            Assert.Equal("zmjack", "zmjack(1)".Project(regex).Trim());
-            Assert.Equal("zmjack", "zmjack (1)".Project(regex).Trim());
-            Assert.Equal("zmjack", "zmjack (".Project(regex).Trim());
-            Assert.Equal("zmjack", "zmjack".Project(regex).Trim());
-            Assert.Equal("ja", "zmjack".Project(new Regex(@"(ja)"), "$1"));
+            Assert.Equal("zmjack", "zmjack(1)".Extract(regex).First().Trim());
+            Assert.Equal("zmjack", "zmjack (1)".Extract(regex).First().Trim());
+            Assert.Equal("zmjack", "zmjack (".Extract(regex).First().Trim());
+            Assert.Equal("zmjack", "zmjack".Extract(regex).First().Trim());
+            Assert.Equal("ja", "zmjack".Extract(new Regex(@"(ja)"), "$1").First());
         }
 
         [Fact]

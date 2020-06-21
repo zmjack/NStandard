@@ -148,36 +148,30 @@ namespace NStandard
             return sb.ToString().Substring(1);
         }
 
-        public static bool IsValidFileName(string source)
+        public static bool IsValidFileName(string source, PlatformID? platformID = null)
         {
-            switch (Environment.OSVersion.Platform)
+            platformID ??= Environment.OSVersion.Platform;
+
+            switch (platformID)
             {
-                case PlatformID.Win32NT: return IsValidWinFileName(source);
-                case PlatformID.Unix: return IsValidUnixFileName(source);
+                case PlatformID.Win32NT:
+                    var specialNames = new[]
+                    {
+                        "CON", "PRN", "AUX", "NUL",
+                        "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
+                        "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9",
+                    };
+
+                    if (source.Any(c => c < 32 || new[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|' }.Contains(c))
+                        || specialNames.Contains(source)
+                        || source.EndsWith(".")
+                        || source.EndsWith(" "))
+                        return false;
+                    else return true;
+
+                case PlatformID.Unix: return !source.Any(c => new[] { '\0', '/' }.Contains(c));
                 default: throw new NotSupportedException("Only these platforms are supported: Win32NT, Unix.");
             }
-        }
-
-        public static bool IsValidWinFileName(string source)
-        {
-            var specialNames = new[]
-            {
-                "CON", "PRN", "AUX", "NUL",
-                "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
-                "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9",
-            };
-
-            if ((source.Any(c => c < 32 || new[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|' }.Contains(c)))
-                || specialNames.Contains(source)
-                || source.EndsWith(".")
-                || source.EndsWith(" "))
-                return false;
-            else return true;
-        }
-
-        public static bool IsValidUnixFileName(string source)
-        {
-            return !source.Any(c => new[] { '\0', '/' }.Contains(c));
         }
 
 #if NETSTANDARD2_0
