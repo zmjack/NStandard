@@ -74,7 +74,7 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void PerfermaceOfEvalTest()
+        public void Eval1000Test()
         {
             double excepted = 1 + (2 * 3 - 4 * (5 + 6)) + 7;
             var exp = "1 + (2 * 3 - 4 * (5 + 6)) + 7";
@@ -86,7 +86,7 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void PerfermaceOfCompileTest()
+        public void Compiled1000Test()
         {
             double excepted = 1 + (2 * 3 - 4 * (5 + 6)) + 7;
             var exp = "1 + (2 * 3 - 4 * (5 + 6)) + 7";
