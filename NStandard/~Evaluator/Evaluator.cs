@@ -45,7 +45,6 @@ namespace NStandard
 
             var operandStack = new Stack<TOperand>();
             var opStack = new Stack<TOperator>();
-            var bracketStack = new Stack<TOperator>();
             var skipOperand = false;
 
             TOperand GetFinalResult()

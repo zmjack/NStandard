@@ -65,7 +65,7 @@ namespace NStandard
                     return ret;
                 }).ToArray();
             }
-            else throw new ArgumentException($"Invalid expression string({exp}).");
+            else throw new ArgumentException($"Invalid expression string( {exp} ).");
         }
 
         public double Eval(string exp)

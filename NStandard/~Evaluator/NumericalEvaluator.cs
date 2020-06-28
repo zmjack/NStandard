@@ -74,7 +74,7 @@ namespace NStandard
                 }).ToArray();
                 parameters = paramList.ToArray();
             }
-            else throw new ArgumentException($"Invalid expression string({exp}).");
+            else throw new ArgumentException($"Invalid expression string( {exp} ).");
         }
 
         public Expression Build(string exp, out ParameterExpression[] parameters)
