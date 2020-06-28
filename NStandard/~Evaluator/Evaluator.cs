@@ -16,7 +16,7 @@ namespace NStandard
 #if NET35 || NET40 || NET45 || NET451 || NET46
         protected abstract Dictionary<Tuple<TOperator, TOperator>, SingleOpFunc<TOperand>> BracketFunctions { get; }
 #else
-        protected abstract Dictionary<(TOperator Item1, TOperator Item2), SingleOpFunc<TOperand>> BracketFunctions { get; }
+        protected abstract Dictionary<(TOperator, TOperator), SingleOpFunc<TOperand>> BracketFunctions { get; }
 #endif
 
         public bool TryEval(IEnumerable<TOperator> operators, IEnumerable<TOperand> operands, out TOperand result)
@@ -122,12 +122,12 @@ namespace NStandard
 
                 if (opStack.Count > 0)
                 {
-                    var opLevel = OpLevels[op];
+                    var opLevel = OpLevels.ContainsKey(op) ? OpLevels[op] : int.MaxValue;
                     for (var prevOp = opStack.Peek(); ; prevOp = opStack.Peek())
                     {
                         if (openBrackets.Contains(prevOp)) break;
 
-                        var prevOpLevel = OpLevels[prevOp];
+                        var prevOpLevel = OpLevels.ContainsKey(prevOp) ? OpLevels[prevOp] : int.MaxValue;
                         if (opLevel >= prevOpLevel)         // opLevel is less than or equal to prevOpLevel
                         {
                             var right = operandStack.Pop();

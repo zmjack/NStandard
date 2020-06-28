@@ -31,7 +31,7 @@ namespace NStandard
             [Tuple.Create("(", ")")] = null,
         };
 #else
-        protected override Dictionary<(string Item1, string Item2), SingleOpFunc<Expression>> BracketFunctions { get; } = new Dictionary<(string Item1, string Item2), SingleOpFunc<Expression>>
+        protected override Dictionary<(string, string), SingleOpFunc<Expression>> BracketFunctions { get; } = new Dictionary<(string, string), SingleOpFunc<Expression>>
         {
             [("(", ")")] = null,
         };
@@ -40,14 +40,18 @@ namespace NStandard
 
         public void Resolve(string exp, out Expression[] operands, out string[] operators, out ParameterExpression[] parameters)
         {
+            // Similar to NumericalRTEvaluator.Resolve
+
             var operatorsPart = OpFunctions.Keys
                 .Concat(BracketFunctions.Keys.Select(x => x.Item1))
                 .Concat(BracketFunctions.Keys.Select(x => x.Item2))
-                .Select(x => RegexSpecialLetters.Contains(x) ? $@"\{x}" : x)
+                .OrderByDescending(x => x.Length)
+                .Select(x => x.RegexReplace(new Regex(@"([\[\]\-\.\^\$\{\}\?\+\*\|\(\)])"), "\\$1"))
                 .Join("|");
+            var resolveRegex = new Regex($@"^(?:\s*(\d+|\d+\.\d+|\-\d+|\-\d+\.\d+|0x[\da-fA-F]+|0[0-7]+|\$\w+|)\s*({operatorsPart}|$))+\s*$");
 
             var paramList = new List<ParameterExpression>();
-            if (exp.TryResolve(new Regex($@"^(?:\s*(|\d+|\d+.\d+|0x[\da-fA-F]+|0[0-7]+|\$\w+)\s*({operatorsPart}|$))+\s*"), out var parts))
+            if (exp.TryResolve(resolveRegex, out var parts))
             {
                 operators = parts[2].Where(x => x != "").ToArray();
                 operands = parts[1].Take(operators.Length + 1).Select(s =>
