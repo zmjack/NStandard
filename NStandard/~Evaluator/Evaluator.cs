@@ -14,9 +14,9 @@ namespace NStandard
         protected abstract Dictionary<TOperator, int> OpLevels { get; }
         protected abstract Dictionary<TOperator, BinaryOpFunc<TOperand>> OpFunctions { get; }
 #if NET35 || NET40 || NET45 || NET451 || NET46
-        protected abstract Dictionary<Tuple<TOperator, TOperator>, SingleOpFunc<TOperand>> BracketFunctions { get; }
+        protected virtual Dictionary<Tuple<TOperator, TOperator>, SingleOpFunc<TOperand>> BracketFunctions { get; } = new Dictionary<Tuple<TOperator, TOperator>, SingleOpFunc<TOperand>>();
 #else
-        protected abstract Dictionary<(TOperator, TOperator), SingleOpFunc<TOperand>> BracketFunctions { get; }
+        protected virtual Dictionary<(TOperator, TOperator), SingleOpFunc<TOperand>> BracketFunctions { get; } = new Dictionary<(TOperator, TOperator), SingleOpFunc<TOperand>>();
 #endif
 
         public bool TryEval(IEnumerable<TOperator> operators, IEnumerable<TOperand> operands, out TOperand result)
