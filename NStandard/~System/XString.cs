@@ -252,7 +252,7 @@ namespace NStandard
         public static string RegexReplace(this string @this, Regex regex, MatchEvaluator evaluator) => regex.Replace(@this, evaluator);
 
         /// <summary>
-        /// Projects the specified string to a new string by using regular expressions.
+        /// Extract strings by using regular expressions.
         /// </summary>
         /// <param name="this"></param>
         /// <param name="regex"></param>
@@ -279,6 +279,18 @@ namespace NStandard
                 }
                 else break;
             }
+        }
+
+        /// <summary>
+        /// Extract string by using regular expressions.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <param name="regex"></param>
+        /// <param name="replacement"></param>
+        /// <returns></returns>
+        public static string ExtractFirst(this string @this, Regex regex, string replacement = null)
+        {
+            return Extract(@this, regex, replacement).FirstOrDefault();
         }
 
         /// <summary>

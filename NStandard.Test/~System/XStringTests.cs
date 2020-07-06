@@ -102,14 +102,18 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void ProjectTest()
+        public void ExtractTest()
         {
-            var regex = new Regex(@"(.+?)(?:(?=\()|(?=（)|$)");
-            Assert.Equal("zmjack", "zmjack(1)".Extract(regex).First().Trim());
-            Assert.Equal("zmjack", "zmjack (1)".Extract(regex).First().Trim());
-            Assert.Equal("zmjack", "zmjack (".Extract(regex).First().Trim());
-            Assert.Equal("zmjack", "zmjack".Extract(regex).First().Trim());
+            var regex = new Regex(@"^(.+?)\s*(?:\(\d+\))?$");
+            Assert.Equal("zmjack", "zmjack".Extract(regex).First());
+            Assert.Equal("zmjack", "zmjack(1)".Extract(regex).First());
+            Assert.Equal("zmjack", "zmjack (1)".Extract(regex).First());
             Assert.Equal("ja", "zmjack".Extract(new Regex(@"(ja)"), "$1").First());
+
+            Assert.Equal("zmjack", "zmjack".ExtractFirst(regex));
+            Assert.Equal("zmjack", "zmjack(1)".ExtractFirst(regex));
+            Assert.Equal("zmjack", "zmjack (1)".ExtractFirst(regex));
+            Assert.Equal("ja", "zmjack".ExtractFirst(new Regex(@"(ja)"), "$1"));
         }
 
         [Fact]
