@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 #if NETSTANDARD2_0
 using System.Reflection;
 using System.Dynamic;
@@ -74,27 +71,6 @@ namespace NStandard
         public static TRet Flow<T, TRet>(this T @this, IFlow<T, TRet> flow) => flow.Execute(@this);
 
         /// <summary>
-        /// Casts the element to the specified type through the specified filter method.
-        /// </summary>
-        /// <typeparam name="TSelf"></typeparam>
-        /// <typeparam name="TRet"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="filters"></param>
-        /// <returns></returns>
-        [Obsolete("Replace with the new function: TRet For<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet> convert)", true)]
-        public static TRet For<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet>[] filters)
-            where TRet : class
-        {
-            foreach (var project in filters)
-            {
-                var result = project(@this);
-                if (!(result is null))
-                    return result;
-            }
-            return null;
-        }
-
-        /// <summary>
         /// Casts the element to the specified type through the specified convert method.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>
@@ -123,26 +99,6 @@ namespace NStandard
         }
 
         /// <summary>
-        /// Determines whether the specified element in a sequence by using the default equality comparer.
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="sequence"></param>
-        /// <returns></returns>
-        [Obsolete("The method `Contains` is recommended for more scenarios.", true)]
-        public static bool In<TSource>(this TSource @this, params TSource[] sequence) => sequence.Contains(@this);
-
-        /// <summary>
-        /// Determines whether the specified element in a sequence by using the default equality comparer.
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="sequence"></param>
-        /// <returns></returns>
-        [Obsolete("The method `Contains` is recommended for more scenarios.", true)]
-        public static bool In<TSource>(this TSource @this, IEnumerable<TSource> sequence) => sequence.Contains(@this);
-
-        /// <summary>
         /// Determines whether the specified object is null.
         /// </summary>
         /// <param name="this"></param>
@@ -155,7 +111,7 @@ namespace NStandard
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static T As<T>(this object @this) where T : struct => (T)As(@this, typeof(T));
+        public static T MemoryAs<T>(this object @this) where T : struct => (T)MemoryAS(@this, typeof(T));
 
         /// <summary>
         /// Convert a basic struct to another basic struct with same memory sequence.
@@ -163,7 +119,7 @@ namespace NStandard
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static object As(this object @this, Type type)
+        public static object MemoryAS(this object @this, Type type)
         {
             if (@this.GetType() == type) return @this;
 
@@ -202,82 +158,9 @@ namespace NStandard
             };
         }
 
-        public static string GetDumpString<TSelf>(this TSelf @this)
-        {
-            using (var memory = new MemoryStream())
-            using (var writer = new StreamWriter(memory))
-            {
-                Dump(@this, writer);
-                writer.Flush();
-                memory.Seek(0, SeekOrigin.Begin);
-                return memory.ToArray().String();
-            }
-        }
-        public static void Dump<TSelf>(this TSelf @this) => Dump(@this, Console.Out);
-        public static void Dump<TSelf>(this TSelf @this, TextWriter writer)
-        {
-            var type = @this?.GetType();
-            switch (type)
-            {
-                case null:
-                case Type _ when type.IsBasicType():
-                    Dump(@this, writer, null, 0);
-                    break;
-
-                default:
-                    writer.WriteLine($"<{typeof(TSelf).GetSimplifiedName()}>");
-                    Dump(@this, writer, null, 0);
-                    break;
-            }
-        }
-
-        private static void Dump(object instance, TextWriter writer, string name, int paddingLeft)
-        {
-            var type = instance?.GetType();
-            switch (type)
-            {
-                case null:
-                    if (name is null)
-                        writer.WriteLine($"{" ".Repeat(paddingLeft)}<null>");
-                    else if (name == string.Empty)
-                        writer.WriteLine($"{" ".Repeat(paddingLeft)}<null>,");
-                    else writer.WriteLine($"{" ".Repeat(paddingLeft)}{name}: <null>,");
-                    break;
-
-                case Type _ when type.IsBasicType():
-                    if (name is null)
-                        writer.WriteLine($"{" ".Repeat(paddingLeft)}<{type.GetSimplifiedName()}>{instance}");
-                    else if (name == string.Empty)
-                        writer.WriteLine($"{" ".Repeat(paddingLeft)}<{type.GetSimplifiedName()}>{instance},");
-                    else writer.WriteLine($"{" ".Repeat(paddingLeft)}{name}: <{type.GetSimplifiedName()}>{instance},");
-                    break;
-
-                case Type _ when type.IsExtend<Array>():
-                    writer.WriteLine($"{" ".Repeat(paddingLeft)}[");
-                    var enumerator = (instance as IEnumerable).GetEnumerator();
-                    for (var element = enumerator.TakeElement(); element != null; element = enumerator.TakeElement())
-                    {
-                        Dump(element, writer, string.Empty, paddingLeft + 4);
-                    }
-                    writer.WriteLine($"{" ".Repeat(paddingLeft)}]");
-                    break;
-
-                default:
-                    writer.WriteLine($"{" ".Repeat(paddingLeft)}{{");
-                    var props = type.GetProperties();
-                    foreach (var prop in props)
-                    {
-                        Dump(prop.GetValue(instance, null), writer, prop.Name, paddingLeft + 4);
-                    }
-                    writer.WriteLine($"{" ".Repeat(paddingLeft)}}},");
-                    break;
-            }
-        }
-
         public static Reflector GetReflector(this object @this) => new Reflector(@this.GetType(), @this);
         public static Reflector GetReflector(this object @this, Type type) => new Reflector(type, @this);
         public static Reflector GetReflector<T>(this object @this) => new Reflector(typeof(T), @this);
-
 
 #if NETSTANDARD2_0
         /// <summary>

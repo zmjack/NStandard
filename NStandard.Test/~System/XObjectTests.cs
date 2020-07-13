@@ -71,37 +71,13 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void DumpTest()
-        {
-            var obj = new object[] { "1", new { a = 1, b = new { a = 1, b = 2 } } };
-            Assert.Equal(@"<object[]>
-[
-    <string>1,
-    {
-        a: <int>1,
-        {
-            a: <int>1,
-            b: <int>2,
-        },
-    },
-]
-", obj.GetDumpString());
-        }
-
-        [Fact]
-        public void DumpTest2()
-        {
-            Assert.Equal($@"<string>123{Environment.NewLine}", "123".GetDumpString());
-        }
-
-        [Fact]
         public void AsTest()
         {
             // Hex: 0x3c75c28f
             // Dec: ‭‭1014350479‬‬
             // Bin: 00111100 01110101 11000010 10001111
-            Assert.Equal(0x3c75c28f, 0.015F.As<int>());
-            Assert.Equal(0.015F, 1014350479.As<float>());
+            Assert.Equal(0x3c75c28f, 0.015F.MemoryAs<int>());
+            Assert.Equal(0.015F, 1014350479.MemoryAs<float>());
         }
 
     }

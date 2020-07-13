@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.EncodingEx", "NSt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Windows", "NStandard.Windows\NStandard.Windows.csproj", "{3C1264B7-2813-4625-8C4B-ACC3ADD793EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NStandard.Runtime", "NStandard.Runtime\NStandard.Runtime.csproj", "{B5A825A9-74AA-4AFF-A3DD-4E50ED2564B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Runtime", "NStandard.Runtime\NStandard.Runtime.csproj", "{B5A825A9-74AA-4AFF-A3DD-4E50ED2564B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NStandard.Debug", "NStandard.Debug\NStandard.Debug.csproj", "{B28D2988-BA8E-419C-9CC8-7BCFC02973FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{B5A825A9-74AA-4AFF-A3DD-4E50ED2564B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5A825A9-74AA-4AFF-A3DD-4E50ED2564B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5A825A9-74AA-4AFF-A3DD-4E50ED2564B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B28D2988-BA8E-419C-9CC8-7BCFC02973FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B28D2988-BA8E-419C-9CC8-7BCFC02973FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B28D2988-BA8E-419C-9CC8-7BCFC02973FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B28D2988-BA8E-419C-9CC8-7BCFC02973FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
