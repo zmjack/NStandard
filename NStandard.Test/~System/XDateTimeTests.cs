@@ -10,9 +10,9 @@ namespace NStandard.Test
         {
             var today = new DateTime(2012, 4, 16, 22, 23, 24);
 
-            Assert.Equal(new DateTime(2012, 1, 1, 0, 0, 0, 0), today.BeginningOfYear());
-            Assert.Equal(new DateTime(2012, 4, 1, 0, 0, 0, 0), today.BeginningOfMonth());
-            Assert.Equal(new DateTime(2012, 4, 16, 0, 0, 0, 0), today.BeginningOfDay());
+            Assert.Equal(new DateTime(2012, 1, 1, 0, 0, 0, 0), today.StartOfYear());
+            Assert.Equal(new DateTime(2012, 4, 1, 0, 0, 0, 0), today.StartOfMonth());
+            Assert.Equal(new DateTime(2012, 4, 16, 0, 0, 0, 0), today.StartOfDay());
             Assert.Equal(new DateTime(2012, 12, 31, 23, 59, 59, 999), today.EndOfYear());
             Assert.Equal(new DateTime(2012, 4, 30, 23, 59, 59, 999), today.EndOfMonth());
             Assert.Equal(new DateTime(2012, 4, 16, 23, 59, 59, 999), today.EndOfDay());
@@ -36,9 +36,9 @@ namespace NStandard.Test
              */
 
             var today = new DateTime(2012, 4, 16, 22, 23, 24);
-            Assert.Equal("2012/1/1 0:00:00", today.BeginningOfYear().ToString());
-            Assert.Equal("2012/4/1 0:00:00", today.BeginningOfMonth().ToString());
-            Assert.Equal("2012/4/16 0:00:00", today.BeginningOfDay().ToString());
+            Assert.Equal("2012/1/1 0:00:00", today.StartOfYear().ToString());
+            Assert.Equal("2012/4/1 0:00:00", today.StartOfMonth().ToString());
+            Assert.Equal("2012/4/16 0:00:00", today.StartOfDay().ToString());
 
             Assert.Equal("2012/12/31 23:59:59", today.EndOfYear().ToString());
             Assert.Equal("2012/4/30 23:59:59", today.EndOfMonth().ToString());

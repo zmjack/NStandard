@@ -81,8 +81,7 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static long UnixTimeMilliseconds(this DateTime @this)
-            => DateTimeEx.ToUnixTimeMilliseconds(@this);
+        public static long UnixTimeMilliseconds(this DateTime @this) => DateTimeEx.ToUnixTimeMilliseconds(@this);
 
         /// <summary>
         /// Gets the Unix Timestamp(seconds) of the specified DateTime(UTC).
@@ -96,21 +95,21 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime BeginningOfYear(this DateTime @this) => new DateTime(@this.Year, 1, 1, 0, 0, 0, 0, @this.Kind);
+        public static DateTime StartOfYear(this DateTime @this) => new DateTime(@this.Year, 1, 1, 0, 0, 0, 0, @this.Kind);
 
         /// <summary>
         /// Get the start point of the sepecified month.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime BeginningOfMonth(this DateTime @this) => new DateTime(@this.Year, @this.Month, 1, 0, 0, 0, 0, @this.Kind);
+        public static DateTime StartOfMonth(this DateTime @this) => new DateTime(@this.Year, @this.Month, 1, 0, 0, 0, 0, @this.Kind);
 
         /// <summary>
         /// Get the start point of the sepecified day.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime BeginningOfDay(this DateTime @this) => @this.Date;
+        public static DateTime StartOfDay(this DateTime @this) => @this.Date;
 
         /// <summary>
         /// Get the end point of the sepecified month.
