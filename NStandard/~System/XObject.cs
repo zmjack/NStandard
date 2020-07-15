@@ -111,7 +111,7 @@ namespace NStandard
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static T MemoryAs<T>(this object @this) where T : struct => (T)MemoryAS(@this, typeof(T));
+        public static T MemoryAs<T>(this object @this) where T : struct => (T)MemoryAs(@this, typeof(T));
 
         /// <summary>
         /// Convert a basic struct to another basic struct with same memory sequence.
@@ -119,7 +119,7 @@ namespace NStandard
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static object MemoryAS(this object @this, Type type)
+        public static object MemoryAs(this object @this, Type type)
         {
             if (@this.GetType() == type) return @this;
 
