@@ -11,10 +11,12 @@ namespace NStandard.Flows
 {
     public static class StringFlow
     {
+        public static IFlow<string, string> Base58 = new Flow<string, string>(x => ConvertEx.ToBase58String(Encoding.UTF8.GetBytes(x)));
         public static IFlow<string, string> Base64 = new Flow<string, string>(x => Convert.ToBase64String(Encoding.UTF8.GetBytes(x)));
         public static IFlow<string, string> HexString = new Flow<string, string>(x => BytesConvert.ToHexString(Encoding.UTF8.GetBytes(x)));
         public static IFlow<string, string> UrlSafeBase64 = new Flow<string, string>(x => StringConvert.ConvertBase64ToUrlSafeBase64(Convert.ToBase64String(Encoding.UTF8.GetBytes(x))));
 
+        public static IFlow<string, string> FromBase58 = new Flow<string, string>(x => Encoding.UTF8.GetString(ConvertEx.FromBase58String(x)));
         public static IFlow<string, string> FromBase64 = new Flow<string, string>(x => Encoding.UTF8.GetString(Convert.FromBase64String(x)));
         public static IFlow<string, string> FromHexString = new Flow<string, string>(x => Encoding.UTF8.GetString(StringConvert.FromHexString(x)));
         public static IFlow<string, string> FromUrlSafeBase64 = new Flow<string, string>(x => Encoding.UTF8.GetString(Convert.FromBase64String(StringConvert.ConvertUrlSafeBase64ToBase64(x))));
