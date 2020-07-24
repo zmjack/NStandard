@@ -140,21 +140,21 @@ namespace NStandard
                 _ => throw new NotSupportedException(),
             };
 
-            switch (type)
+            return type switch
             {
-                case Type t when t == typeof(char): return BitConverter.ToChar(bytes, 0);
-                case Type t when t == typeof(bool): return BitConverter.ToBoolean(bytes, 0);
-                case Type t when t == typeof(byte): return bytes[0];
-                case Type t when t == typeof(sbyte): return (sbyte)bytes[0];
-                case Type t when t == typeof(short): return BitConverter.ToInt16(bytes, 0);
-                case Type t when t == typeof(ushort): return BitConverter.ToUInt16(bytes, 0);
-                case Type t when t == typeof(int): return BitConverter.ToInt32(bytes, 0);
-                case Type t when t == typeof(uint): return BitConverter.ToUInt32(bytes, 0);
-                case Type t when t == typeof(long): return BitConverter.ToInt64(bytes, 0);
-                case Type t when t == typeof(ulong): return BitConverter.ToUInt64(bytes, 0);
-                case Type t when t == typeof(float): return BitConverter.ToSingle(bytes, 0);
-                case Type t when t == typeof(double): return BitConverter.ToDouble(bytes, 0);
-                default: throw new NotSupportedException();
+                Type t when t == typeof(char) => BitConverter.ToChar(bytes, 0),
+                Type t when t == typeof(bool) => BitConverter.ToBoolean(bytes, 0),
+                Type t when t == typeof(byte) => bytes[0],
+                Type t when t == typeof(sbyte) => (sbyte)bytes[0],
+                Type t when t == typeof(short) => BitConverter.ToInt16(bytes, 0),
+                Type t when t == typeof(ushort) => BitConverter.ToUInt16(bytes, 0),
+                Type t when t == typeof(int) => BitConverter.ToInt32(bytes, 0),
+                Type t when t == typeof(uint) => BitConverter.ToUInt32(bytes, 0),
+                Type t when t == typeof(long) => BitConverter.ToInt64(bytes, 0),
+                Type t when t == typeof(ulong) => BitConverter.ToUInt64(bytes, 0),
+                Type t when t == typeof(float) => BitConverter.ToSingle(bytes, 0),
+                Type t when t == typeof(double) => BitConverter.ToDouble(bytes, 0),
+                _ => throw new NotSupportedException(),
             };
         }
 

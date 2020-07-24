@@ -36,8 +36,7 @@ namespace NStandard
         {
             if (conversionType.IsNullable())
             {
-                if (value is null)
-                    return null;
+                if (value is null) return null;
                 else return Convert.ChangeType(value, conversionType.GetGenericArguments()[0]);
             }
             else return Convert.ChangeType(value, conversionType);
