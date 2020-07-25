@@ -10,7 +10,7 @@
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>System Standard Extension</PackageTags>
-    <Version>0.4.0</Version>
+    <Version>0.5.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>nstandard.png</PackageIcon>
     <Copyright>Copyright © dawnx.net 2020</Copyright>
