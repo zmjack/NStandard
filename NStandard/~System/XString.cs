@@ -282,7 +282,7 @@ namespace NStandard
         }
 
         /// <summary>
-        /// Extract string by using regular expressions.
+        /// Extract string by using regular expressions. If no match, return null.
         /// </summary>
         /// <param name="this"></param>
         /// <param name="regex"></param>

@@ -7,7 +7,7 @@
     <Authors>zmjack</Authors>
     <Company>nstandard.net</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.5.2</Version>
+    <Version>0.5.3-alpha1</Version>
     <Description>DotNet extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
@@ -19,6 +19,14 @@
     <PackageTags>System Standard Extension</PackageTags>
     <PackageIcon>nstandard.png</PackageIcon>
     <PackageIconUrl />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <DocumentationFile>D:\TeamProjects\NStandard\NStandard\NStandard.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <DocumentationFile>D:\TeamProjects\NStandard\NStandard\NStandard.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
