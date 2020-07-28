@@ -1,0 +1,1283 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NStandard</name>
+    </assembly>
+    <members>
+        <member name="T:NStandard.Caching.UpdateCacheExpirationDelegate">
+            <summary>
+            
+            </summary>
+            <param name="cacheTime"></param>
+            <returns>Expiration Time</returns>
+        </member>
+        <member name="M:NStandard.ColorEx.CreateFromAhsv(System.Single,System.Single,System.Single)">
+            <summary>
+            Creates a color using Alpha(255) + HSV model.
+            </summary>
+            <param name="hue">[0,360)</param>
+            <param name="saturation">[0,1]</param>
+            <param name="value">[0,1]</param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.ColorEx.CreateFromAhsv(System.Int32,System.Single,System.Single,System.Single)">
+            <summary>
+            Creates a color using Alpha + HSV model.
+            </summary>
+            <param name="alpha"></param>
+            <param name="hue">[0,360)</param>
+            <param name="saturation">[0,1]</param>
+            <param name="value">[0,1]</param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.ConvertEx.ChangeType(System.Object,System.Type)">
+            <summary>
+            Returns an object of the specified type and whose value is equivalent to the specified object.
+                (Enhance: Support Nullable types.)
+            </summary>
+            <param name="value">An object that implements the System.IConvertible interface.</param>
+            <param name="conversionType">The type of object to return.</param>
+        </member>
+        <member name="M:NStandard.Converts.BytesConvert.Base64(System.Byte[])">
+            <summary>
+            Converts an array of 8-bit unsigned integers to its equivalent string representation
+                that is encoded with base-64 digits.
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.Converts.BytesConvert.UrlSafeBase64(System.Byte[])">
+            <summary>
+            Converts an array of 8-bit unsigned integers to its equivalent string representation
+                that is encoded with url safe base-64 digits.
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.Converts.BytesConvert.ToHexString(System.Byte[])">
+            <summary>
+            Converts an array of 8-bit unsigned integers to its equivalent string representation
+                that is encoded with hex digits.
+            </summary>
+            <param name="bytes"></param>
+            <param name="separator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.Converts.BytesConvert.HexString(System.Byte[],System.String)">
+            <summary>
+            Converts an array of 8-bit unsigned integers to its equivalent string representation
+                that is encoded with hex digits.
+            </summary>
+            <param name="bytes"></param>
+            <param name="separator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.Converts.BytesConvert.String(System.Byte[])">
+            <summary>
+            Decodes all the bytes in the specified byte(UTF-8) array into a string.
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.Converts.BytesConvert.String(System.Byte[],System.String)">
+            <summary>
+            Decodes all the bytes in the specified byte array into a string.
+            </summary>
+            <param name="bytes"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.Converts.BytesConvert.String(System.Byte[],System.Text.Encoding)">
+            <summary>
+            Decodes all the bytes in the specified byte array into a string.
+            </summary>
+            <param name="bytes"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.Converts.StringConvert.ConvertBase64ToUrlSafeBase64(System.String)">
+            <summary>
+            Converts the specified string, which encodes binary data as url safe base-64 digits, to
+                an equivalent 8-bit unsigned integer array.
+            </summary>
+            <param name="base64"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.Converts.StringConvert.ConvertUrlSafeBase64ToBase64(System.String)">
+            <summary>
+            Converts an array of 8-bit unsigned integers to its equivalent string representation
+                that is encoded with url safe base-64 digits.
+            </summary>
+            <param name="urlBase64"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.Converts.StringConvert.Base64Bytes(System.String)">
+            <summary>
+            Converts the specified string, which encodes binary data as base-64 digits, to
+                an equivalent 8-bit unsigned integer array.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.Converts.StringConvert.UrlSafeBase64Bytes(System.String)">
+            <summary>
+            Converts the specified string, which encodes binary data as url safe base-64 digits, to
+                an equivalent 8-bit unsigned integer array.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.Converts.StringConvert.FromHexString(System.String)">
+            <summary>
+            Converts the specified string, which encodes binary data as hex digits, to
+                an equivalent 8-bit unsigned integer array.
+            </summary>
+            <param name="this"></param>
+            <param name="separator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.Converts.StringConvert.FromHexString(System.String,System.String)">
+            <summary>
+            Converts the specified string, which encodes binary data as hex digits, to
+                an equivalent 8-bit unsigned integer array.
+            </summary>
+            <param name="this"></param>
+            <param name="separator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.UnixMinValue">
+            <summary>
+            Gets the DateTime(UTC) of UnixMinValue.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.FromUnixSeconds(System.Int64)">
+            <summary>
+            Converts the sepecified Unix TimeStamp(seconds) to DateTime(UTC).
+            </summary>
+            <param name="seconds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.FromUnixMilliseconds(System.Int64)">
+            <summary>
+            Converts the sepecified Unix TimeStamp(milliseconds) to DateTime(UTC).
+            </summary>
+            <param name="milliseconds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.ToUnixTimeMilliseconds(System.DateTime)">
+            <summary>
+            Gets the Unix Timestamp(milliseconds) of the specified DateTime(UTC).
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.ToUnixTimeSeconds(System.DateTime)">
+            <summary>
+            Gets the Unix Timestamp(seconds) of the specified DateTime(UTC).
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.GetMonths(System.DateTime,System.DateTime)">
+            <summary>
+            Gets the range of months.
+            </summary>
+            <param name="startDate"></param>
+            <param name="endDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.GetDays(System.DateTime,System.DateTime)">
+            <summary>
+            Gets the range of days.
+            </summary>
+            <param name="startDate"></param>
+            <param name="endDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.YearDiff(System.DateTime,System.DateTime)">
+            <summary>
+            The number of complete years in the period.
+            Same as DATEDIF(*, *, "Y") function in Excel.
+            </summary>
+            <param name="startDate"></param>
+            <param name="endDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.MonthDiff(System.DateTime,System.DateTime)">
+            <summary>
+            The number of complete months in the period.
+            Same as DATEDIF(*, *, "M") function in Excel.
+            </summary>
+            <param name="startDate"></param>
+            <param name="endDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.ParseFromWeek(System.Int32,System.Int32,System.DayOfWeek)">
+            <summary>
+            Gets a DateTime for the specified week of year.
+            </summary>
+            <param name="year"></param>
+            <param name="week"></param>
+            <param name="weekStart"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.ParseExtract(System.String,System.String)">
+            <summary>
+            Converts the specified string representation of a date and time to its System.DateTime
+                equivalent using the specified format and culture-specific format information.
+                The format of the string representation must match the specified format exactly.
+            </summary>
+            <param name="s"></param>
+            <param name="format"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.TryParseExtract(System.String,System.String,System.DateTime@)">
+            <summary>
+            Converts the specified string representation of a date and time to its System.DateTime
+                equivalent using the specified format, culture-specific format information, and
+                style. The format of the string representation must match the specified format
+                exactly. The method returns a value that indicates whether the conversion succeeded.
+            </summary>
+            <param name="s"></param>
+            <param name="format"></param>
+            <param name="result"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDelegate.Higher``1(NStandard.SingleOpFunc{``0},System.Int32)">
+            <summary>
+            Convert a function to its higher-order form.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="delegate"></param>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="F:NStandard.Reference.DotNetFramework.TFM">
+            <summary>
+            Target Framework Moniker
+            </summary>
+        </member>
+        <member name="T:NStandard.Scope`1">
+            <summary>
+            Cooperate with 'using' keyword to use thread safe <see cref="T:NStandard.Scope`1"/>.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+        </member>
+        <member name="M:NStandard.Scope`1.Dispose">
+            <summary>
+            Do not override this method. Use Disposing instead.
+            </summary>
+        </member>
+        <member name="M:NStandard.StringEx.CommonStarts(System.String[])">
+            <summary>
+            Get the common starts of the specified strings.
+            </summary>
+            <param name="strings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.StringEx.CamelCase(System.String)">
+            <summary>
+            Converts a string to CamelCase string.
+            </summary>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.StringEx.KebabCase(System.String)">
+            <summary>
+            Converts a string to KebabCase string.
+            </summary>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.StringEx.Extract``1(System.String,``0,System.Linq.Expressions.Expression{System.Func{``0,System.FormattableString}})">
+            <summary>
+            Projects some strings back into an instance's field or property. (Using `?` on the right side of a variable disables greedy matching)
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="source"></param>
+            <param name="instance"></param>
+            <param name="patternExp"></param>
+        </member>
+        <member name="M:NStandard.XArray.String(System.Byte[])">
+            <summary>
+            Decodes all the bytes in the specified byte(UTF-8) array into a string.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.String(System.Byte[],System.String)">
+            <summary>
+            Decodes all the bytes in the specified byte array into a string.
+            </summary>
+            <param name="this"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.String(System.Byte[],System.Text.Encoding)">
+            <summary>
+            Decodes all the bytes in the specified byte array into a string.
+            </summary>
+            <param name="this"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.ToMultiArray``1(``0[][])">
+            <summary>
+            Converts jagged array to multidimensional array.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.ToMultiArray``1(``0[][][])">
+            <summary>
+            Converts jagged array to multidimensional array.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Each``1(``0[][],System.Action{``0,System.Int32,System.Int32})">
+            <summary>
+            Do action for each item of multidimensional array.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="this"></param>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Each``1(``0[][][],System.Action{``0,System.Int32,System.Int32,System.Int32})">
+            <summary>
+            Do action for each item of multidimensional array.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="this"></param>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Let``1(``0[],System.Func{System.Int32,``0})">
+            <summary>
+            Use a method to initialize each element of an array.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="init"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Let``1(``0[],System.Func{``0})">
+            <summary>
+            Use a method to initialize each element of an array.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="init"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Let``1(``0[0:,0:],System.Func{System.Int32,``0})">
+            <summary>
+            Use a method to initialize each element of an array.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="init"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Let``1(``0[0:,0:],System.Func{System.Int32,System.Int32,``0})">
+            <summary>
+            Use a method to initialize each element of an array.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="init"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Let``1(``0[0:,0:],System.Func{``0})">
+            <summary>
+            Use a method to initialize each element of an array.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="init"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Let``1(``0[0:,0:],``0[])">
+            <summary>
+            Use a method to initialize each element of an array.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="inits"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Let``1(``0[0:,0:,0:],System.Func{System.Int32,``0})">
+            <summary>
+            Use a method to initialize each element of an array.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="init"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Let``1(``0[0:,0:,0:],System.Func{System.Int32,System.Int32,System.Int32,``0})">
+            <summary>
+            Use a method to initialize each element of an array.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="init"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Let``1(``0[0:,0:,0:],System.Func{``0})">
+            <summary>
+            Use a method to initialize each element of an array.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="init"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Let``1(``0[0:,0:,0:],``0[])">
+            <summary>
+            Use a method to initialize each element of an array.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="inits"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.ToJaggedArray``1(``0[0:,0:])">
+            <summary>
+            Converts jagged array to multidimensional array.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.ToJaggedArray``1(``0[0:,0:,0:])">
+            <summary>
+            Converts jagged array to multidimensional array.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Each``1(``0[0:,0:],System.Action{``0,System.Int32,System.Int32})">
+            <summary>
+            Do action for each item of multidimensional array.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="this"></param>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Each``1(``0[0:,0:,0:],System.Action{``0,System.Int32,System.Int32,System.Int32})">
+            <summary>
+            Do action for each item of multidimensional array.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="this"></param>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Select``2(``0[0:,0:],System.Func{``0,``1})">
+            <summary>
+            Do action for each item of multidimensional array.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TRet"></typeparam>
+            <param name="this"></param>
+            <param name="selector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Select``2(``0[0:,0:],System.Func{``0,System.Int32,``1})">
+            <summary>
+            Do action for each item of multidimensional array.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TRet"></typeparam>
+            <param name="this"></param>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Select``2(``0[0:,0:],System.Func{``0,System.Int32,System.Int32,``1})">
+            <summary>
+            Do action for each item of multidimensional array.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TRet"></typeparam>
+            <param name="this"></param>
+            <param name="selector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Select``2(``0[0:,0:,0:],System.Func{``0,``1})">
+            <summary>
+            Do action for each item of multidimensional array.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TRet"></typeparam>
+            <param name="this"></param>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Select``2(``0[0:,0:,0:],System.Func{``0,System.Int32,``1})">
+            <summary>
+            Do action for each item of multidimensional array.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TRet"></typeparam>
+            <param name="this"></param>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Select``2(``0[0:,0:,0:],System.Func{``0,System.Int32,System.Int32,System.Int32,``1})">
+            <summary>
+            Do action for each item of multidimensional array.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TRet"></typeparam>
+            <param name="this"></param>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.LBound(System.Array)">
+            <summary>
+            Gets the index of the first element in the array.
+                Usually, LBound() returns 0, since arrays are zero-based by default.
+                but in some rare cases they are not.
+                For example, you use Array.CreateInstance(Type, int[], int[]) to create an Array.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.UBound(System.Array)">
+            <summary>
+            Gets the index of the last element in the array.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.IndexOf``1(``0[],``0)">
+            <summary>
+            Reports the zero-based index of the first occurrence of the specified element in this array.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="this"></param>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.IndexOf``1(``0[],System.Func{``0,System.Boolean})">
+            <summary>
+            Reports the zero-based index of the first occurrence of the specified element in this array.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="this"></param>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.IndexOf``1(``0[],System.Func{``0,System.Boolean},System.Int32)">
+            <summary>
+            Reports the zero-based index of the first occurrence of the specified element in this string.
+            </summary>
+            <param name="this"></param>
+            <param name="predicate"></param>
+            <param name="startIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.IndexOf``1(``0[],System.Func{``0,System.Boolean},System.Int32,System.Int32)">
+            <summary>
+            Reports the zero-based index of the first occurrence of the specified element in this string.
+            </summary>
+            <param name="this"></param>
+            <param name="predicate"></param>
+            <param name="startIndex"></param>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Slice``1(``0[],System.Int32)">
+            <summary>
+            Retrieves an array from this instance. The new array starts at a specified
+                element position and continues to the end of the array.
+                (If the parameter is negative, the search will start on the right.)
+            </summary>
+            <param name="this"></param>
+            <param name="start"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Slice``1(``0[],System.Int32,System.Int32)">
+            <summary>
+            Retrieves an array from this instance. The new array starts at a specified
+                element position and ends with a specified element position.
+                (If the parameters is negative, the search will start on the right.)
+            </summary>
+            <param name="this"></param>
+            <param name="start"></param>
+            <param name="stop"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Shuffle``1(``0[])">
+            <summary>
+            Shuffles array and returns itself.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.AsKvPairs``1(``0[])">
+            <summary>
+            Returns a collection of KeyValuePair which contains the element's index(Key) and value.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XChar.GetLengthA(System.Char)">
+            <summary>
+            Gets the length of the specified char as Ascii.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XChar.ToLower(System.Char)">
+            <summary>
+            Converts the value of a Unicode character to its lowercase equivalent.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XChar.ToUpper(System.Char)">
+            <summary>
+            Converts the value of a Unicode character to its uppercase equivalent.
+            </summary>
+            <param name="thsi"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.PastDay(System.DateTime,System.DayOfWeek,System.Boolean)">
+            <summary>
+            Gets a past day for the specified day of week.
+            </summary>
+            <param name="this"></param>
+            <param name="dayOfWeek"></param>
+            <param name="includeCurrentDay"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.FutureDay(System.DateTime,System.DayOfWeek,System.Boolean)">
+            <summary>
+            Gets a future day for the specified day of week.
+            </summary>
+            <param name="this"></param>
+            <param name="dayOfWeek"></param>
+            <param name="includeCurrentDay"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.WeekInMonth(System.DateTime,System.DayOfWeek)">
+            <summary>
+            Gets the number of weeks in a month for the specified date.
+            (eg. If define Sunday as the fisrt day of the week, its first appearance means week 1, before is week 0.)
+            </summary>
+            <param name="this"></param>
+            <param name="weekStart"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.Week(System.DateTime,System.DayOfWeek)">
+            <summary>
+            Gets the number of weeks in a year for the specified date. 
+            </summary>
+            <param name="this"></param>
+            <param name="weekStart"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.UnixTimeMilliseconds(System.DateTime)">
+            <summary>
+            Gets the Unix Timestamp(milliseconds) of the specified DateTime(UTC).
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.UnixTimeSeconds(System.DateTime)">
+            <summary>
+            Gets the Unix Timestamp(seconds) of the specified DateTime(UTC).
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.StartOfYear(System.DateTime)">
+            <summary>
+            Get the start point of the sepecified month.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.StartOfMonth(System.DateTime)">
+            <summary>
+            Get the start point of the sepecified month.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.StartOfDay(System.DateTime)">
+            <summary>
+            Get the start point of the sepecified day.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.EndOfYear(System.DateTime)">
+            <summary>
+            Get the end point of the sepecified month.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.EndOfMonth(System.DateTime)">
+            <summary>
+            Get the end point of the sepecified month.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.EndOfDay(System.DateTime)">
+            <summary>
+            Get the end point of the sepecified day.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XInt32.IsOdd(System.Int32)">
+            <summary>
+            Returns whether the specified number is odd.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XInt32.IsEven(System.Int32)">
+            <summary>
+            Returns whether the specified number is even.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XInt32.Mod(System.Int32,System.Int32)">
+            <summary>
+            Gets the positive integer modulus. (Unlike the operator %, this method always returns a positive number)
+            </summary>
+            <param name="this"></param>
+            <param name="mod"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XInt64.IsOdd(System.Int64)">
+            <summary>
+            Returns whether the specified number is odd.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XInt64.IsEven(System.Int64)">
+            <summary>
+            Returns whether the specified number is even.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XInt64.Mod(System.Int64,System.Int64)">
+            <summary>
+            Gets the positive integer modulus. (Unlike the operator %, this method always returns a positive number)
+            </summary>
+            <param name="this"></param>
+            <param name="mod"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XObject.Then``1(``0,System.Action{``0})">
+            <summary>
+            Do a task for itself, then return itself.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XObject.For``2(``0,``1)">
+            <summary>
+            Casts the element to the specified type through the specified convert method.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <typeparam name="TRet"></typeparam>
+            <param name="this"></param>
+            <param name="convert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XObject.For``2(``0,System.Func{``0,``1})">
+            <summary>
+            Casts the element to the specified type through the specified convert method.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <typeparam name="TRet"></typeparam>
+            <param name="this"></param>
+            <param name="convert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XObject.ForUntil``1(``0,System.Func{``0,``0},System.Func{``0,System.Boolean})">
+            <summary>
+            Casts the element to the specified type through the specified convert method.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <typeparam name="TRet"></typeparam>
+            <param name="this"></param>
+            <param name="convert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XObject.Flow``2(``0,NStandard.IFlow{``0,``1})">
+            <summary>
+            Casts the element to the specified type through the specified flow.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <typeparam name="TRet"></typeparam>
+            <param name="this"></param>
+            <param name="convert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XObject.Return``2(``0,System.Func{``0,``1},System.Func{``0,``1})">
+            <summary>
+            Casts the element to the specified type through the specified convert method.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <typeparam name="TRet"></typeparam>
+            <param name="this"></param>
+            <param name="filters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XObject.Return``2(``0,System.Func{``0,``1},``1)">
+            <summary>
+            Casts the element to the specified type through the specified convert method.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <typeparam name="TRet"></typeparam>
+            <param name="this"></param>
+            <param name="filters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XObject.IsNull``1(``0)">
+            <summary>
+            Determines whether the specified object is null.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XObject.MemoryAs``1(System.Object)">
+            <summary>
+            Convert a basic struct to another basic struct with same memory sequence.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XObject.MemoryAs(System.Object,System.Type)">
+            <summary>
+            Convert a basic struct to another basic struct with same memory sequence.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XObject.ToExpandoObject(System.Object)">
+            <summary>
+            Converts the specified object to <see cref="T:System.Dynamic.ExpandoObject"/>.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.IsNullOrEmpty(System.String)">
+            <summary>
+            Indicates whether the specified string is null or an System.String.Empty string.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.IsNullOrWhiteSpace(System.String)">
+            <summary>
+            Indicates whether a specified string is null, empty, or consists only of white-space characters.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.IsEmpty(System.String)">
+            <summary>
+            Indicates whether the specified string is an System.String.Empty string.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.IsWhiteSpace(System.String)">
+            <summary>
+            Indicates whether a specified string is empty, or consists only of white-space characters.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.Center(System.String,System.Int32,System.Char)">
+            <summary>
+            Returns centered in a string of length width. Padding is done using the specified fillchar (default is an ASCII space).
+            </summary>
+            <param name="this"></param>
+            <param name="widthA"></param>
+            <param name="fillChar"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.IsMatch(System.String,System.Text.RegularExpressions.Regex)">
+            <summary>
+            Indicates whether the string matches the specified regular expression.
+            </summary>
+            <param name="this"></param>
+            <param name="regex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.Slice(System.String,System.Int32)">
+            <summary>
+            Retrieves a substring from this instance. The substring starts at a specified
+                character position and continues to the end of the string.
+                (If the parameter is negative, the search will start on the right.)
+            </summary>
+            <param name="this"></param>
+            <param name="start"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.Slice(System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a substring from this instance. The substring starts at a specified
+                character position and ends with a specified character position.
+                (If the parameters is negative, the search will start on the right.)
+            </summary>
+            <param name="this"></param>
+            <param name="start"></param>
+            <param name="stop"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.CharAt(System.String,System.Int32)">
+            <summary>
+            Returns the char at a specified index in the string.
+                (If the parameter is negative, the search will start on the right.)
+            </summary>
+            <param name="this"></param>
+            <param name="pos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.Repeat(System.String,System.Int32)">
+            <summary>
+            Returns a string which is equivalent to adding it to itself n times.
+            </summary>
+            <param name="this"></param>
+            <param name="times"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.Count(System.String,System.String,System.Boolean)">
+            <summary>
+            Returns the number of occurrences of substring which in the specified string.
+            </summary>
+            <param name="this"></param>
+            <param name="searchString"></param>
+            <param name="overlapping"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.NormalizeNewLine(System.String)">
+            <summary>
+            Returns a new string which is normalized by the newline string of current environment.
+            <para>If a string come from non-Unix platforms, then its NewLine is "\r\n".</para>
+            <para>If a string come from Unix platforms, then its NewLine is "\n".</para>
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.GetPureLines(System.String,System.Boolean)">
+            <summary>
+            Divides a string into multi-lines (ignore Empty or WhiteSpace). If the string is null, return string[0]. 
+            (Perhaps you should set `normalizeNewLine` to true to convert the NewLine 
+                which is defined in other system into the current system's.)
+            </summary>
+            <param name="this"></param>
+            <param name="normalizeNewLine"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.GetLines(System.String,System.Boolean)">
+            <summary>
+            Divides a string into multi-lines. If the string is null, return string[0]. 
+            (Perhaps you should set `normalizeNewLine` to true to convert the NewLine 
+                which is defined in other system into the current system's.)
+            </summary>
+            <param name="this"></param>
+            <param name="normalizeNewLine"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.Unique(System.String)">
+            <summary>
+            Removes all leading and trailing white-space characters from the current string,
+                and replaces multiple spaces with a single.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:NStandard.XString.RegexReplace(System.String,System.Text.RegularExpressions.Regex,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:NStandard.XString.RegexReplace(System.String,System.Text.RegularExpressions.Regex,System.Text.RegularExpressions.MatchEvaluator)" -->
+        <member name="M:NStandard.XString.Extract(System.String,System.Text.RegularExpressions.Regex,System.String)">
+            <summary>
+            Extract strings by using regular expressions.
+            </summary>
+            <param name="this"></param>
+            <param name="regex"></param>
+            <param name="replacement"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.ExtractFirst(System.String,System.Text.RegularExpressions.Regex,System.String)">
+            <summary>
+            Extract string by using regular expressions. If no match, return null.
+            </summary>
+            <param name="this"></param>
+            <param name="regex"></param>
+            <param name="replacement"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.Resolve(System.String,System.Text.RegularExpressions.Regex)">
+            <summary>
+            Projects the specified string to an array by using regular expressions.
+            </summary>
+            <param name="this"></param>
+            <param name="regex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.TryResolve(System.String,System.Text.RegularExpressions.Regex,System.String[][]@)">
+            <summary>
+            Projects the specified string to an array by using regular expressions.
+            </summary>
+            <param name="this"></param>
+            <param name="regex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.UnitInsert(System.String,System.Int32,System.String,System.Boolean)">
+            <summary>
+            Returns a new string which is consisting of many units by the specified length number of characters.
+            </summary>
+            <param name="this"></param>
+            <param name="separator"></param>
+            <param name="unitLength"></param>
+            <param name="padRight"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.CapitalizeFirst(System.String,System.Boolean)">
+            <summary>
+            Returns a copy of the string with its first character capitalized.
+            </summary>
+            <param name="this"></param>
+            <param name="upper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.GetLengthA(System.String)">
+            <summary>
+            Gets the length of the specified string as Ascii.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.PadLeftA(System.String,System.Int32)">
+            <summary>
+            Returns a new string that right-aligns the characters in this string by padding
+                them on the right with a specified Ascii character, for a specified total length.
+            </summary>
+            <param name="this"></param>
+            <param name="totalWidth"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.PadLeftA(System.String,System.Int32,System.Char)">
+            <summary>
+            Returns a new string that right-aligns the characters in this string by padding
+                them on the right with a specified Ascii character, for a specified total length.
+            </summary>
+            <param name="this"></param>
+            <param name="totalWidth"></param>
+            <param name="paddingChar"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.PadRightA(System.String,System.Int32)">
+            <summary>
+            Returns a new string that left-aligns the characters in this string by padding
+                them on the right with a specified Ascii character, for a specified total length.
+            </summary>
+            <param name="this"></param>
+            <param name="totalWidth"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.PadRightA(System.String,System.Int32,System.Char)">
+            <summary>
+            Returns a new string that left-aligns the characters in this string by padding
+                them on the right with a specified Ascii character, for a specified total length.
+            </summary>
+            <param name="this"></param>
+            <param name="totalWidth"></param>
+            <param name="paddingChar"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.IndexOf(System.String,System.Func{System.Char,System.Boolean})">
+            <summary>
+            Reports the zero-based index of the first occurrence of the specified element in this string.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="this"></param>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.IndexOf(System.String,System.Func{System.Char,System.Boolean},System.Int32)">
+            <summary>
+            Reports the zero-based index of the first occurrence of the specified element in this string.
+            </summary>
+            <param name="this"></param>
+            <param name="predicate"></param>
+            <param name="startIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.IndexOf(System.String,System.Func{System.Char,System.Boolean},System.Int32,System.Int32)">
+            <summary>
+            Reports the zero-based index of the first occurrence of the specified element in this string.
+            </summary>
+            <param name="this"></param>
+            <param name="predicate"></param>
+            <param name="startIndex"></param>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.Bytes(System.String)">
+            <summary>
+            Encodes all the characters in the specified string into a sequence of bytes(UTF-8), then returns it.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.Bytes(System.String,System.Text.Encoding)">
+            <summary>
+            Encodes all the characters in the specified string into a sequence of bytes, then returns it.
+            </summary>
+            <param name="this"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XString.Bytes(System.String,System.String)">
+            <summary>
+            Encodes all the characters in the specified string into a sequence of bytes, then returns it.
+            </summary>
+            <param name="this"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XUInt32.IsOdd(System.UInt32)">
+            <summary>
+            Returns whether the specified number is odd.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XUInt32.IsEven(System.UInt32)">
+            <summary>
+            Returns whether the specified number is even.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XUInt32.Mod(System.UInt32,System.UInt32)">
+            <summary>
+            Gets the positive integer modulus. (Unlike the operator %, this method always returns a positive number)
+            </summary>
+            <param name="this"></param>
+            <param name="mod"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XUInt64.IsOdd(System.UInt64)">
+            <summary>
+            Returns whether the specified number is odd.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XUInt64.IsEven(System.UInt64)">
+            <summary>
+            Returns whether the specified number is even.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XUInt64.Mod(System.UInt64,System.UInt64)">
+            <summary>
+            Gets the positive integer modulus. (Unlike the operator %, this method always returns a positive number)
+            </summary>
+            <param name="this"></param>
+            <param name="mod"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XIEnumerable.AsKvPairs``1(System.Collections.IEnumerable)">
+            <summary>
+            Returns a collection of tuples containing values and indexes.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XIEnumerable.AsKvPairs``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Returns a collection of KeyValuePair which contains the element's index(Key) and value.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XIEnumerable.Each``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+            <summary>
+            Do action for each item.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="this"></param>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XIEnumerable.Each``1(System.Collections.IEnumerable,System.Action{``0})">
+            <summary>
+            Do action for each item.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="this"></param>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XIEnumerable.Each``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0,System.Int32})">
+            <summary>
+            Do action for each item.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="this"></param>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XIEnumerable.Each``1(System.Collections.IEnumerable,System.Action{``0,System.Int32})">
+            <summary>
+            Do action for each item.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="this"></param>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XIEnumerable.GetWindows``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            Get sliding windows for items.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="this"></param>
+            <param name="windowElementNumber"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XIEnumerable.Join``1(System.Collections.Generic.IEnumerable{``0},System.String)">
+            <summary>
+            Concatenates the members of a collection, using the specified separator between each member.
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="this"></param>
+            <param name="separator"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

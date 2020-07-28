@@ -34,5 +34,12 @@ namespace NStandard
                 base[key].Update();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void ExpireAll()
+        {
+            foreach (var key in Keys)
+                base[key].Expire();
+        }
+
     }
 }

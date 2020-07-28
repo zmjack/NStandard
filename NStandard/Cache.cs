@@ -15,6 +15,12 @@ namespace NStandard
         public DateTime CacheTime { get; protected set; }
         public DateTime Expiration { get; protected set; }
 
+        public Cache() { }
+        public Cache(Func<T> cacheMethod)
+        {
+            CacheMethod = cacheMethod;
+        }
+
         protected T _Value;
 
         public T Value
@@ -22,8 +28,7 @@ namespace NStandard
             [MethodImpl(MethodImplOptions.Synchronized)]
             get
             {
-                if (DateTime.Now >= Expiration)
-                    Update();
+                if (DateTime.Now >= Expiration) Update();
                 return _Value;
             }
         }
@@ -38,6 +43,9 @@ namespace NStandard
             _Value = CacheMethod();
             OnCacheUpdated?.Invoke(CacheTime, _Value);
         }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void Expire() => Expiration = DateTime.MinValue;
 
     }
 

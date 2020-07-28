@@ -94,6 +94,27 @@ namespace NStandard
         }
 
         /// <summary>
+        /// Get sliding windows for items.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="windowElementNumber"></param>
+        /// <returns></returns>
+        public static IEnumerable<SlidingWindow<TSource>> GetWindows<TSource>(this IEnumerable<TSource> @this, int windowElementNumber)
+        {
+            var queue = new Queue<TSource>();
+            foreach (var item in @this)
+            {
+                queue.Enqueue(item);
+
+                if (queue.Count > windowElementNumber) queue.Dequeue();
+
+                if (queue.Count == windowElementNumber)
+                    yield return new SlidingWindow<TSource>(queue.ToArray());
+            }
+        }
+
+        /// <summary>
         /// Concatenates the members of a collection, using the specified separator between each member.
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
