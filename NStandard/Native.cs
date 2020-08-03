@@ -5,7 +5,7 @@ namespace NStandard
 {
     public static class Native
     {
-        [Obsolete("Do not use this function in production environment. GC may change the pointer and can not be listened.")]
+        [Obsolete("Do not use this function in PRODUCTION environment. GC may change the pointer and can not be listened.")]
         public unsafe static IntPtr AddressOf<T>(T obj, bool verbose = false) where T : class
         {
             var oref = __makeref(obj);
@@ -19,7 +19,7 @@ namespace NStandard
 #endif
         }
 
-        [Obsolete("Do not use this function in production environment. GC may change the pointer and can not be listened.")]
+        [Obsolete("Do not use this function in PRODUCTION environment. GC may change the pointer and can not be listened.")]
         public static bool AreSame<T>(T obj1, T obj2) where T : class => AddressOf(obj1) == AddressOf(obj2);
 
         public static byte[] ReadMemory(IntPtr ptr, int length)

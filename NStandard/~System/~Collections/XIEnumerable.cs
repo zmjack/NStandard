@@ -100,7 +100,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="windowElementNumber"></param>
         /// <returns></returns>
-        public static IEnumerable<SlidingWindow<TSource>> GetWindows<TSource>(this IEnumerable<TSource> @this, int windowElementNumber)
+        public static IEnumerable<SlidingWindow<TSource>> GetSlidingWindows<TSource>(this IEnumerable<TSource> @this, int windowElementNumber)
         {
             var queue = new Queue<TSource>();
             foreach (var item in @this)

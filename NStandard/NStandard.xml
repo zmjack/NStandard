@@ -1241,7 +1241,7 @@
             <param name="task"></param>
             <returns></returns>
         </member>
-        <member name="M:NStandard.XIEnumerable.GetWindows``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+        <member name="M:NStandard.XIEnumerable.GetSlidingWindows``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
             <summary>
             Get sliding windows for items.
             </summary>

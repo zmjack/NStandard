@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace NStandard
 {
     public static class Tree
     {
         public static Tree<TModel> Parse<TModel>(TModel model, Func<TModel, ICollection<TModel>> childrenGetter)
+            where TModel : class
         {
             void AddChildren(Tree<TModel> tree)
             {
@@ -27,12 +27,13 @@ namespace NStandard
         }
 
         public static Tree<TModel>[] Parse<TModel>(IEnumerable<TModel> models, Func<TModel, ICollection<TModel>> childrenGetter)
+            where TModel : class
         {
             return models.Select(x => Parse(x, childrenGetter)).ToArray();
         }
 
         public static Tree<TModel>[] ParseRange<TModel, TKey>(IEnumerable<TModel> models, Func<TModel, TKey> keySelector, Func<TModel, TKey> parentGetter)
-            where TModel : new()
+            where TModel : class
         {
             if (!typeof(TKey).IsNullable()) throw new ArgumentException($"The argument({nameof(parentGetter)} must return a nullable type.");
 
@@ -52,10 +53,9 @@ namespace NStandard
             foreach (var tree in trees) AddChildren(tree);
             return trees;
         }
-
     }
 
-    public class Tree<TModel>
+    public class Tree<TModel> where TModel : class
     {
         public Tree<TModel> Parent { get; private set; }
         public HashSet<Tree<TModel>> Children { get; private set; } = new HashSet<Tree<TModel>>();
@@ -117,6 +117,25 @@ namespace NStandard
                 }
                 else yield return node;
             }
+        }
+
+        public Tree<TModel> Copy(Predicate<Tree<TModel>> predicate)
+        {
+            void CopyChildren(Tree<TModel> source, Tree<TModel> to)
+            {
+                var children = source.Children.Where(x => predicate(x)).ToArray();
+
+                if (children?.Any() ?? false)
+                {
+                    to.AddChildren(children.Select(x => x.Model));
+                    foreach (var zipper in Zipper.Create(source.Children, to.Children))
+                        CopyChildren(zipper.Item1, zipper.Item2);
+                }
+            }
+
+            var tree = new Tree<TModel>(Model);
+            CopyChildren(this, tree);
+            return tree;
         }
 
     }
