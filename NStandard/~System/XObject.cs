@@ -48,9 +48,9 @@ namespace NStandard
         /// Casts the element to the specified type through the specified convert method.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>
-        /// <typeparam name="TRet"></typeparam>
         /// <param name="this"></param>
         /// <param name="convert"></param>
+        /// <param name="until"></param>
         /// <returns></returns>
         public static TSelf ForUntil<TSelf>(this TSelf @this, Func<TSelf, TSelf> convert, Func<TSelf, bool> until)
         {
@@ -63,40 +63,12 @@ namespace NStandard
         /// <summary>
         /// Casts the element to the specified type through the specified flow.
         /// </summary>
-        /// <typeparam name="TSelf"></typeparam>
+        /// <typeparam name="T"></typeparam>
         /// <typeparam name="TRet"></typeparam>
         /// <param name="this"></param>
-        /// <param name="convert"></param>
+        /// <param name="flow"></param>
         /// <returns></returns>
         public static TRet Flow<T, TRet>(this T @this, IFlow<T, TRet> flow) => flow.Execute(@this);
-
-        /// <summary>
-        /// Casts the element to the specified type through the specified convert method.
-        /// </summary>
-        /// <typeparam name="TSelf"></typeparam>
-        /// <typeparam name="TRet"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="filters"></param>
-        /// <returns></returns>
-        public static TRet Return<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet> onNormalReturn, Func<TSelf, TRet> @default)
-        {
-            try { return onNormalReturn(@this); }
-            catch { return @default(@this); }
-        }
-
-        /// <summary>
-        /// Casts the element to the specified type through the specified convert method.
-        /// </summary>
-        /// <typeparam name="TSelf"></typeparam>
-        /// <typeparam name="TRet"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="filters"></param>
-        /// <returns></returns>
-        public static TRet Return<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet> onNormalReturn, TRet @default)
-        {
-            try { return onNormalReturn(@this); }
-            catch { return @default; }
-        }
 
         /// <summary>
         /// Determines whether the specified object is null.

@@ -17,15 +17,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard", "NStandard\NSta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "[NoRelease] NStandard.Dev", "NStandard.Dev\[NoRelease] NStandard.Dev.csproj", "{1B8F810F-D108-49A7-82EC-69C2F2F5ED90}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Algorithm", "NStandard.Algorithm\NStandard.Algorithm.csproj", "{4360CF30-010C-4504-BAF2-FDEECBB5AEFB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Windows", "NStandard.Windows\NStandard.Windows.csproj", "{3C1264B7-2813-4625-8C4B-ACC3ADD793EE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Runtime", "NStandard.Runtime\NStandard.Runtime.csproj", "{B5A825A9-74AA-4AFF-A3DD-4E50ED2564B5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Debug", "NStandard.Debug\NStandard.Debug.csproj", "{B28D2988-BA8E-419C-9CC8-7BCFC02973FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NStandard.Expansion", "NStandard.Expansion\NStandard.Expansion.csproj", "{3E4DEDB2-69B8-4FA7-995C-40BD48B743CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Expansion", "NStandard.Expansion\NStandard.Expansion.csproj", "{3E4DEDB2-69B8-4FA7-995C-40BD48B743CD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Encoding", "NStandard.Encoding\NStandard.Encoding.csproj", "{D2516A93-108A-4686-92E4-89D87C5C53A9}"
 EndProject
@@ -47,10 +45,6 @@ Global
 		{1B8F810F-D108-49A7-82EC-69C2F2F5ED90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B8F810F-D108-49A7-82EC-69C2F2F5ED90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B8F810F-D108-49A7-82EC-69C2F2F5ED90}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4360CF30-010C-4504-BAF2-FDEECBB5AEFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4360CF30-010C-4504-BAF2-FDEECBB5AEFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4360CF30-010C-4504-BAF2-FDEECBB5AEFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4360CF30-010C-4504-BAF2-FDEECBB5AEFB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3C1264B7-2813-4625-8C4B-ACC3ADD793EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3C1264B7-2813-4625-8C4B-ACC3ADD793EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C1264B7-2813-4625-8C4B-ACC3ADD793EE}.Release|Any CPU.ActiveCfg = Release|Any CPU

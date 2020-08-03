@@ -62,15 +62,6 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void ReturnTest()
-        {
-            var s = "a";
-            var result = s.Return(x => int.Parse(x), x => -1);
-
-            Assert.Equal(-1, result);
-        }
-
-        [Fact]
         public void AsTest()
         {
             // Hex: 0x3c75c28f

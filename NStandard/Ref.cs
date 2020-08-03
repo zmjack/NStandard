@@ -19,7 +19,7 @@
             {
                 case Ref<T> _obj: return Value.Equals(_obj.Value);
                 case T _obj: return Value.Equals(_obj);
-                default: return obj.Return(x => Value.Equals(x), @default: false);
+                default: return Value.Equals(obj);
             }
         }
 

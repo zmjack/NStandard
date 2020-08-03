@@ -821,39 +821,19 @@
             Casts the element to the specified type through the specified convert method.
             </summary>
             <typeparam name="TSelf"></typeparam>
-            <typeparam name="TRet"></typeparam>
             <param name="this"></param>
             <param name="convert"></param>
+            <param name="until"></param>
             <returns></returns>
         </member>
         <member name="M:NStandard.XObject.Flow``2(``0,NStandard.IFlow{``0,``1})">
             <summary>
             Casts the element to the specified type through the specified flow.
             </summary>
-            <typeparam name="TSelf"></typeparam>
+            <typeparam name="T"></typeparam>
             <typeparam name="TRet"></typeparam>
             <param name="this"></param>
-            <param name="convert"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.XObject.Return``2(``0,System.Func{``0,``1},System.Func{``0,``1})">
-            <summary>
-            Casts the element to the specified type through the specified convert method.
-            </summary>
-            <typeparam name="TSelf"></typeparam>
-            <typeparam name="TRet"></typeparam>
-            <param name="this"></param>
-            <param name="filters"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.XObject.Return``2(``0,System.Func{``0,``1},``1)">
-            <summary>
-            Casts the element to the specified type through the specified convert method.
-            </summary>
-            <typeparam name="TSelf"></typeparam>
-            <typeparam name="TRet"></typeparam>
-            <param name="this"></param>
-            <param name="filters"></param>
+            <param name="flow"></param>
             <returns></returns>
         </member>
         <member name="M:NStandard.XObject.IsNull``1(``0)">
