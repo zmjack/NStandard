@@ -39,7 +39,11 @@ namespace NStandard
                 if (value is null) return null;
                 else return Convert.ChangeType(value, conversionType.GetGenericArguments()[0]);
             }
-            else return Convert.ChangeType(value, conversionType);
+            else
+            {
+                if (value is null) return conversionType.CreateDefault();
+                else return Convert.ChangeType(value, conversionType);
+            }
         }
 
         public static string ToBase58String(byte[] bytes)

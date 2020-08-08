@@ -35,6 +35,15 @@ namespace NStandard
         public static TRet For<TSelf, TRet>(this TSelf @this, TRet convert) => convert;
 
         /// <summary>
+        /// Make another instance reference or equal to the current instance.
+        /// </summary>
+        /// <typeparam name="TSelf"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="ref"></param>
+        /// <returns></returns>
+        public static TSelf For<TSelf>(this TSelf @this, ref TSelf @ref) => @ref = @this;
+
+        /// <summary>
         /// Casts the element to the specified type through the specified convert method.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>

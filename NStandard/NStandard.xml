@@ -806,6 +806,15 @@
             <param name="convert"></param>
             <returns></returns>
         </member>
+        <member name="M:NStandard.XObject.For``1(``0,``0@)">
+            <summary>
+            Make another instance reference or equal to the current instance.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="ref"></param>
+            <returns></returns>
+        </member>
         <member name="M:NStandard.XObject.For``2(``0,System.Func{``0,``1})">
             <summary>
             Casts the element to the specified type through the specified convert method.
