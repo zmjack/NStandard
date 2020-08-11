@@ -112,6 +112,27 @@ namespace NStandard
         public static DateTime StartOfDay(this DateTime @this) => @this.Date;
 
         /// <summary>
+        /// Get the start point of the sepecified hour.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateTime StartOfHour(this DateTime @this) => new DateTime(@this.Year, @this.Month, @this.Day, @this.Hour, 0, 0, 0, @this.Kind);
+
+        /// <summary>
+        /// Get the start point of the sepecified minute.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateTime StartOfMinute(this DateTime @this) => new DateTime(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, 0, 0, @this.Kind);
+
+        /// <summary>
+        /// Get the start point of the sepecified second.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateTime StartOfSecond(this DateTime @this) => new DateTime(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, @this.Second, 0, @this.Kind);
+
+        /// <summary>
         /// Get the end point of the sepecified month.
         /// </summary>
         /// <param name="this"></param>
@@ -143,6 +164,27 @@ namespace NStandard
         /// <param name="this"></param>
         /// <returns></returns>
         public static DateTime EndOfDay(this DateTime @this) => new DateTime(@this.Year, @this.Month, @this.Day, 23, 59, 59, 999, @this.Kind);
+
+        /// <summary>
+        /// Get the end point of the sepecified hour.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateTime EndOfHour(this DateTime @this) => new DateTime(@this.Year, @this.Month, @this.Day, @this.Hour, 59, 59, 999, @this.Kind);
+
+        /// <summary>
+        /// Get the end point of the sepecified minute.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateTime EndOfMinute(this DateTime @this) => new DateTime(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, 59, 999, @this.Kind);
+
+        /// <summary>
+        /// Get the end point of the sepecified second.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateTime EndOfSecond(this DateTime @this) => new DateTime(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, @this.Second, 999, @this.Kind);
 
         private static int CastCycleDays(int days, bool isBackward)
         {
