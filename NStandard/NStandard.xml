@@ -1292,15 +1292,6 @@
             <param name="task"></param>
             <returns></returns>
         </member>
-        <member name="M:NStandard.XIEnumerable.GetSlidingWindows``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
-            <summary>
-            Get sliding windows for items.
-            </summary>
-            <typeparam name="TSource"></typeparam>
-            <param name="this"></param>
-            <param name="windowElementNumber"></param>
-            <returns></returns>
-        </member>
         <member name="M:NStandard.XIEnumerable.Join``1(System.Collections.Generic.IEnumerable{``0},System.String)">
             <summary>
             Concatenates the members of a collection, using the specified separator between each member.
