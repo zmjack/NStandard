@@ -722,6 +722,27 @@
             <param name="this"></param>
             <returns></returns>
         </member>
+        <member name="M:NStandard.XDateTime.StartOfHour(System.DateTime)">
+            <summary>
+            Get the start point of the sepecified hour.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.StartOfMinute(System.DateTime)">
+            <summary>
+            Get the start point of the sepecified minute.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.StartOfSecond(System.DateTime)">
+            <summary>
+            Get the start point of the sepecified second.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
         <member name="M:NStandard.XDateTime.EndOfYear(System.DateTime)">
             <summary>
             Get the end point of the sepecified month.
@@ -739,6 +760,27 @@
         <member name="M:NStandard.XDateTime.EndOfDay(System.DateTime)">
             <summary>
             Get the end point of the sepecified day.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.EndOfHour(System.DateTime)">
+            <summary>
+            Get the end point of the sepecified hour.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.EndOfMinute(System.DateTime)">
+            <summary>
+            Get the end point of the sepecified minute.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.EndOfSecond(System.DateTime)">
+            <summary>
+            Get the end point of the sepecified second.
             </summary>
             <param name="this"></param>
             <returns></returns>
