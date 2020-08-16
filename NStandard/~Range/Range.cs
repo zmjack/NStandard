@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NStandard
 {
-    public static class Range
+    public static class RangeEx
     {
         public static IEnumerable<DateTime> Create(DateTime start, int length, DateRangeType type)
         {

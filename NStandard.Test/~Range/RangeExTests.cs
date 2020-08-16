@@ -6,19 +6,19 @@ using Xunit;
 
 namespace NStandard.Test
 {
-    public class RangeTests
+    public class RangeExTests
     {
         [Fact]
         public void IntTest1()
         {
-            var range = Range.Create(95, 6).ToArray();
+            var range = RangeEx.Create(95, 6).ToArray();
             Assert.Equal(new[] { 95, 96, 97, 98, 99, 100 }, range);
         }
 
         [Fact]
         public void IntTest2()
         {
-            var range = Range.Create(95, 6, prev => prev / 2).ToArray();
+            var range = RangeEx.Create(95, 6, prev => prev / 2).ToArray();
             Assert.Equal(new[] { 95, 47, 23, 11, 5, 2 }, range);
         }
 
@@ -26,7 +26,7 @@ namespace NStandard.Test
         public void DateTimeYearTest()
         {
             var start = new DateTime(2000, 1, 1);
-            var range = Range.Create(start, 3, DateRangeType.Year).ToArray();
+            var range = RangeEx.Create(start, 3, DateRangeType.Year).ToArray();
             Assert.Equal(new[]
             {
                 new DateTime(2000, 1, 1, 0, 0, 0),
@@ -39,7 +39,7 @@ namespace NStandard.Test
         public void DateTimeMonthTest()
         {
             var start = new DateTime(2000, 1, 1);
-            var range = Range.Create(start, 3, DateRangeType.Month).ToArray();
+            var range = RangeEx.Create(start, 3, DateRangeType.Month).ToArray();
             Assert.Equal(new[]
             {
                 new DateTime(2000, 1, 1, 0, 0, 0),
@@ -52,7 +52,7 @@ namespace NStandard.Test
         public void DateTimeDayTest()
         {
             var start = new DateTime(2000, 1, 1);
-            var range = Range.Create(start, 3, DateRangeType.Day).ToArray();
+            var range = RangeEx.Create(start, 3, DateRangeType.Day).ToArray();
             Assert.Equal(new[]
             {
                 new DateTime(2000, 1, 1, 0, 0, 0),
@@ -65,7 +65,7 @@ namespace NStandard.Test
         public void DateTimeHourTest()
         {
             var start = new DateTime(2000, 1, 1);
-            var range = Range.Create(start, 3, DateRangeType.Hour).ToArray();
+            var range = RangeEx.Create(start, 3, DateRangeType.Hour).ToArray();
             Assert.Equal(new[]
             {
                 new DateTime(2000, 1, 1, 0, 0, 0),
@@ -78,7 +78,7 @@ namespace NStandard.Test
         public void DateTimeMinuteTest()
         {
             var start = new DateTime(2000, 1, 1);
-            var range = Range.Create(start, 3, DateRangeType.Minute).ToArray();
+            var range = RangeEx.Create(start, 3, DateRangeType.Minute).ToArray();
             Assert.Equal(new[]
             {
                 new DateTime(2000, 1, 1, 0, 0, 0),
@@ -91,7 +91,7 @@ namespace NStandard.Test
         public void DateTimeSecondTest()
         {
             var start = new DateTime(2000, 1, 1);
-            var range = Range.Create(start, 3, DateRangeType.Second).ToArray();
+            var range = RangeEx.Create(start, 3, DateRangeType.Second).ToArray();
             Assert.Equal(new[]
             {
                 new DateTime(2000, 1, 1, 0, 0, 0),
