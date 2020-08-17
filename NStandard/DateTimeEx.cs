@@ -74,38 +74,33 @@ namespace NStandard
         /// The number of complete years in the period.
         /// Same as DATEDIF(*, *, "Y") function in Excel.
         /// </summary>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         /// <returns></returns>
-        public static int YearDiff(DateTime startDate, DateTime endDate)
+        public static int YearDiff(DateTime start, DateTime end)
         {
-            startDate = startDate.Date;
-            endDate = endDate.Date;
-
-            var passedYears = endDate.Year - startDate.Year;
-
-            if (endDate < startDate.AddYears(passedYears))
-                return passedYears - 1;
-            else return passedYears;
+            return MonthDiff(start, end) / 12;
         }
 
         /// <summary>
         /// The number of complete months in the period.
         /// Same as DATEDIF(*, *, "M") function in Excel.
         /// </summary>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         /// <returns></returns>
-        public static int MonthDiff(DateTime startDate, DateTime endDate)
+        public static int MonthDiff(DateTime start, DateTime end)
         {
-            startDate = startDate.Date;
-            endDate = endDate.Date;
+            start = start.Date;
+            end = end.Date;
 
-            var passedYears = endDate.Year - startDate.Year;
-            var passedMonths = endDate.Month - startDate.Month;
+            var passedYears = end.Year - start.Year;
+            var passedMonths = end.Month - start.Month;
+            var target = start.AddMonths(passedYears * 12 + passedMonths);
 
-            if (endDate < startDate.AddYears(passedYears).AddMonths(passedMonths))
-                return passedYears * 12 + passedMonths - 1;
+            if (target.Day < start.Day) target = target.AddDays(1);
+
+            if (end < target) return passedYears * 12 + passedMonths - 1;
             else return passedYears * 12 + passedMonths;
         }
 

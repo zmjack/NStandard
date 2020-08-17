@@ -186,12 +186,36 @@ namespace NStandard
         /// <returns></returns>
         public static DateTime EndOfSecond(this DateTime @this) => new DateTime(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, @this.Second, 999, @this.Kind);
 
+        /// <summary>
+        /// Returns a new <see cref="DateTime"/> that adds the specified number of complete years to the value of this instance.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <param name="completeYears"></param>
+        /// <returns></returns>
+        public static DateTime AddCompleteYears(this DateTime @this, int completeYears)
+        {
+            var target = @this.AddYears(completeYears);
+            if (target.Day < @this.Day) target = target.AddDays(1);
+            return target;
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="DateTime"/> that adds the specified number of complete months to the value of this instance.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <param name="completeMonths"></param>
+        /// <returns></returns>
+        public static DateTime AddCompleteMonths(this DateTime @this, int completeMonths)
+        {
+            var target = @this.AddMonths(completeMonths);
+            if (target.Day < @this.Day) target = target.AddDays(1);
+            return target;
+        }
+
         private static int CastCycleDays(int days, bool isBackward)
         {
-            days = days % 7;
-
-            if (isBackward)
-                return days > 0 ? days - 7 : days;
+            days %= 7;
+            if (isBackward) return days > 0 ? days - 7 : days;
             else return days < 0 ? days + 7 : days;
         }
 

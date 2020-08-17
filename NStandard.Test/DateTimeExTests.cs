@@ -6,23 +6,25 @@ namespace NStandard.Test
     public class DateTimeExTests
     {
         [Fact]
-        public void GetCompleteYearsTest()
+        public void CompleteYearsTest()
         {
             var birthday = new DateTime(2012, 4, 16);
-            var date1 = new DateTime(2013, 4, 15);
-            var date2 = new DateTime(2013, 4, 16);
-            Assert.Equal(0, DateTimeEx.YearDiff(birthday, date1));
-            Assert.Equal(1, DateTimeEx.YearDiff(birthday, date2));
+            Assert.Equal(0, DateTimeEx.YearDiff(birthday, new DateTime(2013, 4, 15)));
+            Assert.Equal(1, DateTimeEx.YearDiff(birthday, new DateTime(2013, 4, 16)));
+
+            Assert.Equal(0, DateTimeEx.YearDiff(new DateTime(2000, 2, 29), new DateTime(2001, 2, 28)));
+            Assert.Equal(1, DateTimeEx.YearDiff(new DateTime(2000, 2, 29), new DateTime(2001, 3, 1)));
         }
 
         [Fact]
-        public void GetCompleteMonthsTest()
+        public void CompleteMonthsTest()
         {
             var birthday = new DateTime(2012, 4, 16);
-            var date1 = new DateTime(2013, 4, 15);
-            var date2 = new DateTime(2013, 4, 16);
-            Assert.Equal(11, DateTimeEx.MonthDiff(birthday, date1));
-            Assert.Equal(12, DateTimeEx.MonthDiff(birthday, date2));
+            Assert.Equal(11, DateTimeEx.MonthDiff(birthday, new DateTime(2013, 4, 15)));
+            Assert.Equal(12, DateTimeEx.MonthDiff(birthday, new DateTime(2013, 4, 16)));
+
+            Assert.Equal(35, DateTimeEx.MonthDiff(new DateTime(2000, 2, 29), new DateTime(2003, 2, 28)));
+            Assert.Equal(36, DateTimeEx.MonthDiff(new DateTime(2000, 2, 29), new DateTime(2003, 3, 1)));
         }
 
         [Fact]

@@ -200,8 +200,8 @@
             The number of complete years in the period.
             Same as DATEDIF(*, *, "Y") function in Excel.
             </summary>
-            <param name="startDate"></param>
-            <param name="endDate"></param>
+            <param name="start"></param>
+            <param name="end"></param>
             <returns></returns>
         </member>
         <member name="M:NStandard.DateTimeEx.MonthDiff(System.DateTime,System.DateTime)">
@@ -209,8 +209,8 @@
             The number of complete months in the period.
             Same as DATEDIF(*, *, "M") function in Excel.
             </summary>
-            <param name="startDate"></param>
-            <param name="endDate"></param>
+            <param name="start"></param>
+            <param name="end"></param>
             <returns></returns>
         </member>
         <member name="M:NStandard.DateTimeEx.ParseFromWeek(System.Int32,System.Int32,System.DayOfWeek)">
@@ -783,6 +783,22 @@
             Get the end point of the sepecified second.
             </summary>
             <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.AddCompleteYears(System.DateTime,System.Int32)">
+            <summary>
+            Returns a new <see cref="T:System.DateTime"/> that adds the specified number of complete years to the value of this instance.
+            </summary>
+            <param name="this"></param>
+            <param name="completeYears"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.AddCompleteMonths(System.DateTime,System.Int32)">
+            <summary>
+            Returns a new <see cref="T:System.DateTime"/> that adds the specified number of complete months to the value of this instance.
+            </summary>
+            <param name="this"></param>
+            <param name="completeMonths"></param>
             <returns></returns>
         </member>
         <member name="M:NStandard.XInt32.IsOdd(System.Int32)">
