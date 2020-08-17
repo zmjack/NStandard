@@ -71,28 +71,26 @@ namespace NStandard
         }
 
         /// <summary>
-        /// The number of complete years in the period.
-        /// Same as DATEDIF(*, *, "Y") function in Excel.
+        /// The number of complete years in the period, same as DATEDIF(*, *, "Y") function in Excel.
         /// </summary>
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
         public static int YearDiff(DateTime start, DateTime end)
         {
+            if (end < start) throw new ArgumentException("The end time must be after or equal to the start time.");
             return MonthDiff(start, end) / 12;
         }
 
         /// <summary>
-        /// The number of complete months in the period.
-        /// Same as DATEDIF(*, *, "M") function in Excel.
+        /// The number of complete months in the period, same as DATEDIF(*, *, "M") function in Excel.
         /// </summary>
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
         public static int MonthDiff(DateTime start, DateTime end)
         {
-            start = start.Date;
-            end = end.Date;
+            if (end < start) throw new ArgumentException("The end time must be after or equal to the start time.");
 
             var passedYears = end.Year - start.Year;
             var passedMonths = end.Month - start.Month;

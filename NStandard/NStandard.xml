@@ -197,8 +197,7 @@
         </member>
         <member name="M:NStandard.DateTimeEx.YearDiff(System.DateTime,System.DateTime)">
             <summary>
-            The number of complete years in the period.
-            Same as DATEDIF(*, *, "Y") function in Excel.
+            The number of complete years in the period, same as DATEDIF(*, *, "Y") function in Excel.
             </summary>
             <param name="start"></param>
             <param name="end"></param>
@@ -206,8 +205,7 @@
         </member>
         <member name="M:NStandard.DateTimeEx.MonthDiff(System.DateTime,System.DateTime)">
             <summary>
-            The number of complete months in the period.
-            Same as DATEDIF(*, *, "M") function in Excel.
+            The number of complete months in the period, same as DATEDIF(*, *, "M") function in Excel.
             </summary>
             <param name="start"></param>
             <param name="end"></param>
