@@ -62,6 +62,7 @@ namespace NStandard
 
         public TModel Model { get; private set; }
 
+        public Tree() { }
         public Tree(TModel model)
         {
             Model = model;
