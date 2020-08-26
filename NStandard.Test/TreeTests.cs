@@ -74,19 +74,18 @@ namespace NStandard
         [Fact]
         public void Test3()
         {
-            Predicate<Tree<CA>> BuildFind(params int[] values)
+            Predicate<Tree<CA>> IsValidNode(params int[] values)
             {
                 bool Find(Tree<CA> current)
                 {
                     if (values.Contains(current.Model.Value)) return true;
                     else return current.Children.Any(x => Find(x));
                 }
-
                 return Find;
             }
 
-            var tree = Tree1.Copy(BuildFind(4, 11));
-            Assert.Equal(new[] { 11, 4 }, tree.SelectLeafs().Select(x => x.Model.Value).ToArray());
+            var tree = Tree1.Copy(IsValidNode(4, 11));
+            Assert.Equal(new[] { 2, 3, 11, 4 }, tree.GetNodes().Select(x => x.Model.Value).ToArray());
         }
 
     }

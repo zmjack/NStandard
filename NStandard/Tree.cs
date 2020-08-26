@@ -60,7 +60,7 @@ namespace NStandard
         public Tree<TModel> Parent { get; private set; }
         public HashSet<Tree<TModel>> Children { get; private set; } = new HashSet<Tree<TModel>>();
 
-        public TModel Model { get; private set; }
+        public TModel Model { get; set; }
 
         public Tree() { }
         public Tree(TModel model)
@@ -122,14 +122,14 @@ namespace NStandard
 
         public Tree<TModel> Copy(Predicate<Tree<TModel>> predicate)
         {
-            void CopyChildren(Tree<TModel> source, Tree<TModel> to)
+            void CopyChildren(Tree<TModel> source, Tree<TModel> target)
             {
                 var children = source.Children.Where(x => predicate(x)).ToArray();
 
                 if (children?.Any() ?? false)
                 {
-                    to.AddChildren(children.Select(x => x.Model));
-                    foreach (var zipper in Zipper.Create(source.Children, to.Children))
+                    target.AddChildren(children.Select(x => x.Model));
+                    foreach (var zipper in Zipper.Create(source.Children, target.Children))
                         CopyChildren(zipper.Item1, zipper.Item2);
                 }
             }
