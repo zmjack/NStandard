@@ -7,9 +7,9 @@ namespace NStandard
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XEventInfo
     {
-        public static void AddEvent(this EventInfo @this, object target, MethodInfo method)
+        public static void AddEvent(this EventInfo @this, object declaringObject, MethodInfo method)
         {
-            @this.AddEventHandler(target, Delegate.CreateDelegate(@this.EventHandlerType, method));
+            @this.AddEventHandler(declaringObject, Delegate.CreateDelegate(@this.EventHandlerType, method));
         }
 
     }

@@ -282,19 +282,70 @@ namespace NStandard
             else return false;
         }
 
-        public static EventInfo GetDeclaredEvent(this Type @this, string name) => @this.GetEvent(name, DeclaredOnlyLookup);
-        public static FieldInfo GetDeclaredField(this Type @this, string name) => @this.GetField(name, DeclaredOnlyLookup);
         public static MethodInfo GetDeclaredMethod(this Type @this, string name) => @this.GetMethod(name, DeclaredOnlyLookup);
+        public static IEnumerable<MethodInfo> GetDeclaredMethods(this Type @this)
+        {
+            foreach (var item in @this.GetMethods(DeclaredOnlyLookup)) yield return item;
+        }
         public static IEnumerable<MethodInfo> GetDeclaredMethods(this Type @this, string name)
         {
-            foreach (MethodInfo method in @this.GetMethods(DeclaredOnlyLookup))
+            foreach (var item in @this.GetMethods(DeclaredOnlyLookup))
             {
-                if (method.Name == name)
-                    yield return method;
+                if (item.Name == name) yield return item;
             }
         }
-        public static Type GetDeclaredNestedType(this Type @this, string name) => @this.GetNestedType(name, DeclaredOnlyLookup);
+
+        public static EventInfo GetDeclaredEvent(this Type @this, string name) => @this.GetEvent(name, DeclaredOnlyLookup);
+        public static IEnumerable<EventInfo> GetDeclaredEvents(this Type @this)
+        {
+            foreach (var item in @this.GetEvents(DeclaredOnlyLookup)) yield return item;
+        }
+        public static IEnumerable<EventInfo> GetDeclaredEvents(this Type @this, string name)
+        {
+            foreach (var item in @this.GetEvents(DeclaredOnlyLookup))
+            {
+                if (item.Name == name) yield return item;
+            }
+        }
+
+        public static FieldInfo GetDeclaredField(this Type @this, string name) => @this.GetField(name, DeclaredOnlyLookup);
+        public static IEnumerable<FieldInfo> GetDeclaredFields(this Type @this)
+        {
+            foreach (var item in @this.GetFields(DeclaredOnlyLookup)) yield return item;
+        }
+        public static IEnumerable<FieldInfo> GetDeclaredFields(this Type @this, string name)
+        {
+            foreach (var item in @this.GetFields(DeclaredOnlyLookup))
+            {
+                if (item.Name == name) yield return item;
+            }
+        }
+
         public static PropertyInfo GetDeclaredProperty(this Type @this, string name) => @this.GetProperty(name, DeclaredOnlyLookup);
+        public static IEnumerable<PropertyInfo> GetDeclaredProperties(this Type @this)
+        {
+            foreach (var item in @this.GetProperties(DeclaredOnlyLookup)) yield return item;
+        }
+        public static IEnumerable<PropertyInfo> GetDeclaredProperties(this Type @this, string name)
+        {
+            foreach (var item in @this.GetProperties(DeclaredOnlyLookup))
+            {
+                if (item.Name == name) yield return item;
+            }
+        }
+
+        public static Type GetDeclaredNestedType(this Type @this, string name) => @this.GetNestedType(name, DeclaredOnlyLookup);
+        public static IEnumerable<Type> GetDeclaredNestedTypes(this Type @this)
+        {
+            foreach (var item in @this.GetNestedTypes(DeclaredOnlyLookup)) yield return item;
+        }
+        public static IEnumerable<Type> GetDeclaredNestedTypes(this Type @this, string name)
+        {
+            foreach (var item in @this.GetNestedTypes(DeclaredOnlyLookup))
+            {
+                if (item.Name == name) yield return item;
+            }
+        }
 
         public static MethodInfo GetToStringMethod(this Type @this) => @this.GetMethodViaQualifiedName("System.String ToString()");
         public static MethodInfo GetGetHashCodeMethod(this Type @this) => @this.GetMethodViaQualifiedName("Int32 GetHashCode()");

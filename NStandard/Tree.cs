@@ -68,18 +68,21 @@ namespace NStandard
             Model = model;
         }
 
-        public void AddChild(TModel model)
+        public Tree<TModel> AddChild(TModel model)
         {
             var tree = new Tree<TModel>(model)
             {
                 Parent = this,
             };
             Children.Add(tree);
+            return tree;
         }
 
-        public void AddChildren(IEnumerable<TModel> models)
+        public Tree<TModel>[] AddChildren(IEnumerable<TModel> models)
         {
-            foreach (var model in models) AddChild(model);
+            var list = new List<Tree<TModel>>();
+            foreach (var model in models) list.Add(AddChild(model));
+            return list.ToArray();
         }
 
         public IEnumerable<Tree<TModel>> GetNodes()
