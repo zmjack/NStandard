@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace NStandard
@@ -57,8 +58,10 @@ namespace NStandard
 
     public class Tree<TModel> where TModel : class
     {
+        private readonly HashSet<Tree<TModel>> _innerChildren = new HashSet<Tree<TModel>>();
+
         public Tree<TModel> Parent { get; private set; }
-        public HashSet<Tree<TModel>> Children { get; private set; } = new HashSet<Tree<TModel>>();
+        public IEnumerable<Tree<TModel>> Children => _innerChildren.AsEnumerable();
 
         public TModel Model { get; set; }
 
@@ -68,13 +71,11 @@ namespace NStandard
             Model = model;
         }
 
-        public Tree<TModel> AddChild(TModel model)
+        public Tree<TModel> AddChild(TModel model) => AddChild(new Tree<TModel>(model));
+        public Tree<TModel> AddChild(Tree<TModel> tree)
         {
-            var tree = new Tree<TModel>(model)
-            {
-                Parent = this,
-            };
-            Children.Add(tree);
+            tree.Parent = this;
+            _innerChildren.Add(tree);
             return tree;
         }
 
@@ -85,13 +86,23 @@ namespace NStandard
             return list.ToArray();
         }
 
+        public Tree<TModel>[] AddChildren(IEnumerable<Tree<TModel>> models)
+        {
+            var list = new List<Tree<TModel>>();
+            foreach (var model in models) list.Add(AddChild(model));
+            return list.ToArray();
+        }
+
+        public bool RemoveChild(Tree<TModel> tree) => _innerChildren.Remove(tree);
+        public int RemoveChildWhere(Predicate<Tree<TModel>> match) => _innerChildren.RemoveWhere(match);
+
         public IEnumerable<Tree<TModel>> GetNodes()
         {
-            foreach (var node in Children)
+            foreach (var node in _innerChildren)
             {
                 yield return node;
 
-                if (node.Children.Any())
+                if (node._innerChildren.Any())
                 {
                     foreach (var node_ in node.GetNodes())
                         yield return node_;
@@ -101,7 +112,7 @@ namespace NStandard
 
         public IEnumerable<Tree<TModel>> SelectNonLeafs()
         {
-            foreach (var node in Children.Where(x => x.Children.Any()))
+            foreach (var node in _innerChildren.Where(x => x._innerChildren.Any()))
             {
                 yield return node;
 
@@ -112,9 +123,9 @@ namespace NStandard
 
         public IEnumerable<Tree<TModel>> SelectLeafs()
         {
-            foreach (var node in Children)
+            foreach (var node in _innerChildren)
             {
-                if (node.Children.Any())
+                if (node._innerChildren.Any())
                 {
                     foreach (var leaf in node.SelectLeafs())
                         yield return leaf;
@@ -127,12 +138,12 @@ namespace NStandard
         {
             void CopyChildren(Tree<TModel> source, Tree<TModel> target)
             {
-                var children = source.Children.Where(x => predicate(x)).ToArray();
+                var children = source._innerChildren.Where(x => predicate(x)).ToArray();
 
                 if (children?.Any() ?? false)
                 {
                     target.AddChildren(children.Select(x => x.Model));
-                    foreach (var zipper in Zipper.Create(source.Children, target.Children))
+                    foreach (var zipper in Zipper.Create(source._innerChildren, target._innerChildren))
                         CopyChildren(zipper.Item1, zipper.Item2);
                 }
             }
