@@ -30,15 +30,13 @@ namespace NStandard
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateAll()
         {
-            foreach (var key in Keys)
-                base[key].Update();
+            foreach (var key in Keys) base[key].Update();
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void ExpireAll()
         {
-            foreach (var key in Keys)
-                base[key].Expire();
+            foreach (var key in Keys) base[key].Expire();
         }
 
     }

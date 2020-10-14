@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace NStandard
+namespace System.Drawing
 {
     public static class ColorEx
     {
@@ -12,8 +12,7 @@ namespace NStandard
         /// <param name="saturation">[0,1]</param>
         /// <param name="value">[0,1]</param>
         /// <returns></returns>
-        public static Color CreateFromAhsv(float hue, float saturation, float value)
-            => CreateFromAhsv(255, hue, saturation, value);
+        public static Color CreateFromAhsv(float hue, float saturation, float value) => CreateFromAhsv(255, hue, saturation, value);
 
         /// <summary>
         /// Creates a color using Alpha + HSV model.

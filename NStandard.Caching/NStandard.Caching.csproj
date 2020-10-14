@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -11,15 +11,11 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>System Standard Extension</PackageTags>
     <Version>0.5.0</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageIcon>nstandard.png</PackageIcon>
     <Copyright>Copyright © nstandard.net 2020</Copyright>
-    <PackageId>NStandard.Encoding</PackageId>
+    <PackageId>NStandard.Caching</PackageId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.0" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\LICENSE.md">
