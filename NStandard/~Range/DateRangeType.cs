@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NStandard
+﻿namespace NStandard
 {
     public enum DateRangeType
     {

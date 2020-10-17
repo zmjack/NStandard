@@ -1,7 +1,4 @@
-﻿using System;
-using System.Drawing;
-
-namespace System.Drawing
+﻿namespace System.Drawing
 {
     public static class ColorEx
     {

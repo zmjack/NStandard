@@ -1,14 +1,19 @@
-﻿using NStandard.Caching;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace NStandard
+namespace NStandard.Caching
 {
     public class CacheContainer<TKey, TValue> : Dictionary<TKey, Cache<TValue>>
     {
         public Func<TKey, Func<TValue>> CacheMethod;
         public UpdateCacheExpirationDelegate UpdateExpirationMethod;
+
+        public CacheContainer() { }
+        public CacheContainer(Func<TKey, Func<TValue>> cacheMethod)
+        {
+            CacheMethod = cacheMethod;
+        }
 
         public new Cache<TValue> this[TKey key]
         {

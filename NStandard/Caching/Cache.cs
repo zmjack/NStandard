@@ -1,8 +1,7 @@
-﻿using NStandard.Caching;
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
 
-namespace NStandard
+namespace NStandard.Caching
 {
     public class Cache<T>
     {
