@@ -10,9 +10,9 @@ namespace NStandard.Test
         [Fact]
         public void Test1()
         {
-            var cacheContainer = new CacheContainer<string, Guid>
+            var cacheContainer = new CacheSet<string, Guid>
             {
-                CacheMethod = key => () => Guid.NewGuid(),
+                CacheMethodBuilder = key => () => Guid.NewGuid(),
                 UpdateExpirationMethod = cacheTime => cacheTime.Add(TimeSpan.FromMilliseconds(100)),
             };
 

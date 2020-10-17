@@ -4,15 +4,15 @@ using System.Runtime.CompilerServices;
 
 namespace NStandard.Caching
 {
-    public class CacheContainer<TKey, TValue> : Dictionary<TKey, Cache<TValue>>
+    public class CacheSet<TKey, TValue> : Dictionary<TKey, Cache<TValue>>
     {
-        public Func<TKey, Func<TValue>> CacheMethod;
+        public Func<TKey, Func<TValue>> CacheMethodBuilder;
         public UpdateCacheExpirationDelegate UpdateExpirationMethod;
 
-        public CacheContainer() { }
-        public CacheContainer(Func<TKey, Func<TValue>> cacheMethod)
+        public CacheSet() { }
+        public CacheSet(Func<TKey, Func<TValue>> cacheMethodBuilder)
         {
-            CacheMethod = cacheMethod;
+            CacheMethodBuilder = cacheMethodBuilder;
         }
 
         public new Cache<TValue> this[TKey key]
@@ -24,7 +24,7 @@ namespace NStandard.Caching
                 {
                     base[key] = new Cache<TValue>
                     {
-                        CacheMethod = CacheMethod?.Invoke(key),
+                        CacheMethod = CacheMethodBuilder?.Invoke(key),
                         UpdateExpirationMethod = UpdateExpirationMethod,
                     };
                 }

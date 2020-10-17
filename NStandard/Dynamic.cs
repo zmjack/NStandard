@@ -10,7 +10,7 @@ namespace NStandard
     {
         private delegate BinaryExpression BinaryDelegate(Expression left, Expression right);
 
-        private static readonly Dictionary<string, CacheContainer<Type, Delegate>> OpContainers = new Dictionary<string, CacheContainer<Type, Delegate>>
+        private static readonly Dictionary<string, CacheSet<Type, Delegate>> OpContainers = new Dictionary<string, CacheSet<Type, Delegate>>
         {
             [nameof(OpAdd)] = NewOpFunc(Expression.Add),
             [nameof(OpAddChecked)] = NewOpFunc(Expression.AddChecked),
@@ -28,9 +28,9 @@ namespace NStandard
             [nameof(OpGreaterThanOrEqual)] = NewOpFunc(Expression.GreaterThanOrEqual, typeof(bool)),
         };
 
-        private static CacheContainer<Type, Delegate> NewOpFunc(BinaryDelegate @delegate)
+        private static CacheSet<Type, Delegate> NewOpFunc(BinaryDelegate @delegate)
         {
-            Func<Delegate> cacheMethod(Type operandType)
+            Func<Delegate> cacheMethodBuilder(Type operandType)
             {
                 return () =>
                 {
@@ -46,13 +46,13 @@ namespace NStandard
                     return (lambdaMethod.Invoke(null, new object[] { exp, new ParameterExpression[0] }) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
                 };
             }
-            var container = new CacheContainer<Type, Delegate> { CacheMethod = cacheMethod };
+            var container = new CacheSet<Type, Delegate> { CacheMethodBuilder = cacheMethodBuilder };
             return container;
         }
 
-        private static CacheContainer<Type, Delegate> NewOpFunc(BinaryDelegate @delegate, Type retType)
+        private static CacheSet<Type, Delegate> NewOpFunc(BinaryDelegate @delegate, Type retType)
         {
-            Func<Delegate> cacheMethod(Type operandType)
+            Func<Delegate> cacheMethodBuilder(Type operandType)
             {
                 return () =>
                 {
@@ -68,7 +68,7 @@ namespace NStandard
                     return (lambdaMethod.Invoke(null, new object[] { exp, new ParameterExpression[0] }) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
                 };
             }
-            var container = new CacheContainer<Type, Delegate> { CacheMethod = cacheMethod };
+            var container = new CacheSet<Type, Delegate> { CacheMethodBuilder = cacheMethodBuilder };
             return container;
         }
 
