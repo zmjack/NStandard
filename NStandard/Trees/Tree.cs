@@ -7,7 +7,6 @@ namespace NStandard.Trees
     public static class Tree
     {
         public static Tree<TModel> Parse<TModel>(TModel model, Func<TModel, ICollection<TModel>> childrenGetter)
-            where TModel : class
         {
             void AddChildren(Tree<TModel> tree)
             {
@@ -27,13 +26,11 @@ namespace NStandard.Trees
         }
 
         public static Tree<TModel>[] Parse<TModel>(IEnumerable<TModel> models, Func<TModel, ICollection<TModel>> childrenGetter)
-            where TModel : class
         {
             return models.Select(x => Parse(x, childrenGetter)).ToArray();
         }
 
         public static Tree<TModel>[] ParseRange<TModel, TKey>(IEnumerable<TModel> models, Func<TModel, TKey> keySelector, Func<TModel, TKey> parentGetter)
-            where TModel : class
         {
             if (!typeof(TKey).IsNullable()) throw new ArgumentException($"The argument({nameof(parentGetter)} must return a nullable type.");
 
@@ -55,7 +52,7 @@ namespace NStandard.Trees
         }
     }
 
-    public class Tree<TModel> where TModel : class
+    public class Tree<TModel>
     {
         private readonly HashSet<Tree<TModel>> _innerChildren = new HashSet<Tree<TModel>>();
 

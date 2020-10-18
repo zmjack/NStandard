@@ -1,11 +1,12 @@
-﻿using NStandard.Trees;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Xunit;
 
-namespace NStandard
+namespace NStandard.Trees.Test
 {
-    public class TreeTests
+    public class TreesTests
     {
         private class CA
         {
@@ -88,6 +89,5 @@ namespace NStandard
             var tree = Tree1.Copy(IsValidNode(4, 11));
             Assert.Equal(new[] { 2, 3, 11, 4 }, tree.GetNodes().Select(x => x.Model.Value).ToArray());
         }
-
     }
 }

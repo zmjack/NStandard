@@ -30,6 +30,7 @@
     <ProjectReference Include="..\NStandard.Dev\[NoRelease] NStandard.Dev.csproj" />
     <ProjectReference Include="..\NStandard.Encoding\NStandard.Encoding.csproj" />
     <ProjectReference Include="..\NStandard.Runtime\NStandard.Runtime.csproj" />
+    <ProjectReference Include="..\NStandard.Trees\NStandard.Trees.csproj" />
     <ProjectReference Include="..\NStandard\NStandard.csproj" />
   </ItemGroup>
 
