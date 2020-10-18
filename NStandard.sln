@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Debug", "NStandar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Encoding", "NStandard.Encoding\NStandard.Encoding.csproj", "{D2516A93-108A-4686-92E4-89D87C5C53A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NStandard.Caching", "NStandard.Caching\NStandard.Caching.csproj", "{565F8016-6C0D-48AD-BDAC-C7BDB0CED463}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Caching", "NStandard.Caching\NStandard.Caching.csproj", "{565F8016-6C0D-48AD-BDAC-C7BDB0CED463}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Trees", "NStandard.Trees\NStandard.Trees.csproj", "{E14A433E-2D42-4609-B23E-A66777A08FC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +67,10 @@ Global
 		{565F8016-6C0D-48AD-BDAC-C7BDB0CED463}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{565F8016-6C0D-48AD-BDAC-C7BDB0CED463}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{565F8016-6C0D-48AD-BDAC-C7BDB0CED463}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E14A433E-2D42-4609-B23E-A66777A08FC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E14A433E-2D42-4609-B23E-A66777A08FC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E14A433E-2D42-4609-B23E-A66777A08FC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E14A433E-2D42-4609-B23E-A66777A08FC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NStandard.Trees;
+using System;
 using System.Linq;
 using Xunit;
 
