@@ -8,7 +8,7 @@ namespace NStandard.Trees
     {
         TModel Model { get; set; }
 
-        TNode Parent { get; set; }
+        TNode Parent { get; }
         TNode LeftNode { get; set; }
         TNode RightNode { get; set; }
     }
