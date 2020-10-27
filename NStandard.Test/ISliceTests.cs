@@ -22,7 +22,6 @@ namespace NStandard.Test
         public class SliceLength : ISliceLength<int[]>
         {
             public int[] Numbers = { 0, 1, 2, 3 };
-
             public int Length => Numbers.Length;
 
             public int[] Slice(int start, int length)

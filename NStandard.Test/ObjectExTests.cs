@@ -20,5 +20,12 @@ namespace NStandard.Test
             Assert.Equal(234, a.B);
         }
 
+        [Fact]
+        public void CrossEqualsTest()
+        {
+            Assert.True(ObjectEx.CrossEquals(1, 1, 1));
+            Assert.False(ObjectEx.CrossEquals(1, 1, 2));
+        }
+
     }
 }

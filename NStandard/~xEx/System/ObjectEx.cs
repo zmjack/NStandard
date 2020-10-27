@@ -23,5 +23,16 @@ namespace NStandard
             }
         }
 
+        public static bool CrossEquals<T>(params T[] objs)
+        {
+            if (objs.Length < 2) return true;
+
+            foreach (var window in SlidingWindow.Slide(objs, 2))
+            {
+                if (!window[0].Equals(window[1])) return false;
+            }
+            return true;
+        }
+
     }
 }

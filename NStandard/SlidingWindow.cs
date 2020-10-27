@@ -23,36 +23,41 @@ namespace NStandard
         private readonly T[] _store;
         private readonly int _maxIndex;
         private int _fillCount;
-        public int Length { get; private set; }
-        public bool IsFilled => _fillCount == Length;
+        public int Capacity { get; private set; }
+        public bool IsFilled { get; private set; }
+        public int Length => Capacity;
 
         public SlidingWindow(int capacity)
         {
             if (capacity < 2) throw new ArgumentException("The capacity must be greater than 2.", nameof(capacity));
 
             _store = new T[capacity];
-            Length = capacity;
+            Capacity = capacity;
             _maxIndex = capacity - 1;
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void Fill(T obj)
         {
-            for (int i = 0; i < _maxIndex; i++)
-            {
-                _store[i] = _store[i + 1];
-            }
-            _store[_maxIndex] = obj;
+            var lastIndex = IsFilled ? _maxIndex : _fillCount;
 
-            if (_fillCount < Length) _fillCount++;
+            for (int i = lastIndex; i >= 1; i--)
+            {
+                _store[i] = _store[i - 1];
+            }
+            _store[0] = obj;
+
+            if (!IsFilled)
+            {
+                _fillCount++;
+                if (_fillCount == Capacity) IsFilled = true;
+            }
         }
 
         public T[] Slice(int start, int length)
         {
-            if (start > 0 || length > Length) throw new ArgumentException("Non-positive number required.", nameof(start));
-
             var ret = new T[length];
-            Array.Copy(_store, start + _maxIndex, ret, 0, length);
+            Array.Copy(_store, start, ret, 0, length);
             return ret;
         }
 
@@ -65,15 +70,7 @@ namespace NStandard
             foreach (var value in _store) yield return value;
         }
 
-        public T this[int i]
-        {
-            get
-            {
-                if (i > 0) throw new ArgumentException("Non-positive number required.", nameof(i));
-
-                return _store[i + _maxIndex];
-            }
-        }
+        public T this[int i] => _store[i];
     }
 
 }
