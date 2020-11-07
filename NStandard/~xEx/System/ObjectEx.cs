@@ -23,6 +23,12 @@ namespace NStandard
             }
         }
 
+        /// <summary>
+        /// Determines whether the specified objects are equal to each other.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="objs"></param>
+        /// <returns></returns>
         public static bool CrossEquals<T>(params T[] objs)
         {
             if (objs.Length < 2) return true;
