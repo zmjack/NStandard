@@ -25,6 +25,19 @@ namespace NStandard
         }
 
         /// <summary>
+        /// Do a task for itself, then return itself.
+        /// </summary>
+        /// <typeparam name="TSelf"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        public static TSelf Then<TSelf>(this TSelf @this, Action task)
+        {
+            task();
+            return @this;
+        }
+
+        /// <summary>
         /// Casts the element to the specified type through the specified convert method.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>
@@ -33,15 +46,6 @@ namespace NStandard
         /// <param name="convert"></param>
         /// <returns></returns>
         public static TRet For<TSelf, TRet>(this TSelf @this, TRet convert) => convert;
-
-        /// <summary>
-        /// Make another instance reference or equal to the current instance.
-        /// </summary>
-        /// <typeparam name="TSelf"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="ref"></param>
-        /// <returns></returns>
-        public static TSelf For<TSelf>(this TSelf @this, ref TSelf @ref) => @ref = @this;
 
         /// <summary>
         /// Casts the element to the specified type through the specified convert method.
@@ -64,8 +68,7 @@ namespace NStandard
         public static TSelf ForUntil<TSelf>(this TSelf @this, Func<TSelf, TSelf> convert, Func<TSelf, bool> until)
         {
             var ret = @this;
-            while (!until(ret))
-                ret = convert(ret);
+            while (!until(ret)) ret = convert(ret);
             return ret;
         }
 
