@@ -148,5 +148,13 @@ namespace NStandard
             return DateTime.TryParseExact(s, format, CultureInfo.CurrentCulture, DateTimeStyles.None, out result);
         }
 
+        /// <summary>
+        /// Returns the number of days in the specified month and year.
+        /// If the specified year is a leap year, return 366, else return 365.
+        /// </summary>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        public static int DaysInYear(int year) => DateTime.IsLeapYear(year) ? 366 : 365;
+
     }
 }
