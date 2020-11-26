@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Xunit;
 
 namespace NStandard.Test
@@ -40,6 +41,35 @@ namespace NStandard.Test
 
             Assert.Equal(new DateTime(2018, 10, 31, 15, 55, 17),
                 DateTimeEx.FromUnixSeconds(1540972517).ToLocalTime());
+        }
+
+        [Fact]
+        public void ScopedNowTest1()
+        {
+            using (var nowScope = DateTimeEx.BeginNowScope())
+            {
+                var beforeNow = DateTimeEx.ScopedNow;
+                Thread.Sleep(1000);
+                var afterNow = DateTimeEx.ScopedNow;
+                Assert.Equal(beforeNow, afterNow);
+            }
+
+            using (var nowScope = DateTimeEx.BeginNowScope(now => now.StartOfDay()))
+            {
+                var beforeNow = DateTimeEx.ScopedNow;
+                Thread.Sleep(1000);
+                var afterNow = DateTimeEx.ScopedNow;
+                Assert.Equal(beforeNow, afterNow);
+            }
+        }
+
+        [Fact]
+        public void ScopedNowTest2()
+        {
+            var beforeNow = DateTimeEx.ScopedNow;
+            Thread.Sleep(1000);
+            var afterNow = DateTimeEx.ScopedNow;
+            Assert.NotEqual(beforeNow, afterNow);
         }
 
     }

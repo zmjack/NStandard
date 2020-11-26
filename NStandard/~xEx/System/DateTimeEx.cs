@@ -6,6 +6,10 @@ namespace NStandard
 {
     public static class DateTimeEx
     {
+        public static NowScope BeginNowScope() => new NowScope();
+        public static NowScope BeginNowScope(Func<DateTime, DateTime> store) => new NowScope(store);
+        public static DateTime ScopedNow => NowScope.Current?.Now ?? DateTime.Now;
+
         /// <summary>
         /// Gets the DateTime(UTC) of UnixMinValue.
         /// </summary>
