@@ -44,9 +44,29 @@ namespace NStandard.Test
         }
 
         [Fact]
+        public void ScopedNowTest0()
+        {
+            using (new NowScope())
+            {
+                var beforeNow = NowScope.Current.Now;
+                Thread.Sleep(1000);
+                var afterNow = NowScope.Current.Now;
+                Assert.Equal(beforeNow, afterNow);
+            }
+
+            using (new NowScope(now => now.StartOfDay()))
+            {
+                var beforeNow = NowScope.Current.Now;
+                Thread.Sleep(1000);
+                var afterNow = NowScope.Current.Now;
+                Assert.Equal(beforeNow, afterNow);
+            }
+        }
+
+        [Fact]
         public void ScopedNowTest1()
         {
-            using (var nowScope = DateTimeEx.BeginNowScope())
+            using (DateTimeEx.BeginNowScope())
             {
                 var beforeNow = DateTimeEx.ScopedNow;
                 Thread.Sleep(1000);
@@ -54,7 +74,7 @@ namespace NStandard.Test
                 Assert.Equal(beforeNow, afterNow);
             }
 
-            using (var nowScope = DateTimeEx.BeginNowScope(now => now.StartOfDay()))
+            using (DateTimeEx.BeginNowScope(now => now.StartOfDay()))
             {
                 var beforeNow = DateTimeEx.ScopedNow;
                 Thread.Sleep(1000);

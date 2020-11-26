@@ -27,6 +27,7 @@ namespace NStandard.Test
         public void NestTest()
         {
             Assert.Null(StringScope.Current);
+
             using (new StringScope("outter"))
             {
                 Assert.Equal("outter", StringScope.Current.Model);
@@ -36,6 +37,8 @@ namespace NStandard.Test
                     Assert.Equal("inner", StringScope.Current.Model);
                     Assert.Equal(2, StringScope.Scopes.Count);
                 }
+
+                Assert.Equal("outter", StringScope.Current.Model);
             }
         }
 
