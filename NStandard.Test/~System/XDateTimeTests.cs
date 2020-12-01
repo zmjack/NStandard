@@ -68,21 +68,21 @@ namespace NStandard.Test
         [Fact]
         public void AddCompleteYearsTest()
         {
-            Assert.Equal(new DateTime(2001, 2, 28), new DateTime(2000, 2, 29).AddYears(1));
             Assert.Equal(new DateTime(2001, 3, 1), new DateTime(2000, 2, 29).AddCompleteYears(1));
+            Assert.Equal(new DateTime(2000, 3, 1), new DateTime(2001, 3, 1).AddCompleteYears(-1));
 
-            Assert.Equal(new DateTime(2001, 2, 28), new DateTime(2000, 2, 28).AddYears(1));
-            Assert.Equal(new DateTime(2001, 2, 28), new DateTime(2000, 2, 28).AddCompleteYears(1));
+            Assert.Equal(new DateTime(1999, 2, 28), new DateTime(2000, 2, 29).AddCompleteYears(-1));
+            Assert.Equal(new DateTime(2000, 2, 28), new DateTime(1999, 2, 28).AddCompleteYears(1));
         }
 
         [Fact]
         public void AddCompleteMonthsTest()
         {
-            Assert.Equal(new DateTime(2000, 4, 30), new DateTime(2000, 3, 31).AddMonths(1));
             Assert.Equal(new DateTime(2000, 5, 1), new DateTime(2000, 3, 31).AddCompleteMonths(1));
+            Assert.Equal(new DateTime(2000, 4, 1), new DateTime(2000, 5, 1).AddCompleteMonths(-1));
 
-            Assert.Equal(new DateTime(2000, 4, 30), new DateTime(2000, 3, 30).AddMonths(1));
-            Assert.Equal(new DateTime(2000, 4, 30), new DateTime(2000, 3, 30).AddCompleteMonths(1));
+            Assert.Equal(new DateTime(2000, 2, 29), new DateTime(2000, 3, 31).AddCompleteMonths(-1));
+            Assert.Equal(new DateTime(2000, 3, 29), new DateTime(2000, 2, 29).AddCompleteMonths(1));
         }
 
     }

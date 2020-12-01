@@ -195,7 +195,7 @@ namespace NStandard
         public static DateTime AddCompleteYears(this DateTime @this, int completeYears)
         {
             var target = @this.AddYears(completeYears);
-            if (target.Day < @this.Day) target = target.AddDays(1);
+            if (completeYears > 0 && target.Day < @this.Day) target = target.AddDays(1);
             return target;
         }
 
@@ -208,7 +208,7 @@ namespace NStandard
         public static DateTime AddCompleteMonths(this DateTime @this, int completeMonths)
         {
             var target = @this.AddMonths(completeMonths);
-            if (target.Day < @this.Day) target = target.AddDays(1);
+            if (completeMonths > 0 && target.Day < @this.Day) target = target.AddDays(1);
             return target;
         }
 

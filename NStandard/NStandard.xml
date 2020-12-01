@@ -1219,9 +1219,17 @@
             <param name="endDate"></param>
             <returns></returns>
         </member>
+        <member name="M:NStandard.DateTimeEx.PrivateMonthDiff(System.DateTime,System.DateTime)">
+            <summary>
+            
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
         <member name="M:NStandard.DateTimeEx.YearDiff(System.DateTime,System.DateTime)">
             <summary>
-            The number of complete years in the period, same as DATEDIF(*, *, "Y") function in Excel.
+            The number of complete years in the period, similar as DATEDIF(*, *, "Y") function in Excel.
             </summary>
             <param name="start"></param>
             <param name="end"></param>
@@ -1229,7 +1237,23 @@
         </member>
         <member name="M:NStandard.DateTimeEx.MonthDiff(System.DateTime,System.DateTime)">
             <summary>
-            The number of complete months in the period, same as DATEDIF(*, *, "M") function in Excel.
+            The number of complete months in the period, similar as DATEDIF(*, *, "M") function in Excel.
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.ExactYearDiff(System.DateTime,System.DateTime)">
+            <summary>
+            The number of complete years in the period, return a double value.
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.ExactMonthDiff(System.DateTime,System.DateTime)">
+            <summary>
+            The number of complete months in the period, return a double value.
             </summary>
             <param name="start"></param>
             <param name="end"></param>
