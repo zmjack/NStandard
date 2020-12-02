@@ -26,6 +26,8 @@ namespace NStandard.Test
         [Fact]
         public void NestTest()
         {
+            ref var s = ref StringScope.Scopes;
+
             Assert.Null(StringScope.Current);
 
             using (new StringScope("outter"))

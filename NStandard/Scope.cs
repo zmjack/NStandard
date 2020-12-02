@@ -34,6 +34,9 @@ namespace NStandard
         public virtual void Disposing() { }
 
         // Use TSelf to make sure the ThreadStatic attribute working correctly.
+        /// <summary>
+        /// Hint: The `Scopes` is null until it is initialized.
+        /// </summary>
         [ThreadStatic]
         public static Stack<TSelf> Scopes;
 
