@@ -180,8 +180,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="normalizeNewLine"></param>
         /// <returns></returns>
-        public static IEnumerable<string> GetPureLines(this string @this, bool normalizeNewLine = false)
-            => GetLines(@this, normalizeNewLine, true);
+        public static IEnumerable<string> GetPureLines(this string @this, bool normalizeNewLine = false) => GetLines(@this, normalizeNewLine, true);
 
         /// <summary>
         /// Divides a string into multi-lines. If the string is null, return string[0]. 
@@ -191,13 +190,11 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="normalizeNewLine"></param>
         /// <returns></returns>
-        public static IEnumerable<string> GetLines(this string @this, bool normalizeNewLine = false)
-            => GetLines(@this, normalizeNewLine, false);
+        public static IEnumerable<string> GetLines(this string @this, bool normalizeNewLine = false) => GetLines(@this, normalizeNewLine, false);
 
         private static IEnumerable<string> GetLines(this string @this, bool normalizeNewLine = false, bool ignoreEmptyOrWhiteSpace = false)
         {
-            if (normalizeNewLine)
-                @this = @this.NormalizeNewLine();
+            if (normalizeNewLine) @this = @this.NormalizeNewLine();
 
             if (@this != null)
             {
@@ -229,7 +226,10 @@ namespace NStandard
         /// <param name="this"></param>
         /// <returns></returns>
         public static string Unique(this string @this)
-            => new Regex(@"[\s]{2,}").Replace(@this.NormalizeNewLine().Replace(Environment.NewLine, " ").Trim(), " ");
+        {
+            var regex = new Regex(@"[\s]{2,}");
+            return regex.Replace(@this.NormalizeNewLine().Replace(Environment.NewLine, " ").Trim(), " ");
+        }
 
         /// <summary>
         /// In a specified input string, replaces all strings that match a regular expression
@@ -260,6 +260,8 @@ namespace NStandard
         /// <returns></returns>
         public static IEnumerable<string> Extract(this string @this, Regex regex, string replacement = null)
         {
+            if (@this is null) yield break;
+
             var startat = 0;
             while (true)
             {
@@ -380,8 +382,7 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static int GetLengthA(this string @this)
-            => @this.Aggregate(0, (acc, cur) => acc += cur.GetLengthA());
+        public static int GetLengthA(this string @this) => @this.Aggregate(0, (acc, cur) => acc += cur.GetLengthA());
 
         /// <summary>
         /// Returns a new string that right-aligns the characters in this string by padding
@@ -401,8 +402,7 @@ namespace NStandard
         /// <returns></returns>
         public static string PadLeftA(this string @this, int totalWidth, char paddingChar)
         {
-            if (totalWidth < 0) throw new ArgumentOutOfRangeException(
-                $"The argument `{nameof(totalWidth)}` must be an non-negative number.");
+            if (totalWidth < 0) throw new ArgumentOutOfRangeException($"The argument `{nameof(totalWidth)}` must be an non-negative number.");
 
             var fillWidth = totalWidth - GetLengthA(@this);
             if (fillWidth > 0)
