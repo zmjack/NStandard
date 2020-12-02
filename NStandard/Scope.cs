@@ -1,6 +1,6 @@
-﻿using NStandard.Locks;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace NStandard
 {
@@ -13,17 +13,14 @@ namespace NStandard
     {
         protected Scope()
         {
+            CheckAndThrow();
+            Scopes.Push(this as TSelf);
+        }
+
+        private void CheckAndThrow()
+        {
             var scopeType = typeof(Scope<TSelf>).GetGenericArguments()[0];
             if (GetType() != scopeType) throw new TypeLoadException($"Generic type `TSelf` must be defined as '{GetType().FullName}'.");
-
-            var lockParser = new TypeLockParser(nameof(NStandard));
-            var _lock = lockParser.ParseThreadLock(GetType());
-
-            _lock.UseDoubleCheckLocking(() => Scopes is null, () =>
-            {
-                Scopes = new Stack<TSelf>();
-            });
-            Scopes.Push(this as TSelf);
         }
 
         /// <summary>
@@ -34,13 +31,20 @@ namespace NStandard
         public virtual void Disposing() { }
 
         // Use TSelf to make sure the ThreadStatic attribute working correctly.
-        /// <summary>
-        /// Hint: The `Scopes` is null until it is initialized.
-        /// </summary>
         [ThreadStatic]
-        public static Stack<TSelf> Scopes;
+        private static Stack<TSelf> _scopes;
 
-        public static TSelf Current => (Scopes?.Count > 0 ? Scopes.Peek() : null) ?? null;
+        public static Stack<TSelf> Scopes
+        {
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            get
+            {
+                if (_scopes is null) _scopes = new Stack<TSelf>();
+                return _scopes;
+            }
+        }
+
+        public static TSelf Current => (Scopes.Count > 0 ? Scopes.Peek() : null) ?? null;
     }
 
 }

@@ -1,8 +1,5 @@
-﻿using NStandard.Trees;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
 
 namespace NStandard.Trees.Test
 {

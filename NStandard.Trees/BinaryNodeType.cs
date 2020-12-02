@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NStandard.Trees
+﻿namespace NStandard.Trees
 {
     public enum BinaryNodeType
     {

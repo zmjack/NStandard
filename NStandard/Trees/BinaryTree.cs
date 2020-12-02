@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard.Trees
+﻿namespace NStandard.Trees
 {
     public class BinaryTree<TModel> : IBinaryTree<BinaryTree<TModel>, TModel>
     {
