@@ -14,6 +14,13 @@ namespace NStandard.Test
         }
 
         [Fact]
+        public void Base58Test()
+        {
+            Assert.Equal("zpsEBKbce3iT", "NStandard".Bytes().For(BytesFlow.Base58));
+            Assert.Equal("NStandard", "zpsEBKbce3iT".For(StringFlow.BytesFromBase58).String());
+        }
+
+        [Fact]
         public void Base64Test()
         {
             Assert.Equal("QUI+Q0Q/RQ==", "AB>CD?E".Bytes().For(BytesFlow.Base64));
