@@ -61,6 +61,18 @@ namespace NStandard
         /// Casts the element to the specified type through the specified convert method.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>
+        /// <typeparam name="TParam"></typeparam>
+        /// <typeparam name="TRet"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="param"></param>
+        /// <param name="convert"></param>
+        /// <returns></returns>
+        public static TRet For<TSelf, TParam, TRet>(this TSelf @this, Func<TSelf, TParam, TRet> convert, TParam param) => convert(@this, param);
+
+        /// <summary>
+        /// Casts the element to the specified type through the specified convert method.
+        /// </summary>
+        /// <typeparam name="TSelf"></typeparam>
         /// <param name="this"></param>
         /// <param name="convert"></param>
         /// <param name="until"></param>
@@ -71,16 +83,6 @@ namespace NStandard
             while (!until(ret)) ret = convert(ret);
             return ret;
         }
-
-        /// <summary>
-        /// Casts the element to the specified type through the specified flow.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TRet"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="flow"></param>
-        /// <returns></returns>
-        public static TRet Flow<T, TRet>(this T @this, IFlow<T, TRet> flow) => flow.Execute(@this);
 
         /// <summary>
         /// Determines whether the specified object is null.

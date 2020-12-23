@@ -55,10 +55,12 @@ namespace NStandard.Test
             var md5 = MD5.Create();
             var computeMD5 = new SingleOpFunc<byte[]>(x => md5.ComputeHash(x));
 
-            var result1 = computeMD5.Higher(3)("NStandard".Bytes());
-            var result2 = computeMD5(computeMD5(computeMD5("NStandard".Bytes())));
+            var result1 = ((Func<byte[], byte[]>)md5.ComputeHash).Higher(3)("NStandard".Bytes());
+            var result2 = computeMD5.Higher(3)("NStandard".Bytes());
+            var result3 = computeMD5(computeMD5(computeMD5("NStandard".Bytes())));
 
             Assert.Equal(result1, result2);
+            Assert.Equal(result2, result3);
         }
 
         [Fact]

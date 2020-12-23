@@ -4,7 +4,7 @@ namespace NStandard.Flows
 {
     public static class HashFlow
     {
-        public static IFlow<byte[], byte[]> MD5 = new Flow<byte[], byte[]>(Md5Provider.ComputeHash);
-        public static IFlow<byte[], byte[]> SHA1 = new Flow<byte[], byte[]>(Sha1Provider.ComputeHash);
+        public static byte[] MD5(byte[] bytes) => Md5Provider.ComputeHash(bytes);
+        public static byte[] SHA1(byte[] bytes) => Sha1Provider.ComputeHash(bytes);
     }
 }

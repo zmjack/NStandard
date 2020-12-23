@@ -118,13 +118,22 @@
             <param name="separator"></param>
             <returns></returns>
         </member>
+        <member name="M:NStandard.XDelegate.Higher``1(System.Func{``0,``0},System.Int32)">
+            <summary>
+            Convert a function to its higher-order form.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="degree"></param>
+            <returns></returns>
+        </member>
         <member name="M:NStandard.XDelegate.Higher``1(NStandard.SingleOpFunc{``0},System.Int32)">
             <summary>
             Convert a function to its higher-order form.
             </summary>
             <typeparam name="TSelf"></typeparam>
-            <param name="delegate"></param>
             <param name="this"></param>
+            <param name="degree"></param>
             <returns></returns>
         </member>
         <member name="F:NStandard.Reference.DotNetFramework.TFM">
@@ -142,6 +151,181 @@
             <summary>
             Do not override this method. Use Disposing instead.
             </summary>
+        </member>
+        <member name="M:NStandard.ConvertEx.ChangeType(System.Object,System.Type)">
+            <summary>
+            Returns an object of the specified type and whose value is equivalent to the specified object.
+                (Enhance: Support Nullable types.)
+            </summary>
+            <param name="value">An object that implements the System.IConvertible interface.</param>
+            <param name="conversionType">The type of object to return.</param>
+        </member>
+        <member name="M:NStandard.DateTimeEx.UnixMinValue">
+            <summary>
+            Gets the DateTime(UTC) of UnixMinValue.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.FromUnixSeconds(System.Int64)">
+            <summary>
+            Converts the sepecified Unix TimeStamp(seconds) to DateTime(UTC).
+            </summary>
+            <param name="seconds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.FromUnixMilliseconds(System.Int64)">
+            <summary>
+            Converts the sepecified Unix TimeStamp(milliseconds) to DateTime(UTC).
+            </summary>
+            <param name="milliseconds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.ToUnixTimeMilliseconds(System.DateTime)">
+            <summary>
+            Gets the Unix Timestamp(milliseconds) of the specified DateTime(UTC).
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.ToUnixTimeSeconds(System.DateTime)">
+            <summary>
+            Gets the Unix Timestamp(seconds) of the specified DateTime(UTC).
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.GetMonths(System.DateTime,System.DateTime)">
+            <summary>
+            Gets the range of months.
+            </summary>
+            <param name="startDate"></param>
+            <param name="endDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.GetDays(System.DateTime,System.DateTime)">
+            <summary>
+            Gets the range of days.
+            </summary>
+            <param name="startDate"></param>
+            <param name="endDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.PrivateMonthDiff(System.DateTime,System.DateTime)">
+            <summary>
+            
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.YearDiff(System.DateTime,System.DateTime)">
+            <summary>
+            The number of complete years in the period, similar as DATEDIF(*, *, "Y") function in Excel.
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.MonthDiff(System.DateTime,System.DateTime)">
+            <summary>
+            The number of complete months in the period, similar as DATEDIF(*, *, "M") function in Excel.
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.ExactYearDiff(System.DateTime,System.DateTime)">
+            <summary>
+            The number of complete years in the period, return a double value.
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.ExactMonthDiff(System.DateTime,System.DateTime)">
+            <summary>
+            The number of complete months in the period, return a double value.
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.ParseFromWeek(System.Int32,System.Int32,System.DayOfWeek)">
+            <summary>
+            Gets a DateTime for the specified week of year.
+            </summary>
+            <param name="year"></param>
+            <param name="week"></param>
+            <param name="weekStart"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.ParseExtract(System.String,System.String)">
+            <summary>
+            Converts the specified string representation of a date and time to its System.DateTime
+                equivalent using the specified format and culture-specific format information.
+                The format of the string representation must match the specified format exactly.
+            </summary>
+            <param name="s"></param>
+            <param name="format"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.TryParseExtract(System.String,System.String,System.DateTime@)">
+            <summary>
+            Converts the specified string representation of a date and time to its System.DateTime
+                equivalent using the specified format, culture-specific format information, and
+                style. The format of the string representation must match the specified format
+                exactly. The method returns a value that indicates whether the conversion succeeded.
+            </summary>
+            <param name="s"></param>
+            <param name="format"></param>
+            <param name="result"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeEx.DaysInYear(System.Int32)">
+            <summary>
+            Returns the number of days in the specified month and year.
+            If the specified year is a leap year, return 366, else return 365.
+            </summary>
+            <param name="year"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.ObjectEx.CrossEquals``1(``0[])">
+            <summary>
+            Determines whether the specified objects are equal to each other.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="objs"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.StringEx.CommonStarts(System.String[])">
+            <summary>
+            Get the common starts of the specified strings.
+            </summary>
+            <param name="strings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.StringEx.CamelCase(System.String)">
+            <summary>
+            Converts a string to CamelCase string.
+            </summary>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.StringEx.KebabCase(System.String)">
+            <summary>
+            Converts a string to KebabCase string.
+            </summary>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.StringEx.Extract``1(System.String,``0,System.Linq.Expressions.Expression{System.Func{``0,System.FormattableString}})">
+            <summary>
+            Projects some strings back into an instance's field or property. (Using `?` on the right side of a variable disables greedy matching)
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="source"></param>
+            <param name="instance"></param>
+            <param name="patternExp"></param>
         </member>
         <member name="M:NStandard.XArray.String(System.Byte[])">
             <summary>
@@ -727,6 +911,18 @@
             <param name="convert"></param>
             <returns></returns>
         </member>
+        <member name="M:NStandard.XObject.For``3(``0,System.Func{``0,``1,``2},``1)">
+            <summary>
+            Casts the element to the specified type through the specified convert method.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <typeparam name="TParam"></typeparam>
+            <typeparam name="TRet"></typeparam>
+            <param name="this"></param>
+            <param name="param"></param>
+            <param name="convert"></param>
+            <returns></returns>
+        </member>
         <member name="M:NStandard.XObject.ForUntil``1(``0,System.Func{``0,``0},System.Func{``0,System.Boolean})">
             <summary>
             Casts the element to the specified type through the specified convert method.
@@ -735,16 +931,6 @@
             <param name="this"></param>
             <param name="convert"></param>
             <param name="until"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.XObject.Flow``2(``0,NStandard.IFlow{``0,``1})">
-            <summary>
-            Casts the element to the specified type through the specified flow.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <typeparam name="TRet"></typeparam>
-            <param name="this"></param>
-            <param name="flow"></param>
             <returns></returns>
         </member>
         <member name="M:NStandard.XObject.IsNull``1(``0)">
@@ -1160,181 +1346,6 @@
             <param name="this"></param>
             <param name="separator"></param>
             <returns></returns>
-        </member>
-        <member name="M:NStandard.ConvertEx.ChangeType(System.Object,System.Type)">
-            <summary>
-            Returns an object of the specified type and whose value is equivalent to the specified object.
-                (Enhance: Support Nullable types.)
-            </summary>
-            <param name="value">An object that implements the System.IConvertible interface.</param>
-            <param name="conversionType">The type of object to return.</param>
-        </member>
-        <member name="M:NStandard.DateTimeEx.UnixMinValue">
-            <summary>
-            Gets the DateTime(UTC) of UnixMinValue.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.FromUnixSeconds(System.Int64)">
-            <summary>
-            Converts the sepecified Unix TimeStamp(seconds) to DateTime(UTC).
-            </summary>
-            <param name="seconds"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.FromUnixMilliseconds(System.Int64)">
-            <summary>
-            Converts the sepecified Unix TimeStamp(milliseconds) to DateTime(UTC).
-            </summary>
-            <param name="milliseconds"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.ToUnixTimeMilliseconds(System.DateTime)">
-            <summary>
-            Gets the Unix Timestamp(milliseconds) of the specified DateTime(UTC).
-            </summary>
-            <param name="this"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.ToUnixTimeSeconds(System.DateTime)">
-            <summary>
-            Gets the Unix Timestamp(seconds) of the specified DateTime(UTC).
-            </summary>
-            <param name="this"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.GetMonths(System.DateTime,System.DateTime)">
-            <summary>
-            Gets the range of months.
-            </summary>
-            <param name="startDate"></param>
-            <param name="endDate"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.GetDays(System.DateTime,System.DateTime)">
-            <summary>
-            Gets the range of days.
-            </summary>
-            <param name="startDate"></param>
-            <param name="endDate"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.PrivateMonthDiff(System.DateTime,System.DateTime)">
-            <summary>
-            
-            </summary>
-            <param name="start"></param>
-            <param name="end"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.YearDiff(System.DateTime,System.DateTime)">
-            <summary>
-            The number of complete years in the period, similar as DATEDIF(*, *, "Y") function in Excel.
-            </summary>
-            <param name="start"></param>
-            <param name="end"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.MonthDiff(System.DateTime,System.DateTime)">
-            <summary>
-            The number of complete months in the period, similar as DATEDIF(*, *, "M") function in Excel.
-            </summary>
-            <param name="start"></param>
-            <param name="end"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.ExactYearDiff(System.DateTime,System.DateTime)">
-            <summary>
-            The number of complete years in the period, return a double value.
-            </summary>
-            <param name="start"></param>
-            <param name="end"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.ExactMonthDiff(System.DateTime,System.DateTime)">
-            <summary>
-            The number of complete months in the period, return a double value.
-            </summary>
-            <param name="start"></param>
-            <param name="end"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.ParseFromWeek(System.Int32,System.Int32,System.DayOfWeek)">
-            <summary>
-            Gets a DateTime for the specified week of year.
-            </summary>
-            <param name="year"></param>
-            <param name="week"></param>
-            <param name="weekStart"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.ParseExtract(System.String,System.String)">
-            <summary>
-            Converts the specified string representation of a date and time to its System.DateTime
-                equivalent using the specified format and culture-specific format information.
-                The format of the string representation must match the specified format exactly.
-            </summary>
-            <param name="s"></param>
-            <param name="format"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.TryParseExtract(System.String,System.String,System.DateTime@)">
-            <summary>
-            Converts the specified string representation of a date and time to its System.DateTime
-                equivalent using the specified format, culture-specific format information, and
-                style. The format of the string representation must match the specified format
-                exactly. The method returns a value that indicates whether the conversion succeeded.
-            </summary>
-            <param name="s"></param>
-            <param name="format"></param>
-            <param name="result"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.DaysInYear(System.Int32)">
-            <summary>
-            Returns the number of days in the specified month and year.
-            If the specified year is a leap year, return 366, else return 365.
-            </summary>
-            <param name="year"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.ObjectEx.CrossEquals``1(``0[])">
-            <summary>
-            Determines whether the specified objects are equal to each other.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="objs"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.StringEx.CommonStarts(System.String[])">
-            <summary>
-            Get the common starts of the specified strings.
-            </summary>
-            <param name="strings"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.StringEx.CamelCase(System.String)">
-            <summary>
-            Converts a string to CamelCase string.
-            </summary>
-            <param name="source"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.StringEx.KebabCase(System.String)">
-            <summary>
-            Converts a string to KebabCase string.
-            </summary>
-            <param name="source"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.StringEx.Extract``1(System.String,``0,System.Linq.Expressions.Expression{System.Func{``0,System.FormattableString}})">
-            <summary>
-            Projects some strings back into an instance's field or property. (Using `?` on the right side of a variable disables greedy matching)
-            </summary>
-            <typeparam name="TClass"></typeparam>
-            <param name="source"></param>
-            <param name="instance"></param>
-            <param name="patternExp"></param>
         </member>
         <member name="M:System.Drawing.ColorEx.CreateFromAhsv(System.Single,System.Single,System.Single)">
             <summary>

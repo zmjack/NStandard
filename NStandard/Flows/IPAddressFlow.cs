@@ -6,9 +6,8 @@ namespace NStandard.Flows
 {
     public static class IPAddressFlow
     {
-        public static IFlow<IPAddress, long> IPLong = new Flow<IPAddress, long>(x => BitConverter.ToUInt32(x.GetAddressBytes().Reverse().ToArray(), 0));
-
-        public static IFlow<long, IPAddress> FromIPLong = new Flow<long, IPAddress>(x => IPAddress.Parse(x.ToString()));
+        public static long Int64(IPAddress ip) => BitConverter.ToUInt32(ip.GetAddressBytes().Reverse().ToArray(), 0);
+        public static IPAddress IPAddress(long int64) => System.Net.IPAddress.Parse(int64.ToString());
     }
 
 }

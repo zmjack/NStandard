@@ -11,28 +11,28 @@ namespace NStandard.Flows
 {
     public static class StringFlow
     {
-        public static IFlow<string, string> Base58 = new Flow<string, string>(x => ConvertEx.ToBase58String(Encoding.UTF8.GetBytes(x)));
-        public static IFlow<string, string> Base64 = new Flow<string, string>(x => Convert.ToBase64String(Encoding.UTF8.GetBytes(x)));
-        public static IFlow<string, string> HexString = new Flow<string, string>(x => BytesConvert.ToHexString(Encoding.UTF8.GetBytes(x)));
-        public static IFlow<string, string> UrlSafeBase64 = new Flow<string, string>(x => StringConvert.ConvertBase64ToUrlSafeBase64(Convert.ToBase64String(Encoding.UTF8.GetBytes(x))));
+        public static byte[] Bytes(string str, Encoding encoding) => encoding.GetBytes(str);
 
-        public static IFlow<string, string> FromBase58 = new Flow<string, string>(x => Encoding.UTF8.GetString(ConvertEx.FromBase58String(x)));
-        public static IFlow<string, string> FromBase64 = new Flow<string, string>(x => Encoding.UTF8.GetString(Convert.FromBase64String(x)));
-        public static IFlow<string, string> FromHexString = new Flow<string, string>(x => Encoding.UTF8.GetString(StringConvert.FromHexString(x)));
-        public static IFlow<string, string> FromUrlSafeBase64 = new Flow<string, string>(x => Encoding.UTF8.GetString(Convert.FromBase64String(StringConvert.ConvertUrlSafeBase64ToBase64(x))));
+        public static byte[] BytesFromBase58(string str) => ConvertEx.FromBase58String(str);
+        public static byte[] BytesFromBase64(string str) => Convert.FromBase64String(str);
+        public static byte[] BytesFromHexString(string str) => StringConvert.FromHexString(str);
+        public static byte[] BytesFromUrlSafeBase64(string str) => Convert.FromBase64String(StringConvert.ConvertUrlSafeBase64ToBase64(str));
+
+        public static Guid GuidFromHexString(string str) => new Guid(str.For(BytesFromHexString));
+        public static Guid GuidFromBase58(string str) => new Guid(str.For(BytesFromBase58));
+        public static Guid GuidFromBase64(string str) => new Guid(str.For(BytesFromBase64));
+        public static Guid GuidFromUrlSafeBase64(string str) => new Guid(str.For(BytesFromUrlSafeBase64));
 
 #if NETSTANDARD2_0
-        public static IFlow<string, string> UrlEncode = new Flow<string, string>(WebUtility.UrlEncode);
-        public static IFlow<string, string> HtmlEncode = new Flow<string, string>(WebUtility.HtmlEncode);
-
-        public static IFlow<string, string> UrlDecode = new Flow<string, string>(WebUtility.UrlDecode);
-        public static IFlow<string, string> HtmlDecode = new Flow<string, string>(WebUtility.HtmlDecode);
+        public static string UrlEncode(string str) => WebUtility.UrlEncode(str);
+        public static string UrlDecode(string str) => WebUtility.UrlDecode(str);
+        public static string HtmlEncode(string str) => WebUtility.HtmlEncode(str);
+        public static string HtmlDecode(string str) => WebUtility.HtmlDecode(str);
 #else
-        public static IFlow<string, string> UrlEncode = new Flow<string, string>(HttpUtility.UrlEncode);
-        public static IFlow<string, string> HtmlEncode = new Flow<string, string>(HttpUtility.HtmlEncode);
-
-        public static IFlow<string, string> UrlDecode = new Flow<string, string>(HttpUtility.UrlDecode);
-        public static IFlow<string, string> HtmlDecode = new Flow<string, string>(HttpUtility.HtmlDecode);
+        public static string UrlEncode(string str) => HttpUtility.UrlEncode(str);
+        public static string UrlDecode(string str) => HttpUtility.UrlDecode(str);
+        public static string HtmlEncode (string str) => HttpUtility.HtmlEncode(str);
+        public static string HtmlDecode(string str) => HttpUtility.HtmlDecode(str);
 #endif
     }
 
