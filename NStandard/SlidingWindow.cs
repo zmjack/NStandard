@@ -43,9 +43,9 @@ namespace NStandard
 
             for (int i = lastIndex; i >= 1; i--)
             {
-                _store[i] = _store[i - 1];
+                _store[i - 1] = _store[i];
             }
-            _store[0] = obj;
+            _store[_maxIndex] = obj;
 
             if (!IsFilled)
             {

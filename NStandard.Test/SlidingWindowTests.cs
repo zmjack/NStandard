@@ -10,8 +10,13 @@ namespace NStandard.Test
         public void Test1()
         {
             var numbers = new[] { 100, 200, 300, 400 };
-            var result = SlidingWindow.Slide(numbers, 2).Max(w => w.Sum());
-            Assert.Equal(700, result);
+            var result = SlidingWindow.Slide(numbers, 2).Select(x => x.ToArray());
+            Assert.Equal(new[]
+            {
+                new[] { 100, 200 },
+                new[] { 200, 300 },
+                new[] { 300, 400 },
+            }, result);
         }
 
         [Fact]
@@ -26,8 +31,8 @@ namespace NStandard.Test
             {
                 window.Fill(numbers[i]);
 
-                Assert.Equal(11 + 11 * i, window[0]);
-                Assert.Equal(0 + 11 * i, window[1]);
+                Assert.Equal(0 + 11 * i, window[0]);
+                Assert.Equal(11 + 11 * i, window[1]);
 
                 list1.Add(window.ToArray());
                 list2.Add(window[0..2]);
@@ -35,9 +40,9 @@ namespace NStandard.Test
 
             var excepted = new[]
             {
-                new [] { 11, default },
-                new [] { 22, 11  },
-                new [] { 33, 22 },
+                new [] { default, 11 },
+                new [] { 11, 22  },
+                new [] { 22, 33 },
             };
 
             Assert.Equal(excepted, list1.ToArray());
