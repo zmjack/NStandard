@@ -104,6 +104,7 @@ namespace NStandard
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public static object MemoryAs(this object @this, Type type)
         {

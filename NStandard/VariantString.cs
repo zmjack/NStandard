@@ -127,6 +127,49 @@ namespace NStandard
         public static implicit operator Guid?(VariantString @this) => Guid.TryParse(@this.String, out var ret).For(x => x ? ret : (Guid?)default);
 #endif
 
+        public override bool Equals(object obj)
+        {
+            if (obj is VariantString vs) return String == vs.String;
+
+            switch (obj)
+            {
+                case char o: return String == o.ToString();
+                case byte o: return String == o.ToString();
+                case short o: return String == o.ToString();
+                case ushort o: return String == o.ToString();
+                case int o: return String == o.ToString();
+                case uint o: return String == o.ToString();
+                case long o: return String == o.ToString();
+                case ulong o: return String == o.ToString();
+                case float o: return String == o.ToString();
+                case double o: return String == o.ToString();
+                case decimal o: return String == o.ToString();
+                case DateTime o: return String == o.ToString();
+                case bool o: return String == o.ToString();
+                case Guid o: return String == o.ToString();
+            };
+
+            switch (obj.GetType())
+            {
+                case Type type when type == typeof(char?): return String == obj?.ToString();
+                case Type type when type == typeof(byte?): return String == obj?.ToString();
+                case Type type when type == typeof(short?): return String == obj?.ToString();
+                case Type type when type == typeof(ushort?): return String == obj?.ToString();
+                case Type type when type == typeof(int?): return String == obj?.ToString();
+                case Type type when type == typeof(uint?): return String == obj?.ToString();
+                case Type type when type == typeof(long?): return String == obj?.ToString();
+                case Type type when type == typeof(ulong?): return String == obj?.ToString();
+                case Type type when type == typeof(float?): return String == obj?.ToString();
+                case Type type when type == typeof(double?): return String == obj?.ToString();
+                case Type type when type == typeof(decimal?): return String == obj?.ToString();
+                case Type type when type == typeof(DateTime?): return String == obj?.ToString();
+                case Type type when type == typeof(bool?): return String == obj?.ToString();
+                case Type type when type == typeof(Guid?): return String == obj?.ToString();
+            }
+
+            return false;
+        }
+
         public override string ToString() => String?.ToString() ?? "";
     }
 }
