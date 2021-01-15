@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NStandard.Evaluators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -47,7 +48,9 @@ namespace NStandard
                 .OrderByDescending(x => x.Length)
                 .Select(x => x.RegexReplace(new Regex(@"([\[\]\-\.\^\$\{\}\?\+\*\|\(\)])"), "\\$1"))
                 .Join("|");
-            var resolveRegex = new Regex($@"^(?:\s*(\d+|\d+\.\d+|\-\d+|\-\d+\.\d+|0x[\da-fA-F]+|0[0-7]+|)\s*({operatorsPart}|$))+\s*$");    // Different from NumericalEvaluator.Resolve
+
+            // Different from NumericalEvaluator.Resolve
+            var resolveRegex = new Regex($@"^(?:\s*(\d+|\d+\.\d+|\-\d+|\-\d+\.\d+|0x[\da-fA-F]+|0[0-7]+|)\s*({operatorsPart}|$))+\s*$");
 
             if (exp.TryResolve(resolveRegex, out var parts))
             {

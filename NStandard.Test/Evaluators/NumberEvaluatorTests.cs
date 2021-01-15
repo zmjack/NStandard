@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Xunit;
 
-namespace NStandard.Test
+namespace NStandard.Evaluators.Test
 {
     public class NumberEvaluatorTests
     {
@@ -35,14 +36,14 @@ namespace NStandard.Test
         [Fact]
         public void NormalParameterTest()
         {
-            var exp = "1 + (2 * $a - 4 * ($b + 6)) + 7";
-            var tree = Evaluator.Numerical.Build(exp, out _);
+            var exp = "1 + (2 * ${a} - 4 * (${b} + 6)) + 7";
+            var tree = Evaluator.Numerical.BuildParameterized(exp, out _);
+            Assert.Equal("((1 + ((2 * IIF(p.ContainsKey(\"a\"), p.get_Item(\"a\"), 0)) - (4 * (IIF(p.ContainsKey(\"b\"), p.get_Item(\"b\"), 0) + 6)))) + 7)", tree.ToString());
 
-            Assert.Equal("((1 + ((2 * a) - (4 * (b + 6)))) + 7)", tree.ToString());
-
-            var del = Evaluator.Numerical.Compile<Func<double, double, double>>(exp);
-            Assert.Equal(1 + (2 * 3 - 4 * (5 + 6)) + 7, del(3, 5));
-            Assert.Equal(1 + (2 * 4 - 4 * (6 + 6)) + 7, del(4, 6));
+            var del = Evaluator.Numerical.CompileParameterized(exp);
+            Assert.Equal(1 + (2 * 3 - 4 * (5 + 6)) + 7, del(new Dictionary<string, double> { ["a"] = 3, ["b"] = 5 }));
+            Assert.Equal(1 + (2 * 4 - 4 * (6 + 6)) + 7, del(new Dictionary<string, double> { ["a"] = 4, ["b"] = 6 }));
+            Assert.Equal(1 + (2 * 4 - 4 * (0 + 6)) + 7, del(new Dictionary<string, double> { ["a"] = 4 }));
         }
 
         [Fact]
@@ -90,7 +91,7 @@ namespace NStandard.Test
         {
             double excepted = 1 + (2 * 3 - 4 * (5 + 6)) + 7;
             var exp = "1 + (2 * 3 - 4 * (5 + 6)) + 7";
-            var func = Evaluator.Numerical.Compile<Func<double>>(exp);
+            var func = Evaluator.Numerical.Compile(exp);
             for (int i = 0; i < 1000; i++)
             {
                 var actual = func();

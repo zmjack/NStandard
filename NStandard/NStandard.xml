@@ -954,6 +954,7 @@
             </summary>
             <typeparam name="T"></typeparam>
             <param name="this"></param>
+            <param name="type"></param>
             <returns></returns>
         </member>
         <member name="M:NStandard.XObject.ToExpandoObject(System.Object)">

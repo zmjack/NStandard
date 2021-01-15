@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NStandard
+namespace NStandard.Evaluators
 {
     public static class Evaluator
     {
@@ -127,7 +127,9 @@ namespace NStandard
                         if (openBrackets.Contains(prevOp)) break;
 
                         var prevOpLevel = OpLevels.ContainsKey(prevOp) ? OpLevels[prevOp] : int.MaxValue;
-                        if (opLevel >= prevOpLevel)         // opLevel is less than or equal to prevOpLevel
+
+                        // opLevel is less than or equal to prevOpLevel
+                        if (opLevel >= prevOpLevel)
                         {
                             var right = operandStack.Pop();
                             var left = operandStack.Pop();
