@@ -67,52 +67,43 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void ScopedNowTest0()
-        {
-            using (new NowScope())
-            {
-                var beforeNow = NowScope.Current.Now;
-                Thread.Sleep(1000);
-                var afterNow = NowScope.Current.Now;
-                Assert.Equal(beforeNow, afterNow);
-            }
-
-            using (new NowScope(now => now.StartOfDay()))
-            {
-                var beforeNow = NowScope.Current.Now;
-                Thread.Sleep(1000);
-                var afterNow = NowScope.Current.Now;
-                Assert.Equal(beforeNow, afterNow);
-            }
-        }
-
-        [Fact]
         public void ScopedNowTest1()
         {
             using (DateTimeEx.BeginNowScope())
             {
-                var beforeNow = DateTimeEx.ScopedNow;
+                var before = DateTimeEx.NowScopes.Current;
                 Thread.Sleep(1000);
-                var afterNow = DateTimeEx.ScopedNow;
-                Assert.Equal(beforeNow, afterNow);
+                var after = DateTimeEx.NowScopes.Current;
+                Assert.Equal(before, after);
             }
-
             using (DateTimeEx.BeginNowScope(now => now.StartOfDay()))
             {
-                var beforeNow = DateTimeEx.ScopedNow;
+                var before = DateTimeEx.NowScopes.Current;
                 Thread.Sleep(1000);
-                var afterNow = DateTimeEx.ScopedNow;
-                Assert.Equal(beforeNow, afterNow);
+                var after = DateTimeEx.NowScopes.Current;
+                Assert.Equal(before, after);
             }
         }
 
         [Fact]
         public void ScopedNowTest2()
         {
-            var beforeNow = DateTimeEx.ScopedNow;
-            Thread.Sleep(1000);
-            var afterNow = DateTimeEx.ScopedNow;
-            Assert.NotEqual(beforeNow, afterNow);
+            using (DateTimeEx.BeginNowScope())
+            {
+                var outermost = DateTimeEx.NowScopes.Current;
+
+                Thread.Sleep(1000);
+                using (DateTimeEx.BeginNowScope())
+                {
+                    var before = DateTimeEx.NowScopes.Current;
+                    Thread.Sleep(1000);
+                    var after = DateTimeEx.NowScopes.Current;
+
+                    Assert.Equal(before, after);
+                    Assert.Equal(outermost, DateTimeEx.NowScopes.Outermost);
+                }
+
+            }
         }
 
     }

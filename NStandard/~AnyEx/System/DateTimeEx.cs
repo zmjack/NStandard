@@ -8,7 +8,8 @@ namespace NStandard
     {
         public static NowScope BeginNowScope() => new NowScope();
         public static NowScope BeginNowScope(Func<DateTime, DateTime> store) => new NowScope(store);
-        public static DateTime ScopedNow => NowScope.Current?.Now ?? DateTime.Now;
+
+        public static NowScopeAccessor NowScopes => NowScopeAccessor.Instance;
 
         /// <summary>
         /// Gets the DateTime(UTC) of UnixMinValue.

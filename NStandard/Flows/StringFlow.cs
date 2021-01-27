@@ -31,7 +31,7 @@ namespace NStandard.Flows
 #else
         public static string UrlEncode(string str) => HttpUtility.UrlEncode(str);
         public static string UrlDecode(string str) => HttpUtility.UrlDecode(str);
-        public static string HtmlEncode (string str) => HttpUtility.HtmlEncode(str);
+        public static string HtmlEncode(string str) => HttpUtility.HtmlEncode(str);
         public static string HtmlDecode(string str) => HttpUtility.HtmlDecode(str);
 #endif
     }
