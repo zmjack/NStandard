@@ -109,28 +109,46 @@ var arr = new int[5].Let(i => i * 2 + 1);
   dt.UnixTimeMilliseconds();  // 57600000
   ```
 
-- And more...
+- And more ...
 
 ### Static Extension: DateTimeEx
 
-- **YearDiff**
+- **YearDiff** / **ExactYearDiff**
   The number of complete years in the period, similar as DATEDIF(*, *, "Y") function in Excel.
 
   ```csharp
-  DateTimeEx.YearDiff(
-      new DateTime(2012, 4, 16), 
-      new DateTime(2013, 4, 15));  // 0
-  DateTimeEx.YearDiff(
-      new DateTime(2012, 4, 16),
-      new DateTime(2013, 4, 16));  // 1
-  
   DateTimeEx.YearDiff(
       new DateTime(2000, 2, 29),
       new DateTime(2001, 2, 28));  // 0
   DateTimeEx.YearDiff(
       new DateTime(2000, 2, 29), 
       new DateTime(2001, 3, 1));   // 1
+  
+  DateTimeEx.ExactYearDiff(
+      new DateTime(2000, 2, 29),   // 365 / 366
+      new DateTime(2001, 2, 28));  // 0.9972677595628415
+  DateTimeEx.ExactYearDiff(
+      new DateTime(2000, 2, 29),
+      new DateTime(2001, 3, 1));   // 1
   ```
 
-- **MonthDiff**
+- **MonthDiff** / **ExactMonthDiff**
+  The number of complete months in the period, similar as DATEDIF(*, *, "M") function in Excel.
 
+  ```csharp
+  DateTimeEx.MonthDiff(
+      new DateTime(2000, 2, 29),
+      new DateTime(2001, 2, 28));  // 11
+  DateTimeEx.MonthDiff(
+      new DateTime(2000, 2, 29), 
+      new DateTime(2001, 3, 1));   // 12
+  
+  DateTimeEx.ExactMonthDiff(
+  	new DateTime(2000, 2, 29),   // 11 + (2 + 28) / 31
+  	new DateTime(2001, 2, 28));  // 11.967741935483872
+  DateTimeEx.ExactMonthDiff(
+  	new DateTime(2000, 2, 29),
+  	new DateTime(2001, 3, 1));   // 12
+  ```
+
+- And more ...
