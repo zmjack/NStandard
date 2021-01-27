@@ -1,211 +1,156 @@
 # NStandard
 
-DotNet 标准库扩展。
-
-浏览 [项目站点](http://nstandard.net).
+**.NET** 系统库扩展包。
 
 - [English Readme](https://github.com/zmjack/NStandard/blob/master/README.md)
 - [中文自述](https://github.com/zmjack/NStandard/blob/master/README-CN.md)
 
 <br/>
 
-## 设计模式
+**完全无依赖**，且为旧的 **.NET Framework** 框架提供兼容实现。
 
-### Scope 范围影响设计
-
-Scope 类型提供了范围影响设计方案。范围内的任意部分能够获取并使用范围变量，以此来影响部分代码行为。
-
----
-
-假设数据库交互案例：
-
-当使用 **MockSaveChanges** 方法时，如果没有指定事务，则新建事务使用；否则使用指定事务。
-
-```c#
-private class FakeTransaction : Scope<FakeTransaction>
-{
-    public string Name { get; private set; }
-    public FakeTransaction(string name) => Name = name;
-}
-
-private string MockSaveChanges()
-{
-    return FakeTransaction.Current?.Name ?? "[New transaction]";
-}
-
-[Fact]
-public void NotScopedTest()
-{
-    var ret = MockSaveChanges();
-    Assert.Equal("[New transaction]", ret);
-}
-
-[Fact]
-public void ScopedTest()
-{
-    using (new FakeTransaction("Transaction 1"))
-    {
-        var ret = MockSaveChanges();
-        Assert.Equal("Transaction 1", ret);
-    }
-}
-```
-
-**FakeTransaction** 类是假定的事务容器；**MockSaveChanges** 方法是假定的提交方法。
-
-**MockSaveChanges** 方法会判断自己是否处于事务容器范围定义中，并以此来进行不同的执行行为。
+使用这个库来简化代码，使它更容易阅读。
 
 <br/>
 
-### Flow（流式转换/管道机制）
+## 安装
 
-Flow 提供“由单个类型实例通过一系列转换方法后得到新的类型实例”的实现方案。
+- **Package Manager**
 
----
+  ```powershell
+  Install-Package NStandard -Version 0.6.4
+  ```
 
-例如，我们需要设计一个函数实现如下需求：
+- **.NET CLI**
 
-1. 获取指定字符串的 **UTF8** 的字符数组；
-2. 转换该字符数组的 **Base64** 编码。
+  ```powershell
+  dotnet add package NStandard
+  ```
 
-一般实现：
+- **PackageReference**
 
-```c#
-var str = "abc";
-var bytes = Encoding.UTF8.GetBytes(str);
-var result = Convert.ToBase64String(bytes);
-```
-
-使用 **Flow** 方法：
-
-```c#
-var str = "abc";
-var result = str.Flow(Encoding.UTF8.GetBytes, Convert.ToBase64String);
-```
-
-使用这样的机制可以使代码更加简洁易读。
-
-----
-
-如果相同转换方法流会应用到多个地方，那么建议使用预构建 **Flow** 类实例来使用。
-
-例如，如上案例可以预定义转换流 **StringFlow.Base64**：
-
-```c#
-public static class StringFlow
-{
-    public static IFlow<string, string> Base64 = new Flow<string, byte[], string>(
-        Encoding.UTF8.GetBytes,
-        Convert.ToBase64String);
-}
-```
-
-```c#
-var str = "abc";
-var result = str.Flow(StringFlow.Base64);
-```
-
-**Flow** 实现用于简化序列流式转换编写，提高重用度。其他应用场景，包括加解密场景等同样适用。
+  ```powershell
+  <PackageReference Include="NStandard" Version="*" />
+  ```
 
 <br/>
 
-## 快速计算
+## 链式扩展函数
 
-### Zipper (多序列融合)
+- **Then**
 
-**Zipper** 提供“一种多个独立序列进行同时遍历”的实现方案。
+  为对象运行任务后，返回它自己。
 
-----
+  ```csharp
+  public class AppSecurity
+  {
+      public Aes Aes = Aes.Create();
+      public AppSecurity()
+      {
+          Aes.Key = "1234567890123456".Bytes();
+      }
+  }
+  ```
 
-例如，求解一组出发日期（starts）和抵达日期（ends）所经历的天数总合：
+  简化：
 
-```c#
-var starts = new[] { "2010-9-1", "2012-4-16", "2017-5-1" };
-var ends = new[] { "2010-9-2", "2012-4-18", "2017-5-4"};
-var result = Zipper.Create(starts, ends, 
-	(start, end) => (DateTime.Parse(end) - DateTime.Parse(start).Days);
-```
+  ```csharp
+  public class AppSecurity
+  {
+      public Aes Aes = Aes.Create().Then(x => x.Key = "1234567890123456".Bytes());
+  }
+  ```
 
----
+- **For**
 
-对不同 **.NET** 框架版本支持情况如下：
+  通过指定的转换方法将对象转换为另一个对象。
 
-- **NET35**
-  不带选择器方法最多支持 **7** 个序列，返回类型 **Tuple**（迁移代码实现）；
-  带选择器方法最多支持 **4** 个序列（**Func** 最多只支持 4 个参数）。
-- **NET40 / NETSTANDARD2_0**
-  不带选择器方法最多支持 **7** 个序列，返回类型 **Tuple**（标准库实现）；
-  带选择器方法最多支持 **7** 个序列（**Tuple** 最多只支持 7 个参数）。
+  ```csharp
+  var orderYear = Product.Order.Year;
+  var year = orderYear > 2020 ? orderYear : 2020;
+  ```
+
+  简化：
+
+    ```csharp
+  var year = Product.Order.Year.For(y => y > 2020 ? y : 2020);
+    ```
+
+- **Let**
+
+  使用方法初始化数组的每个元素。
+
+  ```csharp
+  var arr = new int[5];
+  for (int i = 0; i < arr.Length; i++)
+  {
+      arr[i] = i * 2 + 1;
+  }
+  ```
+
+  简化：
+
+  ```csharp
+  var arr = new int[5].Let(i => i * 2 + 1);
+  ```
 
 <br/>
 
-### 高阶函数
+## 基本数据结构扩展
 
-转换指定函数为它的高阶形态。
+### 扩展: XDateTime
 
----
+- **StartOf** / **EndOf**
 
-假设，函数 ***d*** 为求导函数，函数 ***f*** 为原函数：
+  ```csharp
+  var today = new DateTime(2012, 4, 16, 22, 23, 24);
+  today.StartOfYear();    // 2012/1/1 0:00:00
+  today.StartOfMonth();   // 2012/4/1 0:00:00
+  today.StartOfDay();     // 2012/4/16 0:00:00
+  today.EndOfYear();      // 2012/12/31 23:59:59
+  today.EndOfMonth();     // 2012/4/30 23:59:59
+  today.EndOfDay();       // 2012/4/16 23:59:59
+  ```
 
-```c#
-public void HigherTest1()
-{
-    static HigherFunc<Func<decimal, decimal>> d = func =>
-    {
-        decimal deltaX = 0.000_000_000_000_1m;
-        return x => (func(x + deltaX) - func(x)) / deltaX;
-    };
+- **UnixTime**
+
+  ```csharp
+  var dt = new DateTime(1970, 1, 1, 16, 0, 0, DateTimeKind.Utc);
+  dt.UnixTimeSeconds();       // 57600
+  dt.UnixTimeMilliseconds();  // 57600000
+  ```
+
+- 以及更多 ...
+
+### 静态扩展: DateTimeEx
+
+- **YearDiff** / **ExactYearDiff**
+
+  周期内的完整年数，类似于 **Excel** 中的 **DATEDIF(*， *， "Y")** 函数。
+
+  ```csharp
+  DateTimeEx.YearDiff(
+      new DateTime(2000, 2, 29),
+      new DateTime(2001, 2, 28));      // 0
     
-    static decimal f(decimal x) => x * x * x * x;   // f  (x) = x^4
-    var d1 = d.Higher(1);   // d1 = d(f)            // f' (x) = 4  * x^3
-    var d2 = d.Higher(2);   // d2 = d(d(f))         // f''(x) = 12 * x^2
-    
-    Assert.Equal(32, (int)d(f)(2));
-    Assert.Equal(32, (int)d1(f)(2));
-    
-    Assert.Equal(48, (int)d(d(f))(2));
-    Assert.Equal(48, (int)d2(f)(2));
-}
-```
-- ***d*** 的一阶函数 **d.Higher(1)**：***d(f)***
-- ***d*** 的二阶函数 **d.Higher(2)**：***d(d(f))***
+  DateTimeEx.ExactYearDiff(
+      new DateTime(2000, 2, 29),       // 365 / 366
+      new DateTime(2001, 2, 28));      // 0.9972677595628415
+  ```
 
+- **MonthDiff** / **ExactMonthDiff**
 
+  周期内的完整月份数，类似于 **Excel** 中的 **DATEDIF(*， *， "M")** 函数。
 
-## 控制台
+  ```csharp
+  DateTimeEx.MonthDiff(
+      new DateTime(2000, 2, 29),
+      new DateTime(2001, 2, 28));      // 11
+  
+  DateTimeEx.ExactMonthDiff(
+      new DateTime(2000, 2, 29),       // 11 + (2 + 28) / 31
+      new DateTime(2001, 2, 28));      // 11.967741935483872
+  ```
 
-### 控制台输出重定向
-
-重定向控制台输出。
-
----
-
-某些特定的开发场景可能会使用控制台重定向输出。例如，测试 **CliTool** 应用程序。
-
-默认的 **ConsoleAgent** 会将 **Console** 保存到缓存，当需要的时候调用 **ReadAllText** 函数来获取并清空缓存：
-
-```c#
-using (ConsoleAgent.Begin())
-{
-    Console.Write(123);
-    Assert.Equal("123", ConsoleAgent.ReadAllText());
-
-    Console.Write(456);
-    Assert.Equal("456", ConsoleAgent.ReadAllText());
-}
-```
-**ConsoleAgent** 也允许使用使用自定义 **TextWriter**：
-
-```c#
-var output = new StringBuilder();
-var writer = new StringWriter(output);
-using (ConsoleAgent.Begin(writer))
-{
-    Console.Write(123);
-    Assert.Equal("123", output.ToString());
-
-    Console.Write(456);
-    Assert.Equal("123456", output.ToString());
-}
-```
+- 以及更多 ...
 

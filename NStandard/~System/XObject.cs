@@ -12,7 +12,7 @@ namespace NStandard
     public static class XObject
     {
         /// <summary>
-        /// Do a task for itself, then return itself.
+        /// Run a task for the object, then return itself.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>
         /// <param name="this"></param>
@@ -25,7 +25,7 @@ namespace NStandard
         }
 
         /// <summary>
-        /// Do a task for itself, then return itself.
+        /// Run a task for the object, then return itself.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>
         /// <param name="this"></param>
@@ -38,7 +38,7 @@ namespace NStandard
         }
 
         /// <summary>
-        /// Casts the element to the specified type through the specified convert method.
+        /// Casts the object to another object through the specified convert method.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>
         /// <typeparam name="TRet"></typeparam>
@@ -48,7 +48,7 @@ namespace NStandard
         public static TRet For<TSelf, TRet>(this TSelf @this, TRet convert) => convert;
 
         /// <summary>
-        /// Casts the element to the specified type through the specified convert method.
+        /// Casts the object to another object through the specified convert method.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>
         /// <typeparam name="TRet"></typeparam>
@@ -58,7 +58,7 @@ namespace NStandard
         public static TRet For<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet> convert) => convert(@this);
 
         /// <summary>
-        /// Casts the element to the specified type through the specified convert method.
+        /// Casts the object to another object through the specified convert method.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>
         /// <typeparam name="TParam"></typeparam>
@@ -70,7 +70,7 @@ namespace NStandard
         public static TRet For<TSelf, TParam, TRet>(this TSelf @this, Func<TSelf, TParam, TRet> convert, TParam param) => convert(@this, param);
 
         /// <summary>
-        /// Casts the element to the specified type through the specified convert method.
+        /// Casts the object to another object through the specified convert method.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>
         /// <param name="this"></param>

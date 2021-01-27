@@ -1,10 +1,13 @@
 # NStandard
 
-DotNet extension library for system library.
+**.NET** extension library for system library.
 
-**No depndencies**, and provide some compatibility implementations for older .NET Framework versions.
+- [English Readme](https://github.com/zmjack/NStandard/blob/master/README.md)
+- [中文自述](https://github.com/zmjack/NStandard/blob/master/README-CN.md)
 
 <br/>
+
+**No depndencies**, and provide some compatibility implementations for older **.NET Framework** versions.
 
 Use this library to simplify your code and make it easier to read.
 
@@ -12,76 +15,84 @@ Use this library to simplify your code and make it easier to read.
 
 ## Install
 
-```powershell
-add package NStandard
-```
+- **Package Manager**
+
+  ```powershell
+  Install-Package NStandard -Version 0.6.4
+  ```
+
+- **.NET CLI**
+
+  ```powershell
+  dotnet add package NStandard
+  ```
+
+- **PackageReference**
+
+  ```powershell
+  <PackageReference Include="NStandard" Version="*" />
+  ```
 
 <br/>
 
-## Chaining Functions
+## Chaining Extension Functions
 
-### Extension Function: **Then**
+- **Then**
 
-Do a task for itself, then return itself.
+  Run a task for an object, then return itself.
 
-For example:
-
-```csharp
+  ```csharp
 public class AppSecurity
-{
-    public Aes Aes = Aes.Create();
-    public AppSecurity()
-    {
-        Aes.Key = "1234567890123456".Bytes();
-    }
-}
-```
-
-Simplify:
-
-```csharp
+  {
+      public Aes Aes = Aes.Create();
+      public AppSecurity()
+      {
+          Aes.Key = "1234567890123456".Bytes();
+      }
+  }
+  ```
+  
+  Simplify:
+  
+  ```csharp
 public class AppSecurity
-{
-    public Aes Aes = Aes.Create().Then(x => x.Key = "1234567890123456".Bytes());
-}
-```
+  {
+      public Aes Aes = Aes.Create().Then(x => x.Key = "1234567890123456".Bytes());
+  }
+  ```
+  
+- **For**
 
-### Extension Function: For
+  Casts the object to another object through the specified convert method.
 
-Casts the element to the specified type through the specified convert method.
-
-For example:
-
-```csharp
+  ```csharp
 var orderYear = Product.Order.Year;
-var year = orderYear > 2020 ? orderYear : 2020;
-```
+  var year = orderYear > 2020 ? orderYear : 2020;
+  ```
+  
+  Simplify:
+  
+    ```csharp
+  var year = Product.Order.Year.For(y => y > 2020 ? y : 2020);
+    ```
+  
+- **Let**
 
-Simplify:
+  Use a method to initialize each element of an array.
 
-```csharp
-var year = Product.Order.Year.For(y => y > 2020 ? y : 2020);
-```
+  ```csharp
+  var arr = new int[5];
+  for (int i = 0; i < arr.Length; i++)
+  {
+      arr[i] = i * 2 + 1;
+  }
+  ```
 
-### Extension Function: Let
+  Simplify:
 
-Use a method to initialize each element of an array.
-
-For example:
-
-```csharp
-var arr = new int[5];
-for (int i = 0; i < arr.Length; i++)
-{
-    arr[i] = i * 2 + 1;
-}
-```
-
-Simplify:
-
-```csharp
-var arr = new int[5].Let(i => i * 2 + 1);
-```
+  ```csharp
+  var arr = new int[5].Let(i => i * 2 + 1);
+  ```
 
 <br/>
 
@@ -114,41 +125,32 @@ var arr = new int[5].Let(i => i * 2 + 1);
 ### Static Extension: DateTimeEx
 
 - **YearDiff** / **ExactYearDiff**
-  The number of complete years in the period, similar as DATEDIF(*, *, "Y") function in Excel.
+  
+  The number of complete years in the period, similar as **DATEDIF(*, *, "Y")** function in **Excel**.
 
   ```csharp
-  DateTimeEx.YearDiff(
+DateTimeEx.YearDiff(
       new DateTime(2000, 2, 29),
-      new DateTime(2001, 2, 28));  // 0
-  DateTimeEx.YearDiff(
-      new DateTime(2000, 2, 29), 
-      new DateTime(2001, 3, 1));   // 1
-  
+      new DateTime(2001, 2, 28));      // 0
+    
   DateTimeEx.ExactYearDiff(
-      new DateTime(2000, 2, 29),   // 365 / 366
-      new DateTime(2001, 2, 28));  // 0.9972677595628415
-  DateTimeEx.ExactYearDiff(
-      new DateTime(2000, 2, 29),
-      new DateTime(2001, 3, 1));   // 1
+      new DateTime(2000, 2, 29),       // 365 / 366
+      new DateTime(2001, 2, 28));      // 0.9972677595628415
   ```
-
+  
 - **MonthDiff** / **ExactMonthDiff**
-  The number of complete months in the period, similar as DATEDIF(*, *, "M") function in Excel.
+  
+  The number of complete months in the period, similar as **DATEDIF(*, *, "M")** function in **Excel**.
 
   ```csharp
-  DateTimeEx.MonthDiff(
+DateTimeEx.MonthDiff(
       new DateTime(2000, 2, 29),
-      new DateTime(2001, 2, 28));  // 11
-  DateTimeEx.MonthDiff(
-      new DateTime(2000, 2, 29), 
-      new DateTime(2001, 3, 1));   // 12
-  
+      new DateTime(2001, 2, 28));      // 11
+
   DateTimeEx.ExactMonthDiff(
-  	new DateTime(2000, 2, 29),   // 11 + (2 + 28) / 31
-  	new DateTime(2001, 2, 28));  // 11.967741935483872
-  DateTimeEx.ExactMonthDiff(
-  	new DateTime(2000, 2, 29),
-  	new DateTime(2001, 3, 1));   // 12
+      new DateTime(2000, 2, 29),       // 11 + (2 + 28) / 31
+      new DateTime(2001, 2, 28));      // 11.967741935483872
   ```
 
 - And more ...
+
