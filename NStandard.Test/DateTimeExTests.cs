@@ -76,6 +76,11 @@ namespace NStandard.Test
                 var after = DateTimeEx.NowScopes.Current;
                 Assert.Equal(before, after);
             }
+        }
+
+        [Fact]
+        public void ScopedNowTest2()
+        {
             using (DateTimeEx.BeginNowScope(now => now.StartOfDay()))
             {
                 var before = DateTimeEx.NowScopes.Current;
@@ -86,7 +91,7 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void ScopedNowTest2()
+        public void ScopedNowTest3()
         {
             using (DateTimeEx.BeginNowScope())
             {
