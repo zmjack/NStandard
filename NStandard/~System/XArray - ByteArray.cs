@@ -5,11 +5,11 @@ namespace NStandard
     public static partial class XArray
     {
         /// <summary>
-        /// Decodes all the bytes in the specified byte(UTF-8) array into a string.
+        /// Decodes all the bytes in the specified byte(Default: UTF-8) array into a string.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static string String(this byte[] @this) => String(@this, Encoding.UTF8);
+        public static string String(this byte[] @this) => String(@this, Encoding.Default);
 
         /// <summary>
         /// Decodes all the bytes in the specified byte array into a string.

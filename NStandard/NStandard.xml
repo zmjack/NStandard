@@ -210,14 +210,6 @@
             <param name="endDate"></param>
             <returns></returns>
         </member>
-        <member name="M:NStandard.DateTimeEx.PrivateMonthDiff(System.DateTime,System.DateTime)">
-            <summary>
-            
-            </summary>
-            <param name="start"></param>
-            <param name="end"></param>
-            <returns></returns>
-        </member>
         <member name="M:NStandard.DateTimeEx.YearDiff(System.DateTime,System.DateTime)">
             <summary>
             The number of complete years in the period, similar as DATEDIF(*, *, "Y") function in Excel.
@@ -329,7 +321,7 @@
         </member>
         <member name="M:NStandard.XArray.String(System.Byte[])">
             <summary>
-            Decodes all the bytes in the specified byte(UTF-8) array into a string.
+            Decodes all the bytes in the specified byte(Default: UTF-8) array into a string.
             </summary>
             <param name="this"></param>
             <returns></returns>

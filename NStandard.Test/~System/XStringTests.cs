@@ -32,14 +32,18 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void GetBytesTest()
+        public void GetBytesTest1()
         {
-            var str = "黎明";
+            var str = "你好";
             Assert.Equal(Encoding.UTF8.GetBytes(str), str.Bytes(Encoding.UTF8));
             Assert.Equal(Encoding.UTF8.GetBytes(str), str.Bytes("utf-8"));
             Assert.NotEqual(Encoding.ASCII.GetBytes(str), str.Bytes(Encoding.UTF8));
             Assert.NotEqual(Encoding.ASCII.GetBytes(str), str.Bytes("utf-8"));
+        }
 
+        [Fact]
+        public void GetBytesTest2()
+        {
             var hexString = "0c66182ec710840065ebaa47c5e6ce90";
             var hexString_Base64 = "MGM2NjE4MmVjNzEwODQwMDY1ZWJhYTQ3YzVlNmNlOTA=";
             var hexString_Bytes = new byte[]
@@ -48,7 +52,6 @@ namespace NStandard.Test
             };
             Assert.Equal(hexString_Bytes, hexString.For(StringFlow.BytesFromHexString));
             Assert.Equal(hexString, hexString_Bytes.For(BytesFlow.HexString));
-
             Assert.Equal(hexString, hexString_Base64.For(StringFlow.BytesFromBase64).String(Encoding.Default));
         }
 

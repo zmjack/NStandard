@@ -75,21 +75,24 @@ namespace NStandard
                 yield return dt;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <returns></returns>
+        private static int PrivateYearDiff(DateTime start, DateTime end)
+        {
+            if (end < start) throw new ArgumentException("The end time must be after or equal to the start time.");
+
+            var passedYears = end.Year - start.Year;
+            var target = start.AddCompleteYears(passedYears);
+
+            if (end < target) return passedYears - 1;
+            else return passedYears;
+        }
+
         private static int PrivateMonthDiff(DateTime start, DateTime end)
         {
             if (end < start) throw new ArgumentException("The end time must be after or equal to the start time.");
 
             var passedYears = end.Year - start.Year;
             var passedMonths = end.Month - start.Month;
-            var target = start.AddMonths(passedYears * 12 + passedMonths);
-
-            if (target.Day < start.Day) target = target.AddDays(1);
+            var target = start.AddCompleteMonths(passedYears * 12 + passedMonths);
 
             if (end < target) return passedYears * 12 + passedMonths - 1;
             else return passedYears * 12 + passedMonths;
@@ -121,7 +124,25 @@ namespace NStandard
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public static double ExactYearDiff(DateTime start, DateTime end) => ExactMonthDiff(start, end) / 12;
+        public static double ExactYearDiff(DateTime start, DateTime end)
+        {
+            DateTime _start, _end;
+            if (start <= end)
+            {
+                _start = start;
+                _end = end;
+            }
+            else
+            {
+                _start = end;
+                _end = start;
+            }
+
+            var diff = PrivateYearDiff(_start, _end);
+            var endStart = start.AddCompleteYears(diff);
+            var endEnd = endStart.AddCompleteYears(1);
+            return diff + (end - endStart).TotalDays / (endEnd - endStart).TotalDays;
+        }
 
         /// <summary>
         /// The number of complete months in the period, return a double value.

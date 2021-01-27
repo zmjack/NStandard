@@ -37,19 +37,19 @@ namespace NStandard.Test
         [Fact]
         public void ExactYearDiffTest()
         {
-            Assert.Equal(1d / 12, DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 1), new DateTime(2020, 3, 1)), 2);
-            Assert.Equal((1d - 3d / (24 * 29)) / 12, DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 12, 0, 0)));
-            Assert.Equal((1d + 3d / (24 * 31)) / 12, DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 18, 0, 0)));
-            Assert.Equal((1 + 14d / 31) / 12, DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 1), new DateTime(2020, 3, 15)));
+            Assert.Equal((29d * 24) / (366 * 24), DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 1), new DateTime(2020, 3, 1)), 2);
+            Assert.Equal((29d * 24 - 3d) / (366 * 24), DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 12, 0, 0)));
+            Assert.Equal((29d * 24 + 3d) / (366 * 24), DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 18, 0, 0)));
+            Assert.Equal((43d * 24) / (366 * 24), DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 1), new DateTime(2020, 3, 15)));
         }
 
         [Fact]
         public void ExactMonthDiffTest()
         {
             Assert.Equal(1d, DateTimeEx.ExactMonthDiff(new DateTime(2020, 2, 1), new DateTime(2020, 3, 1)));
-            Assert.Equal(1d - 3d / (24 * 29), DateTimeEx.ExactMonthDiff(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 12, 0, 0)));
-            Assert.Equal(1d + 3d / (24 * 31), DateTimeEx.ExactMonthDiff(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 18, 0, 0)));
-            Assert.Equal(1 + 14d / 31, DateTimeEx.ExactMonthDiff(new DateTime(2020, 2, 1), new DateTime(2020, 3, 15)));
+            Assert.Equal(1d - 3d / (29 * 24), DateTimeEx.ExactMonthDiff(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 12, 0, 0)));
+            Assert.Equal(1d + 3d / (31 * 24), DateTimeEx.ExactMonthDiff(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 18, 0, 0)));
+            Assert.Equal(1d + 14d / 31, DateTimeEx.ExactMonthDiff(new DateTime(2020, 2, 1), new DateTime(2020, 3, 15)));
         }
 
         [Fact]
