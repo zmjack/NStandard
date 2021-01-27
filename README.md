@@ -5,20 +5,16 @@
 - [English Readme](https://github.com/zmjack/NStandard/blob/master/README.md)
 - [中文自述](https://github.com/zmjack/NStandard/blob/master/README-CN.md)
 
-<br/>
-
 **No depndencies**, and provide some compatibility implementations for older **.NET Framework** versions.
 
 Use this library to simplify your code and make it easier to read.
-
-<br/>
 
 ## Install
 
 - **Package Manager**
 
   ```powershell
-  Install-Package NStandard -Version 0.6.4
+  Install-Package NStandard
   ```
 
 - **.NET CLI**
@@ -38,11 +34,11 @@ Use this library to simplify your code and make it easier to read.
 ## Chaining Extension Functions
 
 - **Then**
-
+  
   Run a task for an object, then return itself.
-
+  
   ```csharp
-public class AppSecurity
+  public class AppSecurity
   {
       public Aes Aes = Aes.Create();
       public AppSecurity()
@@ -55,7 +51,7 @@ public class AppSecurity
   Simplify:
   
   ```csharp
-public class AppSecurity
+  public class AppSecurity
   {
       public Aes Aes = Aes.Create().Then(x => x.Key = "1234567890123456".Bytes());
   }
@@ -66,15 +62,15 @@ public class AppSecurity
   Casts the object to another object through the specified convert method.
 
   ```csharp
-var orderYear = Product.Order.Year;
+  var orderYear = Product.Order.Year;
   var year = orderYear > 2020 ? orderYear : 2020;
   ```
   
   Simplify:
   
-    ```csharp
+  ```csharp
   var year = Product.Order.Year.For(y => y > 2020 ? y : 2020);
-    ```
+  ```
   
 - **Let**
 
@@ -104,20 +100,20 @@ var orderYear = Product.Order.Year;
 
   ```csharp
   var today = new DateTime(2012, 4, 16, 22, 23, 24);
-  today.StartOfYear();    // 2012/1/1 0:00:00
-  today.StartOfMonth();   // 2012/4/1 0:00:00
-  today.StartOfDay();     // 2012/4/16 0:00:00
-  today.EndOfYear();      // 2012/12/31 23:59:59
-  today.EndOfMonth();     // 2012/4/30 23:59:59
-  today.EndOfDay();       // 2012/4/16 23:59:59
+  today.StartOfYear();        // 2012/1/1 0:00:00
+  today.StartOfMonth();       // 2012/4/1 0:00:00
+  today.StartOfDay();         // 2012/4/16 0:00:00
+  today.EndOfYear();          // 2012/12/31 23:59:59
+  today.EndOfMonth();         // 2012/4/30 23:59:59
+  today.EndOfDay();           // 2012/4/16 23:59:59
   ```
 
 - **UnixTime**
 
   ```csharp
   var dt = new DateTime(1970, 1, 1, 16, 0, 0, DateTimeKind.Utc);
-  dt.UnixTimeSeconds();       // 57600
-  dt.UnixTimeMilliseconds();  // 57600000
+  dt.UnixTimeSeconds();           // 57600
+  dt.UnixTimeMilliseconds();      // 57600000
   ```
 
 - And more ...
@@ -129,7 +125,7 @@ var orderYear = Product.Order.Year;
   The number of complete years in the period, similar as **DATEDIF(*, *, "Y")** function in **Excel**.
 
   ```csharp
-DateTimeEx.YearDiff(
+  DateTimeEx.YearDiff(
       new DateTime(2000, 2, 29),
       new DateTime(2001, 2, 28));      // 0
     
@@ -143,7 +139,7 @@ DateTimeEx.YearDiff(
   The number of complete months in the period, similar as **DATEDIF(*, *, "M")** function in **Excel**.
 
   ```csharp
-DateTimeEx.MonthDiff(
+  DateTimeEx.MonthDiff(
       new DateTime(2000, 2, 29),
       new DateTime(2001, 2, 28));      // 11
 

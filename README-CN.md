@@ -18,7 +18,7 @@
 - **Package Manager**
 
   ```powershell
-  Install-Package NStandard -Version 0.6.4
+  Install-Package NStandard
   ```
 
 - **.NET CLI**
@@ -72,9 +72,9 @@
 
   简化：
 
-    ```csharp
+  ```csharp
   var year = Product.Order.Year.For(y => y > 2020 ? y : 2020);
-    ```
+  ```
 
 - **Let**
 
@@ -104,20 +104,20 @@
 
   ```csharp
   var today = new DateTime(2012, 4, 16, 22, 23, 24);
-  today.StartOfYear();    // 2012/1/1 0:00:00
-  today.StartOfMonth();   // 2012/4/1 0:00:00
-  today.StartOfDay();     // 2012/4/16 0:00:00
-  today.EndOfYear();      // 2012/12/31 23:59:59
-  today.EndOfMonth();     // 2012/4/30 23:59:59
-  today.EndOfDay();       // 2012/4/16 23:59:59
+  today.StartOfYear();        // 2012/1/1 0:00:00
+  today.StartOfMonth();       // 2012/4/1 0:00:00
+  today.StartOfDay();         // 2012/4/16 0:00:00
+  today.EndOfYear();          // 2012/12/31 23:59:59
+  today.EndOfMonth();         // 2012/4/30 23:59:59
+  today.EndOfDay();           // 2012/4/16 23:59:59
   ```
 
 - **UnixTime**
 
   ```csharp
   var dt = new DateTime(1970, 1, 1, 16, 0, 0, DateTimeKind.Utc);
-  dt.UnixTimeSeconds();       // 57600
-  dt.UnixTimeMilliseconds();  // 57600000
+  dt.UnixTimeSeconds();           // 57600
+  dt.UnixTimeMilliseconds();      // 57600000
   ```
 
 - 以及更多 ...
