@@ -9,6 +9,8 @@
 
 Use this library to simplify your code and make it easier to read.
 
+<br/>
+
 ## Install
 
 - **Package Manager**

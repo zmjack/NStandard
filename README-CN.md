@@ -5,8 +5,6 @@
 - [English Readme](https://github.com/zmjack/NStandard/blob/master/README.md)
 - [中文自述](https://github.com/zmjack/NStandard/blob/master/README-CN.md)
 
-<br/>
-
 **完全无依赖**，且为旧的 **.NET Framework** 框架提供兼容实现。
 
 使用这个库来简化代码，使它更容易阅读。
