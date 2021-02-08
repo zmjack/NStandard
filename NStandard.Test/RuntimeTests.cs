@@ -6,10 +6,10 @@ namespace NStandard.Test
     public class RuntimeTests
     {
         [Fact]
-        public unsafe void AddressOfTest()
+        public void AddressOfClassTest()
         {
             var str = "abc";
-            var ptr = Native.AddressOf(str);
+            var ptr = Native.AddressOf(str, true);
             var length = BitConverter.ToInt32(Native.ReadMemory(ptr, sizeof(int)), 0);
             var pStrPart = ptr + sizeof(int);
 
@@ -21,14 +21,32 @@ namespace NStandard.Test
         }
 
         [Fact]
+        public unsafe void AddressOfStructTest()
+        {
+            var astruct = new IntStrcut { Value = 255 };
+            var ptr = Native.AddressOf(ref astruct);
+            Assert.Equal((IntPtr)(&astruct), ptr);
+        }
+
+        [Fact]
+        public unsafe void AddressOfWrappedStructTest()
+        {
+            var astruct = new IntStrcut { Value = 255 };
+            var ptr = Native.AddressOf(ref astruct);
+            var wrappedPtr = Native.AddressOf((object)astruct, false);
+            Assert.Equal((IntPtr)(&astruct), ptr);
+            Assert.NotEqual((IntPtr)(&astruct), wrappedPtr);
+        }
+
+        [Fact]
         public void AreSameTest()
         {
             var s1 = "abc";
             var s2 = "abc";
-            Assert.True(Native.AreSame(s1, s2));
+            Assert.Same(s1, s2);
 
             s2 = "ABC";
-            Assert.False(Native.AreSame(s1, s2));
+            Assert.NotSame(s1, s2);
         }
 
     }

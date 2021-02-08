@@ -9,6 +9,25 @@ namespace NStandard.Test
     public class XObjectTests
     {
         [Fact]
+        public void ForClassTest()
+        {
+            var aclass = new IntClass { Value = 1 };
+            aclass.For(x => x.Value = 2);
+            Assert.Equal(2, aclass.Value);
+        }
+
+        [Fact]
+        public void ForStructTest()
+        {
+            var astruct = new IntStrcut { Value = 1 };
+            astruct.For(x => x.Value = 2);
+            Assert.Equal(1, astruct.Value);
+
+            astruct.Value = 2;
+            Assert.Equal(2, astruct.Value);
+        }
+
+        [Fact]
         public void ExtractTest()
         {
             var items = new[] { "a12", "_34", "$56" };

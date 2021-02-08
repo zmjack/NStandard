@@ -867,7 +867,7 @@
         </member>
         <member name="M:NStandard.XObject.Then``1(``0,System.Action{``0})">
             <summary>
-            Do a task for itself, then return itself.
+            Run a task for the object, then return itself.
             </summary>
             <typeparam name="TSelf"></typeparam>
             <param name="this"></param>
@@ -876,7 +876,7 @@
         </member>
         <member name="M:NStandard.XObject.Then``1(``0,System.Action)">
             <summary>
-            Do a task for itself, then return itself.
+            Run a task for the object, then return itself.
             </summary>
             <typeparam name="TSelf"></typeparam>
             <param name="this"></param>
@@ -885,7 +885,7 @@
         </member>
         <member name="M:NStandard.XObject.For``2(``0,``1)">
             <summary>
-            Casts the element to the specified type through the specified convert method.
+            Casts the object to another object through the specified convert method.
             </summary>
             <typeparam name="TSelf"></typeparam>
             <typeparam name="TRet"></typeparam>
@@ -895,7 +895,7 @@
         </member>
         <member name="M:NStandard.XObject.For``2(``0,System.Func{``0,``1})">
             <summary>
-            Casts the element to the specified type through the specified convert method.
+            Casts the object to another object through the specified convert method.
             </summary>
             <typeparam name="TSelf"></typeparam>
             <typeparam name="TRet"></typeparam>
@@ -905,7 +905,7 @@
         </member>
         <member name="M:NStandard.XObject.For``3(``0,System.Func{``0,``1,``2},``1)">
             <summary>
-            Casts the element to the specified type through the specified convert method.
+            Casts the object to another object through the specified convert method.
             </summary>
             <typeparam name="TSelf"></typeparam>
             <typeparam name="TParam"></typeparam>
@@ -917,7 +917,7 @@
         </member>
         <member name="M:NStandard.XObject.ForUntil``1(``0,System.Func{``0,``0},System.Func{``0,System.Boolean})">
             <summary>
-            Casts the element to the specified type through the specified convert method.
+            Casts the object to another object through the specified convert method.
             </summary>
             <typeparam name="TSelf"></typeparam>
             <param name="this"></param>

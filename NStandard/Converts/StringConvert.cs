@@ -23,9 +23,9 @@ namespace NStandard.Converts
         /// <returns></returns>
         public static string ConvertUrlSafeBase64ToBase64(string urlBase64)
         {
-            var padding = "=".Repeat((urlBase64.Length % 4).For(_ =>
+            var padding = "=".Repeat((urlBase64.Length % 4).For(x =>
             {
-                switch (_)
+                switch (x)
                 {
                     case 0: return 0;
                     case 2: return 2;
