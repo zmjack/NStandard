@@ -148,7 +148,7 @@ namespace NStandard
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static T[] Shuffle<T>(this T[] @this)
+        public static void Shuffle<T>(this T[] @this)
         {
             var length = @this.Length;
             var random = new Random();
@@ -160,7 +160,6 @@ namespace NStandard
                 @this[i] = @this[rnd];
                 @this[rnd] = take;
             }
-            return @this;
         }
 
         /// <summary>
