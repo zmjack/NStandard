@@ -20,6 +20,7 @@ namespace NStandard
                 return scope.Now;
             }
         }
+        public DateTime? CurrentOrDefault => NowScope.Current?.Now;
 
         public DateTime Outermost
         {
@@ -30,6 +31,7 @@ namespace NStandard
                 return scope.Now;
             }
         }
+        public DateTime? OutermostOrDefault => NowScope.Scopes.LastOrDefault()?.Now;
 
     }
 }
