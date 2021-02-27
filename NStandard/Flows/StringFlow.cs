@@ -1,10 +1,10 @@
 ﻿using NStandard.Converts;
 using System;
 using System.Text;
-#if NETSTANDARD2_0
-using System.Net;
-#else
+#if NET35 || NET40 || NET45 || NET451 || NET46
 using System.Web;
+#else
+using System.Net;
 #endif
 
 namespace NStandard.Flows
@@ -23,16 +23,16 @@ namespace NStandard.Flows
         public static Guid GuidFromBase64(string str) => new Guid(str.For(BytesFromBase64));
         public static Guid GuidFromUrlSafeBase64(string str) => new Guid(str.For(BytesFromUrlSafeBase64));
 
-#if NETSTANDARD2_0
-        public static string UrlEncode(string str) => WebUtility.UrlEncode(str);
-        public static string UrlDecode(string str) => WebUtility.UrlDecode(str);
-        public static string HtmlEncode(string str) => WebUtility.HtmlEncode(str);
-        public static string HtmlDecode(string str) => WebUtility.HtmlDecode(str);
-#else
+#if NET35 || NET40 || NET45 || NET451 || NET46
         public static string UrlEncode(string str) => HttpUtility.UrlEncode(str);
         public static string UrlDecode(string str) => HttpUtility.UrlDecode(str);
         public static string HtmlEncode(string str) => HttpUtility.HtmlEncode(str);
         public static string HtmlDecode(string str) => HttpUtility.HtmlDecode(str);
+#else
+        public static string UrlEncode(string str) => WebUtility.UrlEncode(str);
+        public static string UrlDecode(string str) => WebUtility.UrlDecode(str);
+        public static string HtmlEncode(string str) => WebUtility.HtmlEncode(str);
+        public static string HtmlDecode(string str) => WebUtility.HtmlDecode(str);
 #endif
     }
 

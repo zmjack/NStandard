@@ -174,7 +174,7 @@ namespace NStandard
             }
         }
 
-#if NETSTANDARD2_0
+#if !NET35 && !NET40 && !NET45 && !NET451
         /// <summary>
         /// Projects some strings back into an instance's field or property. (Using `?` on the right side of a variable disables greedy matching)
         /// </summary>
