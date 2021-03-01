@@ -7,12 +7,19 @@ namespace NStandard.Evaluators.Test
     public class NumberEvaluatorTests
     {
         [Fact]
+        public void NormalTest0()
+        {
+            var exp = "0.8";
+            var actual = Evaluator.Numerical.Eval(exp);
+            Assert.Equal(0.8, actual);
+        }
+
+        [Fact]
         public void NormalTest1()
         {
-            double excepted = 20120416;
             var exp = "(20120416)";
             var actual = Evaluator.Numerical.Eval(exp);
-            Assert.Equal(excepted, actual);
+            Assert.Equal(20120416, actual);
         }
 
         [Fact]

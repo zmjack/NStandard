@@ -63,19 +63,22 @@ namespace NStandard.Evaluators
                     if (s.IsNullOrWhiteSpace()) return default;
 
                     Expression ret;
-
-                    if (s.StartsWith("0x")) ret = Expression.Constant((double)Convert.ToInt64(s, 16));
-                    else if (s.StartsWith("0")) ret = Expression.Constant((double)Convert.ToInt64(s, 8));
-                    else if (s.StartsWith("${") && s.EndsWith("}"))
+                    if (!s.Contains("."))
                     {
-                        var name = Expression.Constant(s.Substring(2, s.Length - 3));
+                        if (s.StartsWith("0x")) ret = Expression.Constant((double)Convert.ToInt64(s, 16));
+                        else if (s.StartsWith("0")) ret = Expression.Constant((double)Convert.ToInt64(s, 8));
+                        else if (s.StartsWith("${") && s.EndsWith("}"))
+                        {
+                            var name = Expression.Constant(s.Substring(2, s.Length - 3));
 
-                        if (dictionary == null) throw new ArgumentException($"Parameter({name}) is not allowed.");
+                            if (dictionary == null) throw new ArgumentException($"Parameter({name}) is not allowed.");
 
-                        ret = Expression.Condition(
-                            Expression.Call(dictionary, DictionaryContainsKeyMethod, name),
-                            Expression.Call(dictionary, DictionaryGetItemMethod, name),
-                            Expression.Constant(0d));
+                            ret = Expression.Condition(
+                                Expression.Call(dictionary, DictionaryContainsKeyMethod, name),
+                                Expression.Call(dictionary, DictionaryGetItemMethod, name),
+                                Expression.Constant(0d));
+                        }
+                        else ret = Expression.Constant(Convert.ToDouble(s));
                     }
                     else ret = Expression.Constant(Convert.ToDouble(s));
 
