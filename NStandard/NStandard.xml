@@ -394,6 +394,16 @@
             <param name="init"></param>
             <returns></returns>
         </member>
+        <member name="M:NStandard.XArray.Let``1(``0[],System.Int32,``0[])">
+            <summary>
+            Use a method to initialize each element of an array.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="offset"></param>
+            <param name="inits"></param>
+            <returns></returns>
+        </member>
         <member name="M:NStandard.XArray.Let``1(``0[0:,0:],System.Func{System.Int32,``0})">
             <summary>
             Use a method to initialize each element of an array.
@@ -421,12 +431,23 @@
             <param name="init"></param>
             <returns></returns>
         </member>
-        <member name="M:NStandard.XArray.Let``1(``0[0:,0:],``0[])">
+        <member name="M:NStandard.XArray.Let``1(``0[0:,0:],System.ValueTuple{System.Int32,System.Int32},``0[])">
             <summary>
             Use a method to initialize each element of an array.
             </summary>
             <typeparam name="TSelf"></typeparam>
             <param name="this"></param>
+            <param name="offset"></param>
+            <param name="inits"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Let``1(``0[0:,0:],System.Int32,``0[])">
+            <summary>
+            Use a method to initialize each element of an array.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="offset"></param>
             <param name="inits"></param>
             <returns></returns>
         </member>
@@ -457,12 +478,23 @@
             <param name="init"></param>
             <returns></returns>
         </member>
-        <member name="M:NStandard.XArray.Let``1(``0[0:,0:,0:],``0[])">
+        <member name="M:NStandard.XArray.Let``1(``0[0:,0:,0:],System.ValueTuple{System.Int32,System.Int32,System.Int32},``0[])">
             <summary>
             Use a method to initialize each element of an array.
             </summary>
             <typeparam name="TSelf"></typeparam>
             <param name="this"></param>
+            <param name="offset"></param>
+            <param name="inits"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XArray.Let``1(``0[0:,0:,0:],System.Int32,``0[])">
+            <summary>
+            Use a method to initialize each element of an array.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="offset"></param>
             <param name="inits"></param>
             <returns></returns>
         </member>

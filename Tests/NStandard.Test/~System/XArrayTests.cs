@@ -27,9 +27,9 @@ namespace NStandard.Test
                 Assert.Equal(new[,] { { 0, 1, 2 }, { 3, 4, 5 } }, arr);
             });
 
-            new int[2, 3].Let(new[] { 0, 1, 2, 3, 4, 5 }).Then(arr =>
+            new int[2, 3].Let(2, new[] { 0, 1, 2, 3 }).Then(arr =>
             {
-                Assert.Equal(new[,] { { 0, 1, 2 }, { 3, 4, 5 } }, arr);
+                Assert.Equal(new[,] { { 0, 0, 0 }, { 1, 2, 3 } }, arr);
             });
         }
 
@@ -54,12 +54,12 @@ namespace NStandard.Test
                 }, arr);
             });
 
-            new int[2, 3, 2].Let(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }).Then(arr =>
+            new int[2, 3, 2].Let(2, new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }).Then(arr =>
             {
                 Assert.Equal(new[, ,]
                 {
-                    { { 0, 1 }, { 2, 3 }, { 4, 5 } },
-                    { { 6, 7 }, { 8, 9 }, { 10, 11 } },
+                    { { 0, 0 }, { 0, 1 }, { 2, 3 } },
+                    { { 4, 5 }, { 6, 7 }, { 8, 9 } },
                 }, arr);
             });
         }
@@ -84,14 +84,6 @@ namespace NStandard.Test
             {
                 Assert.Equal(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }, arr.ToLinearArray());
             });
-        }
-
-        [Fact]
-        public void LUBoundTest()
-        {
-            var array = Array.CreateInstance(typeof(int), new[] { 2 }, new[] { 5 });
-            Assert.Equal(5, array.LBound());
-            Assert.Equal(6, array.UBound());
         }
 
         [Fact]

@@ -22,7 +22,9 @@ namespace NStandard
 
         internal int GetDimensionIndex(int unidimensionalIndex, int dimension)
         {
-            return unidimensionalIndex / Divisors[dimension] % Lengths[dimension];
+            if (0 <= unidimensionalIndex && unidimensionalIndex < LinearLength)
+                return unidimensionalIndex / Divisors[dimension] % Lengths[dimension];
+            else throw new IndexOutOfRangeException($"Unidimensional index out of range. (Index: {unidimensionalIndex}, Range: 0 - {LinearLength - 1})");
         }
 
     }

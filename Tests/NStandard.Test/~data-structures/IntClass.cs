@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NStandard.Test
+﻿namespace NStandard.Test
 {
     public class IntClass
     {
