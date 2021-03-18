@@ -4,7 +4,7 @@ namespace NStandard.Security
 {
     public class AesIVHandler
     {
-        public static AesIVHandler Default = new AesIVHandler();
+        public static AesIVHandler Default = new();
 
         public virtual byte[] Combine(CipherIVPair pair)
         {

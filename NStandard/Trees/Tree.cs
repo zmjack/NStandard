@@ -54,7 +54,7 @@ namespace NStandard.Trees
 
     public class Tree<TModel>
     {
-        private readonly HashSet<Tree<TModel>> _innerChildren = new HashSet<Tree<TModel>>();
+        private readonly HashSet<Tree<TModel>> _innerChildren = new();
 
         public Tree<TModel> Parent { get; private set; }
         public IEnumerable<Tree<TModel>> Children => _innerChildren.AsEnumerable();

@@ -15,7 +15,7 @@ namespace NStandard.Test
 
             [SuppressMessage("Code Quality", "IDE0052:Remove unread private members", Justification = "<Pending>")]
             [SuppressMessage("Style", "IDE0044:Add readonly modifier", Justification = "<Pending>")]
-            private Inner Inner = new Inner();
+            private Inner Inner = new();
 
             public override string ToString() => $"{PrivateField} {PrivateProperty} {PublicField} {PublicProperty}";
         }

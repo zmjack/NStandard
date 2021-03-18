@@ -10,7 +10,7 @@ namespace NStandard
     {
         private delegate BinaryExpression BinaryDelegate(Expression left, Expression right);
 
-        private static readonly Dictionary<string, CacheSet<Type, Delegate>> OpContainers = new Dictionary<string, CacheSet<Type, Delegate>>
+        private static readonly Dictionary<string, CacheSet<Type, Delegate>> OpContainers = new()
         {
             [nameof(OpAdd)] = NewOpFunc(Expression.Add),
             [nameof(OpAddChecked)] = NewOpFunc(Expression.AddChecked),

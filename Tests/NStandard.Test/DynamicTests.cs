@@ -15,7 +15,7 @@ namespace NStandard.Test
         {
             public readonly int Value;
             public Operand(int value) => Value = value;
-            public static Operand operator +(Operand left, Operand right) => new Operand(left.Value + right.Value);
+            public static Operand operator +(Operand left, Operand right) => new(left.Value + right.Value);
         }
 
         private static T AddChecked<T>(T left, T right) => Dynamic.OpAddChecked(left, right);

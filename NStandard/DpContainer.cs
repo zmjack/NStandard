@@ -5,7 +5,7 @@ namespace NStandard
 {
     public static class DpContainer
     {
-        public static DefaultDpContainer<TIn, TOut> Create<TIn, TOut>(Func<DefaultDpContainer<TIn, TOut>, TIn, TOut> stateTransferFunc) => new DefaultDpContainer<TIn, TOut>(stateTransferFunc);
+        public static DefaultDpContainer<TIn, TOut> Create<TIn, TOut>(Func<DefaultDpContainer<TIn, TOut>, TIn, TOut> stateTransferFunc) => new(stateTransferFunc);
     }
 
     public abstract class DpContainer<TIn, TOut> : Dictionary<TIn, TOut>

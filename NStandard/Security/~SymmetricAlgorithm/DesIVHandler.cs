@@ -4,7 +4,7 @@ namespace NStandard.Security
 {
     public class DesIVHandler
     {
-        public static DesIVHandler Default = new DesIVHandler();
+        public static DesIVHandler Default = new();
 
         public virtual byte[] Combine(CipherIVPair pair)
         {

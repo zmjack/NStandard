@@ -36,7 +36,7 @@ namespace NStandard.Evaluators.Test
             };
         }
 
-        private readonly MyEvaluator MyEvaluatorInstance = new MyEvaluator();
+        private readonly MyEvaluator MyEvaluatorInstance = new();
 
         [Fact]
         public void NormalTest1()

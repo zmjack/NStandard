@@ -160,7 +160,7 @@
             <param name="value">An object that implements the System.IConvertible interface.</param>
             <param name="conversionType">The type of object to return.</param>
         </member>
-        <member name="M:NStandard.DateTimeEx.UnixMinValue">
+        <member name="F:NStandard.DateTimeEx.UnixMinValue">
             <summary>
             Gets the DateTime(UTC) of UnixMinValue.
             </summary>
@@ -851,6 +851,55 @@
             </summary>
             <param name="this"></param>
             <param name="completeMonths"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.ElapsedMilliseconds(System.DateTime)">
+            <summary>
+            Gets the number of milliseconds elapsed from <see cref="F:System.DateTime.MinValue"/>.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.ElapsedSeconds(System.DateTime)">
+            <summary>
+            Gets the number of seconds elapsed from <see cref="F:System.DateTime.MinValue"/>.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.ElapsedMinutes(System.DateTime)">
+            <summary>
+            Gets the number of minutes elapsed from <see cref="F:System.DateTime.MinValue"/>.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.ElapsedHours(System.DateTime)">
+            <summary>
+            Gets the number of hours elapsed from <see cref="F:System.DateTime.MinValue"/>.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.ElapsedDays(System.DateTime)">
+            <summary>
+            Gets the number of days elapsed from <see cref="F:System.DateTime.MinValue"/>.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.ElapsedMonths(System.DateTime)">
+            <summary>
+            Gets the number of months elapsed from <see cref="F:System.DateTime.MinValue"/>.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTime.ElapsedYears(System.DateTime)">
+            <summary>
+            Gets the number of years elapsed from <see cref="F:System.DateTime.MinValue"/>.
+            </summary>
+            <param name="this"></param>
             <returns></returns>
         </member>
         <member name="M:NStandard.XInt32.IsOdd(System.Int32)">

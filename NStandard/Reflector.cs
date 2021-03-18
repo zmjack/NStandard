@@ -35,16 +35,16 @@ namespace NStandard
         public PropertyReflector DeclaredProperty(string name, Type type) => Type.GetDeclaredProperty(name)?.For(x => new PropertyReflector(type, x, Object));
         public PropertyReflector<T> DeclaredProperty<T>(string name) => Type.GetDeclaredProperty(name)?.For(x => new PropertyReflector<T>(x, Object));
 
-        public MethodReflector Method(string name) => new MethodReflector(Type.GetMethod(name), Object);
-        public MethodReflector Method(string name, BindingFlags bindingAttr) => new MethodReflector(Type.GetMethod(name, bindingAttr), Object);
-        public MethodReflector DeclaredMethod(string name) => new MethodReflector(Type.GetDeclaredMethod(name), Object);
+        public MethodReflector Method(string name) => new(Type.GetMethod(name), Object);
+        public MethodReflector Method(string name, BindingFlags bindingAttr) => new(Type.GetMethod(name, bindingAttr), Object);
+        public MethodReflector DeclaredMethod(string name) => new(Type.GetDeclaredMethod(name), Object);
 
-        public MethodReflector MethodViaQualifiedName(string name) => new MethodReflector(Type.GetMethodViaQualifiedName(name), Object);
-        public MethodReflector MethodViaQualifiedName(string name, BindingFlags bindingAttr) => new MethodReflector(Type.GetMethodViaQualifiedName(name, bindingAttr), Object);
-        public MethodReflector DeclaredMethodViaQualifiedName(string name) => new MethodReflector(Type.GetDeclaredMethodViaQualifiedName(name), Object);
+        public MethodReflector MethodViaQualifiedName(string name) => new(Type.GetMethodViaQualifiedName(name), Object);
+        public MethodReflector MethodViaQualifiedName(string name, BindingFlags bindingAttr) => new(Type.GetMethodViaQualifiedName(name, bindingAttr), Object);
+        public MethodReflector DeclaredMethodViaQualifiedName(string name) => new(Type.GetDeclaredMethodViaQualifiedName(name), Object);
 
-        public MethodReflector ToStringMethod() => new MethodReflector(Type.GetToStringMethod(), Object);
-        public MethodReflector GetHashCodeMethod() => new MethodReflector(Type.GetGetHashCodeMethod(), Object);
+        public MethodReflector ToStringMethod() => new(Type.GetToStringMethod(), Object);
+        public MethodReflector GetHashCodeMethod() => new(Type.GetGetHashCodeMethod(), Object);
 
     }
 

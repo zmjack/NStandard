@@ -6,8 +6,8 @@ namespace NStandard
 {
     public static class DateTimeEx
     {
-        public static NowScope BeginNowScope() => new NowScope();
-        public static NowScope BeginNowScope(Func<DateTime, DateTime> store) => new NowScope(store);
+        public static NowScope BeginNowScope() => new();
+        public static NowScope BeginNowScope(Func<DateTime, DateTime> store) => new(store);
 
         public static NowScopeAccessor NowScopes => NowScopeAccessor.Instance;
 
@@ -15,7 +15,7 @@ namespace NStandard
         /// Gets the DateTime(UTC) of UnixMinValue.
         /// </summary>
         /// <returns></returns>
-        public static DateTime UnixMinValue() => new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        public static readonly DateTime UnixMinValue = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         /// Converts the sepecified Unix TimeStamp(seconds) to DateTime(UTC).
@@ -29,7 +29,7 @@ namespace NStandard
         /// </summary>
         /// <param name="milliseconds"></param>
         /// <returns></returns>
-        public static DateTime FromUnixMilliseconds(long milliseconds) => new DateTime(milliseconds * 10000 + 621355968000000000, DateTimeKind.Utc);
+        public static DateTime FromUnixMilliseconds(long milliseconds) => new(milliseconds * 10000 + 621355968000000000, DateTimeKind.Utc);
 
         /// <summary>
         /// Gets the Unix Timestamp(milliseconds) of the specified DateTime(UTC).

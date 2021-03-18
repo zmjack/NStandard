@@ -6,7 +6,7 @@ namespace NStandard.Evaluators
 {
     public static class Evaluator
     {
-        public static readonly NumericalEvaluator Numerical = new NumericalEvaluator();
+        public static readonly NumericalEvaluator Numerical = new();
     }
 
     public abstract class Evaluator<TOperand, TOperator> where TOperator : class

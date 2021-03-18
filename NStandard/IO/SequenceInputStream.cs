@@ -7,7 +7,7 @@ namespace NStandard.IO
     public class SequenceInputStream : SequenceInputStream<Stream>
     {
         public static SequenceInputStream<TStream> Create<TStream>(params TStream[] streams)
-            where TStream : Stream => new SequenceInputStream<TStream>(streams);
+            where TStream : Stream => new(streams);
 
         public SequenceInputStream(params Stream[] streams) : base(streams) { }
     }

@@ -7,7 +7,7 @@ namespace NStandard
 {
     public class ConsoleAgent : Scope<ConsoleAgent>
     {
-        protected static readonly object Locker = new object();
+        protected static readonly object Locker = new();
         protected readonly TextWriter OriginalOut;
         protected StringBuilder Output;
         protected TextWriter Writer;
@@ -29,8 +29,8 @@ namespace NStandard
             Console.SetOut(Writer);
         }
 
-        public static ConsoleAgent Begin() => new ConsoleAgent();
-        public static ConsoleAgent Begin(TextWriter writer) => new ConsoleAgent(writer);
+        public static ConsoleAgent Begin() => new();
+        public static ConsoleAgent Begin(TextWriter writer) => new(writer);
 
         public override void Disposing()
         {

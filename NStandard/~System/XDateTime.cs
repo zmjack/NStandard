@@ -95,14 +95,14 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime StartOfYear(this DateTime @this) => new DateTime(@this.Year, 1, 1, 0, 0, 0, 0, @this.Kind);
+        public static DateTime StartOfYear(this DateTime @this) => new(@this.Year, 1, 1, 0, 0, 0, 0, @this.Kind);
 
         /// <summary>
         /// Get the start point of the sepecified month.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime StartOfMonth(this DateTime @this) => new DateTime(@this.Year, @this.Month, 1, 0, 0, 0, 0, @this.Kind);
+        public static DateTime StartOfMonth(this DateTime @this) => new(@this.Year, @this.Month, 1, 0, 0, 0, 0, @this.Kind);
 
         /// <summary>
         /// Get the start point of the sepecified day.
@@ -116,28 +116,28 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime StartOfHour(this DateTime @this) => new DateTime(@this.Year, @this.Month, @this.Day, @this.Hour, 0, 0, 0, @this.Kind);
+        public static DateTime StartOfHour(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, 0, 0, 0, @this.Kind);
 
         /// <summary>
         /// Get the start point of the sepecified minute.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime StartOfMinute(this DateTime @this) => new DateTime(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, 0, 0, @this.Kind);
+        public static DateTime StartOfMinute(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, 0, 0, @this.Kind);
 
         /// <summary>
         /// Get the start point of the sepecified second.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime StartOfSecond(this DateTime @this) => new DateTime(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, @this.Second, 0, @this.Kind);
+        public static DateTime StartOfSecond(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, @this.Second, 0, @this.Kind);
 
         /// <summary>
         /// Get the end point of the sepecified month.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime EndOfYear(this DateTime @this) => new DateTime(@this.Year, 12, 31, 23, 59, 59, 999, @this.Kind);
+        public static DateTime EndOfYear(this DateTime @this) => new(@this.Year, 12, 31, 23, 59, 59, 999, @this.Kind);
 
         /// <summary>
         /// Get the end point of the sepecified month.
@@ -163,28 +163,28 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime EndOfDay(this DateTime @this) => new DateTime(@this.Year, @this.Month, @this.Day, 23, 59, 59, 999, @this.Kind);
+        public static DateTime EndOfDay(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, 23, 59, 59, 999, @this.Kind);
 
         /// <summary>
         /// Get the end point of the sepecified hour.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime EndOfHour(this DateTime @this) => new DateTime(@this.Year, @this.Month, @this.Day, @this.Hour, 59, 59, 999, @this.Kind);
+        public static DateTime EndOfHour(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, 59, 59, 999, @this.Kind);
 
         /// <summary>
         /// Get the end point of the sepecified minute.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime EndOfMinute(this DateTime @this) => new DateTime(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, 59, 999, @this.Kind);
+        public static DateTime EndOfMinute(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, 59, 999, @this.Kind);
 
         /// <summary>
         /// Get the end point of the sepecified second.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime EndOfSecond(this DateTime @this) => new DateTime(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, @this.Second, 999, @this.Kind);
+        public static DateTime EndOfSecond(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, @this.Second, 999, @this.Kind);
 
         /// <summary>
         /// Returns a new <see cref="DateTime"/> that adds the specified number of complete years to the value of this instance.
@@ -211,6 +211,55 @@ namespace NStandard
             if (completeMonths > 0 && target.Day < @this.Day) target = target.AddDays(1);
             return target;
         }
+
+        /// <summary>
+        /// Gets the number of milliseconds elapsed from <see cref="DateTime.MinValue"/>.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static double ElapsedMilliseconds(this DateTime @this) => (@this - DateTime.MinValue).TotalMilliseconds;
+
+        /// <summary>
+        /// Gets the number of seconds elapsed from <see cref="DateTime.MinValue"/>.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static double ElapsedSeconds(this DateTime @this) => (@this - DateTime.MinValue).TotalSeconds;
+
+        /// <summary>
+        /// Gets the number of minutes elapsed from <see cref="DateTime.MinValue"/>.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static double ElapsedMinutes(this DateTime @this) => (@this - DateTime.MinValue).TotalMinutes;
+
+        /// <summary>
+        /// Gets the number of hours elapsed from <see cref="DateTime.MinValue"/>.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static double ElapsedHours(this DateTime @this) => (@this - DateTime.MinValue).TotalHours;
+
+        /// <summary>
+        /// Gets the number of days elapsed from <see cref="DateTime.MinValue"/>.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static double ElapsedDays(this DateTime @this) => (@this - DateTime.MinValue).TotalDays;
+
+        /// <summary>
+        /// Gets the number of months elapsed from <see cref="DateTime.MinValue"/>.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static double ElapsedMonths(this DateTime @this) => DateTimeEx.ExactMonthDiff(DateTime.MinValue, @this);
+
+        /// <summary>
+        /// Gets the number of years elapsed from <see cref="DateTime.MinValue"/>.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static double ElapsedYears(this DateTime @this) => DateTimeEx.ExactYearDiff(DateTime.MinValue, @this);
 
         private static int CastCycleDays(int days, bool isBackward)
         {

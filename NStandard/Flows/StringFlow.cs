@@ -18,10 +18,10 @@ namespace NStandard.Flows
         public static byte[] BytesFromHexString(string str) => StringConvert.FromHexString(str);
         public static byte[] BytesFromUrlSafeBase64(string str) => Convert.FromBase64String(StringConvert.ConvertUrlSafeBase64ToBase64(str));
 
-        public static Guid GuidFromHexString(string str) => new Guid(str.For(BytesFromHexString));
-        public static Guid GuidFromBase58(string str) => new Guid(str.For(BytesFromBase58));
-        public static Guid GuidFromBase64(string str) => new Guid(str.For(BytesFromBase64));
-        public static Guid GuidFromUrlSafeBase64(string str) => new Guid(str.For(BytesFromUrlSafeBase64));
+        public static Guid GuidFromHexString(string str) => new(str.For(BytesFromHexString));
+        public static Guid GuidFromBase58(string str) => new(str.For(BytesFromBase58));
+        public static Guid GuidFromBase64(string str) => new(str.For(BytesFromBase64));
+        public static Guid GuidFromUrlSafeBase64(string str) => new(str.For(BytesFromUrlSafeBase64));
 
 #if NET35 || NET40 || NET45 || NET451 || NET46
         public static string UrlEncode(string str) => HttpUtility.UrlEncode(str);

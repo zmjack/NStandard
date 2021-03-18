@@ -11,8 +11,8 @@ namespace NStandard.Schema
             return new Loop<int>(lengths.Select(x => LoopFor.Create(() => 0, i => i < x, i => i + 1)).ToArray());
         }
 
-        public static Loop<T> Create<T>(params LoopFor<T>[] loopFors) where T : struct => new Loop<T>(loopFors);
-        public static Loop<T> Create<T>(params IEnumerable<T>[] enumerables) where T : struct => new Loop<T>(enumerables);
+        public static Loop<T> Create<T>(params LoopFor<T>[] loopFors) where T : struct => new(loopFors);
+        public static Loop<T> Create<T>(params IEnumerable<T>[] enumerables) where T : struct => new(enumerables);
     }
 
     public class Loop<T> : IEnumerable<T?[]> where T : struct

@@ -26,7 +26,7 @@ namespace NStandard
         public static bool operator !=(VString left, VString right) => !left.Equals(right);
 
         public static implicit operator string(VString operand) => operand.String;
-        public static implicit operator VString(string operand) => new VString(operand);
+        public static implicit operator VString(string operand) => new(operand);
 
         public override string ToString() => String.ToString();
 

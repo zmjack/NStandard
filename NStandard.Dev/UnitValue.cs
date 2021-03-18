@@ -5,7 +5,7 @@ namespace NStandard.Dev
 {
     public static class UnitValue
     {
-        public static UnitValue<TValue> Create<TValue>(TValue value, string unit) where TValue : unmanaged => new UnitValue<TValue>(value, unit);
+        public static UnitValue<TValue> Create<TValue>(TValue value, string unit) where TValue : unmanaged => new(value, unit);
     }
 
     public struct UnitValue<TValue> where TValue : unmanaged

@@ -85,5 +85,17 @@ namespace NStandard.Test
             Assert.Equal(new DateTime(2000, 3, 29), new DateTime(2000, 2, 29).AddCompleteMonths(1));
         }
 
+        [Fact]
+        public void GetElapsedTests()
+        {
+            Assert.Equal(63470131200000, new DateTime(2012, 4, 16).ElapsedMilliseconds());
+            Assert.Equal(63470131200, new DateTime(2012, 4, 16).ElapsedSeconds());
+            Assert.Equal(1057835520, new DateTime(2012, 4, 16).ElapsedMinutes());
+            Assert.Equal(17630592, new DateTime(2012, 4, 16).ElapsedHours());
+            Assert.Equal(734608, new DateTime(2012, 4, 16).ElapsedDays());
+            Assert.Equal(24135.5, new DateTime(2012, 4, 16).ElapsedMonths());
+            Assert.Equal(2011.2896174863388, new DateTime(2012, 4, 16).ElapsedYears());
+        }
+
     }
 }

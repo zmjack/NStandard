@@ -14,7 +14,7 @@ namespace NStandard
 
         public void Dispose() => OnDisposing();
 
-        public static Usable Begin(Action onUsing, Action onDisposing) => new Usable(onUsing, onDisposing);
+        public static Usable Begin(Action onUsing, Action onDisposing) => new(onUsing, onDisposing);
         public static Usable<TUsingReturn> Begin<TUsingReturn>(Func<TUsingReturn> onUsing, Action<TUsingReturn> onDisposing)
         {
             return new Usable<TUsingReturn>(onUsing, onDisposing);

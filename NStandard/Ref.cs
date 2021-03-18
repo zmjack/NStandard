@@ -2,7 +2,7 @@
 {
     public static class Ref
     {
-        public static Ref<T> Bind<T>(T value) where T : struct => new Ref<T>(value);
+        public static Ref<T> Bind<T>(T value) where T : struct => new(value);
     }
 
     public class Ref<T> where T : struct
@@ -28,7 +28,7 @@
         public static bool operator !=(Ref<T> left, Ref<T> right) => left.RefValue != right.RefValue;
 
         public static implicit operator T(Ref<T> operand) => operand.Value;
-        public static implicit operator Ref<T>(T operand) => new Ref<T>(operand);
+        public static implicit operator Ref<T>(T operand) => new(operand);
 
         public override string ToString() => RefValue.ToString();
     }

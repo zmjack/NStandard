@@ -364,7 +364,7 @@ namespace NStandard
             else throw new ArgumentException($"The type {@this.Name} must be a nullable value type");
         }
 
-        public static TypeReflector GetTypeReflector(this Type @this) => new TypeReflector(@this);
+        public static TypeReflector GetTypeReflector(this Type @this) => new(@this);
 
     }
 }

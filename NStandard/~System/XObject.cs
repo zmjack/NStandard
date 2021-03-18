@@ -145,9 +145,9 @@ namespace NStandard
             };
         }
 
-        public static Reflector GetReflector(this object @this) => new Reflector(@this.GetType(), @this);
-        public static Reflector GetReflector(this object @this, Type type) => new Reflector(type, @this);
-        public static Reflector GetReflector<T>(this object @this) => new Reflector(typeof(T), @this);
+        public static Reflector GetReflector(this object @this) => new(@this.GetType(), @this);
+        public static Reflector GetReflector(this object @this, Type type) => new(type, @this);
+        public static Reflector GetReflector<T>(this object @this) => new(typeof(T), @this);
 
 #if NETSTANDARD2_0
         /// <summary>

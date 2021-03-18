@@ -5,7 +5,7 @@ namespace NStandard
 {
     public class NowScopeAccessor
     {
-        public static readonly NowScopeAccessor Instance = new NowScopeAccessor();
+        public static readonly NowScopeAccessor Instance = new();
 
         internal NowScopeAccessor() { }
 
