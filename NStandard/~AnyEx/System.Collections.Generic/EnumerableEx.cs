@@ -18,5 +18,15 @@ namespace NStandard
                 yield return generate(i);
         }
 
+        public static IEnumerable<TSelf> CreateFromLinked<TSelf>(TSelf @this, Func<TSelf, TSelf> selector)
+        {
+            var select = @this;
+            while (select is not null)
+            {
+                yield return select;
+                select = selector(select);
+            }
+        }
+
     }
 }
