@@ -996,16 +996,6 @@
             <param name="convert"></param>
             <returns></returns>
         </member>
-        <member name="M:NStandard.XObject.ForUntil``1(``0,System.Func{``0,``0},System.Func{``0,System.Boolean})">
-            <summary>
-            Casts the object to another object through the specified convert method.
-            </summary>
-            <typeparam name="TSelf"></typeparam>
-            <param name="this"></param>
-            <param name="convert"></param>
-            <param name="until"></param>
-            <returns></returns>
-        </member>
         <member name="M:NStandard.XObject.IsNull``1(``0)">
             <summary>
             Determines whether the specified object is null.

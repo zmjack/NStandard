@@ -70,21 +70,6 @@ namespace NStandard
         public static TRet For<TSelf, TParam, TRet>(this TSelf @this, Func<TSelf, TParam, TRet> convert, TParam param) => convert(@this, param);
 
         /// <summary>
-        /// Casts the object to another object through the specified convert method.
-        /// </summary>
-        /// <typeparam name="TSelf"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="convert"></param>
-        /// <param name="until"></param>
-        /// <returns></returns>
-        public static TSelf ForUntil<TSelf>(this TSelf @this, Func<TSelf, TSelf> convert, Func<TSelf, bool> until)
-        {
-            var ret = @this;
-            while (!until(ret)) ret = convert(ret);
-            return ret;
-        }
-
-        /// <summary>
         /// Determines whether the specified object is null.
         /// </summary>
         /// <param name="this"></param>
