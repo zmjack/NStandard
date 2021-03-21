@@ -152,6 +152,25 @@
             Do not override this method. Use Disposing instead.
             </summary>
         </member>
+        <member name="M:NStandard.ColorEx.CreateFromAhsv(System.Single,System.Single,System.Single)">
+            <summary>
+            Creates a color using Alpha(255) + HSV model.
+            </summary>
+            <param name="hue">[0,360)</param>
+            <param name="saturation">[0,1]</param>
+            <param name="value">[0,1]</param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.ColorEx.CreateFromAhsv(System.Int32,System.Single,System.Single,System.Single)">
+            <summary>
+            Creates a color using Alpha + HSV model.
+            </summary>
+            <param name="alpha"></param>
+            <param name="hue">[0,360)</param>
+            <param name="saturation">[0,1]</param>
+            <param name="value">[0,1]</param>
+            <returns></returns>
+        </member>
         <member name="M:NStandard.ConvertEx.ChangeType(System.Object,System.Type)">
             <summary>
             Returns an object of the specified type and whose value is equivalent to the specified object.
@@ -1409,25 +1428,6 @@
             <typeparam name="TSource"></typeparam>
             <param name="this"></param>
             <param name="separator"></param>
-            <returns></returns>
-        </member>
-        <member name="M:System.Drawing.ColorEx.CreateFromAhsv(System.Single,System.Single,System.Single)">
-            <summary>
-            Creates a color using Alpha(255) + HSV model.
-            </summary>
-            <param name="hue">[0,360)</param>
-            <param name="saturation">[0,1]</param>
-            <param name="value">[0,1]</param>
-            <returns></returns>
-        </member>
-        <member name="M:System.Drawing.ColorEx.CreateFromAhsv(System.Int32,System.Single,System.Single,System.Single)">
-            <summary>
-            Creates a color using Alpha + HSV model.
-            </summary>
-            <param name="alpha"></param>
-            <param name="hue">[0,360)</param>
-            <param name="saturation">[0,1]</param>
-            <param name="value">[0,1]</param>
             <returns></returns>
         </member>
     </members>

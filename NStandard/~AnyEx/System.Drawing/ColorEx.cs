@@ -1,4 +1,7 @@
-﻿namespace System.Drawing
+﻿using System;
+using System.Drawing;
+
+namespace NStandard
 {
     public static class ColorEx
     {
@@ -31,35 +34,22 @@
 
             int slide(int baseLine) => (int)Math.Round((hue - baseLine) * d / 60);
 
-            switch (hue)
+            return hue switch
             {
-                case float h when h == 0:
-                    return Color.FromArgb(alpha, max, min, min);
-                case float h when h < 60:
-                    return Color.FromArgb(alpha, max, min + slide(0), min);
-                case float h when h == 60:
-                    return Color.FromArgb(alpha, max, max, min);
-                case float h when h < 120:
-                    return Color.FromArgb(alpha, min - slide(120), max, min);
-                case float h when h == 120:
-                    return Color.FromArgb(alpha, min, max, min);
-                case float h when h < 180:
-                    return Color.FromArgb(alpha, min, max, min + slide(120));
-                case float h when h == 180:
-                    return Color.FromArgb(alpha, min, max, max);
-                case float h when h < 240:
-                    return Color.FromArgb(alpha, min, min - slide(240), max);
-                case float h when h == 240:
-                    return Color.FromArgb(alpha, min, min, max);
-                case float h when h < 300:
-                    return Color.FromArgb(alpha, min + slide(240), min, max);
-                case float h when h == 300:
-                    return Color.FromArgb(alpha, max, min, max);
-                case float h when h < 360:
-                    return Color.FromArgb(alpha, max, min, min - slide(360));
-                default:
-                    throw new NotSupportedException();
-            }
+                float h when h == 0 => Color.FromArgb(alpha, max, min, min),
+                float h when h < 60 => Color.FromArgb(alpha, max, min + slide(0), min),
+                float h when h == 60 => Color.FromArgb(alpha, max, max, min),
+                float h when h < 120 => Color.FromArgb(alpha, min - slide(120), max, min),
+                float h when h == 120 => Color.FromArgb(alpha, min, max, min),
+                float h when h < 180 => Color.FromArgb(alpha, min, max, min + slide(120)),
+                float h when h == 180 => Color.FromArgb(alpha, min, max, max),
+                float h when h < 240 => Color.FromArgb(alpha, min, min - slide(240), max),
+                float h when h == 240 => Color.FromArgb(alpha, min, min, max),
+                float h when h < 300 => Color.FromArgb(alpha, min + slide(240), min, max),
+                float h when h == 300 => Color.FromArgb(alpha, max, min, max),
+                float h when h < 360 => Color.FromArgb(alpha, max, min, min - slide(360)),
+                _ => throw new NotSupportedException(),
+            };
         }
 
     }

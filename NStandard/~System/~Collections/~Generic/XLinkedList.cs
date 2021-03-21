@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace NStandard
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XLinkedList
     {
         public static IEnumerable<LinkedListNode<T>> GetNodes<T>(this LinkedList<T> @this)

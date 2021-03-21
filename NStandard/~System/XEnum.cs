@@ -1,11 +1,18 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Linq;
 
-namespace System
+namespace NStandard
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XEnum
     {
         public static long ToInt64(this Enum @this) => (long)Convert.ChangeType(@this, typeof(long));
+
+        public static T[] GetFlags<T>(this T @this) where T : Enum
+        {
+            return EnumEx.GetFlags<T>().Where(x => @this.HasFlag(x)).ToArray();
+        }
 
 #if NET35
         // Tested: NET35
@@ -22,5 +29,6 @@ namespace System
             return (ToInt64(@this) & ToInt64(flag)) > 0;
         }
 #endif
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NStandard
@@ -25,6 +26,31 @@ namespace NStandard
             var names = Enum.GetNames(enumType);
             var ret = names.Select(name => new EnumOption<TEnum, TUnderlying>(name)).ToArray();
             return ret;
+        }
+
+        public static TEnum[] GetFlags<TEnum>() where TEnum : Enum
+        {
+            var values = Enum.GetValues(typeof(TEnum)) as TEnum[];
+            var flags = values.Where(x =>
+            {
+                var v = (int)(object)x;
+                return (v & (v - 1)) == 0;
+            }).ToArray();
+            return flags;
+        }
+
+        public static object[] GetFlags(Type enumType)
+        {
+            if (!enumType.IsEnum) throw new ArgumentException("Type provided must be an Enum.", nameof(enumType));
+
+            var values = Enum.GetValues(enumType);
+            var list = new List<object>();
+            foreach (var value in values)
+            {
+                var v = (int)value;
+                if ((v & (v - 1)) == 0) list.Add(value);
+            }
+            return list.ToArray();
         }
 
     }
