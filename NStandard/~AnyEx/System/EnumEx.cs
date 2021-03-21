@@ -34,6 +34,7 @@ namespace NStandard
             var flags = values.Where(x =>
             {
                 var v = (int)(object)x;
+                if (v == 0) return false;
                 return (v & (v - 1)) == 0;
             }).ToArray();
             return flags;
@@ -48,6 +49,7 @@ namespace NStandard
             foreach (var value in values)
             {
                 var v = (int)value;
+                if (v == 0) continue;
                 if ((v & (v - 1)) == 0) list.Add(value);
             }
             return list.ToArray();

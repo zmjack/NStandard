@@ -6,6 +6,7 @@ namespace NStandard.Test
     {
         private enum TestEnums
         {
+            Undefined = 0,
             A = 1,
             B = 2,
             D = 12,
@@ -20,6 +21,7 @@ namespace NStandard.Test
             var enumOptions = EnumEx.GetOptions(typeof(TestEnums));
             Assert.Equal(new[]
             {
+                new EnumOption(enumType, nameof(TestEnums.Undefined)),
                 new EnumOption(enumType, nameof(TestEnums.A)),
                 new EnumOption(enumType, nameof(TestEnums.B)),
                 new EnumOption(enumType, nameof(TestEnums.AB)),
@@ -34,6 +36,7 @@ namespace NStandard.Test
             var enumOptions = EnumEx.GetOptions<TestEnums, int>();
             Assert.Equal(new[]
             {
+                new EnumOption<TestEnums, int>(nameof(TestEnums.Undefined)),
                 new EnumOption<TestEnums, int>(nameof(TestEnums.A)),
                 new EnumOption<TestEnums, int>(nameof(TestEnums.B)),
                 new EnumOption<TestEnums, int>(nameof(TestEnums.AB)),
