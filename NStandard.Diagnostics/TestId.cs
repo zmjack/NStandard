@@ -1,11 +1,11 @@
-﻿namespace Dawnx.Diagnostics
+﻿namespace NStandard.Diagnostics
 {
-    public struct ConcurrencyResultId
+    public struct TestId
     {
         public int ThreadId { get; set; }
         public int InvokeNumber { get; set; }
 
-        public ConcurrencyResultId(int threadId, int invokeNumber)
+        public TestId(int threadId, int invokeNumber)
         {
             ThreadId = threadId;
             InvokeNumber = invokeNumber;

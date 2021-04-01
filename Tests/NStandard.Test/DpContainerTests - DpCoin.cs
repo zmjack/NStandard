@@ -1,4 +1,4 @@
-﻿using NLinq;
+﻿using LinqSharp;
 using System.Linq;
 using Xunit;
 

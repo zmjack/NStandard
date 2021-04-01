@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace NStandard
 {
@@ -8,8 +7,7 @@ namespace NStandard
     /// Cooperate with 'using' keyword to use thread safe <see cref="Scope{TSelf}"/>.
     /// </summary>
     /// <typeparam name="TSelf"></typeparam>
-    public abstract class Scope<TSelf> : IDisposable
-        where TSelf : Scope<TSelf>
+    public abstract class Scope<TSelf> : IDisposable where TSelf : Scope<TSelf>
     {
         protected Scope()
         {
@@ -26,7 +24,12 @@ namespace NStandard
         /// <summary>
         /// Do not override this method. Use Disposing instead.
         /// </summary>
-        public void Dispose() { Disposing(); Scopes.Pop(); }
+        public void Dispose()
+        {
+            Disposing();
+            if (Scopes.Peek() == this) Scopes.Pop();
+            else throw new InvalidOperationException("Scope must pop up in order.");
+        }
 
         public virtual void Disposing() { }
 
@@ -36,7 +39,6 @@ namespace NStandard
 
         public static Stack<TSelf> Scopes
         {
-            [MethodImpl(MethodImplOptions.Synchronized)]
             get
             {
                 if (_scopes is null) _scopes = new Stack<TSelf>();

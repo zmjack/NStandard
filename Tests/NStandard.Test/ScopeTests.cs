@@ -1,4 +1,4 @@
-using Dawnx.Diagnostics;
+using NStandard.Diagnostics;
 using System;
 using Xunit;
 
@@ -61,7 +61,7 @@ namespace NStandard.Test
         [Fact]
         public void ConcurrencyTest()
         {
-            Concurrency.Run(cid =>
+            var report = Concurrency.Run(cid =>
             {
                 Assert.Null(StringScope.Current);
                 using (new StringScope("outter"))
@@ -75,7 +75,7 @@ namespace NStandard.Test
                     }
                 }
                 return 0;
-            }, level: 20, threadCount: 4);
+            }, level: 20, threadCount: 10);
         }
 
         private class FakeTransaction : Scope<FakeTransaction>

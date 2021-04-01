@@ -1,5 +1,5 @@
-﻿using Dawnx.Diagnostics;
-using NStandard.Caching;
+﻿using NStandard.Caching;
+using NStandard.Diagnostics;
 using System;
 using System.Linq;
 using System.Threading;
@@ -21,15 +21,16 @@ namespace NStandard.Test
             var updateCount = 0;
             cache.OnCacheUpdated += (cacheTime, value) => updateCount += 1;
 
-            var result = Concurrency.Run(id =>
+            var report = Concurrency.Run(id =>
             {
                 var value = cache.Value;
                 Console.WriteLine($"{id}\t{cache}");
                 Thread.Sleep(500);
                 return value;
-            }, 20, 5).Select(x => x.Value);
+            }, 20);
 
-            Assert.Equal(updateCount, result.Distinct().Count());
+            var reportUpdate = report.Results.Select(x => x.Return).Distinct().Count();
+            Assert.Equal(updateCount, reportUpdate);
         }
 
     }
