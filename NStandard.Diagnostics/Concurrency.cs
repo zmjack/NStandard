@@ -19,6 +19,19 @@ namespace NStandard.Diagnostics
         /// <param name="level"></param>
         /// <param name="threadCount">If the value is 0, <see cref="Environment.ProcessorCount"/> will be used.</param>
         /// <returns></returns>
+        public static TestReport<object> Run(Action<TestId> task, int level, int threadCount = 0)
+        {
+            return Run<object>(id => { task(id); return null; }, level, threadCount);
+        }
+
+        /// <summary>
+        /// Use mutil-thread to simulate concurrent scenarios.
+        /// </summary>
+        /// <typeparam name="TRet"></typeparam>
+        /// <param name="task"></param>
+        /// <param name="level"></param>
+        /// <param name="threadCount">If the value is 0, <see cref="Environment.ProcessorCount"/> will be used.</param>
+        /// <returns></returns>
         public static TestReport<TRet> Run<TRet>(Func<TestId, TRet> task, int level, int threadCount = 0)
         {
             if (level < 1) throw new ArgumentException($"The `{nameof(level)}` must be greater than 0.", nameof(level));
