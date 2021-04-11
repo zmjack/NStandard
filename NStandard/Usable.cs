@@ -12,12 +12,29 @@ namespace NStandard
             onUsing();
         }
 
-        public void Dispose() => OnDisposing();
-
         public static Usable Begin(Action onUsing, Action onDisposing) => new(onUsing, onDisposing);
         public static Usable<TUsingReturn> Begin<TUsingReturn>(Func<TUsingReturn> onUsing, Action<TUsingReturn> onDisposing)
         {
             return new Usable<TUsingReturn>(onUsing, onDisposing);
+        }
+
+        private bool disposedValue;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    OnDisposing();
+                }
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 
@@ -32,6 +49,23 @@ namespace NStandard
             Value = onUsing();
         }
 
-        public void Dispose() => OnDisposing(Value);
+        private bool disposedValue;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    OnDisposing(Value);
+                }
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

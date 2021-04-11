@@ -21,16 +21,6 @@ namespace NStandard
             if (GetType() != scopeType) throw new TypeLoadException($"Generic type `TSelf` must be defined as '{GetType().FullName}'.");
         }
 
-        /// <summary>
-        /// Do not override this method. Use Disposing instead.
-        /// </summary>
-        public void Dispose()
-        {
-            Disposing();
-            if (Scopes.Peek() == this) Scopes.Pop();
-            else throw new InvalidOperationException("Scope must pop up in order.");
-        }
-
         public virtual void Disposing() { }
 
         // Use TSelf to make sure the ThreadStatic attribute working correctly.
@@ -47,6 +37,28 @@ namespace NStandard
         }
 
         public static TSelf Current => (Scopes.Count > 0 ? Scopes.Peek() : null) ?? null;
+
+        private bool disposedValue;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    Disposing();
+                    if (Scopes.Peek() == this) Scopes.Pop();
+                    else throw new InvalidOperationException("Scope must pop up in order.");
+                }
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
     }
 
 }

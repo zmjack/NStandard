@@ -147,11 +147,6 @@
             </summary>
             <typeparam name="TSelf"></typeparam>
         </member>
-        <member name="M:NStandard.Scope`1.Dispose">
-            <summary>
-            Do not override this method. Use Disposing instead.
-            </summary>
-        </member>
         <member name="M:NStandard.ColorEx.CreateFromAhsv(System.Single,System.Single,System.Single)">
             <summary>
             Creates a color using Alpha(255) + HSV model.
