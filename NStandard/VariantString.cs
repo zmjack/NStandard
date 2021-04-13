@@ -10,6 +10,7 @@ namespace NStandard
 
         public VariantString(char obj) => String = obj.ToString();
         public VariantString(byte obj) => String = obj.ToString();
+        public VariantString(sbyte obj) => String = obj.ToString();
         public VariantString(short obj) => String = obj.ToString();
         public VariantString(ushort obj) => String = obj.ToString();
         public VariantString(int obj) => String = obj.ToString();
@@ -25,6 +26,7 @@ namespace NStandard
 
         public VariantString(char? obj) => String = obj?.ToString();
         public VariantString(byte? obj) => String = obj?.ToString();
+        public VariantString(sbyte? obj) => String = obj?.ToString();
         public VariantString(short? obj) => String = obj?.ToString();
         public VariantString(ushort? obj) => String = obj?.ToString();
         public VariantString(int? obj) => String = obj?.ToString();
@@ -43,6 +45,7 @@ namespace NStandard
 
         public static implicit operator VariantString(char obj) => new(obj);
         public static implicit operator VariantString(byte obj) => new(obj);
+        public static implicit operator VariantString(sbyte obj) => new(obj);
         public static implicit operator VariantString(short obj) => new(obj);
         public static implicit operator VariantString(ushort obj) => new(obj);
         public static implicit operator VariantString(int obj) => new(obj);
@@ -73,6 +76,7 @@ namespace NStandard
 
         public static implicit operator char(VariantString @this) => char.TryParse(@this.String, out var ret).For(x => x ? ret : default);
         public static implicit operator byte(VariantString @this) => byte.TryParse(@this.String, out var ret).For(x => x ? ret : default);
+        public static implicit operator sbyte(VariantString @this) => sbyte.TryParse(@this.String, out var ret).For(x => x ? ret : default);
         public static implicit operator short(VariantString @this) => short.TryParse(@this.String, out var ret).For(x => x ? ret : default);
         public static implicit operator ushort(VariantString @this) => ushort.TryParse(@this.String, out var ret).For(x => x ? ret : default);
         public static implicit operator int(VariantString @this) => int.TryParse(@this.String, out var ret).For(x => x ? ret : default);
@@ -101,6 +105,7 @@ namespace NStandard
 
         public static implicit operator char?(VariantString @this) => char.TryParse(@this.String, out var ret).For(x => x ? ret : (char?)null);
         public static implicit operator byte?(VariantString @this) => byte.TryParse(@this.String, out var ret).For(x => x ? ret : (byte?)null);
+        public static implicit operator sbyte?(VariantString @this) => sbyte.TryParse(@this.String, out var ret).For(x => x ? ret : (sbyte?)null);
         public static implicit operator short?(VariantString @this) => short.TryParse(@this.String, out var ret).For(x => x ? ret : (short?)null);
         public static implicit operator ushort?(VariantString @this) => ushort.TryParse(@this.String, out var ret).For(x => x ? ret : (ushort?)null);
         public static implicit operator int?(VariantString @this) => int.TryParse(@this.String, out var ret).For(x => x ? ret : (int?)null);
@@ -135,6 +140,7 @@ namespace NStandard
             {
                 case char o: return String == o.ToString();
                 case byte o: return String == o.ToString();
+                case sbyte o: return String == o.ToString();
                 case short o: return String == o.ToString();
                 case ushort o: return String == o.ToString();
                 case int o: return String == o.ToString();
@@ -153,6 +159,7 @@ namespace NStandard
             {
                 case Type type when type == typeof(char?): return String == obj?.ToString();
                 case Type type when type == typeof(byte?): return String == obj?.ToString();
+                case Type type when type == typeof(sbyte?): return String == obj?.ToString();
                 case Type type when type == typeof(short?): return String == obj?.ToString();
                 case Type type when type == typeof(ushort?): return String == obj?.ToString();
                 case Type type when type == typeof(int?): return String == obj?.ToString();
