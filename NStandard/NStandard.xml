@@ -118,24 +118,6 @@
             <param name="separator"></param>
             <returns></returns>
         </member>
-        <member name="M:NStandard.XDelegate.Higher``1(System.Func{``0,``0},System.Int32)">
-            <summary>
-            Convert a function to its higher-order form.
-            </summary>
-            <typeparam name="TSelf"></typeparam>
-            <param name="this"></param>
-            <param name="degree"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.XDelegate.Higher``1(NStandard.SingleOpFunc{``0},System.Int32)">
-            <summary>
-            Convert a function to its higher-order form.
-            </summary>
-            <typeparam name="TSelf"></typeparam>
-            <param name="this"></param>
-            <param name="degree"></param>
-            <returns></returns>
-        </member>
         <member name="F:NStandard.Reference.DotNetFramework.TFM">
             <summary>
             Target Framework Moniker
@@ -916,6 +898,24 @@
             <param name="this"></param>
             <returns></returns>
         </member>
+        <member name="M:NStandard.XDelegate.Higher``1(System.Func{``0,``0},System.Int32)">
+            <summary>
+            Convert a function to its higher-order form.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="degree"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDelegate.Higher``1(NStandard.SingleOpFunc{``0},System.Int32)">
+            <summary>
+            Convert a function to its higher-order form.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="degree"></param>
+            <returns></returns>
+        </member>
         <member name="M:NStandard.XInt32.IsOdd(System.Int32)">
             <summary>
             Returns whether the specified number is odd.
@@ -1008,6 +1008,36 @@
             <param name="this"></param>
             <param name="param"></param>
             <param name="convert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XObject.Forward``1(``0,System.Func{``0,``0},System.Func{``0,System.Boolean})">
+            <summary>
+            Calculate the element by path and return the element that meet the stop condition.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="forward"></param>
+            <param name="stopCondition"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XObject.Forward``1(``0,System.Func{``0,``0},System.Func{``0,System.Int32,System.Boolean})">
+            <summary>
+            Calculate the element by path and return the element that meet the stop condition.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="forward"></param>
+            <param name="stopCondition"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XObject.Forward``1(``0,System.Func{``0,``0},System.Int32)">
+            <summary>
+            Calculate the element by path and return the element that meet the stop condition.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <param name="this"></param>
+            <param name="forward"></param>
+            <param name="degree"></param>
             <returns></returns>
         </member>
         <member name="M:NStandard.XObject.IsNull``1(``0)">

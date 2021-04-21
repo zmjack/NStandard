@@ -70,6 +70,52 @@ namespace NStandard
         public static TRet For<TSelf, TParam, TRet>(this TSelf @this, Func<TSelf, TParam, TRet> convert, TParam param) => convert(@this, param);
 
         /// <summary>
+        /// Calculate the element by path and return the element that meet the stop condition.
+        /// </summary>
+        /// <typeparam name="TSelf"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="forward"></param>
+        /// <param name="stopCondition"></param>
+        /// <returns></returns>
+        public static TSelf Forward<TSelf>(this TSelf @this, Func<TSelf, TSelf> forward, Func<TSelf, bool> stopCondition)
+        {
+            var current = @this;
+            while (!stopCondition(current)) current = forward(current);
+            return current;
+        }
+
+        /// <summary>
+        /// Calculate the element by path and return the element that meet the stop condition.
+        /// </summary>
+        /// <typeparam name="TSelf"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="forward"></param>
+        /// <param name="stopCondition"></param>
+        /// <returns></returns>
+        public static TSelf Forward<TSelf>(this TSelf @this, Func<TSelf, TSelf> forward, Func<TSelf, int, bool> stopCondition)
+        {
+            var current = @this;
+            for (int degree = 0; !stopCondition(current, degree); degree++) current = forward(current);
+            return current;
+        }
+
+        /// <summary>
+        /// Calculate the element by path and return the element that meet the stop condition.
+        /// </summary>
+        /// <typeparam name="TSelf"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="forward"></param>
+        /// <param name="degree"></param>
+        /// <returns></returns>
+        public static TSelf Forward<TSelf>(this TSelf @this, Func<TSelf, TSelf> forward, int degree)
+        {
+            if (degree < 0) throw new ArgumentException("The degree must be non-negative.", nameof(degree));
+            var current = @this;
+            for (int i = 0; i < degree; i++) current = forward(current);
+            return current;
+        }
+
+        /// <summary>
         /// Determines whether the specified object is null.
         /// </summary>
         /// <param name="this"></param>

@@ -75,7 +75,17 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void AsTest()
+        public void ForwardTest()
+        {
+            var exception = new Exception("3", new Exception("2", new Exception("1")));
+            Assert.Equal("1", exception.Forward(x => x.InnerException, x => x.InnerException is null).Message);
+            Assert.Equal("2", exception.Forward(x => x.InnerException, (x, degree) => degree == 1).Message);
+            Assert.Equal("2", exception.Forward(x => x.InnerException, 1).Message);
+            Assert.Equal("3", exception.Forward(x => x.InnerException, 0).Message);
+        }
+
+        [Fact]
+        public void MemoryAsTest()
         {
             // Hex: 0x3c75c28f
             // Dec: ‭‭1014350479‬‬
