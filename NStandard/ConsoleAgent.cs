@@ -8,34 +8,33 @@ namespace NStandard
     public class ConsoleAgent : Scope<ConsoleAgent>
     {
         protected static readonly object Locker = new();
-        protected readonly TextWriter OriginalOut;
-        protected StringBuilder Output;
-        protected TextWriter Writer;
+        protected readonly TextWriter OriginalOut = Console.Out;
+        protected readonly TextWriter OriginalError = Console.Error;
+        protected StringBuilder Output = new();
 
         protected ConsoleAgent()
         {
             Monitor.Enter(Locker);
-            OriginalOut = Console.Out;
-            Output = new StringBuilder();
-            Writer = new StringWriter(Output);
-            Console.SetOut(Writer);
+            var writer = new StringWriter(Output);
+            Console.SetOut(writer);
+            Console.SetError(writer);
         }
 
-        protected ConsoleAgent(TextWriter writer)
+        protected ConsoleAgent(TextWriter outWriter, TextWriter errorWriter)
         {
             Monitor.Enter(Locker);
-            OriginalOut = Console.Out;
-            Writer = writer;
-            Console.SetOut(Writer);
+            Console.SetOut(outWriter);
+            Console.SetError(errorWriter);
         }
 
         public static ConsoleAgent Begin() => new();
-        public static ConsoleAgent Begin(TextWriter writer) => new(writer);
+        public static ConsoleAgent Begin(TextWriter outWriter, TextWriter errorWriter) => new(outWriter, errorWriter);
 
         public override void Disposing()
         {
             Monitor.Exit(Locker);
             Console.SetOut(Current.OriginalOut);
+            Console.SetOut(Current.OriginalError);
         }
 
         public static string ReadAllText()

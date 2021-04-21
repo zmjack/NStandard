@@ -13,10 +13,9 @@ namespace NStandard.Test
             using (ConsoleAgent.Begin())
             {
                 Console.Write(123);
-                Assert.Equal("123", ConsoleAgent.ReadAllText());
-
+                Console.Error.Write("e");
                 Console.Write(456);
-                Assert.Equal("456", ConsoleAgent.ReadAllText());
+                Assert.Equal("123e456", ConsoleAgent.ReadAllText());
             }
         }
 
@@ -24,14 +23,14 @@ namespace NStandard.Test
         public void UseSpecifiedWriterTest()
         {
             var output = new StringBuilder();
-            var writer = new StringWriter(output);
-            using (ConsoleAgent.Begin(writer))
+            var errorOutput = new StringBuilder();
+            using (ConsoleAgent.Begin(new StringWriter(output), new StringWriter(errorOutput)))
             {
                 Console.Write(123);
-                Assert.Equal("123", output.ToString());
-
+                Console.Error.Write("e");
                 Console.Write(456);
                 Assert.Equal("123456", output.ToString());
+                Assert.Equal("e", errorOutput.ToString());
             }
         }
 
