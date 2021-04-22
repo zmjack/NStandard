@@ -129,6 +129,81 @@
             </summary>
             <typeparam name="TSelf"></typeparam>
         </member>
+        <member name="M:NStandard.Security.RsaProvider.Encrypt(System.Byte[])">
+            <summary>
+            Encrypt data for Pkcs1 padding.
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.Security.RsaProvider.Encrypt(System.Byte[],System.Security.Cryptography.RSAEncryptionPadding)">
+            <summary>
+            Encrypt data.
+            </summary>
+            <param name="data"></param>
+            <param name="padding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.Security.RsaProvider.Decrypt(System.Byte[])">
+            <summary>
+            Decrypt data for Pkcs1.
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.Security.RsaProvider.Decrypt(System.Byte[],System.Security.Cryptography.RSAEncryptionPadding)">
+            <summary>
+            Decrypt data.
+            </summary>
+            <param name="data"></param>
+            <param name="padding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.Security.AesProvider.#ctor(System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
+            <summary>
+            Create an AesProvider.
+            </summary>
+            <param name="cipher"></param>
+            <param name="padding"></param>
+        </member>
+        <member name="M:NStandard.Security.AesProvider.#ctor(System.Byte[],System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
+            <summary>
+            Create an AesProvider.
+            </summary>
+            <param name="key">The length of Key must be 16, 24 or 32.</param>
+            <param name="cipher"></param>
+            <param name="padding"></param>
+        </member>
+        <member name="M:NStandard.Security.DesProvider.#ctor(System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
+            <summary>
+            Create a DesProvider.
+            </summary>
+            <param name="cipher"></param>
+            <param name="padding"></param>
+        </member>
+        <member name="M:NStandard.Security.DesProvider.#ctor(System.Byte[],System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
+            <summary>
+            Create a DesProvider.
+            </summary>
+            <param name="key">The length of Key must be 8.</param>
+            <param name="cipher"></param>
+            <param name="padding"></param>
+        </member>
+        <member name="M:NStandard.Security.TripleDesProvider.#ctor(System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
+            <summary>
+            Create a <see cref="T:NStandard.Security.TripleDesProvider"/>.
+            </summary>
+            <param name="cipher"></param>
+            <param name="padding"></param>
+        </member>
+        <member name="M:NStandard.Security.TripleDesProvider.#ctor(System.Byte[],System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
+            <summary>
+            Create a <see cref="T:NStandard.Security.TripleDesProvider"/>.
+            </summary>
+            <param name="key">The length of Key must be 8.</param>
+            <param name="cipher"></param>
+            <param name="padding"></param>
+        </member>
         <member name="M:NStandard.ColorEx.CreateFromAhsv(System.Single,System.Single,System.Single)">
             <summary>
             Creates a color using Alpha(255) + HSV model.
