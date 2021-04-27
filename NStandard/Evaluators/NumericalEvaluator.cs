@@ -64,7 +64,7 @@ namespace NStandard.Evaluators
                 .OrderByDescending(x => x.Length)
                 .Select(x => x.RegexReplace(new Regex(@"([\[\]\-\.\^\$\{\}\?\+\*\|\(\)])"), "\\$1"))
                 .Join("|");
-            ResolveRegex = new Regex($@"^(?:\s*(\d+|\d+\.\d+|\-\d+|\-\d+\.\d+|0x[\da-fA-F]+|0[0-7]+|\$\{{\w+\}}|)\s*({operatorsPart}|$))+\s*$");
+            ResolveRegex = new Regex($@"^(?:\s*(\d+|\d+\.\d+|\-\d+|\-\d+\.\d+|0x[\da-fA-F]+|0[0-7]+|\$\{{[\w ]+\}}|)\s*({operatorsPart}|$))+\s*$");
         }
 
 #if NET35 || NET40 || NET45 || NET451 || NET46
