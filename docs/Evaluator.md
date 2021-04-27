@@ -55,7 +55,7 @@ or there is any parameter:
 ```csharp
 Evaluator.Numerical.Eval(
     "${price} >= 100 ? ${price} * 0.8 : ${price}", 
- 	new Dictionary<string, double>
+    new Dictionary<string, double>
     {
         ["price"] = 100,
     });
