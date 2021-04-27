@@ -13,6 +13,7 @@ namespace NStandard.Evaluators
     {
         protected abstract Dictionary<TOperator, int> OpLevels { get; }
         protected abstract Dictionary<TOperator, BinaryOpFunc<TOperand>> OpFunctions { get; }
+
 #if NET35 || NET40 || NET45 || NET451 || NET46
         protected virtual Dictionary<Tuple<TOperator, TOperator>, SingleOpFunc<TOperand>> BracketFunctions { get; } = new Dictionary<Tuple<TOperator, TOperator>, SingleOpFunc<TOperand>>();
 #else
@@ -55,7 +56,7 @@ namespace NStandard.Evaluators
                     var op = opStack.Pop();
                     var left = operandStack.Pop();
 
-                    if (openBrackets.Contains(op)) throw new ArgumentException($"Unclosed bracket( {op} ).");
+                    if (openBrackets.Contains(op)) throw new ArgumentException($"Unclosed bracket({op}).");
 
                     result = OpFunctions[op](left, result);
                 }
@@ -78,14 +79,14 @@ namespace NStandard.Evaluators
                     }
                     else
                     {
-                        if (openBrackets.Contains(op)) throw new ArgumentException($"Unexpected bracket( {op} ).");
+                        if (openBrackets.Contains(op)) throw new ArgumentException($"Unexpected bracket({op}).");
 
                         var left = operandStack.Pop();
                         result = OpFunctions[op](left, result);
                     }
                 }
 
-                if (!closed) throw new ArgumentException($"Unopened bracket( {closeBracket} ).");
+                if (!closed) throw new ArgumentException($"Unopened bracket({closeBracket}).");
 
 #if NET35 || NET40 || NET45 || NET451 || NET46
                 var func = BracketFunctions[Tuple.Create(openBracket, closeBracket)];

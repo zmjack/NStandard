@@ -18,12 +18,10 @@ namespace NStandard.Test
             public static Operand operator +(Operand left, Operand right) => new(left.Value + right.Value);
         }
 
-        private static T AddChecked<T>(T left, T right) => Dynamic.OpAddChecked(left, right);
-
         [Fact]
         public void Test1()
         {
-            Assert.Equal(416, AddChecked(400, 16));
+            Assert.Equal(416, Dynamic.OpAddChecked(400, 16));
         }
 
         [Fact]
@@ -31,7 +29,7 @@ namespace NStandard.Test
         {
             var o1 = new Operand(400);
             var o2 = new Operand(16);
-            var result = AddChecked(o1, o2);
+            var result = Dynamic.OpAddChecked(o1, o2);
 
             Assert.Equal(416, (o1 + o2).Value);
             Assert.Equal(416, result.Value);
@@ -42,7 +40,7 @@ namespace NStandard.Test
         {
             var o1 = new NoAddOperand(400);
             var o2 = new NoAddOperand(16);
-            Assert.Throws<TargetInvocationException>(() => AddChecked(o1, o2));
+            Assert.Throws<TargetInvocationException>(() => Dynamic.OpAddChecked(o1, o2));
         }
 
     }

@@ -7,6 +7,14 @@ namespace NStandard.Evaluators.Test
     public class NumberEvaluatorTests
     {
         [Fact]
+        public void ComplexTest()
+        {
+            var exp = "(((3 and 4 or 5) == 5 ? 0 : 3 ** 2) + 3 * 2 / 3) // 2 % 3";
+            var actual = Evaluator.Numerical.Eval(exp);
+            Assert.Equal(2, actual);
+        }
+
+        [Fact]
         public void NormalTest0()
         {
             var exp = "0.8";
@@ -36,6 +44,15 @@ namespace NStandard.Evaluators.Test
         {
             double excepted = 3 + 5 * 8.1 - 6;
             var exp = "3 + 5 * 8.1 - 6";
+            var actual = Evaluator.Numerical.Eval(exp);
+            Assert.Equal(excepted, actual);
+        }
+
+        [Fact]
+        public void TernaryTest()
+        {
+            double excepted = 1 >= 2 ? 3 : 4;
+            var exp = "1 >= 2 ? 3 : 4";
             var actual = Evaluator.Numerical.Eval(exp);
             Assert.Equal(excepted, actual);
         }
