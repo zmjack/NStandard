@@ -37,7 +37,7 @@ We provide a rich set of operators:
 |          | !=       | Not equal.                                                   | (2 != 3) is 1.                                  |
 | 11       | and      | **Returns** the **left-hand** expression **if** the **left-hand** expression **is 0**,<br/>**otherwise** the **right-hand** expression. | (3 and 5) is 5.<br/>(0 and 4) is 0.             |
 | 12       | or       | **Returns** the **left-hand** expression **if** the **left-hand** expression **is not 0**,<br/>**otherwise** the **right-hand** expression. | (3 or 5) is 3.<br/>(0 or 4) is 4.               |
-| 13       | ?        | **Returns** the **right-hand** expression **if** the **left-hand** expression **is not 0**,<br/>**otherwise** **double.NegativeInfinity**. | (2 > 3 ? 5) is -∞.<br/>(2 < 3 ? 5) is 3.        |
+| 13       | ?        | **Returns** the **right-hand** expression **if** the **left-hand** expression **is not 0**,<br/>**otherwise** **double.NegativeInfinity**. | (2 > 3 ? 5) is -∞.<br/>(2 < 3 ? 5) is 5.        |
 | 14       | :        | **Returns** the **right-hand** expression **if** the **left-hand** expression **is** **double.NegativeInfinity**,<br/>**otherwise** the **left-hand** expression. | (2 > 3 ? 5 : 7) is 7.<br/>(2 < 3 ? 5 : 7) is 5. |
 
 <br/>
