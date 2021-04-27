@@ -129,6 +129,7 @@ namespace NStandard.Evaluators
         }
 
         public double Eval(string exp) => Compile(exp)();
+        public double Eval(string exp, IDictionary<string, double> dict) => CompileParameterized(exp)(dict);
 
         public Func<double> Compile(string exp)
         {

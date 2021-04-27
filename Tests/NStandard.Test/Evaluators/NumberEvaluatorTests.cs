@@ -103,7 +103,7 @@ namespace NStandard.Evaluators.Test
         {
             double excepted = 1 + (2 * 3 - 4 * (5 + 6)) + 7;
             var exp = "1 + (2 * 3 - 4 * (5 + 6)) + 7";
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 100000; i++)
             {
                 var actual = Evaluator.Numerical.Eval(exp);
                 Assert.Equal(excepted, actual);
@@ -116,7 +116,7 @@ namespace NStandard.Evaluators.Test
             double excepted = 1 + (2 * 3 - 4 * (5 + 6)) + 7;
             var exp = "1 + (2 * 3 - 4 * (5 + 6)) + 7";
             var func = Evaluator.Numerical.Compile(exp);
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 100000; i++)
             {
                 var actual = func();
                 Assert.Equal(excepted, actual);
