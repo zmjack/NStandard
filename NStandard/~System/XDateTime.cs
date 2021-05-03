@@ -17,11 +17,8 @@ namespace NStandard
         public static DateTime PastDay(this DateTime @this, DayOfWeek dayOfWeek, bool includeCurrentDay = false)
         {
             var days = dayOfWeek - @this.DayOfWeek;
-
-            if (!includeCurrentDay && days == 0)
-                return @this.AddDays(-7);
-
-            return @this.AddDays(CastCycleDays(days, true));
+            if (!includeCurrentDay && days == 0) return @this.AddDays(-7);
+            else return @this.AddDays(CastCycleDays(days, true));
         }
 
         /// <summary>
@@ -35,10 +32,8 @@ namespace NStandard
         {
             var days = dayOfWeek - @this.DayOfWeek;
 
-            if (!includeCurrentDay && days == 0)
-                return @this.AddDays(7);
-
-            return @this.AddDays(CastCycleDays(days, false));
+            if (!includeCurrentDay && days == 0) return @this.AddDays(7);
+            else return @this.AddDays(CastCycleDays(days, false));
         }
 
         /// <summary>
@@ -53,9 +48,7 @@ namespace NStandard
             var day1 = new DateTime(@this.Year, @this.Month, 1, 0, 0, 0, @this.Kind);
             var week0 = PastDay(day1, weekStart, true);
 
-            if (week0.Month == @this.Month)
-                week0 = week0.AddDays(-7);
-
+            if (week0.Month == @this.Month) week0 = week0.AddDays(-7);
             return (PastDay(@this, weekStart, true) - week0).Days / 7;
         }
 
@@ -70,9 +63,7 @@ namespace NStandard
             var day1 = new DateTime(@this.Year, 1, 1, 0, 0, 0, @this.Kind);
             var week0 = PastDay(day1, weekStart, true);
 
-            if (week0.Year == @this.Year)
-                week0 = week0.AddDays(-7);
-
+            if (week0.Year == @this.Year) week0 = week0.AddDays(-7);
             return (PastDay(@this, weekStart, true) - week0).Days / 7;
         }
 
@@ -83,8 +74,8 @@ namespace NStandard
         /// <returns></returns>
         public static long ToUnixTimeMilliseconds(this DateTime @this)
         {
-	        long num = @this.ToUniversalTime().Ticks / 10000;
-	        return num - 62135596800000L;
+            long num = @this.ToUniversalTime().Ticks / 10000;
+            return num - 62135596800000L;
         }
 
         /// <summary>
