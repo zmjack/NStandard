@@ -67,7 +67,7 @@ namespace NStandard.Evaluators
             ResolveRegex = new Regex($@"^(?:\s*(\d+|\d+\.\d+|\-\d+|\-\d+\.\d+|0x[\da-fA-F]+|0[0-7]+|\$\{{[\w ]+\}}|)\s*({operatorsPart}|$))+\s*$");
         }
 
-#if NET35 || NET40 || NET45 || NET451 || NET46
+#if NET35 || NET40 || NET45 || NET451 || NET452 || NET46
         protected override Dictionary<Tuple<string, string>, SingleOpFunc<Expression>> BracketFunctions { get; } = new Dictionary<Tuple<string, string>, SingleOpFunc<Expression>>
         {
             [Tuple.Create("(", ")")] = null,

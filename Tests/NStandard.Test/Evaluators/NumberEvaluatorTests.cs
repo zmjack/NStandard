@@ -98,30 +98,5 @@ namespace NStandard.Evaluators.Test
             Assert.Throws<ArgumentException>(() => Evaluator.Numerical.Eval(exp));
         }
 
-        [Fact]
-        public void Eval1000Test()
-        {
-            double excepted = 1 + (2 * 3 - 4 * (5 + 6)) + 7;
-            var exp = "1 + (2 * 3 - 4 * (5 + 6)) + 7";
-            for (int i = 0; i < 100000; i++)
-            {
-                var actual = Evaluator.Numerical.Eval(exp);
-                Assert.Equal(excepted, actual);
-            }
-        }
-
-        [Fact]
-        public void Compiled1000Test()
-        {
-            double excepted = 1 + (2 * 3 - 4 * (5 + 6)) + 7;
-            var exp = "1 + (2 * 3 - 4 * (5 + 6)) + 7";
-            var func = Evaluator.Numerical.Compile(exp);
-            for (int i = 0; i < 100000; i++)
-            {
-                var actual = func();
-                Assert.Equal(excepted, actual);
-            }
-        }
-
     }
 }

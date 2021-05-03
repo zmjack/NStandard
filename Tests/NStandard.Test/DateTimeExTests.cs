@@ -37,7 +37,7 @@ namespace NStandard.Test
         [Fact]
         public void ExactYearDiffTest()
         {
-            Assert.Equal((29d * 24) / (366 * 24), DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 1), new DateTime(2020, 3, 1)), 2);
+            Assert.Equal(29d * 24 / (366 * 24), DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 1), new DateTime(2020, 3, 1)), 2);
             Assert.Equal((29d * 24 - 3d) / (366 * 24), DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 12, 0, 0)));
             Assert.Equal((29d * 24 + 3d) / (366 * 24), DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 18, 0, 0)));
             Assert.Equal((43d * 24) / (366 * 24), DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 1), new DateTime(2020, 3, 15)));
@@ -57,13 +57,13 @@ namespace NStandard.Test
         {
             var dt = new DateTime(1970, 1, 1, 16, 0, 0, DateTimeKind.Utc);
 
-            Assert.Equal(57600, dt.UnixTimeSeconds());
-            Assert.Equal(57600000, dt.UnixTimeMilliseconds());
+            Assert.Equal(57600, dt.ToUnixTimeSeconds());
+            Assert.Equal(57600000, dt.ToUnixTimeMilliseconds());
 
-            Assert.Equal(dt, DateTimeEx.FromUnixSeconds(57600));
-            Assert.Equal(dt, DateTimeEx.FromUnixMilliseconds(57600_000));
+            Assert.Equal(dt, DateTimeEx.FromUnixTimeSeconds(57600));
+            Assert.Equal(dt, DateTimeEx.FromUnixTimeMilliseconds(57600_000));
 
-            Assert.Equal(new DateTime(2018, 10, 31, 15, 55, 17), DateTimeEx.FromUnixSeconds(1540972517).ToLocalTime());
+            Assert.Equal(new DateTime(2018, 10, 31, 15, 55, 17), DateTimeEx.FromUnixTimeSeconds(1540972517).ToLocalTime());
         }
 
         [Fact]

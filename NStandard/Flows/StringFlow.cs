@@ -1,7 +1,7 @@
 ﻿using NStandard.Converts;
 using System;
 using System.Text;
-#if NET35 || NET40 || NET45 || NET451 || NET46
+#if NET35 || NET40 || NET45 || NET451 || NET452 || NET46
 using System.Web;
 #else
 using System.Net;
@@ -23,7 +23,7 @@ namespace NStandard.Flows
         public static Guid GuidFromBase64(string str) => new(str.For(BytesFromBase64));
         public static Guid GuidFromUrlSafeBase64(string str) => new(str.For(BytesFromUrlSafeBase64));
 
-#if NET35 || NET40 || NET45 || NET451 || NET46
+#if NET35 || NET40 || NET45 || NET451 || NET452 || NET46
         public static string UrlEncode(string str) => HttpUtility.UrlEncode(str);
         public static string UrlDecode(string str) => HttpUtility.UrlDecode(str);
         public static string HtmlEncode(string str) => HttpUtility.HtmlEncode(str);

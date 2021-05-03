@@ -174,7 +174,6 @@ namespace NStandard
             }
         }
 
-#if !NET35 && !NET40 && !NET45 && !NET451
         /// <summary>
         /// Projects some strings back into an instance's field or property. (Using `?` on the right side of a variable disables greedy matching)
         /// </summary>
@@ -182,22 +181,18 @@ namespace NStandard
         /// <param name="source"></param>
         /// <param name="instance"></param>
         /// <param name="patternExp"></param>
-        public static void Extract<TClass>(string source, TClass instance, Expression<Func<TClass, FormattableString>> patternExp)
-            where TClass : class
+        public static void Extract<TClass>(string source, TClass instance, Expression<Func<TClass, FormattableString>> patternExp) where TClass : class
         {
             var arguments = (patternExp.Body as MethodCallExpression)?.Arguments;
             if (arguments is null)
                 throw new ArgumentException($"The argument `{nameof(patternExp)}` must be return a single line FormattableString.");
 
             var format = (arguments[0] as ConstantExpression).Value.ToString();
-            var members = (arguments[1] as NewArrayExpression).Expressions.Select(exp =>
+            var members = (arguments[1] as NewArrayExpression).Expressions.Select(exp => exp switch
             {
-                switch (exp)
-                {
-                    case MemberExpression memberExp: return memberExp.Member;
-                    case UnaryExpression unaryExp: return (unaryExp.Operand as MemberExpression).Member;
-                    default: throw new ArgumentException("At least one member info can not be accessed.");
-                }
+                MemberExpression memberExp => memberExp.Member,
+                UnaryExpression unaryExp => (unaryExp.Operand as MemberExpression).Member,
+                _ => throw new ArgumentException("At least one member info can not be accessed."),
             }).ToArray();
 
             var prePattern = new[] { "/", "+", "*", "[", "]", "(", ")", "?", "|", "^" }
@@ -230,7 +225,6 @@ namespace NStandard
             }
             else throw new ArgumentException($"The argument `{nameof(patternExp)}` can not match the specified string.");
         }
-#endif
 
     }
 }

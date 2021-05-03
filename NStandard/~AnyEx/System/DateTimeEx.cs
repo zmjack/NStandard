@@ -18,84 +18,70 @@ namespace NStandard
         public static readonly DateTime UnixMinValue = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
-        /// Converts the sepecified Unix TimeStamp(seconds) to DateTime(UTC).
-        /// </summary>
-        /// <param name="seconds"></param>
-        /// <returns></returns>
-        public static DateTime FromUnixSeconds(long seconds) => FromUnixMilliseconds(seconds * 1000);
-
-        /// <summary>
-        /// Converts the sepecified Unix TimeStamp(milliseconds) to DateTime(UTC).
+        /// Converts a Unix time expressed as the number of milliseconds that have elapsed
+        ///     since 1970-01-01T00:00:00Z to a <see cref="DateTime"/> value.
         /// </summary>
         /// <param name="milliseconds"></param>
         /// <returns></returns>
-        public static DateTime FromUnixMilliseconds(long milliseconds) => new(milliseconds * 10000 + 621355968000000000, DateTimeKind.Utc);
+        public static DateTime FromUnixTimeMilliseconds(long milliseconds) => new(DateTimeOffsetEx.FromUnixTimeMilliseconds(milliseconds).Ticks, DateTimeKind.Utc);
 
         /// <summary>
-        /// Gets the Unix Timestamp(milliseconds) of the specified DateTime(UTC).
+        /// Converts a Unix time expressed as the number of seconds that have elapsed since
+        ///     1970-01-01T00:00:00Z to a <see cref="DateTime"/> value.
         /// </summary>
-        /// <param name="this"></param>
+        /// <param name="seconds"></param>
         /// <returns></returns>
-        public static long ToUnixTimeMilliseconds(DateTime @this) => (@this.ToUniversalTime().Ticks - 621355968000000000) / 10000;
-
-        /// <summary>
-        /// Gets the Unix Timestamp(seconds) of the specified DateTime(UTC).
-        /// </summary>
-        /// <param name="this"></param>
-        /// <returns></returns>
-        public static long ToUnixTimeSeconds(DateTime @this) => ToUnixTimeMilliseconds(@this) / 1000;
+        public static DateTime FromUnixTimeSeconds(long seconds) => new(DateTimeOffsetEx.FromUnixTimeSeconds(seconds).Ticks, DateTimeKind.Utc);
 
         /// <summary>
         /// Gets the range of months.
         /// </summary>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         /// <returns></returns>
-        public static IEnumerable<DateTime> GetMonths(DateTime startDate, DateTime endDate)
+        public static IEnumerable<DateTime> GetMonths(DateTime start, DateTime end)
         {
-            startDate = new DateTime(startDate.Year, startDate.Month, 1);
-            endDate = new DateTime(endDate.Year, endDate.Month, 1);
+            if (start.Kind != end.Kind) throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
 
-            for (var dt = startDate; dt <= endDate; dt = dt.AddMonths(1))
-                yield return dt;
+            start = new DateTime(start.Year, start.Month, 1, 0, 0, 0, start.Kind);
+            end = new DateTime(end.Year, end.Month, 1);
+            for (var dt = start; dt <= end; dt = dt.AddMonths(1)) yield return dt;
         }
 
         /// <summary>
         /// Gets the range of days.
         /// </summary>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         /// <returns></returns>
-        public static IEnumerable<DateTime> GetDays(DateTime startDate, DateTime endDate)
+        public static IEnumerable<DateTime> GetDays(DateTime start, DateTime end)
         {
-            startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day);
-            endDate = new DateTime(endDate.Year, endDate.Month, endDate.Day);
+            if (start.Kind != end.Kind) throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
 
-            for (var dt = startDate; dt <= endDate; dt = dt.AddDays(1))
-                yield return dt;
+            start = new DateTime(start.Year, start.Month, start.Day, 0, 0, 0, start.Kind);
+            end = new DateTime(end.Year, end.Month, end.Day);
+            for (var dt = start; dt <= end; dt = dt.AddDays(1)) yield return dt;
         }
 
         private static int PrivateYearDiff(DateTime start, DateTime end)
         {
-            if (end < start) throw new ArgumentException("The end time must be after or equal to the start time.");
+            var factor = start > end ? -1 : 1;
+            if (factor == -1) Any.Swap(ref start, ref end);
 
             var passedYears = end.Year - start.Year;
             var target = start.AddCompleteYears(passedYears);
-
-            if (end < target) return passedYears - 1;
-            else return passedYears;
+            return factor * (target > end ? passedYears - 1 : passedYears);
         }
 
         private static int PrivateMonthDiff(DateTime start, DateTime end)
         {
-            if (end < start) throw new ArgumentException("The end time must be after or equal to the start time.");
+            var factor = start > end ? -1 : 1;
+            if (factor == -1) Any.Swap(ref start, ref end);
 
             var passedYears = end.Year - start.Year;
             var passedMonths = end.Month - start.Month;
             var target = start.AddCompleteMonths(passedYears * 12 + passedMonths);
-
-            if (end < target) return passedYears * 12 + passedMonths - 1;
-            else return passedYears * 12 + passedMonths;
+            return factor * (target > end ? passedYears * 12 + passedMonths - 1 : passedYears * 12 + passedMonths);
         }
 
         /// <summary>
@@ -114,8 +100,8 @@ namespace NStandard
         /// <returns></returns>
         public static int MonthDiff(DateTime start, DateTime end)
         {
-            if (start <= end) return PrivateMonthDiff(start, end);
-            else return -PrivateMonthDiff(end, start);
+            if (start.Kind != end.Kind) throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
+            return PrivateMonthDiff(start, end);
         }
 
         /// <summary>
@@ -126,19 +112,9 @@ namespace NStandard
         /// <returns></returns>
         public static double ExactYearDiff(DateTime start, DateTime end)
         {
-            DateTime _start, _end;
-            if (start <= end)
-            {
-                _start = start;
-                _end = end;
-            }
-            else
-            {
-                _start = end;
-                _end = start;
-            }
+            if (start.Kind != end.Kind) throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
 
-            var diff = PrivateYearDiff(_start, _end);
+            var diff = PrivateYearDiff(start, end);
             var endStart = start.AddCompleteYears(diff);
             var endEnd = endStart.AddCompleteYears(1);
             return diff + (end - endStart).TotalDays / (endEnd - endStart).TotalDays;
@@ -152,19 +128,9 @@ namespace NStandard
         /// <returns></returns>
         public static double ExactMonthDiff(DateTime start, DateTime end)
         {
-            DateTime _start, _end;
-            if (start <= end)
-            {
-                _start = start;
-                _end = end;
-            }
-            else
-            {
-                _start = end;
-                _end = start;
-            }
+            if (start.Kind != end.Kind) throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
 
-            var diff = PrivateMonthDiff(_start, _end);
+            var diff = PrivateMonthDiff(start, end);
             var endStart = start.AddCompleteMonths(diff);
             var endEnd = endStart.AddCompleteMonths(1);
             return diff + (end - endStart).TotalDays / (endEnd - endStart).TotalDays;
@@ -177,14 +143,22 @@ namespace NStandard
         /// <param name="week"></param>
         /// <param name="weekStart"></param>
         /// <returns></returns>
-        public static DateTime ParseFromWeek(int year, int week, DayOfWeek weekStart = DayOfWeek.Sunday)
+        [Obsolete("This method will be removed in the future. Please use ParseFromWeek(int year, int week, DateTimeKind kind, DayOfWeek weekStart = DayOfWeek.Sunday) instead.")]
+        public static DateTime ParseFromWeek(int year, int week, DayOfWeek weekStart = DayOfWeek.Sunday) => ParseFromWeek(year, week, DateTimeKind.Unspecified, weekStart);
+
+        /// <summary>
+        /// Gets a DateTime for the specified week of year.
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="week"></param>
+        /// <param name="kind"></param>
+        /// <param name="weekStart"></param>
+        /// <returns></returns>
+        public static DateTime ParseFromWeek(int year, int week, DateTimeKind kind, DayOfWeek weekStart = DayOfWeek.Sunday)
         {
-            var day1 = new DateTime(year, 1, 1);
+            var day1 = new DateTime(year, 1, 1, 0, 0, 0, kind);
             var week0 = XDateTime.PastDay(day1, weekStart, true);
-
-            if (week0.Year == year)
-                week0 = week0.AddDays(-7);
-
+            if (week0.Year == year) week0 = week0.AddDays(-7);
             return week0.AddDays(week * 7);
         }
 

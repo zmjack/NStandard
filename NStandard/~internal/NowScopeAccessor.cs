@@ -16,7 +16,7 @@ namespace NStandard
             get
             {
                 var scope = NowScope.Current;
-                if (scope is null) throw new InvalidOperationException("No NowScope found.");
+                if (scope is null) throw new InvalidOperationException($"No {nameof(NowScope)} found.");
                 return scope.Now;
             }
         }
@@ -27,7 +27,7 @@ namespace NStandard
             get
             {
                 var scope = NowScope.Scopes.LastOrDefault();
-                if (scope is null) throw new InvalidOperationException("No NowScope found.");
+                if (scope is null) throw new InvalidOperationException($"No {nameof(NowScope)} found.");
                 return scope.Now;
             }
         }

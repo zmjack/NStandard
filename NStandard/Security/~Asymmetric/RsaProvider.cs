@@ -110,7 +110,7 @@ namespace NStandard.Security
         /// <returns></returns>
         public byte[] Encrypt(byte[] data, RSAEncryptionPadding padding)
         {
-#if NET35 || NET40 || NET45 || NET451
+#if NET35 || NET40 || NET45 || NET451 || NET452
             if (padding == RSAEncryptionPadding.Pkcs1) return _innerProvider.Encrypt(data, false);
             else if (padding == RSAEncryptionPadding.OaepSHA1) return _innerProvider.Encrypt(data, true);
             else throw new NotSupportedException("Only Pkcs1 and OaepSHA1 are supported.");
@@ -133,7 +133,7 @@ namespace NStandard.Security
         /// <returns></returns>
         public byte[] Decrypt(byte[] data, RSAEncryptionPadding padding)
         {
-#if NET35 || NET40 || NET45 || NET451
+#if NET35 || NET40 || NET45 || NET451 || NET452
             if (padding == RSAEncryptionPadding.Pkcs1) return _innerProvider.Decrypt(data, false);
             else if (padding == RSAEncryptionPadding.OaepSHA1) return _innerProvider.Decrypt(data, true);
             else throw new NotSupportedException("Only RSAEncryptionPadding.Pkcs1 and RSAEncryptionPadding.OaepSHA1 are supported.");
@@ -142,7 +142,7 @@ namespace NStandard.Security
 #endif
         }
 
-#if NET35 || NET40 || NET45 || NET451
+#if NET35 || NET40 || NET45 || NET451 || NET452
         private HashAlgorithm GetHashAlgorithm(HashAlgorithmName hashAlgorithm)
         {
             return hashAlgorithm switch
@@ -173,7 +173,7 @@ namespace NStandard.Security
         public byte[] SignData(byte[] data, HashAlgorithmName hashAlgorithm) => SignData(data, hashAlgorithm, RSASignaturePadding.Pkcs1);
         public byte[] SignData(byte[] data, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
         {
-#if NET35 || NET40 || NET45 || NET451
+#if NET35 || NET40 || NET45 || NET451 || NET452
             if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
             return _innerProvider.SignData(data, GetHashAlgorithm(hashAlgorithm));
 #else
@@ -184,7 +184,7 @@ namespace NStandard.Security
         public byte[] SignData(byte[] data, int offset, int count, HashAlgorithmName hashAlgorithm) => SignData(data, offset, count, hashAlgorithm, RSASignaturePadding.Pkcs1);
         public byte[] SignData(byte[] data, int offset, int count, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
         {
-#if NET35 || NET40 || NET45 || NET451
+#if NET35 || NET40 || NET45 || NET451 || NET452
             if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
             return _innerProvider.SignData(data, offset, count, GetHashAlgorithm(hashAlgorithm));
 #else
@@ -195,7 +195,7 @@ namespace NStandard.Security
         public byte[] SignData(Stream data, HashAlgorithmName hashAlgorithm) => SignData(data, hashAlgorithm, RSASignaturePadding.Pkcs1);
         public byte[] SignData(Stream data, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
         {
-#if NET35 || NET40 || NET45 || NET451
+#if NET35 || NET40 || NET45 || NET451 || NET452
             if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
             return _innerProvider.SignData(data, GetHashAlgorithm(hashAlgorithm));
 #else
@@ -206,7 +206,7 @@ namespace NStandard.Security
         public bool VerifyData(byte[] data, byte[] signature, HashAlgorithmName hashAlgorithm) => VerifyData(data, signature, hashAlgorithm, RSASignaturePadding.Pkcs1);
         public bool VerifyData(byte[] data, byte[] signature, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
         {
-#if NET35 || NET40 || NET45 || NET451
+#if NET35 || NET40 || NET45 || NET451 || NET452
             if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
             return _innerProvider.VerifyData(data, GetHashAlgorithm(hashAlgorithm), signature);
 #else
@@ -217,7 +217,7 @@ namespace NStandard.Security
         public bool VerifyData(byte[] data, int offset, int count, byte[] signature, HashAlgorithmName hashAlgorithm) => VerifyData(data, offset, count, signature, hashAlgorithm, RSASignaturePadding.Pkcs1);
         public bool VerifyData(byte[] data, int offset, int count, byte[] signature, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
         {
-#if NET35 || NET40 || NET45 || NET451
+#if NET35 || NET40 || NET45 || NET451 || NET452
             if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
             if (offset < 0) throw new ArgumentException("Non-negative number required.", nameof(offset));
             if (count < 0) throw new ArgumentException("Value was invalid.");
@@ -234,7 +234,7 @@ namespace NStandard.Security
         public bool VerifyData(Stream data, byte[] signature, HashAlgorithmName hashAlgorithm) => VerifyData(data, signature, hashAlgorithm, RSASignaturePadding.Pkcs1);
         public bool VerifyData(Stream data, byte[] signature, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
         {
-#if NET35 || NET40 || NET45 || NET451
+#if NET35 || NET40 || NET45 || NET451 || NET452
             if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
 
             using var stream = new MemoryStream();
@@ -248,7 +248,7 @@ namespace NStandard.Security
         public byte[] SignHash(byte[] hash, HashAlgorithmName hashAlgorithm) => SignHash(hash, hashAlgorithm, RSASignaturePadding.Pkcs1);
         public byte[] SignHash(byte[] hash, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
         {
-#if NET35 || NET40 || NET45 || NET451
+#if NET35 || NET40 || NET45 || NET451 || NET452
             if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
             return _innerProvider.SignHash(hash, GetOid(hashAlgorithm));
 #else
@@ -259,7 +259,7 @@ namespace NStandard.Security
         public bool VerifyHash(byte[] hash, byte[] signature, HashAlgorithmName hashAlgorithm) => VerifyHash(hash, signature, hashAlgorithm, RSASignaturePadding.Pkcs1);
         public bool VerifyHash(byte[] hash, byte[] signature, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
         {
-#if NET35 || NET40 || NET45 || NET451
+#if NET35 || NET40 || NET45 || NET451 || NET452
             if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
             return _innerProvider.VerifyHash(hash, GetOid(hashAlgorithm), signature);
 #else

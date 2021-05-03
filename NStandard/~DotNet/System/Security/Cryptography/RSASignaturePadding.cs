@@ -1,4 +1,4 @@
-﻿#if NET35 || NET40 || NET45 || NET451
+﻿#if NET35 || NET40 || NET45 || NET451 || NET452
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 

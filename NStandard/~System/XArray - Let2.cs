@@ -78,7 +78,7 @@ namespace NStandard
         /// <param name="offset"></param>
         /// <param name="inits"></param>
         /// <returns></returns>
-#if NET35 || NET40 || NET45 || NET451 || NET46
+#if NET35 || NET40 || NET45 || NET451 || NET452 || NET46
         public static TSelf[,] Let<TSelf>(this TSelf[,] @this, Tuple<int, int> offset, TSelf[] inits)
 #else
         public static TSelf[,] Let<TSelf>(this TSelf[,] @this, (int Item1, int Item2) offset, TSelf[] inits)

@@ -86,7 +86,7 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void GetElapsedTests()
+        public void GetElapsedTest()
         {
             Assert.Equal(63470131200000, new DateTime(2012, 4, 16).ElapsedMilliseconds());
             Assert.Equal(63470131200, new DateTime(2012, 4, 16).ElapsedSeconds());
@@ -95,6 +95,21 @@ namespace NStandard.Test
             Assert.Equal(734608, new DateTime(2012, 4, 16).ElapsedDays());
             Assert.Equal(24135.5, new DateTime(2012, 4, 16).ElapsedMonths());
             Assert.Equal(2011.2896174863388, new DateTime(2012, 4, 16).ElapsedYears());
+        }
+
+        [Fact]
+        public void ToUnixTimeMillisecondsTest()
+        {
+            var now = DateTime.Now;
+            var nowOffset = DateTimeOffset.Now;
+            Assert.Equal(nowOffset.ToUnixTimeSeconds(), now.ToUnixTimeSeconds());
+            Assert.Equal(nowOffset.ToUnixTimeMilliseconds(), now.ToUnixTimeMilliseconds());
+
+            Assert.Equal(DateTimeOffset.FromUnixTimeSeconds(63470131200), DateTimeOffsetEx.FromUnixTimeSeconds(63470131200));
+            Assert.Equal(DateTimeOffset.FromUnixTimeMilliseconds(63470131200000), DateTimeOffsetEx.FromUnixTimeMilliseconds(63470131200000));
+
+            Assert.Equal(DateTimeOffset.FromUnixTimeSeconds(63470131200), DateTimeEx.FromUnixTimeSeconds(63470131200));
+            Assert.Equal(DateTimeOffset.FromUnixTimeMilliseconds(63470131200000), DateTimeEx.FromUnixTimeMilliseconds(63470131200000));
         }
 
     }

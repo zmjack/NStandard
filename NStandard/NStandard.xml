@@ -237,48 +237,36 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:NStandard.DateTimeEx.FromUnixSeconds(System.Int64)">
+        <member name="M:NStandard.DateTimeEx.FromUnixTimeMilliseconds(System.Int64)">
             <summary>
-            Converts the sepecified Unix TimeStamp(seconds) to DateTime(UTC).
-            </summary>
-            <param name="seconds"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.FromUnixMilliseconds(System.Int64)">
-            <summary>
-            Converts the sepecified Unix TimeStamp(milliseconds) to DateTime(UTC).
+            Converts a Unix time expressed as the number of milliseconds that have elapsed
+                since 1970-01-01T00:00:00Z to a <see cref="T:System.DateTime"/> value.
             </summary>
             <param name="milliseconds"></param>
             <returns></returns>
         </member>
-        <member name="M:NStandard.DateTimeEx.ToUnixTimeMilliseconds(System.DateTime)">
+        <member name="M:NStandard.DateTimeEx.FromUnixTimeSeconds(System.Int64)">
             <summary>
-            Gets the Unix Timestamp(milliseconds) of the specified DateTime(UTC).
+            Converts a Unix time expressed as the number of seconds that have elapsed since
+                1970-01-01T00:00:00Z to a <see cref="T:System.DateTime"/> value.
             </summary>
-            <param name="this"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NStandard.DateTimeEx.ToUnixTimeSeconds(System.DateTime)">
-            <summary>
-            Gets the Unix Timestamp(seconds) of the specified DateTime(UTC).
-            </summary>
-            <param name="this"></param>
+            <param name="seconds"></param>
             <returns></returns>
         </member>
         <member name="M:NStandard.DateTimeEx.GetMonths(System.DateTime,System.DateTime)">
             <summary>
             Gets the range of months.
             </summary>
-            <param name="startDate"></param>
-            <param name="endDate"></param>
+            <param name="start"></param>
+            <param name="end"></param>
             <returns></returns>
         </member>
         <member name="M:NStandard.DateTimeEx.GetDays(System.DateTime,System.DateTime)">
             <summary>
             Gets the range of days.
             </summary>
-            <param name="startDate"></param>
-            <param name="endDate"></param>
+            <param name="start"></param>
+            <param name="end"></param>
             <returns></returns>
         </member>
         <member name="M:NStandard.DateTimeEx.YearDiff(System.DateTime,System.DateTime)">
@@ -322,6 +310,16 @@
             <param name="weekStart"></param>
             <returns></returns>
         </member>
+        <member name="M:NStandard.DateTimeEx.ParseFromWeek(System.Int32,System.Int32,System.DateTimeKind,System.DayOfWeek)">
+            <summary>
+            Gets a DateTime for the specified week of year.
+            </summary>
+            <param name="year"></param>
+            <param name="week"></param>
+            <param name="kind"></param>
+            <param name="weekStart"></param>
+            <returns></returns>
+        </member>
         <member name="M:NStandard.DateTimeEx.ParseExtract(System.String,System.String)">
             <summary>
             Converts the specified string representation of a date and time to its System.DateTime
@@ -350,6 +348,117 @@
             If the specified year is a leap year, return 366, else return 365.
             </summary>
             <param name="year"></param>
+            <returns></returns>
+        </member>
+        <member name="F:NStandard.DateTimeOffsetEx.UnixMinValue">
+            <summary>
+            Gets the DateTimeOffset(UTC) of UnixMinValue.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeOffsetEx.FromUnixTimeMilliseconds(System.Int64)">
+            <summary>
+            Converts a Unix time expressed as the number of milliseconds that have elapsed
+                since 1970-01-01T00:00:00Z to a <see cref="T:System.DateTimeOffset"/> value.
+            </summary>
+            <param name="milliseconds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeOffsetEx.FromUnixTimeSeconds(System.Int64)">
+            <summary>
+            Converts a Unix time expressed as the number of seconds that have elapsed since
+                1970-01-01T00:00:00Z to a <see cref="T:System.DateTimeOffset"/> value.
+            </summary>
+            <param name="seconds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeOffsetEx.GetMonths(System.DateTimeOffset,System.DateTimeOffset)">
+            <summary>
+            Gets the range of months.
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeOffsetEx.GetDays(System.DateTimeOffset,System.DateTimeOffset)">
+            <summary>
+            Gets the range of days.
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeOffsetEx.YearDiff(System.DateTimeOffset,System.DateTimeOffset)">
+            <summary>
+            The number of complete years in the period, similar as DATEDIF(*, *, "Y") function in Excel.
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeOffsetEx.MonthDiff(System.DateTimeOffset,System.DateTimeOffset)">
+            <summary>
+            The number of complete months in the period, similar as DATEDIF(*, *, "M") function in Excel.
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeOffsetEx.ExactYearDiff(System.DateTimeOffset,System.DateTimeOffset)">
+            <summary>
+            The number of complete years in the period, return a double value.
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeOffsetEx.ExactMonthDiff(System.DateTimeOffset,System.DateTimeOffset)">
+            <summary>
+            The number of complete months in the period, return a double value.
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeOffsetEx.ParseFromWeek(System.Int32,System.Int32,System.DayOfWeek)">
+            <summary>
+            Gets a DateTimeOffset for the specified week of year.
+            </summary>
+            <param name="year"></param>
+            <param name="week"></param>
+            <param name="weekStart"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeOffsetEx.ParseFromWeek(System.Int32,System.Int32,System.TimeSpan,System.DayOfWeek)">
+            <summary>
+            Gets a DateTimeOffset for the specified week of year.
+            </summary>
+            <param name="year"></param>
+            <param name="week"></param>
+            <param name="offset"></param>
+            <param name="weekStart"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeOffsetEx.ParseExtract(System.String,System.String)">
+            <summary>
+            Converts the specified string representation of a date and time to its System.DateTimeOffset
+                equivalent using the specified format and culture-specific format information.
+                The format of the string representation must match the specified format exactly.
+            </summary>
+            <param name="s"></param>
+            <param name="format"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.DateTimeOffsetEx.TryParseExtract(System.String,System.String,System.DateTimeOffset@)">
+            <summary>
+            Converts the specified string representation of a date and time to its System.DateTimeOffset
+                equivalent using the specified format, culture-specific format information, and
+                style. The format of the string representation must match the specified format
+                exactly. The method returns a value that indicates whether the conversion succeeded.
+            </summary>
+            <param name="s"></param>
+            <param name="format"></param>
+            <param name="result"></param>
             <returns></returns>
         </member>
         <member name="M:NStandard.ObjectEx.CrossEquals``1(``0[])">
@@ -810,16 +919,16 @@
             <param name="weekStart"></param>
             <returns></returns>
         </member>
-        <member name="M:NStandard.XDateTime.UnixTimeMilliseconds(System.DateTime)">
+        <member name="M:NStandard.XDateTime.ToUnixTimeMilliseconds(System.DateTime)">
             <summary>
-            Gets the Unix Timestamp(milliseconds) of the specified DateTime(UTC).
+            Returns the number of milliseconds that have elapsed since 1970-01-01T00:00:00.000Z.
             </summary>
             <param name="this"></param>
             <returns></returns>
         </member>
-        <member name="M:NStandard.XDateTime.UnixTimeSeconds(System.DateTime)">
+        <member name="M:NStandard.XDateTime.ToUnixTimeSeconds(System.DateTime)">
             <summary>
-            Gets the Unix Timestamp(seconds) of the specified DateTime(UTC).
+            Returns the number of seconds that have elapsed since 1970-01-01T00:00:00Z.
             </summary>
             <param name="this"></param>
             <returns></returns>
@@ -969,6 +1078,190 @@
         <member name="M:NStandard.XDateTime.ElapsedYears(System.DateTime)">
             <summary>
             Gets the number of years elapsed from <see cref="F:System.DateTime.MinValue"/>.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.PastDay(System.DateTimeOffset,System.DayOfWeek,System.Boolean)">
+            <summary>
+            Gets a past day for the specified day of week.
+            </summary>
+            <param name="this"></param>
+            <param name="dayOfWeek"></param>
+            <param name="includeCurrentDay"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.FutureDay(System.DateTimeOffset,System.DayOfWeek,System.Boolean)">
+            <summary>
+            Gets a future day for the specified day of week.
+            </summary>
+            <param name="this"></param>
+            <param name="dayOfWeek"></param>
+            <param name="includeCurrentDay"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.WeekInMonth(System.DateTimeOffset,System.DayOfWeek)">
+            <summary>
+            Gets the number of weeks in a month for the specified date.
+            (eg. If define Sunday as the fisrt day of the week, its first appearance means week 1, before is week 0.)
+            </summary>
+            <param name="this"></param>
+            <param name="weekStart"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.Week(System.DateTimeOffset,System.DayOfWeek)">
+            <summary>
+            Gets the number of weeks in a year for the specified date. 
+            </summary>
+            <param name="this"></param>
+            <param name="weekStart"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.StartOfYear(System.DateTimeOffset)">
+            <summary>
+            Get the start point of the sepecified month.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.StartOfMonth(System.DateTimeOffset)">
+            <summary>
+            Get the start point of the sepecified month.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.StartOfDay(System.DateTimeOffset)">
+            <summary>
+            Get the start point of the sepecified day.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.StartOfHour(System.DateTimeOffset)">
+            <summary>
+            Get the start point of the sepecified hour.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.StartOfMinute(System.DateTimeOffset)">
+            <summary>
+            Get the start point of the sepecified minute.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.StartOfSecond(System.DateTimeOffset)">
+            <summary>
+            Get the start point of the sepecified second.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.EndOfYear(System.DateTimeOffset)">
+            <summary>
+            Get the end point of the sepecified month.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.EndOfMonth(System.DateTimeOffset)">
+            <summary>
+            Get the end point of the sepecified month.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.EndOfDay(System.DateTimeOffset)">
+            <summary>
+            Get the end point of the sepecified day.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.EndOfHour(System.DateTimeOffset)">
+            <summary>
+            Get the end point of the sepecified hour.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.EndOfMinute(System.DateTimeOffset)">
+            <summary>
+            Get the end point of the sepecified minute.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.EndOfSecond(System.DateTimeOffset)">
+            <summary>
+            Get the end point of the sepecified second.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.AddCompleteYears(System.DateTimeOffset,System.Int32)">
+            <summary>
+            Returns a new <see cref="T:System.DateTimeOffset"/> that adds the specified number of complete years to the value of this instance.
+            </summary>
+            <param name="this"></param>
+            <param name="completeYears"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.AddCompleteMonths(System.DateTimeOffset,System.Int32)">
+            <summary>
+            Returns a new <see cref="T:System.DateTimeOffset"/> that adds the specified number of complete months to the value of this instance.
+            </summary>
+            <param name="this"></param>
+            <param name="completeMonths"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.ElapsedMilliseconds(System.DateTimeOffset)">
+            <summary>
+            Gets the number of milliseconds elapsed from <see cref="F:System.DateTimeOffset.MinValue"/>.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.ElapsedSeconds(System.DateTimeOffset)">
+            <summary>
+            Gets the number of seconds elapsed from <see cref="F:System.DateTimeOffset.MinValue"/>.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.ElapsedMinutes(System.DateTimeOffset)">
+            <summary>
+            Gets the number of minutes elapsed from <see cref="F:System.DateTimeOffset.MinValue"/>.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.ElapsedHours(System.DateTimeOffset)">
+            <summary>
+            Gets the number of hours elapsed from <see cref="F:System.DateTimeOffset.MinValue"/>.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.ElapsedDays(System.DateTimeOffset)">
+            <summary>
+            Gets the number of days elapsed from <see cref="F:System.DateTimeOffset.MinValue"/>.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.ElapsedMonths(System.DateTimeOffset)">
+            <summary>
+            Gets the number of months elapsed from <see cref="F:System.DateTimeOffset.MinValue"/>.
+            </summary>
+            <param name="this"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XDateTimeOffset.ElapsedYears(System.DateTimeOffset)">
+            <summary>
+            Gets the number of years elapsed from <see cref="F:System.DateTimeOffset.MinValue"/>.
             </summary>
             <param name="this"></param>
             <returns></returns>
