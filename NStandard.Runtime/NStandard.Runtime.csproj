@@ -17,6 +17,11 @@
 	  <PackageId>NStandard.Runtime</PackageId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" Condition="'$(TargetFramework)'=='netstandard2.0'" />
   </ItemGroup>
