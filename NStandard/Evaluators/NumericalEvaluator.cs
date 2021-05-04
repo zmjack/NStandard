@@ -62,7 +62,7 @@ namespace NStandard.Evaluators
             //    var exp = Expression.Condition(Expression.Equal(param, Expression.Constant(0d)), Expression.Constant(double.NaN), right);
             //    return Expression.Lambda<Func<double, double>>(exp, param);
             //})),
-            ["?"] = (left, right) => Expression.Condition(Expression.Or(Expression.Equal(left, Expression.Constant(0d)), Expression.Call(DoubleIsNaNMethod, left)), Expression.Constant(double.NaN), right),
+            ["?"] = (left, right) => Expression.Condition(Expression.Equal(left, Expression.Constant(0d)), Expression.Constant(double.NaN), right),
             // Slower code
             //[":"] = (left, right) => Expression.Call(ForMethod, left, Any.Create(() =>
             //{
