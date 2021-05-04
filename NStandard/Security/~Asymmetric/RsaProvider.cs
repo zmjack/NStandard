@@ -147,11 +147,11 @@ namespace NStandard.Security
         {
             return hashAlgorithm switch
             {
-                HashAlgorithmName _ when hashAlgorithm == HashAlgorithmName.MD5 => MD5.Create(),
-                HashAlgorithmName _ when hashAlgorithm == HashAlgorithmName.SHA1 => SHA1.Create(),
-                HashAlgorithmName _ when hashAlgorithm == HashAlgorithmName.SHA256 => SHA256.Create(),
-                HashAlgorithmName _ when hashAlgorithm == HashAlgorithmName.SHA384 => SHA384.Create(),
-                HashAlgorithmName _ when hashAlgorithm == HashAlgorithmName.SHA512 => SHA512.Create(),
+                HashAlgorithmName when hashAlgorithm == HashAlgorithmName.MD5 => MD5.Create(),
+                HashAlgorithmName when hashAlgorithm == HashAlgorithmName.SHA1 => SHA1.Create(),
+                HashAlgorithmName when hashAlgorithm == HashAlgorithmName.SHA256 => SHA256.Create(),
+                HashAlgorithmName when hashAlgorithm == HashAlgorithmName.SHA384 => SHA384.Create(),
+                HashAlgorithmName when hashAlgorithm == HashAlgorithmName.SHA512 => SHA512.Create(),
                 _ => throw new NotSupportedException(),
             };
         }
@@ -160,11 +160,11 @@ namespace NStandard.Security
         {
             return hashAlgorithm switch
             {
-                HashAlgorithmName _ when hashAlgorithm == HashAlgorithmName.MD5 => Oids.Md5,
-                HashAlgorithmName _ when hashAlgorithm == HashAlgorithmName.SHA1 => Oids.Sha1,
-                HashAlgorithmName _ when hashAlgorithm == HashAlgorithmName.SHA256 => Oids.Sha256,
-                HashAlgorithmName _ when hashAlgorithm == HashAlgorithmName.SHA384 => Oids.Sha384,
-                HashAlgorithmName _ when hashAlgorithm == HashAlgorithmName.SHA512 => Oids.Sha512,
+                HashAlgorithmName when hashAlgorithm == HashAlgorithmName.MD5 => Oids.Md5,
+                HashAlgorithmName when hashAlgorithm == HashAlgorithmName.SHA1 => Oids.Sha1,
+                HashAlgorithmName when hashAlgorithm == HashAlgorithmName.SHA256 => Oids.Sha256,
+                HashAlgorithmName when hashAlgorithm == HashAlgorithmName.SHA384 => Oids.Sha384,
+                HashAlgorithmName when hashAlgorithm == HashAlgorithmName.SHA512 => Oids.Sha512,
                 _ => throw new NotSupportedException(),
             };
         }

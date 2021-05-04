@@ -60,9 +60,9 @@ namespace NStandard
 
             switch (index)
             {
-                case int _ when index > 1: return $"{source.Slice(0, index - 1).ToLower()}{source[index - 1]}{source.Substring(index)}";
-                case int _ when index == 1: return $"{char.ToLower(source[0])}{source.Substring(index)}";
-                case int _ when index == 0: return source;
+                case int when index > 1: return $"{source.Slice(0, index - 1).ToLower()}{source[index - 1]}{source.Substring(index)}";
+                case int when index == 1: return $"{char.ToLower(source[0])}{source.Substring(index)}";
+                case int when index == 0: return source;
                 default: return source.ToLower();
             }
         }
@@ -85,10 +85,10 @@ namespace NStandard
             {
                 switch (_startIndex)
                 {
-                    case int _ when _startIndex == source.Length - 1:
+                    case int when _startIndex == source.Length - 1:
                         return "x";
 
-                    case int _ when _startIndex < source.Length - 1:
+                    case int when _startIndex < source.Length - 1:
                         var c1 = source[_startIndex];
                         var c2 = source[_startIndex + 1];
 

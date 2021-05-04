@@ -30,35 +30,35 @@ namespace NStandard
         {
             switch (@this)
             {
-                case Type _ when @this == typeof(object): return "object";
-                case Type _ when @this == typeof(char): return "char";
-                case Type _ when @this == typeof(bool): return "bool";
-                case Type _ when @this == typeof(byte): return "byte";
-                case Type _ when @this == typeof(sbyte): return "sbyte";
-                case Type _ when @this == typeof(short): return "short";
-                case Type _ when @this == typeof(ushort): return "ushort";
-                case Type _ when @this == typeof(int): return "int";
-                case Type _ when @this == typeof(uint): return "uint";
-                case Type _ when @this == typeof(long): return "long";
-                case Type _ when @this == typeof(ulong): return "ulong";
-                case Type _ when @this == typeof(float): return "float";
-                case Type _ when @this == typeof(double): return "double";
-                case Type _ when @this == typeof(decimal): return "decimal";
-                case Type _ when @this == typeof(string): return "string";
+                case Type when @this == typeof(object): return "object";
+                case Type when @this == typeof(char): return "char";
+                case Type when @this == typeof(bool): return "bool";
+                case Type when @this == typeof(byte): return "byte";
+                case Type when @this == typeof(sbyte): return "sbyte";
+                case Type when @this == typeof(short): return "short";
+                case Type when @this == typeof(ushort): return "ushort";
+                case Type when @this == typeof(int): return "int";
+                case Type when @this == typeof(uint): return "uint";
+                case Type when @this == typeof(long): return "long";
+                case Type when @this == typeof(ulong): return "ulong";
+                case Type when @this == typeof(float): return "float";
+                case Type when @this == typeof(double): return "double";
+                case Type when @this == typeof(decimal): return "decimal";
+                case Type when @this == typeof(string): return "string";
 
-                case Type _ when @this == typeof(char?): return "char?";
-                case Type _ when @this == typeof(bool?): return "bool?";
-                case Type _ when @this == typeof(byte?): return "byte?";
-                case Type _ when @this == typeof(sbyte?): return "sbyte?";
-                case Type _ when @this == typeof(short?): return "short?";
-                case Type _ when @this == typeof(ushort?): return "ushort?";
-                case Type _ when @this == typeof(int?): return "int?";
-                case Type _ when @this == typeof(uint?): return "uint?";
-                case Type _ when @this == typeof(long?): return "long?";
-                case Type _ when @this == typeof(ulong?): return "ulong?";
-                case Type _ when @this == typeof(float?): return "float?";
-                case Type _ when @this == typeof(double?): return "double?";
-                case Type _ when @this == typeof(decimal?): return "decimal?";
+                case Type when @this == typeof(char?): return "char?";
+                case Type when @this == typeof(bool?): return "bool?";
+                case Type when @this == typeof(byte?): return "byte?";
+                case Type when @this == typeof(sbyte?): return "sbyte?";
+                case Type when @this == typeof(short?): return "short?";
+                case Type when @this == typeof(ushort?): return "ushort?";
+                case Type when @this == typeof(int?): return "int?";
+                case Type when @this == typeof(uint?): return "uint?";
+                case Type when @this == typeof(long?): return "long?";
+                case Type when @this == typeof(ulong?): return "ulong?";
+                case Type when @this == typeof(float?): return "float?";
+                case Type when @this == typeof(double?): return "double?";
+                case Type when @this == typeof(decimal?): return "decimal?";
 
                 default:
                     if (@this.IsArray) return $"{GetSimplifiedName(@this.GetElementType())}[]";
@@ -86,44 +86,44 @@ namespace NStandard
         {
             switch (@this)
             {
-                case Type _ when @this == typeof(char):
-                case Type _ when @this == typeof(bool):
-                case Type _ when @this == typeof(byte):
-                case Type _ when @this == typeof(sbyte):
-                case Type _ when @this == typeof(short):
-                case Type _ when @this == typeof(ushort):
-                case Type _ when @this == typeof(int):
-                case Type _ when @this == typeof(uint):
-                case Type _ when @this == typeof(long):
-                case Type _ when @this == typeof(ulong):
-                case Type _ when @this == typeof(float):
-                case Type _ when @this == typeof(double):
-                case Type _ when @this == typeof(decimal):
-                case Type _ when @this == typeof(Guid):
-                case Type _ when @this == typeof(DateTime):
-                case Type _ when @this == typeof(string):
-                case Type _ when @this.IsEnum: return true;
+                case Type when @this == typeof(char):
+                case Type when @this == typeof(bool):
+                case Type when @this == typeof(byte):
+                case Type when @this == typeof(sbyte):
+                case Type when @this == typeof(short):
+                case Type when @this == typeof(ushort):
+                case Type when @this == typeof(int):
+                case Type when @this == typeof(uint):
+                case Type when @this == typeof(long):
+                case Type when @this == typeof(ulong):
+                case Type when @this == typeof(float):
+                case Type when @this == typeof(double):
+                case Type when @this == typeof(decimal):
+                case Type when @this == typeof(Guid):
+                case Type when @this == typeof(DateTime):
+                case Type when @this == typeof(string):
+                case Type when @this.IsEnum: return true;
             }
 
             if (includeNullable)
             {
                 switch (@this)
                 {
-                    case Type _ when @this == typeof(char?):
-                    case Type _ when @this == typeof(bool?):
-                    case Type _ when @this == typeof(byte?):
-                    case Type _ when @this == typeof(sbyte?):
-                    case Type _ when @this == typeof(short?):
-                    case Type _ when @this == typeof(ushort?):
-                    case Type _ when @this == typeof(int?):
-                    case Type _ when @this == typeof(uint?):
-                    case Type _ when @this == typeof(long?):
-                    case Type _ when @this == typeof(ulong?):
-                    case Type _ when @this == typeof(float?):
-                    case Type _ when @this == typeof(double?):
-                    case Type _ when @this == typeof(decimal?):
-                    case Type _ when @this == typeof(Guid?):
-                    case Type _ when @this == typeof(DateTime?): return true;
+                    case Type when @this == typeof(char?):
+                    case Type when @this == typeof(bool?):
+                    case Type when @this == typeof(byte?):
+                    case Type when @this == typeof(sbyte?):
+                    case Type when @this == typeof(short?):
+                    case Type when @this == typeof(ushort?):
+                    case Type when @this == typeof(int?):
+                    case Type when @this == typeof(uint?):
+                    case Type when @this == typeof(long?):
+                    case Type when @this == typeof(ulong?):
+                    case Type when @this == typeof(float?):
+                    case Type when @this == typeof(double?):
+                    case Type when @this == typeof(decimal?):
+                    case Type when @this == typeof(Guid?):
+                    case Type when @this == typeof(DateTime?): return true;
                 }
             }
 
@@ -134,34 +134,34 @@ namespace NStandard
         {
             switch (@this)
             {
-                case Type _ when @this == typeof(byte):
-                case Type _ when @this == typeof(sbyte):
-                case Type _ when @this == typeof(short):
-                case Type _ when @this == typeof(ushort):
-                case Type _ when @this == typeof(int):
-                case Type _ when @this == typeof(uint):
-                case Type _ when @this == typeof(long):
-                case Type _ when @this == typeof(ulong):
-                case Type _ when @this == typeof(float):
-                case Type _ when @this == typeof(double):
-                case Type _ when @this == typeof(decimal): return true;
+                case Type when @this == typeof(byte):
+                case Type when @this == typeof(sbyte):
+                case Type when @this == typeof(short):
+                case Type when @this == typeof(ushort):
+                case Type when @this == typeof(int):
+                case Type when @this == typeof(uint):
+                case Type when @this == typeof(long):
+                case Type when @this == typeof(ulong):
+                case Type when @this == typeof(float):
+                case Type when @this == typeof(double):
+                case Type when @this == typeof(decimal): return true;
             }
 
             if (includeNullable)
             {
                 switch (@this)
                 {
-                    case Type _ when @this == typeof(byte?):
-                    case Type _ when @this == typeof(sbyte?):
-                    case Type _ when @this == typeof(short?):
-                    case Type _ when @this == typeof(ushort?):
-                    case Type _ when @this == typeof(int?):
-                    case Type _ when @this == typeof(uint?):
-                    case Type _ when @this == typeof(long?):
-                    case Type _ when @this == typeof(ulong?):
-                    case Type _ when @this == typeof(float?):
-                    case Type _ when @this == typeof(double?):
-                    case Type _ when @this == typeof(decimal?): return true;
+                    case Type when @this == typeof(byte?):
+                    case Type when @this == typeof(sbyte?):
+                    case Type when @this == typeof(short?):
+                    case Type when @this == typeof(ushort?):
+                    case Type when @this == typeof(int?):
+                    case Type when @this == typeof(uint?):
+                    case Type when @this == typeof(long?):
+                    case Type when @this == typeof(ulong?):
+                    case Type when @this == typeof(float?):
+                    case Type when @this == typeof(double?):
+                    case Type when @this == typeof(decimal?): return true;
                 }
             }
 

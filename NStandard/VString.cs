@@ -15,7 +15,7 @@ namespace NStandard
         {
             switch (obj)
             {
-                case VString _: return String.Equals(((VString)obj).String);
+                case VString: return String.Equals(((VString)obj).String);
                 case string _obj: return String.Equals(_obj);
                 default: return Equals(String, obj);
             }

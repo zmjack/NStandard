@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NStandard.Diagnostics;
+using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -11,7 +12,7 @@ namespace NStandard.Evaluators.Test
         {
             var exp = "(((3 and 4 or 5) == 5 ? 0 : 3 ** 2) + 3 * 2 / 3) // 2 % 3";
             var actual = Evaluator.Numerical.Eval(exp);
-            Assert.Equal(2, actual);
+            Assert.Equal(2, actual, 2);
         }
 
         [Fact]

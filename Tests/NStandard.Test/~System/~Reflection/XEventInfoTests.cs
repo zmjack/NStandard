@@ -21,7 +21,7 @@ namespace NStandard.Test
             var functionType = typeof(OneClass).GetMethod(nameof(OneClass.Func));
 
             one.OnEvent += OneClass.Func;
-            eventType.AddEvent(one, functionType);
+            eventType.AddEventHandler(one, functionType);
 
             var list = new List<DateTime>();
             one.CallEvent(list);

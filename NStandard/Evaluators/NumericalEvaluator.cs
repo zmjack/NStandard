@@ -13,6 +13,8 @@ namespace NStandard.Evaluators
         private static readonly MethodInfo MathFloorMethod = typeof(Math).GetMethod("Floor", new[] { typeof(double) });
         private static readonly MethodInfo DictionaryGetItemMethod = typeof(IDictionary<,>).MakeGenericType(typeof(string), typeof(double)).GetMethod("get_Item");
         private static readonly MethodInfo DictionaryContainsKeyMethod = typeof(IDictionary<,>).MakeGenericType(typeof(string), typeof(double)).GetMethod("ContainsKey");
+        private static readonly MethodInfo DoubleIsNaNMethod = typeof(double).GetMethod("IsNaN");
+        private static readonly MethodInfo ForMethod = typeof(XObject).GetDeclaredMethodViaQualifiedName("TRet For[TSelf,TRet](TSelf, System.Func`2[TSelf,TRet])").MakeGenericMethod(typeof(double), typeof(double));
 
         protected override Dictionary<string, int> OpLevels { get; } = new Dictionary<string, int>
         {
@@ -31,8 +33,9 @@ namespace NStandard.Evaluators
             ["!="] = 7,
             ["and"] = 11,
             ["or"] = 12,
-            ["?"] = 13,
-            [":"] = 14,
+            ["??"] = 13,
+            ["?"] = 14,
+            [":"] = 15,
         };
         protected override Dictionary<string, BinaryOpFunc<Expression>> OpFunctions { get; } = new Dictionary<string, BinaryOpFunc<Expression>>
         {
@@ -51,8 +54,23 @@ namespace NStandard.Evaluators
             ["!="] = (left, right) => Expression.Condition(Expression.NotEqual(left, right), Expression.Constant(1d), Expression.Constant(0d)),
             ["and"] = (left, right) => Expression.Condition(Expression.Equal(left, Expression.Constant(0d)), left, right),
             ["or"] = (left, right) => Expression.Condition(Expression.NotEqual(left, Expression.Constant(0d)), left, right),
-            ["?"] = (left, right) => Expression.Condition(Expression.Equal(left, Expression.Constant(0d)), Expression.Constant(double.NegativeInfinity), right),
-            [":"] = (left, right) => Expression.Condition(Expression.NotEqual(left, Expression.Constant(double.NegativeInfinity)), left, right),
+            ["??"] = (left, right) => Expression.Condition(Expression.Call(DoubleIsNaNMethod, left), right, left),
+            // Slower code
+            //["?"] = (left, right) => Expression.Call(ForMethod, left, Any.Create(() =>
+            //{
+            //    var param = Expression.Parameter(typeof(double), "x");
+            //    var exp = Expression.Condition(Expression.Equal(param, Expression.Constant(0d)), Expression.Constant(double.NaN), right);
+            //    return Expression.Lambda<Func<double, double>>(exp, param);
+            //})),
+            ["?"] = (left, right) => Expression.Condition(Expression.Or(Expression.Equal(left, Expression.Constant(0d)), Expression.Call(DoubleIsNaNMethod, left)), Expression.Constant(double.NaN), right),
+            // Slower code
+            //[":"] = (left, right) => Expression.Call(ForMethod, left, Any.Create(() =>
+            //{
+            //    var param = Expression.Parameter(typeof(double), "x");
+            //    var exp = Expression.Condition(Expression.Call(DoubleIsNaNMethod, param), right, param);
+            //    return Expression.Lambda<Func<double, double>>(exp, param);
+            //})),
+            [":"] = (left, right) => Expression.Condition(Expression.Call(DoubleIsNaNMethod, left), right, left),
         };
         protected Regex ResolveRegex { get; }
 
@@ -64,7 +82,7 @@ namespace NStandard.Evaluators
                 .OrderByDescending(x => x.Length)
                 .Select(x => x.RegexReplace(new Regex(@"([\[\]\-\.\^\$\{\}\?\+\*\|\(\)])"), "\\$1"))
                 .Join("|");
-            ResolveRegex = new Regex($@"^(?:\s*(\d+|\d+\.\d+|\-\d+|\-\d+\.\d+|0x[\da-fA-F]+|0[0-7]+|\$\{{[\w ]+\}}|)\s*({operatorsPart}|$))+\s*$");
+            ResolveRegex = new Regex($@"^(?:\s*(\d+|\d+\.\d+|\-\d+|\-\d+\.\d+|0x[\da-fA-F]+|0[0-7]+|NaN|\$\{{[\w ]+\}}|)\s*({operatorsPart}|$))+\s*$");
         }
 
 #if NET35 || NET40 || NET45 || NET451 || NET452 || NET46
@@ -89,9 +107,11 @@ namespace NStandard.Evaluators
                     if (s.IsNullOrWhiteSpace()) return Expression.Constant(0d);
 
                     Expression ret;
-                    if (!s.Contains("."))
+                    if (s.Contains(".")) ret = Expression.Constant(Convert.ToDouble(s));
+                    else
                     {
-                        if (s.StartsWith("0x")) ret = Expression.Constant((double)Convert.ToInt64(s, 16));
+                        if (s == "NaN") ret = Expression.Constant(double.NaN);
+                        else if (s.StartsWith("0x")) ret = Expression.Constant((double)Convert.ToInt64(s, 16));
                         else if (s.StartsWith("0")) ret = Expression.Constant((double)Convert.ToInt64(s, 8));
                         else if (s.StartsWith("${") && s.EndsWith("}"))
                         {
@@ -106,7 +126,6 @@ namespace NStandard.Evaluators
                         }
                         else ret = Expression.Constant(Convert.ToDouble(s));
                     }
-                    else ret = Expression.Constant(Convert.ToDouble(s));
 
                     return ret;
                 }).ToArray();
