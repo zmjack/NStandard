@@ -102,17 +102,16 @@ namespace NStandard.Evaluators
             if (exp.TryResolve(ResolveRegex, out var parts))
             {
                 operators = parts[2].Where(x => x != "").ToArray();
-                operands = parts[1].Take(operators.Length + 1).Select(s =>
+                operands = parts[1].Take(operators.Length + 1).Select<string, Expression>(s =>
                 {
                     if (s.IsNullOrWhiteSpace()) return Expression.Constant(0d);
 
-                    Expression ret;
-                    if (s.Contains(".")) ret = Expression.Constant(Convert.ToDouble(s));
+                    if (s.Contains(".")) return Expression.Constant(Convert.ToDouble(s));
                     else
                     {
-                        if (s == "NaN") ret = Expression.Constant(double.NaN);
-                        else if (s.StartsWith("0x")) ret = Expression.Constant((double)Convert.ToInt64(s, 16));
-                        else if (s.StartsWith("0")) ret = Expression.Constant((double)Convert.ToInt64(s, 8));
+                        if (s == "NaN") return Expression.Constant(double.NaN);
+                        else if (s.StartsWith("0x")) return Expression.Constant((double)Convert.ToInt64(s, 16));
+                        else if (s.StartsWith("0")) return Expression.Constant((double)Convert.ToInt64(s, 8));
                         else if (s.StartsWith("${") && s.EndsWith("}"))
                         {
                             var key = s.Substring(2, s.Length - 3);
@@ -121,28 +120,45 @@ namespace NStandard.Evaluators
 
                             if (typeof(TParameterObj) == typeof(IDictionary<string, double>))
                             {
-                                ret = Expression.Condition(
-                                    Expression.Call(parameterObj, DictionaryContainsKeyMethod, name),
-                                    Expression.Call(parameterObj, DictionaryGetItemMethod, name),
-                                    Expression.Constant(0d));
+                                return
+                                    Expression.Condition(
+                                        Expression.Call(parameterObj, DictionaryContainsKeyMethod, name),
+                                        Expression.Call(parameterObj, DictionaryGetItemMethod, name),
+                                        Expression.Constant(0d));
                             }
                             else
                             {
                                 var propertyOrField = Expression.PropertyOrField(parameterObj, key);
-                                if (propertyOrField.Type != typeof(double))
+                                if (propertyOrField.Type == typeof(double)) return propertyOrField;
+                                if (propertyOrField.Type == typeof(bool))
                                 {
-                                    ret = Expression.Condition(
-                                        Expression.Equal(propertyOrField, Expression.Constant(null)),
-                                        Expression.Constant(double.NaN),
-                                        Expression.Convert(propertyOrField, typeof(double)));
+                                    return
+                                        Expression.Condition(
+                                            Expression.Equal(propertyOrField, Expression.Constant(true)),
+                                            Expression.Constant(1d), Expression.Constant(0d));
                                 }
-                                else ret = propertyOrField;
+                                else if (propertyOrField.Type == typeof(bool?))
+                                {
+                                    return
+                                        Expression.Condition(
+                                            Expression.Equal(propertyOrField, Expression.Constant(null)),
+                                            Expression.Constant(double.NaN),
+                                            Expression.Condition(
+                                                Expression.Equal(Expression.Convert(propertyOrField, typeof(bool)), Expression.Constant((bool?)true)),
+                                                Expression.Constant(1d), Expression.Constant(0d)));
+                                }
+                                else
+                                {
+                                    return
+                                        Expression.Condition(
+                                            Expression.Equal(propertyOrField, Expression.Constant(null)),
+                                            Expression.Constant(double.NaN),
+                                            Expression.Convert(propertyOrField, typeof(double)));
+                                }
                             }
                         }
-                        else ret = Expression.Constant(Convert.ToDouble(s));
+                        else return Expression.Constant(Convert.ToDouble(s));
                     }
-
-                    return ret;
                 }).ToArray();
             }
             else throw new ArgumentException($"Invalid expression string({exp}).");
