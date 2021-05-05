@@ -41,7 +41,8 @@ namespace NStandard
         /// <returns></returns>
         public static IEnumerable<DateTime> GetMonths(DateTime start, DateTime end)
         {
-            if (start.Kind != end.Kind) throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
+            if (start.Kind != DateTimeKind.Unspecified && end.Kind != DateTimeKind.Unspecified && start.Kind != end.Kind)
+                throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
 
             start = new DateTime(start.Year, start.Month, 1, 0, 0, 0, start.Kind);
             end = new DateTime(end.Year, end.Month, 1);
@@ -56,7 +57,8 @@ namespace NStandard
         /// <returns></returns>
         public static IEnumerable<DateTime> GetDays(DateTime start, DateTime end)
         {
-            if (start.Kind != end.Kind) throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
+            if (start.Kind != DateTimeKind.Unspecified && end.Kind != DateTimeKind.Unspecified && start.Kind != end.Kind)
+                throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
 
             start = new DateTime(start.Year, start.Month, start.Day, 0, 0, 0, start.Kind);
             end = new DateTime(end.Year, end.Month, end.Day);
@@ -100,7 +102,8 @@ namespace NStandard
         /// <returns></returns>
         public static int MonthDiff(DateTime start, DateTime end)
         {
-            if (start.Kind != end.Kind) throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
+            if (start.Kind != DateTimeKind.Unspecified && end.Kind != DateTimeKind.Unspecified && start.Kind != end.Kind)
+                throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
             return PrivateMonthDiff(start, end);
         }
 
@@ -112,7 +115,8 @@ namespace NStandard
         /// <returns></returns>
         public static double ExactYearDiff(DateTime start, DateTime end)
         {
-            if (start.Kind != end.Kind) throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
+            if (start.Kind != DateTimeKind.Unspecified && end.Kind != DateTimeKind.Unspecified && start.Kind != end.Kind)
+                throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
 
             var diff = PrivateYearDiff(start, end);
             var endStart = start.AddCompleteYears(diff);
@@ -128,7 +132,8 @@ namespace NStandard
         /// <returns></returns>
         public static double ExactMonthDiff(DateTime start, DateTime end)
         {
-            if (start.Kind != end.Kind) throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
+            if (start.Kind != DateTimeKind.Unspecified && end.Kind != DateTimeKind.Unspecified && start.Kind != end.Kind)
+                throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
 
             var diff = PrivateMonthDiff(start, end);
             var endStart = start.AddCompleteMonths(diff);
