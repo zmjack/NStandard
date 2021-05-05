@@ -97,7 +97,7 @@ namespace NStandard.Evaluators
         };
 #endif
 
-        public void Resolve(string exp, out Expression[] operands, out string[] operators, ParameterExpression dictionary)
+        public void Resolve<TParameterObj>(string exp, out Expression[] operands, out string[] operators, ParameterExpression parameterObj)
         {
             if (exp.TryResolve(ResolveRegex, out var parts))
             {
@@ -115,14 +115,29 @@ namespace NStandard.Evaluators
                         else if (s.StartsWith("0")) ret = Expression.Constant((double)Convert.ToInt64(s, 8));
                         else if (s.StartsWith("${") && s.EndsWith("}"))
                         {
-                            var name = Expression.Constant(s.Substring(2, s.Length - 3));
+                            var key = s.Substring(2, s.Length - 3);
+                            var name = Expression.Constant(key);
+                            if (parameterObj == null) throw new ArgumentException($"No dictionary or object found.");
 
-                            if (dictionary == null) throw new ArgumentException($"Parameter({name}) is not allowed.");
-
-                            ret = Expression.Condition(
-                                Expression.Call(dictionary, DictionaryContainsKeyMethod, name),
-                                Expression.Call(dictionary, DictionaryGetItemMethod, name),
-                                Expression.Constant(0d));
+                            if (typeof(TParameterObj) == typeof(IDictionary<string, double>))
+                            {
+                                ret = Expression.Condition(
+                                    Expression.Call(parameterObj, DictionaryContainsKeyMethod, name),
+                                    Expression.Call(parameterObj, DictionaryGetItemMethod, name),
+                                    Expression.Constant(0d));
+                            }
+                            else
+                            {
+                                var propertyOrField = Expression.PropertyOrField(parameterObj, key);
+                                if (propertyOrField.Type != typeof(double))
+                                {
+                                    ret = Expression.Condition(
+                                        Expression.Equal(propertyOrField, Expression.Constant(null)),
+                                        Expression.Constant(double.NaN),
+                                        Expression.Convert(propertyOrField, typeof(double)));
+                                }
+                                else ret = propertyOrField;
+                            }
                         }
                         else ret = Expression.Constant(Convert.ToDouble(s));
                     }
@@ -135,14 +150,21 @@ namespace NStandard.Evaluators
 
         public Expression Build(string exp)
         {
-            Resolve(exp, out var operands, out var operators, null);
+            Resolve<object>(exp, out var operands, out var operators, null);
             var expression = Eval(operands, operators);
             return expression;
         }
         public Expression BuildParameterized(string exp, out ParameterExpression dictionary)
         {
             dictionary = Expression.Parameter(typeof(IDictionary<,>).MakeGenericType(typeof(string), typeof(double)), "p");
-            Resolve(exp, out var operands, out var operators, dictionary);
+            Resolve<IDictionary<string, double>>(exp, out var operands, out var operators, dictionary);
+            var expression = Eval(operands, operators);
+            return expression;
+        }
+        public Expression BuildParameterized<TParameter>(string exp, out ParameterExpression parameter)
+        {
+            parameter = Expression.Parameter(typeof(TParameter), "p");
+            Resolve<TParameter>(exp, out var operands, out var operators, parameter);
             var expression = Eval(operands, operators);
             return expression;
         }
@@ -162,6 +184,14 @@ namespace NStandard.Evaluators
         {
             var expression = BuildParameterized(exp, out var dictionary);
             var lambda = Expression.Lambda<Func<IDictionary<string, double>, double>>(expression, dictionary);
+            var target = lambda.Compile();
+            return target;
+        }
+
+        public Func<TParameter, double> CompileParameterized<TParameter>(string exp)
+        {
+            var expression = BuildParameterized<TParameter>(exp, out var parameter);
+            var lambda = Expression.Lambda<Func<TParameter, double>>(expression, parameter);
             var target = lambda.Compile();
             return target;
         }
