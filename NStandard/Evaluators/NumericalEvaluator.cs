@@ -150,11 +150,15 @@ namespace NStandard.Evaluators
                                 }
                                 else
                                 {
-                                    return
-                                        Expression.Condition(
-                                            Expression.Equal(propertyOrField, Expression.Constant(null)),
-                                            Expression.Constant(double.NaN),
-                                            Expression.Convert(propertyOrField, typeof(double)));
+                                    if (propertyOrField.Type.IsNullable())
+                                    {
+                                        return
+                                            Expression.Condition(
+                                                Expression.Equal(propertyOrField, Expression.Constant(null)),
+                                                Expression.Constant(double.NaN),
+                                                Expression.Convert(propertyOrField, typeof(double)));
+                                    }
+                                    else return Expression.Convert(propertyOrField, typeof(double));
                                 }
                             }
                         }
