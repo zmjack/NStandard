@@ -99,6 +99,7 @@ namespace NStandard.Evaluators
 
         public void Resolve<TParameterObj>(string exp, out Expression[] operands, out string[] operators, ParameterExpression parameterObj)
         {
+            exp ??= "";
             if (exp.TryResolve(ResolveRegex, out var parts))
             {
                 operators = parts[2].Where(x => x != "").ToArray();
