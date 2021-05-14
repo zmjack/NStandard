@@ -476,6 +476,13 @@
             <param name="strings"></param>
             <returns></returns>
         </member>
+        <member name="M:NStandard.StringEx.PascalCase(System.String)">
+            <summary>
+            Converts a string to PascalCase string.
+            </summary>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
         <member name="M:NStandard.StringEx.CamelCase(System.String)">
             <summary>
             Converts a string to CamelCase string.
@@ -1275,7 +1282,7 @@
             <param name="degree"></param>
             <returns></returns>
         </member>
-        <member name="M:NStandard.XDelegate.Higher``1(NStandard.SingleOpFunc{``0},System.Int32)">
+        <member name="M:NStandard.XDelegate.Higher``1(NStandard.UnaryOpFunc{``0},System.Int32)">
             <summary>
             Convert a function to its higher-order form.
             </summary>

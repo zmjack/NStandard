@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace NStandard
+namespace NStandard.Obsolete.Evaluators
 {
     public class NumericalRTEvaluator : Evaluator<double, string>
     {
@@ -31,7 +31,7 @@ namespace NStandard
             [Tuple.Create("(", ")")] = null,
         };
 #else
-        protected override Dictionary<(string, string), SingleOpFunc<double>> BracketFunctions { get; } = new Dictionary<(string, string), SingleOpFunc<double>>
+        protected override Dictionary<(string, string), UnaryOpFunc<double>> BracketFunctions { get; } = new Dictionary<(string, string), UnaryOpFunc<double>>
         {
             [("(", ")")] = null,
         };

@@ -32,14 +32,14 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="degree"></param>
         /// <returns></returns>
-        public static SingleOpFunc<TSelf> Higher<TSelf>(this SingleOpFunc<TSelf> @this, int degree)
+        public static UnaryOpFunc<TSelf> Higher<TSelf>(this UnaryOpFunc<TSelf> @this, int degree)
         {
             var parameter = Expression.Parameter(typeof(TSelf), "Param_0");
             var func = Expression.Constant(@this);
             Expression higher = parameter;
             for (int i = 0; i < degree; i++)
                 higher = Expression.Invoke(func, higher);
-            var lambda = Expression.Lambda<SingleOpFunc<TSelf>>(higher, parameter);
+            var lambda = Expression.Lambda<UnaryOpFunc<TSelf>>(higher, parameter);
             return lambda.Compile();
         }
 

@@ -46,6 +46,25 @@ namespace NStandard
         }
 
         /// <summary>
+        /// Converts a string to PascalCase string.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string PascalCase(string source)
+        {
+            if (source.IsNullOrEmpty()) return source;
+
+            static bool IsNotUpper(char c) => c < 'A' || 'Z' < c;
+            var index = source.IndexOf(IsNotUpper);
+
+            switch (index)
+            {
+                case int when index == 0: return $"{char.ToUpper(source[0])}{source.Substring(1)}";
+                default: return source;
+            }
+        }
+
+        /// <summary>
         /// Converts a string to CamelCase string.
         /// </summary>
         /// <param name="source"></param>
@@ -53,9 +72,8 @@ namespace NStandard
         public static string CamelCase(string source)
         {
             if (source.IsNullOrEmpty()) return source;
-            if (!source.All(c => 31 < c && c < 127)) throw new ArgumentException("Some chars is out of allowed range(ascii, 32 to 126).");
 
-            bool IsNotUpper(char c) => c < 'A' || 'Z' < c;
+            static bool IsNotUpper(char c) => c < 'A' || 'Z' < c;
             var index = source.IndexOf(IsNotUpper);
 
             switch (index)
@@ -63,7 +81,7 @@ namespace NStandard
                 case int when index > 1: return $"{source.Slice(0, index - 1).ToLower()}{source[index - 1]}{source.Substring(index)}";
                 case int when index == 1: return $"{char.ToLower(source[0])}{source.Substring(index)}";
                 case int when index == 0: return source;
-                default: return source.ToLower();
+                default: return source;
             }
         }
 
@@ -75,18 +93,16 @@ namespace NStandard
         public static string KebabCase(string source)
         {
             if (source.IsNullOrEmpty()) return source;
-            if (!source.All(c => 31 < c && c < 127)) throw new ArgumentException("Some chars is out of allowed range(ascii, 32 to 126).");
 
-            bool IsUpper(char c) => 'A' <= c && c <= 'Z';
-            bool IsNotUpper(char c) => c < 'A' || 'Z' < c;
+            static bool IsUpper(char c) => 'A' <= c && c <= 'Z';
+            static bool IsNotUpper(char c) => c < 'A' || 'Z' < c;
 
             var sb = new StringBuilder();
             string GetPattern(int _startIndex)
             {
                 switch (_startIndex)
                 {
-                    case int when _startIndex == source.Length - 1:
-                        return "x";
+                    case int when _startIndex == source.Length - 1: return "$";
 
                     case int when _startIndex < source.Length - 1:
                         var c1 = source[_startIndex];
@@ -107,45 +123,42 @@ namespace NStandard
             {
                 var pattern = GetPattern(startIndex);
                 int index;
-                switch (pattern)
+                var prefix = startIndex == 0 ? "" : "-";
+
+                if (pattern == "$")
                 {
-                    case "x":
-                        sb.Append(source[startIndex]);
-                        startIndex++;
-                        break;
-
-                    case "bb":
-                    case "Ab":
-                        index = source.IndexOf(IsUpper, startIndex + 1);
-                        if (index != -1)
-                            sb.Append($"-{source.Slice(startIndex, index).ToLower()}");
-                        else sb.Append($"-{source.Slice(startIndex).ToLower()}");
-                        startIndex = index;
-                        break;
-
-                    case "bA":
-                        sb.Append($"-{source[startIndex]}");
-                        break;
-
-                    case "AA":
-                        index = source.IndexOf(IsNotUpper, startIndex + 1);
-                        if (index != -1)
-                        {
-                            sb.Append($"-{source.Slice(startIndex, index - 1).ToLower()}");
-                            startIndex = index - 1;
-                        }
-                        else
-                        {
-                            sb.Append($"-{source.Slice(startIndex).ToLower()}");
-                            startIndex = -1;
-                        }
-                        break;
-
-                    default: throw new InvalidOperationException();
+                    sb.Append($"{prefix}{source[startIndex].ToLower()}");
+                    break;
+                }
+                else if (pattern == "Ab" || pattern == "bb")
+                {
+                    index = source.IndexOf(IsUpper, startIndex + 1);
+                    if (index != -1) sb.Append($"{prefix}{source.Slice(startIndex, index).ToLower()}");
+                    else sb.Append($"{prefix}{source.Slice(startIndex).ToLower()}");
+                    startIndex = index;
+                }
+                else if (pattern == "bA")
+                {
+                    sb.Append($"{source[startIndex]}");
+                    startIndex++;
+                }
+                else if (pattern == "AA")
+                {
+                    index = source.IndexOf(IsNotUpper, startIndex + 1);
+                    if (index != -1)
+                    {
+                        sb.Append($"{prefix}{source.Slice(startIndex, index - 1).ToLower()}");
+                        startIndex = index - 1;
+                    }
+                    else
+                    {
+                        sb.Append($"{prefix}{source.Slice(startIndex).ToLower()}");
+                        startIndex = -1;
+                    }
                 }
             }
 
-            return sb.ToString().Substring(1);
+            return sb.ToString();
         }
 
         public static bool IsValidFileName(string source, PlatformID? platformID = null)

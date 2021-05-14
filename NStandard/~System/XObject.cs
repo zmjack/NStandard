@@ -109,7 +109,7 @@ namespace NStandard
         /// <returns></returns>
         public static TSelf Forward<TSelf>(this TSelf @this, Func<TSelf, TSelf> forward, int degree)
         {
-            if (degree < 0) throw new ArgumentException("The degree must be non-negative.", nameof(degree));
+            if (degree < 0) throw new ArgumentException("The degree must be nonnegative.", nameof(degree));
             var current = @this;
             for (int i = 0; i < degree; i++) current = forward(current);
             return current;

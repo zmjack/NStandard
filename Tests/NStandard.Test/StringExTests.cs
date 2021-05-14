@@ -33,7 +33,6 @@ namespace NStandard.Test
             Assert.Equal("mySQL", StringEx.CamelCase("MySQL"));
             Assert.Equal("gate2Name", StringEx.CamelCase("gate2Name"));
             Assert.Equal("dawnxV2", StringEx.CamelCase("DAWNXV2"));
-            Assert.Throws<ArgumentException>(() => StringEx.CamelCase("Exception\0"));
         }
 
         [Fact]
@@ -44,7 +43,6 @@ namespace NStandard.Test
             Assert.Equal("my-sql", StringEx.KebabCase("MySQL"));
             Assert.Equal("gate2-name", StringEx.KebabCase("gate2Name"));
             Assert.Equal("dawnx-v2", StringEx.KebabCase("DAWNXV2"));
-            Assert.Throws<ArgumentException>(() => StringEx.KebabCase("Exception\0"));
         }
 
         [Fact]
