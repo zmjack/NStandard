@@ -26,9 +26,21 @@ namespace NStandard.Test
         }
 
         [Fact]
+        public void PascalCaseTest()
+        {
+            Assert.Equal("", StringEx.PascalCase(""));
+            Assert.Equal("ABC", StringEx.PascalCase("ABC"));
+            Assert.Equal("CPKey", StringEx.PascalCase("CPKey"));
+            Assert.Equal("MySQL", StringEx.PascalCase("MySQL"));
+            Assert.Equal("Gate2Name", StringEx.PascalCase("gate2Name"));
+            Assert.Equal("DAWNXV2", StringEx.PascalCase("DAWNXV2"));
+        }
+
+        [Fact]
         public void CamelCaseTest()
         {
             Assert.Equal("", StringEx.CamelCase(""));
+            Assert.Equal("abc", StringEx.CamelCase("ABC"));
             Assert.Equal("cpKey", StringEx.CamelCase("CPKey"));
             Assert.Equal("mySQL", StringEx.CamelCase("MySQL"));
             Assert.Equal("gate2Name", StringEx.CamelCase("gate2Name"));
@@ -39,6 +51,7 @@ namespace NStandard.Test
         public void KebabCaseTest()
         {
             Assert.Equal("", StringEx.KebabCase(""));
+            Assert.Equal("abc", StringEx.KebabCase("ABC"));
             Assert.Equal("cp-key", StringEx.KebabCase("CPKey"));
             Assert.Equal("my-sql", StringEx.KebabCase("MySQL"));
             Assert.Equal("gate2-name", StringEx.KebabCase("gate2Name"));

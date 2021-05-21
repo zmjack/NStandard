@@ -81,7 +81,7 @@ namespace NStandard
                 case int when index > 1: return $"{source.Slice(0, index - 1).ToLower()}{source[index - 1]}{source.Substring(index)}";
                 case int when index == 1: return $"{char.ToLower(source[0])}{source.Substring(index)}";
                 case int when index == 0: return source;
-                default: return source;
+                default: return source.ToLower();
             }
         }
 
