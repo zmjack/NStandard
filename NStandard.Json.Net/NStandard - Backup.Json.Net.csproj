@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>net20;net35;net40;net45;netstandard1.0;netstandard1.3;netstandard2.0</TargetFrameworks>
     <Authors>zmjack</Authors>
     <Version>0.0.2</Version>
     <Company>nstandard.net</Company>
@@ -23,7 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,10 +35,6 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\NStandard\NStandard.csproj" />
   </ItemGroup>
 
 </Project>

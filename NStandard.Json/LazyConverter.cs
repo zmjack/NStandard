@@ -4,36 +4,25 @@ using System.Text.Json.Serialization;
 
 namespace NStandard.Json
 {
-    public class LazyConverter<T> : JsonConverter<Lazy<T>>
+    public class LazyConverter<TValue> : JsonConverter<Lazy<TValue>>
     {
-        private Lazy<T> CreateLazy(T value)
+        private Lazy<TValue> CreateLazy(TValue value)
         {
-            var lazy = new Lazy<T>(() => value);
+            var lazy = new Lazy<TValue>(() => value);
             var ret = lazy.Value;
             return lazy;
         }
 
-        public override Lazy<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override Lazy<TValue> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            object value = reader.TokenType switch
-            {
-                JsonTokenType.True => true,
-                JsonTokenType.False => false,
-                JsonTokenType.Number when reader.TryGetInt64(out long l) => l,
-                JsonTokenType.Number => reader.GetDouble(),
-                JsonTokenType.String when reader.TryGetDateTime(out DateTime datetime) => datetime,
-                JsonTokenType.String => reader.GetString(),
-                _ => JsonDocument.ParseValue(ref reader).RootElement.Clone(),
-            };
-
-            if (value is JsonElement element)
-                return CreateLazy(JsonSerializer.Deserialize<T>(element.GetRawText()));
-            else return CreateLazy((T)value);
+            if (reader.TokenType == JsonTokenType.Null) return null;
+            var value = JsonSerializer.Deserialize<TValue>(ref reader, options);
+            return CreateLazy(value);
         }
 
-        public override void Write(Utf8JsonWriter writer, Lazy<T> value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, Lazy<TValue> value, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, value.Value, typeof(T), options);
+            JsonSerializer.Serialize(writer, value.Value, typeof(TValue), options);
         }
     }
 }
