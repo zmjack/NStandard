@@ -33,9 +33,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NStandard.NET45.Test", "Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Diagnostics", "NStandard.Diagnostics\NStandard.Diagnostics.csproj", "{98130AD0-19AB-496E-821B-6500AF76B996}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NStandard.Json", "NStandard.Json\NStandard.Json.csproj", "{DA04EB75-C1BF-480B-B0FB-5EDD986A28B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Json", "NStandard.Json\NStandard.Json.csproj", "{DA04EB75-C1BF-480B-B0FB-5EDD986A28B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NStandard.Json.Net", "NStandard.Json.Net\NStandard.Json.Net.csproj", "{E03827F8-AA7A-4FCA-A9CF-D8460A6B35EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NStandard.Json.Net", "NStandard.Json.Net\NStandard.Json.Net.csproj", "{E03827F8-AA7A-4FCA-A9CF-D8460A6B35EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
