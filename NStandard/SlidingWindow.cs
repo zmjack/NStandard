@@ -36,14 +36,12 @@ namespace NStandard
             _maxIndex = capacity - 1;
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Fill(T obj)
         {
-            var lastIndex = IsFilled ? _maxIndex : _fillCount;
-
-            for (int i = lastIndex; i >= 1; i--)
+            var startIndex = IsFilled ? 0 : _maxIndex - _fillCount;
+            for (int i = startIndex; i < _maxIndex; i++)
             {
-                _store[i - 1] = _store[i];
+                _store[i] = _store[i + 1];
             }
             _store[_maxIndex] = obj;
 

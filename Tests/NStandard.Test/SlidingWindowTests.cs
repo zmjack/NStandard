@@ -10,12 +10,11 @@ namespace NStandard.Test
         public void Test1()
         {
             var numbers = new[] { 100, 200, 300, 400 };
-            var result = SlidingWindow.Slide(numbers, 2).Select(x => x.ToArray());
+            var result = SlidingWindow.Slide(numbers, 3).Select(x => x.ToArray());
             Assert.Equal(new[]
             {
-                new[] { 100, 200 },
-                new[] { 200, 300 },
-                new[] { 300, 400 },
+                new[] { 100, 200, 300 },
+                new[] { 200, 300, 400 },
             }, result);
         }
 
