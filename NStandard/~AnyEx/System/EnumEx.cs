@@ -11,8 +11,7 @@ namespace NStandard
             if (!enumType.IsEnum) throw new ArgumentException($"The `{nameof(enumType)}` must be enum type.");
 
             var names = Enum.GetNames(enumType);
-            var ret = names.Select(name => new EnumOption(enumType, name)).ToArray();
-            return ret;
+            return names.Select(name => new EnumOption(enumType, name)).ToArray();
         }
 
         public static EnumOption<TEnum, TUnderlying>[] GetOptions<TEnum, TUnderlying>()
@@ -20,12 +19,31 @@ namespace NStandard
             where TUnderlying : struct
         {
             var enumType = typeof(TEnum);
-
             if (!enumType.IsEnum) throw new ArgumentException($"The `{nameof(enumType)}` must be enum type.");
 
             var names = Enum.GetNames(enumType);
-            var ret = names.Select(name => new EnumOption<TEnum, TUnderlying>(name)).ToArray();
-            return ret;
+            return names.Select(name => new EnumOption<TEnum, TUnderlying>(name)).ToArray();
+        }
+
+        public static EnumOption[] GetFlagOptions(Type enumType)
+        {
+            if (!enumType.IsEnum) throw new ArgumentException($"The `{nameof(enumType)}` must be enum type.");
+
+            var flags = GetFlags(enumType);
+            var names = Enum.GetNames(enumType).Where(x => flags.Contains(x.ToString()));
+            return names.Select(name => new EnumOption(enumType, name)).ToArray();
+        }
+
+        public static EnumOption<TEnum, TUnderlying>[] GetFlagOptions<TEnum, TUnderlying>()
+            where TEnum : struct
+            where TUnderlying : struct
+        {
+            var enumType = typeof(TEnum);
+            if (!enumType.IsEnum) throw new ArgumentException($"The `{nameof(enumType)}` must be enum type.");
+
+            var flags = GetFlags(enumType);
+            var names = Enum.GetNames(enumType).Where(x => flags.Contains(x.ToString()));
+            return names.Select(name => new EnumOption<TEnum, TUnderlying>(name)).ToArray();
         }
 
         public static TEnum[] GetFlags<TEnum>() where TEnum : Enum
