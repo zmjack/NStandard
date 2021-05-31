@@ -66,50 +66,5 @@ namespace NStandard.Test
             Assert.Equal(new DateTime(2018, 10, 31, 15, 55, 17), DateTimeEx.FromUnixTimeSeconds(1540972517).ToLocalTime());
         }
 
-        [Fact]
-        public void ScopedNowTest1()
-        {
-            using (DateTimeEx.BeginNowScope())
-            {
-                var before = DateTimeEx.NowScopes.Current;
-                Thread.Sleep(1000);
-                var after = DateTimeEx.NowScopes.Current;
-                Assert.Equal(before, after);
-            }
-        }
-
-        [Fact]
-        public void ScopedNowTest2()
-        {
-            using (DateTimeEx.BeginNowScope(now => now.StartOfDay()))
-            {
-                var before = DateTimeEx.NowScopes.Current;
-                Thread.Sleep(1000);
-                var after = DateTimeEx.NowScopes.Current;
-                Assert.Equal(before, after);
-            }
-        }
-
-        [Fact]
-        public void ScopedNowTest3()
-        {
-            using (DateTimeEx.BeginNowScope())
-            {
-                var outermost = DateTimeEx.NowScopes.Current;
-
-                Thread.Sleep(1000);
-                using (DateTimeEx.BeginNowScope())
-                {
-                    var before = DateTimeEx.NowScopes.Current;
-                    Thread.Sleep(1000);
-                    var after = DateTimeEx.NowScopes.Current;
-
-                    Assert.Equal(before, after);
-                    Assert.Equal(outermost, DateTimeEx.NowScopes.Outermost);
-                }
-
-            }
-        }
-
     }
 }

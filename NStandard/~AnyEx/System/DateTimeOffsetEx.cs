@@ -6,11 +6,6 @@ namespace NStandard
 {
     public static class DateTimeOffsetEx
     {
-        public static NowOffsetScope BeginNowOffsetScope() => new();
-        public static NowOffsetScope BeginNowOffsetScope(Func<DateTimeOffset, DateTimeOffset> store) => new(store);
-
-        public static NowOffsetScopeAccessor NowOffsetScopes => NowOffsetScopeAccessor.Instance;
-
         /// <summary>
         /// Gets the DateTimeOffset(UTC) of UnixMinValue.
         /// </summary>
