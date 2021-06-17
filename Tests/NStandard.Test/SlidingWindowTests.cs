@@ -48,5 +48,13 @@ namespace NStandard.Test
             Assert.Equal(excepted, list2.ToArray());
         }
 
+        [Fact]
+        public void Test3()
+        {
+            var numbers = new[] { 100, 200, 300, 400 };
+            var result = SlidingWindow.Slide(numbers, -1, 1).Select(x => x[0]);
+            Assert.Equal(new[] { 200, 300 }, result);
+        }
+
     }
 }
