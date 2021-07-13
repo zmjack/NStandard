@@ -18,6 +18,16 @@ namespace NStandard
                 yield return generate(i);
         }
 
+        public static IEnumerable<T> Create<T>(T start, Func<T, T> generate, Func<T, int, bool> condition)
+        {
+            int i = 0;
+            for (T item = start; condition(item, i); item = generate(item))
+            {
+                yield return item;
+                i++;
+            }
+        }
+
         public static IEnumerable<TSelf> CreateFromLinked<TSelf>(TSelf @this, Func<TSelf, TSelf> selector)
         {
             var select = @this;
