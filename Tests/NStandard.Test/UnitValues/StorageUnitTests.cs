@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
+﻿using Xunit;
 
 namespace NStandard.UnitValues.Test
 {
@@ -10,10 +7,24 @@ namespace NStandard.UnitValues.Test
         [Fact]
         public void Test1()
         {
-            var a = new StorageValue(1, "mB");
-            var b = StorageValue.Parse(".1 kB");
-            Assert.Equal(1048678.4, (a + b).Format("B").Value);
-            Assert.Equal(8389427.2, (a + b).Format("b").Value);
+            var a = StorageValue.Parse(".5 MB");
+            var b = new StorageValue(512, "KB");
+
+            Assert.Equal(1024, (a + b).Format("KB").Value);
+            Assert.Equal(1024 * 1024, (a + b).Format("B").Value);
+
+            Assert.Equal(1, (a + b).Value);
+            Assert.Equal(0, (a - b).Value);
+            Assert.Equal(1, (a * 2).Value);
+            Assert.Equal(0.25, (a / 2).Value);
+
+            Assert.True(a == b);
+            Assert.False(a != b);
+
+            Assert.False(a < b);
+            Assert.True(a <= b);
+            Assert.False(a > b);
+            Assert.True(a >= b);
         }
 
     }

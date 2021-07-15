@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NStandard.UnitValues
+﻿namespace NStandard.UnitValues
 {
     public interface IUnitValue<TSelf, TUnit, TValue> where TSelf : IUnitValue<TSelf, TUnit, TValue>
     {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace NStandard.UnitValues
@@ -29,12 +28,12 @@ namespace NStandard.UnitValues
             return new(number, unit);
         }
 
-        public StorageValue Format(string unit)
+        public StorageValue Format(string targetUnit)
         {
-            if (!IsValidUnit(unit)) throw new ArgumentException($"Invalid unit({unit}).", nameof(unit));
-            if (Unit == unit) return this;
+            if (!IsValidUnit(targetUnit)) throw new ArgumentException($"Invalid unit({targetUnit}).", nameof(targetUnit));
+            if (Unit == targetUnit) return this;
 
-            return new(Value * UnitLevelDict[Unit] / UnitLevelDict[unit], unit);
+            return new(Value * UnitLevelDict[Unit] / UnitLevelDict[targetUnit], targetUnit);
         }
 
         private static readonly Dictionary<string, long> UnitLevelDict = new()
@@ -92,6 +91,52 @@ namespace NStandard.UnitValues
         public static StorageValue operator /(StorageValue left, double right)
         {
             return new(left.Value / right, left.Unit);
+        }
+
+        public static double operator /(StorageValue left, StorageValue right)
+        {
+            return left.Value / right.Format(left.Unit).Value;
+        }
+
+        public static bool operator ==(StorageValue left, StorageValue right)
+        {
+            var unit = GetLessUnit(left, right);
+            return left.Format(unit).Value == right.Format(unit).Value;
+        }
+
+        public static bool operator !=(StorageValue left, StorageValue right)
+        {
+            var unit = GetLessUnit(left, right);
+            return left.Format(unit).Value != right.Format(unit).Value;
+        }
+
+        public static bool operator <=(StorageValue left, StorageValue right)
+        {
+            var unit = GetLessUnit(left, right);
+            return left.Format(unit).Value <= right.Format(unit).Value;
+        }
+
+        public static bool operator <(StorageValue left, StorageValue right)
+        {
+            var unit = GetLessUnit(left, right);
+            return left.Format(unit).Value < right.Format(unit).Value;
+        }
+
+        public static bool operator >(StorageValue left, StorageValue right)
+        {
+            var unit = UnitLevelDict[left.Unit] <= UnitLevelDict[right.Unit] ? left.Unit : right.Unit;
+            return left.Format(unit).Value > right.Format(unit).Value;
+        }
+
+        public static bool operator >=(StorageValue left, StorageValue right)
+        {
+            var unit = UnitLevelDict[left.Unit] <= UnitLevelDict[right.Unit] ? left.Unit : right.Unit;
+            return left.Format(unit).Value >= right.Format(unit).Value;
+        }
+
+        private static string GetLessUnit(StorageValue left, StorageValue right)
+        {
+            return UnitLevelDict[left.Unit] <= UnitLevelDict[right.Unit] ? left.Unit : right.Unit;
         }
 
         public override string ToString()

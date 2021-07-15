@@ -3,9 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>zmjack</Authors>
-    <Version>0.0.2</Version>
+    <Version>0.0.3</Version>
     <Company>nstandard.net</Company>
-    <Description>Json extensions for System.Text.Json.</Description>
+    <Description>Json extensions for System.Text.Json.
+- Includes built-in type compatibility, such as Lazy&lt;T&gt;.
+- As well as Newtonsoft.Json behavior compatibility.</Description>
     <Copyright>Copyright © nstandard.net 2021</Copyright>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>nstandard.net</PackageProjectUrl>

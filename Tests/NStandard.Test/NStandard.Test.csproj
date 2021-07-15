@@ -28,6 +28,8 @@
     <ProjectReference Include="..\..\NStandard.Dev\[NoRelease] NStandard.Dev.csproj" />
     <ProjectReference Include="..\..\NStandard.Diagnostics\NStandard.Diagnostics.csproj" />
     <ProjectReference Include="..\..\NStandard.Encoding\NStandard.Encoding.csproj" />
+    <ProjectReference Include="..\..\NStandard.Json.Net\NStandard.Json.Net.csproj" />
+    <ProjectReference Include="..\..\NStandard.Json\NStandard.Json.csproj" />
     <ProjectReference Include="..\..\NStandard.Runtime\NStandard.Runtime.csproj" />
     <ProjectReference Include="..\..\NStandard.Trees\NStandard.Trees.csproj" />
     <ProjectReference Include="..\..\NStandard\NStandard.csproj" />

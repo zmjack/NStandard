@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net40;net45;netstandard1.0;netstandard1.3;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net40;net45;netstandard2.0</TargetFrameworks>
     <Authors>zmjack</Authors>
-    <Version>0.0.2</Version>
+    <Version>0.0.3</Version>
     <Company>nstandard.net</Company>
-    <Description>Json extensions for System.Text.Json.</Description>
+    <Description>Json extensions for Newtonsoft.Json.
+- Includes built-in type compatibility, such as Lazy&lt;T&gt;.</Description>
     <Copyright>Copyright © nstandard.net 2021</Copyright>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>nstandard.net</PackageProjectUrl>
@@ -35,6 +36,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NStandard\NStandard.csproj" />
   </ItemGroup>
 
 </Project>
