@@ -15,7 +15,7 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void Test1()
+        public void GetOptionsTest1()
         {
             var enumType = typeof(TestEnums);
             var enumOptions = EnumEx.GetOptions(typeof(TestEnums));
@@ -31,7 +31,7 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void Test2()
+        public void GetOptionsTest2()
         {
             var enumOptions = EnumEx.GetOptions<TestEnums, int>();
             Assert.Equal(new[]
@@ -46,14 +46,14 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void Test3()
+        public void GetFlagsTest1()
         {
             Assert.Equal(new object[] { TestEnums.A, TestEnums.B }, EnumEx.GetFlags(typeof(TestEnums)));
             Assert.Equal(new[] { TestEnums.A, TestEnums.B }, EnumEx.GetFlags<TestEnums>());
         }
 
         [Fact]
-        public void Test4()
+        public void GetFlagsTest2()
         {
             Assert.Equal(new[] { TestEnums.A }, TestEnums.A.GetFlags());
             Assert.Equal(new[] { TestEnums.B }, TestEnums.B.GetFlags());

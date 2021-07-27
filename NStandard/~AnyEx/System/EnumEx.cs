@@ -29,7 +29,7 @@ namespace NStandard
         {
             if (!enumType.IsEnum) throw new ArgumentException($"The `{nameof(enumType)}` must be enum type.");
 
-            var flags = GetFlags(enumType);
+            var flags = GetFlags(enumType).Select(x => x.ToString()).ToArray();
             var names = Enum.GetNames(enumType).Where(x => flags.Contains(x.ToString()));
             return names.Select(name => new EnumOption(enumType, name)).ToArray();
         }
@@ -41,7 +41,7 @@ namespace NStandard
             var enumType = typeof(TEnum);
             if (!enumType.IsEnum) throw new ArgumentException($"The `{nameof(enumType)}` must be enum type.");
 
-            var flags = GetFlags(enumType);
+            var flags = GetFlags(enumType).Select(x => x.ToString()).ToArray();
             var names = Enum.GetNames(enumType).Where(x => flags.Contains(x.ToString()));
             return names.Select(name => new EnumOption<TEnum, TUnderlying>(name)).ToArray();
         }
