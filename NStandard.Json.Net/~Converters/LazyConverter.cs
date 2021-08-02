@@ -35,7 +35,6 @@ namespace NStandard.Json.Net
         {
             var valueType = value.GetType();
             if (!CanConvert(valueType)) throw new InvalidOperationException($"The converter specified on '{writer.Path}' is not compatible with the type '{typeof(Lazy<>)}'.");
-
             var underlyingValue = GetValue(value);
             serializer.Serialize(writer, underlyingValue);
         }

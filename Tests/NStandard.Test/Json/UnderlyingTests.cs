@@ -17,17 +17,9 @@ namespace NStandard.Json.Test
             new Net.LazyConverter(),
         };
 
-        private string NJson(object obj) => NewtonsoftJson.SerializeObject(obj, _converters);
-        private T FromNJson<T>(string json) => NewtonsoftJson.DeserializeObject<T>(json, _converters);
-
-        private string SJson(object obj) => SystemJson.Serialize(obj, _options);
-        private T FromSJson<T>(string json) => SystemJson.Deserialize<T>(json, _options);
-
-
         [Fact]
         public void SerializeTest()
         {
-            var now = DateTime.Now;
             var values = new object[]
             {
                 new Lazy<byte>(123),
@@ -40,14 +32,12 @@ namespace NStandard.Json.Test
                 new Lazy<float>(123.456f),
                 new Lazy<double>(123.456),
                 new Lazy<decimal>(123.456m),
-                new Lazy<DateTime>(now),
+                new Lazy<DateTime>(new DateTime(2000, 1, 2, 0, 10, 20)),
             };
 
             foreach (var value in values)
             {
-                var njson = NJson(value);
-                var sjson = SJson(value);
-                Assert.Equal(njson, sjson);
+                Assert.True(NewtonsoftJson.SerializeObject(value, _converters) == SystemJson.Serialize(value, _options));
             }
         }
 
@@ -56,22 +46,21 @@ namespace NStandard.Json.Test
         {
             void AssertValue<T>(T expected, string json)
             {
-                var nvalue = FromNJson<Lazy<T>>(json);
-                var svalue = FromSJson<Lazy<T>>(json);
-                Assert.Equal(expected, nvalue.Value);
-                Assert.Equal(nvalue.Value, svalue.Value);
+                Assert.Equal(expected, SystemJson.Deserialize<Lazy<T>>(json, _options).Value);
+                Assert.Equal(expected, NewtonsoftJson.DeserializeObject<Lazy<T>>(json, _converters).Value);
             }
 
-            AssertValue((byte)97, "97");
-            AssertValue((short)97, "97");
-            AssertValue((ushort)97, "97");
-            AssertValue(97, "97");
-            AssertValue(97u, "97");
-            AssertValue(97L, "97");
-            AssertValue(97uL, "97");
-            AssertValue(97f, "97");
-            AssertValue(97d, "97");
-            AssertValue(97m, "97");
+            AssertValue((byte)123, "123");
+            AssertValue((short)123, "123");
+            AssertValue((ushort)123, "123");
+            AssertValue((int)123, "123");
+            AssertValue((uint)123, "123");
+            AssertValue((long)123, "123");
+            AssertValue((ulong)123, "123");
+            AssertValue((float)123.456, "123.456");
+            AssertValue((double)123.456, "123.456");
+            AssertValue((decimal)123.456, "123.456");
+            AssertValue("123", "\"123\"");
             AssertValue(new DateTime(2000, 1, 2, 0, 10, 20), "\"2000-01-02T00:10:20\"");
         }
 

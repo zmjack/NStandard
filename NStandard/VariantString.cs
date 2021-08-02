@@ -177,6 +177,7 @@ namespace NStandard
             return false;
         }
 
-        public override string ToString() => String?.ToString() ?? "";
+        public override string ToString() => String?.ToString();
+
     }
 }

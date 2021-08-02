@@ -13,12 +13,6 @@ namespace NStandard.Test.Json
             options.Converters.Add(new NStandard.Json.NetDoubleConverter());
         });
 
-        private string NJson(object obj) => NewtonsoftJson.SerializeObject(obj);
-        private T FromNJson<T>(string json) => NewtonsoftJson.DeserializeObject<T>(json);
-
-        private string SJson(object obj) => SystemJson.Serialize(obj, _options);
-        private T FromSJson<T>(string json) => SystemJson.Deserialize<T>(json, _options);
-
         [Fact]
         public void SerializeTest()
         {
@@ -32,7 +26,7 @@ namespace NStandard.Test.Json
             };
             foreach (var value in values)
             {
-                Assert.Equal(NJson(value), SJson(value));
+                Assert.Equal(NewtonsoftJson.SerializeObject(value), SystemJson.Serialize(value, _options));
             }
         }
 
@@ -42,14 +36,14 @@ namespace NStandard.Test.Json
             var values = new string[] { "\"NaN\"", "\"Infinity\"", "\"-Infinity\"" };
             foreach (var value in values)
             {
-                Assert.Equal(FromNJson<float>(value), FromSJson<float>(value));
-                Assert.Equal(FromNJson<double>(value), FromSJson<double>(value));
+                Assert.Equal(NewtonsoftJson.DeserializeObject<float>(value), SystemJson.Deserialize<float>(value, _options));
+                Assert.Equal(NewtonsoftJson.DeserializeObject<double>(value), SystemJson.Deserialize<double>(value, _options));
             }
             var nullableValues = new string[] { "null", "\"NaN\"", "\"Infinity\"", "\"-Infinity\"" };
             foreach (var value in nullableValues)
             {
-                Assert.Equal(FromNJson<float?>(value), FromSJson<float?>(value));
-                Assert.Equal(FromNJson<double?>(value), FromSJson<double?>(value));
+                Assert.Equal(NewtonsoftJson.DeserializeObject<float?>(value), SystemJson.Deserialize<float?>(value, _options));
+                Assert.Equal(NewtonsoftJson.DeserializeObject<double?>(value), SystemJson.Deserialize<double?>(value, _options));
             }
         }
 

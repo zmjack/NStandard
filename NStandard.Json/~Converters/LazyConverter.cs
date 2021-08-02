@@ -29,10 +29,7 @@ namespace NStandard.Json
             return lazy;
         }
 
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(Lazy<TValue>);
-        }
+        public override bool CanConvert(Type objectType) => objectType == typeof(Lazy<TValue>);
 
         public override Lazy<TValue> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
