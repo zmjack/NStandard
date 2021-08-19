@@ -15,7 +15,7 @@ namespace NStandard
         }
 
         public static EnumOption<TEnum, TUnderlying>[] GetOptions<TEnum, TUnderlying>()
-            where TEnum : struct
+            where TEnum : Enum
             where TUnderlying : struct
         {
             var enumType = typeof(TEnum);
@@ -35,7 +35,7 @@ namespace NStandard
         }
 
         public static EnumOption<TEnum, TUnderlying>[] GetFlagOptions<TEnum, TUnderlying>()
-            where TEnum : struct
+            where TEnum : Enum
             where TUnderlying : struct
         {
             var enumType = typeof(TEnum);

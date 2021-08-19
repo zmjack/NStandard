@@ -6,7 +6,7 @@ namespace NStandard
     {
         public string String;
 
-        public VariantString(string str) => String = str;
+        public VariantString(string str) => String = str ?? string.Empty;
 
         public VariantString(char obj) => String = obj.ToString();
         public VariantString(byte obj) => String = obj.ToString();
@@ -91,7 +91,7 @@ namespace NStandard
         {
             if (@this.String.IsNullOrEmpty()) return false;
             if (double.TryParse(@this.String, out var b)) return b > 0;
-            return bool.TryParse(@this.String, out var ret).For(x => x ? ret : default);
+            return bool.TryParse(@this.String, out var ret) && ret;
         }
 #if NET35
         public static implicit operator Guid(VariantString @this)
@@ -134,48 +134,51 @@ namespace NStandard
 
         public override bool Equals(object obj)
         {
-            if (obj is VariantString vs) return String == vs.String;
+            if (obj is VariantString vs) return ToString() == vs.ToString();
 
             switch (obj)
             {
-                case char o: return String == o.ToString();
-                case byte o: return String == o.ToString();
-                case sbyte o: return String == o.ToString();
-                case short o: return String == o.ToString();
-                case ushort o: return String == o.ToString();
-                case int o: return String == o.ToString();
-                case uint o: return String == o.ToString();
-                case long o: return String == o.ToString();
-                case ulong o: return String == o.ToString();
-                case float o: return String == o.ToString();
-                case double o: return String == o.ToString();
-                case decimal o: return String == o.ToString();
-                case DateTime o: return String == o.ToString();
-                case bool o: return String == o.ToString();
-                case Guid o: return String == o.ToString();
+                case char o: return ToString() == o.ToString();
+                case byte o: return ToString() == o.ToString();
+                case sbyte o: return ToString() == o.ToString();
+                case short o: return ToString() == o.ToString();
+                case ushort o: return ToString() == o.ToString();
+                case int o: return ToString() == o.ToString();
+                case uint o: return ToString() == o.ToString();
+                case long o: return ToString() == o.ToString();
+                case ulong o: return ToString() == o.ToString();
+                case float o: return ToString() == o.ToString();
+                case double o: return ToString() == o.ToString();
+                case decimal o: return ToString() == o.ToString();
+                case DateTime o: return ToString() == o.ToString();
+                case bool o: return ToString() == o.ToString();
+                case Guid o: return ToString() == o.ToString();
             };
 
             switch (obj.GetType())
             {
-                case Type type when type == typeof(char?): return String == obj?.ToString();
-                case Type type when type == typeof(byte?): return String == obj?.ToString();
-                case Type type when type == typeof(sbyte?): return String == obj?.ToString();
-                case Type type when type == typeof(short?): return String == obj?.ToString();
-                case Type type when type == typeof(ushort?): return String == obj?.ToString();
-                case Type type when type == typeof(int?): return String == obj?.ToString();
-                case Type type when type == typeof(uint?): return String == obj?.ToString();
-                case Type type when type == typeof(long?): return String == obj?.ToString();
-                case Type type when type == typeof(ulong?): return String == obj?.ToString();
-                case Type type when type == typeof(float?): return String == obj?.ToString();
-                case Type type when type == typeof(double?): return String == obj?.ToString();
-                case Type type when type == typeof(decimal?): return String == obj?.ToString();
-                case Type type when type == typeof(DateTime?): return String == obj?.ToString();
-                case Type type when type == typeof(bool?): return String == obj?.ToString();
-                case Type type when type == typeof(Guid?): return String == obj?.ToString();
+                case Type type when type == typeof(char?): return ToString() == obj?.ToString();
+                case Type type when type == typeof(byte?): return ToString() == obj?.ToString();
+                case Type type when type == typeof(sbyte?): return ToString() == obj?.ToString();
+                case Type type when type == typeof(short?): return ToString() == obj?.ToString();
+                case Type type when type == typeof(ushort?): return ToString() == obj?.ToString();
+                case Type type when type == typeof(int?): return ToString() == obj?.ToString();
+                case Type type when type == typeof(uint?): return ToString() == obj?.ToString();
+                case Type type when type == typeof(long?): return ToString() == obj?.ToString();
+                case Type type when type == typeof(ulong?): return ToString() == obj?.ToString();
+                case Type type when type == typeof(float?): return ToString() == obj?.ToString();
+                case Type type when type == typeof(double?): return ToString() == obj?.ToString();
+                case Type type when type == typeof(decimal?): return ToString() == obj?.ToString();
+                case Type type when type == typeof(DateTime?): return ToString() == obj?.ToString();
+                case Type type when type == typeof(bool?): return ToString() == obj?.ToString();
+                case Type type when type == typeof(Guid?): return ToString() == obj?.ToString();
             }
 
             return false;
         }
+
+        public static bool operator ==(VariantString left, VariantString right) => left.ToString() == right.ToString();
+        public static bool operator !=(VariantString left, VariantString right) => left.ToString() != right.ToString();
 
         public override string ToString() => String?.ToString();
 

@@ -21,7 +21,7 @@ namespace NStandard
     }
 
     public class EnumOption<TEnum, TUnderlying> : EnumOption, IEquatable<EnumOption<TEnum, TUnderlying>>
-        where TEnum : struct
+        where TEnum : Enum
         where TUnderlying : struct
     {
         public new TEnum EnumValue => (TEnum)base.EnumValue;
