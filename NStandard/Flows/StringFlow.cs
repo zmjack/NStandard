@@ -26,20 +26,20 @@ namespace NStandard.Flows
 #if NET35 || NET40 || NET45 || NET451 || NET452 || NET46
         public static string UrlEncode(string str) => HttpUtility.UrlEncode(str);
         public static string UrlDecode(string str) => HttpUtility.UrlDecode(str);
-        public static string UrlEncode(string str, Encoding e) => HttpUtility.UrlEncode(str, e);
-        public static string UrlDecode(string str, Encoding e) => HttpUtility.UrlDecode(str, e);
+        public static string UrlEncodeBy(string str, Encoding e) => HttpUtility.UrlEncode(str, e);
+        public static string UrlDecodeBy(string str, Encoding e) => HttpUtility.UrlDecode(str, e);
 
         public static string HtmlEncode(string str) => HttpUtility.HtmlEncode(str);
         public static string HtmlDecode(string str) => HttpUtility.HtmlDecode(str);
 #else
         public static string UrlEncode(string str) => WebUtility.UrlEncode(str);
         public static string UrlDecode(string str) => WebUtility.UrlDecode(str);
-        public static string UrlEncode(string str, Encoding e)
+        public static string UrlEncodeBy(string str, Encoding e)
         {
             var bytes = str.Bytes(e);
             return WebUtility.UrlEncodeToBytes(bytes, 0, bytes.Length).String();
         }
-        public static string UrlDecode(string str, Encoding e)
+        public static string UrlDecodeBy(string str, Encoding e)
         {
             var bytes = str.Bytes();
             return WebUtility.UrlDecodeToBytes(bytes, 0, bytes.Length).String(e);
