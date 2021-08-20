@@ -13,8 +13,6 @@ namespace NStandard.NET45.Test
             var now = DateTime.Now;
             var formattable = FormattableStringFactory.Create("Hello NStandard. ({0})", now);
             Assert.AreEqual($"Hello NStandard. ({now})", formattable.ToString());
-
-            DateTimeOffset.Now.ToUnixTimeSeconds();
         }
     }
 }
