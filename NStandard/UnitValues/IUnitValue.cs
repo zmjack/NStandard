@@ -1,10 +1,11 @@
 ﻿namespace NStandard.UnitValues
 {
-    public interface IUnitValue<TSelf, TUnit, TValue> where TSelf : IUnitValue<TSelf, TUnit, TValue>
+    public interface IUnitValue<out TSelf, TUnit, TValue> where TSelf : IUnitValue<TSelf, TUnit, TValue>
     {
+        TValue OriginalValue { get; }
         TUnit Unit { get; }
         TValue Value { get; }
-        bool IsValidUnit(TUnit unit);
+        TSelf Set(TValue originalValue, TUnit unit);
         TSelf Format(TUnit unit);
     }
 }

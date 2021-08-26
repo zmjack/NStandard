@@ -6,12 +6,18 @@ namespace NStandard.UnitValues
 {
     public struct StorageValue : IUnitValue<StorageValue, string, double>
     {
-        public string Unit { get; }
-        public double Value { get; }
+        private const string BaseUnit = "b";
+
+        public double OriginalValue { get; private set; }
+        public string Unit { get; private set; }
+        public double Value => Unit == BaseUnit ? OriginalValue : OriginalValue / UnitLevelDict[Unit];
+
+        public static readonly StorageValue Zero = new StorageValue().Set(0, BaseUnit);
 
         public StorageValue(double value, string unit)
         {
-            Value = value;
+            if (!IsValidUnit(unit)) throw new ArgumentException($"Invalid unit({unit}).", nameof(unit));
+            OriginalValue = value * UnitLevelDict[unit];
             Unit = unit;
         }
 
@@ -28,12 +34,16 @@ namespace NStandard.UnitValues
             return new(number, unit);
         }
 
+        public StorageValue Set(double originalValue, string unit)
+        {
+            OriginalValue = originalValue;
+            Unit = unit;
+            return this;
+        }
+
         public StorageValue Format(string targetUnit)
         {
-            if (!IsValidUnit(targetUnit)) throw new ArgumentException($"Invalid unit({targetUnit}).", nameof(targetUnit));
-            if (Unit == targetUnit) return this;
-
-            return new(Value * UnitLevelDict[Unit] / UnitLevelDict[targetUnit], targetUnit);
+            return new() { OriginalValue = OriginalValue, Unit = targetUnit };
         }
 
         private static readonly Dictionary<string, long> UnitLevelDict = new()
@@ -63,80 +73,69 @@ namespace NStandard.UnitValues
             ["PB"] = (long)8 * 1024 * 1024 * 1024 * 1024 * 1024,
         };
 
-        public bool IsValidUnit(string unit)
+        public static bool IsValidUnit(string unit)
         {
             return UnitLevelDict.ContainsKey(unit);
         }
 
         public static StorageValue operator +(StorageValue left, StorageValue right)
         {
-            return new(left.Value + right.Format(left.Unit).Value, left.Unit);
+            return new() { OriginalValue = left.OriginalValue + right.OriginalValue, Unit = left.Unit };
         }
 
         public static StorageValue operator -(StorageValue left, StorageValue right)
         {
-            return new(left.Value - right.Format(left.Unit).Value, left.Unit);
+            return new() { OriginalValue = left.OriginalValue - right.OriginalValue, Unit = left.Unit };
         }
 
         public static StorageValue operator *(double left, StorageValue right)
         {
-            return new(right.Value * left, right.Unit);
+            return new() { OriginalValue = left * right.OriginalValue, Unit = right.Unit };
         }
 
         public static StorageValue operator *(StorageValue left, double right)
         {
-            return new(left.Value * right, left.Unit);
+            return new() { OriginalValue = left.OriginalValue * right, Unit = left.Unit };
         }
 
         public static StorageValue operator /(StorageValue left, double right)
         {
-            return new(left.Value / right, left.Unit);
+            return new() { OriginalValue = left.OriginalValue / right, Unit = left.Unit };
         }
 
         public static double operator /(StorageValue left, StorageValue right)
         {
-            return left.Value / right.Format(left.Unit).Value;
+            return left.OriginalValue / right.OriginalValue;
         }
 
         public static bool operator ==(StorageValue left, StorageValue right)
         {
-            var unit = GetLessUnit(left, right);
-            return left.Format(unit).Value == right.Format(unit).Value;
+            return left.OriginalValue == right.OriginalValue;
         }
 
         public static bool operator !=(StorageValue left, StorageValue right)
         {
-            var unit = GetLessUnit(left, right);
-            return left.Format(unit).Value != right.Format(unit).Value;
+            return left.OriginalValue != right.OriginalValue;
         }
 
         public static bool operator <=(StorageValue left, StorageValue right)
         {
-            var unit = GetLessUnit(left, right);
-            return left.Format(unit).Value <= right.Format(unit).Value;
+            return left.OriginalValue <= right.OriginalValue;
         }
 
         public static bool operator <(StorageValue left, StorageValue right)
         {
-            var unit = GetLessUnit(left, right);
-            return left.Format(unit).Value < right.Format(unit).Value;
+            return left.OriginalValue < right.OriginalValue;
         }
 
         public static bool operator >(StorageValue left, StorageValue right)
         {
-            var unit = UnitLevelDict[left.Unit] <= UnitLevelDict[right.Unit] ? left.Unit : right.Unit;
-            return left.Format(unit).Value > right.Format(unit).Value;
+            return left.OriginalValue > right.OriginalValue;
         }
 
         public static bool operator >=(StorageValue left, StorageValue right)
         {
-            var unit = UnitLevelDict[left.Unit] <= UnitLevelDict[right.Unit] ? left.Unit : right.Unit;
-            return left.Format(unit).Value >= right.Format(unit).Value;
-        }
-
-        private static string GetLessUnit(StorageValue left, StorageValue right)
-        {
-            return UnitLevelDict[left.Unit] <= UnitLevelDict[right.Unit] ? left.Unit : right.Unit;
+            return left.OriginalValue >= right.OriginalValue;
         }
 
         public override string ToString()
