@@ -1,11 +1,10 @@
 ﻿namespace NStandard.UnitValues
 {
-    public interface IUnitValue<out TSelf, TUnit, TValue> where TSelf : IUnitValue<TSelf, TUnit, TValue>
+    public interface IUnitValue
     {
-        TValue OriginalValue { get; }
-        TUnit Unit { get; }
-        TValue Value { get; }
-        TSelf Set(TValue originalValue, TUnit unit);
-        TSelf Format(TUnit unit);
+        double OriginalValue { get; set; }
+        string Unit { get; set; }
+        double Value { get; }
+        string GetDefaultUnit();
     }
 }

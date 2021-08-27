@@ -10,8 +10,8 @@ namespace NStandard.UnitValues.Test
             var a = StorageValue.Parse(".5 MB");
             var b = new StorageValue(512, "KB");
 
-            Assert.Equal(1024, (a + b).Format("KB").Value);
-            Assert.Equal(1024 * 1024, (a + b).Format("B").Value);
+            Assert.Equal(1024, (a + b).SetUnit("KB").Value);
+            Assert.Equal(1024 * 1024, (a + b).SetUnit("B").Value);
 
             Assert.Equal(1, (a + b).Value);
             Assert.Equal(0, (a - b).Value);

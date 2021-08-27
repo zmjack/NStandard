@@ -1,24 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace NStandard.UnitValues
 {
-    public struct StorageValue : IUnitValue<StorageValue, string, double>
+    public struct StorageValue : IUnitValue
     {
-        private const string BaseUnit = "b";
+        public const string DefaultUnit = "b";
+        public string GetDefaultUnit() => DefaultUnit;
 
-        public double OriginalValue { get; private set; }
-        public string Unit { get; private set; }
-        public double Value => Unit == BaseUnit ? OriginalValue : OriginalValue / UnitLevelDict[Unit];
+        public double OriginalValue { get; set; }
+        public string Unit { get; set; }
+        public double Value
+        {
+            get
+            {
+                var unit = Unit ?? DefaultUnit;
+                if (!IsValidUnit(unit)) throw new ArgumentException($"Invalid unit({unit}).", nameof(unit));
+                return unit == DefaultUnit ? OriginalValue : OriginalValue / UnitLevelDict[Unit];
+            }
+        }
 
-        public static readonly StorageValue Zero = new StorageValue().Set(0, BaseUnit);
+        public static readonly StorageValue Zero = CreateOriginal(0, DefaultUnit);
 
         public StorageValue(double value, string unit)
         {
-            if (!IsValidUnit(unit)) throw new ArgumentException($"Invalid unit({unit}).", nameof(unit));
             OriginalValue = value * UnitLevelDict[unit];
             Unit = unit;
+            new[] { 1 }.Sum(x => x);
+        }
+
+        public static StorageValue CreateOriginal(double originalValue, string unit)
+        {
+            return new StorageValue
+            {
+                OriginalValue = originalValue,
+                Unit = unit,
+            };
         }
 
         private static readonly Regex _parseRegex = new(@"^(\d+|\.\d+|\d+\.\d*)\s*(\w+)$", RegexOptions.Singleline);
@@ -34,17 +54,7 @@ namespace NStandard.UnitValues
             return new(number, unit);
         }
 
-        public StorageValue Set(double originalValue, string unit)
-        {
-            OriginalValue = originalValue;
-            Unit = unit;
-            return this;
-        }
-
-        public StorageValue Format(string targetUnit)
-        {
-            return new() { OriginalValue = OriginalValue, Unit = targetUnit };
-        }
+        public StorageValue SetUnit(string targetUnit) => CreateOriginal(OriginalValue, targetUnit);
 
         private static readonly Dictionary<string, long> UnitLevelDict = new()
         {
@@ -78,69 +88,25 @@ namespace NStandard.UnitValues
             return UnitLevelDict.ContainsKey(unit);
         }
 
-        public static StorageValue operator +(StorageValue left, StorageValue right)
-        {
-            return new() { OriginalValue = left.OriginalValue + right.OriginalValue, Unit = left.Unit };
-        }
-
-        public static StorageValue operator -(StorageValue left, StorageValue right)
-        {
-            return new() { OriginalValue = left.OriginalValue - right.OriginalValue, Unit = left.Unit };
-        }
-
-        public static StorageValue operator *(double left, StorageValue right)
-        {
-            return new() { OriginalValue = left * right.OriginalValue, Unit = right.Unit };
-        }
-
-        public static StorageValue operator *(StorageValue left, double right)
-        {
-            return new() { OriginalValue = left.OriginalValue * right, Unit = left.Unit };
-        }
-
-        public static StorageValue operator /(StorageValue left, double right)
-        {
-            return new() { OriginalValue = left.OriginalValue / right, Unit = left.Unit };
-        }
-
-        public static double operator /(StorageValue left, StorageValue right)
-        {
-            return left.OriginalValue / right.OriginalValue;
-        }
-
-        public static bool operator ==(StorageValue left, StorageValue right)
-        {
-            return left.OriginalValue == right.OriginalValue;
-        }
-
-        public static bool operator !=(StorageValue left, StorageValue right)
-        {
-            return left.OriginalValue != right.OriginalValue;
-        }
-
-        public static bool operator <=(StorageValue left, StorageValue right)
-        {
-            return left.OriginalValue <= right.OriginalValue;
-        }
-
-        public static bool operator <(StorageValue left, StorageValue right)
-        {
-            return left.OriginalValue < right.OriginalValue;
-        }
-
-        public static bool operator >(StorageValue left, StorageValue right)
-        {
-            return left.OriginalValue > right.OriginalValue;
-        }
-
-        public static bool operator >=(StorageValue left, StorageValue right)
-        {
-            return left.OriginalValue >= right.OriginalValue;
-        }
+        public static StorageValue operator +(StorageValue operand) => CreateOriginal(operand.OriginalValue, operand.Unit);
+        public static StorageValue operator -(StorageValue operand) => CreateOriginal(-operand.OriginalValue, operand.Unit);
+        public static StorageValue operator +(StorageValue left, StorageValue right) => CreateOriginal(left.OriginalValue + right.OriginalValue, left.Unit);
+        public static StorageValue operator -(StorageValue left, StorageValue right) => CreateOriginal(left.OriginalValue - right.OriginalValue, left.Unit);
+        public static StorageValue operator *(double left, StorageValue right) => CreateOriginal(left * right.OriginalValue, right.Unit);
+        public static StorageValue operator *(StorageValue left, double right) => CreateOriginal(left.OriginalValue * right, left.Unit);
+        public static StorageValue operator /(StorageValue left, double right) => CreateOriginal(left.OriginalValue / right, left.Unit);
+        public static double operator /(StorageValue left, StorageValue right) => left.OriginalValue / right.OriginalValue;
+        public static bool operator ==(StorageValue left, StorageValue right) => left.OriginalValue == right.OriginalValue;
+        public static bool operator !=(StorageValue left, StorageValue right) => left.OriginalValue != right.OriginalValue;
+        public static bool operator <=(StorageValue left, StorageValue right) => left.OriginalValue <= right.OriginalValue;
+        public static bool operator <(StorageValue left, StorageValue right) => left.OriginalValue < right.OriginalValue;
+        public static bool operator >(StorageValue left, StorageValue right) => left.OriginalValue > right.OriginalValue;
+        public static bool operator >=(StorageValue left, StorageValue right) => left.OriginalValue >= right.OriginalValue;
 
         public override string ToString()
         {
-            return $"{Value} {Unit}";
+            return $"{Value} {Unit ?? DefaultUnit}";
         }
     }
+
 }
