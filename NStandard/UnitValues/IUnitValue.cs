@@ -1,13 +1,14 @@
-﻿namespace NStandard.UnitValues
+﻿using System;
+
+namespace NStandard.UnitValues
 {
-    public interface IUnitValue
+    public interface IUnitValue : ICloneable
     {
         double OriginalValue { get; set; }
         string Unit { get; set; }
         double Value { get; }
         string GetDefaultUnit();
     }
-
 }
 
 namespace NStandard
