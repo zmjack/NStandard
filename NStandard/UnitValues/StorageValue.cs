@@ -25,6 +25,8 @@ namespace NStandard.UnitValues
 
         public static readonly StorageValue Zero = CreateOriginal(0, DefaultUnit);
 
+        public void Init() { Unit = DefaultUnit; }
+
         public StorageValue(double value, string unit)
         {
             OriginalValue = value * UnitLevelDict[unit];
@@ -106,9 +108,6 @@ namespace NStandard.UnitValues
         {
             return $"{Value} {Unit ?? DefaultUnit}";
         }
-
-        object ICloneable.Clone() => MemberwiseClone();
-        public StorageValue Clone() => (StorageValue)(this as ICloneable).Clone();
     }
 
 }
