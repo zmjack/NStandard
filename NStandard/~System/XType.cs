@@ -273,13 +273,24 @@ namespace NStandard
         {
             if (type != null)
             {
-                if (!generic && type.FullName == extendType.FullName)
-                    return true;
-                else if (generic && type.FullName.StartsWith(extendType.FullName))
-                    return true;
+                if (!generic && type.FullName == extendType.FullName) return true;
+                else if (generic && type.FullName.StartsWith(extendType.FullName)) return true;
                 else return RecursiveSearchExtends(type.BaseType, extendType, generic);
             }
             else return false;
+        }
+
+        /// <summary>
+        /// Get the specified type's extend chain.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static Type[] GetExtendChain(this Type @this)
+        {
+            var list = new List<Type> { @this };
+            for (var baseType = @this.BaseType; baseType is not null; baseType = baseType.BaseType)
+                list.Add(baseType);
+            return list.ToArray();
         }
 
         public static MethodInfo GetDeclaredMethod(this Type @this, string name) => @this.GetMethod(name, DeclaredOnlyLookup);
@@ -352,15 +363,13 @@ namespace NStandard
 
         public static Type MakeNullableType(this Type @this)
         {
-            if (@this.IsValueType && !@this.IsNullable())
-                return typeof(Nullable<>).MakeGenericType(@this);
+            if (@this.IsValueType && !@this.IsNullable()) return typeof(Nullable<>).MakeGenericType(@this);
             else throw new ArgumentException($"The type {@this.Name} must be a non-nullable value type");
         }
 
         public static Type MakeNonNullableType(this Type @this)
         {
-            if (@this.IsNullable())
-                return @this.GetGenericArguments()[0];
+            if (@this.IsNullable()) return @this.GetGenericArguments()[0];
             else throw new ArgumentException($"The type {@this.Name} must be a nullable value type");
         }
 

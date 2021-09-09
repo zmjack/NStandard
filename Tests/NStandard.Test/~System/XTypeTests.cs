@@ -117,5 +117,12 @@ namespace NStandard.Test
             Assert.Equal(typeof(int), typeof(int?).MakeNonNullableType());
         }
 
+        [Fact]
+        public void GetExtendChainTest()
+        {
+            var chain = typeof(int).GetExtendChain();
+            Assert.Equal(new[] { typeof(int), typeof(ValueType), typeof(object) }, chain);
+        }
+
     }
 }

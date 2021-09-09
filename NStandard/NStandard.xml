@@ -478,21 +478,21 @@
         </member>
         <member name="M:NStandard.StringEx.PascalCase(System.String)">
             <summary>
-            Converts a string to PascalCase string.
+            Converts a string to PascalCase string. e.g. DotNET.
             </summary>
             <param name="source"></param>
             <returns></returns>
         </member>
         <member name="M:NStandard.StringEx.CamelCase(System.String)">
             <summary>
-            Converts a string to CamelCase string.
+            Converts a string to CamelCase string. e.g. dotNET.
             </summary>
             <param name="source"></param>
             <returns></returns>
         </member>
         <member name="M:NStandard.StringEx.KebabCase(System.String)">
             <summary>
-            Converts a string to KebabCase string.
+            Converts a string to KebabCase string. e.g. dot-net.
             </summary>
             <param name="source"></param>
             <returns></returns>
@@ -1723,6 +1723,13 @@
             </summary>
             <param name="this"></param>
             <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.XType.GetExtendChain(System.Type)">
+            <summary>
+            Get the specified type's extend chain.
+            </summary>
+            <param name="this"></param>
             <returns></returns>
         </member>
         <member name="M:NStandard.XUInt32.IsOdd(System.UInt32)">

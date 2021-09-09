@@ -46,7 +46,7 @@ namespace NStandard
         }
 
         /// <summary>
-        /// Converts a string to PascalCase string.
+        /// Converts a string to PascalCase string. e.g. DotNET.
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -65,7 +65,7 @@ namespace NStandard
         }
 
         /// <summary>
-        /// Converts a string to CamelCase string.
+        /// Converts a string to CamelCase string. e.g. dotNET.
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -86,7 +86,7 @@ namespace NStandard
         }
 
         /// <summary>
-        /// Converts a string to KebabCase string.
+        /// Converts a string to KebabCase string. e.g. dot-net.
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
