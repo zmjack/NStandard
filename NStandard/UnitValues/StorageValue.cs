@@ -9,7 +9,6 @@ namespace NStandard.UnitValues
     public struct StorageValue : IUnitValue
     {
         public const string DefaultUnit = "b";
-        public string GetDefaultUnit() => DefaultUnit;
 
         public double OriginalValue { get; set; }
         public string Unit { get; set; }
