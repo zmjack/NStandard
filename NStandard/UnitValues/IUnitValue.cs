@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard.UnitValues
+﻿namespace NStandard.UnitValues
 {
     public interface IUnitValue
     {
