@@ -22,7 +22,7 @@ namespace NStandard.UnitValues
 
         public static readonly StorageValue Zero = CreateOriginal(0, DefaultUnit);
 
-        public void Init() { Unit = DefaultUnit; }
+        public void InitializeStruct() { Unit = DefaultUnit; }
 
         public StorageValue(double value, string unit)
         {

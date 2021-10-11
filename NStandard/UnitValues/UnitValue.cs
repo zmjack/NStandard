@@ -2,10 +2,10 @@
 {
     public static class UnitValue
     {
-        public static TUnitValue Create<TUnitValue>() where TUnitValue : IUnitValue, new()
+        public static TUnitValue Default<TUnitValue>() where TUnitValue : IUnitValue, new()
         {
             var instance = new TUnitValue();
-            instance.Init();
+            instance.InitializeStruct();
             return instance;
         }
     }

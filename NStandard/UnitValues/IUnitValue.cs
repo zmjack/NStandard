@@ -1,9 +1,8 @@
 ﻿namespace NStandard.UnitValues
 {
-    public interface IUnitValue
+    public interface IUnitValue : IStructInitialize
     {
         string Unit { get; set; }
-        void Init();
     }
 }
 
