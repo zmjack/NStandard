@@ -2,34 +2,36 @@
 {
     public static class Ref
     {
-        public static Ref<T> Bind<T>(T value) where T : struct => new(value);
+        public static StructRef<T> New<T>() where T : struct => new();
+        public static StructRef<T> Clone<T>(T value) where T : struct => new() { Ref = value };
+        public static StructRef<T> Initialize<T>() where T : struct, IStructInitialize
+        {
+            var value = new T();
+            value.InitializeStruct();
+            return new() { Ref = value };
+        }
     }
 
-    public class Ref<T> where T : struct
+    public class StructRef<T> where T : struct
     {
-        public object RefValue;
-        public T Value => (T)RefValue;
-
-        public Ref(T value) => RefValue = value;
-        public Ref(object value) => RefValue = value;
+        public T Ref;
 
         public override bool Equals(object obj)
         {
             switch (obj)
             {
-                case Ref<T> _obj: return Value.Equals(_obj.Value);
-                case T _obj: return Value.Equals(_obj);
-                default: return Value.Equals(obj);
+                case StructRef<T> _obj: return Ref.Equals(_obj.Ref);
+                case T _obj: return Ref.Equals(_obj);
+                default: return Ref.Equals(obj);
             }
         }
 
-        public override int GetHashCode() => RefValue.GetHashCode();
-        public static bool operator ==(Ref<T> left, Ref<T> right) => left.RefValue == right.RefValue;
-        public static bool operator !=(Ref<T> left, Ref<T> right) => left.RefValue != right.RefValue;
+        public override int GetHashCode() => Ref.GetHashCode();
 
-        public static implicit operator T(Ref<T> operand) => operand.Value;
-        public static implicit operator Ref<T>(T operand) => new(operand);
+        public static implicit operator T(StructRef<T> operand) => operand.Ref;
+        public static implicit operator StructRef<T>(T operand) => new() { Ref = operand };
 
-        public override string ToString() => RefValue.ToString();
+        public override string ToString() => Ref.ToString();
     }
+
 }
