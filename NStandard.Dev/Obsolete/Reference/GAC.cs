@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if false
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -95,9 +96,6 @@ namespace NStandard.Reference
                             }
                         }
                         break;
-
-                    default:
-                        throw new NotSupportedException("Only netcoreapp is supported.");
                 }
             }
             return null;
@@ -128,3 +126,4 @@ namespace NStandard.Reference
 
     }
 }
+#endif

@@ -118,11 +118,6 @@
             <param name="separator"></param>
             <returns></returns>
         </member>
-        <member name="F:NStandard.Reference.DotNetFramework.TFM">
-            <summary>
-            Target Framework Moniker
-            </summary>
-        </member>
         <member name="T:NStandard.Scope`1">
             <summary>
             Cooperate with 'using' keyword to use thread safe <see cref="T:NStandard.Scope`1"/>.

@@ -2,7 +2,7 @@
 using System.Linq;
 using Xunit;
 
-namespace NStandard.Reference.Test
+namespace NStandard.Runtime.Test
 {
     public class DotNetFrameworkTests
     {
