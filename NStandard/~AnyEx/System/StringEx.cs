@@ -208,7 +208,7 @@ namespace NStandard
                 _ => throw new ArgumentException("At least one member info can not be accessed."),
             }).ToArray();
 
-            var prePattern = new[] { "/", "+", "*", "[", "]", "(", ")", "?", "|", "^" }
+            var prePattern = new[] { "/", @"\", "+", "*", "[", "]", "(", ")", "?", "|", "^" }
                 .Aggregate(format, (_acc, ch) => _acc.Replace(ch, $"\\{ch}"));
             var pattern = new int[members.Length].Let(i => i)
                 .Aggregate(prePattern, (acc, i) => acc.Replace($"{{{i}}}\\?", @"(.*?)").Replace($"{{{i}}}", @"(.*)"))

@@ -30,6 +30,23 @@ namespace NStandard.Reference
                 }
             }
 
+            if (assembly == "netstandard") return null;
+
+            if (folders.HasFlag(GACFolders.Reserved))
+            {
+                if (framework.CompatibilityFrameworks.Contains(DotNetFramework.NetStandard20))
+                {
+                    var dirs = new[]
+                    {
+                        $"{UserProfileFolder}/.nuget/packages/netstandard.library/2.0.3/build/netstandard2.0/ref",
+                        $"{UserProfileFolder}/.nuget/packages/netstandard.library/2.0.2/build/netstandard2.0/ref",
+                        $"{UserProfileFolder}/.nuget/packages/netstandard.library/2.0.1/build/netstandard2.0/ref",
+                        $"{UserProfileFolder}/.nuget/packages/netstandard.library/2.0.0/build/netstandard2.0/ref",
+                    };
+                    var dir = dirs.FirstOrDefault(dir => File.Exists($"{dir}/{assembly}.dll"));
+                    return $"{dir}/{assembly}.dll";
+                }
+            }
             if (folders.HasFlag(GACFolders.NuGet))
             {
                 var libDir = $"{UserProfileFolder}/.nuget/packages/{assembly}/{nugetVersion}/lib";

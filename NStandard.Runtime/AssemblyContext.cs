@@ -31,7 +31,8 @@ namespace NStandard.Runtime
                 dll = GAC.GetAssemblyFile(useAssembly.Name, useAssembly.Version, Framework, GACFolders.All, new[] { LocationDirectory });
             else dll = GAC.GetAssemblyFile(assemblyName.Name, assemblyName.Version, Framework, GACFolders.All, new[] { LocationDirectory });
 
-            return LoadFromAssemblyPath(dll);
+            if (dll != null) return LoadFromAssemblyPath(dll);
+            else return null;
         }
 
         public Assembly LoadAssembly(AssemblyName assemblyName) => Load(assemblyName);
