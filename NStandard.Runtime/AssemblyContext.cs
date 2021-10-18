@@ -52,8 +52,8 @@ namespace NStandard.Runtime
         private void LoadSdk(string sdkType)
         {
             if (LoadedSdks.Contains(sdkType)) return;
-            if (!new[] { SdkType.Legency, SdkType.Core, SdkType.Web }.Contains(sdkType)) throw new ArgumentException($"Unkown sdk type. ({sdkType})", nameof(sdkType));
-            if (sdkType == SdkType.Legency) throw new NotSupportedException(".NET Framework is not supported.");
+            if (!new[] { SdkType.Legacy, SdkType.Core, SdkType.Web }.Contains(sdkType)) throw new ArgumentException($"Unkown sdk type. ({sdkType})", nameof(sdkType));
+            if (sdkType == SdkType.Legacy) throw new NotSupportedException(".NET Framework is not supported.");
 
             if (sdkType == SdkType.Core || sdkType == SdkType.Web)
             {
