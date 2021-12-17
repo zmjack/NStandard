@@ -456,6 +456,22 @@
             <param name="result"></param>
             <returns></returns>
         </member>
+        <member name="M:NStandard.MathEx.Permutation(System.Int32,System.Int32)">
+            <summary>
+            The choice of m things from a set of n things without replacement and where the order matters.
+            </summary>
+            <param name="choice">The m value.</param>
+            <param name="total">The n value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:NStandard.MathEx.Combination(System.Int32,System.Int32)">
+            <summary>
+            The choice of m things from a set of n things without replacement and where order does not matter.
+            </summary>
+            <param name="choice">The m value.</param>
+            <param name="total">The n value.</param>
+            <returns></returns>
+        </member>
         <member name="M:NStandard.ObjectEx.CrossEquals``1(``0[])">
             <summary>
             Determines whether the specified objects are equal to each other.

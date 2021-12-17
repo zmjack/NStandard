@@ -8,7 +8,7 @@ namespace NStandard.Test
         [Fact]
         public void Test1()
         {
-            Assert.Equal(Guid.Empty.ToString(), GuidEx.EMPTY_STRING);
+            Assert.Equal(Guid.Empty.ToString(), GuidEx.EmptyString);
         }
 
     }
