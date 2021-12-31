@@ -60,37 +60,51 @@ namespace NStandard
             for (var dt = start; dt <= end; dt = dt.AddDays(1)) yield return dt;
         }
 
-        private static int PrivateYearDiff(DateTime start, DateTime end)
-        {
-            var factor = start > end ? -1 : 1;
-            if (factor == -1) Any.Swap(ref start, ref end);
-
-            var passedYears = end.Year - start.Year;
-            var target = start.AddCompleteYears(passedYears);
-            return factor * (target > end ? passedYears - 1 : passedYears);
-        }
-
-        private static int PrivateMonthDiff(DateTime start, DateTime end)
-        {
-            var factor = start > end ? -1 : 1;
-            if (factor == -1) Any.Swap(ref start, ref end);
-
-            var passedYears = end.Year - start.Year;
-            var passedMonths = end.Month - start.Month;
-            var target = start.AddCompleteMonths(passedYears * 12 + passedMonths);
-            return factor * (target > end ? passedYears * 12 + passedMonths - 1 : passedYears * 12 + passedMonths);
-        }
-
         /// <summary>
-        /// The number of complete years in the period, similar as DATEDIF(*, *, "Y") function in Excel.
+        /// The number of complete years in the period. [ Similar as DATEDIF(*, *, "Y") function in Excel. ]
         /// </summary>
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public static int YearDiff(DateTime start, DateTime end) => MonthDiff(start, end) / 12;
+        public static int YearDiff(DateTime start, DateTime end)
+        {
+            if (start.Kind != DateTimeKind.Unspecified && end.Kind != DateTimeKind.Unspecified && start.Kind != end.Kind)
+                throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
+
+            var offset = end.Year - start.Year;
+            var target = start.AddYearDiff(offset);
+
+            if (end >= start) return end >= target ? offset : offset - 1;
+            else return end <= target ? offset : offset + 1;
+        }
 
         /// <summary>
-        /// The number of complete months in the period, similar as DATEDIF(*, *, "M") function in Excel.
+        /// The number of complete years in the period, expressed in whole and fractional year. [ Similar as DATEDIF(*, *, "Y") function in Excel. ]
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public static double TotalYearDiff(DateTime start, DateTime end)
+        {
+            var integer = YearDiff(start, end);
+            var targetStart = start.AddYearDiff(integer);
+
+            if (end >= start)
+            {
+                var targetEnd = start.AddYearDiff(integer + 1);
+                var fractional = (end - targetStart).TotalDays / (targetEnd - targetStart).TotalDays;
+                return integer + fractional;
+            }
+            else
+            {
+                var targetEnd = start.AddYearDiff(integer - 1);
+                var fractional = (targetStart - end).TotalDays / (targetStart - targetEnd).TotalDays;
+                return integer - fractional;
+            }
+        }
+
+        /// <summary>
+        /// The number of complete months in the period, similar as DATEDIF(*, *, "M") function in Excel, but more accurate.
         /// </summary>
         /// <param name="start"></param>
         /// <param name="end"></param>
@@ -99,41 +113,37 @@ namespace NStandard
         {
             if (start.Kind != DateTimeKind.Unspecified && end.Kind != DateTimeKind.Unspecified && start.Kind != end.Kind)
                 throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
-            return PrivateMonthDiff(start, end);
+
+            var offset = (end.Year - start.Year) * 12 + end.Month - start.Month;
+            var target = start.AddMonthDiff(offset);
+
+            if (end >= start) return end >= target ? offset : offset - 1;
+            else return end <= target ? offset : offset + 1;
         }
 
         /// <summary>
-        /// The number of complete years in the period, return a double value.
+        /// The number of complete months in the period, expressed in whole and fractional month. [ similar as DATEDIF(*, *, "M") function in Excel. ]
         /// </summary>
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public static double ExactYearDiff(DateTime start, DateTime end)
+        public static double TotalMonthDiff(DateTime start, DateTime end)
         {
-            if (start.Kind != DateTimeKind.Unspecified && end.Kind != DateTimeKind.Unspecified && start.Kind != end.Kind)
-                throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
+            var integer = MonthDiff(start, end);
+            var targetStart = start.AddMonthDiff(integer);
 
-            var diff = PrivateYearDiff(start, end);
-            var endStart = start.AddCompleteYears(diff);
-            var endEnd = endStart.AddCompleteYears(1);
-            return diff + (end - endStart).TotalDays / (endEnd - endStart).TotalDays;
-        }
-
-        /// <summary>
-        /// The number of complete months in the period, return a double value.
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <returns></returns>
-        public static double ExactMonthDiff(DateTime start, DateTime end)
-        {
-            if (start.Kind != DateTimeKind.Unspecified && end.Kind != DateTimeKind.Unspecified && start.Kind != end.Kind)
-                throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
-
-            var diff = PrivateMonthDiff(start, end);
-            var endStart = start.AddCompleteMonths(diff);
-            var endEnd = endStart.AddCompleteMonths(1);
-            return diff + (end - endStart).TotalDays / (endEnd - endStart).TotalDays;
+            if (end >= start)
+            {
+                var targetEnd = start.AddMonthDiff(integer + 1);
+                var fractional = (end - targetStart).TotalDays / (targetEnd - targetStart).TotalDays;
+                return integer + fractional;
+            }
+            else
+            {
+                var targetEnd = start.AddMonthDiff(integer - 1);
+                var fractional = (targetStart - end).TotalDays / (targetStart - targetEnd).TotalDays;
+                return integer - fractional;
+            }
         }
 
         /// <summary>

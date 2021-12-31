@@ -6,49 +6,51 @@ namespace NStandard.Test
     public class DateTimeExTests
     {
         [Fact]
-        public void YearDiffTest()
+        public void TotalYearDiffTest()
         {
-            Assert.Equal(0, DateTimeEx.YearDiff(new DateTime(2012, 4, 16), new DateTime(2013, 4, 15)));
-            Assert.Equal(1, DateTimeEx.YearDiff(new DateTime(2012, 4, 16), new DateTime(2013, 4, 16)));
-            Assert.Equal(0, DateTimeEx.YearDiff(new DateTime(2000, 2, 29), new DateTime(2001, 2, 28)));
-            Assert.Equal(1, DateTimeEx.YearDiff(new DateTime(2000, 2, 29), new DateTime(2001, 3, 1)));
+            static void InnerTest(DateTime start, DateTime end, double diff)
+            {
+                Assert.Equal(diff, DateTimeEx.TotalYearDiff(start, end));
+                Assert.Equal(end, start.AddTotalYearDiff(diff));
+            }
 
-            Assert.Equal(0, DateTimeEx.YearDiff(new DateTime(2013, 4, 15), new DateTime(2012, 4, 16)));
-            Assert.Equal(-1, DateTimeEx.YearDiff(new DateTime(2013, 4, 16), new DateTime(2012, 4, 16)));
-            Assert.Equal(0, DateTimeEx.YearDiff(new DateTime(2001, 2, 28), new DateTime(2000, 2, 29)));
-            Assert.Equal(-1, DateTimeEx.YearDiff(new DateTime(2001, 3, 1), new DateTime(2000, 2, 29)));
+            InnerTest(new DateTime(2020, 2, 1), new DateTime(2020, 3, 1), 29d / 366);
+            InnerTest(new DateTime(2020, 2, 1), new DateTime(2020, 3, 15), 43d / 366);
+            InnerTest(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 12, 0, 0), (29d * 24 - 3d) / (366 * 24));
+            InnerTest(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 18, 0, 0), (29d * 24 + 3d) / (366 * 24));
+
+            InnerTest(new DateTime(2020, 3, 1), new DateTime(2020, 2, 1), -29d / 366);
+            InnerTest(new DateTime(2020, 3, 15), new DateTime(2020, 2, 1), -43d / 366);
+            InnerTest(new DateTime(2020, 3, 2, 12, 0, 0), new DateTime(2020, 2, 2, 15, 0, 0), -(29d * 24 - 3d) / (366 * 24));
+            InnerTest(new DateTime(2020, 3, 2, 18, 0, 0), new DateTime(2020, 2, 2, 15, 0, 0), -(29d * 24 + 3d) / (366 * 24));
+
+            // Special Test
+            InnerTest(new DateTime(2000, 7, 15), new DateTime(2000, 8, 16), 32d / 365);
+            InnerTest(new DateTime(2000, 8, 16), new DateTime(2000, 7, 15), -32d / 366);
         }
 
         [Fact]
-        public void MonthDiffTest()
+        public void TotalMonthDiffTest()
         {
-            Assert.Equal(11, DateTimeEx.MonthDiff(new DateTime(2012, 4, 16), new DateTime(2013, 4, 15)));
-            Assert.Equal(12, DateTimeEx.MonthDiff(new DateTime(2012, 4, 16), new DateTime(2013, 4, 16)));
-            Assert.Equal(35, DateTimeEx.MonthDiff(new DateTime(2000, 2, 29), new DateTime(2003, 2, 28)));
-            Assert.Equal(36, DateTimeEx.MonthDiff(new DateTime(2000, 2, 29), new DateTime(2003, 3, 1)));
+            static void InnerTest(DateTime start, DateTime end, double diff)
+            {
+                Assert.Equal(diff, DateTimeEx.TotalMonthDiff(start, end));
+                Assert.Equal(end, start.AddTotalMonthDiff(diff));
+            }
 
-            Assert.Equal(-11, DateTimeEx.MonthDiff(new DateTime(2013, 4, 15), new DateTime(2012, 4, 16)));
-            Assert.Equal(-12, DateTimeEx.MonthDiff(new DateTime(2013, 4, 16), new DateTime(2012, 4, 16)));
-            Assert.Equal(-35, DateTimeEx.MonthDiff(new DateTime(2003, 2, 28), new DateTime(2000, 2, 29)));
-            Assert.Equal(-36, DateTimeEx.MonthDiff(new DateTime(2003, 3, 1), new DateTime(2000, 2, 29)));
-        }
+            InnerTest(new DateTime(2020, 2, 1), new DateTime(2020, 3, 1), 1d);
+            InnerTest(new DateTime(2020, 2, 1), new DateTime(2020, 3, 15), 1d + 14d / 31);
+            InnerTest(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 12, 0, 0), 1d - 3d / (29 * 24));
+            InnerTest(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 18, 0, 0), 1d + 3d / (31 * 24));
 
-        [Fact]
-        public void ExactYearDiffTest()
-        {
-            Assert.Equal(29d * 24 / (366 * 24), DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 1), new DateTime(2020, 3, 1)), 2);
-            Assert.Equal((29d * 24 - 3d) / (366 * 24), DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 12, 0, 0)));
-            Assert.Equal((29d * 24 + 3d) / (366 * 24), DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 18, 0, 0)));
-            Assert.Equal((43d * 24) / (366 * 24), DateTimeEx.ExactYearDiff(new DateTime(2020, 2, 1), new DateTime(2020, 3, 15)));
-        }
+            InnerTest(new DateTime(2020, 3, 1), new DateTime(2020, 2, 1), -1d);
+            InnerTest(new DateTime(2020, 3, 15), new DateTime(2020, 2, 1), -(1d + 14d / 31));
+            InnerTest(new DateTime(2020, 3, 2, 12, 0, 0), new DateTime(2020, 2, 2, 15, 0, 0), -(1d - 3d / (29 * 24)));
+            InnerTest(new DateTime(2020, 3, 2, 18, 0, 0), new DateTime(2020, 2, 2, 15, 0, 0), -(1d + 3d / (31 * 24)));
 
-        [Fact]
-        public void ExactMonthDiffTest()
-        {
-            Assert.Equal(1d, DateTimeEx.ExactMonthDiff(new DateTime(2020, 2, 1), new DateTime(2020, 3, 1)));
-            Assert.Equal(1d - 3d / (29 * 24), DateTimeEx.ExactMonthDiff(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 12, 0, 0)));
-            Assert.Equal(1d + 3d / (31 * 24), DateTimeEx.ExactMonthDiff(new DateTime(2020, 2, 2, 15, 0, 0), new DateTime(2020, 3, 2, 18, 0, 0)));
-            Assert.Equal(1d + 14d / 31, DateTimeEx.ExactMonthDiff(new DateTime(2020, 2, 1), new DateTime(2020, 3, 15)));
+            // Special Test
+            InnerTest(new DateTime(2000, 7, 15), new DateTime(2000, 8, 16), 1d + 1d / 31);
+            InnerTest(new DateTime(2000, 8, 16), new DateTime(2000, 7, 15), -(1d + 1d / 30));
         }
 
         [Fact]
