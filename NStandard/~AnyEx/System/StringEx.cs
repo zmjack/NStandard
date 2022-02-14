@@ -54,14 +54,14 @@ namespace NStandard
         {
             if (source.IsNullOrEmpty()) return source;
 
-            static bool IsNotUpper(char c) => c < 'A' || 'Z' < c;
-            var index = source.IndexOf(IsNotUpper);
+            static bool IsNotUpperAndNotUnderCross(char c) => c is < 'A' or > 'Z' && c != '_';
+            var index = source.IndexOf(IsNotUpperAndNotUnderCross);
 
-            switch (index)
+            return index switch
             {
-                case int when index == 0: return $"{char.ToUpper(source[0])}{source.Substring(1)}";
-                default: return source;
-            }
+                int when index == 0 => $"{char.ToUpper(source[0])}{source.Substring(1)}",
+                _ => source,
+            };
         }
 
         /// <summary>
@@ -73,16 +73,16 @@ namespace NStandard
         {
             if (source.IsNullOrEmpty()) return source;
 
-            static bool IsNotUpper(char c) => c < 'A' || 'Z' < c;
-            var index = source.IndexOf(IsNotUpper);
+            static bool IsNotUpperAndNotUnderCross(char c) => c is < 'A' or > 'Z' && c != '_';
+            var index = source.IndexOf(IsNotUpperAndNotUnderCross);
 
-            switch (index)
+            return index switch
             {
-                case int when index > 1: return $"{source.Slice(0, index - 1).ToLower()}{source[index - 1]}{source.Substring(index)}";
-                case int when index == 1: return $"{char.ToLower(source[0])}{source.Substring(index)}";
-                case int when index == 0: return source;
-                default: return source.ToLower();
-            }
+                int when index > 1 => $"{source.Slice(0, index - 1).ToLower()}{source[index - 1]}{source.Substring(index)}",
+                int when index == 1 => $"{char.ToLower(source[0])}{source.Substring(index)}",
+                int when index == 0 => source,
+                _ => source.ToLower(),
+            };
         }
 
         /// <summary>
@@ -94,8 +94,14 @@ namespace NStandard
         {
             if (source.IsNullOrEmpty()) return source;
 
-            static bool IsUpper(char c) => 'A' <= c && c <= 'Z';
-            static bool IsNotUpper(char c) => c < 'A' || 'Z' < c;
+            source = source.Replace("_", "-");
+
+            static bool IsUpper(char c) => c is >= 'A' and <= 'Z';
+            static bool IsNotUpper(char c) => c is < 'A' or > 'Z';
+            static bool IsHyphen(char c) => c == '-';
+
+            static bool IsUpperOrHyphen(char c) => c is >= 'A' and <= 'Z' || c == '-';
+            static bool IsNotUpperOrHyphen(char c) => c is < 'A' or > 'Z' || c == '-';
 
             var sb = new StringBuilder();
             string GetPattern(int _startIndex)
@@ -106,15 +112,24 @@ namespace NStandard
 
                     case int when _startIndex < source.Length - 1:
                         var c1 = source[_startIndex];
+                        if (IsHyphen(c1)) return "-";
+
                         var c2 = source[_startIndex + 1];
+                        if (IsUpper(c1))
+                        {
+                            if (IsHyphen(c2)) return "A-";
+                            else if (IsUpper(c2)) return "AA";
+                            else return "Ab";
+                        }
+                        else if (IsNotUpper(c1))
+                        {
+                            if (IsHyphen(c2)) return "b-";
+                            if (IsUpper(c2)) return "bA";
+                            else return "bb";
+                        }
+                        else throw new NotImplementedException();
 
-                        if (IsUpper(c1) && IsUpper(c2)) return "AA";
-                        else if (IsUpper(c1) && IsNotUpper(c2)) return "Ab";
-                        else if (IsNotUpper(c1) && IsUpper(c2)) return "bA";
-                        else if (IsNotUpper(c1) && IsNotUpper(c2)) return "bb";
-                        else goto default;
-
-                    default: return null;
+                    default: throw new NotImplementedException();
                 }
             }
 
@@ -130,12 +145,34 @@ namespace NStandard
                     sb.Append($"{prefix}{source[startIndex].ToLower()}");
                     break;
                 }
+                else if (pattern == "-")
+                {
+                    startIndex++;
+                }
+                else if (pattern == "A-")
+                {
+                    sb.Append($"{source[startIndex].ToLower()}-");
+                    startIndex += 2;
+                }
+                else if (pattern == "b-")
+                {
+                    sb.Append($"{source[startIndex]}-");
+                    startIndex += 2;
+                }
                 else if (pattern == "Ab" || pattern == "bb")
                 {
-                    index = source.IndexOf(IsUpper, startIndex + 1);
-                    if (index != -1) sb.Append($"{prefix}{source.Slice(startIndex, index).ToLower()}");
-                    else sb.Append($"{prefix}{source.Slice(startIndex).ToLower()}");
-                    startIndex = index;
+                    index = source.IndexOf(IsUpperOrHyphen, startIndex + 1);
+
+                    if (index != -1)
+                    {
+                        sb.Append($"{prefix}{source.Slice(startIndex, index).ToLower()}");
+                        startIndex = index;
+                    }
+                    else
+                    {
+                        sb.Append($"{prefix}{source.Slice(startIndex).ToLower()}");
+                        break;
+                    }
                 }
                 else if (pattern == "bA")
                 {
@@ -144,16 +181,19 @@ namespace NStandard
                 }
                 else if (pattern == "AA")
                 {
-                    index = source.IndexOf(IsNotUpper, startIndex + 1);
+                    index = source.IndexOf(IsNotUpperOrHyphen, startIndex + 1);
+
                     if (index != -1)
                     {
-                        sb.Append($"{prefix}{source.Slice(startIndex, index - 1).ToLower()}");
-                        startIndex = index - 1;
+                        if (!IsHyphen(source[index])) index--;
+
+                        sb.Append($"{prefix}{source.Slice(startIndex, index).ToLower()}");
+                        startIndex = index;
                     }
                     else
                     {
                         sb.Append($"{prefix}{source.Slice(startIndex).ToLower()}");
-                        startIndex = -1;
+                        break;
                     }
                 }
             }

@@ -2,36 +2,36 @@
 {
     public static class Ref
     {
-        public static StructRef<T> New<T>() where T : struct => new();
-        public static StructRef<T> Clone<T>(T value) where T : struct => new() { Ref = value };
-        public static StructRef<T> Initialize<T>() where T : struct, IStructInitialize
+        public static Ref<T> New<T>() where T : struct => new();
+        public static Ref<T> Clone<T>(T value) where T : struct => new() { Struct = value };
+        public static Ref<T> Initialize<T>() where T : struct, IInitialize
         {
             var value = new T();
-            value.InitializeStruct();
-            return new() { Ref = value };
+            value.Initialize();
+            return new() { Struct = value };
         }
     }
 
-    public class StructRef<T> where T : struct
+    public class Ref<T> where T : struct
     {
-        public T Ref;
+        public T Struct;
 
         public override bool Equals(object obj)
         {
             switch (obj)
             {
-                case StructRef<T> _obj: return Ref.Equals(_obj.Ref);
-                case T _obj: return Ref.Equals(_obj);
-                default: return Ref.Equals(obj);
+                case Ref<T> _obj: return Struct.Equals(_obj.Struct);
+                case T _obj: return Struct.Equals(_obj);
+                default: return Struct.Equals(obj);
             }
         }
 
-        public override int GetHashCode() => Ref.GetHashCode();
+        public override int GetHashCode() => Struct.GetHashCode();
 
-        public static implicit operator T(StructRef<T> operand) => operand.Ref;
-        public static implicit operator StructRef<T>(T operand) => new() { Ref = operand };
+        public static implicit operator T(Ref<T> @ref) => @ref.Struct;
+        public static implicit operator Ref<T>(T @struct) => new() { Struct = @struct };
 
-        public override string ToString() => Ref.ToString();
+        public override string ToString() => Struct.ToString();
     }
 
 }

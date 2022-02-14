@@ -4,8 +4,8 @@ using System.Text;
 
 namespace NStandard
 {
-    public interface IStructInitialize
+    public interface IInitialize
     {
-        void InitializeStruct();
+        void Initialize();
     }
 }

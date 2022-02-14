@@ -33,7 +33,12 @@ namespace NStandard.Test
             Assert.Equal("CPKey", StringEx.PascalCase("CPKey"));
             Assert.Equal("MySQL", StringEx.PascalCase("MySQL"));
             Assert.Equal("Gate2Name", StringEx.PascalCase("gate2Name"));
-            Assert.Equal("DAWNXV2", StringEx.PascalCase("DAWNXV2"));
+
+            Assert.Equal("NSTDV2", StringEx.PascalCase("NSTDV2"));
+            Assert.Equal("NSTD_V2", StringEx.PascalCase("NSTD_V2"));
+            Assert.Equal("NStd_V2", StringEx.PascalCase("NStd_V2"));
+            Assert.Equal("Nstd_V2", StringEx.PascalCase("Nstd_V2"));
+            Assert.Equal("Nstd_V2", StringEx.PascalCase("nstd_V2"));
         }
 
         [Fact]
@@ -44,7 +49,11 @@ namespace NStandard.Test
             Assert.Equal("cpKey", StringEx.CamelCase("CPKey"));
             Assert.Equal("mySQL", StringEx.CamelCase("MySQL"));
             Assert.Equal("gate2Name", StringEx.CamelCase("gate2Name"));
-            Assert.Equal("dawnxV2", StringEx.CamelCase("DAWNXV2"));
+
+            Assert.Equal("nstdV2", StringEx.CamelCase("NSTDV2"));
+            Assert.Equal("nstd_V2", StringEx.CamelCase("NSTD_V2"));
+            Assert.Equal("nStd_V2", StringEx.CamelCase("NStd_V2"));
+            Assert.Equal("nstd_V2", StringEx.CamelCase("Nstd_V2"));
         }
 
         [Fact]
@@ -55,7 +64,8 @@ namespace NStandard.Test
             Assert.Equal("cp-key", StringEx.KebabCase("CPKey"));
             Assert.Equal("my-sql", StringEx.KebabCase("MySQL"));
             Assert.Equal("gate2-name", StringEx.KebabCase("gate2Name"));
-            Assert.Equal("dawnx-v2", StringEx.KebabCase("DAWNXV2"));
+            Assert.Equal("nstd-v2", StringEx.KebabCase("NSTDV2"));
+            Assert.Equal("nstd-v2", StringEx.KebabCase("NSTD_V2"));
         }
 
         [Fact]
