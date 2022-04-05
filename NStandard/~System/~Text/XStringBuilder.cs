@@ -1,6 +1,7 @@
-﻿using System.Text;
+﻿#if NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+#else
+using System.Text;
 
-#if NET35
 namespace NStandard
 {
     public static class XStringBuilder

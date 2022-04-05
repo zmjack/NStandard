@@ -1,10 +1,10 @@
 ﻿using NStandard.Converts;
 using System;
 using System.Text;
-#if NET35 || NET40 || NET45 || NET451 || NET452 || NET46
-using System.Web;
-#else
+#if NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
 using System.Net;
+#else
+using System.Web;
 #endif
 
 namespace NStandard.Flows
@@ -23,15 +23,7 @@ namespace NStandard.Flows
         public static Guid GuidFromBase64(string str) => new(str.For(BytesFromBase64));
         public static Guid GuidFromUrlSafeBase64(string str) => new(str.For(BytesFromUrlSafeBase64));
 
-#if NET35 || NET40 || NET45 || NET451 || NET452 || NET46
-        public static string UrlEncode(string str) => HttpUtility.UrlEncode(str);
-        public static string UrlDecode(string str) => HttpUtility.UrlDecode(str);
-        public static string UrlEncode(string str, Encoding e) => HttpUtility.UrlEncode(str, e);
-        public static string UrlDecode(string str, Encoding e) => HttpUtility.UrlDecode(str, e);
-
-        public static string HtmlEncode(string str) => HttpUtility.HtmlEncode(str);
-        public static string HtmlDecode(string str) => HttpUtility.HtmlDecode(str);
-#else
+#if NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
         public static string UrlEncode(string str) => WebUtility.UrlEncode(str);
         public static string UrlDecode(string str) => WebUtility.UrlDecode(str);
         public static string UrlEncode(string str, Encoding e)
@@ -47,6 +39,14 @@ namespace NStandard.Flows
 
         public static string HtmlEncode(string str) => WebUtility.HtmlEncode(str);
         public static string HtmlDecode(string str) => WebUtility.HtmlDecode(str);
+#else
+        public static string UrlEncode(string str) => HttpUtility.UrlEncode(str);
+        public static string UrlDecode(string str) => HttpUtility.UrlDecode(str);
+        public static string UrlEncode(string str, Encoding e) => HttpUtility.UrlEncode(str, e);
+        public static string UrlDecode(string str, Encoding e) => HttpUtility.UrlDecode(str, e);
+
+        public static string HtmlEncode(string str) => HttpUtility.HtmlEncode(str);
+        public static string HtmlDecode(string str) => HttpUtility.HtmlDecode(str);
 #endif
     }
 

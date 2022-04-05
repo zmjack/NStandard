@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0_OR_GREATER
 using System.Reflection;
 using System.Dynamic;
 #endif
@@ -180,7 +180,7 @@ namespace NStandard
         public static Reflector GetReflector(this object @this, Type type) => new(type, @this);
         public static Reflector GetReflector<T>(this object @this) => new(typeof(T), @this);
 
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0_OR_GREATER
         /// <summary>
         /// Converts the specified object to <see cref="ExpandoObject"/>.
         /// </summary>

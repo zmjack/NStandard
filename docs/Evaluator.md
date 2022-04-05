@@ -14,7 +14,7 @@ For example:
 Evaluator.Numerical.Eval("2 >= 3 ? 5 : 7");
 ```
 
-and the result is ***7***.
+The result is ***7***.
 
 <br/>
 
@@ -94,8 +94,8 @@ for (int i = 0; i < 100000; i++)
 
 There is our test result:
 
-| Name                                | Elapsed      |
-| ----------------------------------- | ------------ |
-| **Compile first** for 100'000 calls | about 40 ms  |
-| **Eval** for 100'000 calls          | about 10 sec |
+| Name                                | Elapsed       |
+| ----------------------------------- | ------------- |
+| **Compile first** for 100'000 calls | about 40 ms.  |
+| **Eval** for 100'000 calls          | about 10 sec. |
 

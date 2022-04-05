@@ -5,9 +5,14 @@
 - [English Readme](https://github.com/zmjack/NStandard/blob/master/README.md)
 - [中文自述](https://github.com/zmjack/NStandard/blob/master/README-CN.md)
 
-**No depndencies**, and provide some compatibility implementations for older **.NET Framework** versions.
+**No depndencies**, providing compatible implementations for .NET Framework similar to some of .NET Core functions.
 
-Use this library to simplify your code and make it easier to read.
+<br/>
+
+You can use it to get the following support:
+
+- Implementation of new feature compatibility for **.NET Framework**.
+- Common data structures and some code patterns.
 
 <br/>
 
@@ -30,6 +35,28 @@ Use this library to simplify your code and make it easier to read.
   ```powershell
   <PackageReference Include="NStandard" Version="*" />
   ```
+
+<br/>
+
+## Recently
+
+### Version: 0.8.40
+
+- Add struct **HashCode** for **.NET Framework**, which behaves like **.NET Core**.
+- Adjust precompiled macros to make them more reasonable.
+
+<br/>
+
+## About the Official Version (v1.0.0, Not Release)
+
+Currently, the following functions still need to be improved:
+
+- [ ] [Compatibility for .NET Framework](https://github.com/zmjack/NStandard/blob/master/docs/Compatibility.md)
+- [ ] [Dynamic formula calculation](https://github.com/zmjack/NStandard/blob/master/docs/Evaluator.md)
+- [x] [Numerical operations with units](https://github.com/zmjack/NStandard/blob/master/docs/UnitValue.md)
+- [x] [Dynamic programming](https://github.com/zmjack/NStandard/blob/master/docs/DpContainer.md)
+- [ ] [SequenceInputStream](https://github.com/zmjack/NStandard/blob/master/docs/SequenceInputStream.md)
+- [ ] And more...
 
 <br/>
 

@@ -27,15 +27,15 @@ namespace NStandard
         /// <returns></returns>
         public static bool IsNullOrWhiteSpace(this string @this)
         {
-#if NET35
+#if NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+            return string.IsNullOrWhiteSpace(@this);
+#else
             if (@this == null) return true;
             for (int i = 0; i < @this.Length; i++)
             {
                 if (!char.IsWhiteSpace(@this[i])) return false;
             }
             return true;
-#else
-            return string.IsNullOrWhiteSpace(@this);
 #endif
         }
 

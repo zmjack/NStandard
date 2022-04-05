@@ -4,13 +4,19 @@
     {
         string Unit { get; set; }
     }
+
+    public interface IUnitValue<TValue> : IUnitValue
+    {
+        TValue Value { get; }
+        TValue GetValue(string unit);
+    }
 }
 
 namespace NStandard
 {
     public static class XIUnitValue
     {
-        public static TSelf WithUnit<TSelf>(this TSelf @this, string unit) where TSelf : struct, UnitValues.IUnitValue
+        public static TUnitValue WithUnit<TUnitValue>(this TUnitValue @this, string unit) where TUnitValue : struct, UnitValues.IUnitValue
         {
             @this.Unit = unit;
             return @this;

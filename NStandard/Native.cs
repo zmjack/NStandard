@@ -12,10 +12,10 @@ namespace NStandard
             var pref = (IntPtr**)&oref;
             var pobj = **pref;
             var offset = skipPrefix ? IntPtr.Size : 0;
-#if NET35
-            return new IntPtr(pobj.ToInt64() + offset);
-#else
+#if NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
             return pobj + offset;
+#else
+            return new IntPtr(pobj.ToInt64() + offset);
 #endif
         }
 

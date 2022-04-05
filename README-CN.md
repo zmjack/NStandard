@@ -5,9 +5,14 @@
 - [English Readme](https://github.com/zmjack/NStandard/blob/master/README.md)
 - [中文自述](https://github.com/zmjack/NStandard/blob/master/README-CN.md)
 
-**完全无依赖**，且为旧的 **.NET Framework** 框架提供兼容实现。
+**完全无依赖**，为 **.NET Framework** 框架提供与 **.Net Core** 部分功能相似的兼容实现。
 
-使用这个库来简化代码，使它更容易阅读。
+<br/>
+
+您可以通过使用它来获得以下支持：
+
+- 针对 .NET Framework 的新功能兼容性实现。
+- 常用数据结构及一些代码定式。
 
 <br/>
 
@@ -30,6 +35,28 @@
   ```powershell
   <PackageReference Include="NStandard" Version="*" />
   ```
+
+<br/>
+
+## 最近更新
+
+### 版本: 0.8.40
+
+- 为 **.NET Framework** 添加 **HashCode** 结构体，其表现与 **.NET Core** 类似。
+- 调整预编译宏，使其显得更加合理。
+
+<br/>
+
+## 关于正式版本（v1.0.0，未发布）
+
+目前针对以下功能仍需改进：
+
+- [ ] [.NET Framework 兼容性](https://github.com/zmjack/NStandard/blob/master/docs/Compatibility.md)
+- [ ] [动态公式计算](https://github.com/zmjack/NStandard/blob/master/docs/Evaluator.md)
+- [x] [带单位的数值运算](https://github.com/zmjack/NStandard/blob/master/docs/UnitValue.md)
+- [x] [动态规划计算](https://github.com/zmjack/NStandard/blob/master/docs/DpContainer.md)
+- [ ] [合并流](https://github.com/zmjack/NStandard/blob/master/docs/SequenceInputStream.md)
+- [ ] And more...
 
 <br/>
 

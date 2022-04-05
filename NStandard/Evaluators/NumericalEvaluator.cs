@@ -73,17 +73,17 @@ namespace NStandard.Evaluators
             [":"] = (left, right) => Expression.Condition(Expression.Call(DoubleIsNaNMethod, left), right, left),
         };
 
-#if NET35 || NET40 || NET45 || NET451 || NET452 || NET46
+#if NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
+        protected override Dictionary<(string, string), UnaryOpFunc<double>> BracketFunctions { get; } = new()
+        {
+            [("(", ")")] = null,
+        };
+#else
         protected override Dictionary<Tuple<string, string>, UnaryOpFunc<double>> BracketFunctions { get; } = new()
         {
             [Tuple.Create("(", ")")] = null,
             [Tuple.Create("abs(", ")")] = x => Math.Abs(x),
             [Tuple.Create("sqrt(", ")")] = x => Math.Sqrt(x),
-        };
-#else
-        protected override Dictionary<(string, string), UnaryOpFunc<double>> BracketFunctions { get; } = new()
-        {
-            [("(", ")")] = null,
         };
 #endif
     }

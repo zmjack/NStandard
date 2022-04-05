@@ -10,14 +10,13 @@ namespace NStandard.UnitValues
 
         public double OriginalValue { get; set; }
         public string Unit { get; set; }
-        public double Value
+        public double Value => GetValue(Unit);
+
+        public double GetValue(string unit)
         {
-            get
-            {
-                var unit = Unit ?? DefaultUnit;
-                if (!IsValidUnit(unit)) throw new ArgumentException($"Invalid unit({unit}).", nameof(unit));
-                return unit == DefaultUnit ? OriginalValue : OriginalValue / UnitLevelDict[Unit];
-            }
+            unit ??= DefaultUnit;
+            if (!IsValidUnit(unit)) throw new ArgumentException($"Invalid unit({unit}).", nameof(unit));
+            return unit == DefaultUnit ? OriginalValue : OriginalValue / UnitLevelDict[unit];
         }
 
         public static readonly StorageValue Zero = CreateOriginal(0, DefaultUnit);
@@ -51,8 +50,6 @@ namespace NStandard.UnitValues
             var unit = groups[2].Value;
             return new(number, unit);
         }
-
-        public StorageValue SetUnit(string targetUnit) => CreateOriginal(OriginalValue, targetUnit);
 
         private static readonly Dictionary<string, long> UnitLevelDict = new()
         {

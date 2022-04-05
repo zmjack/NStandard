@@ -9,7 +9,7 @@ namespace NStandard.Test
             public override int StateTransfer(int n)
             {
                 if (n == 0 || n == 1) return 1;
-                return this[n - 1] + this[n - 2];
+                else return this[n - 1] + this[n - 2];
             }
         }
 
@@ -23,13 +23,13 @@ namespace NStandard.Test
         public int BadFib(int n)
         {
             if (n == 0 || n == 1) return 1;
-            return BadFib(n - 1) + BadFib(n - 2);
+            else return BadFib(n - 1) + BadFib(n - 2);
         }
 
         public int Fib(DefaultDpContainer<int, int> dp, int n)
         {
             if (n == 0 || n == 1) return 1;
-            return dp[n - 1] + dp[n - 2];
+            else return dp[n - 1] + dp[n - 2];
         }
 
         [Fact]

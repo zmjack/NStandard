@@ -93,14 +93,14 @@ namespace NStandard
             if (double.TryParse(@this.String, out var b)) return b > 0;
             return bool.TryParse(@this.String, out var ret) && ret;
         }
-#if NET35
+#if NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+        public static implicit operator Guid(VariantString @this) => Guid.TryParse(@this.String, out var ret).For(x => x ? ret : default);
+#else
         public static implicit operator Guid(VariantString @this)
         {
             try { return new Guid(@this.String); }
             catch { return Guid.Empty; }
         }
-#else
-        public static implicit operator Guid(VariantString @this) => Guid.TryParse(@this.String, out var ret).For(x => x ? ret : default);
 #endif
 
         public static implicit operator char?(VariantString @this) => char.TryParse(@this.String, out var ret).For(x => x ? ret : (char?)null);
@@ -122,14 +122,14 @@ namespace NStandard
             if (double.TryParse(@this.String, out var b)) return b > 0;
             return bool.TryParse(@this.String, out var ret).For(x => x ? ret : (bool?)null);
         }
-#if NET35
+#if NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+        public static implicit operator Guid?(VariantString @this) => Guid.TryParse(@this.String, out var ret).For(x => x ? ret : (Guid?)default);
+#else
         public static implicit operator Guid?(VariantString @this)
         {
             try { return new Guid(@this.String); }
             catch { return null; }
         }
-#else
-        public static implicit operator Guid?(VariantString @this) => Guid.TryParse(@this.String, out var ret).For(x => x ? ret : (Guid?)default);
 #endif
 
         public override bool Equals(object obj)

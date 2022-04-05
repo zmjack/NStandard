@@ -78,10 +78,10 @@ namespace NStandard
         /// <param name="offset"></param>
         /// <param name="inits"></param>
         /// <returns></returns>
-#if NET35 || NET40 || NET45 || NET451 || NET452 || NET46
-        public static TSelf[,] Let<TSelf>(this TSelf[,] @this, Tuple<int, int> offset, TSelf[] inits)
-#else
+#if NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
         public static TSelf[,] Let<TSelf>(this TSelf[,] @this, (int Item1, int Item2) offset, TSelf[] inits)
+#else
+        public static TSelf[,] Let<TSelf>(this TSelf[,] @this, Tuple<int, int> offset, TSelf[] inits)
 #endif
         {
             var lengths = new[] { @this.GetLength(0), @this.GetLength(1) };

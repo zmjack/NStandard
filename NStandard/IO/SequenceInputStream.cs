@@ -79,14 +79,10 @@ namespace NStandard.IO
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            if (buffer is null)
-                throw new ArgumentNullException(nameof(buffer), "The parameter `buffer` can not be null.");
-            if (offset < 0)
-                throw new ArgumentOutOfRangeException(nameof(offset), "The parameter `offset` can not be less than 0.");
-            if (count < 0)
-                throw new ArgumentOutOfRangeException(nameof(count), "The parameter `count` can not be less than 0.");
-            if (buffer.Length - offset < count)
-                throw new ArgumentException("Invalid length.");
+            if (buffer is null) throw new ArgumentNullException(nameof(buffer), "The parameter `buffer` can not be null.");
+            if (offset < 0) throw new ArgumentOutOfRangeException(nameof(offset), "The parameter `offset` can not be less than 0.");
+            if (count < 0) throw new ArgumentOutOfRangeException(nameof(count), "The parameter `count` can not be less than 0.");
+            if (buffer.Length - offset < count) throw new ArgumentException("Invalid length.");
 
             var read = 0;
             for (int needRead = count; needRead > 0;)

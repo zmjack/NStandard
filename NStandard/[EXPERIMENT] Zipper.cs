@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NStandard
 {
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0_OR_GREATER
     public static class Zipper
     {
 #region No selector
