@@ -1,6 +1,6 @@
 ﻿namespace NStandard.UnitValues
 {
-    public interface IUnitValue : IInitialize
+    public interface IUnitValue
     {
         string Unit { get; set; }
     }
@@ -16,7 +16,7 @@ namespace NStandard
 {
     public static class XIUnitValue
     {
-        public static TUnitValue WithUnit<TUnitValue>(this TUnitValue @this, string unit) where TUnitValue : struct, UnitValues.IUnitValue
+        public static TUnitValue Unit<TUnitValue>(this TUnitValue @this, string unit) where TUnitValue : struct, UnitValues.IUnitValue
         {
             @this.Unit = unit;
             return @this;

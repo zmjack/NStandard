@@ -4,12 +4,6 @@
     {
         public static Ref<T> New<T>() where T : struct => new();
         public static Ref<T> Clone<T>(T value) where T : struct => new() { Struct = value };
-        public static Ref<T> Initialize<T>() where T : struct, IInitialize
-        {
-            var value = new T();
-            value.Initialize();
-            return new() { Struct = value };
-        }
     }
 
     public class Ref<T> where T : struct

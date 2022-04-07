@@ -1,41 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace NStandard.UnitValues
 {
-    public struct StorageValue : IUnitValue
+    public struct StorageValue : IUnitValue, ISummable<StorageValue>
     {
         public const string DefaultUnit = "b";
 
-        public double OriginalValue { get; set; }
-        public string Unit { get; set; }
+        public double BitValue { get; set; }
+        public string Unit { get; set; } = DefaultUnit;
         public double Value => GetValue(Unit);
 
         public double GetValue(string unit)
         {
             unit ??= DefaultUnit;
             if (!IsValidUnit(unit)) throw new ArgumentException($"Invalid unit({unit}).", nameof(unit));
-            return unit == DefaultUnit ? OriginalValue : OriginalValue / UnitLevelDict[unit];
+            return unit == DefaultUnit ? BitValue : BitValue / UnitLevelDict[unit];
         }
 
-        public static readonly StorageValue Zero = CreateOriginal(0, DefaultUnit);
+        public static readonly StorageValue Zero = new();
 
-        public void Initialize() { Unit = DefaultUnit; }
+        public StorageValue()
+        {
+            BitValue = 0;
+        }
+
+        public StorageValue(double bit)
+        {
+            BitValue = bit;
+        }
 
         public StorageValue(double value, string unit)
         {
-            OriginalValue = value * UnitLevelDict[unit];
+            BitValue = value * UnitLevelDict[unit];
             Unit = unit;
-        }
-
-        public static StorageValue CreateOriginal(double originalValue, string unit)
-        {
-            return new StorageValue
-            {
-                OriginalValue = originalValue,
-                Unit = unit,
-            };
         }
 
         private static readonly Regex _parseRegex = new(@"^(\d+|\.\d+|\d+\.\d*)\s*(\w+)$", RegexOptions.Singleline);
@@ -83,24 +83,89 @@ namespace NStandard.UnitValues
             return UnitLevelDict.ContainsKey(unit);
         }
 
-        public static StorageValue operator +(StorageValue operand) => CreateOriginal(operand.OriginalValue, operand.Unit);
-        public static StorageValue operator -(StorageValue operand) => CreateOriginal(-operand.OriginalValue, operand.Unit);
-        public static StorageValue operator +(StorageValue left, StorageValue right) => CreateOriginal(left.OriginalValue + right.OriginalValue, left.Unit);
-        public static StorageValue operator -(StorageValue left, StorageValue right) => CreateOriginal(left.OriginalValue - right.OriginalValue, left.Unit);
-        public static StorageValue operator *(double left, StorageValue right) => CreateOriginal(left * right.OriginalValue, right.Unit);
-        public static StorageValue operator *(StorageValue left, double right) => CreateOriginal(left.OriginalValue * right, left.Unit);
-        public static StorageValue operator /(StorageValue left, double right) => CreateOriginal(left.OriginalValue / right, left.Unit);
-        public static double operator /(StorageValue left, StorageValue right) => left.OriginalValue / right.OriginalValue;
-        public static bool operator ==(StorageValue left, StorageValue right) => left.OriginalValue == right.OriginalValue;
-        public static bool operator !=(StorageValue left, StorageValue right) => left.OriginalValue != right.OriginalValue;
-        public static bool operator <=(StorageValue left, StorageValue right) => left.OriginalValue <= right.OriginalValue;
-        public static bool operator <(StorageValue left, StorageValue right) => left.OriginalValue < right.OriginalValue;
-        public static bool operator >(StorageValue left, StorageValue right) => left.OriginalValue > right.OriginalValue;
-        public static bool operator >=(StorageValue left, StorageValue right) => left.OriginalValue >= right.OriginalValue;
+        public static StorageValue operator +(StorageValue operand) => new StorageValue(operand.BitValue).Unit(operand.Unit);
+        public static StorageValue operator -(StorageValue operand) => new StorageValue(-operand.BitValue).Unit(operand.Unit);
+        public static StorageValue operator +(StorageValue left, StorageValue right) => new StorageValue(left.BitValue + right.BitValue).Unit(left.Unit);
+        public static StorageValue operator -(StorageValue left, StorageValue right) => new StorageValue(left.BitValue - right.BitValue).Unit(left.Unit);
+        public static StorageValue operator *(double left, StorageValue right) => new StorageValue(left * right.BitValue).Unit(right.Unit);
+        public static StorageValue operator *(StorageValue left, double right) => new StorageValue(left.BitValue * right).Unit(left.Unit);
+        public static StorageValue operator /(StorageValue left, double right) => new StorageValue(left.BitValue / right).Unit(left.Unit);
+        public static double operator /(StorageValue left, StorageValue right) => left.BitValue / right.BitValue;
+        public static bool operator ==(StorageValue left, StorageValue right) => left.BitValue == right.BitValue;
+        public static bool operator !=(StorageValue left, StorageValue right) => left.BitValue != right.BitValue;
+        public static bool operator <=(StorageValue left, StorageValue right) => left.BitValue <= right.BitValue;
+        public static bool operator <(StorageValue left, StorageValue right) => left.BitValue < right.BitValue;
+        public static bool operator >(StorageValue left, StorageValue right) => left.BitValue > right.BitValue;
+        public static bool operator >=(StorageValue left, StorageValue right) => left.BitValue >= right.BitValue;
 
         public override string ToString()
         {
             return $"{Value} {Unit ?? DefaultUnit}";
+        }
+
+        private double InnerSum(IEnumerable<StorageValue> values, out int count)
+        {
+            count = 0;
+
+            using var enumerator = values.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                double current = enumerator.Current.BitValue;
+                double sum = current;
+
+                while (enumerator.MoveNext())
+                {
+                    current = enumerator.Current.BitValue;
+                    sum += current;
+                    count++;
+                }
+
+                return sum;
+            }
+
+            return default;
+        }
+
+        public void QuickSum(IEnumerable<StorageValue> values)
+        {
+            using var enumerator = values.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                double current = enumerator.Current.BitValue;
+                double sum = current;
+
+                while (enumerator.MoveNext())
+                {
+                    current = enumerator.Current.BitValue;
+                    sum += current;
+                }
+
+                BitValue = sum;
+                return;
+            }
+            BitValue = default;
+        }
+
+        public void QuickAverage(IEnumerable<StorageValue> values)
+        {
+            using var enumerator = values.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                double current = enumerator.Current.BitValue;
+                double sum = current;
+                var count = 1;
+
+                while (enumerator.MoveNext())
+                {
+                    current = enumerator.Current.BitValue;
+                    sum += current;
+                    count++;
+                }
+
+                BitValue = sum / count;
+                return;
+            }
+            BitValue = default;
         }
     }
 
