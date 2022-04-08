@@ -93,6 +93,13 @@ sum.QuickSum(values);
 sum.Dump();
 ```
 
+❌ AVOID (about 4.00 seconds, using **[LinqSharp](https://github.com/zmjack/LinqSharp)**)
+
+```csharp
+var sum = values.Sum();
+sum.Dump();
+```
+
 ✔️ CONSIDER (about 1.00 seconds, using **[LinqSharp](https://github.com/zmjack/LinqSharp)**)
 
 ```csharp
