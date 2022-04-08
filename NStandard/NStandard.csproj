@@ -19,16 +19,17 @@
     <PackageTags>System Standard Extension</PackageTags>
     <PackageIcon>nstandard.png</PackageIcon>
     <PackageIconUrl />
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
-    <DocumentationFile>D:\TeamProjects\NStandard\NStandard\NStandard.xml</DocumentationFile>
+    <DocumentationFile></DocumentationFile>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <DocumentationFile>D:\TeamProjects\NStandard\NStandard\NStandard.xml</DocumentationFile>
+    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
