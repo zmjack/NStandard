@@ -31,15 +31,15 @@ namespace NStandard.UnitValues.Test
         [Fact]
         public void Test2()
         {
-            var values = new StorageValue[3].Let(i => new StorageValue(i * 5));
+            var values = new StorageValue[3].Let(i => new StorageValue(i * 5, "kb"));
 
             var sum = new StorageValue();
             sum.QuickSum(values);
-            Assert.Equal(15, sum.BitValue);
+            Assert.Equal(15 * 1024, sum.BitValue);
 
             var average = new StorageValue();
             average.QuickAverage(values);
-            Assert.Equal(5, average.BitValue);
+            Assert.Equal(5 * 1024, average.BitValue);
         }
 
     }

@@ -98,33 +98,8 @@ namespace NStandard.UnitValues
         public static bool operator >(StorageValue left, StorageValue right) => left.BitValue > right.BitValue;
         public static bool operator >=(StorageValue left, StorageValue right) => left.BitValue >= right.BitValue;
 
-        public override string ToString()
-        {
-            return $"{Value} {Unit ?? DefaultUnit}";
-        }
-
-        private double InnerSum(IEnumerable<StorageValue> values, out int count)
-        {
-            count = 0;
-
-            using var enumerator = values.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                double current = enumerator.Current.BitValue;
-                double sum = current;
-
-                while (enumerator.MoveNext())
-                {
-                    current = enumerator.Current.BitValue;
-                    sum += current;
-                    count++;
-                }
-
-                return sum;
-            }
-
-            return default;
-        }
+        public override string ToString() => $"{Value} {Unit ?? DefaultUnit}";
+        public string ToString(string unit) => $"{GetValue(unit)} {unit}";
 
         public void QuickSum(IEnumerable<StorageValue> values)
         {
@@ -141,9 +116,12 @@ namespace NStandard.UnitValues
                 }
 
                 BitValue = sum;
+                Unit = values.First().Unit;
                 return;
             }
+
             BitValue = default;
+            Unit = DefaultUnit;
         }
 
         public void QuickAverage(IEnumerable<StorageValue> values)
@@ -163,9 +141,12 @@ namespace NStandard.UnitValues
                 }
 
                 BitValue = sum / count;
+                Unit = values.First().Unit;
                 return;
             }
+
             BitValue = default;
+            Unit = DefaultUnit;
         }
     }
 
