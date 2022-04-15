@@ -49,6 +49,10 @@
 
 ## 关于正式版本（v1.0.0，未发布）
 
+基础功能：
+
+- [x] [DateTime 增强功能](https://github.com/zmjack/NStandard/blob/master/docs/DateTimeExtensions.md)
+
 目前针对以下功能仍需改进：
 
 - [ ] [.NET Framework 兼容性](https://github.com/zmjack/NStandard/blob/master/docs/Compatibility.md)
@@ -56,7 +60,7 @@
 - [x] [带单位的数值运算](https://github.com/zmjack/NStandard/blob/master/docs/UnitValue.md)
 - [x] [动态规划计算](https://github.com/zmjack/NStandard/blob/master/docs/DpContainer.md)
 - [ ] [合并流](https://github.com/zmjack/NStandard/blob/master/docs/SequenceInputStream.md)
-- [ ] And more...
+- [ ] 更多...
 
 <br/>
 

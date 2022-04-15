@@ -189,6 +189,112 @@ namespace NStandard
         /// Returns a new <see cref="DateTime"/> that adds the specified number of complete years to the value of this instance.
         /// </summary>
         /// <param name="this"></param>
+        /// <param name="value"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        public static DateTime AddDays(this DateTime @this, int value, DayMode mode)
+        {
+            if (value == 0) return @this;
+
+            int days;
+            int week;
+            int mod;
+
+            switch (mode)
+            {
+                default:
+                case DayMode.Undefined: return @this.AddDays(value);
+
+                case DayMode.Weekday:
+                    if (value > 0)
+                    {
+                        // Set to Monday
+                        if (@this.DayOfWeek == DayOfWeek.Saturday)
+                        {
+                            @this = @this.AddDays(2);
+                            value--;
+                        }
+                        else if (@this.DayOfWeek == DayOfWeek.Sunday)
+                        {
+                            @this = @this.AddDays(1);
+                            value--;
+                        }
+                    }
+                    else
+                    {
+                        // Set to Friday
+                        if (@this.DayOfWeek == DayOfWeek.Saturday)
+                        {
+                            @this = @this.AddDays(-1);
+                            value++;
+                        }
+                        else if (@this.DayOfWeek == DayOfWeek.Sunday)
+                        {
+                            @this = @this.AddDays(-2);
+                            value++;
+                        }
+                    }
+
+                    if (value == 0) return @this;
+
+                    days = 5;
+                    week = value / days;
+                    mod = value % days;
+
+                    if (value > 0)
+                    {
+                        if (mod >= DayOfWeek.Saturday - @this.DayOfWeek) return @this.AddDays(week * 7 + mod + 2);
+                        else return @this.AddDays(week * 7 + mod);
+                    }
+                    else
+                    {
+                        if (mod <= DayOfWeek.Sunday - @this.DayOfWeek) return @this.AddDays(week * 7 + mod - 2);
+                        else return @this.AddDays(week * 7 + mod);
+                    }
+
+                case DayMode.Weekend:
+                    if (value > 0)
+                    {
+                        // Set to Saturday
+                        if (@this.DayOfWeek is >= DayOfWeek.Monday and <= DayOfWeek.Friday)
+                        {
+                            @this = @this.AddDays(DayOfWeek.Saturday - @this.DayOfWeek);
+                            value--;
+                        }
+                    }
+                    else
+                    {
+                        // Set to Sunday
+                        if (@this.DayOfWeek is >= DayOfWeek.Monday and <= DayOfWeek.Friday)
+                        {
+                            @this = @this.AddDays(DayOfWeek.Sunday - @this.DayOfWeek);
+                            value++;
+                        }
+                    }
+
+                    if (value == 0) return @this;
+
+                    days = 2;
+                    week = value / days;
+                    mod = value % days;
+
+                    if (value > 0)
+                    {
+                        if (@this.DayOfWeek == DayOfWeek.Sunday && mod == 1) return @this.AddDays(week * 7 + mod + 5);
+                        else return @this.AddDays(week * 7 + mod);
+                    }
+                    else
+                    {
+                        if (@this.DayOfWeek == DayOfWeek.Saturday && mod == -1) return @this.AddDays(week * 7 + mod - 5);
+                        else return @this.AddDays(week * 7 + mod);
+                    }
+            }
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="DateTime"/> that adds the specified number of complete years to the value of this instance.
+        /// </summary>
+        /// <param name="this"></param>
         /// <param name="diff"></param>
         /// <returns></returns>
         public static DateTime AddYearDiff(this DateTime @this, int diff)

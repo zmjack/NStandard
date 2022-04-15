@@ -24,8 +24,7 @@ namespace NStandard.Test
         [Fact]
         public void Test1()
         {
-            /* 2012 - 04
-             * 
+            /*  2012 - 04
              *  Su  Mo  Tu  We  Th  Fr  Sa
              *                           1
              *   2   3   4   5   6   7   8
@@ -63,20 +62,33 @@ namespace NStandard.Test
         {
             Assert.Equal(0, new DateTime(2017, 1, 1).Week(DayOfWeek.Monday));
             Assert.Equal(1, new DateTime(2018, 1, 1).Week(DayOfWeek.Monday));
+
+            /*  2020 - 01
+             *  Su  Mo  Tu  We  Th  Fr  Sa
+             *             ( 1)  2   3   4
+             * ( 5)  6   7   8   9  10  11
+             *  12 (13) 14  15  16  17  18
+             *  19  20  21  22  23  24 (25)
+             *  26  27  28  29  30  31
+             */
+            Assert.Equal(0, new DateTime(2020, 1, 1).Week());
+            Assert.Equal(1, new DateTime(2020, 1, 5).Week());
+            Assert.Equal(2, new DateTime(2020, 1, 13).Week());
+            Assert.Equal(3, new DateTime(2020, 1, 25).Week());
         }
 
         [Fact]
-        public void AddCompleteYearsTest()
+        public void AddTotalYearDiffTest()
         {
-            Assert.Equal(new DateTime(2001, 3, 1), new DateTime(2000, 2, 29).AddTotalYearDiff((double)1));
-            Assert.Equal(new DateTime(2000, 3, 1), new DateTime(2001, 3, 1).AddTotalYearDiff((double)-1));
+            Assert.Equal(new DateTime(2001, 3, 1), new DateTime(2000, 2, 29).AddTotalYearDiff(1));
+            Assert.Equal(new DateTime(2000, 3, 1), new DateTime(2001, 3, 1).AddTotalYearDiff(-1));
 
-            Assert.Equal(new DateTime(1999, 2, 28), new DateTime(2000, 2, 29).AddTotalYearDiff((double)-1));
-            Assert.Equal(new DateTime(2000, 2, 28), new DateTime(1999, 2, 28).AddTotalYearDiff((double)1));
+            Assert.Equal(new DateTime(1999, 2, 28), new DateTime(2000, 2, 29).AddTotalYearDiff(-1));
+            Assert.Equal(new DateTime(2000, 2, 28), new DateTime(1999, 2, 28).AddTotalYearDiff(1));
         }
 
         [Fact]
-        public void AddCompleteMonthsTest()
+        public void AddMonthDiffTest()
         {
             Assert.Equal(new DateTime(2000, 5, 1), new DateTime(2000, 3, 31).AddMonthDiff(1));
             Assert.Equal(new DateTime(2000, 4, 1), new DateTime(2000, 5, 1).AddMonthDiff(-1));
@@ -110,6 +122,158 @@ namespace NStandard.Test
 
             Assert.Equal(DateTimeOffset.FromUnixTimeSeconds(63470131200), DateTimeEx.FromUnixTimeSeconds(63470131200));
             Assert.Equal(DateTimeOffset.FromUnixTimeMilliseconds(63470131200000), DateTimeEx.FromUnixTimeMilliseconds(63470131200000));
+        }
+
+        [Fact]
+        public void AddWeekdayDays_FutureTest()
+        {
+            // Monday start
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(0, DayMode.Weekday), new DateTime(2018, 1, 1));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(1, DayMode.Weekday), new DateTime(2018, 1, 2));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(2, DayMode.Weekday), new DateTime(2018, 1, 3));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(3, DayMode.Weekday), new DateTime(2018, 1, 4));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(4, DayMode.Weekday), new DateTime(2018, 1, 5));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(5, DayMode.Weekday), new DateTime(2018, 1, 8));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(6, DayMode.Weekday), new DateTime(2018, 1, 9));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(7, DayMode.Weekday), new DateTime(2018, 1, 10));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(8, DayMode.Weekday), new DateTime(2018, 1, 11));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(9, DayMode.Weekday), new DateTime(2018, 1, 12));
+
+            // Friday start
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(0, DayMode.Weekday), new DateTime(2021, 1, 1));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(1, DayMode.Weekday), new DateTime(2021, 1, 4));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(2, DayMode.Weekday), new DateTime(2021, 1, 5));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(3, DayMode.Weekday), new DateTime(2021, 1, 6));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(4, DayMode.Weekday), new DateTime(2021, 1, 7));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(5, DayMode.Weekday), new DateTime(2021, 1, 8));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(6, DayMode.Weekday), new DateTime(2021, 1, 11));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(7, DayMode.Weekday), new DateTime(2021, 1, 12));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(8, DayMode.Weekday), new DateTime(2021, 1, 13));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(9, DayMode.Weekday), new DateTime(2021, 1, 14));
+
+            // Saturday start
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(0, DayMode.Weekday), new DateTime(2022, 1, 1));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(1, DayMode.Weekday), new DateTime(2022, 1, 3));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(2, DayMode.Weekday), new DateTime(2022, 1, 4));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(3, DayMode.Weekday), new DateTime(2022, 1, 5));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(4, DayMode.Weekday), new DateTime(2022, 1, 6));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(5, DayMode.Weekday), new DateTime(2022, 1, 7));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(6, DayMode.Weekday), new DateTime(2022, 1, 10));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(7, DayMode.Weekday), new DateTime(2022, 1, 11));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(8, DayMode.Weekday), new DateTime(2022, 1, 12));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(9, DayMode.Weekday), new DateTime(2022, 1, 13));
+
+            // Sunday start
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(0, DayMode.Weekday), new DateTime(2017, 1, 1));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(1, DayMode.Weekday), new DateTime(2017, 1, 2));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(2, DayMode.Weekday), new DateTime(2017, 1, 3));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(3, DayMode.Weekday), new DateTime(2017, 1, 4));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(4, DayMode.Weekday), new DateTime(2017, 1, 5));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(5, DayMode.Weekday), new DateTime(2017, 1, 6));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(6, DayMode.Weekday), new DateTime(2017, 1, 9));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(7, DayMode.Weekday), new DateTime(2017, 1, 10));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(8, DayMode.Weekday), new DateTime(2017, 1, 11));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(9, DayMode.Weekday), new DateTime(2017, 1, 12));
+
+            // Monday start
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(-0, DayMode.Weekday), new DateTime(2018, 1, 1));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(-1, DayMode.Weekday), new DateTime(2017, 12, 29));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(-2, DayMode.Weekday), new DateTime(2017, 12, 28));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(-3, DayMode.Weekday), new DateTime(2017, 12, 27));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(-4, DayMode.Weekday), new DateTime(2017, 12, 26));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(-5, DayMode.Weekday), new DateTime(2017, 12, 25));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(-6, DayMode.Weekday), new DateTime(2017, 12, 22));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(-7, DayMode.Weekday), new DateTime(2017, 12, 21));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(-8, DayMode.Weekday), new DateTime(2017, 12, 20));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(-9, DayMode.Weekday), new DateTime(2017, 12, 19));
+
+            // Friday start                               
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(-0, DayMode.Weekday), new DateTime(2021, 1, 1));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(-1, DayMode.Weekday), new DateTime(2020, 12, 31));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(-2, DayMode.Weekday), new DateTime(2020, 12, 30));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(-3, DayMode.Weekday), new DateTime(2020, 12, 29));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(-4, DayMode.Weekday), new DateTime(2020, 12, 28));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(-5, DayMode.Weekday), new DateTime(2020, 12, 25));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(-6, DayMode.Weekday), new DateTime(2020, 12, 24));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(-7, DayMode.Weekday), new DateTime(2020, 12, 23));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(-8, DayMode.Weekday), new DateTime(2020, 12, 22));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(-9, DayMode.Weekday), new DateTime(2020, 12, 21));
+
+            // Saturday start                             
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(-0, DayMode.Weekday), new DateTime(2022, 1, 1));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(-1, DayMode.Weekday), new DateTime(2021, 12, 31));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(-2, DayMode.Weekday), new DateTime(2021, 12, 30));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(-3, DayMode.Weekday), new DateTime(2021, 12, 29));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(-4, DayMode.Weekday), new DateTime(2021, 12, 28));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(-5, DayMode.Weekday), new DateTime(2021, 12, 27));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(-6, DayMode.Weekday), new DateTime(2021, 12, 24));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(-7, DayMode.Weekday), new DateTime(2021, 12, 23));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(-8, DayMode.Weekday), new DateTime(2021, 12, 22));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(-9, DayMode.Weekday), new DateTime(2021, 12, 21));
+
+            // Sunday start                               
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(-0, DayMode.Weekday), new DateTime(2017, 1, 1));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(-1, DayMode.Weekday), new DateTime(2016, 12, 30));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(-2, DayMode.Weekday), new DateTime(2016, 12, 29));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(-3, DayMode.Weekday), new DateTime(2016, 12, 28));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(-4, DayMode.Weekday), new DateTime(2016, 12, 27));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(-5, DayMode.Weekday), new DateTime(2016, 12, 26));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(-6, DayMode.Weekday), new DateTime(2016, 12, 23));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(-7, DayMode.Weekday), new DateTime(2016, 12, 22));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(-8, DayMode.Weekday), new DateTime(2016, 12, 21));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(-9, DayMode.Weekday), new DateTime(2016, 12, 20));
+        }
+
+        [Fact]
+        public void AddWeekdayDays_PastTest()
+        {
+            // Monday start
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(0, DayMode.Weekend), new DateTime(2018, 1, 1));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(1, DayMode.Weekend), new DateTime(2018, 1, 6));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(2, DayMode.Weekend), new DateTime(2018, 1, 7));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(3, DayMode.Weekend), new DateTime(2018, 1, 13));
+
+            // Friday start                                                 
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(0, DayMode.Weekend), new DateTime(2021, 1, 1));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(1, DayMode.Weekend), new DateTime(2021, 1, 2));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(2, DayMode.Weekend), new DateTime(2021, 1, 3));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(3, DayMode.Weekend), new DateTime(2021, 1, 9));
+
+            // Saturday start                                               
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(0, DayMode.Weekend), new DateTime(2022, 1, 1));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(1, DayMode.Weekend), new DateTime(2022, 1, 2));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(2, DayMode.Weekend), new DateTime(2022, 1, 8));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(3, DayMode.Weekend), new DateTime(2022, 1, 9));
+
+            // Sunday start                                                 
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(0, DayMode.Weekend), new DateTime(2017, 1, 1));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(1, DayMode.Weekend), new DateTime(2017, 1, 7));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(2, DayMode.Weekend), new DateTime(2017, 1, 8));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(3, DayMode.Weekend), new DateTime(2017, 1, 14));
+
+            // Monday start                                         
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(-0, DayMode.Weekend), new DateTime(2018, 1, 1));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(-1, DayMode.Weekend), new DateTime(2017, 12, 31));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(-2, DayMode.Weekend), new DateTime(2017, 12, 30));
+            Assert.Equal(new DateTime(2018, 1, 1).AddDays(-3, DayMode.Weekend), new DateTime(2017, 12, 24));
+
+            // Friday start                                     
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(-0, DayMode.Weekend), new DateTime(2021, 1, 1));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(-1, DayMode.Weekend), new DateTime(2020, 12, 27));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(-2, DayMode.Weekend), new DateTime(2020, 12, 26));
+            Assert.Equal(new DateTime(2021, 1, 1).AddDays(-3, DayMode.Weekend), new DateTime(2020, 12, 20));
+
+            // Saturday start                                      
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(-0, DayMode.Weekend), new DateTime(2022, 1, 1));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(-1, DayMode.Weekend), new DateTime(2021, 12, 26));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(-2, DayMode.Weekend), new DateTime(2021, 12, 25));
+            Assert.Equal(new DateTime(2022, 1, 1).AddDays(-3, DayMode.Weekend), new DateTime(2021, 12, 19));
+
+            // Sunday start                                        
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(-0, DayMode.Weekend), new DateTime(2017, 1, 1));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(-1, DayMode.Weekend), new DateTime(2016, 12, 31));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(-2, DayMode.Weekend), new DateTime(2016, 12, 25));
+            Assert.Equal(new DateTime(2017, 1, 1).AddDays(-3, DayMode.Weekend), new DateTime(2016, 12, 24));
         }
 
     }

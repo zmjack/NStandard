@@ -193,26 +193,184 @@ namespace NStandard
         /// Returns a new <see cref="DateTimeOffset"/> that adds the specified number of complete years to the value of this instance.
         /// </summary>
         /// <param name="this"></param>
-        /// <param name="completeYears"></param>
+        /// <param name="value"></param>
+        /// <param name="mode"></param>
         /// <returns></returns>
-        public static DateTimeOffset AddCompleteYears(this DateTimeOffset @this, int completeYears)
+        public static DateTimeOffset AddDays(this DateTimeOffset @this, int value, DayMode mode)
         {
-            var target = @this.AddYears(completeYears);
-            if (completeYears > 0 && target.Day < @this.Day) target = target.AddDays(1);
+            if (value == 0) return @this;
+
+            int days;
+            int week;
+            int mod;
+
+            switch (mode)
+            {
+                default:
+                case DayMode.Undefined: return @this.AddDays(value);
+
+                case DayMode.Weekday:
+                    if (value > 0)
+                    {
+                        // Set to Monday
+                        if (@this.DayOfWeek == DayOfWeek.Saturday)
+                        {
+                            @this = @this.AddDays(2);
+                            value--;
+                        }
+                        else if (@this.DayOfWeek == DayOfWeek.Sunday)
+                        {
+                            @this = @this.AddDays(1);
+                            value--;
+                        }
+                    }
+                    else
+                    {
+                        // Set to Friday
+                        if (@this.DayOfWeek == DayOfWeek.Saturday)
+                        {
+                            @this = @this.AddDays(-1);
+                            value++;
+                        }
+                        else if (@this.DayOfWeek == DayOfWeek.Sunday)
+                        {
+                            @this = @this.AddDays(-2);
+                            value++;
+                        }
+                    }
+
+                    if (value == 0) return @this;
+
+                    days = 5;
+                    week = value / days;
+                    mod = value % days;
+
+                    if (value > 0)
+                    {
+                        if (mod >= DayOfWeek.Saturday - @this.DayOfWeek) return @this.AddDays(week * 7 + mod + 2);
+                        else return @this.AddDays(week * 7 + mod);
+                    }
+                    else
+                    {
+                        if (mod <= DayOfWeek.Sunday - @this.DayOfWeek) return @this.AddDays(week * 7 + mod - 2);
+                        else return @this.AddDays(week * 7 + mod);
+                    }
+
+                case DayMode.Weekend:
+                    if (value > 0)
+                    {
+                        // Set to Saturday
+                        if (@this.DayOfWeek is >= DayOfWeek.Monday and <= DayOfWeek.Friday)
+                        {
+                            @this = @this.AddDays(DayOfWeek.Saturday - @this.DayOfWeek);
+                            value--;
+                        }
+                    }
+                    else
+                    {
+                        // Set to Sunday
+                        if (@this.DayOfWeek is >= DayOfWeek.Monday and <= DayOfWeek.Friday)
+                        {
+                            @this = @this.AddDays(DayOfWeek.Sunday - @this.DayOfWeek);
+                            value++;
+                        }
+                    }
+
+                    if (value == 0) return @this;
+
+                    days = 2;
+                    week = value / days;
+                    mod = value % days;
+
+                    if (value > 0)
+                    {
+                        if (@this.DayOfWeek == DayOfWeek.Sunday && mod == 1) return @this.AddDays(week * 7 + mod + 5);
+                        else return @this.AddDays(week * 7 + mod);
+                    }
+                    else
+                    {
+                        if (@this.DayOfWeek == DayOfWeek.Saturday && mod == -1) return @this.AddDays(week * 7 + mod - 5);
+                        else return @this.AddDays(week * 7 + mod);
+                    }
+            }
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="DateTime"/> that adds the specified number of complete years to the value of this instance.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <param name="diff"></param>
+        /// <returns></returns>
+        public static DateTimeOffset AddYearDiff(this DateTimeOffset @this, int diff)
+        {
+            var target = @this.AddYears(diff);
+            if (diff > 0 && target.Day < @this.Day) target = target.AddDays(1);
             return target;
         }
 
         /// <summary>
-        /// Returns a new <see cref="DateTimeOffset"/> that adds the specified number of complete months to the value of this instance.
+        /// Returns a new <see cref="DateTime"/> that adds the specified number of complete months to the value of this instance.
         /// </summary>
         /// <param name="this"></param>
-        /// <param name="completeMonths"></param>
+        /// <param name="diff"></param>
         /// <returns></returns>
-        public static DateTimeOffset AddCompleteMonths(this DateTimeOffset @this, int completeMonths)
+        public static DateTimeOffset AddMonthDiff(this DateTimeOffset @this, int diff)
         {
-            var target = @this.AddMonths(completeMonths);
-            if (completeMonths > 0 && target.Day < @this.Day) target = target.AddDays(1);
+            var target = @this.AddMonths(diff);
+            if (diff > 0 && target.Day < @this.Day) target = target.AddDays(1);
             return target;
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="DateTime"/> that adds the specified diff-number of years to the value of this instance.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <param name="diff"></param>
+        /// <returns></returns>
+        public static DateTimeOffset AddTotalYearDiff(this DateTimeOffset @this, double diff)
+        {
+            var integer = (int)diff;
+            var fractional = diff - integer;
+            var start = @this.AddYearDiff(integer);
+            double offsetDays;
+
+            if (diff >= 0)
+            {
+                var end = @this.AddYearDiff(integer + 1);
+                offsetDays = (end - start).TotalDays * fractional;
+            }
+            else
+            {
+                var end = @this.AddYearDiff(integer - 1);
+                offsetDays = (start - end).TotalDays * fractional;
+            }
+            return start.AddDays(offsetDays);
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="DateTime"/> that adds the specified diff-number of months to the value of this instance.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <param name="diff"></param>
+        /// <returns></returns>
+        public static DateTimeOffset AddTotalMonthDiff(this DateTimeOffset @this, double diff)
+        {
+            var integer = (int)diff;
+            var fractional = diff - integer;
+            var start = @this.AddMonthDiff(integer);
+            double offsetDays;
+
+            if (diff >= 0)
+            {
+                var end = @this.AddMonthDiff(integer + 1);
+                offsetDays = (end - start).TotalDays * fractional;
+            }
+            else
+            {
+                var end = @this.AddMonthDiff(integer - 1);
+                offsetDays = (start - end).TotalDays * fractional;
+            }
+            return start.AddDays(offsetDays);
         }
 
         /// <summary>

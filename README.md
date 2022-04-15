@@ -49,6 +49,10 @@ You can use it to get the following support:
 
 ## About the Official Version (v1.0.0, Not Release)
 
+Basis functions:
+
+- [x] [DateTime Extensions](https://github.com/zmjack/NStandard/blob/master/docs/DateTimeExtensions.md)
+
 Currently, the following functions still need to be improved:
 
 - [ ] [Compatibility for .NET Framework](https://github.com/zmjack/NStandard/blob/master/docs/Compatibility.md)

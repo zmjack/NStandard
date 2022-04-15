@@ -88,7 +88,7 @@ namespace NStandard
             if (factor == -1) Any.Swap(ref start, ref end);
 
             var passedYears = end.Year - start.Year;
-            var target = start.AddCompleteYears(passedYears);
+            var target = start.AddYearDiff(passedYears);
             return factor * (target > end ? passedYears - 1 : passedYears);
         }
 
@@ -99,7 +99,7 @@ namespace NStandard
 
             var passedYears = end.Year - start.Year;
             var passedMonths = end.Month - start.Month;
-            var target = start.AddCompleteMonths(passedYears * 12 + passedMonths);
+            var target = start.AddMonthDiff(passedYears * 12 + passedMonths);
             return factor * (target > end ? passedYears * 12 + passedMonths - 1 : passedYears * 12 + passedMonths);
         }
 
@@ -134,8 +134,8 @@ namespace NStandard
             if (start.Offset != end.Offset) throw new ArgumentException($"The offset of {nameof(start)} and {nameof(end)} must be the same.");
 
             var diff = PrivateYearDiff(start, end);
-            var endStart = start.AddCompleteYears(diff);
-            var endEnd = endStart.AddCompleteYears(1);
+            var endStart = start.AddYearDiff(diff);
+            var endEnd = endStart.AddYearDiff(1);
             return diff + (end - endStart).TotalDays / (endEnd - endStart).TotalDays;
         }
 
@@ -150,8 +150,8 @@ namespace NStandard
             if (start.Offset != end.Offset) throw new ArgumentException($"The offset of {nameof(start)} and {nameof(end)} must be the same.");
 
             var diff = PrivateMonthDiff(start, end);
-            var endStart = start.AddCompleteMonths(diff);
-            var endEnd = endStart.AddCompleteMonths(1);
+            var endStart = start.AddMonthDiff(diff);
+            var endEnd = endStart.AddMonthDiff(1);
             return diff + (end - endStart).TotalDays / (endEnd - endStart).TotalDays;
         }
 
