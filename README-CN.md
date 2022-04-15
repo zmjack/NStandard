@@ -43,7 +43,7 @@
 ### 版本: 0.8.40
 
 - 为 **.NET Framework** 添加 **HashCode** 结构体，其表现与 **.NET Core** 类似。
-- 调整预编译宏，使其显得更加合理。
+- 调整预编译宏，使其更加合理。
 
 <br/>
 
@@ -51,7 +51,7 @@
 
 基础功能：
 
-- [x] [DateTime 增强功能](https://github.com/zmjack/NStandard/blob/master/docs/DateTimeExtensions.md)
+- [ ] [DateTime 增强功能](https://github.com/zmjack/NStandard/blob/master/docs/DateTimeExtensions.md)
 
 目前针对以下功能仍需改进：
 
