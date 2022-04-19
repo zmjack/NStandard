@@ -1,4 +1,4 @@
-﻿#if NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+﻿#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -14,7 +14,7 @@ namespace NStandard
             catch (Exception ex) { onException(ex); }
         }
 
-#if NETSTANDARD2_0_OR_GREATER || NET45_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET45_OR_GREATER
         public static async Task CatchAsync(this Task @this, Action<Exception> onException)
         {
             await Task.Run(() =>

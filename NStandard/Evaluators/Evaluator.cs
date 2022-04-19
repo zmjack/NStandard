@@ -30,7 +30,7 @@ namespace NStandard.Evaluators
         protected abstract Dictionary<string, UnaryOpFunc<Expression>> UnaryOpFunctions { get; }
         protected abstract Dictionary<string, BinaryOpFunc<Expression>> BinaryOpFunctions { get; }
 
-#if NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
         protected abstract Dictionary<(string, string), UnaryOpFunc<double>> BracketFunctions { get; }
 #else
         protected abstract Dictionary<Tuple<string, string>, UnaryOpFunc<double>> BracketFunctions { get; }
@@ -231,7 +231,7 @@ namespace NStandard.Evaluators
         protected string GetDebugString(string prompt, string exp, Node node) => $@"{prompt}{Environment.NewLine}{exp}{Environment.NewLine}{" ".Repeat(node.Index)}↑";
         protected double Bracket(string start, string end, double operand)
         {
-#if NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
             return BracketFunctions[(start, end)](operand);
 #else
             return BracketFunctions[Tuple.Create(start, end)](operand);
@@ -304,7 +304,7 @@ namespace NStandard.Evaluators
                         var operand = stack.Pop();
                         stack.Pop();
 
-#if NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
                         var func = BracketFunctions[(startBracketValue, endBracketValue)];
 #else
                         var func = BracketFunctions[Tuple.Create(startBracketValue, endBracketValue)];

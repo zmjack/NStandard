@@ -89,7 +89,7 @@ namespace NStandard.Security
                 .ToCharArray().AsKvPairs()
                 .GroupBy(x => x.Key / 64)
                 .Select(g => new string(g.Select(x => x.Value).ToArray()))
-#if NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
 #else
                 .ToArray()
 #endif
@@ -111,7 +111,7 @@ namespace NStandard.Security
         /// <returns></returns>
         public byte[] Encrypt(byte[] data, RSAEncryptionPadding padding)
         {
-#if NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
             return _innerProvider.Encrypt(data, padding);
 #else
             if (padding == RSAEncryptionPadding.Pkcs1) return _innerProvider.Encrypt(data, false);
@@ -134,7 +134,7 @@ namespace NStandard.Security
         /// <returns></returns>
         public byte[] Decrypt(byte[] data, RSAEncryptionPadding padding)
         {
-#if NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
             return _innerProvider.Decrypt(data, padding);
 #else
             if (padding == RSAEncryptionPadding.Pkcs1) return _innerProvider.Decrypt(data, false);
@@ -143,7 +143,7 @@ namespace NStandard.Security
 #endif
         }
 
-#if NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
 #else
         private HashAlgorithm GetHashAlgorithm(HashAlgorithmName hashAlgorithm)
         {
@@ -175,7 +175,7 @@ namespace NStandard.Security
         public byte[] SignData(byte[] data, HashAlgorithmName hashAlgorithm) => SignData(data, hashAlgorithm, RSASignaturePadding.Pkcs1);
         public byte[] SignData(byte[] data, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
         {
-#if NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
             return _innerProvider.SignData(data, hashAlgorithm, padding);
 #else
             if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
@@ -186,7 +186,7 @@ namespace NStandard.Security
         public byte[] SignData(byte[] data, int offset, int count, HashAlgorithmName hashAlgorithm) => SignData(data, offset, count, hashAlgorithm, RSASignaturePadding.Pkcs1);
         public byte[] SignData(byte[] data, int offset, int count, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
         {
-#if NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
             return _innerProvider.SignData(data, offset, count, hashAlgorithm, padding);
 #else
             if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
@@ -197,7 +197,7 @@ namespace NStandard.Security
         public byte[] SignData(Stream data, HashAlgorithmName hashAlgorithm) => SignData(data, hashAlgorithm, RSASignaturePadding.Pkcs1);
         public byte[] SignData(Stream data, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
         {
-#if NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
             return _innerProvider.SignData(data, hashAlgorithm, padding);
 #else
             if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
@@ -208,7 +208,7 @@ namespace NStandard.Security
         public bool VerifyData(byte[] data, byte[] signature, HashAlgorithmName hashAlgorithm) => VerifyData(data, signature, hashAlgorithm, RSASignaturePadding.Pkcs1);
         public bool VerifyData(byte[] data, byte[] signature, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
         {
-#if NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
             return _innerProvider.VerifyData(data, signature, hashAlgorithm, padding);
 #else
             if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
@@ -219,7 +219,7 @@ namespace NStandard.Security
         public bool VerifyData(byte[] data, int offset, int count, byte[] signature, HashAlgorithmName hashAlgorithm) => VerifyData(data, offset, count, signature, hashAlgorithm, RSASignaturePadding.Pkcs1);
         public bool VerifyData(byte[] data, int offset, int count, byte[] signature, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
         {
-#if NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
             return _innerProvider.VerifyData(data, offset, count, signature, hashAlgorithm, padding);
 #else
             if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
@@ -236,7 +236,7 @@ namespace NStandard.Security
         public bool VerifyData(Stream data, byte[] signature, HashAlgorithmName hashAlgorithm) => VerifyData(data, signature, hashAlgorithm, RSASignaturePadding.Pkcs1);
         public bool VerifyData(Stream data, byte[] signature, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
         {
-#if NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
             return _innerProvider.VerifyData(data, signature, hashAlgorithm, padding);
 #else
             if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
@@ -250,7 +250,7 @@ namespace NStandard.Security
         public byte[] SignHash(byte[] hash, HashAlgorithmName hashAlgorithm) => SignHash(hash, hashAlgorithm, RSASignaturePadding.Pkcs1);
         public byte[] SignHash(byte[] hash, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
         {
-#if NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
             return _innerProvider.SignHash(hash, hashAlgorithm, padding);
 #else
             if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
@@ -261,7 +261,7 @@ namespace NStandard.Security
         public bool VerifyHash(byte[] hash, byte[] signature, HashAlgorithmName hashAlgorithm) => VerifyHash(hash, signature, hashAlgorithm, RSASignaturePadding.Pkcs1);
         public bool VerifyHash(byte[] hash, byte[] signature, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
         {
-#if NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
             return _innerProvider.VerifyHash(hash, signature, hashAlgorithm, padding);
 #else
             if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");

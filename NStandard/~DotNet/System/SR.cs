@@ -2,14 +2,14 @@
 {
     internal static class SR
     {
-#if NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
 #else
         internal const string ArgumentException_TupleIncorrectType = "Argument must be of type {0}.";
         internal const string ArgumentException_TupleLastArgumentNotATuple = "The last element of an eight element tuple must be a Tuple.";
         internal const string Argument_EnumTypeDoesNotMatch = "The argument type, '{0}', is not the same as the enum type '{1}'.";
 #endif
 
-#if NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
 #else
         internal const string Cryptography_HashAlgorithmNameNullOrEmpty = "The hash algorithm name cannot be null or empty.";
         internal const string Cryptography_InvalidHashAlgorithmOid = "The specified OID ({0}) does not represent a known hash algorithm.";

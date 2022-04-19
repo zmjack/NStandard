@@ -227,7 +227,7 @@ namespace NStandard
             }
         }
 
-#if NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
         public static IEnumerable<TRet> Select<T1, T2, T3, T4, T5, TRet>(
             IEnumerable<T1> arg1,
             IEnumerable<T2> arg2,

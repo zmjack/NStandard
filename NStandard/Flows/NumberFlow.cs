@@ -8,7 +8,7 @@ namespace NStandard.Flows
         public static double DefaultIfNonNormal(double number) => IsNormal(number) ? number : 0;
         public static float DefaultIfNonNormal(float number) => IsNormal(number) ? number : 0;
 
-#if NETSTANDARD2_0_OR_GREATER || NET45_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET45_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private unsafe static int SingleToInt32Bits(float value)

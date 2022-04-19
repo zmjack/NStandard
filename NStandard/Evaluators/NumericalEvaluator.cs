@@ -73,7 +73,7 @@ namespace NStandard.Evaluators
             [":"] = (left, right) => Expression.Condition(Expression.Call(DoubleIsNaNMethod, left), right, left),
         };
 
-#if NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
         protected override Dictionary<(string, string), UnaryOpFunc<double>> BracketFunctions { get; } = new()
         {
             [("(", ")")] = null,

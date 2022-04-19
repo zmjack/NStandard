@@ -40,7 +40,7 @@ namespace NStandard
         public static string ReadAllText()
         {
             var ret = Current.Output.ToString();
-#if NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
             Current.Output.Clear();
 #else
             Current.Output.Remove(0, Current.Output.Length);

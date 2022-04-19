@@ -27,7 +27,7 @@ namespace NStandard
         /// <returns></returns>
         public static bool IsNullOrWhiteSpace(this string @this)
         {
-#if NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
             return string.IsNullOrWhiteSpace(@this);
 #else
             if (@this == null) return true;
