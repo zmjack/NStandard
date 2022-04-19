@@ -16,6 +16,14 @@ You can use it to get the following support:
 
 <br/>
 
+These frameworks are supported:
+
+| NET                        | NET Standard                                 | NET Framework                                                |
+| -------------------------- | -------------------------------------------- | ------------------------------------------------------------ |
+| - .NET 5.0<br />- .NET 6.0 | - .NET Standard 2.0<br />- .NET Standard 2.1 | - .NET Framework 3.5<br />- .NET Framework 4.0<br />- .NET Framework 4.5<br />- .NET Framework 4.5.1<br />- .NET Framework 4.5.2<br />- .NET Framework 4.6 |
+
+<br/>
+
 ## Install
 
 - **Package Manager**
