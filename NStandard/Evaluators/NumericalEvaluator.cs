@@ -11,6 +11,10 @@ namespace NStandard.Evaluators
         private static readonly MethodInfo MathFloorMethod = typeof(Math).GetMethod("Floor", new[] { typeof(double) });
         private static readonly MethodInfo DoubleIsNaNMethod = typeof(double).GetMethod("IsNaN");
 
+        public NumericalEvaluator(bool autoInitialize = true) : base(autoInitialize)
+        {
+        }
+
         protected override string DefaultExpression { get; } = "NaN";
         protected override string OperandRegexString { get; } = @"\d+|\d+\.\d+|\-\d+|\-\d+\.\d+|0x[\da-fA-F]+|0[0-7]+|NaN";
         protected override Expression OperandToExpression(string operand)
@@ -23,10 +27,10 @@ namespace NStandard.Evaluators
                 _ => Expression.Constant(Convert.ToDouble(operand)),
             };
         }
-        protected override string ParameterRegexString { get; } = @"\$\{.+?\}";
+        protected override string ParameterRegexString { get; } = @"\$\{\w+?\}";
         protected override Func<string, string> GetParameterName => s => s.Substring(2, s.Length - 3);
 
-        protected override Dictionary<string, int> BinaryOperatorLevels { get; } = new()
+        protected override Dictionary<string, int> BinaryOpLevels { get; } = new()
         {
             ["**"] = 1,
             ["//"] = 3,
@@ -77,6 +81,8 @@ namespace NStandard.Evaluators
         protected override Dictionary<(string, string), UnaryOpFunc<double>> BracketFunctions { get; } = new()
         {
             [("(", ")")] = null,
+            [("abs(", ")")] = x => Math.Abs(x),
+            [("sqrt(", ")")] = x => Math.Sqrt(x),
         };
 #else
         protected override Dictionary<Tuple<string, string>, UnaryOpFunc<double>> BracketFunctions { get; } = new()

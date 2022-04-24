@@ -26,7 +26,7 @@ namespace NStandard.Evaluators
         protected abstract string ParameterRegexString { get; }
         protected abstract Func<string, string> GetParameterName { get; }
 
-        protected abstract Dictionary<string, int> BinaryOperatorLevels { get; }
+        protected abstract Dictionary<string, int> BinaryOpLevels { get; }
         protected abstract Dictionary<string, UnaryOpFunc<Expression>> UnaryOpFunctions { get; }
         protected abstract Dictionary<string, BinaryOpFunc<Expression>> BinaryOpFunctions { get; }
 
@@ -47,18 +47,18 @@ namespace NStandard.Evaluators
         protected Regex ParameterRegex { get; private set; }
         protected Regex ResolveRegex { get; private set; }
 
-        public EvaluatorBase()
+        public EvaluatorBase(bool autoInitialize = true)
         {
-            var undefinedOps = BinaryOperatorLevels.Keys.Where(x => !BinaryOpFunctions.Keys.Contains(x));
+            var undefinedOps = BinaryOpLevels.Keys.Where(x => !BinaryOpFunctions.Keys.Contains(x));
             if (undefinedOps.Any()) throw new ArgumentException($"Some operators are undefined. ({undefinedOps.Join(",")})");
 
-            var undefinedLevels = BinaryOpFunctions.Keys.Where(x => !BinaryOperatorLevels.Keys.Contains(x));
+            var undefinedLevels = BinaryOpFunctions.Keys.Where(x => !BinaryOpLevels.Keys.Contains(x));
             if (undefinedLevels.Any()) throw new ArgumentException($"Some operators are undefined. ({undefinedLevels.Join(",")})");
 
-            Initialize();
+            if (autoInitialize) Initialize();
         }
 
-        public void Initialize()
+        protected void Initialize()
         {
             UnaryOperators = UnaryOpFunctions.Keys.ToArray();
             BinaryOperators = BinaryOpFunctions.Keys.ToArray();
@@ -92,7 +92,7 @@ namespace NStandard.Evaluators
 
         protected string NormalRegexString(string origin) => origin.RegexReplace(NormalRegex, "\\$1");
 
-        protected Expression ParameterToExpression(string name, ParameterExpression parameter, Type parameterType)
+        protected Expression ParameterToExpression(string name, Expression parameter, Type parameterType)
         {
             if (parameter == null) throw new ArgumentException($"No dictionary or object found.");
 
@@ -238,14 +238,20 @@ namespace NStandard.Evaluators
 #endif
         }
 
-        protected Expression InnerBuild(string exp, ParameterExpression parameter, Type parameterType)
+        public Expression GetExpression(string exp, out ParameterExpression dictionary)
+        {
+            dictionary = Expression.Parameter(typeof(IDictionary<,>).MakeGenericType(typeof(string), typeof(double)), "p");
+            return InnerBuild(exp, dictionary, typeof(IDictionary<string, double>));
+        }
+
+        protected Expression InnerBuild(string exp, Expression parameter, Type parameterType)
         {
             var nodes = GetNodes(exp);
 
             if (nodes.Any(x => x.NodeType == NodeType.Parameter) && (parameter is null || parameterType is null))
             {
                 var node = nodes.First(x => x.NodeType == NodeType.Parameter);
-                throw new ArgumentException(GetDebugString("Parameters are undefined.", exp, node));
+                throw new ArgumentException(GetDebugString("Parameters are undefined. (Index: {node.Index})", exp, node));
             }
 
             var stack = new Stack<NodeExpressionPair>();
@@ -295,7 +301,7 @@ namespace NStandard.Evaluators
                     {
                         HandleBinary(levelStack.Peek());
                         if (stack.Count >= 2) peekPrev = stack.Skip(1).FirstOrDefault();
-                        else throw new ArgumentException(GetDebugString($"Unopend bracket.", exp, node));
+                        else throw new ArgumentException(GetDebugString($"Unopend bracket. (Index: {node.Index})", exp, node));
                     }
 
                     var startBracketValue = peekPrev.Node.Value;
@@ -326,9 +332,9 @@ namespace NStandard.Evaluators
                             if (peekPrev.Node.NodeType == NodeType.UnaryOperator) HandleUnary();
                         }
                     }
-                    else throw new ArgumentException(GetDebugString($"The start breacket ({peekPrev.Node.Value}) can not close the end bracket.", exp, node));
+                    else throw new ArgumentException(GetDebugString($"The start breacket ({peekPrev.Node.Value}) can not close the end bracket. (Index: {node.Index})", exp, node));
                 }
-                else throw new ArgumentException(GetDebugString($"Unopend bracket.", exp, node));
+                else throw new ArgumentException(GetDebugString($"Unopend bracket. (Index: {node.Index})", exp, node));
             }
 
             void HandleFinally()
@@ -336,12 +342,12 @@ namespace NStandard.Evaluators
                 if (stack.Any(x => x.Node?.NodeType == NodeType.StartBracket))
                 {
                     var pair = stack.Last(x => x.Node?.NodeType == NodeType.StartBracket);
-                    throw new ArgumentException(GetDebugString($"Unclosed bracket.", exp, pair.Node));
+                    throw new ArgumentException(GetDebugString($"Unclosed bracket. (Index: {pair.Node.Index})", exp, pair.Node));
                 }
                 else if (stack.Any(x => x.Node?.NodeType == NodeType.UnaryOperator))
                 {
                     var pair = stack.First(x => x.Node?.NodeType == NodeType.UnaryOperator);
-                    throw new ArgumentException(GetDebugString($"Unary operator require an operand or parameter.", exp, pair.Node));
+                    throw new ArgumentException(GetDebugString($"Unary operator require an operand or parameter. (Index: {pair.Node.Index})", exp, pair.Node));
                 }
 
                 while (stack.Count > 1)
@@ -354,7 +360,7 @@ namespace NStandard.Evaluators
             foreach (var node in nodes)
             {
                 var nodeType = node.NodeType;
-                if (lastNodeType != NodeType.Unspecified && !FollowTypes[lastNodeType].Contains(nodeType)) throw new ArgumentException(GetDebugString($"{nodeType} can not come after {lastNodeType}.", exp, node));
+                if (lastNodeType != NodeType.Unspecified && !FollowTypes[lastNodeType].Contains(nodeType)) throw new ArgumentException(GetDebugString($"{nodeType} can not come after {lastNodeType}. (Index: {node.Index})", exp, node));
                 lastNodeType = nodeType;
 
                 if (nodeType == NodeType.Parameter || nodeType == NodeType.Operand)
@@ -384,7 +390,7 @@ namespace NStandard.Evaluators
                 }
                 else if (nodeType == NodeType.BinaryOperator)
                 {
-                    var level = BinaryOperatorLevels[node.Value];
+                    var level = BinaryOpLevels[node.Value];
                     if (levelStack.Count > 0)
                     {
                         var lastLevel = levelStack.Peek();
@@ -406,34 +412,58 @@ namespace NStandard.Evaluators
             return stack.Pop().Expression;
         }
 
-        public double Eval(string exp) => Compile(exp)();
-        public double Eval(string exp, IDictionary<string, double> dict) => CompileParameterized(exp)(dict);
-        public double Eval<TParameter>(string exp, TParameter parameter) => CompileParameterized<TParameter>(exp)(parameter);
-
-        public Expression Build(string exp) => InnerBuild(exp, null, null);
-        public Expression BuildParameterized(string exp, out ParameterExpression dictionary)
+        public double Eval(string exp)
         {
-            dictionary = Expression.Parameter(typeof(IDictionary<,>).MakeGenericType(typeof(string), typeof(double)), "p");
-            return InnerBuild(exp, dictionary, typeof(IDictionary<string, double>));
-        }
-        public Expression BuildParameterized<TParameter>(string exp, out ParameterExpression parameter)
-        {
-            parameter = Expression.Parameter(typeof(TParameter), "p");
-            return InnerBuild(exp, parameter, typeof(TParameter));
+            var expression = InnerBuild(exp, null, null);
+            var lambda = Expression.Lambda<Func<double>>(expression);
+            var func = lambda.Compile();
+            return func();
         }
 
-        public Func<double> Compile(string exp) => Expression.Lambda<Func<double>>(Build(exp)).Compile();
-        public Func<IDictionary<string, double>, double> CompileParameterized(string exp)
+        private static readonly MethodInfo ObjectToDictionaryMethod = ((Func<object, IDictionary<string, double>>)ObjectToDictionary).Method;
+        private static IDictionary<string, double> ObjectToDictionary(object obj)
         {
-            var expression = BuildParameterized(exp, out var dictionary);
-            return Expression.Lambda<Func<IDictionary<string, double>, double>>(expression, dictionary).Compile();
+            var props = obj.GetType().GetProperties();
+            var dict = new Dictionary<string, double>();
+            foreach (var prop in props)
+            {
+                var value = prop.GetValue(obj);
+                dict[prop.Name] = (double)Convert.ChangeType(value, typeof(double));
+            }
+            return dict;
         }
 
-        public Func<TParameter, double> CompileParameterized<TParameter>(string exp)
+        public Func<TParameter, double> Compile<TParameter>(string exp)
         {
-            var expression = BuildParameterized<TParameter>(exp, out var parameter);
-            return Expression.Lambda<Func<TParameter, double>>(expression, parameter).Compile();
+            var parameter = Expression.Parameter(typeof(TParameter), "p");
+            var expression = InnerBuild(exp, parameter, typeof(TParameter));
+            var lambda = Expression.Lambda<Func<TParameter, double>>(expression, parameter);
+            return lambda.Compile();
         }
+
+        public Func<object, double> Compile(string exp)
+        {
+            var parameter = Expression.Parameter(typeof(object), "p");
+            var typeIsIDictionaryExp = Expression.TypeIs(parameter, typeof(IDictionary<string, double>));
+
+            var dictParameter =
+                Expression.Condition(typeIsIDictionaryExp,
+                    Expression.Convert(parameter, typeof(IDictionary<string, double>)),
+                    Expression.Convert(Expression.Call(null, ObjectToDictionaryMethod, parameter), typeof(IDictionary<string, double>))
+                );
+            var expression = InnerBuild(exp, dictParameter, typeof(IDictionary<string, double>));
+            var lambda = Expression.Lambda<Func<object, double>>(expression, parameter);
+            return lambda.Compile();
+        }
+
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
+        public void AddBracketFunction((string, string) key, UnaryOpFunc<double> value) => BracketFunctions.Add(key, value);
+#else
+        public void AddBracketFunction(Tuple<string, string> key, UnaryOpFunc<double> value) => BracketFunctions.Add(key, value);
+#endif
+        public void AddUnaryOpFunction(string key, UnaryOpFunc<double> value) => UnaryOpFunctions.Add(key, exp => Expression.Call(Expression.Constant(value.Target), value.Method, exp));
+        public void AddBinaryOpFunction(string key, BinaryOpFunc<double> value) => BinaryOpFunctions.Add(key, (left, rigth) => Expression.Call(Expression.Constant(value.Target), value.Method, left, rigth));
+        public void AddBinaryOpLevel(string key, int value) => BinaryOpLevels.Add(key, value);
 
         protected struct NodeExpressionPair
         {

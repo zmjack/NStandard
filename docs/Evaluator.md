@@ -54,48 +54,109 @@ Evaluator.Numerical.Eval("2 >= 3 ? 5 : 7");
 or there is any parameter:
 
 ```csharp
-Evaluator.Numerical.Eval(
-    "${price} >= 100 ? ${price} * 0.8 : ${price}", 
-    new Dictionary<string, double>
-    {
-        ["price"] = 100,
-    });
+var exp = "${price} >= 100 ? ${price} * 0.8 : ${price}";
+Func<object, double> func = Evaluator.Numerical.Compile(exp);
+var result = func(new { Price = 100 });
 // The result is 80.
 ```
 
-It's worth noting that, these operators (**?** and **:**) are specific. Used in combination, it will have the same effect as the ternary operator.
+```csharp
+class Item
+{
+	public double Price { get; set; }
+}
+
+void Main()
+{
+    var exp = "${price} >= 100 ? ${price} * 0.8 : ${price}";
+	Func<Item, double> func = Evaluator.Numerical.Compile<Item>(exp);
+	var result = func(new Item { Price = 100 });
+	// The result is 80.
+}
+```
+
+It's worth noting that, these operators ( **?** and **:** ) are specific. Used in combination, it will have the same effect as the ternary operator ( **? :** ).
 
 <br/>
 
-In addition, if you want to evaluate the same expression, you should not use **Evaluator.Numerical.Eval** method.
+### Customize evaluator
 
-The correct approach is to **compile** it first and then **call** the compiled function. It will run faster.
-
-For example, the faster code is:
+There is a simple evaluator which is extend **NumericalEvaluator**:
 
 ```csharp
-// Recommended
-var exp = "1 + (2 * 3 - 4 * (5 + 6)) + 7";
-var func = Evaluator.Numerical.Compile(exp);
-for (int i = 0; i < 100000; i++)
+public class MyEvaluator : NumericalEvaluator
 {
-    var actual = func();
-}
-```
-and the slower code:
-
-```csharp
-var exp = "1 + (2 * 3 - 4 * (5 + 6)) + 7";
-for (int i = 0; i < 100000; i++)
-{
-    var actual = Evaluator.Numerical.Eval(exp);
+	public MyEvaluator() : base(false)
+	{
+		AddUnaryOpFunction("!", value => value != 0d ? 0d : 1d);
+		AddBracketFunction(("[", "]"), value => Math.Sqrt(value));
+		Initialize();
+	}
 }
 ```
 
-There is our test result:
+Let's evaluate the string:
 
-| Name                                | Elapsed       |
-| ----------------------------------- | ------------- |
-| **Compile first** for 100'000 calls | about 40 ms.  |
-| **Eval** for 100'000 calls          | about 10 sec. |
+```csharp
+"[9] + !0"
+```
+
+```csharp
+var evaluator = new MyEvaluator();
+var result = evaluator.Eval("[9] + !0");
+// [9] is Sqrt(9) = 3
+// !0  is 1
+// The result is 4.
+```
+
+<br/>
+
+### Compilation phase
+
+For example, parse the string into a function.
+
+```csharp
+var exp = "${x} + sqrt(abs(${x} * 3)) * 3";
+```
+
+1. Parse a string into a collection of nodes. 
+
+   | NodeType       | IndexΞΞ | Value |
+   | :------------- | :------ | :---- |
+   | Parameter      | 0       | ${x}  |
+   | BinaryOperator | 5       | +     |
+   | StartBracket   | 7       | sqrt( |
+   | StartBracket   | 12      | abs(  |
+   | Parameter      | 16      | ${x}  |
+   | BinaryOperator | 21      | *     |
+   | Operand        | 23      | 3     |
+   | EndBracket     | 24      | )     |
+   | EndBracket     | 25      | )     |
+   | BinaryOperator | 27      | *     |
+   | Operand        | 29      | 3     |
+
+2. Build the **Expression**.
+
+   ```
+   (
+   	IIF(p.ContainsKey("x"), p.get_Item("x"), 0) +
+   	(
+           value(NStandard.Evaluators.NumericalEvaluator).Bracket
+           (
+           	"sqrt(", ")", 
+               value(NStandard.Evaluators.NumericalEvaluator).Bracket
+               (
+               	"abs(", ")", 
+               	(
+                   	IIF(p.ContainsKey("x"), p.get_Item("x"), 0) * 3
+                   )
+               )
+   		) * 3
+       )
+   )
+   ```
+
+3. Compile the Expression to **Func<object, double>**.
+
+<br/>
 

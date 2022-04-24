@@ -38,6 +38,19 @@ namespace NStandard
         }
 
         /// <summary>
+        /// Run a task for the object, then return itself.
+        /// </summary>
+        /// <typeparam name="TSelf"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="out"></param>
+        /// <returns></returns>
+        public static TSelf For<TSelf>(this TSelf @this, out TSelf @out)
+        {
+            @out = @this;
+            return @this;
+        }
+
+        /// <summary>
         /// Casts the object to another object through the specified convert method.
         /// </summary>
         /// <typeparam name="TSelf"></typeparam>

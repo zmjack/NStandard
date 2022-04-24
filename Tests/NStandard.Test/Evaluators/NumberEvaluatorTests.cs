@@ -6,6 +6,48 @@ namespace NStandard.Evaluators.Test
 {
     public class NumberEvaluatorTests
     {
+        private class Item
+        {
+            public double Price { get; set; }
+        }
+
+        public class MyEvaluator : NumericalEvaluator
+        {
+            public MyEvaluator() : base(false)
+            {
+                AddUnaryOpFunction("!", value => value != 0d ? 0d : 1d);
+                AddBracketFunction(("[", "]"), value => Math.Sqrt(value));
+                Initialize();
+            }
+        }
+
+        [Fact]
+        public void MyEvaluatorTest()
+        {
+            var evaluator = new MyEvaluator();
+            var actual = evaluator.Eval("[9] + !0");
+            Assert.Equal(4, actual);
+        }
+
+        [Fact]
+        public void SimpleTest()
+        {
+            var exp = "${x} + sqrt(abs(${x} * 3)) * 3";
+            var nodes = Evaluator.Numerical.GetNodes(exp);
+            var func = Evaluator.Numerical.Compile(exp);
+
+            Assert.Equal(6, func(new { x = -3 }));
+            Assert.Equal(6, func(new Dictionary<string, double> { ["x"] = -3 }));
+        }
+
+        [Fact]
+        public void ModelTest()
+        {
+            var func = Evaluator.Numerical.Compile<Item>("${Price} >= 100 ? ${Price} * 0.8 : ${Price}");
+            var actual = func(new Item { Price = 100 });
+            Assert.Equal(80, actual);
+        }
+
         [Fact]
         public void ComplexTest()
         {
@@ -61,10 +103,10 @@ namespace NStandard.Evaluators.Test
         public void NormalParameterTest()
         {
             var exp = "1 + (2 * ${a} - 4 * (${b} + 6)) + 7";
-            var tree = Evaluator.Numerical.BuildParameterized(exp, out _);
+            var tree = Evaluator.Numerical.GetExpression(exp, out _);
             Assert.Equal("((1 + ((2 * IIF(p.ContainsKey(\"a\"), p.get_Item(\"a\"), 0)) - (4 * (IIF(p.ContainsKey(\"b\"), p.get_Item(\"b\"), 0) + 6)))) + 7)", tree.ToString());
 
-            var del = Evaluator.Numerical.CompileParameterized(exp);
+            var del = Evaluator.Numerical.Compile(exp);
             Assert.Equal(1 + (2 * 3 - 4 * (5 + 6)) + 7, del(new Dictionary<string, double> { ["a"] = 3, ["b"] = 5 }));
             Assert.Equal(1 + (2 * 4 - 4 * (6 + 6)) + 7, del(new Dictionary<string, double> { ["a"] = 4, ["b"] = 6 }));
             Assert.Equal(1 + (2 * 4 - 4 * (0 + 6)) + 7, del(new Dictionary<string, double> { ["a"] = 4 }));
