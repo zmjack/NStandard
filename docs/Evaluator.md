@@ -63,19 +63,68 @@ var result = func(new { Price = 100 });
 ```csharp
 class Item
 {
-	public double Price { get; set; }
+    public double Price { get; set; }
 }
 
 void Main()
 {
     var exp = "${price} >= 100 ? ${price} * 0.8 : ${price}";
-	Func<Item, double> func = Evaluator.Numerical.Compile<Item>(exp);
-	var result = func(new Item { Price = 100 });
-	// The result is 80.
+    Func<Item, double> func = Evaluator.Numerical.Compile<Item>(exp);
+    var result = func(new Item { Price = 100 });
+    // The result is 80.
 }
 ```
 
 It's worth noting that, these operators ( **?** and **:** ) are specific. Used in combination, it will have the same effect as the ternary operator ( **? :** ).
+
+<br/>
+
+### Compilation phase
+
+For example, parse the string into a function.
+
+```csharp
+var exp = "${x} + sqrt(abs(${x} * 3)) * 3";
+```
+
+1. Parse a string into a collection of nodes. 
+
+   | NodeType       | Index | Value |
+   | :------------- | :---- | :---- |
+   | Parameter      | 0     | ${x}  |
+   | BinaryOperator | 5     | +     |
+   | StartBracket   | 7     | sqrt( |
+   | StartBracket   | 12    | abs(  |
+   | Parameter      | 16    | ${x}  |
+   | BinaryOperator | 21    | *     |
+   | Operand        | 23    | 3     |
+   | EndBracket     | 24    | )     |
+   | EndBracket     | 25    | )     |
+   | BinaryOperator | 27    | *     |
+   | Operand        | 29    | 3     |
+
+2. Build the **Expression**.
+
+   ```
+   (
+       IIF(p.ContainsKey("x"), p.get_Item("x"), 0) +
+       (
+           value(NStandard.Evaluators.NumericalEvaluator).Bracket
+           (
+               "sqrt(", ")", 
+               value(NStandard.Evaluators.NumericalEvaluator).Bracket
+               (
+                   "abs(", ")", 
+                   (
+                       IIF(p.ContainsKey("x"), p.get_Item("x"), 0) * 3
+                   )
+               )
+           ) * 3
+       )
+   )
+   ```
+
+3. Compile the Expression to **Func<object, double>**.
 
 <br/>
 
@@ -86,12 +135,12 @@ There is a simple evaluator which is extend **NumericalEvaluator**:
 ```csharp
 public class MyEvaluator : NumericalEvaluator
 {
-	public MyEvaluator() : base(false)
-	{
-		AddUnaryOpFunction("!", value => value != 0d ? 0d : 1d);
-		AddBracketFunction(("[", "]"), value => Math.Sqrt(value));
-		Initialize();
-	}
+    public MyEvaluator() : base(false)
+    {
+        AddUnaryOpFunction("!", value => value != 0d ? 0d : 1d);
+        AddBracketFunction(("[", "]"), value => Math.Sqrt(value));
+        Initialize();
+    }
 }
 ```
 
@@ -110,53 +159,3 @@ var result = evaluator.Eval("[9] + !0");
 ```
 
 <br/>
-
-### Compilation phase
-
-For example, parse the string into a function.
-
-```csharp
-var exp = "${x} + sqrt(abs(${x} * 3)) * 3";
-```
-
-1. Parse a string into a collection of nodes. 
-
-   | NodeType       | IndexΞΞ | Value |
-   | :------------- | :------ | :---- |
-   | Parameter      | 0       | ${x}  |
-   | BinaryOperator | 5       | +     |
-   | StartBracket   | 7       | sqrt( |
-   | StartBracket   | 12      | abs(  |
-   | Parameter      | 16      | ${x}  |
-   | BinaryOperator | 21      | *     |
-   | Operand        | 23      | 3     |
-   | EndBracket     | 24      | )     |
-   | EndBracket     | 25      | )     |
-   | BinaryOperator | 27      | *     |
-   | Operand        | 29      | 3     |
-
-2. Build the **Expression**.
-
-   ```
-   (
-   	IIF(p.ContainsKey("x"), p.get_Item("x"), 0) +
-   	(
-           value(NStandard.Evaluators.NumericalEvaluator).Bracket
-           (
-           	"sqrt(", ")", 
-               value(NStandard.Evaluators.NumericalEvaluator).Bracket
-               (
-               	"abs(", ")", 
-               	(
-                   	IIF(p.ContainsKey("x"), p.get_Item("x"), 0) * 3
-                   )
-               )
-   		) * 3
-       )
-   )
-   ```
-
-3. Compile the Expression to **Func<object, double>**.
-
-<br/>
-
