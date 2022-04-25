@@ -130,7 +130,7 @@ var exp = "${x} + sqrt(abs(${x} * 3)) * 3";
 
 ### Customize evaluator
 
-There is a simple evaluator which is extend **NumericalEvaluator**:
+There is a simple evaluator which extend **NumericalEvaluator**:
 
 ```csharp
 public class MyEvaluator : NumericalEvaluator
