@@ -30,14 +30,21 @@ namespace NStandard.Evaluators.Test
         }
 
         [Fact]
-        public void SimpleTest()
+        public void TypicalTest()
         {
             var exp = "${x} + sqrt(abs(${x} * 3)) * 3";
-            var nodes = Evaluator.Numerical.GetNodes(exp);
             var func = Evaluator.Numerical.Compile(exp);
 
             Assert.Equal(6, func(new { x = -3 }));
             Assert.Equal(6, func(new Dictionary<string, double> { ["x"] = -3 }));
+        }
+
+        [Fact]
+        public void UnaryMinusOperatorTest()
+        {
+            var exp = "-${x}";
+            var func = Evaluator.Numerical.Compile(exp);
+            Assert.Equal(-3, func(new { x = 3 }));
         }
 
         [Fact]

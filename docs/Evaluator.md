@@ -41,9 +41,34 @@ We provide a rich set of operators:
 | 14       | ?        | **Returns** the **right-hand** expression **if** the **left-hand** expression **is not 0**,<br/>**otherwise** **double.NaN**. | (2 > 3 ? 5) is NaN.<br/>(2 < 3 ? 5) is 5.       |
 | 15       | :        | **Returns** the **right-hand** expression **if** the **left-hand** expression **is** **double.NaN**,<br/>**otherwise** the **left-hand** expression. | (2 > 3 ? 5 : 7) is 7.<br/>(2 < 3 ? 5 : 7) is 5. |
 
-<br/>
+The built-in **UnaryOpFunctions**:
 
-It looks like **Python** and is much easier to use.
+| Operator | Description                       | Example            |
+| -------- | --------------------------------- | ------------------ |
+| not      | High priority operation.          | 2 * ( 3 + 5 ) = 16 |
+| +        | For an operation of the form `+x` | + ( 2 + 3 ) = 5    |
+| -        | For an operation of the form `–x` | - ( 2 + 3 ) = -5   |
+
+The built-in **BracketFunctions**:
+
+| Operator     | Description                                                  | Example                 |
+| ------------ | ------------------------------------------------------------ | ----------------------- |
+| ( ... )      | High priority operation.                                     | 2 * ( 3 + 5 ) = 16      |
+| abs( ... )   | Returns the absolute value of a double-precision floating-point number. | abs(-2) = 2             |
+| sqrt( ... )  | Returns the square root of a specified number.               | sqrt(9) = 3             |
+| ceil( ... )  | Returns the smallest integral value that is greater than or equal to the specified double-precision floating-point number. | ceil(6.8) = 7           |
+| floor( ... ) | Returns the largest integer less than or equal to the specified double-precision floating-point number. | floor(6.8) = 6          |
+| sin( ... )   | Returns the sine of the specified angle.                     | sin({Math.PI / 2}) = 1  |
+| cos( ... )   | Returns the cosine of the specified angle.                   | cos(0) = 1              |
+| tan( ... )   | Returns the tangent of the specified angle.                  | tan({Math.PI / 4}) = 1  |
+| asin( ... )  | Returns the angle whose sine is the specified number.        | sin(1) = {Math.PI / 2}  |
+| acos( ... )  | Returns the angle whose cosine is the specified number.      | acos(1) = 0             |
+| atan( ... )  | Returns the angle whose tangent is the specified number.     | atan(1) = {Math.PI / 4} |
+| sinh( ... )  | Returns the hyperbolic sine of the specified angle.          | sinh(0.1) = 0.1001...   |
+| cosh( ... )  | Returns the hyperbolic cosine of the specified angle.        | cosh(0.1)  = 1.0050...  |
+| tanh( ... )  | Returns the hyperbolic tangent of the specified angle.       | tanh(0.1) = 0.0996...   |
+
+<br/>
 
 If there are no parameters:
 
@@ -55,8 +80,18 @@ or there is any parameter:
 
 ```csharp
 var exp = "${price} >= 100 ? ${price} * 0.8 : ${price}";
-Func<object, double> func = Evaluator.Numerical.Compile(exp);
+var func = Evaluator.Numerical.Compile(exp);
 var result = func(new { Price = 100 });
+// The result is 80.
+```
+
+```csharp
+var exp = "${price} >= 100 ? ${price} * 0.8 : ${price}";
+var func = Evaluator.Numerical.Compile(exp);
+var result = func(new Dictionary<string, double> 
+{
+    ["price"] = 100
+});
 // The result is 80.
 ```
 
@@ -89,6 +124,22 @@ var exp = "${x} + sqrt(abs(${x} * 3)) * 3";
 
 1. Parse a string into a collection of nodes. 
 
+   | Problem   | NodeType                      | IndexΞΞ | Value |
+   | --------- | :---------------------------- | :------ | :---- |
+   |           | Parameter                     | 0       | ${x}  |
+   | Ambiguity | UnaryOperator, BinaryOperator | 5       | +     |
+   |           | StartBracket                  | 7       | sqrt( |
+   |           | StartBracket                  | 12      | abs(  |
+   |           | Parameter                     | 16      | ${x}  |
+   |           | BinaryOperator                | 21      | *     |
+   |           | Operand                       | 23      | 3     |
+   |           | EndBracket                    | 24      | )     |
+   |           | EndBracket                    | 25      | )     |
+   |           | BinaryOperator                | 27      | *     |
+   |           | Operand                       | 29      | 3     |
+
+2. Disambiguate nodes.
+
    | NodeType       | Index | Value |
    | :------------- | :---- | :---- |
    | Parameter      | 0     | ${x}  |
@@ -103,7 +154,7 @@ var exp = "${x} + sqrt(abs(${x} * 3)) * 3";
    | BinaryOperator | 27    | *     |
    | Operand        | 29    | 3     |
 
-2. Build the **Expression**.
+3. Build the **Expression**.
 
    ```
    (
@@ -124,7 +175,28 @@ var exp = "${x} + sqrt(abs(${x} * 3)) * 3";
    )
    ```
 
-3. Compile the Expression to **Func<object, double>**.
+4. Compile the Expression to **Func<object, double>**.
+
+   ```csharp
+   var func = Evaluator.Numerical.Compile(exp);
+   ```
+
+5. Call the **Func<object, double>**.
+
+   Use anonymous object:
+
+   ```csharp
+   var result = func(new { x = -3 });
+   ```
+
+   or **Dictionary<string, double>**:
+
+   ```csharp
+   var result = func(new Dictionary<string, double> 
+   {
+       ["x"] = -3
+   });
+   ```
 
 <br/>
 
@@ -159,3 +231,4 @@ var result = evaluator.Eval("[9] + !0");
 ```
 
 <br/>
+

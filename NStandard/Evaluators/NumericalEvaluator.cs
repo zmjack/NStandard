@@ -16,7 +16,7 @@ namespace NStandard.Evaluators
         }
 
         protected override string DefaultExpression { get; } = "NaN";
-        protected override string OperandRegexString { get; } = @"\d+|\d+\.\d+|\-\d+|\-\d+\.\d+|0x[\da-fA-F]+|0[0-7]+|NaN";
+        protected override string OperandRegexString { get; } = @"-?\d+\.\d+|-?\d+|0x[\da-fA-F]+|0[0-7]+|NaN";
         protected override Expression OperandToExpression(string operand)
         {
             return operand switch
@@ -53,7 +53,9 @@ namespace NStandard.Evaluators
         };
         protected override Dictionary<string, UnaryOpFunc<Expression>> UnaryOpFunctions { get; } = new()
         {
-            ["not"] = value => Expression.Condition(Expression.Equal(value, Expression.Constant(0d)), Expression.Constant(1d), Expression.Constant(0d)),
+            ["not"] = operand => Expression.Condition(Expression.Equal(operand, Expression.Constant(0d)), Expression.Constant(1d), Expression.Constant(0d)),
+            ["-"] = operand => Expression.NegateChecked(operand),
+            ["+"] = operand => operand,
         };
         protected override Dictionary<string, BinaryOpFunc<Expression>> BinaryOpFunctions { get; } = new()
         {
@@ -83,6 +85,21 @@ namespace NStandard.Evaluators
             [("(", ")")] = null,
             [("abs(", ")")] = x => Math.Abs(x),
             [("sqrt(", ")")] = x => Math.Sqrt(x),
+
+            [("ceil(", ")")] = x => Math.Ceiling(x),
+            [("floor(", ")")] = x => Math.Floor(x),
+
+            [("sin(", ")")] = x => Math.Sin(x),
+            [("cos(", ")")] = x => Math.Cos(x),
+            [("tan(", ")")] = x => Math.Tan(x),
+
+            [("asin(", ")")] = x => Math.Asin(x),
+            [("acos(", ")")] = x => Math.Acos(x),
+            [("atan(", ")")] = x => Math.Atan(x),
+
+            [("sinh(", ")")] = x => Math.Sinh(x),
+            [("cosh(", ")")] = x => Math.Cosh(x),
+            [("tanh(", ")")] = x => Math.Tanh(x),
         };
 #else
         protected override Dictionary<Tuple<string, string>, UnaryOpFunc<double>> BracketFunctions { get; } = new()
@@ -90,6 +107,21 @@ namespace NStandard.Evaluators
             [Tuple.Create("(", ")")] = null,
             [Tuple.Create("abs(", ")")] = x => Math.Abs(x),
             [Tuple.Create("sqrt(", ")")] = x => Math.Sqrt(x),
+
+            [Tuple.Create("ceil(", ")")] = x => Math.Ceiling(x),
+            [Tuple.Create("floor(", ")")] = x => Math.Floor(x),
+
+            [Tuple.Create("sin(", ")")] = x => Math.Sin(x),
+            [Tuple.Create("cos(", ")")] = x => Math.Cos(x),
+            [Tuple.Create("tan(", ")")] = x => Math.Tan(x),
+
+            [Tuple.Create("asin(", ")")] = x => Math.Asin(x),
+            [Tuple.Create("acos(", ")")] = x => Math.Acos(x),
+            [Tuple.Create("atan(", ")")] = x => Math.Atan(x),
+
+            [Tuple.Create("sinh(", ")")] = x => Math.Sinh(x),
+            [Tuple.Create("cosh(", ")")] = x => Math.Cosh(x),
+            [Tuple.Create("tanh(", ")")] = x => Math.Tanh(x),
         };
 #endif
     }

@@ -142,6 +142,7 @@ namespace NStandard.Evaluators
 
         protected Dictionary<NodeType, NodeType[]> FollowTypes = new()
         {
+            [NodeType.Unspecified] = new[] { NodeType.Operand, NodeType.Parameter, NodeType.UnaryOperator, NodeType.StartBracket, NodeType.EndBracket },
             [NodeType.Operand] = new[] { NodeType.EndBracket, NodeType.BinaryOperator },
             [NodeType.Parameter] = new[] { NodeType.EndBracket, NodeType.BinaryOperator },
             [NodeType.UnaryOperator] = new[] { NodeType.UnaryOperator, NodeType.StartBracket, NodeType.Operand, NodeType.Parameter },
@@ -152,6 +153,13 @@ namespace NStandard.Evaluators
 
         public Node[] GetNodes(string exp)
         {
+            var nodes = GetInitialNodes(exp);
+            GrammarAnalysis(exp, nodes);
+            return nodes;
+        }
+
+        public Node[] GetInitialNodes(string exp)
+        {
             if (exp.IsNullOrWhiteSpace()) exp = DefaultExpression;
 
             var match = ResolveRegex.Match(exp);
@@ -160,8 +168,8 @@ namespace NStandard.Evaluators
                 var nodes = match.Groups.OfType<Group>().Skip(1).First().Captures.OfType<Capture>().Select(capture =>
                 {
                     var value = capture.Value.Trim();
-
                     var matchNode = PendingNodes.FirstOrDefault(x => x.Value == value);
+
                     if (matchNode is null)
                     {
                         if (value.IsMatch(OperandRegex))
@@ -184,48 +192,70 @@ namespace NStandard.Evaluators
                         }
                         else throw new NotImplementedException();
                     }
-                    else if (UnaryOperators.Contains(value))
+                    else
                     {
-                        return new Node
+                        if (StartBrackets.Contains(value))
                         {
-                            NodeType = NodeType.UnaryOperator,
-                            Index = capture.Index,
-                            Value = value,
-                        };
-                    }
-                    else if (BinaryOperators.Contains(value))
-                    {
-                        return new Node
+                            return new Node
+                            {
+                                NodeType = NodeType.StartBracket,
+                                Index = capture.Index,
+                                Value = value,
+                            };
+                        }
+                        else if (EndBrackets.Contains(value))
                         {
-                            NodeType = NodeType.BinaryOperator,
-                            Index = capture.Index,
-                            Value = value,
-                        };
-                    }
-                    else if (StartBrackets.Contains(value))
-                    {
-                        return new Node
+                            return new Node
+                            {
+                                NodeType = NodeType.EndBracket,
+                                Index = capture.Index,
+                                Value = value,
+                            };
+                        }
+                        else
                         {
-                            NodeType = NodeType.StartBracket,
-                            Index = capture.Index,
-                            Value = value,
-                        };
+                            NodeType nodeType = NodeType.Unspecified;
+
+                            if (UnaryOperators.Contains(value))
+                            {
+                                nodeType |= NodeType.UnaryOperator;
+                            }
+                            if (BinaryOperators.Contains(value))
+                            {
+                                nodeType |= NodeType.BinaryOperator;
+                            }
+
+                            if (nodeType != NodeType.Unspecified)
+                            {
+                                return new Node
+                                {
+                                    NodeType = nodeType,
+                                    Index = capture.Index,
+                                    Value = value,
+                                };
+                            }
+                            else throw new NotImplementedException();
+                        }
                     }
-                    else if (EndBrackets.Contains(value))
-                    {
-                        return new Node
-                        {
-                            NodeType = NodeType.EndBracket,
-                            Index = capture.Index,
-                            Value = value,
-                        };
-                    }
-                    else throw new NotImplementedException();
                 }).ToArray();
 
                 return nodes;
             }
             else throw new ArgumentException($"Invalid expression string({exp}).");
+        }
+
+        protected void GrammarAnalysis(string exp, Node[] nodes)
+        {
+            NodeType lastNodeType = NodeType.Unspecified;
+            foreach (var node in nodes)
+            {
+                var nodeType = node.NodeType;
+                var confirmedNodeType = nodeType.GetFlags().SingleOrDefault(x => FollowTypes[lastNodeType].Contains(x));
+                if (confirmedNodeType == NodeType.Unspecified) throw new ArgumentException(GetDebugString($"{nodeType} can not come after {lastNodeType}. (Index: {node.Index})", exp, node));
+
+                node.NodeType = confirmedNodeType;
+                lastNodeType = confirmedNodeType;
+            }
         }
 
         protected string GetDebugString(string prompt, string exp, Node node) => $@"{prompt}{Environment.NewLine}{exp}{Environment.NewLine}{" ".Repeat(node.Index)}↑";
@@ -356,13 +386,9 @@ namespace NStandard.Evaluators
                 }
             }
 
-            NodeType lastNodeType = NodeType.Unspecified;
             foreach (var node in nodes)
             {
                 var nodeType = node.NodeType;
-                if (lastNodeType != NodeType.Unspecified && !FollowTypes[lastNodeType].Contains(nodeType)) throw new ArgumentException(GetDebugString($"{nodeType} can not come after {lastNodeType}. (Index: {node.Index})", exp, node));
-                lastNodeType = nodeType;
-
                 if (nodeType == NodeType.Parameter || nodeType == NodeType.Operand)
                 {
                     if (nodeType == NodeType.Operand)
