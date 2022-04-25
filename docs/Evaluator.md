@@ -43,11 +43,11 @@ We provide a rich set of operators:
 
 The built-in **UnaryOpFunctions**:
 
-| Operator | Description                       | Example            |
-| -------- | --------------------------------- | ------------------ |
-| not      | High priority operation.          | 2 * ( 3 + 5 ) = 16 |
-| +        | For an operation of the form `+x` | + ( 2 + 3 ) = 5    |
-| -        | For an operation of the form `–x` | - ( 2 + 3 ) = -5   |
+| Operator | Description                        | Example          |
+| -------- | ---------------------------------- | ---------------- |
+| not      | For an operation of the form `!x`. | not 0 = 1        |
+| +        | For an operation of the form `+x`. | + ( 2 + 3 ) = 5  |
+| -        | For an operation of the form `–x`. | - ( 2 + 3 ) = -5 |
 
 The built-in **BracketFunctions**:
 
