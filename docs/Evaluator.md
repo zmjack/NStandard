@@ -104,7 +104,7 @@ class Item
 void Main()
 {
     var exp = "${price} >= 100 ? ${price} * 0.8 : ${price}";
-    Func<Item, double> func = Evaluator.Numerical.Compile<Item>(exp);
+    var func = Evaluator.Numerical.Compile<Item>(exp);
     var result = func(new Item { Price = 100 });
     // The result is 80.
 }
@@ -210,7 +210,7 @@ public class MyEvaluator : NumericalEvaluator
     public MyEvaluator() : base(false)
     {
         AddUnaryOpFunction("!", value => value != 0d ? 0d : 1d);
-        AddBracketFunction(("[", "]"), value => Math.Sqrt(value));
+        AddBracketFunction(("|", "|"), value => Math.Abs(value));
         Initialize();
     }
 }
@@ -219,15 +219,15 @@ public class MyEvaluator : NumericalEvaluator
 Let's evaluate the string:
 
 ```csharp
-"[9] + !0"
+"|-9| + !0"
 ```
 
 ```csharp
 var evaluator = new MyEvaluator();
-var result = evaluator.Eval("[9] + !0");
-// [9] is Sqrt(9) = 3
+var result = evaluator.Eval("|-9| + !0");
+// |-9| is abs(-9) = 9
 // !0  is 1
-// The result is 4.
+// The result is 10.
 ```
 
 <br/>

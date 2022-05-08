@@ -16,17 +16,29 @@ namespace NStandard.Evaluators.Test
             public MyEvaluator() : base(false)
             {
                 AddUnaryOpFunction("!", value => value != 0d ? 0d : 1d);
-                AddBracketFunction(("[", "]"), value => Math.Sqrt(value));
+                AddBracketFunction(("|", "|"), value => Math.Abs(value));
                 Initialize();
             }
         }
 
         [Fact]
-        public void MyEvaluatorTest()
+        public void MyEvaluatorTest1()
         {
             var evaluator = new MyEvaluator();
-            var actual = evaluator.Eval("[9] + !0");
-            Assert.Equal(4, actual);
+            var func = evaluator.Compile("|-9| + not ${x} ? 3 : 2");
+            var actual = func(new
+            {
+                x = -1,
+            });
+            Assert.Equal(3, actual);
+        }
+
+        [Fact]
+        public void MyEvaluatorTest2()
+        {
+            var evaluator = new MyEvaluator();
+            var actual = evaluator.Eval("|-9| + !0");
+            Assert.Equal(10, actual);
         }
 
         [Fact]

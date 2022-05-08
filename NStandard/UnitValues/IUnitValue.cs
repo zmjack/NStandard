@@ -1,4 +1,6 @@
-﻿namespace NStandard.UnitValues
+﻿using System.ComponentModel;
+
+namespace NStandard.UnitValues
 {
     public interface IUnitValue
     {
@@ -14,6 +16,7 @@
 
 namespace NStandard
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class XIUnitValue
     {
         public static TUnitValue Unit<TUnitValue>(this TUnitValue @this, string unit) where TUnitValue : struct, UnitValues.IUnitValue
