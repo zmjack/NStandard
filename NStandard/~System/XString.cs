@@ -529,11 +529,11 @@ namespace NStandard
         }
 
         /// <summary>
-        /// Encodes all the characters in the specified string into a sequence of bytes(UTF-8), then returns it.
+        /// Encodes all the characters in the specified string into a sequence of bytes(Unicode), then returns it.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static byte[] Bytes(this string @this) => Bytes(@this, Encoding.UTF8);
+        public static byte[] Bytes(this string @this) => Bytes(@this, Encoding.Unicode);
 
         /// <summary>
         /// Encodes all the characters in the specified string into a sequence of bytes, then returns it.
