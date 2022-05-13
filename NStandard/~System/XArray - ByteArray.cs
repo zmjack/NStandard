@@ -9,7 +9,7 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static string String(this byte[] @this) => String(@this, Encoding.Default);
+        public static string String(this byte[] @this) => String(@this, Encoding.Unicode);
 
         /// <summary>
         /// Decodes all the bytes in the specified byte array into a string.

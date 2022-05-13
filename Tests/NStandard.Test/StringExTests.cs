@@ -51,7 +51,7 @@ namespace NStandard.Test
             Assert.Equal("gate2Name", StringEx.CamelCase("gate2Name"));
 
             Assert.Equal("nstdV2", StringEx.CamelCase("NSTDV2"));
-            Assert.Equal("nstd_V2", StringEx.CamelCase("NSTD_V2"));
+            Assert.Equal("nstD_V2", StringEx.CamelCase("NSTD_V2"));
             Assert.Equal("nStd_V2", StringEx.CamelCase("NStd_V2"));
             Assert.Equal("nstd_V2", StringEx.CamelCase("Nstd_V2"));
         }

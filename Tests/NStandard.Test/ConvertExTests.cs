@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Xunit;
 
 namespace NStandard.Test
@@ -25,11 +26,11 @@ namespace NStandard.Test
         {
             Assert.Equal(256, typeof(ConvertEx).GetTypeReflector().DeclaredField<int[]>("Base58Map").GetValue(null).Length);
 
-            Assert.Equal("zpsEBKbce3iT", ConvertEx.ToBase58String("NStandard".Bytes()));
-            Assert.Equal("NStandard", ConvertEx.FromBase58String("zpsEBKbce3iT").String());
+            Assert.Equal("zpsEBKbce3iT", ConvertEx.ToBase58String("NStandard".Bytes(Encoding.UTF8)));
+            Assert.Equal("NStandard", ConvertEx.FromBase58String("zpsEBKbce3iT").String(Encoding.UTF8));
 
-            Assert.Equal("111zpsEBKbce3iT", ConvertEx.ToBase58String("\0\0\0NStandard".Bytes()));
-            Assert.Equal("\0\0\0NStandard", ConvertEx.FromBase58String("111zpsEBKbce3iT").String());
+            Assert.Equal("111zpsEBKbce3iT", ConvertEx.ToBase58String("\0\0\0NStandard".Bytes(Encoding.UTF8)));
+            Assert.Equal("\0\0\0NStandard", ConvertEx.FromBase58String("111zpsEBKbce3iT").String(Encoding.UTF8));
         }
 
     }

@@ -73,8 +73,8 @@ namespace NStandard
         {
             if (source.IsNullOrEmpty()) return source;
 
-            static bool IsNotUpperAndNotUnderCross(char c) => c is < 'A' or > 'Z' && c != '_';
-            var index = source.IndexOf(IsNotUpperAndNotUnderCross);
+            static bool IsNotUpper(char c) => c is < 'A' or > 'Z';
+            var index = source.IndexOf(IsNotUpper);
 
             return index switch
             {
