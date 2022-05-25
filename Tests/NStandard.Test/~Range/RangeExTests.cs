@@ -24,7 +24,7 @@ namespace NStandard.Test
         public void DateTimeYearTest()
         {
             var start = new DateTime(2000, 1, 1);
-            var range = RangeEx.Create(start, 3, DateRangeType.Year).ToArray();
+            var range = RangeEx.Create(start, 3, DateTimeRangeType.Year).ToArray();
             Assert.Equal(new[]
             {
                 new DateTime(2000, 1, 1, 0, 0, 0),
@@ -37,7 +37,7 @@ namespace NStandard.Test
         public void DateTimeMonthTest()
         {
             var start = new DateTime(2000, 1, 1);
-            var range = RangeEx.Create(start, 3, DateRangeType.Month).ToArray();
+            var range = RangeEx.Create(start, 3, DateTimeRangeType.Month).ToArray();
             Assert.Equal(new[]
             {
                 new DateTime(2000, 1, 1, 0, 0, 0),
@@ -50,7 +50,7 @@ namespace NStandard.Test
         public void DateTimeDayTest()
         {
             var start = new DateTime(2000, 1, 1);
-            var range = RangeEx.Create(start, 3, DateRangeType.Day).ToArray();
+            var range = RangeEx.Create(start, 3, DateTimeRangeType.Day).ToArray();
             Assert.Equal(new[]
             {
                 new DateTime(2000, 1, 1, 0, 0, 0),
@@ -63,7 +63,7 @@ namespace NStandard.Test
         public void DateTimeHourTest()
         {
             var start = new DateTime(2000, 1, 1);
-            var range = RangeEx.Create(start, 3, DateRangeType.Hour).ToArray();
+            var range = RangeEx.Create(start, 3, DateTimeRangeType.Hour).ToArray();
             Assert.Equal(new[]
             {
                 new DateTime(2000, 1, 1, 0, 0, 0),
@@ -76,7 +76,7 @@ namespace NStandard.Test
         public void DateTimeMinuteTest()
         {
             var start = new DateTime(2000, 1, 1);
-            var range = RangeEx.Create(start, 3, DateRangeType.Minute).ToArray();
+            var range = RangeEx.Create(start, 3, DateTimeRangeType.Minute).ToArray();
             Assert.Equal(new[]
             {
                 new DateTime(2000, 1, 1, 0, 0, 0),
@@ -89,7 +89,7 @@ namespace NStandard.Test
         public void DateTimeSecondTest()
         {
             var start = new DateTime(2000, 1, 1);
-            var range = RangeEx.Create(start, 3, DateRangeType.Second).ToArray();
+            var range = RangeEx.Create(start, 3, DateTimeRangeType.Second).ToArray();
             Assert.Equal(new[]
             {
                 new DateTime(2000, 1, 1, 0, 0, 0),

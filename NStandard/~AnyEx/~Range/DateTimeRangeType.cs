@@ -1,10 +1,13 @@
 ﻿namespace NStandard
 {
-    public enum DateRangeType
+    public enum DateTimeRangeType
     {
         Unset,
         Year,
         Month,
         Day,
+        Hour,
+        Minute,
+        Second,
     }
 }
