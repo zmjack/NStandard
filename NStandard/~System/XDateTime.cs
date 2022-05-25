@@ -90,7 +90,7 @@ namespace NStandard
         }
 
         /// <summary>
-        /// Get the start point of the sepecified month.
+        /// Get the start point of the sepecified year.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
@@ -132,7 +132,7 @@ namespace NStandard
         public static DateTime StartOfSecond(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, @this.Second, 0, @this.Kind);
 
         /// <summary>
-        /// Get the end point of the sepecified month.
+        /// Get the end point of the sepecified year.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
