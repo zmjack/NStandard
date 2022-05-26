@@ -23,6 +23,10 @@ namespace NStandard
         public VariantString(DateTime obj) => String = obj.ToString();
         public VariantString(bool obj) => String = obj.ToString();
         public VariantString(Guid obj) => String = obj.ToString();
+#if NET6_0_OR_GREATER
+        public VariantString(DateOnly obj) => String = obj.ToString();
+        public VariantString(TimeOnly obj) => String = obj.ToString();
+#endif
 
         public VariantString(char? obj) => String = obj?.ToString();
         public VariantString(byte? obj) => String = obj?.ToString();
@@ -39,6 +43,10 @@ namespace NStandard
         public VariantString(DateTime? obj) => String = obj?.ToString();
         public VariantString(bool? obj) => String = obj?.ToString();
         public VariantString(Guid? obj) => String = obj?.ToString();
+#if NET6_0_OR_GREATER
+        public VariantString(DateOnly? obj) => String = obj?.ToString();
+        public VariantString(TimeOnly? obj) => String = obj?.ToString();
+#endif
 
         public static implicit operator VariantString(string str) => new(str);
         public static implicit operator string(VariantString @this) => @this.String;
@@ -58,6 +66,10 @@ namespace NStandard
         public static implicit operator VariantString(DateTime obj) => new(obj);
         public static implicit operator VariantString(bool obj) => new(obj);
         public static implicit operator VariantString(Guid obj) => new(obj);
+#if NET6_0_OR_GREATER
+        public static implicit operator VariantString(DateOnly obj) => new(obj);
+        public static implicit operator VariantString(TimeOnly obj) => new(obj);
+#endif
 
         public static implicit operator VariantString(char? obj) => new(obj);
         public static implicit operator VariantString(byte? obj) => new(obj);
@@ -73,20 +85,24 @@ namespace NStandard
         public static implicit operator VariantString(DateTime? obj) => new(obj);
         public static implicit operator VariantString(bool? obj) => new(obj);
         public static implicit operator VariantString(Guid? obj) => new(obj);
+#if NET6_0_OR_GREATER
+        public static implicit operator VariantString(DateOnly? obj) => new(obj);
+        public static implicit operator VariantString(TimeOnly? obj) => new(obj);
+#endif
 
-        public static implicit operator char(VariantString @this) => char.TryParse(@this.String, out var ret).For(x => x ? ret : default);
-        public static implicit operator byte(VariantString @this) => byte.TryParse(@this.String, out var ret).For(x => x ? ret : default);
-        public static implicit operator sbyte(VariantString @this) => sbyte.TryParse(@this.String, out var ret).For(x => x ? ret : default);
-        public static implicit operator short(VariantString @this) => short.TryParse(@this.String, out var ret).For(x => x ? ret : default);
-        public static implicit operator ushort(VariantString @this) => ushort.TryParse(@this.String, out var ret).For(x => x ? ret : default);
-        public static implicit operator int(VariantString @this) => int.TryParse(@this.String, out var ret).For(x => x ? ret : default);
-        public static implicit operator uint(VariantString @this) => uint.TryParse(@this.String, out var ret).For(x => x ? ret : default);
-        public static implicit operator long(VariantString @this) => long.TryParse(@this.String, out var ret).For(x => x ? ret : default);
-        public static implicit operator ulong(VariantString @this) => ulong.TryParse(@this.String, out var ret).For(x => x ? ret : default);
-        public static implicit operator float(VariantString @this) => float.TryParse(@this.String, out var ret).For(x => x ? ret : default);
-        public static implicit operator double(VariantString @this) => double.TryParse(@this.String, out var ret).For(x => x ? ret : default);
-        public static implicit operator decimal(VariantString @this) => decimal.TryParse(@this.String, out var ret).For(x => x ? ret : default);
-        public static implicit operator DateTime(VariantString @this) => DateTime.TryParse(@this.String, out var ret).For(x => x ? ret : default);
+        public static implicit operator char(VariantString @this) => char.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator byte(VariantString @this) => byte.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator sbyte(VariantString @this) => sbyte.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator short(VariantString @this) => short.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator ushort(VariantString @this) => ushort.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator int(VariantString @this) => int.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator uint(VariantString @this) => uint.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator long(VariantString @this) => long.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator ulong(VariantString @this) => ulong.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator float(VariantString @this) => float.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator double(VariantString @this) => double.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator decimal(VariantString @this) => decimal.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator DateTime(VariantString @this) => DateTime.TryParse(@this.String, out var ret) ? ret : default;
         public static implicit operator bool(VariantString @this)
         {
             if (@this.String.IsNullOrEmpty()) return false;
@@ -94,7 +110,7 @@ namespace NStandard
             return bool.TryParse(@this.String, out var ret) && ret;
         }
 #if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
-        public static implicit operator Guid(VariantString @this) => Guid.TryParse(@this.String, out var ret).For(x => x ? ret : default);
+        public static implicit operator Guid(VariantString @this) => Guid.TryParse(@this.String, out var ret) ? ret : default;
 #else
         public static implicit operator Guid(VariantString @this)
         {
@@ -102,20 +118,24 @@ namespace NStandard
             catch { return Guid.Empty; }
         }
 #endif
+#if NET6_0_OR_GREATER
+        public static implicit operator DateOnly(VariantString @this) => DateOnly.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator TimeOnly(VariantString @this) => TimeOnly.TryParse(@this.String, out var ret) ? ret : default;
+#endif
 
-        public static implicit operator char?(VariantString @this) => char.TryParse(@this.String, out var ret).For(x => x ? ret : (char?)null);
-        public static implicit operator byte?(VariantString @this) => byte.TryParse(@this.String, out var ret).For(x => x ? ret : (byte?)null);
-        public static implicit operator sbyte?(VariantString @this) => sbyte.TryParse(@this.String, out var ret).For(x => x ? ret : (sbyte?)null);
-        public static implicit operator short?(VariantString @this) => short.TryParse(@this.String, out var ret).For(x => x ? ret : (short?)null);
-        public static implicit operator ushort?(VariantString @this) => ushort.TryParse(@this.String, out var ret).For(x => x ? ret : (ushort?)null);
-        public static implicit operator int?(VariantString @this) => int.TryParse(@this.String, out var ret).For(x => x ? ret : (int?)null);
-        public static implicit operator uint?(VariantString @this) => uint.TryParse(@this.String, out var ret).For(x => x ? ret : (uint?)null);
-        public static implicit operator long?(VariantString @this) => long.TryParse(@this.String, out var ret).For(x => x ? ret : (long?)null);
-        public static implicit operator ulong?(VariantString @this) => ulong.TryParse(@this.String, out var ret).For(x => x ? ret : (ulong?)null);
-        public static implicit operator float?(VariantString @this) => float.TryParse(@this.String, out var ret).For(x => x ? ret : (float?)null);
-        public static implicit operator double?(VariantString @this) => double.TryParse(@this.String, out var ret).For(x => x ? ret : (double?)null);
-        public static implicit operator decimal?(VariantString @this) => decimal.TryParse(@this.String, out var ret).For(x => x ? ret : (decimal?)null);
-        public static implicit operator DateTime?(VariantString @this) => DateTime.TryParse(@this.String, out var ret).For(x => x ? ret : (DateTime?)default);
+        public static implicit operator char?(VariantString @this) => char.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator byte?(VariantString @this) => byte.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator sbyte?(VariantString @this) => sbyte.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator short?(VariantString @this) => short.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator ushort?(VariantString @this) => ushort.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator int?(VariantString @this) => int.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator uint?(VariantString @this) => uint.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator long?(VariantString @this) => long.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator ulong?(VariantString @this) => ulong.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator float?(VariantString @this) => float.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator double?(VariantString @this) => double.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator decimal?(VariantString @this) => decimal.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator DateTime?(VariantString @this) => DateTime.TryParse(@this.String, out var ret) ? ret : default;
         public static implicit operator bool?(VariantString @this)
         {
             if (@this.String.IsNullOrEmpty()) return null;
@@ -130,6 +150,10 @@ namespace NStandard
             try { return new Guid(@this.String); }
             catch { return null; }
         }
+#endif
+#if NET6_0_OR_GREATER
+        public static implicit operator DateOnly?(VariantString @this) => DateOnly.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator TimeOnly?(VariantString @this) => TimeOnly.TryParse(@this.String, out var ret) ? ret : default;
 #endif
 
         public override bool Equals(object obj)
@@ -153,6 +177,10 @@ namespace NStandard
                 case DateTime o: return ToString() == o.ToString();
                 case bool o: return ToString() == o.ToString();
                 case Guid o: return ToString() == o.ToString();
+#if NET6_0_OR_GREATER
+                case DateOnly o: return ToString() == o.ToString();
+                case TimeOnly o: return ToString() == o.ToString();
+#endif
             };
 
             switch (obj.GetType())
@@ -172,6 +200,10 @@ namespace NStandard
                 case Type type when type == typeof(DateTime?): return ToString() == obj?.ToString();
                 case Type type when type == typeof(bool?): return ToString() == obj?.ToString();
                 case Type type when type == typeof(Guid?): return ToString() == obj?.ToString();
+#if NET6_0_OR_GREATER
+                case Type type when type == typeof(DateOnly?): return ToString() == obj?.ToString();
+                case Type type when type == typeof(TimeOnly?): return ToString() == obj?.ToString();
+#endif
             }
 
             return false;
