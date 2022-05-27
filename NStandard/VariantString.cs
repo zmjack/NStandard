@@ -90,70 +90,237 @@ namespace NStandard
         public static implicit operator VariantString(TimeOnly? obj) => new(obj);
 #endif
 
-        public static implicit operator char(VariantString @this) => char.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator byte(VariantString @this) => byte.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator sbyte(VariantString @this) => sbyte.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator short(VariantString @this) => short.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator ushort(VariantString @this) => ushort.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator int(VariantString @this) => int.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator uint(VariantString @this) => uint.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator long(VariantString @this) => long.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator ulong(VariantString @this) => ulong.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator float(VariantString @this) => float.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator double(VariantString @this) => double.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator decimal(VariantString @this) => decimal.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator DateTime(VariantString @this) => DateTime.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator char(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (char.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator byte(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (byte.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator sbyte(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (sbyte.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator short(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (short.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator ushort(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (ushort.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator int(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (int.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator uint(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (uint.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator long(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (long.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator ulong(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (ulong.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator float(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (float.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator double(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (double.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator decimal(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (decimal.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator DateTime(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (DateTime.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
         public static implicit operator bool(VariantString @this)
         {
-            if (@this.String.IsNullOrEmpty()) return false;
+            if (@this.String.IsNullOrWhiteSpace()) return default;
             if (double.TryParse(@this.String, out var b)) return b > 0;
             return bool.TryParse(@this.String, out var ret) && ret;
         }
 #if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
-        public static implicit operator Guid(VariantString @this) => Guid.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator Guid(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (Guid.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
 #else
         public static implicit operator Guid(VariantString @this)
         {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
             try { return new Guid(@this.String); }
-            catch { return Guid.Empty; }
+            catch { return default; }
         }
 #endif
 #if NET6_0_OR_GREATER
-        public static implicit operator DateOnly(VariantString @this) => DateOnly.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator TimeOnly(VariantString @this) => TimeOnly.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator DateOnly(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (DateOnly.TryParse(@this.String, out var date)) return date;
+            if (DateTime.TryParse(@this.String, out var dt)) return DateOnly.FromDateTime(dt);
+            return default;
+        }
+        public static implicit operator TimeOnly(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (TimeOnly.TryParse(@this.String, out var date)) return date;
+            if (DateTime.TryParse(@this.String, out var dt)) return TimeOnly.FromDateTime(dt);
+            return default;
+        }
 #endif
 
-        public static implicit operator char?(VariantString @this) => char.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator byte?(VariantString @this) => byte.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator sbyte?(VariantString @this) => sbyte.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator short?(VariantString @this) => short.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator ushort?(VariantString @this) => ushort.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator int?(VariantString @this) => int.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator uint?(VariantString @this) => uint.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator long?(VariantString @this) => long.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator ulong?(VariantString @this) => ulong.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator float?(VariantString @this) => float.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator double?(VariantString @this) => double.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator decimal?(VariantString @this) => decimal.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator DateTime?(VariantString @this) => DateTime.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator char?(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (char.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator byte?(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (byte.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator sbyte?(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (sbyte.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator short?(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (short.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator ushort?(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (ushort.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator int?(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (int.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator uint?(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (uint.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator long?(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (long.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator ulong?(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (ulong.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator float?(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (float.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator double?(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (double.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator decimal?(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (decimal.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
+        public static implicit operator DateTime?(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (DateTime.TryParse(@this.String, out var ret)) return ret;
+            return default;
+        }
         public static implicit operator bool?(VariantString @this)
         {
-            if (@this.String.IsNullOrEmpty()) return null;
+            if (@this.String.IsNullOrWhiteSpace()) return default;
             if (double.TryParse(@this.String, out var b)) return b > 0;
-            return bool.TryParse(@this.String, out var ret).For(x => x ? ret : (bool?)null);
+            if (bool.TryParse(@this.String, out var ret)) return ret;
+            return default;
         }
 #if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
-        public static implicit operator Guid?(VariantString @this) => Guid.TryParse(@this.String, out var ret).For(x => x ? ret : (Guid?)default);
+        public static implicit operator Guid?(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (Guid.TryParse(@this.String, out var ret)) return ret;
+            else return default;
+        }
 #else
         public static implicit operator Guid?(VariantString @this)
         {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
             try { return new Guid(@this.String); }
-            catch { return null; }
+            catch { return default; }
         }
 #endif
 #if NET6_0_OR_GREATER
-        public static implicit operator DateOnly?(VariantString @this) => DateOnly.TryParse(@this.String, out var ret) ? ret : default;
-        public static implicit operator TimeOnly?(VariantString @this) => TimeOnly.TryParse(@this.String, out var ret) ? ret : default;
+        public static implicit operator DateOnly?(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (DateOnly.TryParse(@this.String, out var date)) return date;
+            if (DateTime.TryParse(@this.String, out var dt)) return DateOnly.FromDateTime(dt);
+            return default;
+        }
+        public static implicit operator TimeOnly?(VariantString @this)
+        {
+            if (@this.String.IsNullOrWhiteSpace()) return default;
+            if (TimeOnly.TryParse(@this.String, out var date)) return date;
+            if (DateTime.TryParse(@this.String, out var dt)) return TimeOnly.FromDateTime(dt);
+            return default;
+        }
 #endif
 
         public override bool Equals(object obj)
