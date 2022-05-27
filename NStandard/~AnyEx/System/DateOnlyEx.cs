@@ -8,6 +8,12 @@ namespace NStandard
     public static class DateOnlyEx
     {
         /// <summary>
+        /// Gets a System.DateOnly object that is set to the current date on this computer.
+        /// </summary>
+        /// <returns></returns>
+        public static DateOnly Today() => DateOnly.FromDateTime(DateTime.Now);
+
+        /// <summary>
         /// The number of complete years in the period. [ Similar as DATEDIF(*, *, "Y") function in Excel. ]
         /// </summary>
         /// <param name="start"></param>
