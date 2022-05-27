@@ -80,21 +80,21 @@ namespace NStandard.Test
         [Fact]
         public void AddTotalYearDiffTest()
         {
-            Assert.Equal(new DateTime(2001, 3, 1), new DateTime(2000, 2, 29).AddTotalYearDiff(1));
-            Assert.Equal(new DateTime(2000, 3, 1), new DateTime(2001, 3, 1).AddTotalYearDiff(-1));
+            Assert.Equal(new DateTime(2001, 3, 1), new DateTime(2000, 2, 29).AddTotalYears(1));
+            Assert.Equal(new DateTime(2000, 3, 1), new DateTime(2001, 3, 1).AddTotalYears(-1));
 
-            Assert.Equal(new DateTime(1999, 2, 28), new DateTime(2000, 2, 29).AddTotalYearDiff(-1));
-            Assert.Equal(new DateTime(2000, 2, 28), new DateTime(1999, 2, 28).AddTotalYearDiff(1));
+            Assert.Equal(new DateTime(1999, 2, 28), new DateTime(2000, 2, 29).AddTotalYears(-1));
+            Assert.Equal(new DateTime(2000, 2, 28), new DateTime(1999, 2, 28).AddTotalYears(1));
         }
 
         [Fact]
         public void AddMonthDiffTest()
         {
-            Assert.Equal(new DateTime(2000, 5, 1), new DateTime(2000, 3, 31).AddMonthDiff(1));
-            Assert.Equal(new DateTime(2000, 4, 1), new DateTime(2000, 5, 1).AddMonthDiff(-1));
+            Assert.Equal(new DateTime(2000, 5, 1), XDateTime.AddTotalMonths(new DateTime(2000, 3, 31), 1));
+            Assert.Equal(new DateTime(2000, 4, 1), XDateTime.AddTotalMonths(new DateTime(2000, 5, 1), -1));
 
-            Assert.Equal(new DateTime(2000, 2, 29), new DateTime(2000, 3, 31).AddMonthDiff(-1));
-            Assert.Equal(new DateTime(2000, 3, 29), new DateTime(2000, 2, 29).AddMonthDiff(1));
+            Assert.Equal(new DateTime(2000, 2, 29), XDateTime.AddTotalMonths(new DateTime(2000, 3, 31), -1));
+            Assert.Equal(new DateTime(2000, 3, 29), XDateTime.AddTotalMonths(new DateTime(2000, 2, 29), 1));
         }
 
         [Fact]

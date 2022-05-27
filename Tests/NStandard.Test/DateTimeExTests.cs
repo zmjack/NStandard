@@ -10,8 +10,8 @@ namespace NStandard.Test
         {
             static void InnerTest(DateTime start, DateTime end, double diff)
             {
-                Assert.Equal(diff, DateTimeEx.TotalYearDiff(start, end));
-                Assert.Equal(end, start.AddTotalYearDiff(diff));
+                Assert.Equal(diff, DateTimeEx.TotalYears(start, end));
+                Assert.Equal(end, start.AddTotalYears(diff));
             }
 
             InnerTest(new DateTime(2020, 2, 1), new DateTime(2020, 3, 1), 29d / 366);
@@ -34,8 +34,8 @@ namespace NStandard.Test
         {
             static void InnerTest(DateTime start, DateTime end, double diff)
             {
-                Assert.Equal(diff, DateTimeEx.TotalMonthDiff(start, end));
-                Assert.Equal(end, start.AddTotalMonthDiff(diff));
+                Assert.Equal(diff, DateTimeEx.TotalMonths(start, end));
+                Assert.Equal(end, start.AddTotalMonths(diff));
             }
 
             InnerTest(new DateTime(2020, 2, 1), new DateTime(2020, 3, 1), 1d);

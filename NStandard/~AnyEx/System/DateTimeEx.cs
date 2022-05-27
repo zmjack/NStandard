@@ -29,50 +29,36 @@ namespace NStandard
         public static DateTime FromUnixTimeSeconds(long seconds) => new(DateTimeOffsetEx.FromUnixTimeSeconds(seconds).Ticks, DateTimeKind.Utc);
 
         /// <summary>
-        /// Gets the range of months.
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <returns></returns>
-        public static IEnumerable<DateTime> GetMonths(DateTime start, DateTime end)
-        {
-            if (start.Kind != DateTimeKind.Unspecified && end.Kind != DateTimeKind.Unspecified && start.Kind != end.Kind)
-                throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
-
-            start = new DateTime(start.Year, start.Month, 1, 0, 0, 0, start.Kind);
-            end = new DateTime(end.Year, end.Month, 1);
-            for (var dt = start; dt <= end; dt = dt.AddMonths(1)) yield return dt;
-        }
-
-        /// <summary>
-        /// Gets the range of days.
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <returns></returns>
-        public static IEnumerable<DateTime> GetDays(DateTime start, DateTime end)
-        {
-            if (start.Kind != DateTimeKind.Unspecified && end.Kind != DateTimeKind.Unspecified && start.Kind != end.Kind)
-                throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
-
-            start = new DateTime(start.Year, start.Month, start.Day, 0, 0, 0, start.Kind);
-            end = new DateTime(end.Year, end.Month, end.Day);
-            for (var dt = start; dt <= end; dt = dt.AddDays(1)) yield return dt;
-        }
-
-        /// <summary>
         /// The number of complete years in the period. [ Similar as DATEDIF(*, *, "Y") function in Excel. ]
         /// </summary>
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public static int YearDiff(DateTime start, DateTime end)
+        public static int Years(DateTime start, DateTime end)
         {
             if (start.Kind != DateTimeKind.Unspecified && end.Kind != DateTimeKind.Unspecified && start.Kind != end.Kind)
                 throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
 
             var offset = end.Year - start.Year;
-            var target = start.AddYearDiff(offset);
+            var target = XDateTime.AddYears(start, offset);
+
+            if (end >= start) return end >= target ? offset : offset - 1;
+            else return end <= target ? offset : offset + 1;
+        }
+
+        /// <summary>
+        /// The number of complete months in the period, similar as DATEDIF(*, *, "M") function in Excel, but more accurate.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public static int Months(DateTime start, DateTime end)
+        {
+            if (start.Kind != DateTimeKind.Unspecified && end.Kind != DateTimeKind.Unspecified && start.Kind != end.Kind)
+                throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
+
+            var offset = (end.Year - start.Year) * 12 + end.Month - start.Month;
+            var target = XDateTime.AddMonths(start, offset);
 
             if (end >= start) return end >= target ? offset : offset - 1;
             else return end <= target ? offset : offset + 1;
@@ -84,41 +70,23 @@ namespace NStandard
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public static double TotalYearDiff(DateTime start, DateTime end)
+        public static double TotalYears(DateTime start, DateTime end)
         {
-            var integer = YearDiff(start, end);
-            var targetStart = start.AddYearDiff(integer);
+            var integer = Years(start, end);
+            var targetStart = XDateTime.AddYears(start, integer);
 
             if (end >= start)
             {
-                var targetEnd = start.AddYearDiff(integer + 1);
+                var targetEnd = XDateTime.AddYears(start, integer + 1);
                 var fractional = (end - targetStart).TotalDays / (targetEnd - targetStart).TotalDays;
                 return integer + fractional;
             }
             else
             {
-                var targetEnd = start.AddYearDiff(integer - 1);
+                var targetEnd = XDateTime.AddYears(start, integer - 1);
                 var fractional = (targetStart - end).TotalDays / (targetStart - targetEnd).TotalDays;
                 return integer - fractional;
             }
-        }
-
-        /// <summary>
-        /// The number of complete months in the period, similar as DATEDIF(*, *, "M") function in Excel, but more accurate.
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <returns></returns>
-        public static int MonthDiff(DateTime start, DateTime end)
-        {
-            if (start.Kind != DateTimeKind.Unspecified && end.Kind != DateTimeKind.Unspecified && start.Kind != end.Kind)
-                throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
-
-            var offset = (end.Year - start.Year) * 12 + end.Month - start.Month;
-            var target = start.AddMonthDiff(offset);
-
-            if (end >= start) return end >= target ? offset : offset - 1;
-            else return end <= target ? offset : offset + 1;
         }
 
         /// <summary>
@@ -127,34 +95,24 @@ namespace NStandard
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public static double TotalMonthDiff(DateTime start, DateTime end)
+        public static double TotalMonths(DateTime start, DateTime end)
         {
-            var integer = MonthDiff(start, end);
-            var targetStart = start.AddMonthDiff(integer);
+            var integer = Months(start, end);
+            var targetStart = XDateTime.AddMonths(start, integer);
 
             if (end >= start)
             {
-                var targetEnd = start.AddMonthDiff(integer + 1);
+                var targetEnd = XDateTime.AddMonths(start, integer + 1);
                 var fractional = (end - targetStart).TotalDays / (targetEnd - targetStart).TotalDays;
                 return integer + fractional;
             }
             else
             {
-                var targetEnd = start.AddMonthDiff(integer - 1);
+                var targetEnd = XDateTime.AddMonths(start, integer - 1);
                 var fractional = (targetStart - end).TotalDays / (targetStart - targetEnd).TotalDays;
                 return integer - fractional;
             }
         }
-
-        /// <summary>
-        /// Gets a DateTime for the specified week of year.
-        /// </summary>
-        /// <param name="year"></param>
-        /// <param name="week"></param>
-        /// <param name="weekStart"></param>
-        /// <returns></returns>
-        [Obsolete("This method will be removed in the future. Please use ParseFromWeek(int year, int week, DateTimeKind kind, DayOfWeek weekStart = DayOfWeek.Sunday) instead.")]
-        public static DateTime ParseFromWeek(int year, int week, DayOfWeek weekStart = DayOfWeek.Sunday) => ParseFromWeek(year, week, DateTimeKind.Unspecified, weekStart);
 
         /// <summary>
         /// Gets a DateTime for the specified week of year.
@@ -180,7 +138,7 @@ namespace NStandard
         /// <param name="s"></param>
         /// <param name="format"></param>
         /// <returns></returns>
-        public static DateTime ParseExtract(string s, string format)
+        public static DateTime ParseExact(string s, string format)
         {
             return DateTime.ParseExact(s, format, CultureInfo.CurrentCulture);
         }
@@ -195,7 +153,7 @@ namespace NStandard
         /// <param name="format"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryParseExtract(string s, string format, out DateTime result)
+        public static bool TryParseExact(string s, string format, out DateTime result)
         {
             return DateTime.TryParseExact(s, format, CultureInfo.CurrentCulture, DateTimeStyles.None, out result);
         }

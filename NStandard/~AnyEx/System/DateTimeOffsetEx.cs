@@ -53,63 +53,19 @@ namespace NStandard
         }
 
         /// <summary>
-        /// Gets the range of months.
+        /// The number of complete years in the period. [ Similar as DATEDIF(*, *, "Y") function in Excel. ]
         /// </summary>
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public static IEnumerable<DateTimeOffset> GetMonths(DateTimeOffset start, DateTimeOffset end)
+        public static int Years(DateTimeOffset start, DateTimeOffset end)
         {
-            if (start.Offset != end.Offset) throw new ArgumentException($"The offset of {nameof(start)} and {nameof(end)} must be the same.");
+            var offset = end.Year - start.Year;
+            var target = XDateTimeOffset.AddYears(start, offset);
 
-            start = new DateTimeOffset(start.Year, start.Month, 1, 0, 0, 0, start.Offset);
-            end = new DateTimeOffset(end.Year, end.Month, 1, 0, 0, 0, start.Offset);
-            for (var dt = start; dt <= end; dt = dt.AddMonths(1)) yield return dt;
+            if (end >= start) return end >= target ? offset : offset - 1;
+            else return end <= target ? offset : offset + 1;
         }
-
-        /// <summary>
-        /// Gets the range of days.
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <returns></returns>
-        public static IEnumerable<DateTimeOffset> GetDays(DateTimeOffset start, DateTimeOffset end)
-        {
-            if (start.Offset != end.Offset) throw new ArgumentException($"The offset of {nameof(start)} and {nameof(end)} must be the same.");
-
-            start = new DateTimeOffset(start.Year, start.Month, start.Day, 0, 0, 0, start.Offset);
-            end = new DateTimeOffset(end.Year, end.Month, end.Day, 0, 0, 0, start.Offset);
-            for (var dt = start; dt <= end; dt = dt.AddDays(1)) yield return dt;
-        }
-
-        private static int PrivateYearDiff(DateTimeOffset start, DateTimeOffset end)
-        {
-            var factor = start > end ? -1 : 1;
-            if (factor == -1) Any.Swap(ref start, ref end);
-
-            var passedYears = end.Year - start.Year;
-            var target = start.AddYearDiff(passedYears);
-            return factor * (target > end ? passedYears - 1 : passedYears);
-        }
-
-        private static int PrivateMonthDiff(DateTimeOffset start, DateTimeOffset end)
-        {
-            var factor = start > end ? -1 : 1;
-            if (factor == -1) Any.Swap(ref start, ref end);
-
-            var passedYears = end.Year - start.Year;
-            var passedMonths = end.Month - start.Month;
-            var target = start.AddMonthDiff(passedYears * 12 + passedMonths);
-            return factor * (target > end ? passedYears * 12 + passedMonths - 1 : passedYears * 12 + passedMonths);
-        }
-
-        /// <summary>
-        /// The number of complete years in the period, similar as DATEDIF(*, *, "Y") function in Excel.
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <returns></returns>
-        public static int YearDiff(DateTimeOffset start, DateTimeOffset end) => MonthDiff(start, end) / 12;
 
         /// <summary>
         /// The number of complete months in the period, similar as DATEDIF(*, *, "M") function in Excel.
@@ -117,26 +73,38 @@ namespace NStandard
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public static int MonthDiff(DateTimeOffset start, DateTimeOffset end)
+        public static int Months(DateTimeOffset start, DateTimeOffset end)
         {
-            if (start.Offset != end.Offset) throw new ArgumentException($"The offset of {nameof(start)} and {nameof(end)} must be the same.");
-            return PrivateMonthDiff(start, end);
+            var offset = (end.Year - start.Year) * 12 + end.Month - start.Month;
+            var target = XDateTimeOffset.AddMonths(start, offset);
+
+            if (end >= start) return end >= target ? offset : offset - 1;
+            else return end <= target ? offset : offset + 1;
         }
 
         /// <summary>
-        /// The number of complete years in the period, return a double value.
+        /// The number of complete years in the period, expressed in whole and fractional year. [ Similar as DATEDIF(*, *, "Y") function in Excel. ]
         /// </summary>
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public static double ExactYearDiff(DateTimeOffset start, DateTimeOffset end)
+        public static double TotalYears(DateTimeOffset start, DateTimeOffset end)
         {
-            if (start.Offset != end.Offset) throw new ArgumentException($"The offset of {nameof(start)} and {nameof(end)} must be the same.");
+            var integer = Years(start, end);
+            var targetStart = XDateTimeOffset.AddYears(start, integer);
 
-            var diff = PrivateYearDiff(start, end);
-            var endStart = start.AddYearDiff(diff);
-            var endEnd = endStart.AddYearDiff(1);
-            return diff + (end - endStart).TotalDays / (endEnd - endStart).TotalDays;
+            if (end >= start)
+            {
+                var targetEnd = XDateTimeOffset.AddYears(start, integer + 1);
+                var fractional = (end - targetStart).TotalDays / (targetEnd - targetStart).TotalDays;
+                return integer + fractional;
+            }
+            else
+            {
+                var targetEnd = XDateTimeOffset.AddYears(start, integer - 1);
+                var fractional = (targetStart - end).TotalDays / (targetStart - targetEnd).TotalDays;
+                return integer - fractional;
+            }
         }
 
         /// <summary>
@@ -145,25 +113,24 @@ namespace NStandard
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public static double ExactMonthDiff(DateTimeOffset start, DateTimeOffset end)
+        public static double TotalMonths(DateTimeOffset start, DateTimeOffset end)
         {
-            if (start.Offset != end.Offset) throw new ArgumentException($"The offset of {nameof(start)} and {nameof(end)} must be the same.");
+            var integer = Months(start, end);
+            var targetStart = XDateTimeOffset.AddMonths(start, integer);
 
-            var diff = PrivateMonthDiff(start, end);
-            var endStart = start.AddMonthDiff(diff);
-            var endEnd = endStart.AddMonthDiff(1);
-            return diff + (end - endStart).TotalDays / (endEnd - endStart).TotalDays;
+            if (end >= start)
+            {
+                var targetEnd = XDateTimeOffset.AddMonths(start, integer + 1);
+                var fractional = (end - targetStart).TotalDays / (targetEnd - targetStart).TotalDays;
+                return integer + fractional;
+            }
+            else
+            {
+                var targetEnd = XDateTimeOffset.AddMonths(start, integer - 1);
+                var fractional = (targetStart - end).TotalDays / (targetStart - targetEnd).TotalDays;
+                return integer - fractional;
+            }
         }
-
-        /// <summary>
-        /// Gets a DateTimeOffset for the specified week of year.
-        /// </summary>
-        /// <param name="year"></param>
-        /// <param name="week"></param>
-        /// <param name="weekStart"></param>
-        /// <returns></returns>
-        [Obsolete("This method will be removed in the future. Please use ParseFromWeek(int year, int week, TimeSpan offset, DayOfWeek weekStart = DayOfWeek.Sunday) instead.")]
-        public static DateTimeOffset ParseFromWeek(int year, int week, DayOfWeek weekStart = DayOfWeek.Sunday) => ParseFromWeek(year, week, TimeSpan.Zero, weekStart);
 
         /// <summary>
         /// Gets a DateTimeOffset for the specified week of year.

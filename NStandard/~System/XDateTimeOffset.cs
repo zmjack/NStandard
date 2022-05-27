@@ -295,29 +295,17 @@ namespace NStandard
             }
         }
 
-        /// <summary>
-        /// Returns a new <see cref="DateTime"/> that adds the specified number of complete years to the value of this instance.
-        /// </summary>
-        /// <param name="this"></param>
-        /// <param name="diff"></param>
-        /// <returns></returns>
-        public static DateTimeOffset AddYearDiff(this DateTimeOffset @this, int diff)
+        internal static DateTimeOffset AddYears(DateTimeOffset @this, int value)
         {
-            var target = @this.AddYears(diff);
-            if (diff > 0 && target.Day < @this.Day) target = target.AddDays(1);
-            return target;
+            var target = @this.AddYears(value);
+            if (value > 0 && target.Day < @this.Day) return target.AddDays(1);
+            else return target;
         }
 
-        /// <summary>
-        /// Returns a new <see cref="DateTime"/> that adds the specified number of complete months to the value of this instance.
-        /// </summary>
-        /// <param name="this"></param>
-        /// <param name="diff"></param>
-        /// <returns></returns>
-        public static DateTimeOffset AddMonthDiff(this DateTimeOffset @this, int diff)
+        internal static DateTimeOffset AddMonths(DateTimeOffset @this, int value)
         {
-            var target = @this.AddMonths(diff);
-            if (diff > 0 && target.Day < @this.Day) target = target.AddDays(1);
+            var target = @this.AddMonths(value);
+            if (value > 0 && target.Day < @this.Day) target = target.AddDays(1);
             return target;
         }
 
@@ -325,25 +313,28 @@ namespace NStandard
         /// Returns a new <see cref="DateTime"/> that adds the specified diff-number of years to the value of this instance.
         /// </summary>
         /// <param name="this"></param>
-        /// <param name="diff"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        public static DateTimeOffset AddTotalYearDiff(this DateTimeOffset @this, double diff)
+        public static DateTimeOffset AddTotalYears(this DateTimeOffset @this, double value)
         {
-            var integer = (int)diff;
-            var fractional = diff - integer;
-            var start = @this.AddYearDiff(integer);
-            double offsetDays;
+            var integer = (int)value;
+            var fractional = value - integer;
+            var start = AddYears(@this, integer);
 
-            if (diff >= 0)
+            if (fractional == 0) return start;
+
+            double offsetDays;
+            if (value >= 0)
             {
-                var end = @this.AddYearDiff(integer + 1);
+                var end = AddYears(@this, integer + 1);
                 offsetDays = (end - start).TotalDays * fractional;
             }
             else
             {
-                var end = @this.AddYearDiff(integer - 1);
+                var end = AddYears(@this, integer - 1);
                 offsetDays = (start - end).TotalDays * fractional;
             }
+
             return start.AddDays(offsetDays);
         }
 
@@ -351,23 +342,25 @@ namespace NStandard
         /// Returns a new <see cref="DateTime"/> that adds the specified diff-number of months to the value of this instance.
         /// </summary>
         /// <param name="this"></param>
-        /// <param name="diff"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        public static DateTimeOffset AddTotalMonthDiff(this DateTimeOffset @this, double diff)
+        public static DateTimeOffset AddTotalMonths(this DateTimeOffset @this, double value)
         {
-            var integer = (int)diff;
-            var fractional = diff - integer;
-            var start = @this.AddMonthDiff(integer);
-            double offsetDays;
+            var integer = (int)value;
+            var fractional = value - integer;
+            var start = AddMonths(@this, integer);
 
-            if (diff >= 0)
+            if (fractional == 0) return start;
+
+            double offsetDays;
+            if (value >= 0)
             {
-                var end = @this.AddMonthDiff(integer + 1);
+                var end = AddMonths(@this, integer + 1);
                 offsetDays = (end - start).TotalDays * fractional;
             }
             else
             {
-                var end = @this.AddMonthDiff(integer - 1);
+                var end = AddMonths(@this, integer - 1);
                 offsetDays = (start - end).TotalDays * fractional;
             }
             return start.AddDays(offsetDays);
@@ -413,14 +406,14 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static double ElapsedMonths(this DateTimeOffset @this) => DateTimeOffsetEx.ExactMonthDiff(DateTimeOffset.MinValue, @this);
+        public static double ElapsedMonths(this DateTimeOffset @this) => DateTimeOffsetEx.TotalMonths(DateTimeOffset.MinValue, @this);
 
         /// <summary>
         /// Gets the number of years elapsed from <see cref="DateTimeOffset.MinValue"/>.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static double ElapsedYears(this DateTimeOffset @this) => DateTimeOffsetEx.ExactYearDiff(DateTimeOffset.MinValue, @this);
+        public static double ElapsedYears(this DateTimeOffset @this) => DateTimeOffsetEx.TotalYears(DateTimeOffset.MinValue, @this);
 
         private static int CastCycleDays(int days, bool isBackward)
         {
