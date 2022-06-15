@@ -25,7 +25,15 @@ namespace NStandard
             get => _value;
             set
             {
-                if (!_value.Equals(value))
+                if (_value is not null)
+                {
+                    if (!_value.Equals(value))
+                    {
+                        _value = value;
+                        TimePoint = DateTime.Now;
+                    }
+                }
+                else if (value is not null)
                 {
                     _value = value;
                     TimePoint = DateTime.Now;
