@@ -97,6 +97,7 @@ namespace NStandard.Test
         [Fact]
         public void UniqueTest()
         {
+            Assert.Null(((string)null).Unique());
             Assert.Equal("123 456 7890", "  123  456    7890 ".Unique());
             Assert.Equal("123 456 7890", "  123  456 7890".Unique());
             Assert.Equal("123 456 7890", "  123\r\n456 7890".Unique());

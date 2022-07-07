@@ -219,6 +219,7 @@ namespace NStandard
             }
         }
 
+        private static readonly Regex UniqueRegex = new(@"[\s]{2,}");
         /// <summary>
         /// Removes all leading and trailing white-space characters from the current string,
         ///     and replaces multiple spaces with a single.
@@ -227,8 +228,8 @@ namespace NStandard
         /// <returns></returns>
         public static string Unique(this string @this)
         {
-            var regex = new Regex(@"[\s]{2,}");
-            return regex.Replace(@this.NormalizeNewLine().Replace(Environment.NewLine, " ").Trim(), " ");
+            if (@this is null) return null;
+            return UniqueRegex.Replace(@this.NormalizeNewLine().Replace(Environment.NewLine, " ").Trim(), " ");
         }
 
         /// <summary>

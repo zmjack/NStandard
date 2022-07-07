@@ -20,9 +20,9 @@ namespace NStandard.Test.Json
             {
                 null,
                 float.NaN, float.PositiveInfinity, float.NegativeInfinity,
-                (float?)float.NaN, (float?)float.PositiveInfinity, (float?)float.NegativeInfinity,
+                float.NaN, float.PositiveInfinity, float.NegativeInfinity,
                 double.NaN, double.PositiveInfinity, double.NegativeInfinity,
-                (double?)double.NaN, (double?)double.PositiveInfinity, (double?)double.NegativeInfinity,
+                double.NaN, double.PositiveInfinity, double.NegativeInfinity,
             };
             foreach (var value in values)
             {

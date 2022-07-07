@@ -76,7 +76,7 @@ If there are no parameters:
 Evaluator.Numerical.Eval("2 >= 3 ? 5 : 7");
 ```
 
-or there is any parameter:
+or there is any parameters:
 
 ```csharp
 var exp = "${price} >= 100 ? ${price} * 0.8 : ${price}";

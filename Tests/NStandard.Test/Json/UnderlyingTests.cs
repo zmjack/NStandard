@@ -53,7 +53,7 @@ namespace NStandard.Json.Test
             AssertValue((byte)123, "123");
             AssertValue((short)123, "123");
             AssertValue((ushort)123, "123");
-            AssertValue((int)123, "123");
+            AssertValue(123, "123");
             AssertValue((uint)123, "123");
             AssertValue((long)123, "123");
             AssertValue((ulong)123, "123");

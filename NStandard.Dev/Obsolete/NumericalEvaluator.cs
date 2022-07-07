@@ -144,7 +144,7 @@ namespace NStandard.Obsolete.Evaluators
                                             Expression.Equal(propertyOrField, Expression.Constant(null)),
                                             Expression.Constant(double.NaN),
                                             Expression.Condition(
-                                                Expression.Equal(Expression.Convert(propertyOrField, typeof(bool)), Expression.Constant((bool?)true)),
+                                                Expression.Equal(Expression.Convert(propertyOrField, typeof(bool)), Expression.Constant(true)),
                                                 Expression.Constant(1d), Expression.Constant(0d)));
                                 }
                                 else
