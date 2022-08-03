@@ -168,7 +168,16 @@ namespace NStandard
         /// <typeparam name="TSource"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
+        [Obsolete("Use AsKeyValuePairs<TSource>(this TSource[] @this) instead.")]
         public static IEnumerable<KeyValuePair<int, TSource>> AsKvPairs<TSource>(this TSource[] @this) => XIEnumerable.AsKvPairs(@this);
 
+        /// <summary>
+        /// Returns a collection of KeyValuePair which contains the element's index(Key) and value.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static IEnumerable<KeyValuePair<int, TSource>> AsKeyValuePairs<TSource>(this TSource[] @this) => XIEnumerable.AsKvPairs(@this);
+        
     }
 }

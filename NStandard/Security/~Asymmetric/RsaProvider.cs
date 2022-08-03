@@ -86,7 +86,7 @@ namespace NStandard.Security
             var @params = _innerProvider.ExportParameters(includePrivateParameters);
             var base64 = string.Join(Environment.NewLine, Convert.ToBase64String(
                 RsaConverter.ParamsToPem(@params, includePrivateParameters))
-                .ToCharArray().AsKvPairs()
+                .ToCharArray().AsKeyValuePairs()
                 .GroupBy(x => x.Key / 64)
                 .Select(g => new string(g.Select(x => x.Value).ToArray()))
 #if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER

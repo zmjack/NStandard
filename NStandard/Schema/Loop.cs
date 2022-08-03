@@ -31,7 +31,7 @@ namespace NStandard.Schema
             int lastIndex = length - 1;
             var enumerators = enumerables.Select(x => x.GetEnumerator()).ToArray();
 
-            foreach (var kv in enumerators.AsKvPairs())
+            foreach (var kv in enumerators.AsKeyValuePairs())
             {
                 var enumerator = kv.Value;
                 if (!enumerator.MoveNext()) lastIndex = kv.Key - 1;
