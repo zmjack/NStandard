@@ -12,7 +12,7 @@ namespace NStandard
     {
         public static string[] SplitIntoLines(string source, int lineLength)
         {
-            var ret = source.AsKvPairs()
+            var ret = source.AsKeyValuePairs()
                 .GroupBy(x => x.Key / lineLength)
                 .Select(g => new string(g.Select(x => x.Value).ToArray()))
                 .ToArray();
