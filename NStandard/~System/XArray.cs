@@ -162,5 +162,32 @@ namespace NStandard
             }
         }
 
+        public static T GetValueOrDefault<T>(this T[] @this, int index)
+        {
+            var lbound = @this.GetLowerBound(0);
+            var ubound = @this.GetUpperBound(0);
+            if (lbound <= index && index <= ubound)
+            {
+                return @this[index];
+            }
+            else return default;
+        }
+
+        public static bool TryGetValue<T>(this T[] @this, int index, out T value)
+        {
+            var lbound = @this.GetLowerBound(0);
+            var ubound = @this.GetUpperBound(0);
+            if (lbound <= index && index <= ubound)
+            {
+                value = @this[index];
+                return true;
+            }
+            else
+            {
+                value = default;
+                return false;
+            }
+        }
+
     }
 }
