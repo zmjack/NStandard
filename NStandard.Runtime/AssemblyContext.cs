@@ -49,6 +49,21 @@ namespace NStandard.Runtime
             }
         }
 
+        private void AddToDirectories(string packageDir)
+        {
+            if (Directory.Exists(packageDir))
+            {
+                var verPairs = (
+                    from nuVersion in Directory.GetDirectories(packageDir).Select(x => Path.GetFileName(x))
+                    let ver = GetVersionFromNuVersion(nuVersion)
+                    where ver >= Framework.Version
+                    orderby ver
+                    select new { NuVersion = nuVersion, Version = ver }
+                ).ToArray();
+                Directories.Add($"{packageDir}/{verPairs[0].NuVersion}");
+            }
+        }
+
         private void LoadSdk(string sdkType)
         {
             if (LoadedSdks.Contains(sdkType)) return;
@@ -58,38 +73,15 @@ namespace NStandard.Runtime
             if (sdkType == SdkType.Core || sdkType == SdkType.Web)
             {
                 LoadedSdks.Add(SdkType.Core);
-
-                var packageDir = $"{ProgramFilesFolder}/dotnet/shared/Microsoft.NETCore.App";
-                var verPairs = (from nuVersion in Directory.GetDirectories(packageDir).Select(x => Path.GetFileName(x))
-                                let ver = GetVersionFromNuVersion(nuVersion)
-                                where ver >= Framework.Version
-                                orderby ver
-                                select new { NuVersion = nuVersion, Version = ver }).ToArray();
-                Directories.Add($"{packageDir}/{verPairs[0].NuVersion}");
+                AddToDirectories($"{ProgramFilesFolder}/dotnet/shared/Microsoft.NETCore.App");
             }
 
             if (sdkType == SdkType.Web)
             {
                 LoadedSdks.Add(SdkType.Web);
 
-                {
-                    var packageDir = $"{ProgramFilesFolder}/dotnet/shared/Microsoft.AspNetCore.App";
-                    var verPairs = (from nuVersion in Directory.GetDirectories(packageDir).Select(x => Path.GetFileName(x))
-                                    let ver = GetVersionFromNuVersion(nuVersion)
-                                    where ver >= Framework.Version
-                                    orderby ver
-                                    select new { NuVersion = nuVersion, Version = ver }).ToArray();
-                    if (verPairs.Length > 0) Directories.Add($"{packageDir}/{verPairs[0].NuVersion}");
-                }
-                {
-                    var packageDir = $"{ProgramFilesFolder}/dotnet/shared/Microsoft.AspNetCore.All";
-                    var verPairs = (from nuVersion in Directory.GetDirectories(packageDir).Select(x => Path.GetFileName(x))
-                                    let ver = GetVersionFromNuVersion(nuVersion)
-                                    where ver >= Framework.Version
-                                    orderby ver
-                                    select new { NuVersion = nuVersion, Version = ver }).ToArray();
-                    if (verPairs.Length > 0) Directories.Add($"{packageDir}/{verPairs[0].NuVersion}");
-                }
+                AddToDirectories($"{ProgramFilesFolder}/dotnet/shared/Microsoft.AspNetCore.App");
+                AddToDirectories($"{ProgramFilesFolder}/dotnet/shared/Microsoft.AspNetCore.All");
             }
         }
 
