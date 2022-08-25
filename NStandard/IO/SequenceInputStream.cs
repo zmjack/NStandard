@@ -6,14 +6,11 @@ namespace NStandard.IO
 {
     public class SequenceInputStream : SequenceInputStream<Stream>
     {
-        public static SequenceInputStream<TStream> Create<TStream>(params TStream[] streams)
-            where TStream : Stream => new(streams);
-
+        public static SequenceInputStream<TStream> Create<TStream>(params TStream[] streams) where TStream : Stream => new(streams);
         public SequenceInputStream(params Stream[] streams) : base(streams) { }
     }
 
-    public class SequenceInputStream<TStream> : Stream
-        where TStream : Stream
+    public class SequenceInputStream<TStream> : Stream where TStream : Stream
     {
         public Stream[] Streams { get; private set; }
         private readonly long[] _partialLengths;

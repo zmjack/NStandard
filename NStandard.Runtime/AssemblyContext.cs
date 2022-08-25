@@ -60,7 +60,11 @@ namespace NStandard.Runtime
                     orderby ver
                     select new { NuVersion = nuVersion, Version = ver }
                 ).ToArray();
-                Directories.Add($"{packageDir}/{verPairs[0].NuVersion}");
+
+                if (verPairs.Any())
+                {
+                    Directories.Add($"{packageDir}/{verPairs[0].NuVersion}");
+                }
             }
         }
 
