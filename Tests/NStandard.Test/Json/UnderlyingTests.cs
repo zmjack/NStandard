@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Text.Json;
 using Xunit;
 using NewtonsoftJson = Newtonsoft.Json.JsonConvert;
@@ -12,9 +13,9 @@ namespace NStandard.Json.Test
         {
             options.Converters.Add(new LazyConverter());
         });
-        private readonly Newtonsoft.Json.JsonConverter[] _converters = new Newtonsoft.Json.JsonConverter[]
+        private readonly Newtonsoft.Json.JsonSerializerSettings _settings = new Newtonsoft.Json.JsonSerializerSettings
         {
-            new Net.LazyConverter(),
+            Converters = new Newtonsoft.Json.JsonConverter[] { new Net.LazyConverter() },
         };
 
         [Fact]
@@ -37,7 +38,7 @@ namespace NStandard.Json.Test
 
             foreach (var value in values)
             {
-                Assert.True(NewtonsoftJson.SerializeObject(value, _converters) == SystemJson.Serialize(value, _options));
+                Assert.Equal(SystemJson.Serialize(value, _options), NewtonsoftJson.SerializeObject(value, _settings));
             }
         }
 
@@ -47,7 +48,7 @@ namespace NStandard.Json.Test
             void AssertValue<T>(T expected, string json)
             {
                 Assert.Equal(expected, SystemJson.Deserialize<Lazy<T>>(json, _options).Value);
-                Assert.Equal(expected, NewtonsoftJson.DeserializeObject<Lazy<T>>(json, _converters).Value);
+                Assert.Equal(expected, NewtonsoftJson.DeserializeObject<Lazy<T>>(json, _settings).Value);
             }
 
             AssertValue((byte)123, "123");
