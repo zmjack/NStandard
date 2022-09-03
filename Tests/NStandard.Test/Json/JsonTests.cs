@@ -7,10 +7,12 @@ namespace NStandard.Test.Json
 {
     public class JsonTests
     {
-        private readonly JsonSerializerOptions _options = new JsonSerializerOptions().Then(options =>
+        private readonly JsonSerializerOptions _options = Any.Create(() =>
         {
-            options.Converters.Add(new NStandard.Json.NetSingleConverter());
-            options.Converters.Add(new NStandard.Json.NetDoubleConverter());
+            var options = new JsonSerializerOptions();
+            options.Converters.Add(new NStandard.Json.Converters.NetSingleConverter());
+            options.Converters.Add(new NStandard.Json.Converters.NetDoubleConverter());
+            return options;
         });
 
         [Fact]

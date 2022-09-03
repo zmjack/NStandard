@@ -8,17 +8,17 @@ using SystemJson = System.Text.Json.JsonSerializer;
 
 namespace NStandard.Json.Test
 {
-    public class VariantStringTests
+    public class DateOnlyTests
     {
         private readonly JsonSerializerOptions _options = Any.Create(() =>
         {
             var options = new JsonSerializerOptions();
-            options.Converters.Add(new VariantStringConverter());
+            options.Converters.Add(new DateOnlyConverter());
             return options;
         });
         private readonly JsonSerializerSettings _settings = new()
         {
-            Converters = new JsonConverter[] { new Net.Converters.VariantStringConverter() },
+            Converters = new JsonConverter[] { new Net.Converters.DateOnlyConverter() },
         };
 
         private void Assert_Serialize<T>(string expected, T actual)
@@ -32,23 +32,21 @@ namespace NStandard.Json.Test
             Assert.Equal(expected, NewtonsoftJson.DeserializeObject<T>(actual, _settings));
         }
 
+        private DateOnly Today = DateOnlyEx.Today;
+        private DateOnly? NullableToday = null;
+
         [Fact]
         public void SerializeTest()
         {
-            Assert_Serialize("\"\"", new VariantString(null as string));
-            Assert_Serialize("\"\"", new VariantString(""));
-            Assert_Serialize("\"123\"", new VariantString("123"));
-            Assert_Serialize("\"123.456\"", new VariantString("123.456"));
-            Assert_Serialize($"\"{new DateTime(2000, 1, 2, 0, 10, 20)}\"", new VariantString(new DateTime(2000, 1, 2, 0, 10, 20)));
+            Assert_Serialize($"\"{Today:O}\"", Today);
+            Assert_Serialize("null", NullableToday);
         }
 
         [Fact]
         public void DeserializeTest()
         {
-            Assert_Deserialize(new VariantString(""), "\"\"");
-            Assert_Deserialize(new VariantString("123"), "\"123\"");
-            Assert_Deserialize(new VariantString("123.456"), "\"123.456\"");
-            Assert_Deserialize(new VariantString(new DateTime(2000, 1, 2, 0, 10, 20)), $"\"{new DateTime(2000, 1, 2, 0, 10, 20)}\"");
+            Assert_Deserialize(Today, $"\"{Today:O}\"");
+            Assert_Deserialize(NullableToday, "null");
         }
 
     }

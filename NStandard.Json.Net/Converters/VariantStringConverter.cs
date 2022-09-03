@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace NStandard.Json.Net
+namespace NStandard.Json.Net.Converters
 {
     public class VariantStringConverter : JsonConverter
     {

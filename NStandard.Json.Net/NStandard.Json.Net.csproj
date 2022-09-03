@@ -3,10 +3,10 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net5;net6;net451;net452;net46</TargetFrameworks>
     <Authors>zmjack</Authors>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <Company>nstandard.net</Company>
     <Description>Json extensions for Newtonsoft.Json.
-- Includes built-in type compatibility, such as Lazy&lt;T&gt;.</Description>
+- Includes built-in type compatibility, such as Lazy, DateOnly, etc.</Description>
     <Copyright>Copyright © nstandard.net 2021</Copyright>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>nstandard.net</PackageProjectUrl>

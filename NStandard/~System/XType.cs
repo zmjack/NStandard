@@ -75,6 +75,16 @@ namespace NStandard
             return @this.Name.StartsWith("<>f__AnonymousType");
         }
 
+        public static bool IsNullable(this Type @this)
+        {
+            if (@this.IsGenericType)
+            {
+                var genericType = @this.GetGenericTypeDefinition();
+                return genericType == typeof(Nullable<>);
+            }
+            else return false;
+        }
+
         public static bool IsType<TType>(this Type @this) => IsType(@this, typeof(TType));
         public static bool IsType(this Type @this, Type type)
         {
@@ -244,16 +254,6 @@ namespace NStandard
                 return AsClass(baseType, extendType);
             }
             else return null;
-        }
-
-        public static bool IsNullable(this Type @this)
-        {
-            if (@this.IsGenericType)
-            {
-                var genericType = @this.GetGenericTypeDefinition();
-                return genericType == typeof(Nullable<>);
-            }
-            else return false;
         }
 
         public static object CreateDefault(this Type @this)

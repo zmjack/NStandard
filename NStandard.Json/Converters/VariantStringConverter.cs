@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace NStandard.Json
+namespace NStandard.Json.Converters
 {
     public class VariantStringConverter : JsonConverter<VariantString>
     {

@@ -2,7 +2,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace NStandard.Json.Net
+namespace NStandard.Json.Net.Converters
 {
     public class LazyConverter : JsonConverter
     {
