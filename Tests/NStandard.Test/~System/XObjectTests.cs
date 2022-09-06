@@ -84,15 +84,5 @@ namespace NStandard.Test
             Assert.Equal("3", exception.Forward(x => x.InnerException, 0).Message);
         }
 
-        [Fact]
-        public void MemoryAsTest()
-        {
-            // Hex: 0x3c75c28f
-            // Dec: ‭‭1014350479‬‬
-            // Bin: 00111100 01110101 11000010 10001111
-            Assert.Equal(0x3c75c28f, 0.015F.MemoryAs<int>());
-            Assert.Equal(0.015F, 1014350479.MemoryAs<float>());
-        }
-
     }
 }

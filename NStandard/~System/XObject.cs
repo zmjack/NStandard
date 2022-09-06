@@ -135,60 +135,6 @@ namespace NStandard
         /// <returns></returns>
         public static bool IsNull<TSelf>(this TSelf @this) where TSelf : class => @this is null;
 
-        /// <summary>
-        /// Convert a basic struct to another basic struct with same memory sequence.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="this"></param>
-        /// <returns></returns>
-        public static T MemoryAs<T>(this object @this) where T : struct => (T)MemoryAs(@this, typeof(T));
-
-        /// <summary>
-        /// Convert a basic struct to another basic struct with same memory sequence.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static object MemoryAs(this object @this, Type type)
-        {
-            if (@this.GetType() == type) return @this;
-
-            var bytes = @this switch
-            {
-                char t => BitConverter.GetBytes(t),
-                bool t => BitConverter.GetBytes(t),
-                byte t => BitConverter.GetBytes(t),
-                sbyte t => BitConverter.GetBytes(t),
-                short t => BitConverter.GetBytes(t),
-                ushort t => BitConverter.GetBytes(t),
-                int t => BitConverter.GetBytes(t),
-                uint t => BitConverter.GetBytes(t),
-                long t => BitConverter.GetBytes(t),
-                ulong t => BitConverter.GetBytes(t),
-                float t => BitConverter.GetBytes(t),
-                double t => BitConverter.GetBytes(t),
-                _ => throw new NotSupportedException(),
-            };
-
-            return type switch
-            {
-                Type t when t == typeof(char) => BitConverter.ToChar(bytes, 0),
-                Type t when t == typeof(bool) => BitConverter.ToBoolean(bytes, 0),
-                Type t when t == typeof(byte) => bytes[0],
-                Type t when t == typeof(sbyte) => (sbyte)bytes[0],
-                Type t when t == typeof(short) => BitConverter.ToInt16(bytes, 0),
-                Type t when t == typeof(ushort) => BitConverter.ToUInt16(bytes, 0),
-                Type t when t == typeof(int) => BitConverter.ToInt32(bytes, 0),
-                Type t when t == typeof(uint) => BitConverter.ToUInt32(bytes, 0),
-                Type t when t == typeof(long) => BitConverter.ToInt64(bytes, 0),
-                Type t when t == typeof(ulong) => BitConverter.ToUInt64(bytes, 0),
-                Type t when t == typeof(float) => BitConverter.ToSingle(bytes, 0),
-                Type t when t == typeof(double) => BitConverter.ToDouble(bytes, 0),
-                _ => throw new NotSupportedException(),
-            };
-        }
-
         public static Reflector GetReflector(this object @this) => new(@this.GetType(), @this);
         public static Reflector GetReflector(this object @this, Type type) => new(type, @this);
         public static Reflector GetReflector<T>(this object @this) => new(typeof(T), @this);

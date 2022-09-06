@@ -14,7 +14,9 @@ namespace NStandard
             var buffer = new byte[bufferSize];
             int readLength;
             while ((readLength = @this.Read(buffer, 0, bufferSize)) > 0)
+            {
                 handler(buffer, readLength);
+            }
         }
 
         public static void ScanAndWriteTo(this Stream @this, Stream writeTarget, int bufferSize)

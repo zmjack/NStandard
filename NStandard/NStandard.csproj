@@ -7,7 +7,7 @@
     <Authors>zmjack</Authors>
     <Company>nstandard.net</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.10.1</Version>
+    <Version>0.11.0</Version>
     <Description>DotNet extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
@@ -45,6 +45,10 @@
 
   <ItemGroup>
     <Reference Include="System.Web" Condition="'$(TargetFramework)'!='netstandard2.0'" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="IO\Compression\" />
   </ItemGroup>
 
 </Project>
