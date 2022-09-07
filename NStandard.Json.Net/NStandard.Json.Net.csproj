@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net5;net6;net451;net452;net46</TargetFrameworks>
     <Authors>zmjack</Authors>
-    <Version>0.3.6</Version>
+    <Version>0.4.0</Version>
     <Company>nstandard.net</Company>
     <Description>Json extensions for Newtonsoft.Json.
 - Includes built-in type compatibility, such as Lazy, DateOnly, etc.</Description>

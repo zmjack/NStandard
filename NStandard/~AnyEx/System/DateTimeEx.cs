@@ -39,7 +39,7 @@ namespace NStandard
                 throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
 
             var offset = end.Year - start.Year;
-            var target = XDateTime.AddYears(start, offset);
+            var target = DateTimeExtensions.AddYears(start, offset);
 
             if (end >= start) return end >= target ? offset : offset - 1;
             else return end <= target ? offset : offset + 1;
@@ -57,7 +57,7 @@ namespace NStandard
                 throw new ArgumentException($"The kind of {nameof(start)} and {nameof(end)} must be the same.");
 
             var offset = (end.Year - start.Year) * 12 + end.Month - start.Month;
-            var target = XDateTime.AddMonths(start, offset);
+            var target = DateTimeExtensions.AddMonths(start, offset);
 
             if (end >= start) return end >= target ? offset : offset - 1;
             else return end <= target ? offset : offset + 1;
@@ -72,17 +72,17 @@ namespace NStandard
         public static double TotalYears(DateTime start, DateTime end)
         {
             var integer = Years(start, end);
-            var targetStart = XDateTime.AddYears(start, integer);
+            var targetStart = DateTimeExtensions.AddYears(start, integer);
 
             if (end >= start)
             {
-                var targetEnd = XDateTime.AddYears(start, integer + 1);
+                var targetEnd = DateTimeExtensions.AddYears(start, integer + 1);
                 var fractional = (end - targetStart).TotalDays / (targetEnd - targetStart).TotalDays;
                 return integer + fractional;
             }
             else
             {
-                var targetEnd = XDateTime.AddYears(start, integer - 1);
+                var targetEnd = DateTimeExtensions.AddYears(start, integer - 1);
                 var fractional = (targetStart - end).TotalDays / (targetStart - targetEnd).TotalDays;
                 return integer - fractional;
             }
@@ -97,17 +97,17 @@ namespace NStandard
         public static double TotalMonths(DateTime start, DateTime end)
         {
             var integer = Months(start, end);
-            var targetStart = XDateTime.AddMonths(start, integer);
+            var targetStart = DateTimeExtensions.AddMonths(start, integer);
 
             if (end >= start)
             {
-                var targetEnd = XDateTime.AddMonths(start, integer + 1);
+                var targetEnd = DateTimeExtensions.AddMonths(start, integer + 1);
                 var fractional = (end - targetStart).TotalDays / (targetEnd - targetStart).TotalDays;
                 return integer + fractional;
             }
             else
             {
-                var targetEnd = XDateTime.AddMonths(start, integer - 1);
+                var targetEnd = DateTimeExtensions.AddMonths(start, integer - 1);
                 var fractional = (targetStart - end).TotalDays / (targetStart - targetEnd).TotalDays;
                 return integer - fractional;
             }
@@ -124,7 +124,7 @@ namespace NStandard
         public static DateTime ParseFromWeek(int year, int week, DateTimeKind kind, DayOfWeek weekStart = DayOfWeek.Sunday)
         {
             var day1 = new DateTime(year, 1, 1, 0, 0, 0, kind);
-            var week0 = XDateTime.PastDay(day1, weekStart, true);
+            var week0 = DateTimeExtensions.PastDay(day1, weekStart, true);
             if (week0.Year == year) week0 = week0.AddDays(-7);
             return week0.AddDays(week * 7);
         }

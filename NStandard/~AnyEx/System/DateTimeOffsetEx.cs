@@ -60,7 +60,7 @@ namespace NStandard
         public static int Years(DateTimeOffset start, DateTimeOffset end)
         {
             var offset = end.Year - start.Year;
-            var target = XDateTimeOffset.AddYears(start, offset);
+            var target = DateTimeOffsetExtensions.AddYears(start, offset);
 
             if (end >= start) return end >= target ? offset : offset - 1;
             else return end <= target ? offset : offset + 1;
@@ -75,7 +75,7 @@ namespace NStandard
         public static int Months(DateTimeOffset start, DateTimeOffset end)
         {
             var offset = (end.Year - start.Year) * 12 + end.Month - start.Month;
-            var target = XDateTimeOffset.AddMonths(start, offset);
+            var target = DateTimeOffsetExtensions.AddMonths(start, offset);
 
             if (end >= start) return end >= target ? offset : offset - 1;
             else return end <= target ? offset : offset + 1;
@@ -90,17 +90,17 @@ namespace NStandard
         public static double TotalYears(DateTimeOffset start, DateTimeOffset end)
         {
             var integer = Years(start, end);
-            var targetStart = XDateTimeOffset.AddYears(start, integer);
+            var targetStart = DateTimeOffsetExtensions.AddYears(start, integer);
 
             if (end >= start)
             {
-                var targetEnd = XDateTimeOffset.AddYears(start, integer + 1);
+                var targetEnd = DateTimeOffsetExtensions.AddYears(start, integer + 1);
                 var fractional = (end - targetStart).TotalDays / (targetEnd - targetStart).TotalDays;
                 return integer + fractional;
             }
             else
             {
-                var targetEnd = XDateTimeOffset.AddYears(start, integer - 1);
+                var targetEnd = DateTimeOffsetExtensions.AddYears(start, integer - 1);
                 var fractional = (targetStart - end).TotalDays / (targetStart - targetEnd).TotalDays;
                 return integer - fractional;
             }
@@ -115,17 +115,17 @@ namespace NStandard
         public static double TotalMonths(DateTimeOffset start, DateTimeOffset end)
         {
             var integer = Months(start, end);
-            var targetStart = XDateTimeOffset.AddMonths(start, integer);
+            var targetStart = DateTimeOffsetExtensions.AddMonths(start, integer);
 
             if (end >= start)
             {
-                var targetEnd = XDateTimeOffset.AddMonths(start, integer + 1);
+                var targetEnd = DateTimeOffsetExtensions.AddMonths(start, integer + 1);
                 var fractional = (end - targetStart).TotalDays / (targetEnd - targetStart).TotalDays;
                 return integer + fractional;
             }
             else
             {
-                var targetEnd = XDateTimeOffset.AddMonths(start, integer - 1);
+                var targetEnd = DateTimeOffsetExtensions.AddMonths(start, integer - 1);
                 var fractional = (targetStart - end).TotalDays / (targetStart - targetEnd).TotalDays;
                 return integer - fractional;
             }
@@ -142,7 +142,7 @@ namespace NStandard
         public static DateTimeOffset ParseFromWeek(int year, int week, TimeSpan offset, DayOfWeek weekStart = DayOfWeek.Sunday)
         {
             var day1 = new DateTimeOffset(year, 1, 1, 0, 0, 0, offset);
-            var week0 = XDateTimeOffset.PastDay(day1, weekStart, true);
+            var week0 = DateTimeOffsetExtensions.PastDay(day1, weekStart, true);
             if (week0.Year == year) week0 = week0.AddDays(-7);
             return week0.AddDays(week * 7);
         }

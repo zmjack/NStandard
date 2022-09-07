@@ -90,11 +90,11 @@ namespace NStandard.Test
         [Fact]
         public void AddMonthDiffTest()
         {
-            Assert.Equal(new DateTime(2000, 5, 1), XDateTime.AddTotalMonths(new DateTime(2000, 3, 31), 1));
-            Assert.Equal(new DateTime(2000, 4, 1), XDateTime.AddTotalMonths(new DateTime(2000, 5, 1), -1));
+            Assert.Equal(new DateTime(2000, 5, 1), DateTimeExtensions.AddTotalMonths(new DateTime(2000, 3, 31), 1));
+            Assert.Equal(new DateTime(2000, 4, 1), DateTimeExtensions.AddTotalMonths(new DateTime(2000, 5, 1), -1));
 
-            Assert.Equal(new DateTime(2000, 2, 29), XDateTime.AddTotalMonths(new DateTime(2000, 3, 31), -1));
-            Assert.Equal(new DateTime(2000, 3, 29), XDateTime.AddTotalMonths(new DateTime(2000, 2, 29), 1));
+            Assert.Equal(new DateTime(2000, 2, 29), DateTimeExtensions.AddTotalMonths(new DateTime(2000, 3, 31), -1));
+            Assert.Equal(new DateTime(2000, 3, 29), DateTimeExtensions.AddTotalMonths(new DateTime(2000, 2, 29), 1));
         }
 
         [Fact]

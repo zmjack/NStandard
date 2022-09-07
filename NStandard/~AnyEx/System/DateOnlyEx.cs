@@ -22,7 +22,7 @@ namespace NStandard
         public static int Years(DateOnly start, DateOnly end)
         {
             var offset = end.Year - start.Year;
-            var target = XDateOnly.AddYears(start, offset);
+            var target = DateOnlyExtensions.AddYears(start, offset);
 
             if (end >= start) return end >= target ? offset : offset - 1;
             else return end <= target ? offset : offset + 1;
@@ -37,7 +37,7 @@ namespace NStandard
         public static int Months(DateOnly start, DateOnly end)
         {
             var offset = (end.Year - start.Year) * 12 + end.Month - start.Month;
-            var target = XDateOnly.AddMonths(start, offset);
+            var target = DateOnlyExtensions.AddMonths(start, offset);
 
             if (end >= start) return end >= target ? offset : offset - 1;
             else return end <= target ? offset : offset + 1;
@@ -52,17 +52,17 @@ namespace NStandard
         public static double TotalYears(DateOnly start, DateOnly end)
         {
             var integer = Years(start, end);
-            var targetStart = XDateOnly.AddYears(start, integer);
+            var targetStart = DateOnlyExtensions.AddYears(start, integer);
 
             if (end >= start)
             {
-                var targetEnd = XDateOnly.AddYears(start, integer + 1);
+                var targetEnd = DateOnlyExtensions.AddYears(start, integer + 1);
                 var fractional = (double)(end.DayNumber - targetStart.DayNumber) / (targetEnd.DayNumber - targetStart.DayNumber);
                 return integer + fractional;
             }
             else
             {
-                var targetEnd = XDateOnly.AddYears(start, integer - 1);
+                var targetEnd = DateOnlyExtensions.AddYears(start, integer - 1);
                 var fractional = (double)(targetStart.DayNumber - end.DayNumber) / (targetStart.DayNumber - targetEnd.DayNumber);
                 return integer - fractional;
             }
@@ -77,17 +77,17 @@ namespace NStandard
         public static double TotalMonths(DateOnly start, DateOnly end)
         {
             var integer = Months(start, end);
-            var targetStart = XDateOnly.AddMonths(start, integer);
+            var targetStart = DateOnlyExtensions.AddMonths(start, integer);
 
             if (end >= start)
             {
-                var targetEnd = XDateOnly.AddMonths(start, integer + 1);
+                var targetEnd = DateOnlyExtensions.AddMonths(start, integer + 1);
                 var fractional = (double)(end.DayNumber - targetStart.DayNumber) / (targetEnd.DayNumber - targetStart.DayNumber);
                 return integer + fractional;
             }
             else
             {
-                var targetEnd = XDateOnly.AddMonths(start, integer - 1);
+                var targetEnd = DateOnlyExtensions.AddMonths(start, integer - 1);
                 var fractional = (double)(targetStart.DayNumber - end.DayNumber) / (targetStart.DayNumber - targetEnd.DayNumber);
                 return integer - fractional;
             }
@@ -103,7 +103,7 @@ namespace NStandard
         public static DateOnly ParseFromWeek(int year, int week, DayOfWeek weekStart = DayOfWeek.Sunday)
         {
             var day1 = new DateOnly(year, 1, 1);
-            var week0 = XDateOnly.PastDay(day1, weekStart, true);
+            var week0 = DateOnlyExtensions.PastDay(day1, weekStart, true);
             if (week0.Year == year) week0 = week0.AddDays(-7);
             return week0.AddDays(week * 7);
         }
