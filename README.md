@@ -48,6 +48,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version: 0.13.0
+
+- **BREAKING CHANGE**: To make the name more readable, the extension method class name has been renamed from **X...** to **...Extensions**.
+
 ### Version: 0.8.40
 
 - Add struct **HashCode** for **.NET Framework**, which behaves like **.NET Core**.
