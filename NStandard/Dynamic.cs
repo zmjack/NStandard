@@ -43,7 +43,13 @@ namespace NStandard
                     var lambdaMethod = typeof(Expression)
                         .GetMethodViaQualifiedName("System.Linq.Expressions.Expression`1[TDelegate] Lambda[TDelegate](System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])")
                         .MakeGenericMethod(lambdaGenericType);
-                    return (lambdaMethod.Invoke(null, new object[] { exp, new ParameterExpression[0] }) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
+
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+                    var param = Array.Empty<ParameterExpression>();
+#else
+                    var param = ArrayEx.Empty<ParameterExpression>();
+#endif
+                    return (lambdaMethod.Invoke(null, new object[] { exp, param }) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
                 };
             }
             var container = new CacheSet<Type, Delegate> { CacheMethodBuilder = cacheMethodBuilder };
@@ -65,7 +71,13 @@ namespace NStandard
                     var lambdaMethod = typeof(Expression)
                         .GetMethodViaQualifiedName("System.Linq.Expressions.Expression`1[TDelegate] Lambda[TDelegate](System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])")
                         .MakeGenericMethod(lambdaGenericType);
-                    return (lambdaMethod.Invoke(null, new object[] { exp, new ParameterExpression[0] }) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
+
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+                    var param = Array.Empty<ParameterExpression>();
+#else
+                    var param = ArrayEx.Empty<ParameterExpression>();
+#endif
+                    return (lambdaMethod.Invoke(null, new object[] { exp, param }) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
                 };
             }
             var container = new CacheSet<Type, Delegate> { CacheMethodBuilder = cacheMethodBuilder };

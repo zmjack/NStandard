@@ -6,7 +6,7 @@ namespace NStandard.Trees
 {
     public static class Tree
     {
-        public static Tree<TModel> Parse<TModel>(TModel model, Func<TModel, ICollection<TModel>> childrenGetter)
+        public static Tree<TModel> Parse<TModel>(TModel model, Func<TModel, ICollection<TModel>> childrenGetter) where TModel : class
         {
             void AddChildren(Tree<TModel> tree)
             {
@@ -25,12 +25,12 @@ namespace NStandard.Trees
             return tree;
         }
 
-        public static Tree<TModel>[] Parse<TModel>(IEnumerable<TModel> models, Func<TModel, ICollection<TModel>> childrenGetter)
+        public static Tree<TModel>[] Parse<TModel>(IEnumerable<TModel> models, Func<TModel, ICollection<TModel>> childrenGetter) where TModel : class
         {
             return models.Select(x => Parse(x, childrenGetter)).ToArray();
         }
 
-        public static Tree<TModel>[] ParseRange<TModel, TKey>(IEnumerable<TModel> models, Func<TModel, TKey> keySelector, Func<TModel, TKey> parentGetter)
+        public static Tree<TModel>[] ParseRange<TModel, TKey>(IEnumerable<TModel> models, Func<TModel, TKey> keySelector, Func<TModel, TKey> parentGetter) where TModel : class
         {
             if (!typeof(TKey).IsNullable()) throw new ArgumentException($"The argument({nameof(parentGetter)} must return a nullable type.");
 
@@ -52,7 +52,7 @@ namespace NStandard.Trees
         }
     }
 
-    public class Tree<TModel>
+    public class Tree<TModel> where TModel : class
     {
         private readonly HashSet<Tree<TModel>> _innerChildren = new();
 
@@ -67,22 +67,15 @@ namespace NStandard.Trees
             Model = model;
         }
 
-        public Tree<TModel> AddChild(TModel model) => AddChild(new Tree<TModel>(model));
-        public Tree<TModel> AddChild(Tree<TModel> tree)
+        public Tree<TModel> AddChild(TModel model)
         {
+            var tree = new Tree<TModel>(model);
             tree.Parent = this;
             _innerChildren.Add(tree);
             return tree;
         }
 
         public Tree<TModel>[] AddChildren(IEnumerable<TModel> models)
-        {
-            var list = new List<Tree<TModel>>();
-            foreach (var model in models) list.Add(AddChild(model));
-            return list.ToArray();
-        }
-
-        public Tree<TModel>[] AddChildren(IEnumerable<Tree<TModel>> models)
         {
             var list = new List<Tree<TModel>>();
             foreach (var model in models) list.Add(AddChild(model));
@@ -130,23 +123,21 @@ namespace NStandard.Trees
             }
         }
 
-        public Tree<TModel> Copy(Predicate<Tree<TModel>> predicate)
+        public Tree<TModel> Filter(Func<Tree<TModel>, bool> predicate)
         {
-            void CopyChildren(Tree<TModel> source, Tree<TModel> target)
+            void CopyChildren(Tree<TModel> root, IEnumerable<Tree<TModel>> sourceChildren)
             {
-                var children = source._innerChildren.Where(x => predicate(x)).ToArray();
-
-                if (children?.Any() ?? false)
+                var children = sourceChildren.Where(predicate);
+                foreach (var child in children)
                 {
-                    target.AddChildren(children.Select(x => x.Model));
-                    foreach (var zipper in Zipper.Create(source._innerChildren, target._innerChildren))
-                        CopyChildren(zipper.Item1, zipper.Item2);
+                    var subTree = root.AddChild(child.Model);
+                    CopyChildren(subTree, child.Children);
                 }
             }
 
-            var tree = new Tree<TModel>(Model);
-            CopyChildren(this, tree);
-            return tree;
+            var root = new Tree<TModel>(Model);
+            CopyChildren(root, Children);
+            return root;
         }
 
     }

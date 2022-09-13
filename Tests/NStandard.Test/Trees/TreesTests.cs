@@ -74,7 +74,7 @@ namespace NStandard.Trees.Test
         [Fact]
         public void Test3()
         {
-            Predicate<Tree<CA>> IsValidNode(params int[] values)
+            Func<Tree<CA>, bool> IsValidNode(params int[] values)
             {
                 bool Find(Tree<CA> current)
                 {
@@ -84,7 +84,7 @@ namespace NStandard.Trees.Test
                 return Find;
             }
 
-            var tree = Tree1.Copy(IsValidNode(4, 11));
+            var tree = Tree1.Filter(IsValidNode(4, 11));
             Assert.Equal(new[] { 2, 3, 11, 4 }, tree.GetNodes().Select(x => x.Model.Value).ToArray());
         }
     }

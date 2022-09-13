@@ -6,7 +6,7 @@ using Xunit;
 
 namespace NStandard.Test
 {
-    public class XObjectTests
+    public class ObjectExtensionsTests
     {
         [Fact]
         public void ForClassTest()

@@ -4,7 +4,7 @@ using Xunit;
 
 namespace NStandard.Test
 {
-    public class XEventInfo
+    public class EventInfoExtensionsTests
     {
         private class OneClass
         {

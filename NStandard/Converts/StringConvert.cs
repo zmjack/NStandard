@@ -71,7 +71,14 @@ namespace NStandard.Converts
         /// <returns></returns>
         public static byte[] FromHexString(string @this, string separator = "")
         {
-            if (@this.IsNullOrEmpty()) return new byte[0];
+            if (@this.IsNullOrEmpty())
+            {
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+                return Array.Empty<byte>();
+#else
+                return ArrayEx.Empty<byte>();
+#endif
+            }
 
             var hexString = @this;
             if (!separator.IsNullOrEmpty())

@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 
 namespace NStandard.Test
 {
@@ -57,7 +58,7 @@ namespace NStandard.Test
         {
             Assert.Equal(new[] { TestEnums.A }, TestEnums.A.GetFlags());
             Assert.Equal(new[] { TestEnums.B }, TestEnums.B.GetFlags());
-            Assert.Equal(new TestEnums[0], TestEnums.D.GetFlags());
+            Assert.Equal(Array.Empty<TestEnums>(), TestEnums.D.GetFlags());
             Assert.Equal(new[] { TestEnums.A, TestEnums.B }, TestEnums.AB.GetFlags());
             Assert.Equal(new[] { TestEnums.A }, TestEnums.AD.GetFlags());
         }

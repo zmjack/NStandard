@@ -1,4 +1,5 @@
 ﻿using LinqSharp;
+using System;
 using System.Linq;
 using Xunit;
 
@@ -35,7 +36,7 @@ namespace NStandard.Test
                 int i = param.toGoods, j = param.residualWeight;
 
                 if (i == 0 && j < Goods[0].Weight)
-                    return new Result { TotalValue = 0, GoodWeights = new int[0] };
+                    return new Result { TotalValue = 0, GoodWeights = Array.Empty<int>() };
                 if (i == 0 && j >= Goods[0].Weight)
                     return new Result { TotalValue = Goods[0].Value, GoodWeights = new[] { Goods[0].Weight } };
                 if (i > 0 && j - Goods[i].Weight < 0) return this[(i - 1, j)];

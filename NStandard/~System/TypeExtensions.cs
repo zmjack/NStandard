@@ -260,7 +260,15 @@ namespace NStandard
         {
             return @this.IsValueType ? Activator.CreateInstance(@this) : null;
         }
-        public static object CreateInstance(this Type @this) => Activator.CreateInstance(@this, DeclaredOnlyLookup, null, new object[] { }, null);
+        public static object CreateInstance(this Type @this)
+        {
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+            var args = Array.Empty<object>();
+#else
+            var args = ArrayEx.Empty<object>();
+#endif
+            return CreateInstance(@this, args);
+        }
         public static object CreateInstance(this Type @this, params object[] args) => Activator.CreateInstance(@this, DeclaredOnlyLookup, null, args, null);
 
         public static Type GetCoClassType(this Type @this)

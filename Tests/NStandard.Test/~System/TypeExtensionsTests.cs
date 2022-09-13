@@ -4,7 +4,7 @@ using Xunit;
 
 namespace NStandard.Test
 {
-    public class XTypeTests
+    public class TypeExtensionsTests
     {
         private interface IInterfaceA<T> { }
         private interface IInterfaceB { }

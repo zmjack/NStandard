@@ -4,7 +4,7 @@ using Xunit;
 
 namespace NStandard.Test
 {
-    public class XAssemblyTests
+    public class AssemblyExtensionsTests
     {
         public interface IA { }
 

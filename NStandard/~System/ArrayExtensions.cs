@@ -136,7 +136,14 @@ namespace NStandard
                 Array.Copy(@this, start, ret, 0, length);
                 return ret;
             }
-            else if (length == 0) return new T[0];
+            else if (length == 0)
+            {
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+                return Array.Empty<T>();
+#else
+                return ArrayEx.Empty<T>();
+#endif
+            }
             else throw new IndexOutOfRangeException($"'{nameof(start)}:{start}' can not greater than '{nameof(stop)}:{stop}'.");
         }
         private static int GetElementPosition<T>(ref T[] str, int pos) => pos < 0 ? str.Length + pos : pos;

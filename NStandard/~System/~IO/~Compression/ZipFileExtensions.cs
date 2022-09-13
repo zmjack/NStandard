@@ -1,8 +1,8 @@
 ﻿#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
 using System;
 using System.ComponentModel;
-using System.IO.Compression;
 using System.IO;
+using System.IO.Compression;
 
 namespace NStandard
 {

@@ -3,7 +3,7 @@ using Xunit;
 
 namespace NStandard.Test
 {
-    public class XAppDomainTests
+    public class AppDomainExtensionsTests
     {
         [Fact]
         public void Test1()

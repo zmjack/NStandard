@@ -5,7 +5,7 @@ using Xunit;
 
 namespace NStandard.Test
 {
-    public class XTaskTests
+    public class TaskExtensionsTests
     {
         [Fact]
         public void CatchTest()

@@ -4,7 +4,7 @@ using Xunit;
 
 namespace NStandard.Test
 {
-    public class XLinkedListTests
+    public class LinkedListExtensionsTests
     {
         [Fact]
         public void Test1()

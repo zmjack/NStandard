@@ -3,7 +3,7 @@ using Xunit;
 
 namespace NStandard.Test
 {
-    public class XDateTimeTests
+    public class DateTimeExtensionsTests
     {
         [Fact]
         public void BeginningOrEndTest()

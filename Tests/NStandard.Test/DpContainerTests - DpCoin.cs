@@ -1,4 +1,5 @@
 ﻿using LinqSharp;
+using System;
 using System.Linq;
 using Xunit;
 
@@ -23,10 +24,10 @@ namespace NStandard.Test
 
             public override Result StateTransfer(int n)
             {
-                // dp(n) = 0                        if  n=0
-                // dp(n) = min{v| d(n-v) + 1}       if  n-v>=0, v={CoinValues}
+                // dp(n) = 0                        if  n = 0
+                // dp(n) = min { v | d(n-v) + 1 }   if  n - v >= 0, v = { CoinValues }
 
-                if (n == 0) return new Result { CoinCount = 0, Coins = new int[0] };
+                if (n == 0) return new Result { CoinCount = 0, Coins = Array.Empty<int>() };
 
                 var take_v = CoinValues
                     .Where(v => n - v >= 0)

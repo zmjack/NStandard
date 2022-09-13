@@ -3,7 +3,7 @@ using Xunit;
 
 namespace NStandard.Test
 {
-    public class XArrayTests
+    public class ArrayExtensionsTests
     {
         private class Class { }
 
