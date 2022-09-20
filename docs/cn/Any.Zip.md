@@ -23,8 +23,8 @@ foreach(var item in Any.Zip(numbers, weeks, abbrweeks))
 }
 ```
 
-> (1, Monday, Mon.)
-> (2, Tuesday, Tues.)
+> (1, Monday, Mon.)<br/>
+> (2, Tuesday, Tues.)<br/>
 > (3, Wednesday, Wed.)
 
 <br/>
@@ -38,8 +38,8 @@ foreach (var (number, week, abbrWeek) in Any.Zip(numbers, weeks, abbrWeeks))
 }
 ```
 
-> (1, Monday, Mon.)
-> (2, Tuesday, Tues.)
+> (1, Monday, Mon.)<br/>
+> (2, Tuesday, Tues.)<br/>
 > (3, Wednesday, Wed.)
 
 <br/>
@@ -110,12 +110,12 @@ void PrintMatrix(IEnumerable<IEnumerable<int>> matrix)
 }
 ```
 
->[1, 2, 3]
->[4, 5, 6]
->[7, 8, 9]
->
->[1, 4, 7]
->[2, 5, 8]
+>[1, 2, 3]<br/>
+>[4, 5, 6]<br/>
+>[7, 8, 9]<br/>
+><br/>
+>[1, 4, 7]<br/>
+>[2, 5, 8]<br/>
 >[3, 6, 9]
 
 <br/>
