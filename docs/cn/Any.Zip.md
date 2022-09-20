@@ -62,19 +62,19 @@ foreach (var (number, (week, abbrWeek)) in Any.Zip(numbers, Any.Zip(weeks, abbrW
 ```csharp
 void Main()
 {
-	var numbers = new[]
-	{
-		new[] { 1, 2, 3 },
-		new[] { 4, 5, 6 },
-		new[] { 7, 8, 9 },
-	};
-	var zip = Any.Zip(numbers, col => col.Sum());
-	Print(zip);
+    var numbers = new[]
+    {
+        new[] { 1, 2, 3 },
+        new[] { 4, 5, 6 },
+        new[] { 7, 8, 9 },
+    };
+    var zip = Any.Zip(numbers, col => col.Sum());
+    Print(zip);
 }
 
 void Print(IEnumerable<int> numbers)
 {
-	Console.WriteLine($"[{string.Join(", ", numbers)}]");
+    Console.WriteLine($"[{string.Join(", ", numbers)}]");
 }
 ```
 
@@ -87,26 +87,26 @@ void Print(IEnumerable<int> numbers)
 ```csharp
 void Main()
 {
-	var numbers = new[]
-	{
-		new[] { 1, 2, 3 },
-		new[] { 4, 5, 6 },
-		new[] { 7, 8, 9 },
-	};
-	
-	PrintMatrix(numbers);
-	PrintMatrix(Any.Zip(numbers));
+    var numbers = new[]
+    {
+        new[] { 1, 2, 3 },
+        new[] { 4, 5, 6 },
+        new[] { 7, 8, 9 },
+    };
+    
+    PrintMatrix(numbers);
+    PrintMatrix(Any.Zip(numbers));
 }
 
 void PrintMatrix(IEnumerable<IEnumerable<int>> matrix)
 {
-	Console.WriteLine(
-		string.Join(Environment.NewLine,
-		(
-			matrix.Select(row => $"[{string.Join(", ", row)}]")
-		))
-	);
-	Console.WriteLine();
+    Console.WriteLine(
+        string.Join(Environment.NewLine,
+        (
+            matrix.Select(row => $"[{string.Join(", ", row)}]")
+        ))
+    );
+    Console.WriteLine();
 }
 ```
 
