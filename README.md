@@ -50,7 +50,7 @@ These frameworks are supported:
 
 ### Version: 0.14.0
 
-- Add **[Any.Zip](https://github.com/zmjack/NStandard/blob/master/docs/Any.Zip.md)** function instead of **Zipper.Create**.
+- Add **[Any.Zip](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Zip.md)** function instead of **Zipper.Create**.
 
 ### Version: 0.13.0
 
@@ -77,7 +77,7 @@ Currently, the following functions still need to be improved:
 
 - [ ] [Compatibility for .NET Framework](https://github.com/zmjack/NStandard/blob/master/docs/en/Compatibility.md)
 - [ ] [Dynamic formula calculation](https://github.com/zmjack/NStandard/blob/master/docs/en/Evaluator.md)
-- [x] [Numerical operations with units](https://github.com/zmjack/NStandard/blob/master/docs/UnitValue.md)
+- [x] [Numerical operations with units](https://github.com/zmjack/NStandard/blob/master/docs/en/UnitValue.md)
 - [x] [Dynamic programming](https://github.com/zmjack/NStandard/blob/master/docs/en/DpContainer.md)
 - [ ] [SequenceInputStream](https://github.com/zmjack/NStandard/blob/master/docs/en/SequenceInputStream.md)
 - [ ] And more...

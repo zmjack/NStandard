@@ -50,7 +50,7 @@
 
 ### 版本 0.14.0
 
-- 添加 **[Any.Zip](https://github.com/zmjack/NStandard/blob/master/docs/Any.Zip.md)** 函数替代 **Zipper.Create**。
+- 添加 **[Any.Zip](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Zip.md)** 函数替代 **Zipper.Create**。
 
 ### 版本: 0.13.0
 
@@ -67,19 +67,19 @@
 
 基础函数：
 
-- [x] [Any.Zip](https://github.com/zmjack/NStandard/blob/master/docs/Any.Zip.md)
+- [x] [Any.Zip](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Zip.md)
 
 扩展函数：
 
-- [ ] [DateTime 扩展](https://github.com/zmjack/NStandard/blob/master/docs/DateTimeExtensions.md)
+- [ ] [DateTime 扩展](https://github.com/zmjack/NStandard/blob/master/docs/cn/DateTimeExtensions.md)
 
 目前针对以下功能仍需改进：
 
-- [ ] [.NET Framework 兼容性](https://github.com/zmjack/NStandard/blob/master/docs/Compatibility.md)
-- [ ] [动态公式计算](https://github.com/zmjack/NStandard/blob/master/docs/Evaluator.md)
-- [x] [带单位的数值运算](https://github.com/zmjack/NStandard/blob/master/docs/UnitValue.md)
-- [x] [动态规划计算](https://github.com/zmjack/NStandard/blob/master/docs/DpContainer.md)
-- [ ] [合并流](https://github.com/zmjack/NStandard/blob/master/docs/SequenceInputStream.md)
+- [ ] [.NET Framework 兼容性](https://github.com/zmjack/NStandard/blob/master/docs/cn/Compatibility.md)
+- [ ] [动态公式计算](https://github.com/zmjack/NStandard/blob/master/docs/cn/Evaluator.md)
+- [x] [带单位的数值运算](https://github.com/zmjack/NStandard/blob/master/docs/cn/UnitValue.md)
+- [x] [动态规划计算](https://github.com/zmjack/NStandard/blob/master/docs/cn/DpContainer.md)
+- [ ] [合并流](https://github.com/zmjack/NStandard/blob/master/docs/cn/SequenceInputStream.md)
 - [ ] 更多...
 
 <br/>
