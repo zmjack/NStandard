@@ -48,6 +48,10 @@
 
 ## 最近更新
 
+### 版本 0.14.0
+
+- 添加 **[Any.Zip](https://github.com/zmjack/NStandard/blob/master/docs/Any.Zip.md)** 函数替代 **Zipper.Create**。
+
 ### 版本: 0.13.0
 
 - **破坏性更新**：为使名称更具可读性，扩展方法类名称从 **X...** 更名为 **...Extensions**。
@@ -61,9 +65,13 @@
 
 ## 关于正式版本（v1.0.0，未发布）
 
-基础功能：
+基础函数：
 
-- [ ] [DateTime 增强功能](https://github.com/zmjack/NStandard/blob/master/docs/DateTimeExtensions.md)
+- [x] [Any.Zip](https://github.com/zmjack/NStandard/blob/master/docs/Any.Zip.md)
+
+扩展函数：
+
+- [ ] [DateTime 扩展](https://github.com/zmjack/NStandard/blob/master/docs/DateTimeExtensions.md)
 
 目前针对以下功能仍需改进：
 

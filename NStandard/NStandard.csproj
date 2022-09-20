@@ -7,7 +7,7 @@
     <Authors>zmjack</Authors>
     <Company>nstandard.net</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.13.0</Version>
+    <Version>0.14.0</Version>
     <Description>DotNet extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
@@ -45,6 +45,25 @@
 
   <ItemGroup>
     <Reference Include="System.Web" Condition="'$(TargetFramework)'!='netstandard2.0'" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Any.Zip.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Any.Zip.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Any.Zip.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Any.Zip.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

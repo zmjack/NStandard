@@ -48,6 +48,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version: 0.14.0
+
+- Add **[Any.Zip](https://github.com/zmjack/NStandard/blob/master/docs/Any.Zip.md)** function instead of **Zipper.Create**.
+
 ### Version: 0.13.0
 
 - **BREAKING CHANGE**: To make the name more readable, the extension method class name has been renamed from **X...** to **...Extensions**.
@@ -61,17 +65,21 @@ These frameworks are supported:
 
 ## About the Official Version (v1.0.0, Not Release)
 
-Basis functions:
+Functions:
 
-- [ ] [DateTime Extensions](https://github.com/zmjack/NStandard/blob/master/docs/DateTimeExtensions.md)
+- [x] [Any.Zip](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Zip.md)
+
+Extensions:
+
+- [ ] [DateTime Extensions](https://github.com/zmjack/NStandard/blob/master/docs/en/DateTimeExtensions.md)
 
 Currently, the following functions still need to be improved:
 
-- [ ] [Compatibility for .NET Framework](https://github.com/zmjack/NStandard/blob/master/docs/Compatibility.md)
-- [ ] [Dynamic formula calculation](https://github.com/zmjack/NStandard/blob/master/docs/Evaluator.md)
+- [ ] [Compatibility for .NET Framework](https://github.com/zmjack/NStandard/blob/master/docs/en/Compatibility.md)
+- [ ] [Dynamic formula calculation](https://github.com/zmjack/NStandard/blob/master/docs/en/Evaluator.md)
 - [x] [Numerical operations with units](https://github.com/zmjack/NStandard/blob/master/docs/UnitValue.md)
-- [x] [Dynamic programming](https://github.com/zmjack/NStandard/blob/master/docs/DpContainer.md)
-- [ ] [SequenceInputStream](https://github.com/zmjack/NStandard/blob/master/docs/SequenceInputStream.md)
+- [x] [Dynamic programming](https://github.com/zmjack/NStandard/blob/master/docs/en/DpContainer.md)
+- [ ] [SequenceInputStream](https://github.com/zmjack/NStandard/blob/master/docs/en/SequenceInputStream.md)
 - [ ] And more...
 
 <br/>

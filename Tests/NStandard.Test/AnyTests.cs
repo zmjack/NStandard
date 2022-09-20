@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using System.Linq;
+using System;
+using Xunit;
 
 namespace NStandard.Test
 {
@@ -14,5 +16,20 @@ namespace NStandard.Test
             Assert.Equal(0.015F, Any.Struct.Cast<float>(1014350479));
         }
 
+        [Fact]
+        public void ZipTest()
+        {
+            var starts = new[] { new DateTime(2018, 7, 15), new DateTime(2018, 8, 15), new DateTime(2019, 1, 1) };
+            var ends = new[] { new DateTime(2018, 8, 15), new DateTime(2018, 9, 15) };
+            var zip = Any.Zip(starts, ends);
+
+            foreach (var (start, end) in zip)
+            {
+                Assert.Equal(31, (end - start).TotalDays);
+            }
+
+            Assert.Equal(62, zip.Sum(x => (x.Item2 - x.Item1).TotalDays));
+            Assert.Equal(62, Any.Zip(starts, ends, (a, b) => b - a).Sum(x => x.TotalDays));
+        }
     }
 }

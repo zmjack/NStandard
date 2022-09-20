@@ -6,7 +6,7 @@
 
 ## UnitValue
 
-**UnitValue** is used to perform numeric operations with units
+**UnitValue** is used to perform numeric operations with units.
 
 <br/>
 
