@@ -10,7 +10,7 @@ namespace NStandard
     public static class IEnumerableExtensions
     {
         /// <summary>
-        /// Returns a collection of tuples containing values and indexes.
+        /// Returns a collection of tuples containing values and indices.
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
         /// <param name="this"></param>
@@ -24,7 +24,7 @@ namespace NStandard
         }
 
         /// <summary>
-        /// Returns a collection of tuples containing values and indexes.
+        /// Returns a collection of tuples containing values and indices.
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
         /// <param name="this"></param>

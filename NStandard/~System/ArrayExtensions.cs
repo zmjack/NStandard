@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
@@ -193,6 +194,52 @@ namespace NStandard
                 value = default;
                 return false;
             }
+        }
+
+        private static IEnumerable<long> DoGetLongLengths(Array @this)
+        {
+            for (int i = 0; i < @this.Rank; i++)
+            {
+                yield return @this.GetLongLength(i);
+            }
+        }
+
+        public static long[] GetLongLengths(this Array @this)
+        {
+            return DoGetLongLengths(@this).ToArray();
+        }
+
+        private static IEnumerable<int> DoGetLengths(Array @this)
+        {
+            for (int i = 0; i < @this.Rank; i++)
+            {
+                yield return @this.GetLength(i);
+            }
+        }
+
+        public static int[] GetLengths(this Array @this)
+        {
+            return DoGetLengths(@this).ToArray();
+        }
+
+        public static int GetSequenceLength(this Array @this)
+        {
+            int length = 1;
+            for (int i = 0; i < @this.Rank; i++)
+            {
+                length *= @this.GetLength(i);
+            }
+            return length;
+        }
+
+        public static long GetSequenceLongLength(this Array @this)
+        {
+            long length = 1;
+            for (int i = 0; i < @this.Rank; i++)
+            {
+                length *= @this.GetLongLength(i);
+            }
+            return length;
         }
 
     }

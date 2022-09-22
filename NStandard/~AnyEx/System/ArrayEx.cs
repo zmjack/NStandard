@@ -1,9 +1,18 @@
-﻿namespace NStandard
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+#if NET5_0_OR_GREATER
+using System.Runtime.CompilerServices;
+#endif
+
+namespace NStandard
 {
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER ||  NET46_OR_GREATER
-#else
     public class ArrayEx
     {
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#else
         private static class EmptyArray<T>
         {
 #pragma warning disable CA1825 // this is the implementation of Array.Empty<T>()
@@ -15,6 +24,6 @@
         {
             return EmptyArray<T>.Value;
         }
-    }
 #endif
+    }
 }

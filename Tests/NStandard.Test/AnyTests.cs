@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System;
+﻿using System;
+using System.Linq;
 using Xunit;
 
 namespace NStandard.Test
@@ -30,6 +30,82 @@ namespace NStandard.Test
 
             Assert.Equal(62, zip.Sum(x => (x.Item2 - x.Item1).TotalDays));
             Assert.Equal(62, Any.Zip(starts, ends, (a, b) => b - a).Sum(x => x.TotalDays));
+        }
+
+        [Fact]
+        public void FlatTest()
+        {
+            var d2 = new string[2, 2] { { "0", "1" }, { "2", "3" } };
+            Assert.Equal(new[] { "0", "1", "2", "3" }, Any.Flat<string>(d2));
+        }
+
+        [Fact]
+        public void FlatManyTest()
+        {
+            var d2 = new string[2, 2] { { "0", "1" }, { "2", "3" } };
+            Assert.Equal(new[] { "0", "1", "2", "3", "0", "1", "2", "3" }, Any.Flat<string>(d2, d2));
+        }
+
+        [Fact]
+        public unsafe void FlatUnmanagedTest()
+        {
+            var d2 = new int[2, 2] { { 0, 1 }, { 2, 3 } };
+            var slength = d2.GetSequenceLength();
+
+            fixed (int* psrc = d2)
+            {
+                Assert.Equal(new[] { 0, 1, 2, 3 }, Any.Flat(psrc, slength));
+            }
+        }
+
+        [Fact]
+        public unsafe void FlatUnmanagedManyTest()
+        {
+            var d2 = new int[2, 2] { { 0, 1 }, { 2, 3 } };
+            var slength = d2.GetSequenceLength();
+
+            fixed (int* psrc = d2)
+            {
+                Assert.Equal(new[] { 0, 1, 2, 3, 0, 1, 2, 3 }, Any.Flat(new[] { psrc, psrc }, new[] { slength, slength }));
+            }
+        }
+
+        [Fact]
+        public void ReDimReduceTest()
+        {
+            var d2 = new int[3, 3]
+            {
+                { 0, 1, 2 },
+                { 3, 4, 5 },
+                { 6, 7, 8 }
+            };
+            Any.ReDim(ref d2, 2, 2);
+
+            Assert.Equal(new int[2, 2]
+            {
+                { 0, 1 },
+                { 3, 4 },
+            }, d2);
+        }
+
+        [Fact]
+        public void ReDimExpandTest()
+        {
+            var d2 = new int[3, 3]
+            {
+                { 0, 1, 2 },
+                { 3, 4, 5 },
+                { 6, 7, 8 }
+            };
+            Any.ReDim(ref d2, 4, 4);
+
+            Assert.Equal(new int[4, 4]
+            {
+                { 0, 1, 2, 0 },
+                { 3, 4, 5, 0 },
+                { 6, 7, 8, 0 },
+                { 0, 0, 0, 0 },
+            }, d2);
         }
     }
 }
