@@ -3,18 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace NStandard
 {
     public static partial class Any
     {
-        private static string VariableMustBeArray(string name) => $"The {name} must be an array.";
-        private static string VariableMustBeArrayCollection(string name) => $"The {name} must be an array collection.";
-        private static string LengthMustBeGreaterThanZero() => $"The length must be greater than 0.";
-        private static string AnyLengthMustBeGreaterThanZero() => $"Any lengths must be greater than 0.";
         private static string IncompatibleRank() => "The lengths can not be incompatible with the array.";
-        private static string IncompatibleLength() => "The length of sources must be the same as the specified length.";
 
         private static IEnumerable<T> DoFlat<T>(IEnumerable source)
         {
@@ -60,6 +54,10 @@ namespace NStandard
         }
 
 #if NET5_0_OR_GREATER
+        private static string LengthMustBeGreaterThanZero() => $"The length must be greater than 0.";
+        private static string AnyLengthMustBeGreaterThanZero() => $"Any lengths must be greater than 0.";
+        private static string IncompatibleLength() => "The length of sources must be the same as the specified length.";
+
         /// <summary>
         /// Creates a one-dimensional array containing all elements of a multidimensional array.
         /// </summary>

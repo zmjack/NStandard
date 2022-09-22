@@ -52,9 +52,9 @@ namespace NStandard.Test
             var d2 = new int[2, 2] { { 0, 1 }, { 2, 3 } };
             var slength = d2.GetSequenceLength();
 
-            fixed (int* psrc = d2)
+            fixed (int* pd2 = d2)
             {
-                Assert.Equal(new[] { 0, 1, 2, 3 }, Any.Flat(psrc, slength));
+                Assert.Equal(new[] { 0, 1, 2, 3 }, Any.Flat(pd2, slength));
             }
         }
 
@@ -64,9 +64,9 @@ namespace NStandard.Test
             var d2 = new int[2, 2] { { 0, 1 }, { 2, 3 } };
             var slength = d2.GetSequenceLength();
 
-            fixed (int* psrc = d2)
+            fixed (int* pd2 = d2)
             {
-                Assert.Equal(new[] { 0, 1, 2, 3, 0, 1, 2, 3 }, Any.Flat(new[] { psrc, psrc }, new[] { slength, slength }));
+                Assert.Equal(new[] { 0, 1, 2, 3, 0, 1, 2, 3 }, Any.Flat(new[] { pd2, pd2 }, new[] { slength, slength }));
             }
         }
 

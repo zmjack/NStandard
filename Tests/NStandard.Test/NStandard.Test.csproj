@@ -35,8 +35,4 @@
     <ProjectReference Include="..\..\NStandard\NStandard.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="~AnyEx\" />
-  </ItemGroup>
-
 </Project>

@@ -9,11 +9,13 @@ namespace NStandard
     {
         public int Rank { get; set; }
         public int[] Lengths { get; set; }
+        public int Offset { get; set; }
 
-        public RankStepper(params int[] lengths)
+        public RankStepper(int offset, int[] lengths)
         {
             if (lengths.Any(x => x <= 0)) throw new ArgumentException("All lengths must be greater than 0.", nameof(lengths));
 
+            Offset = offset;
             Rank = lengths.Length;
             Lengths = lengths;
         }
@@ -21,6 +23,11 @@ namespace NStandard
         public IEnumerator<int[]> GetEnumerator()
         {
             var current = new int[Rank];
+            var index = Rank - 1;
+            var value = Offset;
+            current[index] = value;
+
+            Normalize(index, value);
             yield return current;
 
             bool MoveNext()
