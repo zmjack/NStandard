@@ -323,6 +323,7 @@ namespace NStandard
 #endif
         #endregion
 
+        [Obsolete("Use Any.Flat instead.")]
         public static T[] ToLinearArray<T>(this T[,] @this)
         {
             static IEnumerable<T> AsUnidimensionalEnumerable(T[,] @this)
@@ -333,6 +334,8 @@ namespace NStandard
 
             return AsUnidimensionalEnumerable(@this).ToArray();
         }
+
+        [Obsolete("Use Any.Flat instead.")]
         public static T[] ToLinearArray<T>(this T[,,] @this)
         {
             static IEnumerable<T> AsUnidimensionalEnumerable(T[,,] @this)
@@ -344,6 +347,7 @@ namespace NStandard
             return AsUnidimensionalEnumerable(@this).ToArray();
         }
 
+        [Obsolete("Use Any.Flat instead.")]
         public static T[,] ToArray2D<T>(this T[] @this, int d2)
         {
             var lastIndex = @this.Length - 1;
@@ -353,6 +357,7 @@ namespace NStandard
             return ret;
         }
 
+        [Obsolete("Use Any.Flat instead.")]
         public static T[,,] ToArray3D<T>(this T[] @this, int d2, int d3)
         {
             var lastIndex = @this.Length - 1;
