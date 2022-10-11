@@ -1,9 +1,19 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace NStandard
 {
     public static partial class ArrayExtensions
     {
+        private static IEnumerable<T> Each<T>(IEnumerable enumerable)
+        {
+            foreach (var item in enumerable)
+            {
+                yield return (T)item;
+            }
+        }
+
         #region Jagged Array Each
         /// <summary>
         /// Do action for each item of multidimensional array.

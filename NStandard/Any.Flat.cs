@@ -6,51 +6,94 @@ using System.Runtime.CompilerServices;
 
 namespace NStandard
 {
-    public static partial class Any
+    public class Flater<T> : IEnumerator
     {
-        private static string IncompatibleRank() => "The lengths can not be incompatible with the array.";
+        public bool End { get; private set; }
 
-        private static IEnumerable<T> DoFlat<T>(IEnumerable source)
-        {
-            var enumerator = source.GetEnumerator();
-            for (int i = 0; enumerator.MoveNext(); i++)
-            {
-                yield return (T)enumerator.Current;
-            }
-        }
+        private readonly Stack<IEnumerator> Stack = new();
+        private object _current;
 
-        private static IEnumerable<T> DoFlatMany<T>(IEnumerable[] sources)
+        /// <summary>
+        /// The sources for flatting.
+        /// </summary>
+        public IEnumerator Source { get; }
+
+        /// <summary>
+        /// Gets the element in the collection at the current position of the enumerator.
+        /// </summary>
+        public object Current => _current;
+
+        public Flater(IEnumerator source)
         {
-            foreach (var source in sources)
-            {
-                var enumerator = source.GetEnumerator();
-                for (int i = 0; enumerator.MoveNext(); i++)
-                {
-                    yield return (T)enumerator.Current;
-                }
-            }
+            Source = source;
+            Stack.Push(Source);
         }
 
         /// <summary>
-        /// Creates a one-dimensional array containing all elements of a multidimensional array.
+        /// Advances the enumerator to the next element of the collection.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
         /// <returns></returns>
-        public static T[] Flat<T>(IEnumerable source)
+        public bool MoveNext()
         {
-            return DoFlat<T>(source).ToArray();
+            while (Stack.Count > 0)
+            {
+                var peekElement = Stack.Peek();
+                if (peekElement.MoveNext())
+                {
+                    var current = peekElement.Current;
+                    if (current is not string && current is IEnumerable enumerator)
+                    {
+                        Stack.Push(enumerator.GetEnumerator());
+                    }
+                    else
+                    {
+                        if (current is T element)
+                        {
+                            _current = element;
+                            return true;
+                        }
+                    }
+                }
+                else
+                {
+                    Stack.Pop();
+                }
+            }
+            return false;
         }
+
+        /// <summary>
+        /// Sets all the source enumerators to its initial position, which is before the first element
+        ///     in the collection.
+        /// </summary>
+        public void Reset()
+        {
+            Stack.Clear();
+            Stack.Push(Source);
+            Source.Reset();
+        }
+    }
+
+    public static partial class Any
+    {
+        private static string IncompatibleRank() => "The lengths can not be incompatible with the array.";
 
         /// <summary>
         /// Creates a one-dimensional array containing all elements of the specified multidimensional arrays.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
+        /// <param name="sources"></param>
         /// <returns></returns>
-        public static T[] Flat<T>(params IEnumerable[] sources)
+        public static IEnumerable<T> Flat<T>(params IEnumerable[] sources)
         {
-            return DoFlatMany<T>(sources).ToArray();
+            var flaters = sources.Select(x => new Flater<T>(x.GetEnumerator())).ToArray();
+            foreach (var flater in flaters)
+            {
+                while (flater.MoveNext())
+                {
+                    yield return (T)flater.Current;
+                }
+            }
         }
 
 #if NET5_0_OR_GREATER

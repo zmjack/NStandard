@@ -15,12 +15,30 @@ namespace NStandard
         /// <typeparam name="TSource"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
-        [Obsolete("Use AsKeyValuePairs<TSource>(this IEnumerable @this) instead.")]
+        [Obsolete("Use AsIndexValuePairs instead.", true)]
         public static IEnumerable<KeyValuePair<int, TSource>> AsKvPairs<TSource>(this IEnumerable @this)
         {
             int i = 0;
             foreach (TSource item in @this)
+            {
                 yield return new KeyValuePair<int, TSource>(i++, item);
+            }
+        }
+
+        /// <summary>
+        /// Returns a collection of KeyValuePair which contains the element's index(Key) and value.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        [Obsolete("Use AsIndexValuePairs instead.", true)]
+        public static IEnumerable<KeyValuePair<int, TSource>> AsKvPairs<TSource>(this IEnumerable<TSource> @this)
+        {
+            int i = 0;
+            foreach (var item in @this)
+            {
+                yield return new KeyValuePair<int, TSource>(i++, item);
+            }
         }
 
         /// <summary>
@@ -29,11 +47,17 @@ namespace NStandard
         /// <typeparam name="TSource"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
+        /// 
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
+        [Obsolete("If possible, Use AsIndexValuePairs instead.")]
+#endif
         public static IEnumerable<KeyValuePair<int, TSource>> AsKeyValuePairs<TSource>(this IEnumerable @this)
         {
             int i = 0;
             foreach (TSource item in @this)
+            {
                 yield return new KeyValuePair<int, TSource>(i++, item);
+            }
         }
 
         /// <summary>
@@ -42,26 +66,49 @@ namespace NStandard
         /// <typeparam name="TSource"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
-        [Obsolete("Use AsKeyValuePairs<TSource>(this IEnumerable<TSource> @this) instead.")]
-        public static IEnumerable<KeyValuePair<int, TSource>> AsKvPairs<TSource>(this IEnumerable<TSource> @this)
-        {
-            int i = 0;
-            foreach (var item in @this)
-                yield return new KeyValuePair<int, TSource>(i++, item);
-        }
-
-        /// <summary>
-        /// Returns a collection of KeyValuePair which contains the element's index(Key) and value.
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="this"></param>
-        /// <returns></returns>
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
+        [Obsolete("If possible, Use AsIndexValuePairs instead.")]
+#endif
         public static IEnumerable<KeyValuePair<int, TSource>> AsKeyValuePairs<TSource>(this IEnumerable<TSource> @this)
         {
             int i = 0;
             foreach (var item in @this)
+            {
                 yield return new KeyValuePair<int, TSource>(i++, item);
+            }
         }
+
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
+        /// <summary>
+        /// Returns a collection of ValueTuple which contains the element's index and value.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static IEnumerable<(int Index, TSource Value)> AsIndexValuePairs<TSource>(this IEnumerable @this)
+        {
+            int i = 0;
+            foreach (TSource item in @this)
+            {
+                yield return (i++, item);
+            }
+        }
+
+        /// <summary>
+        /// Returns a collection of ValueTuple which contains the element's index and value.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static IEnumerable<(int Index, TSource Value)> AsIndexValuePairs<TSource>(this IEnumerable<TSource> @this)
+        {
+            int i = 0;
+            foreach (var item in @this)
+            {
+                yield return (i++, item);
+            }
+        }
+#endif
 
         /// <summary>
         /// Do action for each item.

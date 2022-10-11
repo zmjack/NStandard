@@ -17,73 +17,52 @@ namespace NStandard.Test
         [Fact]
         public void LetTest2()
         {
-            new int[2, 3].Let((i0, i1) => i0 * 3 + i1).Then(arr =>
-            {
-                Assert.Equal(new[,] { { 0, 1, 2 }, { 3, 4, 5 } }, arr);
-            });
-
-            new int[2, 3].Let(i => i).Then(arr =>
-            {
-                Assert.Equal(new[,] { { 0, 1, 2 }, { 3, 4, 5 } }, arr);
-            });
-
-            new int[2, 3].Let(2, new[] { 0, 1, 2, 3 }).Then(arr =>
-            {
-                Assert.Equal(new[,] { { 0, 0, 0 }, { 1, 2, 3 } }, arr);
-            });
+            var arr = new int[2, 3].Let((i0, i1) => i0 * 3 + i1);
+            Assert.Equal(new[,] { { 0, 1, 2 }, { 3, 4, 5 } }, arr);
         }
 
         [Fact]
         public void LetTest3()
         {
-            new int[2, 3, 2].Let((i0, i1, i2) => i0 * 6 + i1 * 2 + i2).Then(arr =>
+            var arr = new int[2, 3, 2].Let((i0, i1, i2) => i0 * 6 + i1 * 2 + i2);
+            Assert.Equal(new[, ,]
             {
-                Assert.Equal(new[, ,]
-                {
-                    { { 0, 1 }, { 2, 3 }, { 4, 5 } },
-                    { { 6, 7 }, { 8, 9 }, { 10, 11 } },
-                }, arr);
-            });
+                { { 0, 1 }, { 2, 3 }, { 4, 5 } },
+                { { 6, 7 }, { 8, 9 }, { 10, 11 } },
+            }, arr);
+        }
 
-            new int[2, 3, 2].Let(i => i).Then(arr =>
+        [Fact]
+        public void LetTest4()
+        {
+            var arr = new int[2, 2, 3, 2].Let(indices => indices[0] * 12 + indices[1] * 6 + indices[2] * 2 + indices[3]) as int[,,,];
+            Assert.Equal(new[, , ,]
             {
-                Assert.Equal(new[, ,]
                 {
-                    { { 0, 1 }, { 2, 3 }, { 4, 5 } },
-                    { { 6, 7 }, { 8, 9 }, { 10, 11 } },
-                }, arr);
-            });
-
-            new int[2, 3, 2].Let(2, new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }).Then(arr =>
-            {
-                Assert.Equal(new[, ,]
+                    {
+                        { 0, 1 }, { 2, 3 }, { 4, 5 }
+                    },
+                    {
+                        { 6, 7 }, { 8, 9 }, { 10, 11 }
+                    },
+                },
                 {
-                    { { 0, 0 }, { 0, 1 }, { 2, 3 } },
-                    { { 4, 5 }, { 6, 7 }, { 8, 9 } },
-                }, arr);
-            });
+                    {
+                        { 12, 13 }, { 14, 15 }, { 16, 17 }
+                    },
+                    {
+                        { 18, 19 }, { 20, 21 }, { 22, 23 }
+                    },
+                }
+            }, arr);
         }
 
         [Fact]
         public void LetClassTest()
         {
-            var classes = new Class[2].Let(() => new Class());
+            var classes = new Class[2].Let(i => new Class());
             Assert.NotNull(classes[0]);
             Assert.NotNull(classes[1]);
-        }
-
-        [Fact]
-        public void ToLinearTest()
-        {
-            new int[2, 2].Let(i => i).Then(arr =>
-            {
-                Assert.Equal(new[] { 0, 1, 2, 3 }, arr.ToLinearArray());
-            });
-
-            new int[2, 2, 2].Let(i => i).Then(arr =>
-            {
-                Assert.Equal(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }, arr.ToLinearArray());
-            });
         }
 
         [Fact]
@@ -107,38 +86,6 @@ namespace NStandard.Test
                 Assert.Equal($"{i1},{i2}", v);
                 Assert.Equal($"{i1},{i2}", arr[i1, i2]);
             });
-        }
-
-        [Fact]
-        public void ToMultiArray2DTest()
-        {
-            var arr = new int[8].Let(i => i + 1);
-            var expected = new[,]
-            {
-                { 1, 2, 3 },
-                { 4, 5, 6 },
-                { 7, 8, default },
-            };
-            Assert.Equal(expected, arr.ToArray2D(3));
-        }
-
-        [Fact]
-        public void ToMultiArray3DTest()
-        {
-            var arr = new int[8].Let(i => i + 1);
-            var expected = new[, ,]
-            {
-                {
-                    { 1, 2, 3 },
-                    { 4, 5, 6 },
-                },
-                {
-                    { 7, 8, default },
-                    { default, default, default },
-                },
-            };
-            var actual = arr.ToArray3D(2, 3);
-            Assert.Equal(expected, actual);
         }
 
     }

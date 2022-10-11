@@ -5,13 +5,13 @@ namespace NStandard
     public static partial class ArrayExtensions
     {
         /// <summary>
-        /// Use a method to initialize each element of an array.
+        /// Use the specified function to initialize each element.
         /// </summary>
-        /// <typeparam name="TSelf"></typeparam>
+        /// <typeparam name="TElement"></typeparam>
         /// <param name="this"></param>
         /// <param name="init"></param>
         /// <returns></returns>
-        public static TSelf[] Let<TSelf>(this TSelf[] @this, Func<int, TSelf> init)
+        public static TElement[] Let<TElement>(this TElement[] @this, Func<int, TElement> init)
         {
             int i = 0;
             foreach (var item in @this)
@@ -23,38 +23,58 @@ namespace NStandard
         }
 
         /// <summary>
-        /// Use a method to initialize each element of an array.
+        /// Use the specified function to initialize each element.
         /// </summary>
-        /// <typeparam name="TSelf"></typeparam>
+        /// <typeparam name="TElement"></typeparam>
         /// <param name="this"></param>
         /// <param name="init"></param>
         /// <returns></returns>
-        public static TSelf[] Let<TSelf>(this TSelf[] @this, Func<TSelf> init)
+        public static TElement[,] Let<TElement>(this TElement[,] @this, Func<int, int, TElement> init)
         {
-            int i = 0;
-            foreach (var item in @this)
+            var lengths = @this.GetLengths();
+            var stepper = new IndicesStepper(0, lengths);
+
+            foreach (var indices in stepper)
             {
-                @this[i] = init();
-                i++;
+                @this[indices[0], indices[1]] = init(indices[0], indices[1]);
             }
             return @this;
         }
 
         /// <summary>
-        /// Use a method to initialize each element of an array.
+        /// Use the specified function to initialize each element.
         /// </summary>
-        /// <typeparam name="TSelf"></typeparam>
+        /// <typeparam name="TElement"></typeparam>
         /// <param name="this"></param>
-        /// <param name="offset"></param>
-        /// <param name="inits"></param>
+        /// <param name="init"></param>
         /// <returns></returns>
-        public static TSelf[] Let<TSelf>(this TSelf[] @this, int offset, TSelf[] inits)
+        public static TElement[,,] Let<TElement>(this TElement[,,] @this, Func<int, int, int, TElement> init)
         {
-            int i = offset;
-            foreach (var init in inits)
+            var lengths = @this.GetLengths();
+            var stepper = new IndicesStepper(0, lengths);
+
+            foreach (var indices in stepper)
             {
-                @this[i] = init;
-                i++;
+                @this[indices[0], indices[1], indices[2]] = init(indices[0], indices[1], indices[2]);
+            }
+            return @this;
+        }
+
+        /// <summary>
+        /// Use the specified function to initialize each element.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="init"></param>
+        /// <returns></returns>
+        public static Array Let<TElement>(this Array @this, Func<int[], TElement> init)
+        {
+            var lengths = @this.GetLengths();
+            var stepper = new IndicesStepper(0, lengths);
+
+            foreach (var indices in stepper)
+            {
+                @this.SetValue(init(indices), indices);
             }
             return @this;
         }

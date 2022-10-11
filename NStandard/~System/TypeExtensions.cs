@@ -230,6 +230,13 @@ namespace NStandard
             else return false;
         }
 
+        public static bool IsCompatible(this Type @this, Type compatibleType)
+        {
+            if (compatibleType.IsInterface)
+                return IsType(@this, compatibleType) || IsImplement(@this, compatibleType);
+            else return IsType(@this, compatibleType) || IsExtend(@this, compatibleType);
+        }
+
         public static Type AsClass<TInterface>(this Type @this)
             where TInterface : class
         {

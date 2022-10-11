@@ -6,11 +6,11 @@
 
 ## UnitValue
 
-**UnitValue** is used to perform numeric operations with units.
+**UnitValue** 用于对执行带单位的数值运算。
 
 <br/>
 
-For example, the **StorageValue** is a data structure implemented based on **IUnitValue**:
+例如，**StorageValue** 是实现了 **IUnitValue** 的结构体：
 
 ```csharp
 var a = StorageValue.Parse(".5 MB");
@@ -21,33 +21,33 @@ var mb = c.GetValue("MB");	// 1
 var kb = c.GetValue("KB");	// 1024
 ```
 
-Support mathematical operations:
+支持数学运算：
 
-- **addition** (+)
+- **加法** (+)
 
   ```csharp
   a + b
   ```
 
-- **subtraction** (-)
+- **减法** (-)
 
   ```csharp
   a - b
   ```
 
-- **multiplication** (*)
+- **乘法** (*)
 
   ```csharp
   a * 2
   ```
 
-- **division** (/)
+- **除法** (/)
 
   ```csharp
   a / 2
   ```
 
-- **comparison** ( ==, !=, <, <=, >, >= )
+- **比较** ( ==, !=, <, <=, >, >= )
 
   ```csharp
   a == b
@@ -60,51 +60,51 @@ Support mathematical operations:
 
 <br/>
 
-### Add up multiple values
+### 多值相加
 
-Constructing complex structures is a relatively time-consuming operation. So, it doesn't make sense to add up each number in turn.
+构建复杂结构体是一项相对耗时的操作。 因此，将每个数值依次相加是低效的。
+
+我们提供了更高效的方法（使用 **QuickSum** 函数）来处理这种情况。
 
 <br/>
 
-For example, there are many **StorageValues**:
+例如，现在有若干 **StorageValues**:
 
 ```csharp
 var values = new StorageValue[100_000_000].Let(i => new StorageValue(i));
 ```
 
-then, to calculate their sum:
+然后，计算他们的和值：
 
-❌ AVOID (about 4.00 seconds)
+✔️ 考虑使用（约 1.00 秒）
+
+```csharp
+var sum = new StorageValue();
+sum.QuickSum(values);
+```
+
+❌ 避免使用（约 4.00 秒）
 
 ```csharp
 var sum = new StorageValue();
 foreach (var value in values)
 {
-	sum += value;
+    sum += value;
 }
-sum.Dump();
 ```
 
-✔️ CONSIDER (about 1.00 seconds)
+#### Using LinqSharp
 
-```csharp
-var sum = new StorageValue();
-sum.QuickSum(values);
-sum.Dump();
-```
-
-❌ AVOID (about 4.00 seconds, using **[LinqSharp](https://github.com/zmjack/LinqSharp)**)
-
-```csharp
-var sum = values.Sum();
-sum.Dump();
-```
-
-✔️ CONSIDER (about 1.00 seconds, using **[LinqSharp](https://github.com/zmjack/LinqSharp)**)
+✔️ 考虑使用（约 1.00 秒）
 
 ```csharp
 var sum = values.QSum();
-sum.Dump();
+```
+
+❌ 避免使用（约 4.00 秒）
+
+```csharp
+var sum = values.Sum();
 ```
 
 <br/>

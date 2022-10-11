@@ -25,6 +25,7 @@ namespace NStandard
             return EmptyArray<T>.Value;
         }
 #endif
+
         /// <summary>
         /// Assign values to arrays of indeterminate dimensions using one-dimensional arrays.
         /// </summary>
@@ -35,18 +36,18 @@ namespace NStandard
         {
             if (destination.GetSequenceLength() < source.Length) throw new ArgumentException(CopyingOverflow(), nameof(source));
 
-            var stepper = new RankStepper(0, destination.GetLengths());
+            var stepper = new IndicesStepper(0, destination.GetLengths());
 #if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
-            foreach (var (indices, value) in Any.Zip(stepper, source))
+            foreach (var (value, indices) in Any.Zip(source, stepper))
             {
+#else
+            foreach (var pair in Any.Zip(source, stepper, (Value, Indices) => new { Value, Indices }))
+            {
+                var value = pair.Value;
+                var indices = pair.Indices;
+#endif
                 destination.SetValue(value, indices);
             }
-#else
-            foreach (var pair in Any.Zip(stepper, source, (Indices, Value) => new { Indices, Value }))
-            {
-                destination.SetValue(pair.Value, pair.Indices);
-            }
-#endif
         }
 
         /// <summary>
@@ -63,18 +64,18 @@ namespace NStandard
             if ((source.Length - sourceIndex) < length) throw new ArgumentException(InsufficientElements(), nameof(source));
             if ((destination.GetSequenceLength() - destinationIndex) < length) throw new ArgumentException(CopyingOverflow(), nameof(source));
 
-            var stepper = new RankStepper(destinationIndex, destination.GetLengths());
+            var stepper = new IndicesStepper(destinationIndex, destination.GetLengths());
 #if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
-            foreach (var (indices, value) in Any.Zip(stepper, source.Skip(sourceIndex).Take(length)))
+            foreach (var (value, indices) in Any.Zip(source.Skip(sourceIndex).Take(length), stepper))
             {
+#else
+            foreach (var pair in Any.Zip(source.Skip(sourceIndex).Take(length), stepper, (Value, Indices) => new { Value, Indices }))
+            {
+                var value = pair.Value;
+                var indices = pair.Indices;
+#endif
                 destination.SetValue(value, indices);
             }
-#else
-            foreach (var pair in Any.Zip(stepper, source.Skip(sourceIndex).Take(length), (Indices, Value) => new { Indices, Value }))
-            {
-                destination.SetValue(pair.Value, pair.Indices);
-            }
-#endif
         }
 
 #if NET5_0_OR_GREATER

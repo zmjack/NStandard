@@ -28,9 +28,9 @@ namespace NStandard
             var originLengths = origin.GetLengths();
 
 #if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
-            var stepper = new RankStepper(0, Zip(originLengths, lengths).Select(pair => Math.Min(pair.Item1, pair.Item2)).ToArray());
+            var stepper = new IndicesStepper(0, Zip(originLengths, lengths).Select(pair => Math.Min(pair.Item1, pair.Item2)).ToArray());
 #else
-            var stepper = new RankStepper(0, Zip(originLengths, lengths, (Item1, Item2) => new { Item1, Item2 }).Select(pair => Math.Min(pair.Item1, pair.Item2)).ToArray());
+            var stepper = new IndicesStepper(0, Zip(originLengths, lengths, (Item1, Item2) => new { Item1, Item2 }).Select(pair => Math.Min(pair.Item1, pair.Item2)).ToArray());
 #endif
             foreach (var indices in stepper)
             {

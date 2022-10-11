@@ -5,13 +5,13 @@ using System.Linq;
 
 namespace NStandard
 {
-    internal class RankStepper : IEnumerable<int[]>
+    internal class IndicesStepper : IEnumerable<int[]>
     {
         public int Rank { get; set; }
         public int[] Lengths { get; set; }
         public int Offset { get; set; }
 
-        public RankStepper(int offset, int[] lengths)
+        public IndicesStepper(int offset, int[] lengths)
         {
             if (lengths.Any(x => x <= 0)) throw new ArgumentException("All lengths must be greater than 0.", nameof(lengths));
 

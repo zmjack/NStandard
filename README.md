@@ -48,6 +48,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version: 0.15.0
+
+- Add functions: [Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Flat.md), [Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.ReDim.md).
+
 ### Version: 0.14.0
 
 - Add **[Any.Zip](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Zip.md)** function instead of **Zipper.Create**.
@@ -68,6 +72,11 @@ These frameworks are supported:
 Functions:
 
 - [x] [Any.Zip](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Zip.md)
+  Applies a specified function to the corresponding elements of many sequences, producing a sequence of the results.
+- [x] [Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Flat.md)
+  Creates a one-dimensional array containing all elements of the specified multidimensional arrays.
+- [x] [Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.ReDim.md)
+  Reallocates storage space for an array variable.
 
 Extensions:
 

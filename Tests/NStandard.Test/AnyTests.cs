@@ -47,6 +47,28 @@ namespace NStandard.Test
         }
 
         [Fact]
+        public void FlatDeepTest()
+        {
+            var array = new object[]
+            {
+                new[] { "0", "1" },
+                new object[]
+                {
+                    "2",
+                    new object[]
+                    {
+                        "3",
+                        new string[]
+                        {
+                            "4", "5"
+                        }
+                    }
+                }
+            };
+            Assert.Equal(new[] { "0", "1", "2", "3", "4", "5" }, Any.Flat<string>(array));
+        }
+
+        [Fact]
         public unsafe void FlatUnmanagedTest()
         {
             var d2 = new int[2, 2] { { 0, 1 }, { 2, 3 } };

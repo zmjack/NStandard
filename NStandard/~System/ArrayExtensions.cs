@@ -242,5 +242,19 @@ namespace NStandard
             return length;
         }
 
+        /// <summary>
+        /// Use the specified function to initialize each element.
+        /// </summary>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static IEnumerable<TElement> AsEnumerable<TElement>(this Array @this)
+        {
+            foreach (TElement item in @this)
+            {
+                yield return item;
+            }
+        }
+
     }
 }
