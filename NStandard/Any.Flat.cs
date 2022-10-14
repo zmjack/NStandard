@@ -41,7 +41,7 @@ namespace NStandard
                 if (peekElement.MoveNext())
                 {
                     var current = peekElement.Current;
-                    if (current is not string && current is IEnumerable enumerator)
+                    if (current is not T && current is IEnumerable enumerator)
                     {
                         Stack.Push(enumerator.GetEnumerator());
                     }
