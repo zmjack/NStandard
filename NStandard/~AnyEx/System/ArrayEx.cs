@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 #if NET5_0_OR_GREATER
 using System.Runtime.CompilerServices;
@@ -32,9 +34,10 @@ namespace NStandard
         /// <typeparam name="T"></typeparam>
         /// <param name="destination"></param>
         /// <param name="source"></param>
-        public static void Assign<T>(Array destination, T[] source)
+        public static void Assign<T>(Array destination, IEnumerable<T> source)
         {
-            if (destination.GetSequenceLength() < source.Length) throw new ArgumentException(CopyingOverflow(), nameof(source));
+            var count = source.Count();
+            if (destination.GetSequenceLength() < count) throw new ArgumentException(CopyingOverflow(), nameof(source));
 
             var stepper = new IndicesStepper(0, destination.GetLengths());
 #if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER

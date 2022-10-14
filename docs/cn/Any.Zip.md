@@ -60,22 +60,17 @@ foreach (var (number, (week, abbrWeek)) in Any.Zip(numbers, Any.Zip(weeks, abbrW
 #### 合计每列的元素
 
 ```csharp
-void Main()
+var numbers = new[]
 {
-    var numbers = new[]
-    {
-        new[] { 1, 2, 3 },
-        new[] { 4, 5, 6 },
-        new[] { 7, 8, 9 },
-    };
-    var zip = Any.Zip(numbers, col => col.Sum());
-    Print(zip);
-}
+    new[] { 1, 2, 3 },
+    new[] { 4, 5, 6 },
+    new[] { 7, 8, 9 },
+};
 
-void Print(IEnumerable<int> numbers)
-{
-    Console.WriteLine($"[{string.Join(", ", numbers)}]");
-}
+var zip = Any.Zip(numbers, col => col.Sum());
+Console.WriteLine(
+    $"[{string.Join(", ", zip)}]"
+);
 ```
 
 >[12, 15, 18]

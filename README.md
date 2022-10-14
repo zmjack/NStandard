@@ -50,7 +50,7 @@ These frameworks are supported:
 
 ### Version: 0.15.0
 
-- Add functions: [Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Flat.md), [Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.ReDim.md).
+- Add functions: **[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Flat.md)**, **[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.ReDim.md)**.
 
 ### Version: 0.14.0
 

@@ -35,15 +35,23 @@ namespace NStandard.Test
         [Fact]
         public void FlatTest()
         {
-            var d2 = new string[2, 2] { { "0", "1" }, { "2", "3" } };
+            var d2 = new string[2, 2]
+            {
+                { "0", "1" },
+                { "2", "3" }
+            };
             Assert.Equal(new[] { "0", "1", "2", "3" }, Any.Flat<string>(d2));
         }
 
         [Fact]
         public void FlatManyTest()
         {
-            var d2 = new string[2, 2] { { "0", "1" }, { "2", "3" } };
-            Assert.Equal(new[] { "0", "1", "2", "3", "0", "1", "2", "3" }, Any.Flat<string>(d2, d2));
+            var d1_d1 = new[]
+            {
+                new[] { "0", "1" },
+                new[] { "2", "3" },
+            };
+            Assert.Equal(new[] { "0", "1", "2", "3" }, Any.Flat<string>(d1_d1));
         }
 
         [Fact]
@@ -57,38 +65,55 @@ namespace NStandard.Test
                     "2",
                     new object[]
                     {
-                        "3",
-                        new string[]
-                        {
-                            "4", "5"
-                        }
+                        "3", "4"
                     }
                 }
             };
-            Assert.Equal(new[] { "0", "1", "2", "3", "4", "5" }, Any.Flat<string>(array));
+            Assert.Equal(new[] { "0", "1", "2", "3", "4" }, Any.Flat<string>(array));
         }
+
+        [Fact]
+        public void FlatThrowTest()
+        {
+            var array = new object[]
+            {
+                new[] { "0", "1" },
+                new object[] { 2 },
+            };
+            Assert.ThrowsAny<InvalidCastException>(() => Any.Flat<string>(array).ToArray());
+        }
+
 
         [Fact]
         public unsafe void FlatUnmanagedTest()
         {
-            var d2 = new int[2, 2] { { 0, 1 }, { 2, 3 } };
-            var slength = d2.GetSequenceLength();
+            var d2 = new int[2, 2]
+            {
+                { 0, 1 },
+                { 2, 3 }
+            };
+            var length = d2.GetSequenceLength();
 
             fixed (int* pd2 = d2)
             {
-                Assert.Equal(new[] { 0, 1, 2, 3 }, Any.Flat(pd2, slength));
+                Assert.Equal(new[] { 0, 1, 2, 3 }, Any.Flat(pd2, length));
             }
         }
 
         [Fact]
         public unsafe void FlatUnmanagedManyTest()
         {
-            var d2 = new int[2, 2] { { 0, 1 }, { 2, 3 } };
-            var slength = d2.GetSequenceLength();
-
-            fixed (int* pd2 = d2)
+            var d1_d1 = new[]
             {
-                Assert.Equal(new[] { 0, 1, 2, 3, 0, 1, 2, 3 }, Any.Flat(new[] { pd2, pd2 }, new[] { slength, slength }));
+                new[] { 0, 1 },
+                new[] { 2, 3 },
+            };
+            var lengths = d1_d1.Select(x => x.GetSequenceLength()).ToArray();
+
+            fixed (int* pd0 = d1_d1[0])
+            fixed (int* pd1 = d1_d1[1])
+            {
+                Assert.Equal(new[] { 0, 1, 2, 3 }, Any.Flat(new[] { pd0, pd1 }, lengths));
             }
         }
 

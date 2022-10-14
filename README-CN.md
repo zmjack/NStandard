@@ -48,15 +48,19 @@
 
 ## 最近更新
 
-### 版本 0.14.0
+### 版本：0.15.0
 
-- 添加 **[Any.Zip](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Zip.md)** 函数替代 **Zipper.Create**。
+- 新增函数：**[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Flat.md)**，**[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.ReDim.md)**.
 
-### 版本: 0.13.0
+### 版本：0.14.0
+
+- 新增 **[Any.Zip](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Zip.md)** 函数替代 **Zipper.Create**。
+
+### 版本：0.13.0
 
 - **破坏性更新**：为使名称更具可读性，扩展方法类名称从 **X...** 更名为 **...Extensions**。
 
-### 版本: 0.8.40
+### 版本：0.8.40
 
 - 为 **.NET Framework** 添加 **HashCode** 结构体，其表现与 **.NET Core** 类似。
 - 调整预编译宏，使其更加合理。

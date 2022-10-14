@@ -18,8 +18,7 @@ namespace NStandard
 #else
         public static bool HasFlag(this Enum @this, Enum flag)
         {
-            if (flag == null)
-                throw new ArgumentNullException(nameof(flag));
+            if (flag == null) throw new ArgumentNullException(nameof(flag));
 
             if (@this.GetType() != flag.GetType())
             {
