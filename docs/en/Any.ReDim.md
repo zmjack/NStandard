@@ -10,7 +10,7 @@ Reallocates storage space for an array variable.
 
 <br/>
 
-**Example 1** ( Shrink the space ):
+**Example 1** ( Shrink space ):
 
 ```csharp
 var d2 = new int[3, 3]
