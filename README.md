@@ -48,6 +48,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version: 0.16.0
+
+- Add functions: **Any.Text.ComputeHashCode**.
+
 ### Version: 0.15.0
 
 - Add functions: **[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Flat.md)**, **[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.ReDim.md)**.

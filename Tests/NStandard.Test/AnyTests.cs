@@ -154,5 +154,18 @@ namespace NStandard.Test
                 { 0, 0, 0, 0 },
             }, d2);
         }
+
+        [Fact]
+        public void HashTest()
+        {
+            var str = "nstandard.net";
+            var chars = str.ToCharArray();
+
+            Assert.Equal(739162880, Any.Text.ComputeHashCode(str));
+            Assert.Equal(739162880, Any.Text.ComputeHashCode(chars));
+            Assert.Equal(739162880, Any.Text.ComputeHashCode($"({str})".ToCharArray(), 1, 13));
+            Assert.ThrowsAny<OverflowException>(() => Any.Text.ComputeHashCode($"({str})".ToCharArray(), 1, 15));
+        }
+
     }
 }

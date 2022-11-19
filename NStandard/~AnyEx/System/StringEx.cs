@@ -278,6 +278,5 @@ namespace NStandard
             }
             else throw new ArgumentException($"The argument `{nameof(patternExp)}` can not match the specified string.");
         }
-
     }
 }

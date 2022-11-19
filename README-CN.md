@@ -48,9 +48,13 @@
 
 ## 最近更新
 
+### 版本：0.16.0
+
+- 新增函数：**Any.Text.ComputeHashCode**。
+
 ### 版本：0.15.0
 
-- 新增函数：**[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Flat.md)**，**[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.ReDim.md)**.
+- 新增函数：**[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Flat.md)**，**[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.ReDim.md)**。
 
 ### 版本：0.14.0
 
