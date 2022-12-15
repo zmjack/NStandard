@@ -10,7 +10,8 @@ namespace NStandard.Test
         public void TypeNotSameTest()
         {
             var src = new string[4, 4].Let((i0, i1) => $"{i0}, {i1}");
-            Assert.Throws<ArgumentException>(() => new ArrayVisitor<int>(src));
+            var visitor = new ArrayVisitor<int>(src);
+            Assert.Throws<InvalidCastException>(() => visitor.GetValue(0));
         }
 
         [Fact]
@@ -20,6 +21,7 @@ namespace NStandard.Test
             var visitor = new ArrayVisitor<string>(src);
             visitor.SetValue("-", 15);
             Assert.Equal("-", src[3, 3]);
+            Assert.Equal("-", visitor.GetValue(15));
         }
     }
 }

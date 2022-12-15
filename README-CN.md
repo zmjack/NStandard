@@ -48,13 +48,19 @@
 
 ## 最近更新
 
+### 版本：0.17.0
+
+- 新增函数：**Any.Forward**，深度迭代。
+- 新增函数：**ArrayExtensions.Map**，投影所有元素到新类型的数组。
+
 ### 版本：0.16.0
 
-- 新增函数：**Any.Text.ComputeHashCode**。
+- 新增函数：**Any.Text.ComputeHashCode**，计算字符串的固定哈希值。
 
 ### 版本：0.15.0
 
-- 新增函数：**[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Flat.md)**，**[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.ReDim.md)**。
+- 新增函数：**[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Flat.md)**，扁平化数组。
+- 新增函数：**[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.ReDim.md)**，重新分配数组大小。
 
 ### 版本：0.14.0
 

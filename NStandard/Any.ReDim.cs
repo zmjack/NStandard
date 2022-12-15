@@ -6,7 +6,8 @@ namespace NStandard
 {
     public static partial class Any
     {
-        private static string VariableMustBeArray(string name) => $"The {name} must be an array.";
+        private static ArgumentException Exception_IncompatibleRank(string paramName) => new("The lengths can not be incompatible with the array.", paramName);
+        private static ArgumentException Exception_VariableMustBeArray(string paramName) => new($"The {paramName} must be an array.", paramName);
 
         /// <summary>
         /// Reallocates storage space for an array variable.
@@ -18,10 +19,10 @@ namespace NStandard
         public static void ReDim<TArray>(ref TArray variable, params int[] lengths) where TArray : class, ICollection, IEnumerable, IList, IStructuralComparable, IStructuralEquatable, ICloneable
         {
             var type = variable.GetType();
-            if (!type.IsArray) throw new ArgumentException(VariableMustBeArray(nameof(variable)), nameof(variable));
+            if (!type.IsArray) throw Exception_VariableMustBeArray(nameof(variable));
 
             var origin = variable as Array;
-            if (lengths.Length != origin.Rank) throw new ArgumentException(IncompatibleRank(), nameof(lengths));
+            if (lengths.Length != origin.Rank) throw Exception_IncompatibleRank(nameof(lengths));
 
             var elementType = type.GetElementType();
             var newArray = Array.CreateInstance(elementType, lengths);

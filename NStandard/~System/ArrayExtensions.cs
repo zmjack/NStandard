@@ -256,5 +256,18 @@ namespace NStandard
             }
         }
 
+        /// <summary>
+        /// Converts all elements to the specified type.
+        /// </summary>
+        /// <typeparam name="TConvertFrom"></typeparam>
+        /// <typeparam name="TConvertTo"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="convert"></param>
+        /// <returns></returns>
+        public static Array Map<TConvertFrom, TConvertTo>(this Array source, Func<TConvertFrom, TConvertTo> convert)
+        {
+            return ArrayMapper.Map(source, convert);
+        }
+
     }
 }

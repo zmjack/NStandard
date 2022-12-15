@@ -90,6 +90,7 @@ namespace NStandard
         /// <param name="forward"></param>
         /// <param name="stopCondition"></param>
         /// <returns></returns>
+        [Obsolete("Use Any.Forward instead.")]
         public static TSelf Forward<TSelf>(this TSelf @this, Func<TSelf, TSelf> forward, Func<TSelf, bool> stopCondition)
         {
             var current = @this;
@@ -105,6 +106,7 @@ namespace NStandard
         /// <param name="forward"></param>
         /// <param name="stopCondition"></param>
         /// <returns></returns>
+        [Obsolete("Use Any.Forward instead.")]
         public static TSelf Forward<TSelf>(this TSelf @this, Func<TSelf, TSelf> forward, Func<TSelf, int, bool> stopCondition)
         {
             var current = @this;
@@ -120,6 +122,7 @@ namespace NStandard
         /// <param name="forward"></param>
         /// <param name="degree"></param>
         /// <returns></returns>
+        [Obsolete("Use Any.Forward instead.")]
         public static TSelf Forward<TSelf>(this TSelf @this, Func<TSelf, TSelf> forward, int degree)
         {
             if (degree < 0) throw new ArgumentException("The degree must be nonnegative.", nameof(degree));

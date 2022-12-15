@@ -10,8 +10,8 @@ namespace NStandard
 {
     public static class ArrayEx
     {
-        private static string InsufficientElements() => "Insufficient elements in source array.";
-        private static string CopyingOverflow() => "Copying the specified array results in overflow.";
+        private static ArgumentException Exception_InsufficientElements(string paramName) => new("Insufficient elements in source array.", paramName);
+        private static ArgumentException Exception_CopyingOverflow(string paramName) => new("Copying the specified array results in overflow.", paramName);
 
 #if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
 #else
@@ -37,7 +37,7 @@ namespace NStandard
         public static void Assign<T>(Array destination, IEnumerable<T> source)
         {
             var count = source.Count();
-            if (destination.GetSequenceLength() < count) throw new ArgumentException(CopyingOverflow(), nameof(source));
+            if (destination.GetSequenceLength() < count) throw Exception_CopyingOverflow(nameof(source));
 
             var stepper = new IndicesStepper(0, destination.GetLengths());
 #if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
@@ -64,8 +64,8 @@ namespace NStandard
         /// <param name="length"></param>
         public static void Assign<T>(Array destination, int destinationIndex, T[] source, int sourceIndex, int length)
         {
-            if ((source.Length - sourceIndex) < length) throw new ArgumentException(InsufficientElements(), nameof(source));
-            if ((destination.GetSequenceLength() - destinationIndex) < length) throw new ArgumentException(CopyingOverflow(), nameof(source));
+            if ((source.Length - sourceIndex) < length) throw Exception_InsufficientElements(nameof(source));
+            if ((destination.GetSequenceLength() - destinationIndex) < length) throw Exception_CopyingOverflow(nameof(source));
 
             var stepper = new IndicesStepper(destinationIndex, destination.GetLengths());
 #if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER

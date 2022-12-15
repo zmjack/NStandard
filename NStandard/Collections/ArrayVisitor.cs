@@ -1,13 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NStandard.Collections
 {
-    public class ArrayVisitor<T>
+    public class ArrayVisitor
     {
-        private static string SourceTypeNotSame(Type specifiedElementType) => $"Any element of source must be ${specifiedElementType}.";
-        private static string StartIndicesLengthMustBeLessThanRank() => $"The length of start indices must be less than rank.";
-        private static string FlattenedIndexMustBeGreaterThanZero() => $"The flattened index must be greater than 0.";
-        private static string FlattenedIndexMustBeLessThanSequenceLength(int sequenceLength) => $"The flattened index must be less than {sequenceLength}.";
+        private static ArgumentException Exception_FlattenedIndexMustBeGreaterThanZero(string paramName) => new($"The flattened index must be greater than 0.", paramName);
+        private static ArgumentException Exception_FlattenedIndexMustBeLessThanSequenceLength(int sequenceLength, string paramName) => new($"The flattened index must be less than {sequenceLength}.", paramName);
 
         public Array Source { get; }
         public int[] Lengths { get; }
@@ -15,10 +14,6 @@ namespace NStandard.Collections
 
         public ArrayVisitor(Array source)
         {
-            var elementType = source.GetType().GetElementType();
-            var specifiedElementType = typeof(T);
-            if (!elementType.IsType(specifiedElementType)) throw new ArgumentException(SourceTypeNotSame(specifiedElementType), nameof(source));
-
             Source = source;
             Lengths = source.GetLengths();
             SequenceLength = source.GetSequenceLength();
@@ -26,7 +21,7 @@ namespace NStandard.Collections
 
         private int[] GetIndices(int flattenedIndex)
         {
-            if (flattenedIndex < 0) throw new ArgumentException(FlattenedIndexMustBeGreaterThanZero(), nameof(flattenedIndex));
+            if (flattenedIndex < 0) throw Exception_FlattenedIndexMustBeGreaterThanZero(nameof(flattenedIndex));
 
             var rank = Source.Rank;
             var indexArray = new int[rank];
@@ -53,30 +48,57 @@ namespace NStandard.Collections
             return flattenedIndex;
         }
 
-        public void SetValue(T value, int flattenedIndex)
+        public void SetValue(object value, int flattenedIndex)
         {
-            if (flattenedIndex < 0) throw new ArgumentException(FlattenedIndexMustBeGreaterThanZero(), nameof(flattenedIndex));
-            if (flattenedIndex >= SequenceLength) throw new ArgumentException(FlattenedIndexMustBeLessThanSequenceLength(SequenceLength), nameof(flattenedIndex));
+            if (flattenedIndex < 0) throw Exception_FlattenedIndexMustBeGreaterThanZero(nameof(flattenedIndex));
+            if (flattenedIndex >= SequenceLength) throw Exception_FlattenedIndexMustBeLessThanSequenceLength(SequenceLength, nameof(flattenedIndex));
 
             var indeces = GetIndices(flattenedIndex);
             Source.SetValue(value, indeces);
         }
 
-        public T GetValue(int flattenedIndex)
+        public object GetValue(int flattenedIndex)
         {
-            if (flattenedIndex < 0) throw new ArgumentException(FlattenedIndexMustBeGreaterThanZero(), nameof(flattenedIndex));
-            if (flattenedIndex >= SequenceLength) throw new ArgumentException(FlattenedIndexMustBeLessThanSequenceLength(SequenceLength), nameof(flattenedIndex));
+            if (flattenedIndex < 0) throw Exception_FlattenedIndexMustBeGreaterThanZero(nameof(flattenedIndex));
+            if (flattenedIndex >= SequenceLength) throw Exception_FlattenedIndexMustBeLessThanSequenceLength(SequenceLength, nameof(flattenedIndex));
 
             var indeces = GetIndices(flattenedIndex);
-            return (T)Source.GetValue(indeces);
+            return Source.GetValue(indeces);
         }
 
-        public void Assign(Array destination, int[] startIndices, T[] source, int sourceIndex, int length)
+        public IEnumerable<object> GetValues()
         {
-            if (startIndices.Length >= Source.Rank) new ArgumentException(StartIndicesLengthMustBeLessThanRank(), nameof(startIndices));
-
-
+            var stepper = new IndicesStepper(0, Lengths);
+            foreach (var indeces in stepper)
+            {
+                yield return Source.GetValue(indeces);
+            }
         }
 
+        public void Assign(int offset, Array source, int sourceIndex, int length)
+        {
+            var visitor = new ArrayVisitor(source);
+            for (int i = 0; i < length; i++)
+            {
+                SetValue(visitor.GetValue(sourceIndex + i), offset + i);
+            }
+        }
+    }
+
+    public class ArrayVisitor<T> : ArrayVisitor
+    {
+        public ArrayVisitor(Array source) : base(source)
+        {
+        }
+
+        public void SetValue(T value, int flattenedIndex)
+        {
+            base.SetValue(value, flattenedIndex);
+        }
+
+        public new T GetValue(int flattenedIndex)
+        {
+            return (T)base.GetValue(flattenedIndex);
+        }
     }
 }

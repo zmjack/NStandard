@@ -8,8 +8,6 @@ namespace NStandard
 {
     public static partial class Any
     {
-        private static string IncompatibleRank() => "The lengths can not be incompatible with the array.";
-
         /// <summary>
         /// Creates a one-dimensional enumeration containing all elements of the specified multidimensional arrays.
         /// </summary>
@@ -18,20 +16,17 @@ namespace NStandard
         /// <returns></returns>
         public static IEnumerable<T> Flat<T>(params IEnumerable[] sources)
         {
-            var flaters = sources.Select(x => new Flater<T>(x.GetEnumerator())).ToArray();
-            foreach (var flater in flaters)
+            var flater = new Flater<T>(sources.GetEnumerator());
+            while (flater.MoveNext())
             {
-                while (flater.MoveNext())
-                {
-                    yield return (T)flater.Current;
-                }
+                yield return (T)flater.Current;
             }
         }
 
 #if NET5_0_OR_GREATER
-        private static string LengthMustBeGreaterThanZero() => $"The length must be greater than 0.";
-        private static string AnyLengthMustBeGreaterThanZero() => $"Any lengths must be greater than 0.";
-        private static string IncompatibleLength() => "The length of sources must be the same as the specified length.";
+        private static ArgumentException Exception_LengthMustBeGreaterThanZero(string paramName) => new($"The length must be greater than 0.", paramName);
+        private static ArgumentException Exception_AnyLengthMustBeGreaterThanZero(string paramName) => new($"Any lengths must be greater than 0.", paramName);
+        private static ArgumentException Exception_IncompatibleLength(string paramName) => new("The length of sources must be the same as the specified length.", paramName);
 
         /// <summary>
         /// Creates a one-dimensional array containing all elements of a multidimensional array.
@@ -43,7 +38,7 @@ namespace NStandard
         /// <exception cref="ArgumentException"></exception>
         public static unsafe T[] Flat<T>(T* psource, int length) where T : unmanaged
         {
-            if (length < 0) throw new ArgumentException(LengthMustBeGreaterThanZero(), nameof(length));
+            if (length < 0) throw Exception_LengthMustBeGreaterThanZero(nameof(length));
 
             var dst = Array.CreateInstance(typeof(T), length) as T[];
             fixed (T* pdst = dst)
@@ -63,8 +58,8 @@ namespace NStandard
         /// <exception cref="ArgumentException"></exception>
         public static unsafe T[] Flat<T>(T*[] psources, int[] lengths) where T : unmanaged
         {
-            if (psources.Length != lengths.Length) throw new ArgumentException(IncompatibleLength(), nameof(lengths));
-            if (lengths.Any(x => x <= 0)) throw new ArgumentException(AnyLengthMustBeGreaterThanZero(), nameof(lengths));
+            if (psources.Length != lengths.Length) throw Exception_IncompatibleLength(nameof(lengths));
+            if (lengths.Any(x => x <= 0)) throw Exception_AnyLengthMustBeGreaterThanZero(nameof(lengths));
 
             var size = sizeof(T);
             var dst = Array.CreateInstance(typeof(T), lengths.Sum()) as T[];

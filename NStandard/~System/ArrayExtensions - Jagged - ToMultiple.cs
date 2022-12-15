@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace NStandard
 {
@@ -11,6 +12,7 @@ namespace NStandard
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
+        [Obsolete("May be removed in the future, replaced by a better implementation.")]
         public static T[,] ToMultiArray<T>(this T[][] @this)
         {
             var ret = new T[@this.Length,
@@ -28,6 +30,7 @@ namespace NStandard
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
+        [Obsolete("May be removed in the future, replaced by a better implementation.")]
         public static T[,,] ToMultiArray<T>(this T[][][] @this)
         {
             var ret = new T[@this.Length,
@@ -48,6 +51,7 @@ namespace NStandard
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
+        [Obsolete("May be removed in the future, replaced by a better implementation.")]
         public static T[,,,] ToMultiArray<T>(this T[][][][] @this)
         {
             var ret = new T[@this.Length,

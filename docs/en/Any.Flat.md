@@ -30,13 +30,13 @@ Console.WriteLine(
 
 <br/>
 
-**Example 2** ( Flat many array ):
+**Example 2** ( Flat jagged array ):
 
 ```csharp
-var d1_d1 = new[]
+var d1_d1 = new string[2][]
 {
-    new[] { "0", "1" },
-    new[] { "2", "3" },
+    new string[] { "0", "1" },
+    new string[] { "2", "3" },
 };
 
 Console.WriteLine(
@@ -48,24 +48,50 @@ Console.WriteLine(
 
 <br/>
 
-**Example 3** ( Flat nested array ):
+**Example 3**（Flat jagged multidimensional array）:
 
 ```csharp
-var array = new object[]
+var d1_d2 = new string[2][,]
 {
-    new[] { "0", "1" },
-    new object[]
-    {
-        "2",
-        new object[]
-        {
-            "3", "4"
-        }
-    }
+	new string[2, 2]
+	{
+		{ "0", "1" },
+		{ "2", "3" }
+	},
+	new string[2, 2]
+	{
+		{ "4", "5" },
+		{ "6", "7" }
+	},
 };
 
 Console.WriteLine(
-    Any.Flat<string>(array).Join(", ")
+	Any.Flat<string>(d1_d2).Join(", ")
+);
+```
+
+> 0, 1, 2, 3, 4, 5, 6, 7
+
+<br/>
+
+**Example 4** ( Flat nested array ):
+
+```csharp
+var array = new object[2]
+{
+    new string[2] { "0", "1" },
+    new object[2]
+    {
+        "2",
+        new string[2]
+        {
+			"3", "4"
+		}
+	}
+};
+
+Console.WriteLine(
+	Any.Flat<string>(array).Join(", ")
 );
 ```
 
@@ -73,9 +99,9 @@ Console.WriteLine(
 
 <br/>
 
-### Flat unmanaged array
+### Flat unmanaged array ( use pointer )
 
-**Example 4** ( Flat unmanaged multidimensional array ):
+**Example 5** ( Flat unmanaged multidimensional array ):
 
 ```csharp
 var d2 = new int[2, 2]
@@ -95,13 +121,13 @@ fixed (int* pd2 = d2)
 
 > 0, 1, 2, 3
 
-**Example 5** ( Flat many unmanaged array ):
+**Example 6** ( Flat unmanaged jagged array ):
 
 ```csharp
-var d1_d1 = new[]
+var d1_d1 = new int[2][]
 {
-    new[] { 0, 1 },
-    new[] { 2, 3 },
+    new int[] { 0, 1 },
+    new int[] { 2, 3 },
 };
 var lengths = d1_d1.Select(x => x.GetSequenceLength()).ToArray();
 

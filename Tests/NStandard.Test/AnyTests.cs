@@ -167,5 +167,71 @@ namespace NStandard.Test
             Assert.ThrowsAny<OverflowException>(() => Any.Text.ComputeHashCode($"({str})".ToCharArray(), 1, 15));
         }
 
+        [Fact]
+        public void ForwardTest()
+        {
+            var exception = new Exception("3", new Exception("2", new Exception("1")));
+            var forwards = Any.Forward(exception, x => x.InnerException);
+
+            Assert.Equal("1", (from ex in forwards select ex).Last().Message);
+            Assert.Equal("1", (from ex in forwards where ex.InnerException is null select ex).First().Message);
+            Assert.Equal("2", (from iv in forwards.AsIndexValuePairs() where iv.Index == 1 select iv.Value).First().Message);
+            Assert.Equal("3", (from iv in forwards.AsIndexValuePairs() select iv.Value).First().Message);
+        }
+
+        [Fact]
+        public void MapTest_d1_d1()
+        {
+            var d1_d1 = new string[2][]
+            {
+                new string[1] { "0" },
+                new string[2] { "1", "2" },
+            };
+            Assert.Equal(new[] { 0, 1, 2 }, Any.Flat<int>(d1_d1.Map((string s) => int.Parse(s))));
+        }
+
+        [Fact]
+        public void MapTest_d1_d2()
+        {
+            var d1_d2 = new string[2][,]
+            {
+                new string[2, 1]
+                {
+                    { "0" },
+                    { "1" },
+                },
+                new string[1, 2]
+                {
+                    { "2", "3" },
+                },
+            };
+            Assert.Equal(new[] { 0, 1, 2, 3 }, Any.Flat<int>(d1_d2.Map((string s) => int.Parse(s))));
+        }
+
+        [Fact]
+        public void MapTest_d1_d2_d1()
+        {
+            var d1_d2_d1 = new string[2][,][]
+            {
+                new string[1, 2][]
+                {
+                    {
+                        new string [1] { "0", },
+                        new string [2] { "1", "2" },
+                    },
+                },
+                new string[2, 1][]
+                {
+                    {
+                        new string [2] { "3", "4",},
+                    },
+                    {
+                        new string [3] { "5", "6", "7"},
+                    },
+                },
+            };
+            Assert.Equal(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }, Any.Flat<int>(d1_d2_d1.Map((string s) => int.Parse(s))));
+        }
+
     }
 }

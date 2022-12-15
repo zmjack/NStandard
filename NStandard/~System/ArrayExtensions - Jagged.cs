@@ -6,14 +6,6 @@ namespace NStandard
 {
     public static partial class ArrayExtensions
     {
-        private static IEnumerable<T> Each<T>(IEnumerable enumerable)
-        {
-            foreach (var item in enumerable)
-            {
-                yield return (T)item;
-            }
-        }
-
         #region Jagged Array Each
         /// <summary>
         /// Do action for each item of multidimensional array.
@@ -22,6 +14,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="task"></param>
         /// <returns></returns>
+        [Obsolete("May be removed in the future, replaced by a better implementation.")]
         public static T[][] Each<T>(this T[][] @this, Action<T, int, int> task)
         {
             for (int i0 = 0; i0 < @this.Length; i0++)
@@ -37,6 +30,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="task"></param>
         /// <returns></returns>
+        [Obsolete("May be removed in the future, replaced by a better implementation.")]
         public static T[][][] Each<T>(this T[][][] @this, Action<T, int, int, int> task)
         {
             for (int i0 = 0; i0 < @this.Length; i0++)
@@ -54,6 +48,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="task"></param>
         /// <returns></returns>
+        [Obsolete("May be removed in the future, replaced by a better implementation.")]
         public static T[][][][] Each<T>(this T[][][][] @this, Action<T, int, int, int, int> task)
         {
             for (int i0 = 0; i0 < @this.Length; i0++)
@@ -71,6 +66,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="task"></param>
         /// <returns></returns>
+        [Obsolete("May be removed in the future, replaced by a better implementation.")]
         public static T[][][][][] Each<T>(this T[][][][][] @this, Action<T, int, int, int, int, int> task)
         {
             for (int i0 = 0; i0 < @this.Length; i0++)
@@ -89,6 +85,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="task"></param>
         /// <returns></returns>
+        [Obsolete("May be removed in the future, replaced by a better implementation.")]
         public static T[][][][][][] Each<T>(this T[][][][][][] @this, Action<T, int, int, int, int, int, int> task)
         {
             for (int i0 = 0; i0 < @this.Length; i0++)
@@ -108,6 +105,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="task"></param>
         /// <returns></returns>
+        [Obsolete("May be removed in the future, replaced by a better implementation.")]
         public static T[][][][][][][] Each<T>(this T[][][][][][][] @this, Action<T, int, int, int, int, int, int, int> task)
         {
             for (int i0 = 0; i0 < @this.Length; i0++)
@@ -128,6 +126,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="task"></param>
         /// <returns></returns>
+        [Obsolete("May be removed in the future, replaced by a better implementation.")]
         public static T[][][][][][][][] Each<T>(this T[][][][][][][][] @this, Action<T, int, int, int, int, int, int, int, int> task)
         {
             for (int i0 = 0; i0 < @this.Length; i0++)
