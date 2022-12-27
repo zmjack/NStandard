@@ -29,7 +29,7 @@ var result = d1_d1.Map((string s) => int.Parse(s)) as int[][];
 Assert.Equal(new[] { 0, 1, 2 }, Any.Flat<int>(result));
 ```
 
-![image-20221227125854278](https://raw.githubusercontent.com/zmjack/NStandard/master/docs/images/image-20221227125854278.png)
+![image-20221227131745251](https://raw.githubusercontent.com/zmjack/NStandard/master/docs/images/image-20221227131745251.png)
 
 <br/>
 
@@ -53,7 +53,7 @@ var result = d1_d2.Map((string s) => int.Parse(s)) as int[][,];
 Assert.Equal(new[] { 0, 1, 2, 3 }, Any.Flat<int>(result));
 ```
 
-![image-20221227130010987](https://raw.githubusercontent.com/zmjack/NStandard/master/docs/images/image-20221227130010987.png)
+![image-20221227134222183](https://raw.githubusercontent.com/zmjack/NStandard/master/docs/images/image-20221227134222183.png)
 
 <br/>
 
@@ -84,6 +84,6 @@ var result = d1_d2_d1.Map((string s) => int.Parse(s)) as int[][,][];
 Assert.Equal(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }, Any.Flat<int>(result));
 ```
 
-![image-20221227130051999](https://raw.githubusercontent.com/zmjack/NStandard/master/docs/images/image-20221227130051999.png)
+![image-20221227134321883](https://raw.githubusercontent.com/zmjack/NStandard/master/docs/images/image-20221227134321883.png)
 
 <br/>
