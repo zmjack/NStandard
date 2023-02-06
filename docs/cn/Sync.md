@@ -102,7 +102,7 @@ Console.WriteLine(c.Value);
 
    ![Sync-005.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-005.png?raw=true)
    
-6. 销毁 `c`。
+6. 处置 `c`。
 
    （该操作将退订其依赖项的通知事件。）
    

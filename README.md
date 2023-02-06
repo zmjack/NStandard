@@ -18,9 +18,9 @@ You can use it to get the following support:
 
 These frameworks are supported:
 
-| NET                        | NET Standard                                 | NET Framework                                                |
-| -------------------------- | -------------------------------------------- | ------------------------------------------------------------ |
-| - .NET 5.0<br />- .NET 6.0 | - .NET Standard 2.0<br />- .NET Standard 2.1 | - .NET Framework 3.5<br />- .NET Framework 4.0<br />- .NET Framework 4.5<br />- .NET Framework 4.5.1<br />- .NET Framework 4.5.2<br />- .NET Framework 4.6 |
+| NET                                      | NET Standard                                | NET Framework                                                |
+| ---------------------------------------- | ------------------------------------------- | ------------------------------------------------------------ |
+| - .NET 5.0<br/>- .NET 6.0<br/>- .NET 7.0 | - .NET Standard 2.0<br/>- .NET Standard 2.1 | - .NET Framework 3.5<br />- .NET Framework 4.5.1 - 4.5.2<br />- .NET Framework 4.6 - 4.6.2<br />- .NET Framework 4.7 - 4.7.2<br />- .NET Framework 4.8 |
 
 <br/>
 
