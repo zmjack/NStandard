@@ -61,8 +61,8 @@ These frameworks are supported:
 
 ### Version: 0.17.0
 
-- Add function: **Any.Forward**, iterate by depth.
-- Add function: **ArrayExtensions.Map**, projects all elements to an array of the new type.
+- Add function: **[Any.Forward](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Forward.md)**, iterate by depth.
+- Add function: **[ArrayExtensions.Map](https://github.com/zmjack/NStandard/blob/master/docs/en/ArrayExtensions.md)**, projects all elements to an array of the new type.
 
 ### Version: 0.16.0
 

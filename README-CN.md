@@ -61,8 +61,8 @@
 
 ### 版本：0.17.0
 
-- 新增函数：**Any.Forward**，深度迭代。
-- 新增函数：**ArrayExtensions.Map**，投影所有元素到新类型的数组。
+- 新增函数：**[Any.Forward](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Forward.md)**，深度迭代。
+- 新增函数：**[ArrayExtensions.Map](https://github.com/zmjack/NStandard/blob/master/docs/cn/ArrayExtensions.md)**，投影所有元素到新类型的数组。
 
 ### 版本：0.16.0
 
