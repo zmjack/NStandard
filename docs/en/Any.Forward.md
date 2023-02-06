@@ -6,13 +6,13 @@
 
 ## Any.Forward
 
-按指定路径依次获取元素。
+Get elements sequentially by the specified path.
 
 <br/>
 
-### 深层遍历
+### Deep traversal
 
-**示例 1** （最里面的 **Exception**）
+**Example 1** ( Innermost **Exception** )
 
 ```csharp
 var exception = new Exception("3", new Exception("2", new Exception("1")));

@@ -12,7 +12,7 @@
 
 ### 扁平化数组
 
-**示例 1** （扁平化 多维数组）:
+**示例 1** （扁平化 多维数组）
 
 ```csharp
 var d2 = new string[2, 2]
@@ -30,7 +30,7 @@ Console.WriteLine(
 
 <br/>
 
-**示例 2**（扁平化 交叉数组）:
+**示例 2**（扁平化 交叉数组）
 
 ```csharp
 var d1_d1 = new string[2][]
@@ -46,25 +46,25 @@ Console.WriteLine(
 
 > 0, 1, 2, 3
 
-**示例 3**（扁平化 交叉多维数组）:
+**示例 3**（扁平化 交叉多维数组）
 
 ```csharp
 var d1_d2 = new string[2][,]
 {
-	new string[2, 2]
-	{
-		{ "0", "1" },
-		{ "2", "3" }
-	},
-	new string[2, 2]
-	{
-		{ "4", "5" },
-		{ "6", "7" }
-	},
+    new string[2, 2]
+    {
+        { "0", "1" },
+        { "2", "3" }
+    },
+    new string[2, 2]
+    {
+        { "4", "5" },
+        { "6", "7" }
+    },
 };
 
 Console.WriteLine(
-	Any.Flat<string>(d1_d2).Join(", ")
+    Any.Flat<string>(d1_d2).Join(", ")
 );
 ```
 
@@ -72,7 +72,7 @@ Console.WriteLine(
 
 <br/>
 
-**示例 4**（扁平化 嵌套数组）:
+**示例 4**（扁平化 嵌套数组）
 
 ```csharp
 var array = new object[2]
@@ -83,13 +83,13 @@ var array = new object[2]
         "2",
         new string[2]
         {
-			"3", "4"
-		}
-	}
+            "3", "4"
+        }
+    }
 };
 
 Console.WriteLine(
-	Any.Flat<string>(array).Join(", ")
+    Any.Flat<string>(array).Join(", ")
 );
 ```
 
@@ -99,7 +99,7 @@ Console.WriteLine(
 
 ### 扁平化非托管数组（使用指针）
 
-**示例 5**（扁平化 非托管 多维数组）:
+**示例 5**（扁平化 非托管 多维数组）
 
 ```csharp
 var d2 = new int[2, 2]
@@ -119,7 +119,7 @@ fixed (int* pd2 = d2)
 
 > 0, 1, 2, 3
 
-**示例 6**（扁平化 非托管 交叉数组）:
+**示例 6**（扁平化 非托管 交叉数组）
 
 ```csharp
 var d1_d1 = new int[2][]

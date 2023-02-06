@@ -6,11 +6,11 @@
 
 ## SequenceInputStream
 
-**SequenceInputStream** can combine multiple streams into a single stream.
+**SequenceInputStream** 可以将多个流组合成一个流。
 
 <br/>
 
-For example:
+**示例**
 
 ```csharp
 using var stream = new SequenceInputStream(

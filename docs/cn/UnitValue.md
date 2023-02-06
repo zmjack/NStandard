@@ -93,7 +93,7 @@ foreach (var value in values)
 }
 ```
 
-#### 使用 LinqSharp 的情况
+#### 使用 LinqSharp
 
 ✔️ 考虑使用（约 1.00 秒）
 

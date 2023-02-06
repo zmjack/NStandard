@@ -6,13 +6,13 @@
 
 ## ArrayExtensions
 
-### 原型映射
+### Prototype mapping
 
 ### Map
 
-映射原数组为新类型数组，且不改变整体结构。
+Map the original array to a new type array without changing the overall structure.
 
-**示例 1（ 1d - 1d ）**
+**Example 1 ( 1d - 1d )**
 
 ```csharp
 var d1_d1 = new string[2][]
@@ -29,7 +29,7 @@ Assert.Equal(new[] { 0, 1, 2 }, Any.Flat<int>(result));
 
 <br/>
 
-**示例 2（ 1d - 2d ）**
+**Example 2 ( 1d - 2d )**
 
 ```csharp
 var d1_d2 = new string[2][,]
@@ -53,7 +53,7 @@ Assert.Equal(new[] { 0, 1, 2, 3 }, Any.Flat<int>(result));
 
 <br/>
 
-**示例 3（ 1d - 2d - 1d ）**
+**Example 3 ( 1d - 2d - 1d )**
 
 ```csharp
 var d1_d2_d1 = new string[2][,][]

@@ -12,7 +12,7 @@ Creates a one-dimensional enumeration containing all elements of the specified m
 
 ### Flat any array
 
-**Example 1** ( Flat multidimensional array ):
+**Example 1** ( Flat multidimensional array )
 
 ```csharp
 var d2 = new string[2, 2]
@@ -30,7 +30,7 @@ Console.WriteLine(
 
 <br/>
 
-**Example 2** ( Flat jagged array ):
+**Example 2** ( Flat jagged array )
 
 ```csharp
 var d1_d1 = new string[2][]
@@ -48,21 +48,21 @@ Console.WriteLine(
 
 <br/>
 
-**Example 3**（Flat jagged multidimensional array）:
+**Example 3**（Flat jagged multidimensional array）
 
 ```csharp
 var d1_d2 = new string[2][,]
 {
-	new string[2, 2]
-	{
-		{ "0", "1" },
-		{ "2", "3" }
-	},
-	new string[2, 2]
-	{
-		{ "4", "5" },
-		{ "6", "7" }
-	},
+    new string[2, 2]
+    {
+        { "0", "1" },
+        { "2", "3" }
+    },
+    new string[2, 2]
+    {
+        { "4", "5" },
+        { "6", "7" }
+    },
 };
 
 Console.WriteLine(
@@ -74,7 +74,7 @@ Console.WriteLine(
 
 <br/>
 
-**Example 4** ( Flat nested array ):
+**Example 4** ( Flat nested array )
 
 ```csharp
 var array = new object[2]
@@ -85,9 +85,9 @@ var array = new object[2]
         "2",
         new string[2]
         {
-			"3", "4"
-		}
-	}
+            "3", "4"
+        }
+    }
 };
 
 Console.WriteLine(
@@ -101,7 +101,7 @@ Console.WriteLine(
 
 ### Flat unmanaged array ( use pointer )
 
-**Example 5** ( Flat unmanaged multidimensional array ):
+**Example 5** ( Flat unmanaged multidimensional array )
 
 ```csharp
 var d2 = new int[2, 2]
@@ -121,7 +121,7 @@ fixed (int* pd2 = d2)
 
 > 0, 1, 2, 3
 
-**Example 6** ( Flat unmanaged jagged array ):
+**Example 6** ( Flat unmanaged jagged array )
 
 ```csharp
 var d1_d1 = new int[2][]

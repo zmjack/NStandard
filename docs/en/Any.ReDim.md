@@ -10,7 +10,7 @@ Reallocates storage space for an array variable.
 
 <br/>
 
-**Example 1** ( Shrink space ):
+**Example 1** ( Shrink space )
 
 ```csharp
 var d2 = new int[3, 3]
@@ -32,7 +32,7 @@ for (int i = 0; i < d2.GetLength(0); i++)
 
 <br/>
 
-**Example 2** ( Expand space ):
+**Example 2** ( Expand space )
 
 ```csharp
 var d2 = new int[3, 3]

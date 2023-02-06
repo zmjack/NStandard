@@ -10,7 +10,7 @@
 
 <br/>
 
-For example:
+**Example**
 
 ```csharp
 using var stream = new SequenceInputStream(
