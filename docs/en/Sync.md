@@ -55,57 +55,61 @@ Let's use an example to illustrate how **Sync** works.
 
 1. Define variables `a` `b`:
 
-    ```csharp
-    using var a = new Sync<int>(2);
-    using var b = new Sync<int>(3);
-    ```
+   ```csharp
+   using var a = new Sync<int>(2);
+   using var b = new Sync<int>(3);
+   ```
 
-    ![Sync-001.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-001.png?raw=true)
+   ![Sync-001.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-001.png?raw=true)
 
 2. Define variable `c` with value `a + b`.
+
    (This operation will also subscribe to notification events for `a` `b`.)
-   
+
     ```csharp
     var c = Sync.From(() => a + b);
     ```
-   
-    ![Sync-002.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-002.png?raw=true)
-3. Get the value of `c` and output it.
-    (The operation will evaluate the formula and cache the result.)
-    
-    ```csharp
-    Console.WriteLine(c.Value);
-    ```
 
-    ![Sync-003.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-003.png?raw=true)
+   ![Sync-002.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-002.png?raw=true)
+3. Get the value of `c` and output it.
+
+   (The operation will evaluate the formula and cache the result.)
+
+   ```csharp
+   Console.WriteLine(c.Value);
+   ```
+
+   ![Sync-003.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-003.png?raw=true)
 
 4. Change the value of `a` to 7.
+
    (This operation will set the `c` value to **Expired**.)
    
-    ```csharp
-    a.Value = 7;
-    ```
-   
+   ```csharp
+   a.Value = 7;
+   ```
 
-![Sync-004.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-004.png?raw=true)
+   ![Sync-004.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-004.png?raw=true)
 
 5. Retrieve the value of `c` and output it.
-    (This operation will recalculate the formula and cache the result.)
 
-    ```csharp
-    Console.WriteLine(c.Value);
-    ```
+   (This operation will recalculate the formula and cache the result.)
+   
+   ```csharp
+   Console.WriteLine(c.Value);
+   ```
 
-    ![Sync-005.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-005.png?raw=true)
-
+   ![Sync-005.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-005.png?raw=true)
+   
 6. Dispose `c`.
-(The operation will unsubscribe from its dependencies' notification events.)
-   
-    ```csharp
-    c.Dispose();
-    ```
-   
-    ![Sync-006.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-006.png?raw=true)
+
+   (The operation will unsubscribe from its dependencies' notification events.)
+
+   ```csharp
+   c.Dispose();
+   ```
+
+   ![Sync-006.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-006.png?raw=true)
 
 <br/>
 

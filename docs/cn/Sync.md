@@ -55,57 +55,62 @@ Console.WriteLine(c.Value);
 
 1. 定义变量 `a` `b`：
 
-    ```csharp
-    using var a = new Sync<int>(2);
-    using var b = new Sync<int>(3);
-    ```
+   ```csharp
+   using var a = new Sync<int>(2);
+   using var b = new Sync<int>(3);
+   ```
 
-    ![Sync-001.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-001.png?raw=true)
+   ![Sync-001.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-001.png?raw=true)
 
 2. 定义变量 `c`，取值为 `a + b`。
-   （该操作会同时会为 `a` `b` 订阅通知事件。）
-   
-    ```csharp
-    var c = Sync.From(() => a + b);
-    ```
-   
-    ![Sync-002.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-002.png?raw=true)
-3. 获取 `c` 值并输出。
-    （该操作将计算公式并缓存结果。）
-    
-    ```csharp
-    Console.WriteLine(c.Value);
-    ```
 
-    ![Sync-003.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-003.png?raw=true)
+   （该操作会同时会为 `a` `b` 订阅通知事件。）
+
+   ```csharp
+   var c = Sync.From(() => a + b);
+   ```
+   
+   ![Sync-002.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-002.png?raw=true)
+   
+3. 获取 `c` 值并输出。
+
+   （该操作将计算公式并缓存结果。）
+
+   ```csharp
+   Console.WriteLine(c.Value);
+   ```
+
+   ![Sync-003.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-003.png?raw=true)
 
 4. 改变 `a` 值为 7。
-   （该操作会将 `c` 值设置为 **已过期**。）
-   
-    ```csharp
-    a.Value = 7;
-    ```
-   
 
-![Sync-004.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-004.png?raw=true)
+   （该操作会将 `c` 值设置为 **已过期**。）
+
+   ```csharp
+   a.Value = 7;
+   ```
+
+   ![Sync-004.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-004.png?raw=true)
 
 5. 重新获取 `c` 值并输出。
-    （该操作将重新计算公式并缓存结果。）
 
-    ```csharp
-    Console.WriteLine(c.Value);
-    ```
+   （该操作将重新计算公式并缓存结果。）
 
-    ![Sync-005.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-005.png?raw=true)
+   ```csharp
+   Console.WriteLine(c.Value);
+   ```
 
+   ![Sync-005.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-005.png?raw=true)
+   
 6. 销毁 `c`。
-（该操作将退订其依赖项的通知事件。）
+
+   （该操作将退订其依赖项的通知事件。）
    
-    ```csharp
-    c.Dispose();
-    ```
-   
-    ![Sync-006.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-006.png?raw=true)
+   ```csharp
+   c.Dispose();
+   ```
+
+   ![Sync-006.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-006.png?raw=true)
 
 <br/>
 
