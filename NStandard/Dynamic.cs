@@ -44,7 +44,7 @@ namespace NStandard
                         .GetMethodViaQualifiedName("System.Linq.Expressions.Expression`1[TDelegate] Lambda[TDelegate](System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])")
                         .MakeGenericMethod(lambdaGenericType);
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
                     var param = Array.Empty<ParameterExpression>();
 #else
                     var param = ArrayEx.Empty<ParameterExpression>();
@@ -72,7 +72,7 @@ namespace NStandard
                         .GetMethodViaQualifiedName("System.Linq.Expressions.Expression`1[TDelegate] Lambda[TDelegate](System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])")
                         .MakeGenericMethod(lambdaGenericType);
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
                     var param = Array.Empty<ParameterExpression>();
 #else
                     var param = ArrayEx.Empty<ParameterExpression>();

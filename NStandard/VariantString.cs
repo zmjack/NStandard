@@ -174,7 +174,7 @@ namespace NStandard
             if (double.TryParse(@this.String, out var b)) return b > 0;
             return bool.TryParse(@this.String, out var ret) && ret;
         }
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
         public static implicit operator Guid(VariantString @this)
         {
             if (@this.String.IsNullOrWhiteSpace()) return default;
@@ -291,7 +291,7 @@ namespace NStandard
             if (bool.TryParse(@this.String, out var ret)) return ret;
             return default;
         }
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
         public static implicit operator Guid?(VariantString @this)
         {
             if (@this.String.IsNullOrWhiteSpace()) return default;

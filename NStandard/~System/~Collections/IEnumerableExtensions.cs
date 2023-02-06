@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NStandard.ValueTuples;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,87 +11,17 @@ namespace NStandard
     public static class IEnumerableExtensions
     {
         /// <summary>
-        /// Returns a collection of tuples containing values and indices.
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="this"></param>
-        /// <returns></returns>
-        [Obsolete("Use AsIndexValuePairs instead.", true)]
-        public static IEnumerable<KeyValuePair<int, TSource>> AsKvPairs<TSource>(this IEnumerable @this)
-        {
-            int i = 0;
-            foreach (TSource item in @this)
-            {
-                yield return new KeyValuePair<int, TSource>(i++, item);
-            }
-        }
-
-        /// <summary>
-        /// Returns a collection of KeyValuePair which contains the element's index(Key) and value.
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="this"></param>
-        /// <returns></returns>
-        [Obsolete("Use AsIndexValuePairs instead.", true)]
-        public static IEnumerable<KeyValuePair<int, TSource>> AsKvPairs<TSource>(this IEnumerable<TSource> @this)
-        {
-            int i = 0;
-            foreach (var item in @this)
-            {
-                yield return new KeyValuePair<int, TSource>(i++, item);
-            }
-        }
-
-        /// <summary>
-        /// Returns a collection of tuples containing values and indices.
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="this"></param>
-        /// <returns></returns>
-        /// 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
-        [Obsolete("If possible, Use AsIndexValuePairs instead.")]
-#endif
-        public static IEnumerable<KeyValuePair<int, TSource>> AsKeyValuePairs<TSource>(this IEnumerable @this)
-        {
-            int i = 0;
-            foreach (TSource item in @this)
-            {
-                yield return new KeyValuePair<int, TSource>(i++, item);
-            }
-        }
-
-        /// <summary>
-        /// Returns a collection of KeyValuePair which contains the element's index(Key) and value.
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="this"></param>
-        /// <returns></returns>
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
-        [Obsolete("If possible, Use AsIndexValuePairs instead.")]
-#endif
-        public static IEnumerable<KeyValuePair<int, TSource>> AsKeyValuePairs<TSource>(this IEnumerable<TSource> @this)
-        {
-            int i = 0;
-            foreach (var item in @this)
-            {
-                yield return new KeyValuePair<int, TSource>(i++, item);
-            }
-        }
-
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
-        /// <summary>
         /// Returns a collection of ValueTuple which contains the element's index and value.
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static IEnumerable<(int Index, TSource Value)> AsIndexValuePairs<TSource>(this IEnumerable @this)
+        public static IEnumerable<IndexAndValue<TSource>> AsIndexValuePairs<TSource>(this IEnumerable @this)
         {
             int i = 0;
             foreach (TSource item in @this)
             {
-                yield return (i++, item);
+                yield return new(i++, item);
             }
         }
 
@@ -100,15 +31,14 @@ namespace NStandard
         /// <typeparam name="TSource"></typeparam>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static IEnumerable<(int Index, TSource Value)> AsIndexValuePairs<TSource>(this IEnumerable<TSource> @this)
+        public static IEnumerable<IndexAndValue<TSource>> AsIndexValuePairs<TSource>(this IEnumerable<TSource> @this)
         {
             int i = 0;
             foreach (var item in @this)
             {
-                yield return (i++, item);
+                yield return new(i++, item);
             }
         }
-#endif
 
         /// <summary>
         /// Do action for each item.
@@ -177,7 +107,7 @@ namespace NStandard
         /// <returns></returns>
         public static string Join<TSource>(this IEnumerable<TSource> @this, string separator)
         {
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
             return string.Join(separator, @this);
 #else
             return string.Join(separator, @this.Select(x => x.ToString()).ToArray());

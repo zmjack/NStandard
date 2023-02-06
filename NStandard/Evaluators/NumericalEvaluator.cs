@@ -79,50 +79,26 @@ namespace NStandard.Evaluators
             [":"] = (left, right) => Expression.Condition(Expression.Call(DoubleIsNaNMethod, left), right, left),
         };
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
-        protected override Dictionary<(string, string), UnaryOpFunc<double>> BracketFunctions { get; } = new()
+        protected override Dictionary<Bracket, UnaryOpFunc<double>> BracketFunctions { get; } = new()
         {
-            [("(", ")")] = null,
-            [("abs(", ")")] = x => Math.Abs(x),
-            [("sqrt(", ")")] = x => Math.Sqrt(x),
+            [new("(", ")")] = null,
+            [new("abs(", ")")] = x => Math.Abs(x),
+            [new("sqrt(", ")")] = x => Math.Sqrt(x),
 
-            [("ceil(", ")")] = x => Math.Ceiling(x),
-            [("floor(", ")")] = x => Math.Floor(x),
+            [new("ceil(", ")")] = x => Math.Ceiling(x),
+            [new("floor(", ")")] = x => Math.Floor(x),
 
-            [("sin(", ")")] = x => Math.Sin(x),
-            [("cos(", ")")] = x => Math.Cos(x),
-            [("tan(", ")")] = x => Math.Tan(x),
+            [new("sin(", ")")] = x => Math.Sin(x),
+            [new("cos(", ")")] = x => Math.Cos(x),
+            [new("tan(", ")")] = x => Math.Tan(x),
 
-            [("asin(", ")")] = x => Math.Asin(x),
-            [("acos(", ")")] = x => Math.Acos(x),
-            [("atan(", ")")] = x => Math.Atan(x),
+            [new("asin(", ")")] = x => Math.Asin(x),
+            [new("acos(", ")")] = x => Math.Acos(x),
+            [new("atan(", ")")] = x => Math.Atan(x),
 
-            [("sinh(", ")")] = x => Math.Sinh(x),
-            [("cosh(", ")")] = x => Math.Cosh(x),
-            [("tanh(", ")")] = x => Math.Tanh(x),
+            [new("sinh(", ")")] = x => Math.Sinh(x),
+            [new("cosh(", ")")] = x => Math.Cosh(x),
+            [new("tanh(", ")")] = x => Math.Tanh(x),
         };
-#else
-        protected override Dictionary<Tuple<string, string>, UnaryOpFunc<double>> BracketFunctions { get; } = new()
-        {
-            [Tuple.Create("(", ")")] = null,
-            [Tuple.Create("abs(", ")")] = x => Math.Abs(x),
-            [Tuple.Create("sqrt(", ")")] = x => Math.Sqrt(x),
-
-            [Tuple.Create("ceil(", ")")] = x => Math.Ceiling(x),
-            [Tuple.Create("floor(", ")")] = x => Math.Floor(x),
-
-            [Tuple.Create("sin(", ")")] = x => Math.Sin(x),
-            [Tuple.Create("cos(", ")")] = x => Math.Cos(x),
-            [Tuple.Create("tan(", ")")] = x => Math.Tan(x),
-
-            [Tuple.Create("asin(", ")")] = x => Math.Asin(x),
-            [Tuple.Create("acos(", ")")] = x => Math.Acos(x),
-            [Tuple.Create("atan(", ")")] = x => Math.Atan(x),
-
-            [Tuple.Create("sinh(", ")")] = x => Math.Sinh(x),
-            [Tuple.Create("cosh(", ")")] = x => Math.Cosh(x),
-            [Tuple.Create("tanh(", ")")] = x => Math.Tanh(x),
-        };
-#endif
     }
 }

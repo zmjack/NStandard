@@ -10,11 +10,12 @@
 
 <br/>
 
-| Namespace          | Class or Strcut                                 | Compatibility        |
-| ------------------ | ----------------------------------------------- | -------------------- |
-| System             | HashCode                                        | = .NET Framework     |
-| System             | Tuple                                           | < .NET Framework 4.0 |
-| System             | FormattableString                               | < .NET Framework 4.6 |
-| System.Collections | IStructuralComparable<br />IStructuralEquatable | < .NET Framework 4.0 |
-| System.Reflection  | CustomAttributeExtensions                       | < .NET Framework 4.5 |
+| Namespace          | Class or Strcut                                         | Compatibility                                                |
+| ------------------ | ------------------------------------------------------- | ------------------------------------------------------------ |
+| System             | **HashCode**                                            | = .NET Framework<br />< .NET Standard 2.1<br />< .NET Core App 2.1 |
+| System             | **ITuple**                                              | < .NET Framework 4.7<br />< .NET Standard 2.1<br />< .NET Core App 2.0 |
+| System             | **Tuple**                                               | < .NET Framework 4.5.1                                       |
+| System             | **FormattableString**                                   | < .NET Framework 4.6<br />< .NET Standard 1.3                |
+| System.Collections | **IStructuralComparable**<br />**IStructuralEquatable** | < .NET Framework 4.5.1                                       |
+| System.Reflection  | **CustomAttributeExtensions**                           | < .NET Framework 4.5.1                                       |
 

@@ -6,83 +6,83 @@
 
 ## Numerical Evaluator
 
-We provide **NumericalEvaluator** to support string expression parsing.
+我们提供 **NumericalEvaluator** 来支持字符串表达式解析。
 
-For example:
-
-```csharp
-Evaluator.Numerical.Eval("2 >= 3 ? 5 : 7");
-```
-
-The result is ***7***.
-
-<br/>
-
-We provide a rich set of operators:
-
-| Priority | Operator | Description                                                  | Example                                         |
-| -------- | -------- | ------------------------------------------------------------ | ----------------------------------------------- |
-| 1        | **       | Exponentiation.                                              | (2 ** 3) is 8.                                  |
-| 3        | //       | Floor division.                                              | (7 // 5) is 1.                                  |
-|          | *        | Multiplication.                                              | (2 * 3) is 6.                                   |
-|          | /        | Division.                                                    | (7 / 5) is 1.4.                                 |
-|          | %        | Modulus.                                                     | (7 % 5) is 2.                                   |
-| 4        | +        | Addition.                                                    | (2 + 3) is 5.                                   |
-|          | -        | Subtraction.                                                 | (7 - 5) is 2.                                   |
-| 6        | >        | Greater than.                                                | (7 > 5) is 1.                                   |
-|          | \>=      | Greater than or equal to.                                    | (7 >= 5) is 1.                                  |
-|          | <        | Less than.                                                   | (2 < 3) is 1.                                   |
-|          | <=       | Less than or equal to.                                       | (2 <= 3) is 1.                                  |
-| 7        | ==       | Equal.                                                       | (7 == 7) is 1.                                  |
-|          | !=       | Not equal.                                                   | (2 != 3) is 1.                                  |
-| 11       | and      | **Returns** the **left-hand** expression **if** the **left-hand** expression **is 0**,<br/>**otherwise** the **right-hand** expression. | (3 and 5) is 5.<br/>(0 and 3) is 0.             |
-| 12       | or       | **Returns** the **left-hand** expression **if** the **left-hand** expression **is not 0**,<br/>**otherwise** the **right-hand** expression. | (3 or 5) is 3.<br/>(0 or 3) is 3.               |
-| 13       | ??       | **Returns** the **right-hand** expression **if** the **left-hand** expression **is** **double.NaN**,<br/>**otherwise** the **left-hand** expression. | (5 ?? 7) is 5.<br/>(NaN ?? 7) is 7.             |
-| 14       | ?        | **Returns** the **right-hand** expression **if** the **left-hand** expression **is not 0**,<br/>**otherwise** **double.NaN**. | (2 > 3 ? 5) is NaN.<br/>(2 < 3 ? 5) is 5.       |
-| 15       | :        | **Returns** the **right-hand** expression **if** the **left-hand** expression **is** **double.NaN**,<br/>**otherwise** the **left-hand** expression. | (2 > 3 ? 5 : 7) is 7.<br/>(2 < 3 ? 5 : 7) is 5. |
-
-The built-in **UnaryOpFunctions**:
-
-| Operator | Description                        | Example          |
-| -------- | ---------------------------------- | ---------------- |
-| not      | For an operation of the form `!x`. | not 0 = 1        |
-| +        | For an operation of the form `+x`. | + ( 2 + 3 ) = 5  |
-| -        | For an operation of the form `–x`. | - ( 2 + 3 ) = -5 |
-
-The built-in **BracketFunctions**:
-
-| Operator     | Description                                                  | Example                 |
-| ------------ | ------------------------------------------------------------ | ----------------------- |
-| ( ... )      | High priority operation.                                     | 2 * ( 3 + 5 ) = 16      |
-| abs( ... )   | Returns the absolute value of a double-precision floating-point number. | abs(-2) = 2             |
-| sqrt( ... )  | Returns the square root of a specified number.               | sqrt(9) = 3             |
-| ceil( ... )  | Returns the smallest integral value that is greater than or equal to the specified double-precision floating-point number. | ceil(6.8) = 7           |
-| floor( ... ) | Returns the largest integer less than or equal to the specified double-precision floating-point number. | floor(6.8) = 6          |
-| sin( ... )   | Returns the sine of the specified angle.                     | sin({Math.PI / 2}) = 1  |
-| cos( ... )   | Returns the cosine of the specified angle.                   | cos(0) = 1              |
-| tan( ... )   | Returns the tangent of the specified angle.                  | tan({Math.PI / 4}) = 1  |
-| asin( ... )  | Returns the angle whose sine is the specified number.        | sin(1) = {Math.PI / 2}  |
-| acos( ... )  | Returns the angle whose cosine is the specified number.      | acos(1) = 0             |
-| atan( ... )  | Returns the angle whose tangent is the specified number.     | atan(1) = {Math.PI / 4} |
-| sinh( ... )  | Returns the hyperbolic sine of the specified angle.          | sinh(0.1) = 0.1001...   |
-| cosh( ... )  | Returns the hyperbolic cosine of the specified angle.        | cosh(0.1)  = 1.0050...  |
-| tanh( ... )  | Returns the hyperbolic tangent of the specified angle.       | tanh(0.1) = 0.0996...   |
-
-<br/>
-
-If there are no parameters:
+例如：
 
 ```csharp
 Evaluator.Numerical.Eval("2 >= 3 ? 5 : 7");
 ```
 
-or there is any parameters:
+结果为 ***7***.
+
+<br/>
+
+我们提供了一组丰富的运算符：
+
+| 优先级 | 运算符 | 描述                                                         | 示例                                                |
+| ------ | ------ | ------------------------------------------------------------ | --------------------------------------------------- |
+| 1      | **     | 求幂。                                                       | (2 ** 3) 等于 8.                                    |
+| 3      | //     | 整除，向下取整。                                             | (7 // 5) 等于 1.                                    |
+|        | *      | 乘法。                                                       | (2 * 3) 等于 6.                                     |
+|        | /      | 除法。                                                       | (7 / 5) 等于 1.4.                                   |
+|        | %      | 取模。                                                       | (7 % 5) 等于 2.                                     |
+| 4      | +      | 加法。                                                       | (2 + 3) 等于 5.                                     |
+|        | -      | 减法。                                                       | (7 - 5) 等于 2.                                     |
+| 6      | >      | 大于。                                                       | (7 > 5) 等于 1.                                     |
+|        | \>=    | 大于等于。                                                   | (7 >= 5) 等于 1.                                    |
+|        | <      | 小于。                                                       | (2 < 3) 等于 1.                                     |
+|        | <=     | 小于等于。                                                   | (2 <= 3) 等于 1.                                    |
+| 7      | ==     | 等于。                                                       | (7 == 7) 等于 1.                                    |
+|        | !=     | 不等于。                                                     | (2 != 3) 等于 1.                                    |
+| 11     | and    | 如果 **左表达式** 为 **0**，**返回** **左表达式**，否则 **返回** **右表达式**。 | (3 and 5) 等于 5.<br/>(0 and 3) 等于 0.             |
+| 12     | or     | 如果 **左表达式** 不为 **0**，**返回** **左表达式**，否则 **返回** **右表达式**。 | (3 or 5) 等于 3.<br/>(0 or 3) 等于 3.               |
+| 13     | ??     | 如果 **左表达式** 为 **double.NaN**，**返回** **右表达式**，否则 **返回** **左表达式**。 | (5 ?? 7) 等于 5.<br/>(NaN ?? 7) 等于 7.             |
+| 14     | ?      | 如果 **左表达式** 不为 **0**，**返回** **右表达式**，否则 **返回** **double.NaN**。 | (2 > 3 ? 5) 等于 NaN.<br/>(2 < 3 ? 5) 等于 5.       |
+| 15     | :      | 如果 **左表达式** 为 **double.NaN**，**返回** **右表达式**，否则 **返回** **左表达式**。 | (2 > 3 ? 5 : 7) 等于 7.<br/>(2 < 3 ? 5 : 7) 等于 5. |
+
+内置的 **一元运算符**:
+
+| Operator | Description    | Example          |
+| -------- | -------------- | ---------------- |
+| not      | 等同运算 `!x`. | not 0 = 1        |
+| +        | 等同运算 `+x`. | + ( 2 + 3 ) = 5  |
+| -        | 等同运算 `–x`. | - ( 2 + 3 ) = -5 |
+
+内置的 **运算函数**:
+
+| Operator     | Description                                  | Example                 |
+| ------------ | -------------------------------------------- | ----------------------- |
+| ( ... )      | 高优先级运算。                               | 2 * ( 3 + 5 ) = 16      |
+| abs( ... )   | 返回双精度浮点数的绝对值。                   | abs(-2) = 2             |
+| sqrt( ... )  | 返回指定数值的平方根。                       | sqrt(9) = 3             |
+| ceil( ... )  | 返回大于或等于指定双精度浮点数的最小整数值。 | ceil(6.8) = 7           |
+| floor( ... ) | 返回小于或等于指定双精度浮点数的最大整数。   | floor(6.8) = 6          |
+| sin( ... )   | 返回指定角度的正弦值。                       | sin({Math.PI / 2}) = 1  |
+| cos( ... )   | 返回指定角度的余弦值。                       | cos(0) = 1              |
+| tan( ... )   | 返回指定角度的正切值。                       | tan({Math.PI / 4}) = 1  |
+| asin( ... )  | 返回正弦为指定数值的角度。                   | sin(1) = {Math.PI / 2}  |
+| acos( ... )  | 返回余弦为指定数值的角度。                   | acos(1) = 0             |
+| atan( ... )  | 返回正切为指定数值的角度。                   | atan(1) = {Math.PI / 4} |
+| sinh( ... )  | 返回指定角度的双曲正弦值。                   | sinh(0.1) = 0.1001...   |
+| cosh( ... )  | 返回指定角度的双曲余弦值。                   | cosh(0.1)  = 1.0050...  |
+| tanh( ... )  | 返回指定角度的双曲正切值。                   | tanh(0.1) = 0.0996...   |
+
+<br/>
+
+不带参数的求值示例：
+
+```csharp
+Evaluator.Numerical.Eval("2 >= 3 ? 5 : 7");
+```
+
+带参数的求值求例：
 
 ```csharp
 var exp = "${price} >= 100 ? ${price} * 0.8 : ${price}";
 var func = Evaluator.Numerical.Compile(exp);
 var result = func(new { Price = 100 });
-// The result is 80.
+// 结果为 80.
 ```
 
 ```csharp
@@ -92,7 +92,7 @@ var result = func(new Dictionary<string, double>
 {
     ["price"] = 100
 });
-// The result is 80.
+// 结果为 80.
 ```
 
 ```csharp
@@ -106,55 +106,55 @@ void Main()
     var exp = "${price} >= 100 ? ${price} * 0.8 : ${price}";
     var func = Evaluator.Numerical.Compile<Item>(exp);
     var result = func(new Item { Price = 100 });
-    // The result is 80.
+    // 结果为 80.
 }
 ```
 
-It's worth noting that, these operators ( **?** and **:** ) are specific. Used in combination, it will have the same effect as the ternary operator ( **? :** ).
+值得注意的是，这些运算符（ **?** 和 **:** ）是特定的。 结合使用，它将具有与三元运算符 ( **? :** ) 相同的效果。
 
 <br/>
 
-### Compilation phase
+### 编译阶段
 
-For example, parse the string into a function.
+比如把字符串解析成函数。
 
 ```csharp
 var exp = "${x} + sqrt(abs(${x} * 3)) * 3";
 ```
 
-1. Parse a string into a collection of nodes. 
+1. 将字符串解析为节点集合。
 
-   | Problem   | NodeType                      | IndexΞΞ | Value |
-   | --------- | :---------------------------- | :------ | :---- |
-   |           | Parameter                     | 0       | ${x}  |
-   | Ambiguity | UnaryOperator, BinaryOperator | 5       | +     |
-   |           | StartBracket                  | 7       | sqrt( |
-   |           | StartBracket                  | 12      | abs(  |
-   |           | Parameter                     | 16      | ${x}  |
-   |           | BinaryOperator                | 21      | *     |
-   |           | Operand                       | 23      | 3     |
-   |           | EndBracket                    | 24      | )     |
-   |           | EndBracket                    | 25      | )     |
-   |           | BinaryOperator                | 27      | *     |
-   |           | Operand                       | 29      | 3     |
+   | 问题     | 节点类型                      | 索引 | 值    |
+   | -------- | :---------------------------- | :--- | :---- |
+   |          | Parameter                     | 0    | ${x}  |
+   | 节点歧义 | UnaryOperator, BinaryOperator | 5    | +     |
+   |          | StartBracket                  | 7    | sqrt( |
+   |          | StartBracket                  | 12   | abs(  |
+   |          | Parameter                     | 16   | ${x}  |
+   |          | BinaryOperator                | 21   | *     |
+   |          | Operand                       | 23   | 3     |
+   |          | EndBracket                    | 24   | )     |
+   |          | EndBracket                    | 25   | )     |
+   |          | BinaryOperator                | 27   | *     |
+   |          | Operand                       | 29   | 3     |
 
-2. Disambiguate nodes.
+2. 消除节点歧义。
 
-   | NodeType       | Index | Value |
-   | :------------- | :---- | :---- |
-   | Parameter      | 0     | ${x}  |
-   | BinaryOperator | 5     | +     |
-   | StartBracket   | 7     | sqrt( |
-   | StartBracket   | 12    | abs(  |
-   | Parameter      | 16    | ${x}  |
-   | BinaryOperator | 21    | *     |
-   | Operand        | 23    | 3     |
-   | EndBracket     | 24    | )     |
-   | EndBracket     | 25    | )     |
-   | BinaryOperator | 27    | *     |
-   | Operand        | 29    | 3     |
+   | 节点类型           | 索引 | 值    |
+   | :----------------- | :--- | :---- |
+   | Parameter          | 0    | ${x}  |
+   | **BinaryOperator** | 5    | +     |
+   | StartBracket       | 7    | sqrt( |
+   | StartBracket       | 12   | abs(  |
+   | Parameter          | 16   | ${x}  |
+   | BinaryOperator     | 21   | *     |
+   | Operand            | 23   | 3     |
+   | EndBracket         | 24   | )     |
+   | EndBracket         | 25   | )     |
+   | BinaryOperator     | 27   | *     |
+   | Operand            | 29   | 3     |
 
-3. Build the **Expression**.
+3. 构建 **表达式**。
 
    ```
    (
@@ -175,21 +175,21 @@ var exp = "${x} + sqrt(abs(${x} * 3)) * 3";
    )
    ```
 
-4. Compile the Expression to **Func<object, double>**.
+4. 将表达式编译为 **Func<object, double>**。
 
    ```csharp
    var func = Evaluator.Numerical.Compile(exp);
    ```
 
-5. Call the **Func<object, double>**.
+5. 调用 **Func<object, double>**。
 
-   Use anonymous object:
+   使用 **匿名对象**：
 
    ```csharp
    var result = func(new { x = -3 });
    ```
 
-   or **Dictionary<string, double>**:
+   或者 **Dictionary<string, double>**:
 
    ```csharp
    var result = func(new Dictionary<string, double> 
@@ -200,9 +200,9 @@ var exp = "${x} + sqrt(abs(${x} * 3)) * 3";
 
 <br/>
 
-### Customize evaluator
+### 自定义求值器
 
-There is a simple evaluator which extend **NumericalEvaluator**:
+有一个扩展 **NumericalEvaluator** 的简单求值器：
 
 ```csharp
 public class MyEvaluator : NumericalEvaluator
@@ -210,13 +210,20 @@ public class MyEvaluator : NumericalEvaluator
     public MyEvaluator() : base(false)
     {
         AddUnaryOpFunction("!", value => value != 0d ? 0d : 1d);
-        AddBracketFunction(("|", "|"), value => Math.Abs(value));
+        AddBracketFunction(new("|", "|"), value => Math.Abs(value));
         Initialize();
     }
 }
 ```
 
-Let's evaluate the string:
+- 使用 **| ... |** 计算数值的绝对值。
+- 使用 **!** 对布尔值取反。
+
+**注意：**必须在末尾调用 **Initialize** 方法，以完成初始化。
+
+<br/>
+
+让我们对下面的字符串求值：
 
 ```csharp
 "|-9| + !0"
@@ -227,7 +234,7 @@ var evaluator = new MyEvaluator();
 var result = evaluator.Eval("|-9| + !0");
 // |-9| is abs(-9) = 9
 // !0  is 1
-// The result is 10.
+// 结果为 10.
 ```
 
 <br/>

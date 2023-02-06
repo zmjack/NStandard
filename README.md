@@ -48,6 +48,17 @@ These frameworks are supported:
 
 ## Recently
 
+### Version: 0.20.0
+
+- **BREAKING CHANGE**: Use **StructTuple** instead of **ValueTuple** to provide better compatibility.
+- **BREAKING CHANGE**: Use **Any.Zip** instead of **Zipper** member methods.
+- **BREAKING CHANGE**: Use **AsIndexValuePairs** instead of **AsKeyValuePairs** / **AsKvPairs** methods.
+- **BREAKING CHANGE**: Use **Any.Forward** instead of **ObjectExtension.Forward** method.
+- **BREAKING CHANGE**: Use **Sync** instead of **SyncLazy** type.
+- **BREAKING CHANGE**: Classes **LabelValuePair**, **Zipper**, **SyncLazy** has been removed.
+- A new class **[Sync](https://github.com/zmjack/NStandard/blob/master/docs/en/Sync.md)** is added to support data binding.
+- Adjust precompiled macros to make them more reasonable.
+
 ### Version: 0.17.0
 
 - Add function: **Any.Forward**, iterate by depth.

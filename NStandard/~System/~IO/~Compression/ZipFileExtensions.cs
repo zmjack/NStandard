@@ -1,4 +1,4 @@
-﻿#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
+﻿#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_1_OR_GREATER
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -37,7 +37,7 @@ namespace NStandard
             return entry;
         }
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         public static ZipArchiveEntry CreateEntryFromSource(this ZipArchive @this, ReadOnlySpan<byte> source, string entryName)
         {
             if (@this == null) throw new ArgumentNullException(nameof(@this));

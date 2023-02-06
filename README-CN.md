@@ -48,6 +48,17 @@
 
 ## 最近更新
 
+### 版本：0.20.0
+
+- **重大改变**：使用 **StructTuple** 替代 **ValueTuple** 以提供更好的兼容性。
+- **重大改变**：使用 **Any.Zip** 替代 **Zipper** 的成员方法。
+- **重大改变**：使用 **AsIndexValuePairs** 替代 **AsKeyValuePairs** / **AsKvPairs** 方法。
+- **重大改变**：使用 **Any.Forward** 替代 **ObjectExtension.Forward** 方法。
+- **重大改变**：使用 **Sync** 替代 **SyncLazy** 类型。
+- **重大改变**：已移除类 **LabelValuePair**、**Zipper**、**SyncLazy**。
+- 新增类 **[Sync](https://github.com/zmjack/NStandard/blob/master/docs/cn/Sync.md)**，用于支持数据绑定。
+- 调整预编译宏，使其更加合理。
+
 ### 版本：0.17.0
 
 - 新增函数：**Any.Forward**，深度迭代。
@@ -68,7 +79,7 @@
 
 ### 版本：0.13.0
 
-- **破坏性更新**：为使名称更具可读性，扩展方法类名称从 **X...** 更名为 **...Extensions**。
+- **重大改变**：为使名称更具可读性，扩展方法类名称从 **X...** 更名为 **...Extensions**。
 
 ### 版本：0.8.40
 

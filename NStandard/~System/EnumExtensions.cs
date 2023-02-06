@@ -14,7 +14,7 @@ namespace NStandard
             return EnumEx.GetFlags<T>().Where(x => @this.HasFlag(x)).ToArray();
         }
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
 #else
         public static bool HasFlag(this Enum @this, Enum flag)
         {

@@ -23,7 +23,7 @@ namespace NStandard
             }
         }
 
-#if NET5_0_OR_GREATER
+#if NETCOREAPP3_0_OR_GREATER
         private static ArgumentException Exception_LengthMustBeGreaterThanZero(string paramName) => new($"The length must be greater than 0.", paramName);
         private static ArgumentException Exception_AnyLengthMustBeGreaterThanZero(string paramName) => new($"Any lengths must be greater than 0.", paramName);
         private static ArgumentException Exception_IncompatibleLength(string paramName) => new("The length of sources must be the same as the specified length.", paramName);

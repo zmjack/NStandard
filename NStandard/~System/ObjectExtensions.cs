@@ -1,9 +1,10 @@
-﻿using System;
+﻿using NStandard.Reflection;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
-using System.Reflection;
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
 using System.Dynamic;
+using NStandard.Reflection;
 #endif
 
 namespace NStandard
@@ -83,55 +84,6 @@ namespace NStandard
         public static TRet For<TSelf, TParam, TRet>(this TSelf @this, Func<TSelf, TParam, TRet> convert, TParam param) => convert(@this, param);
 
         /// <summary>
-        /// Calculate the element by path and return the element that meet the stop condition.
-        /// </summary>
-        /// <typeparam name="TSelf"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="forward"></param>
-        /// <param name="stopCondition"></param>
-        /// <returns></returns>
-        [Obsolete("Use Any.Forward instead.")]
-        public static TSelf Forward<TSelf>(this TSelf @this, Func<TSelf, TSelf> forward, Func<TSelf, bool> stopCondition)
-        {
-            var current = @this;
-            while (!stopCondition(current)) current = forward(current);
-            return current;
-        }
-
-        /// <summary>
-        /// Calculate the element by path and return the element that meet the stop condition.
-        /// </summary>
-        /// <typeparam name="TSelf"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="forward"></param>
-        /// <param name="stopCondition"></param>
-        /// <returns></returns>
-        [Obsolete("Use Any.Forward instead.")]
-        public static TSelf Forward<TSelf>(this TSelf @this, Func<TSelf, TSelf> forward, Func<TSelf, int, bool> stopCondition)
-        {
-            var current = @this;
-            for (int degree = 0; !stopCondition(current, degree); degree++) current = forward(current);
-            return current;
-        }
-
-        /// <summary>
-        /// Calculate the element by path and return the element that meet the stop condition.
-        /// </summary>
-        /// <typeparam name="TSelf"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="forward"></param>
-        /// <param name="degree"></param>
-        /// <returns></returns>
-        [Obsolete("Use Any.Forward instead.")]
-        public static TSelf Forward<TSelf>(this TSelf @this, Func<TSelf, TSelf> forward, int degree)
-        {
-            if (degree < 0) throw new ArgumentException("The degree must be nonnegative.", nameof(degree));
-            var current = @this;
-            for (int i = 0; i < degree; i++) current = forward(current);
-            return current;
-        }
-
-        /// <summary>
         /// Determines whether the specified object is null.
         /// </summary>
         /// <param name="this"></param>
@@ -142,7 +94,7 @@ namespace NStandard
         public static Reflector GetReflector(this object @this, Type type) => new(type, @this);
         public static Reflector GetReflector<T>(this object @this) => new(typeof(T), @this);
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
         /// <summary>
         /// Converts the specified object to <see cref="ExpandoObject"/>.
         /// </summary>

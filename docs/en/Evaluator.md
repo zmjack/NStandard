@@ -124,35 +124,35 @@ var exp = "${x} + sqrt(abs(${x} * 3)) * 3";
 
 1. Parse a string into a collection of nodes. 
 
-   | Problem   | NodeType                      | IndexΞΞ | Value |
-   | --------- | :---------------------------- | :------ | :---- |
-   |           | Parameter                     | 0       | ${x}  |
-   | Ambiguity | UnaryOperator, BinaryOperator | 5       | +     |
-   |           | StartBracket                  | 7       | sqrt( |
-   |           | StartBracket                  | 12      | abs(  |
-   |           | Parameter                     | 16      | ${x}  |
-   |           | BinaryOperator                | 21      | *     |
-   |           | Operand                       | 23      | 3     |
-   |           | EndBracket                    | 24      | )     |
-   |           | EndBracket                    | 25      | )     |
-   |           | BinaryOperator                | 27      | *     |
-   |           | Operand                       | 29      | 3     |
+   | Problem   | NodeType                      | Index | Value |
+   | --------- | :---------------------------- | :---- | :---- |
+   |           | Parameter                     | 0     | ${x}  |
+   | Ambiguity | UnaryOperator, BinaryOperator | 5     | +     |
+   |           | StartBracket                  | 7     | sqrt( |
+   |           | StartBracket                  | 12    | abs(  |
+   |           | Parameter                     | 16    | ${x}  |
+   |           | BinaryOperator                | 21    | *     |
+   |           | Operand                       | 23    | 3     |
+   |           | EndBracket                    | 24    | )     |
+   |           | EndBracket                    | 25    | )     |
+   |           | BinaryOperator                | 27    | *     |
+   |           | Operand                       | 29    | 3     |
 
 2. Disambiguate nodes.
 
-   | NodeType       | Index | Value |
-   | :------------- | :---- | :---- |
-   | Parameter      | 0     | ${x}  |
-   | BinaryOperator | 5     | +     |
-   | StartBracket   | 7     | sqrt( |
-   | StartBracket   | 12    | abs(  |
-   | Parameter      | 16    | ${x}  |
-   | BinaryOperator | 21    | *     |
-   | Operand        | 23    | 3     |
-   | EndBracket     | 24    | )     |
-   | EndBracket     | 25    | )     |
-   | BinaryOperator | 27    | *     |
-   | Operand        | 29    | 3     |
+   | NodeType           | Index | Value |
+   | :----------------- | :---- | :---- |
+   | Parameter          | 0     | ${x}  |
+   | **BinaryOperator** | 5     | +     |
+   | StartBracket       | 7     | sqrt( |
+   | StartBracket       | 12    | abs(  |
+   | Parameter          | 16    | ${x}  |
+   | BinaryOperator     | 21    | *     |
+   | Operand            | 23    | 3     |
+   | EndBracket         | 24    | )     |
+   | EndBracket         | 25    | )     |
+   | BinaryOperator     | 27    | *     |
+   | Operand            | 29    | 3     |
 
 3. Build the **Expression**.
 
@@ -183,7 +183,7 @@ var exp = "${x} + sqrt(abs(${x} * 3)) * 3";
 
 5. Call the **Func<object, double>**.
 
-   Use anonymous object:
+   Use **anonymous object**:
 
    ```csharp
    var result = func(new { x = -3 });
@@ -210,11 +210,18 @@ public class MyEvaluator : NumericalEvaluator
     public MyEvaluator() : base(false)
     {
         AddUnaryOpFunction("!", value => value != 0d ? 0d : 1d);
-        AddBracketFunction(("|", "|"), value => Math.Abs(value));
+        AddBracketFunction(new("|", "|"), value => Math.Abs(value));
         Initialize();
     }
 }
 ```
+
+- Use **| ... |** to calculate the absolute value of a number.
+- Use **!** to invert a boolean.
+
+**Note:** You must call the **Initialize** method at the end to complete the initialization.
+
+<br/>
 
 Let's evaluate the string:
 

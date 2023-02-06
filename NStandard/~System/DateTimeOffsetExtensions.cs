@@ -68,7 +68,7 @@ namespace NStandard
             return (PastDay(@this, weekStart, true) - week0).Days / 7;
         }
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
 #else
         /// <summary>
         /// Returns the number of milliseconds that have elapsed since 1970-01-01T00:00:00.000Z.

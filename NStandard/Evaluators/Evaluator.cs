@@ -30,11 +30,7 @@ namespace NStandard.Evaluators
         protected abstract Dictionary<string, UnaryOpFunc<Expression>> UnaryOpFunctions { get; }
         protected abstract Dictionary<string, BinaryOpFunc<Expression>> BinaryOpFunctions { get; }
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
-        protected abstract Dictionary<(string, string), UnaryOpFunc<double>> BracketFunctions { get; }
-#else
-        protected abstract Dictionary<Tuple<string, string>, UnaryOpFunc<double>> BracketFunctions { get; }
-#endif
+        protected abstract Dictionary<Bracket, UnaryOpFunc<double>> BracketFunctions { get; }
 
         protected string[] UnaryOperators { get; private set; }
         protected string[] BinaryOperators { get; private set; }
@@ -62,11 +58,11 @@ namespace NStandard.Evaluators
         {
             UnaryOperators = UnaryOpFunctions.Keys.ToArray();
             BinaryOperators = BinaryOpFunctions.Keys.ToArray();
-            StartBrackets = BracketFunctions.Select(x => x.Key.Item1).Distinct().ToArray();
-            EndBrackets = BracketFunctions.Select(x => x.Key.Item2).Distinct().ToArray();
+            StartBrackets = BracketFunctions.Select(x => x.Key.Start).Distinct().ToArray();
+            EndBrackets = BracketFunctions.Select(x => x.Key.End).Distinct().ToArray();
             StartBracketMap = BracketFunctions
-                .Select(x => x.Key).GroupBy(x => x.Item2)
-                .ToDictionary(x => x.Key, x => x.Select(i => i.Item1)
+                .Select(x => x.Key).GroupBy(x => x.End)
+                .ToDictionary(x => x.Key, x => x.Select(i => i.Start)
                 .ToArray());
 
             OperandRegex = new Regex(OperandRegexString);
@@ -244,11 +240,7 @@ namespace NStandard.Evaluators
         protected string GetDebugString(string prompt, string exp, Node node) => $@"{prompt}{Environment.NewLine}{exp}{Environment.NewLine}{" ".Repeat(node.Index)}↑";
         protected double Bracket(string start, string end, double operand)
         {
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
-            return BracketFunctions[(start, end)](operand);
-#else
-            return BracketFunctions[Tuple.Create(start, end)](operand);
-#endif
+            return BracketFunctions[new(start, end)](operand);
         }
 
         public Expression GetExpression(string exp, out ParameterExpression dictionary)
@@ -323,11 +315,7 @@ namespace NStandard.Evaluators
                         var operand = stack.Pop();
                         stack.Pop();
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
-                        var func = BracketFunctions[(startBracketValue, endBracketValue)];
-#else
-                        var func = BracketFunctions[Tuple.Create(startBracketValue, endBracketValue)];
-#endif
+                        var func = BracketFunctions[new(startBracketValue, endBracketValue)];
                         if (func is null) stack.Push(operand);
                         else stack.Push(new NodeExpressionPair
                         {
@@ -465,11 +453,7 @@ namespace NStandard.Evaluators
             return lambda.Compile();
         }
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
-        public void AddBracketFunction((string, string) key, UnaryOpFunc<double> value) => BracketFunctions.Add(key, value);
-#else
-        public void AddBracketFunction(Tuple<string, string> key, UnaryOpFunc<double> value) => BracketFunctions.Add(key, value);
-#endif
+        public void AddBracketFunction(Bracket key, UnaryOpFunc<double> value) => BracketFunctions.Add(key, value);
         public void AddUnaryOpFunction(string key, UnaryOpFunc<double> value) => UnaryOpFunctions.Add(key, exp => Expression.Call(Expression.Constant(value.Target), value.Method, exp));
         public void AddBinaryOpFunction(string key, BinaryOpFunc<double> value) => BinaryOpFunctions.Add(key, (left, rigth) => Expression.Call(Expression.Constant(value.Target), value.Method, left, rigth));
         public void AddBinaryOpLevel(string key, int value) => BinaryOpLevels.Add(key, value);

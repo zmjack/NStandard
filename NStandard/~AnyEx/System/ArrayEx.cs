@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 #if NET5_0_OR_GREATER
@@ -13,7 +12,7 @@ namespace NStandard
         private static ArgumentException Exception_InsufficientElements(string paramName) => new("Insufficient elements in source array.", paramName);
         private static ArgumentException Exception_CopyingOverflow(string paramName) => new("Copying the specified array results in overflow.", paramName);
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
 #else
         private static class EmptyArray<T>
         {
@@ -40,15 +39,8 @@ namespace NStandard
             if (destination.GetSequenceLength() < count) throw Exception_CopyingOverflow(nameof(source));
 
             var stepper = new IndicesStepper(0, destination.GetLengths());
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
             foreach (var (value, indices) in Any.Zip(source, stepper))
             {
-#else
-            foreach (var pair in Any.Zip(source, stepper, (Value, Indices) => new { Value, Indices }))
-            {
-                var value = pair.Value;
-                var indices = pair.Indices;
-#endif
                 destination.SetValue(value, indices);
             }
         }
@@ -68,20 +60,13 @@ namespace NStandard
             if ((destination.GetSequenceLength() - destinationIndex) < length) throw Exception_CopyingOverflow(nameof(source));
 
             var stepper = new IndicesStepper(destinationIndex, destination.GetLengths());
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
             foreach (var (value, indices) in Any.Zip(source.Skip(sourceIndex).Take(length), stepper))
             {
-#else
-            foreach (var pair in Any.Zip(source.Skip(sourceIndex).Take(length), stepper, (Value, Indices) => new { Value, Indices }))
-            {
-                var value = pair.Value;
-                var indices = pair.Indices;
-#endif
                 destination.SetValue(value, indices);
             }
         }
 
-#if NET5_0_OR_GREATER
+#if NETCOREAPP3_0_OR_GREATER
         /// <summary>
         /// Assign values to arrays of indeterminate dimensions using one-dimensional arrays.
         /// </summary>

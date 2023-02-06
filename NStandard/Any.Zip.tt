@@ -8,6 +8,7 @@
 <#
     int maxArgs = 8;
 #>
+using NStandard.ValueTuples;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,6 @@ namespace NStandard
     public static partial class Any
     {
         #region ValueTuple
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
 <#
     for(int t = 1; t <= maxArgs; t++)
     {
@@ -26,7 +26,6 @@ namespace NStandard
 <#
     }
 #>
-#endif
         #endregion
 
         #region with Selector
@@ -58,25 +57,25 @@ namespace NStandard
 private string Code_Zip(int argc)
 {
     var summary = @"/// <summary>
-        ///    Produces a sequence of tuples with elements from the specified sequences.
+        /// Produces a sequence of tuples with elements from the specified sequences.
         /// </summary>";
 
     if (argc > 1)
     {
-        var generics = Code_Generics(argc);
-        var genericsCode = string.Join(", ", generics.Select(i => $"T{i}"));
+        var indices = GetIndices(argc);
+        var genericsCode = string.Join(", ", indices.Select(i => $"T{i}"));
 
         return $@"{summary}
-        public static IEnumerable<({genericsCode})> Zip<{genericsCode}>(
-            {string.Join($",{Environment.NewLine}{Tabs(3)}", generics.Select(i => $"IEnumerable<T{i}> arg{i}"))}
+        public static IEnumerable<StructTuple<{genericsCode}>> Zip<{genericsCode}>(
+            {string.Join($",{Environment.NewLine}{Tabs(3)}", indices.Select(i => $"IEnumerable<T{i}> arg{i}"))}
         )
         {{
-            {string.Join($"{Environment.NewLine}{Tabs(3)}", generics.Select(i => $"using IEnumerator<T{i}> e{i} = arg{i}.GetEnumerator();"))}
+            {string.Join($"{Environment.NewLine}{Tabs(3)}", indices.Select(i => $"using IEnumerator<T{i}> e{i} = arg{i}.GetEnumerator();"))}
 
-            while ({string.Join($"{Environment.NewLine}{Tabs(4)}&& ", generics.Select(i => $"e{i}.MoveNext()"))})
+            while ({string.Join($"{Environment.NewLine}{Tabs(4)}&& ", indices.Select(i => $"e{i}.MoveNext()"))})
             {{
-                yield return (
-                    {string.Join($",{Environment.NewLine}{Tabs(5)}", generics.Select(i => $"e{i}.Current"))}
+                yield return new(
+                    {string.Join($",{Environment.NewLine}{Tabs(5)}", indices.Select(i => $"e{i}.Current"))}
                 );
             }}
         }}";
@@ -104,21 +103,21 @@ private string Code_ZipWithSelector(int argc)
 
     if (argc > 1)
     {
-        var generics = Code_Generics(argc);
-        var genericsCode = string.Join(", ", generics.Select(i => $"T{i}"));
+        var indices = GetIndices(argc);
+        var genericsCode = string.Join(", ", indices.Select(i => $"T{i}"));
 
         return $@"{summary}
         public static IEnumerable<TRet> Zip<{genericsCode}, TRet>(
-            {string.Join($",{Environment.NewLine}{Tabs(3)}", generics.Select(i => $"IEnumerable<T{i}> arg{i}"))},
+            {string.Join($",{Environment.NewLine}{Tabs(3)}", indices.Select(i => $"IEnumerable<T{i}> arg{i}"))},
             Func<{genericsCode}, TRet> resultSelector
         )
         {{
-            {string.Join($"{Environment.NewLine}{Tabs(3)}", generics.Select(i => $"using IEnumerator<T{i}> e{i} = arg{i}.GetEnumerator();"))}
+            {string.Join($"{Environment.NewLine}{Tabs(3)}", indices.Select(i => $"using IEnumerator<T{i}> e{i} = arg{i}.GetEnumerator();"))}
 
-            while ({string.Join($"{Environment.NewLine}{Tabs(4)}&& ", generics.Select(i => $"e{i}.MoveNext()"))})
+            while ({string.Join($"{Environment.NewLine}{Tabs(4)}&& ", indices.Select(i => $"e{i}.MoveNext()"))})
             {{
                 yield return resultSelector(
-                    {string.Join($",{Environment.NewLine}{Tabs(5)}", generics.Select(i => $"e{i}.Current"))}
+                    {string.Join($",{Environment.NewLine}{Tabs(5)}", indices.Select(i => $"e{i}.Current"))}
                 );
             }}
         }}";
@@ -147,7 +146,7 @@ private string Tabs(int count)
     return sb.ToString();
 }
 
-private IEnumerable<int> Code_Generics(int argc)
+private IEnumerable<int> GetIndices(int argc)
 {
     for (int i = 1; i <= argc; i++)
     {

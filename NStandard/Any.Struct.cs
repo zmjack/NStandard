@@ -18,8 +18,8 @@ namespace NStandard
                 {
                     char t => BitConverter.GetBytes(t),
                     bool t => BitConverter.GetBytes(t),
-                    byte t => BitConverter.GetBytes(t),
-                    sbyte t => BitConverter.GetBytes(t),
+                    byte t => new[] { t },
+                    sbyte t => new[] { (byte)t },
                     short t => BitConverter.GetBytes(t),
                     ushort t => BitConverter.GetBytes(t),
                     int t => BitConverter.GetBytes(t),
@@ -28,6 +28,9 @@ namespace NStandard
                     ulong t => BitConverter.GetBytes(t),
                     float t => BitConverter.GetBytes(t),
                     double t => BitConverter.GetBytes(t),
+#if NET6_0_OR_GREATER
+                    Half t => BitConverter.GetBytes(t),
+#endif
                     _ => throw new NotSupportedException($"Any.Struct.Cast does not support {obj.GetType()}."),
                 };
 
@@ -45,6 +48,9 @@ namespace NStandard
                     Type t when t == typeof(ulong) => (T)(BitConverter.ToUInt64(bytes, 0) as object),
                     Type t when t == typeof(float) => (T)(BitConverter.ToSingle(bytes, 0) as object),
                     Type t when t == typeof(double) => (T)(BitConverter.ToDouble(bytes, 0) as object),
+#if NET6_0_OR_GREATER
+                    Type t when t == typeof(double) => (T)(BitConverter.ToHalf(bytes, 0) as object),
+#endif
                     _ => throw new NotSupportedException($"Any.Struct.Cast does not support {typeof(T)}."),
                 };
             }

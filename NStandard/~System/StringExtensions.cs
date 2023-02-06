@@ -20,6 +20,7 @@ namespace NStandard
         /// <returns></returns>
         public static bool IsNullOrEmpty(this string @this) => string.IsNullOrEmpty(@this);
 
+
         /// <summary>
         /// Indicates whether a specified string is null, empty, or consists only of white-space characters.
         /// </summary>

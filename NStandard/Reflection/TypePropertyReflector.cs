@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace NStandard
+namespace NStandard.Reflection
 {
     public class TypePropertyReflector : TypeReflector
     {

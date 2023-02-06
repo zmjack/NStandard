@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace NStandard
+namespace NStandard.Reflection
 {
     public class MethodReflector
     {

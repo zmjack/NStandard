@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net5;net6</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.12.0</Version>
+    <Version>0.20.0</Version>
     <Authors>zmjack</Authors>
     <Copyright>Copyright © nstandard.net 2020</Copyright>
     <Company>nstandard.net</Company>

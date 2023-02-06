@@ -68,6 +68,7 @@ namespace NStandard.Runtime
         // .NET 5.0 and later has NetCoreApp identifier
         public static DotNetFramework Net50 = new(".NET 5+ (and .NET Core)", "net", "net5.0", new Version(5, 0, 0), true, 401);
         public static DotNetFramework Net60 = new(".NET 5+ (and .NET Core)", "net", "net6.0", new Version(6, 0, 0), true, 402);
+        public static DotNetFramework Net70 = new(".NET 5+ (and .NET Core)", "net", "net7.0", new Version(7, 0, 0), true, 403);
 
         static DotNetFramework()
         {
@@ -112,6 +113,7 @@ namespace NStandard.Runtime
 
             Net50.CompatibilityFrameworks = CombineFrameworks(new[] { Net50 }, NetCoreApp31);
             Net60.CompatibilityFrameworks = CombineFrameworks(new[] { Net60 }, Net50);
+            Net70.CompatibilityFrameworks = CombineFrameworks(new[] { Net70 }, Net60);
         }
 
         public static readonly DotNetFramework[] SupportedFrameworks = new[]
@@ -123,7 +125,7 @@ namespace NStandard.Runtime
             NetCoreApp10, NetCoreApp11,
             NetCoreApp20, NetCoreApp21, NetCoreApp22,
             NetCoreApp30, NetCoreApp31,
-            Net50, Net60,
+            Net50, Net60, Net70
         };
 
         public static DotNetFramework Parse(string tfm)

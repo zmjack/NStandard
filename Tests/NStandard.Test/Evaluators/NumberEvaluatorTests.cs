@@ -16,7 +16,7 @@ namespace NStandard.Evaluators.Test
             public MyEvaluator() : base(false)
             {
                 AddUnaryOpFunction("!", value => value != 0d ? 0d : 1d);
-                AddBracketFunction(("|", "|"), value => Math.Abs(value));
+                AddBracketFunction(new("|", "|"), value => Math.Abs(value));
                 Initialize();
             }
         }

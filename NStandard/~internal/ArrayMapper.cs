@@ -18,7 +18,7 @@ namespace NStandard
             if (match.Success)
             {
                 var captures = match.Groups[1].Captures;
-#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                 return captures.Select(x => x.Length - 1).ToArray();
 #else
                 return captures.OfType<Capture>().Select(x => x.Length - 1).ToArray();
@@ -26,7 +26,7 @@ namespace NStandard
             }
             else
             {
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
                 return Array.Empty<int>();
 #else 
                 return ArrayEx.Empty<int>();
@@ -78,32 +78,16 @@ namespace NStandard
 
             if (elementType != underlyingType)
             {
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
-                foreach (var iv in sourceVisitor.GetValues().AsIndexValuePairs())
+                foreach (var (index, value) in sourceVisitor.GetValues().AsIndexValuePairs())
                 {
-                    var (index, value) = iv;
-#else
-                foreach (var pair in sourceVisitor.GetValues().AsKeyValuePairs())
-                {
-                    var index = pair.Key;
-                    var value = pair.Value;
-#endif
                     var array = InnerMap(value as Array, elementReversedRanks.Take(elementReversedRanks.Length - 1).ToArray(), underlyingType, convert);
                     targetVisitor.SetValue(array, index);
                 }
             }
             else
             {
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
-                foreach (var iv in sourceVisitor.GetValues().AsIndexValuePairs())
+                foreach (var (index, value) in sourceVisitor.GetValues().AsIndexValuePairs())
                 {
-                    var (index, value) = iv;
-#else
-                foreach (var pair in sourceVisitor.GetValues().AsKeyValuePairs())
-                {
-                    var index = pair.Key;
-                    var value = pair.Value;
-#endif
                     var finalValue = convert((TConvertFrom)value);
                     targetVisitor.SetValue(finalValue, index);
                 }

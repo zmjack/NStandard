@@ -139,7 +139,7 @@ namespace NStandard
             }
             else if (length == 0)
             {
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
                 return Array.Empty<T>();
 #else
                 return ArrayEx.Empty<T>();

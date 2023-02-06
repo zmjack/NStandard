@@ -31,10 +31,10 @@ namespace NStandard.Schema
             int lastIndex = length - 1;
             var enumerators = enumerables.Select(x => x.GetEnumerator()).ToArray();
 
-            foreach (var kv in enumerators.AsKeyValuePairs())
+            foreach (var kv in enumerators.AsIndexValuePairs())
             {
                 var enumerator = kv.Value;
-                if (!enumerator.MoveNext()) lastIndex = kv.Key - 1;
+                if (!enumerator.MoveNext()) lastIndex = kv.Index - 1;
             }
 
             bool next(int pos)

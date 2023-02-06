@@ -6,7 +6,7 @@ using System.IO;
 namespace NStandard.Debug
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public static class XObject
+    public static class ObjectExtensions
     {
         public static string GetDumpString<TSelf>(this TSelf @this)
         {

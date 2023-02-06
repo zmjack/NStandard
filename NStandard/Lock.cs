@@ -26,10 +26,10 @@ namespace NStandard
         public bool Wait(TimeSpan timeout) => Monitor.Wait(ObjectLock, timeout);
         public bool Wait(TimeSpan timeout, bool exitContext) => Monitor.Wait(ObjectLock, timeout, exitContext);
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
         public bool IsEntered() => Monitor.IsEntered(ObjectLock);
 #endif
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
         public void Enter(ref bool lockTaken) => Monitor.Enter(ObjectLock, ref lockTaken);
         public void TryEnter(TimeSpan timeout, ref bool lockTaken) => Monitor.TryEnter(ObjectLock, timeout, ref lockTaken);
         public void TryEnter(int millisecondsTimeout, ref bool lockTaken) => Monitor.TryEnter(ObjectLock, millisecondsTimeout, ref lockTaken);

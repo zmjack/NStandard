@@ -6,13 +6,13 @@
 
 ## DpContainer
 
-**DpContainer** is used for dynamic programming calculations.
+**DpContainer** 用于动态规划计算。
 
 <br/>
 
-Take the **Fibonacci** function as an example.
+以**斐波那契**函数为例。
 
-### Recursion Code:
+### 递归代码：
 
 ```csharp
 int Fib(int n)
@@ -27,7 +27,7 @@ void Main()
 }
 ```
 
-### DP Code 1 (Using class):
+### DP 代码 1（使用 class）:
 
 ```csharp
 class DpFib : DpContainer<int, int>
@@ -46,7 +46,7 @@ void Main()
 }
 ```
 
-### DP Code 2 (Using function):
+### DP 代码 2（使用函数）:
 
 ```csharp
 int Fib(DefaultDpContainer<int, int> dp, int n)
@@ -64,13 +64,13 @@ void Main()
 
 <br/>
 
-The correct answer is **433494437**.
+正确结果是 **433494437**.
 
-And the time required for the above code to get the correct result is roughly as follows:
+上述代码得到正确结果所需的时间大致如下：
 
-|      | Name                       | Elapsed              |
-| ---- | -------------------------- | -------------------- |
-|      | Recursion Code             | about 3.823 seconds. |
-| *    | DP Code 1 (Using class)    | about 0.010 seconds. |
-|      | DP Code 2 (Using function) | about 0.011 seconds. |
+|      | Name                    | Elapsed       |
+| ---- | ----------------------- | ------------- |
+|      | 递归代码                | 约 3.823 秒。 |
+| *    | DP 代码 1（使用 class） | 约 0.010 秒。 |
+|      | DP 代码 2（使用函数）   | 约 0.011 秒。 |
 

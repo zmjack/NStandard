@@ -1,7 +1,7 @@
 ﻿using NStandard.Converts;
 using System;
 using System.Text;
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
 using System.Net;
 #else
 using System.Web;
@@ -23,7 +23,7 @@ namespace NStandard.Flows
         public static Guid GuidFromBase64(string str) => new(str.For(BytesFromBase64));
         public static Guid GuidFromUrlSafeBase64(string str) => new(str.For(BytesFromUrlSafeBase64));
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET461_OR_GREATER
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
         public static string UrlEncode(string str) => WebUtility.UrlEncode(str);
         public static string UrlDecode(string str) => WebUtility.UrlDecode(str);
         public static string UrlEncode(string str, Encoding e)

@@ -269,7 +269,7 @@ namespace NStandard
         }
         public static object CreateInstance(this Type @this)
         {
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
             var args = Array.Empty<object>();
 #else
             var args = ArrayEx.Empty<object>();
