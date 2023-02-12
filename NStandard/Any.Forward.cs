@@ -6,7 +6,7 @@ namespace NStandard
     public static partial class Any
     {
         /// <summary>
-        /// Calculate the element by path and return the element.
+        /// Computes the element by path and returns the element.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="seed"></param>

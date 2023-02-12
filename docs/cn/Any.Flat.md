@@ -1,9 +1,3 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## Any.Flat
 
 创建一个包含指定多维数组的所有元素的一维枚举。

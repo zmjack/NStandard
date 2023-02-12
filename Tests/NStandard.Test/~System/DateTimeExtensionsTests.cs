@@ -78,7 +78,7 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void AddTotalYearDiffTest()
+        public void AddTotalYearsTest()
         {
             Assert.Equal(new DateTime(2001, 3, 1), new DateTime(2000, 2, 29).AddTotalYears(1));
             Assert.Equal(new DateTime(2000, 3, 1), new DateTime(2001, 3, 1).AddTotalYears(-1));
@@ -88,7 +88,7 @@ namespace NStandard.Test
         }
 
         [Fact]
-        public void AddMonthDiffTest()
+        public void AddTotalMonthsTest()
         {
             Assert.Equal(new DateTime(2000, 5, 1), DateTimeExtensions.AddTotalMonths(new DateTime(2000, 3, 31), 1));
             Assert.Equal(new DateTime(2000, 4, 1), DateTimeExtensions.AddTotalMonths(new DateTime(2000, 5, 1), -1));

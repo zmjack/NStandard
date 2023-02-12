@@ -1,26 +1,20 @@
-# NStandard
+## State
 
-**.NET** extension library for system library.
-
-<br/>
-
-## Sync
-
-**Sync** 用来进行数据绑定。
+**State** 用来进行数据绑定。
 
 <br/>
 
-例如，这里有两个类型为 **Sync\<int\>** 变量 `a` `b`。
+例如，这里有两个类型为 **State\<int\>** 变量 `a` `b`。
 
 ```csharp
-using var a = new Sync<int>(2);
-using var b = new Sync<int>(3);
+using var a = State.Use(2);
+using var b = State.Use(3);
 ```
 
 以及一个通过 `a + b` 自动计算得到的变量 `c`。
 
 ```csharp
-using var c = Sync.From(() => a + b);
+using var c = State.From(() => a + b);
 // c.Value 的值为 5。
 Console.WriteLine(c.Value);
 ```
@@ -37,40 +31,40 @@ Console.WriteLine(c.Value);
 
 ### 实现过程
 
-**Sync** 会在创建时收集依赖，并为每个依赖项绑定通知函数。
+**State** 会在创建时收集依赖，并为每个依赖项绑定通知函数。
 
-随后，若依赖项的值发生变化，会通知到目标 **Sync** 对象为当前值设置过期。
+随后，若依赖项的值发生变化，会通知到目标 **State** 对象为当前值设置过期。
 
-**Sync** 对象在获取值时，如果当前值已过期，则会重新计算最新值并缓存。
-
-<br/>
-
-一般来说，**Sync** 应该与 **using** 一起使用，以避免可能的内存泄漏。
-
-但这不并不是必须的，你仍然可以通过手动管理来提升性能，特别是对大量 **Sync** 对象管理。
+**State** 对象在获取值时，如果当前值已过期，则会重新计算最新值并缓存。
 
 <br/>
 
-下面通过例子来说明 **Sync** 是如何工作的。
+一般来说，**State** 应该与 **using** 一起使用，以避免可能的内存泄漏。
+
+但这不并不是必须的，你仍然可以通过手动管理来提升性能，特别是对大量 **State** 对象管理。
+
+<br/>
+
+下面通过例子来说明 **State** 是如何工作的。
 
 1. 定义变量 `a` `b`：
 
    ```csharp
-   using var a = new Sync<int>(2);
-   using var b = new Sync<int>(3);
+   using var a = State.Use(2);
+   using var b = State.Use(3);
    ```
 
-   ![Sync-001.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-001.png?raw=true)
+   ![State-001.png](https://github.com/zmjack/NStandard/blob/master/docs/images/State-001.png?raw=true)
 
 2. 定义变量 `c`，取值为 `a + b`。
 
    （该操作会同时会为 `a` `b` 订阅通知事件。）
 
    ```csharp
-   var c = Sync.From(() => a + b);
+   var c = State.From(() => a + b);
    ```
    
-   ![Sync-002.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-002.png?raw=true)
+   ![State-002.png](https://github.com/zmjack/NStandard/blob/master/docs/images/State-002.png?raw=true)
    
 3. 获取 `c` 值并输出。
 
@@ -80,7 +74,7 @@ Console.WriteLine(c.Value);
    Console.WriteLine(c.Value);
    ```
 
-   ![Sync-003.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-003.png?raw=true)
+   ![State-003.png](https://github.com/zmjack/NStandard/blob/master/docs/images/State-003.png?raw=true)
 
 4. 改变 `a` 值为 7。
 
@@ -90,7 +84,7 @@ Console.WriteLine(c.Value);
    a.Value = 7;
    ```
 
-   ![Sync-004.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-004.png?raw=true)
+   ![State-004.png](https://github.com/zmjack/NStandard/blob/master/docs/images/State-004.png?raw=true)
 
 5. 重新获取 `c` 值并输出。
 
@@ -100,7 +94,7 @@ Console.WriteLine(c.Value);
    Console.WriteLine(c.Value);
    ```
 
-   ![Sync-005.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-005.png?raw=true)
+   ![State-005.png](https://github.com/zmjack/NStandard/blob/master/docs/images/State-005.png?raw=true)
    
 6. 处置 `c`。
 
@@ -110,7 +104,7 @@ Console.WriteLine(c.Value);
    c.Dispose();
    ```
 
-   ![Sync-006.png](https://github.com/zmjack/NStandard/blob/master/docs/images/Sync-006.png?raw=true)
+   ![State-006.png](https://github.com/zmjack/NStandard/blob/master/docs/images/State-006.png?raw=true)
 
 <br/>
 
@@ -118,37 +112,37 @@ Console.WriteLine(c.Value);
 
 参考下面的例子：
 
-- **root** 为 **static** **Sync** 对象。
-- 成员函数中的 **Sync** 对象数组，依赖于 **root**。
-- 因为这些 **Sync** 对象订阅了 **static** **Sync** 的更新通知，所以在函数生命周期结束时，它们不会被回收。
+- **root** 为 **static** **State** 对象。
+- 成员函数中的 **State** 对象数组，依赖于 **root**。
+- 因为这些 **State** 对象订阅了 **static** **State** 的更新通知，所以在函数生命周期结束时，它们不会被回收。
 - 为了避免内存泄漏，应该使用 **using** 或手动调用 **Dispose**。
 - 调用被订阅者的 **Release** 方法，取消依赖于该对象的所有订阅，也能够避免内存泄漏，并且执行效率更高。
 
 ```csharp
 class Program
 {
-    static Sync<int> root = new Sync<int>(1);
+    static State<int> root = State.Use(1);
 
     static void Main(string[] args)
     {
         PrintMemory("Beginning:");
         
-        MakeSomeSyncObjects(1_000);
+        MakeSomeStateObjects(1_000);
         PrintMemory("Before release:");
         
         root.Release();
         PrintMemory("After release:");
     }
     
-    static void MakeSomeSyncObjects(int count)
+    static void MakeSomeStateObjects(int count)
     {
-        var syncs = new Sync<int>[count];
+        var States = new State<int>[count];
         for (int i = 0; i < count; i++)
         {
             var index = i;
-            syncs[i] = Sync.From(() => root + index);
+            States[i] = State.From(() => root + index);
         }
-        //syncs.DisposeAll();
+        //States.DisposeAll();
     }
     
     static void PrintMemory(string title)

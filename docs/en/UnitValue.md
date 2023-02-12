@@ -1,9 +1,3 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## UnitValue
 
 **UnitValue** is used to perform numeric operations with units.

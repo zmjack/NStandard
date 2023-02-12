@@ -5,6 +5,13 @@ namespace NStandard
 {
     public static class DpContainer
     {
+        /// <summary>
+        /// Provides dynamic programing feature.
+        /// </summary>
+        /// <typeparam name="TIn"></typeparam>
+        /// <typeparam name="TOut"></typeparam>
+        /// <param name="stateTransferFunc"></param>
+        /// <returns></returns>
         public static DefaultDpContainer<TIn, TOut> Create<TIn, TOut>(Func<DefaultDpContainer<TIn, TOut>, TIn, TOut> stateTransferFunc) => new(stateTransferFunc);
     }
 

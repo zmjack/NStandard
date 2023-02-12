@@ -4,25 +4,25 @@ using Xunit;
 
 namespace NStandard.Test
 {
-    public class SyncTests
+    public class StateTests
     {
         [Fact]
         public void BindTest()
         {
-            using var a = new Sync<int>(1);
-            using var r = Sync.From(() => a + a);
+            using var a = State.Use(1);
+            using var r = State.From(() => a + a);
             Assert.Single(r.Dependencies);
         }
 
         [Fact]
         public void ArrayTest()
         {
-            var syncs = new Sync<int>[]
+            var syncs = new State<int>[]
             {
-                new Sync<int>(1),
-                new Sync<int>(2),
+                State.Use(1),
+                State.Use(2),
             };
-            using var result = Sync.From(() => syncs.Select(x => x.Value).Sum());
+            using var result = State.From(() => syncs.Select(x => x.Value).Sum());
 
             Assert.False(result.IsValueCreated);
             Assert.Equal(3, result.Value);
@@ -38,8 +38,8 @@ namespace NStandard.Test
         [Fact]
         public void NewTest()
         {
-            using var a = new Sync<int>(1);
-            using var result = Sync.From(() => new { a.Value }.Value);
+            using var a = State.Use(1);
+            using var result = State.From(() => new { a.Value }.Value);
 
             Assert.False(result.IsValueCreated);
             Assert.Equal(1, result.Value);
@@ -49,9 +49,9 @@ namespace NStandard.Test
         [Fact]
         public void NewArrayTest()
         {
-            using var a = new Sync<int>();
-            using var b = new Sync<double>(1);
-            using var result = Sync.From(() => new[] { a.Value, b.Value }.Sum());
+            using var a = State.Use<int>();
+            using var b = State.Use(1);
+            using var result = State.From(() => new[] { a.Value, b.Value }.Sum());
 
             Assert.False(result.IsValueCreated);
             Assert.Equal(1, result.Value);
@@ -67,8 +67,8 @@ namespace NStandard.Test
         [Fact]
         public void OnChangeTest()
         {
-            using var a = new Sync<int>();
-            using var result = Sync.From(() => new { a.Value }.Value);
+            using var a = State.Use<int>();
+            using var result = State.From(() => new { a.Value }.Value);
 
             a.Changed += value => Assert.Equal(0, value % 2);
             a.Value = (int)(DateTime.Now.Ticks % 100) * 2;
@@ -77,13 +77,13 @@ namespace NStandard.Test
         [Fact]
         public void Test()
         {
-            using var a = new Sync<int>(1);
-            using var b = new Sync<double>(1.2);
-            using var c = new Sync<int>(10);
+            using var a = State.Use(1);
+            using var b = State.Use(1.2);
+            using var c = State.Use(10);
             var n = 0;
 
-            using var r = Sync.From(() => a + (int)Math.Round(b.Value) + 1);
-            using var r_plus_c_plus_2 = Sync.From(() => r + c + 2 + n);
+            using var r = State.From(() => a + (int)Math.Round(b.Value) + 1);
+            using var r_plus_c_plus_2 = State.From(() => r + c + 2 + n);
 
             Assert.Empty(a.Dependencies);
             Assert.Empty(b.Dependencies);

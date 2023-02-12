@@ -1,9 +1,3 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## DpContainer
 
 **DpContainer** 用于动态规划计算。

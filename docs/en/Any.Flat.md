@@ -1,9 +1,3 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## Any.Flat
 
 Creates a one-dimensional enumeration containing all elements of the specified multidimensional arrays.
@@ -91,7 +85,7 @@ var array = new object[2]
 };
 
 Console.WriteLine(
-	Any.Flat<string>(array).Join(", ")
+    Any.Flat<string>(array).Join(", ")
 );
 ```
 

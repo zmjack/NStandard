@@ -10,7 +10,7 @@ namespace NStandard
     {
         #region ValueTuple
         /// <summary>
-        /// Produces a sequence of tuples with elements from the specified sequences.
+        /// Iterate over each element of multiple sequences simultaneously.
         /// </summary>
         public static IEnumerable<IEnumerable<T1>> Zip<T1>(IEnumerable<IEnumerable<T1>> args)
         {
@@ -21,7 +21,7 @@ namespace NStandard
             }
         }
         /// <summary>
-        /// Produces a sequence of tuples with elements from the specified sequences.
+        /// Iterate over each element of multiple sequences simultaneously.
         /// </summary>
         public static IEnumerable<StructTuple<T1, T2>> Zip<T1, T2>(
             IEnumerable<T1> arg1,
@@ -41,7 +41,7 @@ namespace NStandard
             }
         }
         /// <summary>
-        /// Produces a sequence of tuples with elements from the specified sequences.
+        /// Iterate over each element of multiple sequences simultaneously.
         /// </summary>
         public static IEnumerable<StructTuple<T1, T2, T3>> Zip<T1, T2, T3>(
             IEnumerable<T1> arg1,
@@ -65,7 +65,7 @@ namespace NStandard
             }
         }
         /// <summary>
-        /// Produces a sequence of tuples with elements from the specified sequences.
+        /// Iterate over each element of multiple sequences simultaneously.
         /// </summary>
         public static IEnumerable<StructTuple<T1, T2, T3, T4>> Zip<T1, T2, T3, T4>(
             IEnumerable<T1> arg1,
@@ -93,7 +93,7 @@ namespace NStandard
             }
         }
         /// <summary>
-        /// Produces a sequence of tuples with elements from the specified sequences.
+        /// Iterate over each element of multiple sequences simultaneously.
         /// </summary>
         public static IEnumerable<StructTuple<T1, T2, T3, T4, T5>> Zip<T1, T2, T3, T4, T5>(
             IEnumerable<T1> arg1,
@@ -125,7 +125,7 @@ namespace NStandard
             }
         }
         /// <summary>
-        /// Produces a sequence of tuples with elements from the specified sequences.
+        /// Iterate over each element of multiple sequences simultaneously.
         /// </summary>
         public static IEnumerable<StructTuple<T1, T2, T3, T4, T5, T6>> Zip<T1, T2, T3, T4, T5, T6>(
             IEnumerable<T1> arg1,
@@ -161,7 +161,7 @@ namespace NStandard
             }
         }
         /// <summary>
-        /// Produces a sequence of tuples with elements from the specified sequences.
+        /// Iterate over each element of multiple sequences simultaneously.
         /// </summary>
         public static IEnumerable<StructTuple<T1, T2, T3, T4, T5, T6, T7>> Zip<T1, T2, T3, T4, T5, T6, T7>(
             IEnumerable<T1> arg1,
@@ -201,7 +201,7 @@ namespace NStandard
             }
         }
         /// <summary>
-        /// Produces a sequence of tuples with elements from the specified sequences.
+        /// Iterate over each element of multiple sequences simultaneously.
         /// </summary>
         public static IEnumerable<StructTuple<T1, T2, T3, T4, T5, T6, T7, T8>> Zip<T1, T2, T3, T4, T5, T6, T7, T8>(
             IEnumerable<T1> arg1,

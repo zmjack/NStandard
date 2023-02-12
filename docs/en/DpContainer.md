@@ -1,9 +1,3 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## DpContainer
 
 **DpContainer** is used for dynamic programming calculations.

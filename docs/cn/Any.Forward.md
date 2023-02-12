@@ -1,9 +1,3 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## Any.Forward
 
 按指定路径依次获取元素。

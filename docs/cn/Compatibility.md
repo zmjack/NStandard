@@ -1,9 +1,3 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## Compatibility
 
 **NStandard** 移植了 **.NET Core** 的部分功能，以便在 **.NET Framework** 中使用。

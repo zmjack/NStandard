@@ -55,5 +55,13 @@ namespace NStandard.Collections.Test
             Assert.Equal(1, counter['c']);
         }
 
+        [Fact]
+        public void EqualTest()
+        {
+            var counter = Counter.Parse("abc");
+            var counter2 = Counter.Parse("bca");
+            Assert.Equal(counter, counter2);
+        }
+
     }
 }

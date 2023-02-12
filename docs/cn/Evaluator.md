@@ -1,12 +1,6 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## Numerical Evaluator
 
-我们提供 **NumericalEvaluator** 来支持字符串表达式解析。
+**NumericalEvaluator** 用于解析支持字符串表达式。
 
 例如：
 

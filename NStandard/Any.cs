@@ -5,7 +5,7 @@ namespace NStandard
     public static partial class Any
     {
         /// <summary>
-        /// Create a variable by specifying a function.
+        /// Creates a instance by the specified function.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="func"></param>
@@ -13,7 +13,7 @@ namespace NStandard
         public static T Create<T>(Func<T> func) => func();
 
         /// <summary>
-        /// Swap the values of two variables.
+        /// Swaps the values of two instances.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="a"></param>

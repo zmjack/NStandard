@@ -1,4 +1,5 @@
-﻿using NStandard.ValueTuples;
+﻿using NStandard.Collections;
+using NStandard.ValueTuples;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -112,6 +113,19 @@ namespace NStandard
 #else
             return string.Join(separator, @this.Select(x => x.ToString()).ToArray());
 #endif
+        }
+
+        /// <summary>
+        /// Creates a sliding window for the specified enumerable object.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="capacity"></param>
+        /// <param name="sharedCache"></param>
+        /// <returns></returns>
+        public static Sliding<T> Slide<T>(this IEnumerable<T> @this, int capacity, bool sharedCache)
+        {
+            return new(@this, capacity, sharedCache);
         }
 
     }

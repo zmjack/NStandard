@@ -1,9 +1,3 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## UnitValue
 
 **UnitValue** 用于对执行带单位的数值运算。

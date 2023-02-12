@@ -1,9 +1,3 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## Compatibility
 
 **NStandard** ports parts of **.NET Core** for use within the **.NET Framework**.

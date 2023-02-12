@@ -1,9 +1,3 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## SequenceInputStream
 
 **SequenceInputStream** can combine multiple streams into a single stream.

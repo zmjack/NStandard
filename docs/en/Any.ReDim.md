@@ -1,9 +1,3 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## Any.ReDim
 
 Reallocates storage space for an array variable.

@@ -1,12 +1,6 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## Numerical Evaluator
 
-We provide **NumericalEvaluator** to support string expression parsing.
+**NumericalEvaluator** is used for parsing string expressions.
 
 For example:
 

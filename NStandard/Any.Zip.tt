@@ -57,7 +57,7 @@ namespace NStandard
 private string Code_Zip(int argc)
 {
     var summary = @"/// <summary>
-        /// Produces a sequence of tuples with elements from the specified sequences.
+        /// Iterate over each element of multiple sequences simultaneously.
         /// </summary>";
 
     if (argc > 1)

@@ -1,9 +1,3 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## Any.Forward
 
 Get elements sequentially by the specified path.

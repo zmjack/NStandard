@@ -1,9 +1,3 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## SequenceInputStream
 
 **SequenceInputStream** 可以将多个流组合成一个流。

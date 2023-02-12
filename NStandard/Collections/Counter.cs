@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NStandard.Collections
@@ -11,7 +12,7 @@ namespace NStandard.Collections
         }
     }
 
-    public class Counter<TKey> : Dictionary<TKey, int>
+    public class Counter<TKey> : Dictionary<TKey, int>, IEquatable<Counter<TKey>>
     {
         private Counter() { }
         public Counter(IEnumerable<TKey> source)
@@ -73,5 +74,21 @@ namespace NStandard.Collections
             }
             return counter;
         }
+
+        public bool Equals(Counter<TKey> other)
+        {
+            var set = new HashSet<TKey>(Keys);
+            var otherSet = new HashSet<TKey>(other.Keys);
+
+            if (!set.SetEquals(otherSet)) return false;
+
+            foreach (var key in Keys)
+            {
+                if (this[key] != other[key]) return false;
+            }
+
+            return true;
+        }
+
     }
 }

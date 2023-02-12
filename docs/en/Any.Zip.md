@@ -1,9 +1,3 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## Any.Zip
 
 Iterate over several iterables in parallel, producing tuples with an item from each one.

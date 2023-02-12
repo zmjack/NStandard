@@ -1,9 +1,3 @@
-# NStandard
-
-**.NET** extension library for system library.
-
-<br/>
-
 ## Any.Zip
 
 并行迭代几个可迭代对象，为每个对象项目生成元组。
