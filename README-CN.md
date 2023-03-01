@@ -51,16 +51,16 @@
 ### 版本：0.22.0
 
 - 新增类 **FixedSizeQueue**.
-- 重大改变：**SlidingWindow** 已重新设计，并重命名为 **Sliding**。
+- **中断性变更**：**SlidingWindow** 已重新设计，并重命名为 **Sliding**。
 
 ### 版本：0.21.0
 
-- **重大改变**：使用 **StructTuple** 替代 **ValueTuple** 以提供更好的兼容性。
-- **重大改变**：使用 **Any.Zip** 替代 **Zipper** 的成员方法。
-- **重大改变**：使用 **AsIndexValuePairs** 替代 **AsKeyValuePairs** / **AsKvPairs** 方法。
-- **重大改变**：使用 **Any.Forward** 替代 **ObjectExtension.Forward** 方法。
-- **重大改变**：使用 **Sync** 替代 **SyncLazy** 类型。
-- **重大改变**：已移除类 **LabelValuePair**、**Zipper**、**SyncLazy**。
+- **中断性变更**：使用 **StructTuple** 替代 **ValueTuple** 以提供更好的兼容性。
+- **中断性变更**：使用 **Any.Zip** 替代 **Zipper** 的成员方法。
+- **中断性变更**：使用 **AsIndexValuePairs** 替代 **AsKeyValuePairs** / **AsKvPairs** 方法。
+- **中断性变更**：使用 **Any.Forward** 替代 **ObjectExtension.Forward** 方法。
+- **中断性变更**：使用 **Sync** 替代 **SyncLazy** 类型。
+- **中断性变更**：已移除类 **LabelValuePair**、**Zipper**、**SyncLazy**。
 - 新增类 **[State](https://github.com/zmjack/NStandard/blob/master/docs/cn/State.md)**，用于支持数据绑定。
 - 调整预编译宏，使其更加合理。
 
@@ -84,7 +84,7 @@
 
 ### 版本：0.13.0
 
-- **重大改变**：为使名称更具可读性，扩展方法类名称从 **X...** 更名为 **...Extensions**。
+- **中断性变更**：为使名称更具可读性，扩展方法类名称从 **X...** 更名为 **...Extensions**。
 
 ### 版本：0.8.40
 
