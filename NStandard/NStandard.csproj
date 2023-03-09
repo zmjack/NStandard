@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>
-      net5;net6;net7;
+      net5.0;net6.0;net7.0;
       netstandard2.0;netstandard2.1;
       net35;net451;net452;net46;net461;net462;net47;net471;net472;net48;
     </TargetFrameworks>
@@ -11,7 +11,7 @@
     <Authors>zmjack</Authors>
     <Company>nstandard.net</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.21.2</Version>
+    <Version>0.22.0</Version>
     <Description>DotNet extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>

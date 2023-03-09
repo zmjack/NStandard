@@ -16,7 +16,7 @@ namespace NStandard
         /// <param name="variable"></param>
         /// <param name="lengths"></param>
         /// <exception cref="ArgumentException"></exception>
-        public static void ReDim<TArray>(ref TArray variable, params int[] lengths) where TArray : class, ICollection, IEnumerable, IList, IStructuralComparable, IStructuralEquatable, ICloneable
+        public static void ReDim<TArray>(ref TArray variable, params int[] lengths) where TArray : class, ICollection, IEnumerable, IList, ICloneable
         {
             var type = variable.GetType();
             if (!type.IsArray) throw Exception_VariableMustBeArray(nameof(variable));

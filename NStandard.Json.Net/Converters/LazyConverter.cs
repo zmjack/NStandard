@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET40_OR_GREATER
+using Newtonsoft.Json;
 using System;
 using System.Linq.Expressions;
 
@@ -40,3 +41,4 @@ namespace NStandard.Json.Net.Converters
         }
     }
 }
+#endif
