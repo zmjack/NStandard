@@ -29,7 +29,7 @@ namespace NStandard.Test
             }
 
             Assert.Equal(62, zip.Sum(x => (x.Item2 - x.Item1).TotalDays));
-            Assert.Equal(62, Any.Zip(starts, ends, (a, b) => b - a).Sum(x => x.TotalDays));
+            Assert.Equal(62, Any.Zip(starts, ends).Select(tuple => tuple.Item2 - tuple.Item1).Sum(x => x.TotalDays));
         }
 
         [Fact]

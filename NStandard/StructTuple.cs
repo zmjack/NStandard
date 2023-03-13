@@ -30,7 +30,7 @@ namespace NStandard
         /// <summary>
         /// Create a tuple of structs.
         /// </summary>
-        public static StructTuple<T1, T2, T3, T4, T5, T6, T7, T8> Create<T1, T2, T3, T4, T5, T6, T7, T8>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8) => new StructTuple<T1, T2, T3, T4, T5, T6, T7, T8>(item1, item2, item3, item4, item5, item6, item7, item8);
+        public static StructTuple<T1, T2, T3, T4, T5, T6, T7, TRest> Create<T1, T2, T3, T4, T5, T6, T7, TRest>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, TRest rest) => new StructTuple<T1, T2, T3, T4, T5, T6, T7, TRest>(item1, item2, item3, item4, item5, item6, item7, rest);
     }
 
     public struct StructTuple<T1, T2>
@@ -186,7 +186,7 @@ namespace NStandard
         }
     }
 
-    public struct StructTuple<T1, T2, T3, T4, T5, T6, T7, T8>
+    public struct StructTuple<T1, T2, T3, T4, T5, T6, T7, TRest>
     {
         public T1 Item1;
         public T2 Item2;
@@ -195,9 +195,9 @@ namespace NStandard
         public T5 Item5;
         public T6 Item6;
         public T7 Item7;
-        public T8 Item8;
+        public TRest Rest;
 
-        public StructTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8)
+        public StructTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, TRest rest)
         {
             Item1 = item1;
             Item2 = item2;
@@ -206,10 +206,10 @@ namespace NStandard
             Item5 = item5;
             Item6 = item6;
             Item7 = item7;
-            Item8 = item8;
+            Rest = rest;
         }
 
-        public void Deconstruct(out T1 item1, out T2 item2, out T3 item3, out T4 item4, out T5 item5, out T6 item6, out T7 item7, out T8 item8)
+        public void Deconstruct(out T1 item1, out T2 item2, out T3 item3, out T4 item4, out T5 item5, out T6 item6, out T7 item7, out TRest rest)
         {
             item1 = Item1;
             item2 = Item2;
@@ -218,7 +218,7 @@ namespace NStandard
             item5 = Item5;
             item6 = Item6;
             item7 = Item7;
-            item8 = Item8;
+            rest = Rest;
         }
     }
 

@@ -11,7 +11,7 @@
     <Authors>zmjack</Authors>
     <Company>nstandard.net</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.22.0</Version>
+    <Version>0.23.0</Version>
     <Description>DotNet extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
@@ -60,6 +60,14 @@
       <LastGenOutput>StructTuple.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
+    <None Update="~System\ArrayExtensions.Deconstruct..tt">
+      <LastGenOutput>ArrayExtensions.Deconstruct..cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="~System\SpanExtensions.tt">
+      <LastGenOutput>SpanExtensions.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -76,6 +84,16 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>StructTuple.tt</DependentUpon>
+    </Compile>
+    <Compile Update="~System\ArrayExtensions.Deconstruct..cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ArrayExtensions.Deconstruct..tt</DependentUpon>
+    </Compile>
+    <Compile Update="~System\SpanExtensions.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SpanExtensions.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 
