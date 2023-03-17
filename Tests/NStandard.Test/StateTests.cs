@@ -85,6 +85,12 @@ namespace NStandard.Test
             using var r = State.From(() => a + (int)Math.Round(b.Value) + 1);
             using var r_plus_c_plus_2 = State.From(() => r + c + 2 + n);
 
+            Assert.True(a.CanSetValue);
+            Assert.True(b.CanSetValue);
+            Assert.True(c.CanSetValue);
+            Assert.False(r.CanSetValue);
+            Assert.False(r_plus_c_plus_2.CanSetValue);
+
             Assert.Empty(a.Dependencies);
             Assert.Empty(b.Dependencies);
             Assert.Equal(2, r.Dependencies.Length);

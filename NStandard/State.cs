@@ -26,6 +26,8 @@ namespace NStandard
         IState[] Dependencies { get; }
         object Value { get; set; }
         Type ValueType { get; }
+
+        bool CanSetValue { get; }
     }
 
     public sealed class State<TValue> : IState, IDisposable
@@ -36,19 +38,19 @@ namespace NStandard
         public event Action Noticing;
 
         public event UpdatingHandler Updating;
-        private event State.UpdatingHandler IStateUpdating;
+        private event State.UpdatingHandler IUpdating;
         event State.UpdatingHandler IState.Updating
         {
-            add => IStateUpdating += value;
-            remove => IStateUpdating -= value;
+            add => IUpdating += value;
+            remove => IUpdating -= value;
         }
 
         public event ChangedHandler Changed;
-        private event State.ChangedHandler IStateChanged;
+        private event State.ChangedHandler IChanged;
         event State.ChangedHandler IState.Changed
         {
-            add => IStateChanged += value;
-            remove => IStateChanged -= value;
+            add => IChanged += value;
+            remove => IChanged -= value;
         }
 
         private bool disposedValue;
@@ -70,28 +72,33 @@ namespace NStandard
         public void Update()
         {
             IsValueCreated = false;
-            if (Updating is not null || IStateUpdating is not null)
+            if (Updating is not null || IUpdating is not null)
             {
                 var value = Value;
                 Updating?.Invoke(value);
-                IStateUpdating?.Invoke(value);
+                IUpdating?.Invoke(value);
             }
         }
 
+        public bool CanSetValue { get; }
         private TValue GetStoredValue() => _value;
 
         internal State() : this(default(TValue)) { }
         internal State(TValue value)
         {
-            _value = value;
             IsValueCreated = true;
+            CanSetValue = true;
+
+            _value = value;
             _getValue = GetStoredValue;
         }
 
         internal State(Expression<Func<TValue>> getValue)
         {
-            _getValue = getValue.Compile();
+            CanSetValue = false;
+
             CollectDependencies(getValue);
+            _getValue = getValue.Compile();
         }
 
         /// <summary>
@@ -150,14 +157,14 @@ namespace NStandard
             }
             set
             {
-                if (Dependencies.Length != 0) throw new InvalidOperationException("Cannot set a value for a state object that has dependencies.");
+                if (!CanSetValue) throw new InvalidOperationException("Cannot set value for state which is calculated from other object.");
 
                 if (!_value.Equals(value))
                 {
                     _value = value;
 
                     Changed?.Invoke(value);
-                    IStateChanged?.Invoke(value);
+                    IChanged?.Invoke(value);
 
                     Noticing?.Invoke();
                 }
@@ -203,10 +210,10 @@ namespace NStandard
                 if (disposing)
                 {
                     Updating = null;
-                    IStateUpdating = null;
+                    IUpdating = null;
 
                     Changed = null;
-                    IStateChanged = null;
+                    IChanged = null;
 
                     foreach (var dependency in Dependencies)
                     {
