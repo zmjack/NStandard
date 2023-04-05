@@ -391,5 +391,26 @@ namespace NStandard
 
         public static TypeReflector GetTypeReflector(this Type @this) => new(@this);
 
+        public static PropertyInfo GetChainProperty(this Type type, params string[] chain)
+        {
+            if (chain is null || !chain.Any()) throw new ArgumentException("The property can not be null or empty.", nameof(chain));
+
+            PropertyInfo property;
+            var enumerator = chain.GetEnumerator();
+            enumerator.MoveNext();
+
+            var name = enumerator.Current as string;
+            property = type.GetProperty(name, DeclaredOnlyLookup);
+
+            while (enumerator.MoveNext())
+            {
+                name = enumerator.Current as string;
+                type = property.PropertyType;
+                property = type.GetProperty(name, DeclaredOnlyLookup);
+            }
+
+            return property;
+        }
+
     }
 }
