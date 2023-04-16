@@ -40,5 +40,10 @@ namespace NStandard
                 .ToArray();
         }
 
+        public static ResourceAccessor GetResourceAccessor(this Assembly @this)
+        {
+            return new ResourceAccessor(@this);
+        }
+
     }
 }

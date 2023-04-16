@@ -11,8 +11,6 @@ namespace NStandard
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class TypeExtensions
     {
-        public const BindingFlags DeclaredOnlyLookup = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
-
         public static MethodInfo GetMethodViaQualifiedName(this Type @this, string qualifiedName)
         {
             return @this.GetMethods().First(x => x.ToString() == qualifiedName);
@@ -23,7 +21,7 @@ namespace NStandard
         }
         public static MethodInfo GetDeclaredMethodViaQualifiedName(this Type @this, string qualifiedName)
         {
-            return GetMethodViaQualifiedName(@this, qualifiedName, DeclaredOnlyLookup);
+            return GetMethodViaQualifiedName(@this, qualifiedName, TypeEx.DeclaredOnlyLookup);
         }
 
         private static readonly Regex GetSimplifiedNameRegex = new(@"^([^`]+)`");
@@ -276,7 +274,7 @@ namespace NStandard
 #endif
             return CreateInstance(@this, args);
         }
-        public static object CreateInstance(this Type @this, params object[] args) => Activator.CreateInstance(@this, DeclaredOnlyLookup, null, args, null);
+        public static object CreateInstance(this Type @this, params object[] args) => Activator.CreateInstance(@this, TypeEx.DeclaredOnlyLookup, null, args, null);
 
         public static Type GetCoClassType(this Type @this)
         {
@@ -309,66 +307,66 @@ namespace NStandard
             return list.ToArray();
         }
 
-        public static MethodInfo GetDeclaredMethod(this Type @this, string name) => @this.GetMethod(name, DeclaredOnlyLookup);
+        public static MethodInfo GetDeclaredMethod(this Type @this, string name) => @this.GetMethod(name, TypeEx.DeclaredOnlyLookup);
         public static IEnumerable<MethodInfo> GetDeclaredMethods(this Type @this)
         {
-            foreach (var item in @this.GetMethods(DeclaredOnlyLookup)) yield return item;
+            foreach (var item in @this.GetMethods(TypeEx.DeclaredOnlyLookup)) yield return item;
         }
         public static IEnumerable<MethodInfo> GetDeclaredMethods(this Type @this, string name)
         {
-            foreach (var item in @this.GetMethods(DeclaredOnlyLookup))
+            foreach (var item in @this.GetMethods(TypeEx.DeclaredOnlyLookup))
             {
                 if (item.Name == name) yield return item;
             }
         }
 
-        public static EventInfo GetDeclaredEvent(this Type @this, string name) => @this.GetEvent(name, DeclaredOnlyLookup);
+        public static EventInfo GetDeclaredEvent(this Type @this, string name) => @this.GetEvent(name, TypeEx.DeclaredOnlyLookup);
         public static IEnumerable<EventInfo> GetDeclaredEvents(this Type @this)
         {
-            foreach (var item in @this.GetEvents(DeclaredOnlyLookup)) yield return item;
+            foreach (var item in @this.GetEvents(TypeEx.DeclaredOnlyLookup)) yield return item;
         }
         public static IEnumerable<EventInfo> GetDeclaredEvents(this Type @this, string name)
         {
-            foreach (var item in @this.GetEvents(DeclaredOnlyLookup))
+            foreach (var item in @this.GetEvents(TypeEx.DeclaredOnlyLookup))
             {
                 if (item.Name == name) yield return item;
             }
         }
 
-        public static FieldInfo GetDeclaredField(this Type @this, string name) => @this.GetField(name, DeclaredOnlyLookup);
+        public static FieldInfo GetDeclaredField(this Type @this, string name) => @this.GetField(name, TypeEx.DeclaredOnlyLookup);
         public static IEnumerable<FieldInfo> GetDeclaredFields(this Type @this)
         {
-            foreach (var item in @this.GetFields(DeclaredOnlyLookup)) yield return item;
+            foreach (var item in @this.GetFields(TypeEx.DeclaredOnlyLookup)) yield return item;
         }
         public static IEnumerable<FieldInfo> GetDeclaredFields(this Type @this, string name)
         {
-            foreach (var item in @this.GetFields(DeclaredOnlyLookup))
+            foreach (var item in @this.GetFields(TypeEx.DeclaredOnlyLookup))
             {
                 if (item.Name == name) yield return item;
             }
         }
 
-        public static PropertyInfo GetDeclaredProperty(this Type @this, string name) => @this.GetProperty(name, DeclaredOnlyLookup);
+        public static PropertyInfo GetDeclaredProperty(this Type @this, string name) => @this.GetProperty(name, TypeEx.DeclaredOnlyLookup);
         public static IEnumerable<PropertyInfo> GetDeclaredProperties(this Type @this)
         {
-            foreach (var item in @this.GetProperties(DeclaredOnlyLookup)) yield return item;
+            foreach (var item in @this.GetProperties(TypeEx.DeclaredOnlyLookup)) yield return item;
         }
         public static IEnumerable<PropertyInfo> GetDeclaredProperties(this Type @this, string name)
         {
-            foreach (var item in @this.GetProperties(DeclaredOnlyLookup))
+            foreach (var item in @this.GetProperties(TypeEx.DeclaredOnlyLookup))
             {
                 if (item.Name == name) yield return item;
             }
         }
 
-        public static Type GetDeclaredNestedType(this Type @this, string name) => @this.GetNestedType(name, DeclaredOnlyLookup);
+        public static Type GetDeclaredNestedType(this Type @this, string name) => @this.GetNestedType(name, TypeEx.DeclaredOnlyLookup);
         public static IEnumerable<Type> GetDeclaredNestedTypes(this Type @this)
         {
-            foreach (var item in @this.GetNestedTypes(DeclaredOnlyLookup)) yield return item;
+            foreach (var item in @this.GetNestedTypes(TypeEx.DeclaredOnlyLookup)) yield return item;
         }
         public static IEnumerable<Type> GetDeclaredNestedTypes(this Type @this, string name)
         {
-            foreach (var item in @this.GetNestedTypes(DeclaredOnlyLookup))
+            foreach (var item in @this.GetNestedTypes(TypeEx.DeclaredOnlyLookup))
             {
                 if (item.Name == name) yield return item;
             }
@@ -393,20 +391,30 @@ namespace NStandard
 
         public static PropertyInfo GetChainProperty(this Type type, params string[] chain)
         {
-            if (chain is null || !chain.Any()) throw new ArgumentException("The property can not be null or empty.", nameof(chain));
+            if (chain is null) throw new ArgumentNullException("The property can not be null.", nameof(chain));
+            if (!chain.Any()) throw new ArgumentException("The property can not be empty.", nameof(chain));
+
+            static PropertyInfo GetProperty(Type type, string name)
+            {
+                var property = type.GetProperty(name, TypeEx.DeclaredOnlyLookup);
+                if (property is not null) return property;
+
+                if (type.BaseType is null) return null;
+                else return GetProperty(type.BaseType, name);
+            }
 
             PropertyInfo property;
             var enumerator = chain.GetEnumerator();
             enumerator.MoveNext();
 
             var name = enumerator.Current as string;
-            property = type.GetProperty(name, DeclaredOnlyLookup);
+            property = GetProperty(type, name);
 
             while (enumerator.MoveNext())
             {
                 name = enumerator.Current as string;
                 type = property.PropertyType;
-                property = type.GetProperty(name, DeclaredOnlyLookup);
+                property = GetProperty(type, name);
             }
 
             return property;
