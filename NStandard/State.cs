@@ -9,8 +9,7 @@ namespace NStandard
 {
     public class State
     {
-        public delegate void UpdatingHandler(object value);
-        public delegate void ChangedHandler(object value);
+        public delegate void ValueReceivedHandler<T>(T value);
 
         public static State<TValue> Use<TValue>() => new();
         public static State<TValue> Use<TValue>(TValue value) => new(value);
@@ -19,8 +18,8 @@ namespace NStandard
 
     public interface IState
     {
-        event State.UpdatingHandler Updating;
-        event State.ChangedHandler Changed;
+        event State.ValueReceivedHandler<object> Updating;
+        event State.ValueReceivedHandler<object> Changed;
         event Action Noticing;
 
         IState[] Dependencies { get; }
@@ -30,27 +29,24 @@ namespace NStandard
         bool CanSetValue { get; }
     }
 
-    public sealed class State<TValue> : IState, IDisposable
+    public sealed class State<T> : IState, IDisposable
     {
-        public delegate void UpdatingHandler(TValue value);
-        public delegate void ChangedHandler(TValue value);
-
         public event Action Noticing;
 
-        public event UpdatingHandler Updating;
-        private event State.UpdatingHandler IUpdating;
-        event State.UpdatingHandler IState.Updating
+        public event State.ValueReceivedHandler<T> Updating;
+        private event State.ValueReceivedHandler<object> ValueUpdating;
+        event State.ValueReceivedHandler<object> IState.Updating
         {
-            add => IUpdating += value;
-            remove => IUpdating -= value;
+            add => ValueUpdating += value;
+            remove => ValueUpdating -= value;
         }
 
-        public event ChangedHandler Changed;
-        private event State.ChangedHandler IChanged;
-        event State.ChangedHandler IState.Changed
+        public event State.ValueReceivedHandler<T> Changed;
+        private event State.ValueReceivedHandler<object> ValueChanged;
+        event State.ValueReceivedHandler<object> IState.Changed
         {
-            add => IChanged += value;
-            remove => IChanged -= value;
+            add => ValueChanged += value;
+            remove => ValueChanged -= value;
         }
 
         private bool disposedValue;
@@ -58,33 +54,33 @@ namespace NStandard
         private readonly HashSet<IState> _dependencyList = new();
         public IState[] Dependencies => _dependencyList.ToArray();
 
-        private readonly Func<TValue> _getValue;
-        private TValue _value;
+        private readonly Func<T> _getValue;
+        private T _value;
 
 #if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET40_OR_GREATER
-        private readonly Lazy<Type> _valueType = new(() => typeof(TValue));
+        private readonly Lazy<Type> _valueType = new(() => typeof(T));
         public Type ValueType => _valueType.Value;
 #else
-        public Type ValueType => typeof(TValue);
+        public Type ValueType => typeof(T);
 #endif
 
         public bool IsValueCreated { get; private set; }
         public void Update()
         {
             IsValueCreated = false;
-            if (Updating is not null || IUpdating is not null)
+            if (Updating is not null || ValueUpdating is not null)
             {
                 var value = Value;
                 Updating?.Invoke(value);
-                IUpdating?.Invoke(value);
+                ValueUpdating?.Invoke(value);
             }
         }
 
         public bool CanSetValue { get; }
-        private TValue GetStoredValue() => _value;
+        private T GetStoredValue() => _value;
 
-        internal State() : this(default(TValue)) { }
-        internal State(TValue value)
+        internal State() : this(default(T)) { }
+        internal State(T value)
         {
             IsValueCreated = true;
             CanSetValue = true;
@@ -93,7 +89,7 @@ namespace NStandard
             _getValue = GetStoredValue;
         }
 
-        internal State(Expression<Func<TValue>> getValue)
+        internal State(Expression<Func<T>> getValue)
         {
             CanSetValue = false;
 
@@ -121,7 +117,7 @@ namespace NStandard
             dependency.Noticing -= Update;
         }
 
-        public void CollectDependencies(Expression<Func<TValue>> getValue)
+        public void CollectDependencies(Expression<Func<T>> getValue)
         {
             _dependencyList.Clear();
 
@@ -144,7 +140,7 @@ namespace NStandard
             InnerCollectDependencies(dependencies);
         }
 
-        public TValue Value
+        public T Value
         {
             get
             {
@@ -164,8 +160,7 @@ namespace NStandard
                     _value = value;
 
                     Changed?.Invoke(value);
-                    IChanged?.Invoke(value);
-
+                    ValueChanged?.Invoke(value);
                     Noticing?.Invoke();
                 }
             }
@@ -174,7 +169,7 @@ namespace NStandard
         object IState.Value
         {
             get => Value;
-            set => Value = (TValue)value;
+            set => Value = (T)value;
         }
 
         /// <summary>
@@ -198,7 +193,7 @@ namespace NStandard
             }
         }
 
-        public static implicit operator TValue(State<TValue> @this)
+        public static implicit operator T(State<T> @this)
         {
             return @this.Value;
         }
@@ -210,10 +205,10 @@ namespace NStandard
                 if (disposing)
                 {
                     Updating = null;
-                    IUpdating = null;
-
                     Changed = null;
-                    IChanged = null;
+
+                    ValueUpdating = null;
+                    ValueChanged = null;
 
                     foreach (var dependency in Dependencies)
                     {
