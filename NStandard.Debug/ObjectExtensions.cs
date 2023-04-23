@@ -2,6 +2,7 @@
 using System.Collections;
 using System.ComponentModel;
 using System.IO;
+using System.Xml.Linq;
 
 namespace NStandard.Debug
 {
@@ -61,9 +62,9 @@ namespace NStandard.Debug
                 case Type _ when type.IsExtend<Array>():
                     writer.WriteLine($"{" ".Repeat(paddingLeft)}[");
                     var enumerator = (instance as IEnumerable).GetEnumerator();
-                    for (var element = enumerator.TakeElement(); element != null; element = enumerator.TakeElement())
+                    while (enumerator.MoveNext())
                     {
-                        Dump(element, writer, string.Empty, paddingLeft + 4);
+                        Dump(enumerator.Current, writer, string.Empty, paddingLeft + 4);
                     }
                     writer.WriteLine($"{" ".Repeat(paddingLeft)}]");
                     break;

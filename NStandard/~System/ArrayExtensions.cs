@@ -30,18 +30,38 @@ namespace NStandard
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
-        /// <param name="element"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        public static int IndexOf<T>(this T[] @this, T element)
+        public static int IndexOf<T>(this T[] @this, T value)
         {
-            int i = 0;
-            foreach (var e in @this)
-            {
-                if (e.Equals(element))
-                    return i;
-                i++;
-            }
-            return -1;
+            return Array.IndexOf(@this, value);
+        }
+
+        /// <summary>
+        /// Reports the zero-based index of the first occurrence of the specified element in this array.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="value"></param>
+        /// <param name="startIndex"></param>
+        /// <returns></returns>
+        public static int IndexOf<T>(this T[] @this, T value, int startIndex)
+        {
+            return Array.IndexOf(@this, value, startIndex);
+        }
+
+        /// <summary>
+        /// Reports the zero-based index of the first occurrence of the specified element in this array.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="value"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static int IndexOf<T>(this T[] @this, T value, int startIndex, int count)
+        {
+            return Array.IndexOf(@this, value, startIndex, count);
         }
 
         /// <summary>
