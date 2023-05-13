@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Text;
 using Xunit;
 
 namespace NStandard.Test
@@ -281,6 +283,50 @@ namespace NStandard.Test
              */
 
             Assert.Equal(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }, Any.Flat<int>(result));
+        }
+
+        [Fact]
+        public void ChainTest1()
+        {
+            var chainLayers = Any.Chain(1, new Func<int, int[]>[]
+            {
+                x => new int[2].Let(i => x + i),
+                x => new int[3].Let(i => 10 * x + i),
+            })
+                .Where(x => x.Origin == SeekOrigin.Current).Select(x => x.Layers.ToArray())
+                .ToArray();
+
+            Assert.Equal(new[]
+            {
+                new[] { 1, 10 },
+                new[] { 1, 11 },
+                new[] { 1, 12 },
+                new[] { 2, 20 },
+                new[] { 2, 21 },
+                new[] { 2, 22 },
+            }, chainLayers);
+        }
+
+        [Fact]
+        public void ChainTest2()
+        {
+            var chainLayers = Any.Chain(new int[][]
+            {
+                new[] { 1, 2 },
+                new[] { 3, 4, 5 },
+            })
+                .Where(x => x.Origin == SeekOrigin.Current).Select(x => x.Layers.ToArray())
+                .ToArray();
+
+            Assert.Equal(new[]
+            {
+                new[] { 1, 3 },
+                new[] { 1, 4 },
+                new[] { 1, 5 },
+                new[] { 2, 3 },
+                new[] { 2, 4 },
+                new[] { 2, 5 },
+            }, chainLayers);
         }
 
     }
