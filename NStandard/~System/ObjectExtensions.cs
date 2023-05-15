@@ -15,10 +15,37 @@ namespace NStandard
         /// <summary>
         /// Run a task for the object, then return itself.
         /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="pipe"></param>
+        /// <returns></returns>
+        public static T Pipe<T>(this T @this, Action<T> pipe)
+        {
+            pipe(@this);
+            return @this;
+        }
+
+        /// <summary>
+        /// Casts the object to another object through the specified convert method.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TRet"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="pipe"></param>
+        /// <returns></returns>
+        public static TRet Pipe<T, TRet>(this T @this, Func<T, TRet> pipe)
+        {
+            return pipe(@this);
+        }
+
+        /// <summary>
+        /// Run a task for the object, then return itself.
+        /// </summary>
         /// <typeparam name="TSelf"></typeparam>
         /// <param name="this"></param>
         /// <param name="task"></param>
         /// <returns></returns>
+        [Obsolete("Use Pipe instead.")]
         public static TSelf Then<TSelf>(this TSelf @this, Action<TSelf> task)
         {
             task(@this);
@@ -32,6 +59,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="task"></param>
         /// <returns></returns>
+        [Obsolete("Use Pipe instead.")]
         public static TSelf Then<TSelf>(this TSelf @this, Action task)
         {
             task();
@@ -45,6 +73,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="out"></param>
         /// <returns></returns>
+        [Obsolete("Use Pipe instead.")]
         public static TSelf For<TSelf>(this TSelf @this, out TSelf @out)
         {
             @out = @this;
@@ -59,6 +88,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="convert"></param>
         /// <returns></returns>
+        [Obsolete("Use Pipe instead.")]
         public static TRet For<TSelf, TRet>(this TSelf @this, TRet convert) => convert;
 
         /// <summary>
@@ -69,6 +99,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="convert"></param>
         /// <returns></returns>
+        [Obsolete("Use Pipe instead.")]
         public static TRet For<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet> convert) => convert(@this);
 
         /// <summary>
@@ -81,6 +112,7 @@ namespace NStandard
         /// <param name="param"></param>
         /// <param name="convert"></param>
         /// <returns></returns>
+        [Obsolete("Use Pipe instead.")]
         public static TRet For<TSelf, TParam, TRet>(this TSelf @this, Func<TSelf, TParam, TRet> convert, TParam param) => convert(@this, param);
 
         /// <summary>

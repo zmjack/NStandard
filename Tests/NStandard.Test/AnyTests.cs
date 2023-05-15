@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NStandard.Debug;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -327,6 +328,18 @@ namespace NStandard.Test
                 new[] { 2, 4 },
                 new[] { 2, 5 },
             }, chainLayers);
+        }
+
+        [Fact]
+        public void PipeTest()
+        {
+            var exp_str2hex = Any.Pipe<string, string>
+            (
+                (string x) => Encoding.UTF8.GetBytes(x),
+                (byte[] x) => Convert.ToHexString(x)
+            );
+            var str2hex = exp_str2hex.Compile();
+            Assert.Equal("303030", str2hex("000"));
         }
 
     }
