@@ -26,6 +26,19 @@ namespace NStandard
         }
 
         /// <summary>
+        /// Assign the object to an external variable, then return itself.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="out"></param>
+        /// <returns></returns>
+        public static T Pipe<T>(this T @this, out T @out)
+        {
+            @out = @this;
+            return @this;
+        }
+
+        /// <summary>
         /// Casts the object to another object through the specified convert method.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -46,6 +59,7 @@ namespace NStandard
         /// <param name="task"></param>
         /// <returns></returns>
         [Obsolete("Use Pipe instead.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static TSelf Then<TSelf>(this TSelf @this, Action<TSelf> task)
         {
             task(@this);
@@ -60,6 +74,7 @@ namespace NStandard
         /// <param name="task"></param>
         /// <returns></returns>
         [Obsolete("Use Pipe instead.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static TSelf Then<TSelf>(this TSelf @this, Action task)
         {
             task();
@@ -74,6 +89,7 @@ namespace NStandard
         /// <param name="out"></param>
         /// <returns></returns>
         [Obsolete("Use Pipe instead.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static TSelf For<TSelf>(this TSelf @this, out TSelf @out)
         {
             @out = @this;
@@ -89,6 +105,7 @@ namespace NStandard
         /// <param name="convert"></param>
         /// <returns></returns>
         [Obsolete("Use Pipe instead.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static TRet For<TSelf, TRet>(this TSelf @this, TRet convert) => convert;
 
         /// <summary>
@@ -100,6 +117,7 @@ namespace NStandard
         /// <param name="convert"></param>
         /// <returns></returns>
         [Obsolete("Use Pipe instead.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static TRet For<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet> convert) => convert(@this);
 
         /// <summary>
@@ -113,6 +131,7 @@ namespace NStandard
         /// <param name="convert"></param>
         /// <returns></returns>
         [Obsolete("Use Pipe instead.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static TRet For<TSelf, TParam, TRet>(this TSelf @this, Func<TSelf, TParam, TRet> convert, TParam param) => convert(@this, param);
 
         /// <summary>
