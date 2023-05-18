@@ -48,6 +48,10 @@
 
 ## 最近更新
 
+### 版本：0.31.0
+
+- 扩展方法 **Then** / **For** 已重命名为 **Pipe** 。
+
 ### 版本：0.22.0
 
 - 新增类 **FixedSizeQueue**.
@@ -56,7 +60,7 @@
 ### 版本：0.21.0
 
 - **中断性变更**：使用 **StructTuple** 替代 **ValueTuple** 以提供更好的兼容性。
-- **中断性变更**：使用 **Any.Zip** 替代 **Zipper** 的成员方法。
+- **中断性变更**：使用 **Any.Zip** 替代 **Zipper** 成员方法。
 - **中断性变更**：使用 **AsIndexValuePairs** 替代 **AsKeyValuePairs** / **AsKvPairs** 方法。
 - **中断性变更**：使用 **Any.Forward** 替代 **ObjectExtension.Forward** 方法。
 - **中断性变更**：使用 **Sync** 替代 **SyncLazy** 类型。
@@ -97,31 +101,31 @@
 
 **<font color=red>`草稿`</font>** ：功能已设计，但不是最终版本。 类成员可能会被重新设计。
 
-**<font color=blue>`已定稿`</font>** ：功能已设计且定稿。 除非有重大设计缺陷，否则不会轻易修改。
+**<font color=blue>`定稿`</font>** ：功能已设计且定稿。 除非有重大设计缺陷，否则不会轻易修改。
 
   ### 实用函数（Any 类）
 
-| 名称                                                         | 描述                                           | 状态                                 |
-| ------------------------------------------------------------ | ---------------------------------------------- | ------------------------------------ |
-| **Any.Create**                                               | 通过指定的函数创建一个实例。                   | **<font color=blue>`已定稿`</font>** |
-| **[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Flat.md)** | 创建一个包含指定多维数组的所有元素的一维数组。 | **<font color=blue>`已定稿`</font>** |
-| **[Any.Forward](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Forward.md)** | 按路径计算元素并返回。                         | **<font color=blue>`已定稿`</font>** |
-| **[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.ReDim.md)** | 为数组变量重新分配存储空间。                   | **<font color=blue>`已定稿`</font>** |
-| **Any.Text.ComputeHashCode**                                 | 为字符串计算固定的哈希值。                     | **<font color=blue>`已定稿`</font>** |
-| **[Any.Zip](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Zip.md)** | 同时迭代多个序列的每个元素。                   | **<font color=blue>`已定稿`</font>** |
+| 名称                                                         | 描述                                           | 状态                               |
+| ------------------------------------------------------------ | ---------------------------------------------- | ---------------------------------- |
+| **Any.Create**                                               | 通过指定的函数创建一个实例。                   | **<font color=blue>`定稿`</font>** |
+| **[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Flat.md)** | 创建一个包含指定多维数组的所有元素的一维数组。 | **<font color=blue>`定稿`</font>** |
+| **[Any.Forward](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Forward.md)** | 按路径计算元素并返回。                         | **<font color=blue>`定稿`</font>** |
+| **[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.ReDim.md)** | 为数组变量重新分配存储空间。                   | **<font color=blue>`定稿`</font>** |
+| **Any.Text.ComputeHashCode**                                 | 为字符串计算固定的哈希值。                     | **<font color=blue>`定稿`</font>** |
+| **[Any.Zip](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Zip.md)** | 同时迭代多个序列的每个元素。                   | **<font color=blue>`定稿`</font>** |
 
   ### 时间日期扩展
 
   - **DateTimeExtensions** 或 **DateTimeOffsetExtensions** 类，跳转到 [**文档**](https://github.com/zmjack/NStandard/blob/master/docs/cn/DateTimeExtensions.md).。
 
-| 名称                    | 描述                                                         | 状态                                 |
-| ----------------------- | ------------------------------------------------------------ | ------------------------------------ |
-| **AddDays**             | 提供计算 **工作日** 或 **非工作日** 的特殊算术方法。         | **<font color=blue>`已定稿`</font>** |
-| **AddTotalYears**       | 返回一个新的 **DateTime**，它将指定的 **年份差值** 相加到此实例值中。 | **<font color=blue>`已定稿`</font>** |
-| **AddTotalMonths**      | 返回一个新的 **DateTime**，它将指定的 **月份差值** 相加到此实例值中。 | **<font color=blue>`已定稿`</font>** |
-| **StartOf** & **EndOf** | 提供 **DateTime** / **DateTimeOffset** 将时间返回到起点或终点的操作。 | **<font color=blue>`已定稿`</font>** |
-| **Week**                | 获取 **一年** 中指定日期的周数。                             | **<font color=blue>`已定稿`</font>** |
-| **WeekInMonth**         | 获取指定日期 **一个月** 中的周数。                           | **<font color=blue>`已定稿`</font>** |
+| 名称                    | 描述                                                         | 状态                               |
+| ----------------------- | ------------------------------------------------------------ | ---------------------------------- |
+| **AddDays**             | 提供计算 **工作日** 或 **非工作日** 的特殊算术方法。         | **<font color=blue>`定稿`</font>** |
+| **AddTotalYears**       | 返回一个新的 **DateTime**，它将指定的 **年份差值** 相加到此实例值中。 | **<font color=blue>`定稿`</font>** |
+| **AddTotalMonths**      | 返回一个新的 **DateTime**，它将指定的 **月份差值** 相加到此实例值中。 | **<font color=blue>`定稿`</font>** |
+| **StartOf** & **EndOf** | 提供 **DateTime** / **DateTimeOffset** 将时间返回到起点或终点的操作。 | **<font color=blue>`定稿`</font>** |
+| **Week**                | 获取 **一年** 中指定日期的周数。                             | **<font color=blue>`定稿`</font>** |
+| **WeekInMonth**         | 获取指定日期 **一个月** 中的周数。                           | **<font color=blue>`定稿`</font>** |
 
 ### 计算容器
 
@@ -141,7 +145,7 @@
 
 <br/>
 
-## 链式扩展
+## 管道扩展函数
 
 - **Let**
 
@@ -161,7 +165,7 @@
   var arr = new int[5].Let(i => i * 2 + 1);
     ```
 
-- **Then**
+- **Pipe**（无返回值）
 
   为对象运行任务后，返回它自己。
 
@@ -181,11 +185,11 @@
   ```csharp
   public class AppSecurity
   {
-      public Aes Aes = Aes.Create().Then(x => x.Key = "1234567890123456".Bytes());
+      public Aes Aes = Aes.Create().Pipe(x => x.Key = "1234567890123456".Bytes());
   }
   ```
 
-- **For**
+- **Pipe**（有返回值）
 
   通过指定的转换方法将对象转换为另一个对象。
 
@@ -197,7 +201,7 @@
   简化：
 
   ```csharp
-  var year = Product.Order.Year.For(y => y > 2020 ? y : 2020);
+  var year = Product.Order.Year.Pipe(y => y > 2020 ? y : 2020);
   ```
 
 <br/>

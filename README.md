@@ -48,6 +48,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version: 0.31.0
+
+- The extension methods **Then** / **For** has been renamed to **Pipe** .
+
 ### Version: 0.22.0
 
 - A new class **FixedSizeQueue** is added.
@@ -84,7 +88,7 @@ These frameworks are supported:
 
 ### Version: 0.13.0
 
-- **BREAKING CHANGE**: To make the name more readable, the extension method class name has been renamed from **X...** to **...Extensions**.
+- **BREAKING CHANGE**: To make the name more readable, the extension method class names has been renamed from **X...** to **...Extensions**.
 
 ### Version: 0.8.40
 
@@ -154,7 +158,7 @@ Currently, the following functions still need to be improved:
 
 <br/>
 
-## Chaining Extension Functions
+## Pipelines Extension Functions
 
 - **Let**
   
@@ -174,7 +178,7 @@ Currently, the following functions still need to be improved:
   var arr = new int[5].Let(i => i * 2 + 1);
   ```
 
-- **Then**
+- **Pipe** (No return value)
   
   Run a task for an object, then return itself.
   
@@ -194,11 +198,11 @@ Currently, the following functions still need to be improved:
   ```csharp
   public class AppSecurity
   {
-      public Aes Aes = Aes.Create().Then(x => x.Key = "1234567890123456".Bytes());
+      public Aes Aes = Aes.Create().Pipe(x => x.Key = "1234567890123456".Bytes());
   }
   ```
   
-- **For**
+- **Pipe**（Has return value）
 
   Casts the object to another object through the specified convert method.
 
@@ -210,7 +214,7 @@ Currently, the following functions still need to be improved:
   Simplify:
   
   ```csharp
-  var year = Product.Order.Year.For(y => y > 2020 ? y : 2020);
+  var year = Product.Order.Year.Pipe(y => y > 2020 ? y : 2020);
   ```
 
 <br/>
