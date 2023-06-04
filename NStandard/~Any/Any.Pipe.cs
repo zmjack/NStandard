@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq.Expressions;
 
 namespace NStandard
@@ -25,6 +22,7 @@ namespace NStandard
         /// <typeparam name="TOut"></typeparam>
         /// <param name="expressions"></param>
         /// <returns></returns>
+        [Obsolete("It is not recommended to use, and there may be major changes in the future.")]
         public static Expression<Func<TIn, TOut>> Pipe<TIn, TOut>(params LambdaExpression[] expressions)
         {
             var enumerator = expressions.GetEnumerator();

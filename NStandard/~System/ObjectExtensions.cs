@@ -139,6 +139,7 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
+        [Obsolete("May be removed in the future.")]
         public static bool IsNull<TSelf>(this TSelf @this) where TSelf : class => @this is null;
 
         public static Reflector GetReflector(this object @this) => new(@this.GetType(), @this);

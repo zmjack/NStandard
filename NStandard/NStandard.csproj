@@ -11,7 +11,7 @@
     <Authors>zmjack</Authors>
     <Company>nstandard.net</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.31.0</Version>
+    <Version>0.32.0</Version>
     <Description>DotNet extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
@@ -48,22 +48,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="System.Web" Condition="
-               '$(TargetFramework)'=='net35' or 
-               '$(TargetFramework)'=='net451' or
-               '$(TargetFramework)'=='net452' or
-               '$(TargetFramework)'=='net46' or
-               '$(TargetFramework)'=='net461' or
-               '$(TargetFramework)'=='net462' or
-               '$(TargetFramework)'=='net47' or
-               '$(TargetFramework)'=='net471' or
-               '$(TargetFramework)'=='net472' or
-               '$(TargetFramework)'=='net48'"
-    />
+    <Reference Include="System.Web" Condition="&#xD;&#xA;               '$(TargetFramework)'=='net35' or &#xD;&#xA;               '$(TargetFramework)'=='net451' or&#xD;&#xA;               '$(TargetFramework)'=='net452' or&#xD;&#xA;               '$(TargetFramework)'=='net46' or&#xD;&#xA;               '$(TargetFramework)'=='net461' or&#xD;&#xA;               '$(TargetFramework)'=='net462' or&#xD;&#xA;               '$(TargetFramework)'=='net47' or&#xD;&#xA;               '$(TargetFramework)'=='net471' or&#xD;&#xA;               '$(TargetFramework)'=='net472' or&#xD;&#xA;               '$(TargetFramework)'=='net48'" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Any.Zip.tt">
+    <None Update="~Any\Any.Zip.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Any.Zip.cs</LastGenOutput>
     </None>
@@ -86,11 +75,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Any.Zip.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Any.Zip.tt</DependentUpon>
-    </Compile>
     <Compile Update="StructTuple.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

@@ -11,7 +11,7 @@
 
 You can use it to get the following support:
 
-- Implementation of new feature compatibility for **.NET Framework**.
+- Provide compatibility implementation of some new features of **.NET Core** for **.NET Framework**.
 - Common data structures and some code patterns.
 
 <br/>
@@ -48,6 +48,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version: 0.32.0
+
+- New method: **[Any.Chain](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Chain.md)**, Used to transform nested loops to a single loop.
+
 ### Version: 0.31.0
 
 - The extension methods **Then** / **For** has been renamed to **Pipe** .
@@ -70,17 +74,17 @@ These frameworks are supported:
 
 ### Version: 0.17.0
 
-- Add function: **[Any.Forward](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Forward.md)**, iterate by depth.
-- Add function: **[ArrayExtensions.Map](https://github.com/zmjack/NStandard/blob/master/docs/en/ArrayExtensions.md)**, projects all elements to an array of the new type.
+- Add method: **[Any.Forward](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Forward.md)**, iterate by depth.
+- Add method: **[ArrayExtensions.Map](https://github.com/zmjack/NStandard/blob/master/docs/en/ArrayExtensions.md)**, projects all elements to an array of the new type.
 
 ### Version: 0.16.0
 
-- Add function: **Any.Text.ComputeHashCode**, Computes a fixed hash of a string.
+- Add method: **Any.Text.ComputeHashCode**, Computes a fixed hash of a string.
 
 ### Version: 0.15.0
 
-- Add function: **[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Flat.md)**, flatten array.
-- Add function: **[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.ReDim.md)**, reallocate array size.
+- Add method: **[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Flat.md)**, flatten array.
+- Add method: **[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.ReDim.md)**, reallocate array size.
 
 ### Version: 0.14.0
 
@@ -109,6 +113,7 @@ These frameworks are supported:
 
 | Name                                                         | Description                                                  | Status                                  |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | --------------------------------------- |
+| **[Any.Chain](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Chain.md)** | Convert multiple layers of nested loops to a single-layer chain. | **<font color=blue>`Finalized`</font>** |
 | **Any.Create**                                               | Creates a instance by the specified function.                | **<font color=blue>`Finalized`</font>** |
 | **[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Flat.md)** | Creates a one-dimensional array containing all elements of the specified multidimensional arrays. | **<font color=blue>`Finalized`</font>** |
 | **[Any.Forward](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Forward.md)** | Computes the element by path and returns the element.        | **<font color=blue>`Finalized`</font>** |

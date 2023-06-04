@@ -1,6 +1,4 @@
-﻿using NStandard.Debug;
-using System;
-using System.IO;
+﻿using System;
 using System.Linq;
 using System.Text;
 using Xunit;
@@ -289,12 +287,12 @@ namespace NStandard.Test
         [Fact]
         public void ChainTest1()
         {
-            var chainLayers = Any.Chain(1, new Func<int, int[]>[]
+            var chainIterators = Any.Chain(1, new Func<int, int[]>[]
             {
                 x => new int[2].Let(i => x + i),
                 x => new int[3].Let(i => 10 * x + i),
             })
-                .Where(x => x.Origin == SeekOrigin.Current).Select(x => x.Layers.ToArray())
+                .Where(x => x.Origin == ChainOrigin.Current).Select(x => x.Iterators.ToArray())
                 .ToArray();
 
             Assert.Equal(new[]
@@ -305,18 +303,18 @@ namespace NStandard.Test
                 new[] { 2, 20 },
                 new[] { 2, 21 },
                 new[] { 2, 22 },
-            }, chainLayers);
+            }, chainIterators);
         }
 
         [Fact]
         public void ChainTest2()
         {
-            var chainLayers = Any.Chain(new int[][]
+            var chainIterators = Any.Chain(new int[][]
             {
                 new[] { 1, 2 },
                 new[] { 3, 4, 5 },
             })
-                .Where(x => x.Origin == SeekOrigin.Current).Select(x => x.Layers.ToArray())
+                .Where(x => x.Origin == ChainOrigin.Current).Select(x => x.Iterators.ToArray())
                 .ToArray();
 
             Assert.Equal(new[]
@@ -327,7 +325,7 @@ namespace NStandard.Test
                 new[] { 2, 3 },
                 new[] { 2, 4 },
                 new[] { 2, 5 },
-            }, chainLayers);
+            }, chainIterators);
         }
 
         [Fact]

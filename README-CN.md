@@ -11,7 +11,7 @@
 
 您可以通过使用它来获得以下支持：
 
-- 针对 .NET Framework 的新功能兼容性实现。
+- 为 **.NET Framework** 的提供 **.NET Core** 部分新功能兼容性实现。
 - 常用数据结构及一些代码定式。
 
 <br/>
@@ -48,6 +48,10 @@
 
 ## 最近更新
 
+### 版本：0.32.0
+
+- 新增方法：**[Any.Chain](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Chain.md)**，用于将多层嵌套循环转换为单层。
+
 ### 版本：0.31.0
 
 - 扩展方法 **Then** / **For** 已重命名为 **Pipe** 。
@@ -70,17 +74,17 @@
 
 ### 版本：0.17.0
 
-- 新增函数：**[Any.Forward](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Forward.md)**，深度迭代。
-- 新增函数：**[ArrayExtensions.Map](https://github.com/zmjack/NStandard/blob/master/docs/cn/ArrayExtensions.md)**，投影所有元素到新类型的数组。
+- 新增方法：**[Any.Forward](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Forward.md)**，深度迭代。
+- 新增方法：**[ArrayExtensions.Map](https://github.com/zmjack/NStandard/blob/master/docs/cn/ArrayExtensions.md)**，投影所有元素到新类型的数组。
 
 ### 版本：0.16.0
 
-- 新增函数：**Any.Text.ComputeHashCode**，计算字符串的固定哈希值。
+- 新增方法：**Any.Text.ComputeHashCode**，计算字符串的固定哈希值。
 
 ### 版本：0.15.0
 
-- 新增函数：**[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Flat.md)**，扁平化数组。
-- 新增函数：**[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.ReDim.md)**，重新分配数组大小。
+- 新增方法：**[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Flat.md)**，扁平化数组。
+- 新增方法：**[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.ReDim.md)**，重新分配数组大小。
 
 ### 版本：0.14.0
 
@@ -107,6 +111,7 @@
 
 | 名称                                                         | 描述                                           | 状态                               |
 | ------------------------------------------------------------ | ---------------------------------------------- | ---------------------------------- |
+| **[Any.Chain](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Chain.md)** | 将多层嵌套循环转换为单层链。                   | **<font color=blue>`定稿`</font>** |
 | **Any.Create**                                               | 通过指定的函数创建一个实例。                   | **<font color=blue>`定稿`</font>** |
 | **[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Flat.md)** | 创建一个包含指定多维数组的所有元素的一维数组。 | **<font color=blue>`定稿`</font>** |
 | **[Any.Forward](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Forward.md)** | 按路径计算元素并返回。                         | **<font color=blue>`定稿`</font>** |
