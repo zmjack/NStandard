@@ -5,6 +5,7 @@ using System.Threading;
 
 namespace NStandard
 {
+    [Obsolete("Use ConsoleContext instead.")]
     public class ConsoleAgent : Scope<ConsoleAgent>
     {
         protected static readonly object Locker = new();

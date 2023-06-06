@@ -26,23 +26,12 @@
 
 ## 安装
 
-- **Package Manager**
-
-  ```powershell
-  Install-Package NStandard
-  ```
-
 - **.NET CLI**
 
   ```powershell
   dotnet add package NStandard
   ```
 
-- **PackageReference**
-
-  ```powershell
-  <PackageReference Include="NStandard" Version="*" />
-  ```
 
 <br/>
 

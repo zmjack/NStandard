@@ -9,10 +9,12 @@ namespace NStandard.Windows
     public class CmdProcess : IDisposable
     {
         public Process Process { get; }
-        public TextWriter OutputRedirect { get; set; }
+        public TextWriter Out { get; set; }
+        public TextWriter Error { get; set; }
 
         private bool disposedValue;
-        private DateTime lastWriteTime = DateTime.MaxValue;
+        private DateTime lastWriteTime = DateTime.Now;
+        private bool _outOrError = false;
 
         public CmdProcess()
         {
@@ -35,14 +37,16 @@ namespace NStandard.Windows
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
+            _outOrError = true;
             lastWriteTime = DateTime.Now;
-            OutputRedirect?.WriteLine(e.Data);
+            Out?.WriteLine(e.Data);
         }
 
         private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
+            _outOrError = true;
             lastWriteTime = DateTime.Now;
-            OutputRedirect?.WriteLine(e.Data);
+            Error?.WriteLine(e.Data);
         }
 
         public void WriteLine(string cmd)
@@ -51,14 +55,13 @@ namespace NStandard.Windows
             Process.StandardInput.Flush();
         }
 
-        public void WaitUnchanged(TimeSpan span) => WaitUnchanged(span, TimeSpan.FromSeconds(1));
-
-        public void WaitUnchanged(TimeSpan span, TimeSpan checkInterval)
+        public void WaitAnyOutput(TimeSpan span)
         {
-            while (true)
+            _outOrError = false;
+            TimeSpan interval;
+            while (!_outOrError && ((interval = DateTime.Now - lastWriteTime) < span))
             {
-                if (DateTime.Now - lastWriteTime > span) break;
-                else Thread.Sleep(checkInterval);
+                Thread.Sleep(interval / 2);
             }
         }
 

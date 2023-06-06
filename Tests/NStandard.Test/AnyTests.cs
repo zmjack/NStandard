@@ -292,7 +292,8 @@ namespace NStandard.Test
                 x => new int[2].Let(i => x + i),
                 x => new int[3].Let(i => 10 * x + i),
             })
-                .Where(x => x.Origin == ChainOrigin.Current).Select(x => x.Iterators.ToArray())
+                .Where(x => x.Origin == ChainOrigin.Current)
+                .Select(x => x.Iterators.ToArray())
                 .ToArray();
 
             Assert.Equal(new[]
