@@ -166,7 +166,7 @@ namespace NStandard.Runtime
 
         public virtual Type GetType(string name)
         {
-            if (name.Count(",") == 1)
+            if (name.Count(',') == 1)
             {
                 var parts = name.Split(',');
                 var typeName = parts[0];

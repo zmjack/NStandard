@@ -32,14 +32,22 @@
   dotnet add package NStandard
   ```
 
-
 <br/>
 
 ## 最近更新
 
+### 版本：0.35.0
+
+- 优化 **PatternSearch** 性能，为 **Array** 增加 **Locate(s)** 方法用于查找子序列索引。
+- **VariantString** 已重命名为 **Variant**。
+
+### 版本：0.34.0
+
+- 新功能：**Any.Compose**，用于创建合并函数。
+
 ### 版本：0.32.0
 
-- 新增方法：**[Any.Chain](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Chain.md)**，用于将多层嵌套循环转换为单层。
+- 新功能：**[Any.Chain](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Chain.md)**，用于将多层嵌套循环转换为单层。
 
 ### 版本：0.31.0
 
@@ -47,7 +55,7 @@
 
 ### 版本：0.22.0
 
-- 新增类 **FixedSizeQueue**.
+- 新功能：**FixedSizeQueue** 类型.
 - **中断性变更**：**SlidingWindow** 已重新设计，并重命名为 **Sliding**。
 
 ### 版本：0.21.0
@@ -58,22 +66,22 @@
 - **中断性变更**：使用 **Any.Forward** 替代 **ObjectExtension.Forward** 方法。
 - **中断性变更**：使用 **Sync** 替代 **SyncLazy** 类型。
 - **中断性变更**：已移除类 **LabelValuePair**、**Zipper**、**SyncLazy**。
-- 新增类 **[State](https://github.com/zmjack/NStandard/blob/master/docs/cn/State.md)**，用于支持数据绑定。
+- 新功能：**[State](https://github.com/zmjack/NStandard/blob/master/docs/cn/State.md)** 类型，用于支持数据绑定。
 - 调整预编译宏，使其更加合理。
 
 ### 版本：0.17.0
 
-- 新增方法：**[Any.Forward](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Forward.md)**，深度迭代。
-- 新增方法：**[ArrayExtensions.Map](https://github.com/zmjack/NStandard/blob/master/docs/cn/ArrayExtensions.md)**，投影所有元素到新类型的数组。
+- 新功能：**[Any.Forward](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Forward.md)**，深度迭代。
+- 新功能：**[ArrayExtensions.Map](https://github.com/zmjack/NStandard/blob/master/docs/cn/ArrayExtensions.md)**，投影所有元素到新类型的数组。
 
 ### 版本：0.16.0
 
-- 新增方法：**Any.Text.ComputeHashCode**，计算字符串的固定哈希值。
+- 新功能：**Any.Text.ComputeHashCode**，计算字符串的固定哈希值。
 
 ### 版本：0.15.0
 
-- 新增方法：**[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Flat.md)**，扁平化数组。
-- 新增方法：**[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.ReDim.md)**，重新分配数组大小。
+- 新功能：**[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.Flat.md)**，扁平化数组。
+- 新功能：**[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/cn/Any.ReDim.md)**，重新分配数组大小。
 
 ### 版本：0.14.0
 

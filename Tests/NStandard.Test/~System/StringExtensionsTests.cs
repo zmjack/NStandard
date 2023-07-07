@@ -50,9 +50,9 @@ namespace NStandard.Test
             {
                 0x0C, 0x66, 0x18, 0x2E, 0xC7, 0x10, 0x84, 0x00, 0x65, 0xEB, 0xAA, 0x47, 0xC5, 0xE6, 0xCE, 0x90
             };
-            Assert.Equal(hexString_Bytes, hexString.For(StringFlow.BytesFromHexString));
-            Assert.Equal(hexString, hexString_Bytes.For(BytesFlow.HexString));
-            Assert.Equal(hexString, hexString_Base64.For(StringFlow.BytesFromBase64).String(Encoding.Default));
+            Assert.Equal(hexString_Bytes, hexString.Pipe(StringFlow.BytesFromHexString));
+            Assert.Equal(hexString, hexString_Bytes.Pipe(BytesFlow.HexString));
+            Assert.Equal(hexString, hexString_Base64.Pipe(StringFlow.BytesFromBase64).String(Encoding.Default));
         }
 
         [Fact]

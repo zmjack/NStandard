@@ -41,15 +41,15 @@ namespace NStandard.Locks
         public virtual Lock Parse(TInstance instance)
         {
             return new Lock(string.Intern(
-                $"[{LockName.For(StringFlow.UrlEncode)}<{typeof(TInstance).FullName}>]:" +
-                $"{FlagLambdas.Select(x => x(instance).ToString().For(StringFlow.UrlEncode)).Join(" ")}"));
+                $"[{StringFlow.UrlEncode(LockName)}<{typeof(TInstance).FullName}>]:" +
+                $"{FlagLambdas.Select(x => StringFlow.UrlEncode(x(instance).ToString())).Join(" ")}"));
         }
 
         public virtual Lock ParseThreadLock(TInstance instance)
         {
             return new Lock(string.Intern(
-                $"[({Thread.CurrentThread.ManagedThreadId}){LockName.For(StringFlow.UrlEncode)}<{typeof(TInstance).FullName}>]:" +
-                $"{FlagLambdas.Select(x => x(instance).ToString().For(StringFlow.UrlEncode)).Join(" ")}"));
+                $"[({Thread.CurrentThread.ManagedThreadId}){StringFlow.UrlEncode(LockName)}<{typeof(TInstance).FullName}>]:" +
+                $"{FlagLambdas.Select(x => StringFlow.UrlEncode(x(instance).ToString())).Join(" ")}"));
         }
 
     }

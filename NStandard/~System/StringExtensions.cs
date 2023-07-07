@@ -1,5 +1,4 @@
-﻿using NStandard.Algorithm;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,6 +10,8 @@ namespace NStandard
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class StringExtensions
     {
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Use (ValueWrapper<string>)@this instead.")]
         public static VString VString(this string @this) => new(@this);
 
         /// <summary>
@@ -146,14 +147,44 @@ namespace NStandard
         }
 
         /// <summary>
-        /// Returns the number of occurrences of substring which in the specified string.
+        /// Returns the number of char which in the specified string.
         /// </summary>
         /// <param name="this"></param>
-        /// <param name="searchString"></param>
+        /// <param name="ch"></param>
+        /// <returns></returns>
+        public static int Count(this string @this, char ch)
+        {
+            return @this.Count(x => x == ch);
+        }
+
+        /// <summary>
+        /// Returns the number of substring which in the specified string.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <param name="subString"></param>
         /// <param name="overlapping"></param>
         /// <returns></returns>
-        public static int Count(this string @this, string searchString, bool overlapping = false)
-            => new Kmp(searchString).Count(@this, overlapping);
+        public static int Count(this string @this, string subString, bool overlapping = false)
+        {
+            if (string.IsNullOrEmpty(subString)) throw new ArgumentException("The sub string can not be null or empty.", nameof(subString));
+            if (subString.Length == 1) return Count(@this, subString[0]);
+
+            var indices = @this.ToCharArray().Locates(subString.ToCharArray());
+            if (overlapping) return indices.Count();
+
+            var length = subString.Length;
+            var preIndex = -length;
+            var count = 0;
+            foreach (var index in indices)
+            {
+                if (index - preIndex >= length)
+                {
+                    count++;
+                    preIndex = index;
+                }
+            }
+            return count;
+        }
 
         /// <summary>
         /// Returns a new string which is normalized by the newline string of current environment.
@@ -345,7 +376,10 @@ namespace NStandard
             int pos;
 
             if (!padRight)
-                pos = (@this.Length % unitLength).For(x => x > 0 ? x : unitLength);
+            {
+                pos = @this.Length % unitLength;
+                if (pos <= 0) pos = unitLength;
+            }
             else pos = unitLength;
 
             foreach (var ch in @this)
@@ -517,15 +551,15 @@ namespace NStandard
         public static int IndexOf(this string @this, Func<char, bool> predicate, int startIndex, int count)
         {
             int i = startIndex;
-            int iEnd = startIndex + count;
-            if (iEnd < 1) return -1;
+            int end = startIndex + count;
+            if (end < 1) return -1;
 
             foreach (var e in @this.Skip(startIndex))
             {
                 if (predicate(e))
                     return i;
                 i++;
-                if (i == iEnd) break;
+                if (i == end) break;
             }
             return -1;
         }

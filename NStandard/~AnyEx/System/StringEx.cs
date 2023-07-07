@@ -250,9 +250,10 @@ namespace NStandard
 
             var prePattern = new[] { "/", @"\", "+", "*", "[", "]", "(", ")", "?", "|", "^" }
                 .Aggregate(format, (_acc, ch) => _acc.Replace(ch, $"\\{ch}"));
-            var pattern = new int[members.Length].Let(i => i)
-                .Aggregate(prePattern, (acc, i) => acc.Replace($"{{{i}}}\\?", @"(.*?)").Replace($"{{{i}}}", @"(.*)"))
-                .For(x => $"^{x}$");
+            var contentPattern = RangeEx.Create(0, members.Length)
+                .Aggregate(prePattern, (acc, i) => acc.Replace($"{{{i}}}\\?", @"(.*?)").Replace($"{{{i}}}", @"(.*)"));
+
+            var pattern = $"^{contentPattern}$";
             var regex = new Regex(pattern, RegexOptions.Singleline);
 
             var match = regex.Match(source);

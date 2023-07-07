@@ -32,14 +32,23 @@ These frameworks are supported:
   dotnet add package NStandard
   ```
 
-
 <br/>
 
 ## Recently
 
+### Version: 0.35.0
+
+- Optimize **PatternSearch** performance, add **Locate(s)** method to **Array** to find subsequence index.
+
+- **VariantString** has been renamed to **Variant**.
+
+### Version: 0.34.0
+
+- New feature: **Any.Compose**, to create function composition.
+
 ### Version: 0.32.0
 
-- New method: **[Any.Chain](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Chain.md)**, Used to transform nested loops to a single loop.
+- New feature: **[Any.Chain](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Chain.md)**, Used to transform nested loops to a single loop.
 
 ### Version: 0.31.0
 
@@ -47,7 +56,7 @@ These frameworks are supported:
 
 ### Version: 0.22.0
 
-- A new class **FixedSizeQueue** is added.
+- New feature: class **FixedSizeQueue**.
 - **BREAKING CHANGE**: **SlidingWindow** has been redesigned and renamed to **Sliding**。
 
 ### Version: 0.21.0
@@ -58,22 +67,22 @@ These frameworks are supported:
 - **BREAKING CHANGE**: Use **Any.Forward** instead of **ObjectExtension.Forward** method.
 - **BREAKING CHANGE**: Use **Sync** instead of **SyncLazy** type.
 - **BREAKING CHANGE**: Classes **LabelValuePair**, **Zipper**, **SyncLazy** has been removed.
-- A new class **[State](https://github.com/zmjack/NStandard/blob/master/docs/en/State.md)** is added to support data binding.
+- New feature: class **[State](https://github.com/zmjack/NStandard/blob/master/docs/en/State.md)**, to support data binding.
 - Adjust precompiled macros to make them more reasonable.
 
 ### Version: 0.17.0
 
-- Add method: **[Any.Forward](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Forward.md)**, iterate by depth.
-- Add method: **[ArrayExtensions.Map](https://github.com/zmjack/NStandard/blob/master/docs/en/ArrayExtensions.md)**, projects all elements to an array of the new type.
+- New feature: **[Any.Forward](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Forward.md)**, iterate by depth.
+- New feature: **[ArrayExtensions.Map](https://github.com/zmjack/NStandard/blob/master/docs/en/ArrayExtensions.md)**, projects all elements to an array of the new type.
 
 ### Version: 0.16.0
 
-- Add method: **Any.Text.ComputeHashCode**, Computes a fixed hash of a string.
+- New feature: **Any.Text.ComputeHashCode**, Computes a fixed hash of a string.
 
 ### Version: 0.15.0
 
-- Add method: **[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Flat.md)**, flatten array.
-- Add method: **[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.ReDim.md)**, reallocate array size.
+- New feature: **[Any.Flat](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.Flat.md)**, flatten array.
+- New feature: **[Any.ReDim](https://github.com/zmjack/NStandard/blob/master/docs/en/Any.ReDim.md)**, reallocate array size.
 
 ### Version: 0.14.0
 

@@ -35,20 +35,20 @@ namespace NStandard.Json.Test
         [Fact]
         public void SerializeTest()
         {
-            Assert_Serialize("\"\"", new VariantString(null as string));
-            Assert_Serialize("\"\"", new VariantString(""));
-            Assert_Serialize("\"123\"", new VariantString("123"));
-            Assert_Serialize("\"123.456\"", new VariantString("123.456"));
-            Assert_Serialize($"\"{new DateTime(2000, 1, 2, 0, 10, 20)}\"", new VariantString(new DateTime(2000, 1, 2, 0, 10, 20)));
+            Assert_Serialize("\"\"", new Variant(null as string));
+            Assert_Serialize("\"\"", new Variant(""));
+            Assert_Serialize("\"123\"", new Variant("123"));
+            Assert_Serialize("\"123.456\"", new Variant("123.456"));
+            Assert_Serialize($"\"{new DateTime(2000, 1, 2, 0, 10, 20)}\"", new Variant(new DateTime(2000, 1, 2, 0, 10, 20)));
         }
 
         [Fact]
         public void DeserializeTest()
         {
-            Assert_Deserialize(new VariantString(""), "\"\"");
-            Assert_Deserialize(new VariantString("123"), "\"123\"");
-            Assert_Deserialize(new VariantString("123.456"), "\"123.456\"");
-            Assert_Deserialize(new VariantString(new DateTime(2000, 1, 2, 0, 10, 20)), $"\"{new DateTime(2000, 1, 2, 0, 10, 20)}\"");
+            Assert_Deserialize(new Variant(""), "\"\"");
+            Assert_Deserialize(new Variant("123"), "\"123\"");
+            Assert_Deserialize(new Variant("123.456"), "\"123.456\"");
+            Assert_Deserialize(new Variant(new DateTime(2000, 1, 2, 0, 10, 20)), $"\"{new DateTime(2000, 1, 2, 0, 10, 20)}\"");
         }
 
     }

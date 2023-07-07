@@ -1,8 +1,8 @@
 ﻿namespace NStandard
 {
-    public interface ISliceCount<TSliceRet>
+    public interface ISliceCount<TRet>
     {
         int Count { get; }
-        TSliceRet Slice(int start, int length);
+        TRet Slice(int start, int length);
     }
 }

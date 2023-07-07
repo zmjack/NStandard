@@ -23,18 +23,17 @@ namespace NStandard.Converts
         /// <returns></returns>
         public static string ConvertUrlSafeBase64ToBase64(string urlBase64)
         {
-            var padding = "=".Repeat((urlBase64.Length % 4).For(x =>
+            var mod = urlBase64.Length % 4;
+            var padding = "=".Repeat(mod switch
             {
-                switch (x)
-                {
-                    case 0: return 0;
-                    case 2: return 2;
-                    case 3: return 1;
-                    default: throw new FormatException("The input is not a valid Base-64 string");
-                }
-            }));
+                0 => 0,
+                2 => 2,
+                3 => 1,
+                _ => throw new FormatException("The input is not a valid Base-64 string"),
+            });
+            var content = urlBase64.Replace("_", "/").Replace("-", "+");
 
-            return urlBase64.Replace("_", "/").Replace("-", "+").For(_ => $"{_}{padding}");
+            return $"{content}{padding}";
         }
 
         /// <summary>

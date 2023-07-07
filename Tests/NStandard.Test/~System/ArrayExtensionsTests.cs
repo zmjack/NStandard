@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Xunit;
 
 namespace NStandard.Test
@@ -103,5 +104,22 @@ namespace NStandard.Test
             Assert.Equal(8, i8);
         }
 
+        [Fact]
+        public void LocateTest()
+        {
+            Assert.Equal(15, "BBC ABCDAB ABCDABCDABDE".ToCharArray().Locate("ABCDABD".ToCharArray()));
+            Assert.Equal(0, "AAAA".ToCharArray().Locate("AA".ToCharArray()));
+            Assert.Equal(0, "A".ToCharArray().Locate("A".ToCharArray()));
+            Assert.ThrowsAny<ArgumentException>(() => "A".ToCharArray().Locate("".ToCharArray()));
+        }
+
+        [Fact]
+        public void LocatesTest()
+        {
+            Assert.Single("BBC ABCDAB ABCDABCDABDE".ToCharArray().Locates("ABCDABD".ToCharArray()));
+            Assert.Equal(3, "AAAA".ToCharArray().Locates("AA".ToCharArray()).Count());
+            Assert.Single("A".ToCharArray().Locates("A".ToCharArray()));
+            Assert.ThrowsAny<ArgumentException>(() => "A".ToCharArray().Locates("".ToCharArray()));
+        }
     }
 }

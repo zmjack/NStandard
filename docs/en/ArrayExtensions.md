@@ -1,4 +1,4 @@
-## ArrayExtensions
+## Array Extensions
 
 ### Prototype mapping
 

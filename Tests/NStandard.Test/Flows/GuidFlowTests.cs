@@ -11,11 +11,11 @@ namespace NStandard.Test
         {
             var guid = Guid.Parse("d19eaa91-337a-4853-9e93-52dfb50b3e31");
 
-            Assert.Equal("kaqe0XozU0iek1LftQs-MQ", guid.For(GuidFlow.UrlSafeBase64));
-            Assert.Equal(guid, "kaqe0XozU0iek1LftQs-MQ".For(StringFlow.GuidFromUrlSafeBase64));
+            Assert.Equal("kaqe0XozU0iek1LftQs-MQ", guid.Pipe(GuidFlow.UrlSafeBase64));
+            Assert.Equal(guid, "kaqe0XozU0iek1LftQs-MQ".Pipe(StringFlow.GuidFromUrlSafeBase64));
 
-            Assert.Equal("91aa9ed17a3353489e9352dfb50b3e31", guid.For(GuidFlow.HexString));
-            Assert.Equal(guid, "91aa9ed17a3353489e9352dfb50b3e31".For(StringFlow.GuidFromHexString));
+            Assert.Equal("91aa9ed17a3353489e9352dfb50b3e31", guid.Pipe(GuidFlow.HexString));
+            Assert.Equal(guid, "91aa9ed17a3353489e9352dfb50b3e31".Pipe(StringFlow.GuidFromHexString));
         }
 
     }

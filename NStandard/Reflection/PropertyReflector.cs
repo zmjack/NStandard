@@ -18,7 +18,7 @@ namespace NStandard.Reflection
 
         public virtual object Value
         {
-            get => DeclaringObject?.For(x => PropertyInfo.GetValue(x));
+            get => DeclaringObject?.Pipe(x => PropertyInfo.GetValue(x));
             set
             {
                 if (!(DeclaringObject is null))
@@ -36,7 +36,7 @@ namespace NStandard.Reflection
 
         public new T Value
         {
-            get => base.Value.For(x => x is null ? default : (T)x);
+            get => base.Value is null ? default : (T)base.Value;
             set => base.Value = value;
         }
 

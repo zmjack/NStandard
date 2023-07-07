@@ -9,18 +9,18 @@ namespace NStandard.Test
     public class ObjectExtensionsTests
     {
         [Fact]
-        public void ForClassTest()
+        public void PipeClassTest()
         {
             var aclass = new IntClass { Value = 1 };
-            aclass.For(x => x.Value = 2);
+            aclass.Pipe(x => x.Value = 2);
             Assert.Equal(2, aclass.Value);
         }
 
         [Fact]
-        public void ForStructTest()
+        public void PipeStructTest()
         {
             var astruct = new IntStrcut { Value = 1 };
-            astruct.For(x => x.Value = 2);
+            astruct.Pipe(x => x.Value = 2);
             Assert.Equal(1, astruct.Value);
 
             astruct.Value = 2;
