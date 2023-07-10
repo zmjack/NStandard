@@ -16,7 +16,7 @@ namespace NStandard.Algorithm
         private readonly T[] _pattern;
         public T[] Pattern => _pattern;
 
-        private int[] Nexts { get; set; }
+        private readonly int[] _nexts;
 
         public PatternSearcher(T[] pattern)
         {
@@ -50,16 +50,19 @@ namespace NStandard.Algorithm
                     }
                 }
             }
-            Nexts = nexts;
+
+            _nexts = nexts;
         }
 
         public int Match(T[] array, int startIndex, int count)
         {
             if (startIndex < 0) throw InvalidStartIndexException(nameof(startIndex));
-            if (array.Length > count - startIndex) throw CountOverflowException(nameof(count));
+
+            var stopIndex = startIndex + count;
+            if (stopIndex > array.Length) throw CountOverflowException(nameof(count));
 
             var length = Pattern.Length;
-            for (int si = startIndex, pi = 0; si < count;)
+            for (int si = startIndex, pi = 0; si < stopIndex;)
             {
                 if (array[si].Equals(_pattern[pi]))
                 {
@@ -68,7 +71,7 @@ namespace NStandard.Algorithm
                 }
                 else
                 {
-                    if (pi > 0) pi = Nexts[pi - 1];
+                    if (pi > 0) pi = _nexts[pi - 1];
                     else si++;
                 }
 
@@ -83,10 +86,12 @@ namespace NStandard.Algorithm
         public IEnumerable<int> Matches(T[] array, int startIndex, int count)
         {
             if (startIndex < 0) throw InvalidStartIndexException(nameof(startIndex));
-            if (array.Length > count - startIndex) throw CountOverflowException(nameof(count));
+
+            var stopIndex = startIndex + count;
+            if (stopIndex > array.Length) throw CountOverflowException(nameof(count));
 
             var length = Pattern.Length;
-            for (int si = startIndex, pi = 0; si < count;)
+            for (int si = startIndex, pi = 0; si < stopIndex;)
             {
                 if (array[si].Equals(_pattern[pi]))
                 {
@@ -95,7 +100,7 @@ namespace NStandard.Algorithm
                 }
                 else
                 {
-                    if (pi > 0) pi = Nexts[pi - 1];
+                    if (pi > 0) pi = _nexts[pi - 1];
                     else si++;
                 }
 
