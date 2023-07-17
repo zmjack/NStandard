@@ -3,7 +3,7 @@ using System;
 
 namespace NStandard.Json.Net.Converters
 {
-    public class VariantStringConverter : JsonConverter
+    public class VariantConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType) => objectType.IsType(typeof(Variant));
 

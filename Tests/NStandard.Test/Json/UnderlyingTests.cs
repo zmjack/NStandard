@@ -18,7 +18,10 @@ namespace NStandard.Json.Test
         });
         private readonly JsonSerializerSettings _settings = new()
         {
-            Converters = new JsonConverter[] { new Net.Converters.LazyConverter() },
+            Converters = new JsonConverter[]
+            {
+                new Net.Converters.LazyConverter(),
+            },
         };
 
         private void Assert_Serialize<T>(string expected, T actual)

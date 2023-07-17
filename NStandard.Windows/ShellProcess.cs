@@ -6,47 +6,56 @@ using System.Threading;
 namespace NStandard.Windows
 {
     [Obsolete("Designing.", false)]
-    public class CmdProcess : IDisposable
+    public class ShellProcess : IDisposable
     {
+        public string FileName { get; }
         public Process Process { get; }
+
         public TextWriter Out { get; set; }
         public TextWriter Error { get; set; }
 
         private bool disposedValue;
-        private DateTime lastWriteTime = DateTime.Now;
-        private bool _outOrError = false;
+        private DateTime _lastWriteTime = DateTime.Now;
 
-        public CmdProcess()
+        public ShellProcess(string fileName, string? arguments = null)
         {
             Process = Process.Start(new ProcessStartInfo
             {
-                FileName = "cmd",
+                FileName = fileName,
+                Arguments = arguments,
                 UseShellExecute = false,
                 RedirectStandardInput = true,
                 RedirectStandardError = true,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true,
-            });
-            Process.Start();
+            }) ?? throw new InvalidOperationException("Failed to create process.");
 
-            Process.BeginOutputReadLine();
-            Process.BeginErrorReadLine();
             Process.OutputDataReceived += Process_OutputDataReceived;
             Process.ErrorDataReceived += Process_ErrorDataReceived;
+
+            Process.Start();
+            Process.BeginOutputReadLine();
+            Process.BeginErrorReadLine();
         }
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            _outOrError = true;
-            lastWriteTime = DateTime.Now;
-            Out?.WriteLine(e.Data);
+            _lastWriteTime = DateTime.Now;
+            try
+            {
+                Out?.WriteLine(e.Data);
+            }
+            catch { }
         }
 
         private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
-            _outOrError = true;
-            lastWriteTime = DateTime.Now;
-            Error?.WriteLine(e.Data);
+            _lastWriteTime = DateTime.Now;
+            try
+            {
+                Error?.WriteLine(e.Data);
+            }
+            catch { }
         }
 
         public void WriteLine(string cmd)
@@ -57,9 +66,8 @@ namespace NStandard.Windows
 
         public void WaitAnyOutput(TimeSpan span)
         {
-            _outOrError = false;
             TimeSpan interval;
-            while (!_outOrError && ((interval = DateTime.Now - lastWriteTime) < span))
+            while ((interval = DateTime.Now - _lastWriteTime) < span)
             {
                 Thread.Sleep(interval / 2);
             }
@@ -72,7 +80,7 @@ namespace NStandard.Windows
                 if (disposing)
                 {
                     // TODO: dispose managed state (managed objects)
-                    Process.Kill();
+                    Process.Kill(true);
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override finalizer

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace NStandard.Json.Converters
 {
-    public class VariantStringConverter : JsonConverter<Variant>
+    public class VariantConverter : JsonConverter<Variant>
     {
         public override bool CanConvert(Type objectType) => objectType.IsType(typeof(Variant));
 
@@ -26,6 +26,5 @@ namespace NStandard.Json.Converters
         {
             writer.WriteStringValue(value.ToString());
         }
-
     }
 }

@@ -28,6 +28,5 @@ namespace NStandard.Json.Converters
             else if (double.IsNegativeInfinity(value)) writer.WriteStringValue("-Infinity");
             else writer.WriteNumberValue(value);
         }
-
     }
 }

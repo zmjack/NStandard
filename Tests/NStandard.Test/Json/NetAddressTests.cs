@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using NStandard.Json.Converters;
-using System;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Text.Json;
 using Xunit;
 using NewtonsoftJson = Newtonsoft.Json.JsonConvert;
@@ -8,17 +9,22 @@ using SystemJson = System.Text.Json.JsonSerializer;
 
 namespace NStandard.Json.Test
 {
-    public class VariantStringTests
+    public class NetAddressTests
     {
         private readonly JsonSerializerOptions _options = Any.Create(() =>
         {
             var options = new JsonSerializerOptions();
-            options.Converters.Add(new VariantStringConverter());
+            options.Converters.Add(new IPAddressConverter());
+            options.Converters.Add(new PhysicalAddressConverter());
             return options;
         });
         private readonly JsonSerializerSettings _settings = new()
         {
-            Converters = new JsonConverter[] { new Net.Converters.VariantStringConverter() },
+            Converters = new JsonConverter[]
+            {
+                new Net.Converters.IPAddressConverter(),
+                new Net.Converters.PhysicalAddressConverter(),
+            },
         };
 
         private void Assert_Serialize<T>(string expected, T actual)
@@ -32,23 +38,21 @@ namespace NStandard.Json.Test
             Assert.Equal(expected, NewtonsoftJson.DeserializeObject<T>(actual, _settings));
         }
 
+        private readonly IPAddress _ip = new(new byte[] { 127, 0, 0, 1 });
+        private readonly PhysicalAddress _mac = new(new byte[] { 0, 1, 2, 3, 4, 5 });
+
         [Fact]
         public void SerializeTest()
         {
-            Assert_Serialize("\"\"", new Variant(null as string));
-            Assert_Serialize("\"\"", new Variant(""));
-            Assert_Serialize("\"123\"", new Variant("123"));
-            Assert_Serialize("\"123.456\"", new Variant("123.456"));
-            Assert_Serialize($"\"{new DateTime(2000, 1, 2, 0, 10, 20)}\"", new Variant(new DateTime(2000, 1, 2, 0, 10, 20)));
+            Assert_Serialize("\"127.0.0.1\"", _ip);
+            Assert_Serialize("\"00-01-02-03-04-05\"", _mac);
         }
 
         [Fact]
         public void DeserializeTest()
         {
-            Assert_Deserialize(new Variant(""), "\"\"");
-            Assert_Deserialize(new Variant("123"), "\"123\"");
-            Assert_Deserialize(new Variant("123.456"), "\"123.456\"");
-            Assert_Deserialize(new Variant(new DateTime(2000, 1, 2, 0, 10, 20)), $"\"{new DateTime(2000, 1, 2, 0, 10, 20)}\"");
+            Assert_Deserialize(_ip, "\"127.0.0.1\"");
+            Assert_Deserialize(_mac, "\"00-01-02-03-04-05\"");
         }
 
     }

@@ -43,5 +43,4 @@ namespace NStandard.Json.Converters
             JsonSerializer.Serialize(writer, value.Value, typeof(TValue), options);
         }
     }
-
 }
