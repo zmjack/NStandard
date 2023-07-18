@@ -36,6 +36,38 @@
 
 ## 最近更新
 
+### 版本：0.36.0
+
+- 为 **.NET 7+** 提供 **BitConverterEx** 类以对支持 **Int128** 及 **UInt128** 相关方法。
+
+- 提供 **IPAddress** 到 **UInt32 / UInt128** 的计算支持。
+
+  - IPAddressEx.**Create**
+  - IPAddressExtensions.**ToUInt32**
+  - IPAddressExtensions.**ToUInt128**
+
+- 提供 **.NET 7** 对 **DateTime** / **DateTimeOffset** 中断性更新的兼容性方案：
+
+  **.NET 7** 对 **AddDays** 等 **Ticks** 算法以每 **1 tick** 为单位进行计算；
+
+  **.NET 6** 及以前是以每 **10'000 ticks** 为单位进行计算。
+
+  提供 **ToFixed** 扩展方法，用于使用 **Banker's Rounding** 对 **DateTime** 以每 **10 ticks** 为单位进行取整。
+
+  ```csharp
+  var dt = new DateTime(2000, 1, 1).AddDays(9.2);
+  // .NET 6-:
+  //      2000/1/10 4:48:00    630830764800000000 ticks
+  // .NET 7+:
+  //      2000/1/10 4:47:59    630830764799999999 ticks
+  
+  var dtf = dt.ToFixed();
+  // .NET 6-:
+  //      2000/1/10 4:48:00    630830764800000000 ticks
+  // .NET 7+:
+  //      2000/1/10 4:48:00    630830764800000000 ticks
+  ```
+
 ### 版本：0.35.0
 
 - 优化 **PatternSearch** 性能，为 **Array** 增加 **Locate(s)** 方法用于查找子序列索引。

@@ -5,8 +5,27 @@ using System.Linq;
 namespace NStandard
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public static class DateTimeExtensions
+    public static class DateTimeOffsetExtensions
     {
+        /// <summary>
+        /// Gets a compatible instance in microseconds.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateTimeOffset ToFixed(this DateTimeOffset @this)
+        {
+            var n100 = @this.Ticks % 10;
+            if (n100 < 5) return @this.AddTicks(-n100);
+            else if (n100 > 5) return @this.AddTicks(10 - n100);
+            else
+            {
+                var us = @this.Ticks / 10 % 10;
+                if ((us & 1) == 0)
+                    return @this.AddTicks(-n100);
+                else return @this.AddTicks(10 - n100);
+            }
+        }
+
         /// <summary>
         /// Gets a past day for the specified day of week.
         /// </summary>
@@ -14,9 +33,10 @@ namespace NStandard
         /// <param name="dayOfWeek"></param>
         /// <param name="includeCurrentDay"></param>
         /// <returns></returns>
-        public static DateTime PastDay(this DateTime @this, DayOfWeek dayOfWeek, bool includeCurrentDay = false)
+        public static DateTimeOffset PastDay(this DateTimeOffset @this, DayOfWeek dayOfWeek, bool includeCurrentDay = false)
         {
             var days = dayOfWeek - @this.DayOfWeek;
+
             if (!includeCurrentDay && days == 0) return @this.AddDays(-7);
             else return @this.AddDays(CastCycleDays(days, true));
         }
@@ -28,7 +48,7 @@ namespace NStandard
         /// <param name="dayOfWeek"></param>
         /// <param name="includeCurrentDay"></param>
         /// <returns></returns>
-        public static DateTime FutureDay(this DateTime @this, DayOfWeek dayOfWeek, bool includeCurrentDay = false)
+        public static DateTimeOffset FutureDay(this DateTimeOffset @this, DayOfWeek dayOfWeek, bool includeCurrentDay = false)
         {
             var days = dayOfWeek - @this.DayOfWeek;
 
@@ -43,9 +63,9 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="weekStart"></param>
         /// <returns></returns>
-        public static int WeekInMonth(this DateTime @this, DayOfWeek weekStart = DayOfWeek.Sunday)
+        public static int WeekInMonth(this DateTimeOffset @this, DayOfWeek weekStart = DayOfWeek.Sunday)
         {
-            var day1 = new DateTime(@this.Year, @this.Month, 1, 0, 0, 0, @this.Kind);
+            var day1 = new DateTimeOffset(@this.Year, @this.Month, 1, 0, 0, 0, @this.Offset);
             var week0 = PastDay(day1, weekStart, true);
 
             if (week0.Month == @this.Month) week0 = week0.AddDays(-7);
@@ -58,23 +78,25 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="weekStart"></param>
         /// <returns></returns>
-        public static int Week(this DateTime @this, DayOfWeek weekStart = DayOfWeek.Sunday)
+        public static int Week(this DateTimeOffset @this, DayOfWeek weekStart = DayOfWeek.Sunday)
         {
-            var day1 = new DateTime(@this.Year, 1, 1, 0, 0, 0, @this.Kind);
+            var day1 = new DateTimeOffset(@this.Year, 1, 1, 0, 0, 0, @this.Offset);
             var week0 = PastDay(day1, weekStart, true);
 
             if (week0.Year == @this.Year) week0 = week0.AddDays(-7);
             return (PastDay(@this, weekStart, true) - week0).Days / 7;
         }
 
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
+#else
         /// <summary>
         /// Returns the number of milliseconds that have elapsed since 1970-01-01T00:00:00.000Z.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static long ToUnixTimeMilliseconds(this DateTime @this)
+        public static long ToUnixTimeMilliseconds(this DateTimeOffset @this)
         {
-            long num = @this.ToUniversalTime().Ticks / 10000;
+            long num = @this.UtcDateTime.Ticks / 10000;
             return num - 62135596800000L;
         }
 
@@ -83,77 +105,78 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static long ToUnixTimeSeconds(this DateTime @this)
+        public static long ToUnixTimeSeconds(this DateTimeOffset @this)
         {
-            long num = @this.ToUniversalTime().Ticks / 10000000;
+            long num = @this.UtcDateTime.Ticks / 10000000;
             return num - 62135596800L;
         }
-
-        /// <summary>
-        /// Get the start point of the sepecified year.
-        /// </summary>
-        /// <param name="this"></param>
-        /// <returns></returns>
-        public static DateTime StartOfYear(this DateTime @this) => new(@this.Year, 1, 1, 0, 0, 0, 0, @this.Kind);
+#endif
 
         /// <summary>
         /// Get the start point of the sepecified month.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime StartOfMonth(this DateTime @this) => new(@this.Year, @this.Month, 1, 0, 0, 0, 0, @this.Kind);
+        public static DateTimeOffset StartOfYear(this DateTimeOffset @this) => new(@this.Year, 1, 1, 0, 0, 0, 0, @this.Offset);
+
+        /// <summary>
+        /// Get the start point of the sepecified month.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateTimeOffset StartOfMonth(this DateTimeOffset @this) => new(@this.Year, @this.Month, 1, 0, 0, 0, 0, @this.Offset);
 
         /// <summary>
         /// Get the start point of the sepecified day.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime StartOfDay(this DateTime @this) => @this.Date;
+        public static DateTimeOffset StartOfDay(this DateTimeOffset @this) => @this.Date;
 
         /// <summary>
         /// Get the start point of the sepecified hour.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime StartOfHour(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, 0, 0, 0, @this.Kind);
+        public static DateTimeOffset StartOfHour(this DateTimeOffset @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, 0, 0, 0, @this.Offset);
 
         /// <summary>
         /// Get the start point of the sepecified minute.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime StartOfMinute(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, 0, 0, @this.Kind);
+        public static DateTimeOffset StartOfMinute(this DateTimeOffset @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, 0, 0, @this.Offset);
 
         /// <summary>
         /// Get the start point of the sepecified second.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime StartOfSecond(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, @this.Second, 0, @this.Kind);
-
-        /// <summary>
-        /// Get the end point of the sepecified year.
-        /// </summary>
-        /// <param name="this"></param>
-        /// <returns></returns>
-        public static DateTime EndOfYear(this DateTime @this) => new(@this.Year, 12, 31, 23, 59, 59, 999, @this.Kind);
+        public static DateTimeOffset StartOfSecond(this DateTimeOffset @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, @this.Second, 0, @this.Offset);
 
         /// <summary>
         /// Get the end point of the sepecified month.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime EndOfMonth(this DateTime @this)
+        public static DateTimeOffset EndOfYear(this DateTimeOffset @this) => new(@this.Year, 12, 31, 23, 59, 59, 999, @this.Offset);
+
+        /// <summary>
+        /// Get the end point of the sepecified month.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateTimeOffset EndOfMonth(this DateTimeOffset @this)
         {
             if (new[] { 1, 3, 5, 7, 8, 10, 12 }.Contains(@this.Month))
-                return new DateTime(@this.Year, @this.Month, 31, 23, 59, 59, 999, @this.Kind);
+                return new DateTimeOffset(@this.Year, @this.Month, 31, 23, 59, 59, 999, @this.Offset);
             else if (new[] { 4, 6, 9, 11 }.Contains(@this.Month))
-                return new DateTime(@this.Year, @this.Month, 30, 23, 59, 59, 999, @this.Kind);
+                return new DateTimeOffset(@this.Year, @this.Month, 30, 23, 59, 59, 999, @this.Offset);
             else
             {
                 if (DateTime.IsLeapYear(@this.Year))
-                    return new DateTime(@this.Year, @this.Month, 29, 23, 59, 59, 999, @this.Kind);
-                else return new DateTime(@this.Year, @this.Month, 28, 23, 59, 59, 999, @this.Kind);
+                    return new DateTimeOffset(@this.Year, @this.Month, 29, 23, 59, 59, 999, @this.Offset);
+                else return new DateTimeOffset(@this.Year, @this.Month, 28, 23, 59, 59, 999, @this.Offset);
             }
         }
 
@@ -162,37 +185,37 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime EndOfDay(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, 23, 59, 59, 999, @this.Kind);
+        public static DateTimeOffset EndOfDay(this DateTimeOffset @this) => new(@this.Year, @this.Month, @this.Day, 23, 59, 59, 999, @this.Offset);
 
         /// <summary>
         /// Get the end point of the sepecified hour.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime EndOfHour(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, 59, 59, 999, @this.Kind);
+        public static DateTimeOffset EndOfHour(this DateTimeOffset @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, 59, 59, 999, @this.Offset);
 
         /// <summary>
         /// Get the end point of the sepecified minute.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime EndOfMinute(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, 59, 999, @this.Kind);
+        public static DateTimeOffset EndOfMinute(this DateTimeOffset @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, 59, 999, @this.Offset);
 
         /// <summary>
         /// Get the end point of the sepecified second.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static DateTime EndOfSecond(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, @this.Second, 999, @this.Kind);
+        public static DateTimeOffset EndOfSecond(this DateTimeOffset @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, @this.Second, 999, @this.Offset);
 
         /// <summary>
-        /// Returns a new <see cref="DateTime"/> that adds the specified number of complete years to the value of this instance.
+        /// Returns a new <see cref="DateTimeOffset"/> that adds the specified number of complete years to the value of this instance.
         /// </summary>
         /// <param name="this"></param>
         /// <param name="value"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
-        public static DateTime AddDays(this DateTime @this, int value, DayMode mode)
+        public static DateTimeOffset AddDays(this DateTimeOffset @this, int value, DayMode mode)
         {
             if (value == 0) return @this;
 
@@ -291,30 +314,18 @@ namespace NStandard
             }
         }
 
-        /// <summary>
-        /// Returns a new <see cref="DateTime"/> that adds the specified number of complete years to the value of this instance.
-        /// </summary>
-        /// <param name="this"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        internal static DateTime AddYears(DateTime @this, int value)
+        internal static DateTimeOffset AddYears(DateTimeOffset @this, int value)
         {
             var target = @this.AddYears(value);
             if (value > 0 && target.Day < @this.Day) return target.AddDays(1);
             else return target;
         }
 
-        /// <summary>
-        /// Returns a new <see cref="DateTime"/> that adds the specified number of complete months to the value of this instance.
-        /// </summary>
-        /// <param name="this"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        internal static DateTime AddMonths(this DateTime @this, int value)
+        internal static DateTimeOffset AddMonths(DateTimeOffset @this, int value)
         {
             var target = @this.AddMonths(value);
-            if (value > 0 && target.Day < @this.Day) return target.AddDays(1);
-            else return target;
+            if (value > 0 && target.Day < @this.Day) target = target.AddDays(1);
+            return target;
         }
 
         /// <summary>
@@ -323,7 +334,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static DateTime AddTotalYears(this DateTime @this, double value)
+        public static DateTimeOffset AddTotalYears(this DateTimeOffset @this, double value)
         {
             var integer = (int)value;
             var fractional = value - integer;
@@ -352,7 +363,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static DateTime AddTotalMonths(this DateTime @this, double value)
+        public static DateTimeOffset AddTotalMonths(this DateTimeOffset @this, double value)
         {
             var integer = (int)value;
             var fractional = value - integer;
@@ -371,58 +382,57 @@ namespace NStandard
                 var end = AddMonths(@this, integer - 1);
                 offsetDays = (start - end).TotalDays * fractional;
             }
-
             return start.AddDays(offsetDays);
         }
 
         /// <summary>
-        /// Gets the number of milliseconds elapsed from <see cref="DateTime.MinValue"/>.
+        /// Gets the number of milliseconds elapsed from <see cref="DateTimeOffset.MinValue"/>.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static double ElapsedMilliseconds(this DateTime @this) => (@this - DateTime.MinValue).TotalMilliseconds;
+        public static double ElapsedMilliseconds(this DateTimeOffset @this) => (@this - DateTimeOffset.MinValue).TotalMilliseconds;
 
         /// <summary>
-        /// Gets the number of seconds elapsed from <see cref="DateTime.MinValue"/>.
+        /// Gets the number of seconds elapsed from <see cref="DateTimeOffset.MinValue"/>.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static double ElapsedSeconds(this DateTime @this) => (@this - DateTime.MinValue).TotalSeconds;
+        public static double ElapsedSeconds(this DateTimeOffset @this) => (@this - DateTimeOffset.MinValue).TotalSeconds;
 
         /// <summary>
-        /// Gets the number of minutes elapsed from <see cref="DateTime.MinValue"/>.
+        /// Gets the number of minutes elapsed from <see cref="DateTimeOffset.MinValue"/>.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static double ElapsedMinutes(this DateTime @this) => (@this - DateTime.MinValue).TotalMinutes;
+        public static double ElapsedMinutes(this DateTimeOffset @this) => (@this - DateTimeOffset.MinValue).TotalMinutes;
 
         /// <summary>
-        /// Gets the number of hours elapsed from <see cref="DateTime.MinValue"/>.
+        /// Gets the number of hours elapsed from <see cref="DateTimeOffset.MinValue"/>.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static double ElapsedHours(this DateTime @this) => (@this - DateTime.MinValue).TotalHours;
+        public static double ElapsedHours(this DateTimeOffset @this) => (@this - DateTimeOffset.MinValue).TotalHours;
 
         /// <summary>
-        /// Gets the number of days elapsed from <see cref="DateTime.MinValue"/>.
+        /// Gets the number of days elapsed from <see cref="DateTimeOffset.MinValue"/>.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static double ElapsedDays(this DateTime @this) => (@this - DateTime.MinValue).TotalDays;
+        public static double ElapsedDays(this DateTimeOffset @this) => (@this - DateTimeOffset.MinValue).TotalDays;
 
         /// <summary>
-        /// Gets the number of months elapsed from <see cref="DateTime.MinValue"/>.
+        /// Gets the number of months elapsed from <see cref="DateTimeOffset.MinValue"/>.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static double ElapsedMonths(this DateTime @this) => DateTimeEx.TotalMonths(DateTime.MinValue, @this);
+        public static double ElapsedMonths(this DateTimeOffset @this) => DateTimeOffsetEx.TotalMonths(DateTimeOffset.MinValue, @this);
 
         /// <summary>
-        /// Gets the number of years elapsed from <see cref="DateTime.MinValue"/>.
+        /// Gets the number of years elapsed from <see cref="DateTimeOffset.MinValue"/>.
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        public static double ElapsedYears(this DateTime @this) => DateTimeEx.TotalYears(DateTime.MinValue, @this);
+        public static double ElapsedYears(this DateTimeOffset @this) => DateTimeOffsetEx.TotalYears(DateTimeOffset.MinValue, @this);
 
         private static int CastCycleDays(int days, bool isBackward)
         {

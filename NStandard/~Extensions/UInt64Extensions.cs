@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace NStandard
 {
@@ -10,6 +11,7 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
+        [Obsolete("Use (@this & 1) == 1 instead.")]
         public static bool IsOdd(this ulong @this) => (@this & 1) == 1;
 
         /// <summary>
@@ -17,6 +19,7 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
+        [Obsolete("Use (@this & 1) == 0 instead.")]
         public static bool IsEven(this ulong @this) => (@this & 1) == 0;
 
         /// <summary>

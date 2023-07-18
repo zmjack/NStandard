@@ -36,6 +36,38 @@ These frameworks are supported:
 
 ## Recently
 
+### Version: 0.36.0
+
+- Provide **BitConverterEx** class for **.NET 7+** to support **Int128** and **UInt128** related methods.
+
+- Provide calculation support from **IPAddress** to **UInt32 / UInt128**.
+
+  - IPAddressEx.**Create**
+  - IPAddressExtensions.**ToUInt32**
+  - IPAddressExtensions.**ToUInt128**
+
+- Provide **.NET 7** compatibility scheme for **DateTime** / **DateTimeOffset** breaking updates:
+
+  **.NET 7** calculates **Ticks** algorithms such as **AddDays** in units of every **1 tick**;
+
+  **.NET 6** and earlier are calculated every **10'000 ticks**.
+
+  Provides **ToFixed** extension method for rounding **DateTime** every **10 ticks** using **Banker's Rounding**.
+
+  ```csharp
+  var dt = new DateTime(2000, 1, 1).AddDays(9.2);
+  // .NET 6-:
+  //      2000/1/10 4:48:00    630830764800000000 ticks
+  // .NET 7+:
+  //      2000/1/10 4:47:59    630830764799999999 ticks
+  
+  var dtf = dt.ToFixed();
+  // .NET 6-:
+  //      2000/1/10 4:48:00    630830764800000000 ticks
+  // .NET 7+:
+  //      2000/1/10 4:48:00    630830764800000000 ticks
+  ```
+
 ### Version: 0.35.0
 
 - Optimize **PatternSearch** performance, add **Locate(s)** method to **Array** to find subsequence index.

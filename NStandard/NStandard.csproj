@@ -11,7 +11,7 @@
     <Authors>zmjack</Authors>
     <Company>nstandard.net</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.35.5</Version>
+    <Version>0.36.0</Version>
     <Description>DotNet extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
@@ -48,7 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="System.Web" Condition="&#xD;&#xA;               '$(TargetFramework)'=='net35' or &#xD;&#xA;               '$(TargetFramework)'=='net451' or&#xD;&#xA;               '$(TargetFramework)'=='net452' or&#xD;&#xA;               '$(TargetFramework)'=='net46' or&#xD;&#xA;               '$(TargetFramework)'=='net461' or&#xD;&#xA;               '$(TargetFramework)'=='net462' or&#xD;&#xA;               '$(TargetFramework)'=='net47' or&#xD;&#xA;               '$(TargetFramework)'=='net471' or&#xD;&#xA;               '$(TargetFramework)'=='net472' or&#xD;&#xA;               '$(TargetFramework)'=='net48'" />
+    <Reference Include="System.Web" Condition="'$(TargetFramework)'=='net35' or '$(TargetFramework)'=='net451' or '$(TargetFramework)'=='net452' or '$(TargetFramework)'=='net46' or '$(TargetFramework)'=='net461' or '$(TargetFramework)'=='net462' or '$(TargetFramework)'=='net47' or '$(TargetFramework)'=='net471' or '$(TargetFramework)'=='net472' or '$(TargetFramework)'=='net48'" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,11 +60,11 @@
       <LastGenOutput>StructTuple.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-    <None Update="~System\ArrayExtensions.Deconstruct.tt">
+    <None Update="~Extensions\ArrayExtensions.Deconstruct.tt">
       <LastGenOutput>ArrayExtensions.Deconstruct.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-    <None Update="~System\SpanExtensions.tt">
+    <None Update="~Extensions\SpanExtensions.tt">
       <LastGenOutput>SpanExtensions.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
@@ -80,12 +80,17 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>StructTuple.tt</DependentUpon>
     </Compile>
-    <Compile Update="~System\ArrayExtensions.Deconstruct.cs">
+    <Compile Update="~Any\Any.Zip.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Any.Zip.tt</DependentUpon>
+    </Compile>
+    <Compile Update="~Extensions\ArrayExtensions.Deconstruct.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ArrayExtensions.Deconstruct.tt</DependentUpon>
     </Compile>
-    <Compile Update="~System\SpanExtensions.cs">
+    <Compile Update="~Extensions\SpanExtensions.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SpanExtensions.tt</DependentUpon>
