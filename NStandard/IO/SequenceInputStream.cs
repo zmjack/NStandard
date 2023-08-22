@@ -60,7 +60,8 @@ namespace NStandard.IO
             _length = streams.Sum(x => x.Length);
         }
 
-        public override void Flush() => throw new NotSupportedException();
+        public override void Flush() => throw new NotSupportedException("Sequence input stream is readonly.");
+
         public override long Seek(long offset, SeekOrigin origin)
         {
             switch (origin)
@@ -72,7 +73,6 @@ namespace NStandard.IO
 
             return _position;
         }
-        public override void SetLength(long value) => throw new NotSupportedException();
 
         public override int Read(byte[] buffer, int offset, int count)
         {
@@ -121,7 +121,16 @@ namespace NStandard.IO
             return read;
         }
 
-        public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+
+        public override void SetLength(long value)
+        {
+            throw new NotSupportedException("Sequence input stream is not expandable.");
+        }
+
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            throw new NotSupportedException("Sequence input stream is readonly.");
+        }
     }
 
 }

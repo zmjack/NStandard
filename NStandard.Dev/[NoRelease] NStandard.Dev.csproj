@@ -5,6 +5,7 @@
     <RootNamespace>NStandard</RootNamespace>
     <AssemblyName>NStandard.Dev</AssemblyName>
     <LangVersion>9</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

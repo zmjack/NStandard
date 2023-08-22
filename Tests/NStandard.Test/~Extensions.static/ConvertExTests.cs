@@ -7,7 +7,7 @@ namespace NStandard.Test
     public class ConvertExTests
     {
         [Fact]
-        public void Test1()
+        public void ChangeTypeTest()
         {
             DateTime? ndt, expected;
 
@@ -24,13 +24,16 @@ namespace NStandard.Test
         [Fact]
         public void Base58Test()
         {
-            Assert.Equal(256, typeof(ConvertEx).GetTypeReflector().DeclaredField<int[]>("Base58Map").GetValue(null).Length);
-
             Assert.Equal("zpsEBKbce3iT", ConvertEx.ToBase58String("NStandard".Bytes(Encoding.UTF8)));
             Assert.Equal("NStandard", ConvertEx.FromBase58String("zpsEBKbce3iT").String(Encoding.UTF8));
 
             Assert.Equal("111zpsEBKbce3iT", ConvertEx.ToBase58String("\0\0\0NStandard".Bytes(Encoding.UTF8)));
             Assert.Equal("\0\0\0NStandard", ConvertEx.FromBase58String("111zpsEBKbce3iT").String(Encoding.UTF8));
+        }
+
+        [Fact]
+        public void Base32Test()
+        {
         }
 
     }

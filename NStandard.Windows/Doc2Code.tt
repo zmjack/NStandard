@@ -1,0 +1,128 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".txt" #>
+<#
+	var doc = """
+SERVICE_CONFIG_DELAYED_AUTO_START_INFO
+3
+The lpInfo parameter is a pointer to a SERVICE_DELAYED_AUTO_START_INFO structure.\\Windows Server 2003 and Windows XP:  This value is not supported.
+
+SERVICE_CONFIG_DESCRIPTION
+1
+The lpInfo parameter is a pointer to a SERVICE_DESCRIPTION structure.
+
+SERVICE_CONFIG_FAILURE_ACTIONS
+2
+The lpInfo parameter is a pointer to a SERVICE_FAILURE_ACTIONS structure.\\If the service controller handles the SC_ACTION_REBOOT action, the caller must have the SE_SHUTDOWN_NAME privilege. For more information, see Running with Special Privileges.
+
+SERVICE_CONFIG_FAILURE_ACTIONS_FLAG
+4
+The lpInfo parameter is a pointer to a SERVICE_FAILURE_ACTIONS_FLAG structure.\\Windows Server 2003 and Windows XP:  This value is not supported.
+
+SERVICE_CONFIG_PREFERRED_NODE
+9
+The lpInfo parameter is a pointer to a SERVICE_PREFERRED_NODE_INFO structure.\\Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:  This value is not supported.
+
+SERVICE_CONFIG_PRESHUTDOWN_INFO
+7
+The lpInfo parameter is a pointer to a SERVICE_PRESHUTDOWN_INFO structure.\\Windows Server 2003 and Windows XP:  This value is not supported.
+
+SERVICE_CONFIG_REQUIRED_PRIVILEGES_INFO
+6
+The lpInfo parameter is a pointer to a SERVICE_REQUIRED_PRIVILEGES_INFO structure.\\Windows Server 2003 and Windows XP:  This value is not supported.
+
+SERVICE_CONFIG_SERVICE_SID_INFO
+5
+The lpInfo parameter is a pointer to a SERVICE_SID_INFO structure.
+
+SERVICE_CONFIG_TRIGGER_INFO
+8
+The lpInfo parameter is a pointer to a SERVICE_TRIGGER_INFO structure. This value is not supported by the ANSI version of ChangeServiceConfig2.\\Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:  This value is not supported until Windows Server 2008 R2.
+
+SERVICE_CONFIG_LAUNCH_PROTECTED
+12
+The lpInfo parameter is a pointer a SERVICE_LAUNCH_PROTECTED_INFO structure.
+
+""";
+#>
+<#= GetEnum(doc) #>
+<#+
+    public string GetEnum(string doc)
+    {
+        var regex = new Regex(@"(?<name>[^ (]+)\s*\((?<value>[^)]+)\)\s+(?<comment>[^\r]+)(\r\n)?", RegexOptions.Multiline);
+        if (regex.Match(doc).Success)
+        {
+            var matches = regex.Matches(doc).OfType<Match>();
+
+            var sb = new StringBuilder();
+            sb.AppendLine("""
+        internal enum {name}
+        {
+"""
+            );
+
+            foreach (var match in matches)
+            {
+                sb.AppendLine($"""
+            /// <summary>
+            /// {match.Groups["comment"]}
+            /// </summary>
+            {match.Groups["name"]} = {match.Groups["value"]},
+            
+"""
+                );
+            }
+
+            sb.AppendLine("""
+        }
+"""
+            );
+
+            return sb.ToString();
+        }
+
+        return GetEnum2(doc);
+    }
+
+    public string GetEnum2(string doc)
+    {
+        doc = doc.Replace(Environment.NewLine, "\n");
+
+        var sb = new StringBuilder();
+        sb.AppendLine("""
+    internal enum #Name#
+    {
+""");
+        
+        var line = 4;
+        foreach (var chunk in doc
+            .Split('\n')
+            .Select((v, i) => new { Index = i, Value = v })
+            .GroupBy(x => x.Index / line)
+            .Select(g => g.Select(x => x.Value).ToArray())
+        )
+        {
+            if (chunk.Length < line) break;
+
+            sb.AppendLine($"""
+        /// <summary>
+        /// {chunk[2]}
+        /// </summary>
+        {chunk[0]} = {chunk[1]},
+
+"""
+            );
+        }
+
+        sb.AppendLine("""
+    }
+"""
+        );
+
+        return sb.ToString();
+    }
+#>
