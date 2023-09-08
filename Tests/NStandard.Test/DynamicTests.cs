@@ -16,6 +16,24 @@ namespace NStandard.Test
             public readonly int Value;
             public Operand(int value) => Value = value;
             public static Operand operator +(Operand left, Operand right) => new(left.Value + right.Value);
+            public static Operand operator ++(Operand left) => new(left.Value + 1);
+            public static Operand operator --(Operand left) => new(left.Value - 1);
+        }
+
+        [Fact]
+        public void IncrementTest()
+        {
+            var o1 = new Operand(1);
+            var result = Dynamic.OpIncrement(o1);
+            Assert.Equal(2, result.Value);
+        }
+
+        [Fact]
+        public void DecrementTest()
+        {
+            var o1 = new Operand(1);
+            var result = Dynamic.OpDecrement(o1);
+            Assert.Equal(0, result.Value);
         }
 
         [Fact]

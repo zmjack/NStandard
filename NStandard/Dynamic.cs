@@ -8,27 +8,60 @@ namespace NStandard
 {
     public static class Dynamic
     {
+        private delegate UnaryExpression UnaryDelegate(Expression self);
         private delegate BinaryExpression BinaryDelegate(Expression left, Expression right);
+        private static readonly MethodInfo _lambdaMethod = typeof(Expression).GetMethodViaQualifiedName("System.Linq.Expressions.Expression`1[TDelegate] Lambda[TDelegate](System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])");
 
         private static readonly Dictionary<string, CacheSet<Type, Delegate>> OpContainers = new()
         {
-            [nameof(OpAdd)] = NewOpFunc(Expression.Add),
-            [nameof(OpAddChecked)] = NewOpFunc(Expression.AddChecked),
-            [nameof(OpSubtract)] = NewOpFunc(Expression.Subtract),
-            [nameof(OpSubtractChecked)] = NewOpFunc(Expression.SubtractChecked),
-            [nameof(OpMultiply)] = NewOpFunc(Expression.Multiply),
-            [nameof(OpMultiplyChecked)] = NewOpFunc(Expression.MultiplyChecked),
-            [nameof(OpDivide)] = NewOpFunc(Expression.Divide),
+            [nameof(OpAdd)] = NewOpBinaryFuncSet(Expression.Add),
+            [nameof(OpAddChecked)] = NewOpBinaryFuncSet(Expression.AddChecked),
+            [nameof(OpSubtract)] = NewOpBinaryFuncSet(Expression.Subtract),
+            [nameof(OpSubtractChecked)] = NewOpBinaryFuncSet(Expression.SubtractChecked),
+            [nameof(OpMultiply)] = NewOpBinaryFuncSet(Expression.Multiply),
+            [nameof(OpMultiplyChecked)] = NewOpBinaryFuncSet(Expression.MultiplyChecked),
+            [nameof(OpDivide)] = NewOpBinaryFuncSet(Expression.Divide),
 
-            [nameof(OpLessThan)] = NewOpFunc(Expression.LessThan, typeof(bool)),
-            [nameof(OpLessThanOrEqual)] = NewOpFunc(Expression.LessThanOrEqual, typeof(bool)),
-            [nameof(OpEqual)] = NewOpFunc(Expression.Equal, typeof(bool)),
-            [nameof(OpNotEqual)] = NewOpFunc(Expression.NotEqual, typeof(bool)),
-            [nameof(OpGreaterThan)] = NewOpFunc(Expression.GreaterThan, typeof(bool)),
-            [nameof(OpGreaterThanOrEqual)] = NewOpFunc(Expression.GreaterThanOrEqual, typeof(bool)),
+            [nameof(OpLessThan)] = NewOpBinaryFuncSet(Expression.LessThan, typeof(bool)),
+            [nameof(OpLessThanOrEqual)] = NewOpBinaryFuncSet(Expression.LessThanOrEqual, typeof(bool)),
+            [nameof(OpEqual)] = NewOpBinaryFuncSet(Expression.Equal, typeof(bool)),
+            [nameof(OpNotEqual)] = NewOpBinaryFuncSet(Expression.NotEqual, typeof(bool)),
+            [nameof(OpGreaterThan)] = NewOpBinaryFuncSet(Expression.GreaterThan, typeof(bool)),
+            [nameof(OpGreaterThanOrEqual)] = NewOpBinaryFuncSet(Expression.GreaterThanOrEqual, typeof(bool)),
+
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
+            [nameof(OpIncrement)] = NewOpUnaryFuncSet(Expression.Increment),
+            [nameof(OpDecrement)] = NewOpUnaryFuncSet(Expression.Decrement),
+#endif
         };
 
-        private static CacheSet<Type, Delegate> NewOpFunc(BinaryDelegate @delegate)
+        private static CacheSet<Type, Delegate> NewOpUnaryFuncSet(UnaryDelegate @delegate)
+        {
+            Func<Delegate> cacheMethodBuilder(Type operandType)
+            {
+                return () =>
+                {
+                    var const_delegate = Expression.Constant(@delegate);
+                    var method = GetOpMethod(operandType, operandType);
+                    var exp = Expression.Call(method, const_delegate);
+
+                    // Expression.Lambda<Func<Func<operandType, operandType>>>(exp).Compile()()
+                    var lambdaGenericType = typeof(Func<>).MakeGenericType(typeof(Func<,>).MakeGenericType(operandType, operandType));
+                    var lambdaMethod = _lambdaMethod.MakeGenericMethod(lambdaGenericType);
+
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+                    var param = Array.Empty<ParameterExpression>();
+#else
+                    var param = ArrayEx.Empty<ParameterExpression>();
+#endif
+                    return (lambdaMethod.Invoke(null, new object[] { exp, param }) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
+                };
+            }
+            var container = new CacheSet<Type, Delegate> { CacheMethodBuilder = cacheMethodBuilder };
+            return container;
+        }
+
+        private static CacheSet<Type, Delegate> NewOpBinaryFuncSet(BinaryDelegate @delegate)
         {
             Func<Delegate> cacheMethodBuilder(Type operandType)
             {
@@ -40,11 +73,9 @@ namespace NStandard
 
                     // Expression.Lambda<Func<Func<operandType, operandType, operandType>>>(exp).Compile()()
                     var lambdaGenericType = typeof(Func<>).MakeGenericType(typeof(Func<,,>).MakeGenericType(operandType, operandType, operandType));
-                    var lambdaMethod = typeof(Expression)
-                        .GetMethodViaQualifiedName("System.Linq.Expressions.Expression`1[TDelegate] Lambda[TDelegate](System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])")
-                        .MakeGenericMethod(lambdaGenericType);
+                    var lambdaMethod = _lambdaMethod.MakeGenericMethod(lambdaGenericType);
 
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
                     var param = Array.Empty<ParameterExpression>();
 #else
                     var param = ArrayEx.Empty<ParameterExpression>();
@@ -56,7 +87,7 @@ namespace NStandard
             return container;
         }
 
-        private static CacheSet<Type, Delegate> NewOpFunc(BinaryDelegate @delegate, Type retType)
+        private static CacheSet<Type, Delegate> NewOpBinaryFuncSet(BinaryDelegate @delegate, Type retType)
         {
             Func<Delegate> cacheMethodBuilder(Type operandType)
             {
@@ -68,11 +99,9 @@ namespace NStandard
 
                     // Expression.Lambda<Func<Func<operandType, operandType, retType>>>(exp).Compile()()
                     var lambdaGenericType = typeof(Func<>).MakeGenericType(typeof(Func<,,>).MakeGenericType(operandType, operandType, retType));
-                    var lambdaMethod = typeof(Expression)
-                        .GetMethodViaQualifiedName("System.Linq.Expressions.Expression`1[TDelegate] Lambda[TDelegate](System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])")
-                        .MakeGenericMethod(lambdaGenericType);
+                    var lambdaMethod = _lambdaMethod.MakeGenericMethod(lambdaGenericType);
 
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
                     var param = Array.Empty<ParameterExpression>();
 #else
                     var param = ArrayEx.Empty<ParameterExpression>();
@@ -84,18 +113,33 @@ namespace NStandard
             return container;
         }
 
-        private static MethodInfo GetOpMethod(Type op1, Type op2, Type ret)
+        private static MethodInfo GetOpMethod(Type op1, Type ret)
         {
-            return typeof(Dynamic).GetDeclaredMethod(nameof(Op)).MakeGenericMethod(op1, op2, ret);
+            return typeof(Dynamic).GetDeclaredMethod(nameof(Op2)).MakeGenericMethod(op1, ret);
         }
 
-        private static Func<TOp1, TOp2, TRet> Op<TOp1, TOp2, TRet>(BinaryDelegate @delegate)
+        private static MethodInfo GetOpMethod(Type op1, Type op2, Type ret)
+        {
+            return typeof(Dynamic).GetDeclaredMethod(nameof(Op3)).MakeGenericMethod(op1, op2, ret);
+        }
+
+        private static Func<TOp1, TRet> Op2<TOp1, TRet>(UnaryDelegate @delegate)
+        {
+            var leftExp = Expression.Parameter(typeof(TOp1), "self");
+            var lambda = Expression.Lambda<Func<TOp1, TRet>>(@delegate(leftExp), leftExp);
+            return lambda.Compile();
+        }
+
+        private static Func<TOp1, TOp2, TRet> Op3<TOp1, TOp2, TRet>(BinaryDelegate @delegate)
         {
             var leftExp = Expression.Parameter(typeof(TOp1), "left");
             var rightExp = Expression.Parameter(typeof(TOp2), "right");
             var lambda = Expression.Lambda<Func<TOp1, TOp2, TRet>>(@delegate(leftExp, rightExp), leftExp, rightExp);
             return lambda.Compile();
         }
+
+        public static TOperand OpIncrement<TOperand>(TOperand self) => (OpContainers[nameof(OpIncrement)][typeof(TOperand)].Value as Func<TOperand, TOperand>)(self);
+        public static TOperand OpDecrement<TOperand>(TOperand self) => (OpContainers[nameof(OpDecrement)][typeof(TOperand)].Value as Func<TOperand, TOperand>)(self);
 
         public static TOperand OpAdd<TOperand>(TOperand left, TOperand right) => (OpContainers[nameof(OpAdd)][typeof(TOperand)].Value as Func<TOperand, TOperand, TOperand>)(left, right);
         public static TOperand OpAddChecked<TOperand>(TOperand left, TOperand right) => (OpContainers[nameof(OpAddChecked)][typeof(TOperand)].Value as Func<TOperand, TOperand, TOperand>)(left, right);

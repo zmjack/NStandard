@@ -1,13 +1,19 @@
-﻿#if NET7_0_OR_GREATER
+﻿#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET45_OR_GREATER
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+#if NET7_0_OR_GREATER
 using System.Numerics;
+#else
+using static NStandard.Dynamic;
+#endif
 
 namespace NStandard.Collections
 {
-    public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T>>,
+    public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T>>
+#if NET7_0_OR_GREATER
+        ,
         IAdditionOperators<Interval<T>, T, Interval<T>>,
         IAdditionOperators<Interval<T>, Interval<T>.Range, Interval<T>>,
         IAdditionOperators<Interval<T>, Interval<T>, Interval<T>>,
@@ -15,6 +21,7 @@ namespace NStandard.Collections
         ISubtractionOperators<Interval<T>, Interval<T>.Range, Interval<T>>,
         ISubtractionOperators<Interval<T>, Interval<T>, Interval<T>>
         where T : IComparisonOperators<T, T, bool>, IBinaryInteger<T>
+#endif
     {
         [DebuggerDisplay("({Start}, {End})")]
         public struct Range : IEquatable<Range>
@@ -36,29 +43,47 @@ namespace NStandard.Collections
 
             public bool Contains(Range other)
             {
+#if NET7_0_OR_GREATER
                 return Start <= other.Start && other.End <= End;
+#else 
+                return OpLessThanOrEqual(Start, other.Start) && OpLessThanOrEqual(other.End, End);
+#endif
             }
 
             public bool Equals(Range other)
             {
+#if NET7_0_OR_GREATER
                 return Start == other.Start && End == other.End;
+#else
+                return OpEqual(Start, other.Start) && OpEqual(End, other.End);
+#endif
             }
 
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET47_OR_GREATER
             public static implicit operator Range((T Start, T End) tuple)
             {
                 return new Range(tuple.Start, tuple.End);
             }
+#endif
         }
 
         private static T Previous(T value)
         {
             var _value = value;
+#if NET7_0_OR_GREATER
             return --_value;
+#else
+            return OpDecrement(value);
+#endif
         }
         private static T Next(T value)
         {
             var _value = value;
+#if NET7_0_OR_GREATER
             return ++_value;
+#else
+            return OpIncrement(value);
+#endif
         }
 
         public Interval()
@@ -91,11 +116,21 @@ namespace NStandard.Collections
 
         private bool _normalized;
         private readonly List<Range> _ranges;
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
         public IReadOnlyCollection<Range> Items => _ranges;
+#else
+        public ICollection<Range> Items => _ranges;
+#endif
+
+        public int Count => Items.Count;
 
         private int RangeComparison(Range x, Range y)
         {
+#if NET7_0_OR_GREATER
             return x.Start < y.Start ? -1 : x.Start > y.Start ? 1 : 0;
+#else
+            return OpLessThan(x.Start, y.Start) ? -1 : OpGreaterThan(x.Start, y.Start) ? 1 : 0;
+#endif
         }
 
         public bool Contains(Interval<T> other)
@@ -111,7 +146,11 @@ namespace NStandard.Collections
 
             for (; ; )
             {
+#if NET7_0_OR_GREATER
                 if (first.Current.End < second.Current.Start)
+#else
+                if (OpLessThan(first.Current.End, second.Current.Start))
+#endif
                 {
                     if (!first.MoveNext()) return false;
                     continue;
@@ -156,15 +195,27 @@ namespace NStandard.Collections
             {
                 var current = _ranges[i];
 
+#if NET7_0_OR_GREATER
                 if (range.Start <= current.Start)
+#else
+                if (OpLessThanOrEqual(range.Start, current.Start))
+#endif
                 {
+#if NET7_0_OR_GREATER
                     if (range.End < current.Start)
+#else
+                    if (OpLessThan(range.End, current.Start))
+#endif
                     {
                         i++;
                         continue;
                     }
 
+#if NET7_0_OR_GREATER
                     if (range.End < current.End)
+#else
+                    if (OpLessThan(range.End, current.End))
+#endif
                     {
                         _ranges[i] = new Range(Next(range.End), current.End);
                         return;
@@ -172,7 +223,11 @@ namespace NStandard.Collections
                     else
                     {
                         _ranges.RemoveAt(i);
+#if NET7_0_OR_GREATER
                         if (range.End == current.End)
+#else
+                        if (OpEqual(range.End, current.End))
+#endif
                         {
                             return;
                         }
@@ -180,19 +235,31 @@ namespace NStandard.Collections
                 }
                 else
                 {
+#if NET7_0_OR_GREATER
                     if (range.End < current.End)
+#else
+                    if (OpLessThan(range.End, current.End))
+#endif
                     {
                         _ranges[i] = new Range(current.Start, Previous(range.Start));
                         _ranges.Add(new Range(Next(range.End), current.End));
                         _normalized = false;
                         return;
                     }
+#if NET7_0_OR_GREATER
                     else if (range.Start <= current.End)
+#else
+                    else if (OpLessThanOrEqual(range.Start, current.End))
+#endif
                     {
                         _ranges[i] = new Range(current.Start, Previous(range.Start));
                         i++;
 
+#if NET7_0_OR_GREATER
                         if (range.End == current.End)
+#else
+                        if (OpEqual(range.End, current.End))
+#endif
                         {
                             return;
                         }
@@ -228,10 +295,20 @@ namespace NStandard.Collections
                 var current = _ranges[i];
                 var follow = _ranges[i + 1];
 
+#if NET7_0_OR_GREATER
                 if (Previous(follow.Start) <= current.End)
+#else
+                if (OpLessThanOrEqual(Previous(follow.Start), current.End))
+#endif
                 {
+
+#if NET7_0_OR_GREATER
                     var start = current.Start < follow.Start ? current.Start : follow.Start;
                     var end = current.End > follow.End ? current.End : follow.End;
+#else
+                    var start = OpLessThan(current.Start, follow.Start) ? current.Start : follow.Start;
+                    var end = OpGreaterThan(current.End, follow.End) ? current.End : follow.End;
+#endif
                     _ranges[i] = new Range(current.Start, end);
                     _ranges.RemoveAt(i + 1);
                 }
