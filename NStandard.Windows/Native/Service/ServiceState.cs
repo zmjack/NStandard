@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NStandard.Windows.Native.Service
+﻿namespace NStandard.Windows.Native.Service
 {
     internal enum ServiceState : int
     {

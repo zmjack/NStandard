@@ -1,6 +1,5 @@
 ﻿using NStandard.IO;
 using System;
-using System.Text;
 
 namespace NStandard
 {

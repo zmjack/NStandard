@@ -36,6 +36,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version: 0.38.0
+
+- Added new data structure **Interval\<T\>** for **.NET 7+** to support interval operations.
+
 ### Version: 0.36.0
 
 - Provide **BitConverterEx** class for **.NET 7+** to support **Int128** and **UInt128** related methods.

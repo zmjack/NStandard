@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static NStandard.Windows.Native.Service.NativeMethods;
-using NStandard.Windows.Native.Service;
+﻿using NStandard.Windows.Native.Service;
+using System;
 using System.Runtime.InteropServices;
+using static NStandard.Windows.Native.Service.NativeMethods;
 
 namespace NStandard.Windows
 {
