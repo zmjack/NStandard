@@ -67,24 +67,15 @@ namespace NStandard.Collections
 #endif
         }
 
-        private static T Previous(T value)
-        {
-            var _value = value;
-#if NET7_0_OR_GREATER
-            return --_value;
+        private bool _normalized;
+        private readonly List<Range> _ranges;
+#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
+        public IReadOnlyCollection<Range> Items => _ranges;
 #else
-            return OpDecrement(value);
+        public ICollection<Range> Items => _ranges;
 #endif
-        }
-        private static T Next(T value)
-        {
-            var _value = value;
-#if NET7_0_OR_GREATER
-            return ++_value;
-#else
-            return OpIncrement(value);
-#endif
-        }
+
+        public int Count => Items.Count;
 
         public Interval()
         {
@@ -114,15 +105,24 @@ namespace NStandard.Collections
             _ranges.AddRange(interval._ranges);
         }
 
-        private bool _normalized;
-        private readonly List<Range> _ranges;
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
-        public IReadOnlyCollection<Range> Items => _ranges;
+        private static T Previous(T value)
+        {
+            var _value = value;
+#if NET7_0_OR_GREATER
+            return --_value;
 #else
-        public ICollection<Range> Items => _ranges;
+            return OpDecrement(value);
 #endif
-
-        public int Count => Items.Count;
+        }
+        private static T Next(T value)
+        {
+            var _value = value;
+#if NET7_0_OR_GREATER
+            return ++_value;
+#else
+            return OpIncrement(value);
+#endif
+        }
 
         private int RangeComparison(Range x, Range y)
         {

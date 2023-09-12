@@ -36,6 +36,11 @@
 
 ## 最近更新
 
+### 版本：0.39.0
+
+- **DateRangeType** 已重命名为 **DateOnlyType**. 
+- **DateTimeRangeType** 已重命名为 **DateTimeType**. 
+
 ### 版本：0.38.0
 
 - 为 **.NET 7+** 新增数据结构 **Interval\<T\>**，用于支持区间运算。

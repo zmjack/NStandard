@@ -36,6 +36,11 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.39.0
+
+- **DateRangeType** has been renamed to **DateOnlyType**. 
+- **DateTimeRangeType** has been renamed to **DateTimeType**. 
+
 ### Version: 0.38.0
 
 - Added new data structure **Interval\<T\>** for **.NET 7+** to support interval operations.

@@ -69,16 +69,14 @@ namespace System
 
         private static unsafe uint GenerateGlobalSeed()
         {
-            /* Original Code */
-            /*
+#if false   // Origin code
             uint result;
             Interop.GetRandomBytes((byte*)&result, sizeof(uint));
             return result;
-            */
-            #region Different from Original code
+#else       // Custom code
             var random = new Random();
             return (uint)random.Next();
-            #endregion
+#endif
         }
 
         public static int Combine<T1>(T1 value1)
@@ -262,15 +260,13 @@ namespace System
             return (int)hash;
         }
 
-        /* Original Code */
-        /*
+#if false   // Origin code
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        */
-        #region Different from Original code
+#else       // Custom code
 #if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        #endregion
+#endif
         private static void Initialize(out uint v1, out uint v2, out uint v3, out uint v4)
         {
             v1 = s_seed + Prime1 + Prime2;
@@ -279,64 +275,52 @@ namespace System
             v4 = s_seed - Prime1;
         }
 
-        /* Original Code */
-        /*
+#if false   // Origin code
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        */
-        #region Different from Original code
+#else       // Custom code
 #if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        #endregion
+#endif
         private static uint Round(uint hash, uint input)
         {
-            /* Original Code */
-            /*
+#if false   // Origin code
             return BitOperations.RotateLeft(hash + input * Prime2, 13) * Prime1;
-            */
-            #region Different from Original code
+#else       // Custom code
             return NStandard.BitOperations.RotateLeft(hash + input * Prime2, 13) * Prime1;
-            #endregion
+#endif
         }
 
-        /* Original Code */
-        /*
+#if false   // Origin code
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        */
-        #region Different from Original code
+#else       // Custom code
 #if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        #endregion
+#endif
         private static uint QueueRound(uint hash, uint queuedValue)
         {
-            /* Original Code */
-            /*
+#if false   // Origin code
             return BitOperations.RotateLeft(hash + queuedValue * Prime3, 17) * Prime4;
-            */
-            #region Different from Original code
+#else       // Custom code
             return NStandard.BitOperations.RotateLeft(hash + queuedValue * Prime3, 17) * Prime4;
-            #endregion
+#endif
         }
 
-        /* Original Code */
-        /*
+#if false   // Origin code
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        */
-        #region Different from Original code
+#else       // Custom code
 #if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        #endregion
+#endif
         private static uint MixState(uint v1, uint v2, uint v3, uint v4)
         {
-            /* Original Code */
-            /*
+#if false   // Origin code
             return BitOperations.RotateLeft(v1, 1) + BitOperations.RotateLeft(v2, 7) + BitOperations.RotateLeft(v3, 12) + BitOperations.RotateLeft(v4, 18);
-            */
-            #region Different from Original code
+#else       // Custom code
             return NStandard.BitOperations.RotateLeft(v1, 1) + NStandard.BitOperations.RotateLeft(v2, 7) + NStandard.BitOperations.RotateLeft(v3, 12) + NStandard.BitOperations.RotateLeft(v4, 18);
-            #endregion
+#endif
         }
 
         private static uint MixEmptyState()
@@ -344,15 +328,13 @@ namespace System
             return s_seed + Prime5;
         }
 
-        /* Original Code */
-        /*
+#if false   // Origin code
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        */
-        #region Different from Original code
+#else       // Custom code
 #if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        #endregion
+#endif
         private static uint MixFinal(uint hash)
         {
             hash ^= hash >> 15;
@@ -379,8 +361,7 @@ namespace System
         /// This method does not guarantee that the result of adding a span of bytes will match
         /// the result of adding the same bytes individually.
         /// </remarks>
-        /* Original Code */
-        /*
+#if false   // Origin code
         public void AddBytes(ReadOnlySpan<byte> value)
         {
             ref byte pos = ref MemoryMarshal.GetReference(value);
@@ -400,8 +381,7 @@ namespace System
                 pos = ref Unsafe.Add(ref pos, 1);
             }
         }
-        */
-        #region Different from Original code
+#else       // Custom code
         public void AddBytes(byte[] value)
         {
             var i = 0;
@@ -420,7 +400,7 @@ namespace System
                 i++;
             }
         }
-        #endregion
+#endif
 
         private void Add(int value)
         {

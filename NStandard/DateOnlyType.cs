@@ -1,8 +1,8 @@
 ﻿namespace NStandard
 {
-    public enum DateRangeType
+    public enum DateOnlyType
     {
-        Unset,
+        Unspecified,
         Year,
         Month,
         Day,
