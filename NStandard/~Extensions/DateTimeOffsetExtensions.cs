@@ -87,6 +87,23 @@ namespace NStandard
             return (PastDay(@this, weekStart, true) - week0).Days / 7;
         }
 
+        /// <summary>
+        /// Gets the number of seasons in a year for the specified date. 
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static int Season(this DateTimeOffset @this)
+        {
+            return @this.Month switch
+            {
+                >= 1 and <= 3 => 1,
+                >= 4 and <= 6 => 2,
+                >= 7 and <= 9 => 3,
+                >= 10 and <= 12 => 4,
+                _ => throw new NotImplementedException(),
+            };
+        }
+
 #if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
 #else
         /// <summary>

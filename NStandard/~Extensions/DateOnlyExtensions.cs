@@ -69,6 +69,23 @@ namespace NStandard
         }
 
         /// <summary>
+        /// Gets the number of seasons in a year for the specified date. 
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static int Season(this DateOnly @this)
+        {
+            return @this.Month switch
+            {
+                >= 1 and <= 3 => 1,
+                >= 4 and <= 6 => 2,
+                >= 7 and <= 9 => 3,
+                >= 10 and <= 12 => 4,
+                _ => throw new NotImplementedException(),
+            };
+        }
+
+        /// <summary>
         /// Get the start point of the sepecified year.
         /// </summary>
         /// <param name="this"></param>

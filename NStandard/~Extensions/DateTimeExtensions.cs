@@ -87,6 +87,23 @@ namespace NStandard
         }
 
         /// <summary>
+        /// Gets the number of seasons in a year for the specified date. 
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static int Season(this DateTime @this)
+        {
+            return @this.Month switch
+            {
+                >= 1 and <= 3 => 1,
+                >= 4 and <= 6 => 2,
+                >= 7 and <= 9 => 3,
+                >= 10 and <= 12 => 4,
+                _ => throw new NotImplementedException(),
+            };
+        }
+
+        /// <summary>
         /// Returns the number of milliseconds that have elapsed since 1970-01-01T00:00:00.000Z.
         /// </summary>
         /// <param name="this"></param>
