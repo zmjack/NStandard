@@ -86,6 +86,40 @@ namespace NStandard
         }
 
         /// <summary>
+        /// Get the start point of the sepecified season.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateOnly StartOfSeason(this DateOnly @this)
+        {
+            return @this.Month switch
+            {
+                >= 1 and <= 3 => new(@this.Year, 1, 1),
+                >= 4 and <= 6 => new(@this.Year, 4, 1),
+                >= 7 and <= 9 => new(@this.Year, 7, 1),
+                >= 10 and <= 12 => new(@this.Year, 10, 1),
+                _ => throw new NotImplementedException(),
+            };
+        }
+
+        /// <summary>
+        /// Get the end point of the sepecified season.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateOnly EndOfSeason(this DateOnly @this)
+        {
+            return @this.Month switch
+            {
+                >= 1 and <= 3 => new(@this.Year, 3, 31),
+                >= 4 and <= 6 => new(@this.Year, 6, 30),
+                >= 7 and <= 9 => new(@this.Year, 9, 30),
+                >= 10 and <= 12 => new(@this.Year, 12, 31),
+                _ => throw new NotImplementedException(),
+            };
+        }
+
+        /// <summary>
         /// Get the start point of the sepecified year.
         /// </summary>
         /// <param name="this"></param>

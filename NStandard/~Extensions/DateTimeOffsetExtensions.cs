@@ -87,23 +87,6 @@ namespace NStandard
             return (PastDay(@this, weekStart, true) - week0).Days / 7;
         }
 
-        /// <summary>
-        /// Gets the number of seasons in a year for the specified date. 
-        /// </summary>
-        /// <param name="this"></param>
-        /// <returns></returns>
-        public static int Season(this DateTimeOffset @this)
-        {
-            return @this.Month switch
-            {
-                >= 1 and <= 3 => 1,
-                >= 4 and <= 6 => 2,
-                >= 7 and <= 9 => 3,
-                >= 10 and <= 12 => 4,
-                _ => throw new NotImplementedException(),
-            };
-        }
-
 #if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
 #else
         /// <summary>
@@ -128,6 +111,57 @@ namespace NStandard
             return num - 62135596800L;
         }
 #endif
+
+        /// <summary>
+        /// Gets the number of seasons in a year for the specified date. 
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static int Season(this DateTimeOffset @this)
+        {
+            return @this.Month switch
+            {
+                >= 1 and <= 3 => 1,
+                >= 4 and <= 6 => 2,
+                >= 7 and <= 9 => 3,
+                >= 10 and <= 12 => 4,
+                _ => throw new NotImplementedException(),
+            };
+        }
+
+        /// <summary>
+        /// Get the start point of the sepecified season.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateTimeOffset StartOfSeason(this DateTimeOffset @this)
+        {
+            return @this.Month switch
+            {
+                >= 1 and <= 3 => new(@this.Year, 1, 1, 0, 0, 0, 0, @this.Offset),
+                >= 4 and <= 6 => new(@this.Year, 4, 1, 0, 0, 0, 0, @this.Offset),
+                >= 7 and <= 9 => new(@this.Year, 7, 1, 0, 0, 0, 0, @this.Offset),
+                >= 10 and <= 12 => new(@this.Year, 10, 1, 0, 0, 0, 0, @this.Offset),
+                _ => throw new NotImplementedException(),
+            };
+        }
+
+        /// <summary>
+        /// Get the end point of the sepecified season.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateTimeOffset EndOfSeason(this DateTimeOffset @this)
+        {
+            return @this.Month switch
+            {
+                >= 1 and <= 3 => new(@this.Year, 3, 31, 59, 59, 59, 59, @this.Offset),
+                >= 4 and <= 6 => new(@this.Year, 6, 30, 59, 59, 59, 59, @this.Offset),
+                >= 7 and <= 9 => new(@this.Year, 9, 30, 59, 59, 59, 59, @this.Offset),
+                >= 10 and <= 12 => new(@this.Year, 12, 31, 59, 59, 59, 59, @this.Offset),
+                _ => throw new NotImplementedException(),
+            };
+        }
 
         /// <summary>
         /// Get the start point of the sepecified month.

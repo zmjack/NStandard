@@ -87,23 +87,6 @@ namespace NStandard
         }
 
         /// <summary>
-        /// Gets the number of seasons in a year for the specified date. 
-        /// </summary>
-        /// <param name="this"></param>
-        /// <returns></returns>
-        public static int Season(this DateTime @this)
-        {
-            return @this.Month switch
-            {
-                >= 1 and <= 3 => 1,
-                >= 4 and <= 6 => 2,
-                >= 7 and <= 9 => 3,
-                >= 10 and <= 12 => 4,
-                _ => throw new NotImplementedException(),
-            };
-        }
-
-        /// <summary>
         /// Returns the number of milliseconds that have elapsed since 1970-01-01T00:00:00.000Z.
         /// </summary>
         /// <param name="this"></param>
@@ -123,6 +106,57 @@ namespace NStandard
         {
             long num = @this.ToUniversalTime().Ticks / 10000000;
             return num - 62135596800L;
+        }
+
+        /// <summary>
+        /// Gets the number of seasons in a year for the specified date. 
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static int Season(this DateTime @this)
+        {
+            return @this.Month switch
+            {
+                >= 1 and <= 3 => 1,
+                >= 4 and <= 6 => 2,
+                >= 7 and <= 9 => 3,
+                >= 10 and <= 12 => 4,
+                _ => throw new NotImplementedException(),
+            };
+        }
+
+        /// <summary>
+        /// Get the start point of the sepecified season.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateTime StartOfSeason(this DateTime @this)
+        {
+            return @this.Month switch
+            {
+                >= 1 and <= 3 => new(@this.Year, 1, 1, 0, 0, 0, 0, @this.Kind),
+                >= 4 and <= 6 => new(@this.Year, 4, 1, 0, 0, 0, 0, @this.Kind),
+                >= 7 and <= 9 => new(@this.Year, 7, 1, 0, 0, 0, 0, @this.Kind),
+                >= 10 and <= 12 => new(@this.Year, 10, 1, 0, 0, 0, 0, @this.Kind),
+                _ => throw new NotImplementedException(),
+            };
+        }
+
+        /// <summary>
+        /// Get the end point of the sepecified season.
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static DateTime EndOfSeason(this DateTime @this)
+        {
+            return @this.Month switch
+            {
+                >= 1 and <= 3 => new(@this.Year, 3, 31, 59, 59, 59, 59, @this.Kind),
+                >= 4 and <= 6 => new(@this.Year, 6, 30, 59, 59, 59, 59, @this.Kind),
+                >= 7 and <= 9 => new(@this.Year, 9, 30, 59, 59, 59, 59, @this.Kind),
+                >= 10 and <= 12 => new(@this.Year, 12, 31, 59, 59, 59, 59, @this.Kind),
+                _ => throw new NotImplementedException(),
+            };
         }
 
         /// <summary>

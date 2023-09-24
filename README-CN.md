@@ -36,6 +36,10 @@
 
 ## 最近更新
 
+### 版本：0.42.0
+
+- 新功能：为 **DateOnly** / **DateTime** / **DateTimeOffset** 提供 **StartOfSeason** / **EndOfSeason** 方法。
+
 ### 版本：0.41.0
 
 - 添加了新类型 **HashMap<TKey, TValue>**。

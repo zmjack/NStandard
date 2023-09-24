@@ -36,6 +36,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.42.0
+
+- New feature: Provide **StartOfSeason** / **EndOfSeason** methods for **DateOnly** / **DateTime** / **DateTimeOffset**.
+
 ### Version 0.41.0
 
 - Added new class **HashMap<TKey, TValue>**.
