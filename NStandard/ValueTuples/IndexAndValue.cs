@@ -1,4 +1,6 @@
-﻿namespace NStandard.ValueTuples
+﻿using System.ComponentModel;
+
+namespace NStandard.ValueTuples
 {
     public struct IndexAndValue<TValue>
     {
@@ -11,6 +13,7 @@
             Value = value;
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public void Deconstruct(out int index, out TValue value)
         {
             index = Index;

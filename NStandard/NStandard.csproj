@@ -11,7 +11,7 @@
     <Authors>zmjack</Authors>
     <Company>nstandard.net</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.39.1</Version>
+    <Version>0.40.0</Version>
     <Description>DotNet extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>

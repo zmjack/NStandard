@@ -36,7 +36,7 @@ namespace NStandard.Obsolete.Evaluators
             ["?"] = 14,
             [":"] = 15,
         };
-        protected override Dictionary<string, BinaryOpFunc<Expression>> OpFunctions { get; } = new Dictionary<string, BinaryOpFunc<Expression>>
+        protected override Dictionary<string, BinaryFunc<Expression>> OpFunctions { get; } = new Dictionary<string, BinaryFunc<Expression>>
         {
             ["**"] = (left, right) => Expression.Call(MathPowMethod, left, right),
             ["//"] = (left, right) => Expression.Call(MathFloorMethod, Expression.Divide(left, right)),
@@ -90,7 +90,7 @@ namespace NStandard.Obsolete.Evaluators
             [Tuple.Create("(", ")")] = null,
         };
 #else
-        protected override Dictionary<(string, string), UnaryOpFunc<Expression>> BracketFunctions { get; } = new Dictionary<(string, string), UnaryOpFunc<Expression>>
+        protected override Dictionary<(string, string), UnaryFunc<Expression>> BracketFunctions { get; } = new Dictionary<(string, string), UnaryFunc<Expression>>
         {
             [("(", ")")] = null,
         };

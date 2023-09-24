@@ -15,7 +15,7 @@ namespace NStandard.Obsolete.Evaluators
             ["+"] = 4,
             ["-"] = 4,
         };
-        protected override Dictionary<string, BinaryOpFunc<double>> OpFunctions { get; } = new Dictionary<string, BinaryOpFunc<double>>
+        protected override Dictionary<string, BinaryFunc<double>> OpFunctions { get; } = new Dictionary<string, BinaryFunc<double>>
         {
             ["*"] = (left, right) => left * right,
             ["/"] = (left, right) => left / right,
@@ -30,7 +30,7 @@ namespace NStandard.Obsolete.Evaluators
             [Tuple.Create("(", ")")] = null,
         };
 #else
-        protected override Dictionary<(string, string), UnaryOpFunc<double>> BracketFunctions { get; } = new Dictionary<(string, string), UnaryOpFunc<double>>
+        protected override Dictionary<(string, string), UnaryFunc<double>> BracketFunctions { get; } = new Dictionary<(string, string), UnaryFunc<double>>
         {
             [("(", ")")] = null,
         };

@@ -51,13 +51,13 @@ namespace NStandard.Evaluators
             ["?"] = 14,
             [":"] = 15,
         };
-        protected override Dictionary<string, UnaryOpFunc<Expression>> UnaryOpFunctions { get; } = new()
+        protected override Dictionary<string, UnaryFunc<Expression>> UnaryOpFunctions { get; } = new()
         {
             ["not"] = operand => Expression.Condition(Expression.Equal(operand, Expression.Constant(0d)), Expression.Constant(1d), Expression.Constant(0d)),
             ["-"] = operand => Expression.NegateChecked(operand),
             ["+"] = operand => operand,
         };
-        protected override Dictionary<string, BinaryOpFunc<Expression>> BinaryOpFunctions { get; } = new()
+        protected override Dictionary<string, BinaryFunc<Expression>> BinaryOpFunctions { get; } = new()
         {
             ["**"] = (left, right) => Expression.Call(MathPowMethod, left, right),
             ["//"] = (left, right) => Expression.Call(MathFloorMethod, Expression.Divide(left, right)),
@@ -79,7 +79,7 @@ namespace NStandard.Evaluators
             [":"] = (left, right) => Expression.Condition(Expression.Call(DoubleIsNaNMethod, left), right, left),
         };
 
-        protected override Dictionary<Bracket, UnaryOpFunc<double>> BracketFunctions { get; } = new()
+        protected override Dictionary<Bracket, UnaryFunc<double>> BracketFunctions { get; } = new()
         {
             [new("(", ")")] = null,
             [new("abs(", ")")] = x => Math.Abs(x),

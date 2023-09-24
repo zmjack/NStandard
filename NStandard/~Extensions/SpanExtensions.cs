@@ -8,20 +8,23 @@ namespace NStandard
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class SpanExtensions
     {
-        public static void Deconstruct<T>(this Span<T> @this, out T item1, out T item2)
+        [EditorBrowsable(EditorBrowsableState.Never)]
+public static void Deconstruct<T>(this Span<T> @this, out T item1, out T item2)
         {
             item1 = @this[0];
             item2 = @this.Length > 1 ? @this[1] : default;
         }
 
-        public static void Deconstruct<T>(this Span<T> @this, out T item1, out T item2, out T item3)
+        [EditorBrowsable(EditorBrowsableState.Never)]
+public static void Deconstruct<T>(this Span<T> @this, out T item1, out T item2, out T item3)
         {
             item1 = @this[0];
             item2 = @this[1];
             item3 = @this[2];
         }
 
-        public static void Deconstruct<T>(this Span<T> @this, out T item1, out T item2, out T item3, out T item4)
+        [EditorBrowsable(EditorBrowsableState.Never)]
+public static void Deconstruct<T>(this Span<T> @this, out T item1, out T item2, out T item3, out T item4)
         {
             item1 = @this[0];
             item2 = @this[1];
@@ -29,7 +32,8 @@ namespace NStandard
             item4 = @this[3];
         }
 
-        public static void Deconstruct<T>(this Span<T> @this, out T item1, out T item2, out T item3, out T item4, out T item5)
+        [EditorBrowsable(EditorBrowsableState.Never)]
+public static void Deconstruct<T>(this Span<T> @this, out T item1, out T item2, out T item3, out T item4, out T item5)
         {
             item1 = @this[0];
             item2 = @this[1];
@@ -38,7 +42,8 @@ namespace NStandard
             item5 = @this[4];
         }
 
-        public static void Deconstruct<T>(this Span<T> @this, out T item1, out T item2, out T item3, out T item4, out T item5, out T item6)
+        [EditorBrowsable(EditorBrowsableState.Never)]
+public static void Deconstruct<T>(this Span<T> @this, out T item1, out T item2, out T item3, out T item4, out T item5, out T item6)
         {
             item1 = @this[0];
             item2 = @this[1];
@@ -48,7 +53,8 @@ namespace NStandard
             item6 = @this[5];
         }
 
-        public static void Deconstruct<T>(this Span<T> @this, out T item1, out T item2, out T item3, out T item4, out T item5, out T item6, out T item7)
+        [EditorBrowsable(EditorBrowsableState.Never)]
+public static void Deconstruct<T>(this Span<T> @this, out T item1, out T item2, out T item3, out T item4, out T item5, out T item6, out T item7)
         {
             item1 = @this[0];
             item2 = @this[1];
@@ -59,7 +65,8 @@ namespace NStandard
             item7 = @this[6];
         }
 
-        public static void Deconstruct<T>(this Span<T> @this, out T item1, out T item2, out T item3, out T item4, out T item5, out T item6, out T item7, out Span<T> rest)
+        [EditorBrowsable(EditorBrowsableState.Never)]
+public static void Deconstruct<T>(this Span<T> @this, out T item1, out T item2, out T item3, out T item4, out T item5, out T item6, out T item7, out Span<T> rest)
         {
             item1 = @this[0];
             item2 = @this[1];

@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace NStandard
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use ValueWrapper<string> instead.")]
+    [Obsolete("Use ValueTuple<string> or StructTuple<string> instead.")]
     public struct VString
     {
         public string String;

@@ -1,5 +1,10 @@
-﻿namespace NStandard
+﻿using System;
+using System.ComponentModel;
+
+namespace NStandard
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use ValueTuple or StructTuple instead.")]
     public struct ValueWrapper<T> where T : class
     {
         private readonly T _value;

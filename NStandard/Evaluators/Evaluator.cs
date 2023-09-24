@@ -27,10 +27,10 @@ namespace NStandard.Evaluators
         protected abstract Func<string, string> GetParameterName { get; }
 
         protected abstract Dictionary<string, int> BinaryOpLevels { get; }
-        protected abstract Dictionary<string, UnaryOpFunc<Expression>> UnaryOpFunctions { get; }
-        protected abstract Dictionary<string, BinaryOpFunc<Expression>> BinaryOpFunctions { get; }
+        protected abstract Dictionary<string, UnaryFunc<Expression>> UnaryOpFunctions { get; }
+        protected abstract Dictionary<string, BinaryFunc<Expression>> BinaryOpFunctions { get; }
 
-        protected abstract Dictionary<Bracket, UnaryOpFunc<double>> BracketFunctions { get; }
+        protected abstract Dictionary<Bracket, UnaryFunc<double>> BracketFunctions { get; }
 
         protected string[] UnaryOperators { get; private set; }
         protected string[] BinaryOperators { get; private set; }
@@ -453,9 +453,9 @@ namespace NStandard.Evaluators
             return lambda.Compile();
         }
 
-        public void AddBracketFunction(Bracket key, UnaryOpFunc<double> value) => BracketFunctions.Add(key, value);
-        public void AddUnaryOpFunction(string key, UnaryOpFunc<double> value) => UnaryOpFunctions.Add(key, exp => Expression.Call(Expression.Constant(value.Target), value.Method, exp));
-        public void AddBinaryOpFunction(string key, BinaryOpFunc<double> value) => BinaryOpFunctions.Add(key, (left, rigth) => Expression.Call(Expression.Constant(value.Target), value.Method, left, rigth));
+        public void AddBracketFunction(Bracket key, UnaryFunc<double> value) => BracketFunctions.Add(key, value);
+        public void AddUnaryOpFunction(string key, UnaryFunc<double> value) => UnaryOpFunctions.Add(key, exp => Expression.Call(Expression.Constant(value.Target), value.Method, exp));
+        public void AddBinaryOpFunction(string key, BinaryFunc<double> value) => BinaryOpFunctions.Add(key, (left, rigth) => Expression.Call(Expression.Constant(value.Target), value.Method, left, rigth));
         public void AddBinaryOpLevel(string key, int value) => BinaryOpLevels.Add(key, value);
 
         protected struct NodeExpressionPair

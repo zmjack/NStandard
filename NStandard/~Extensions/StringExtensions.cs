@@ -11,7 +11,7 @@ namespace NStandard
     public static class StringExtensions
     {
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use (ValueWrapper<string>)@this instead.")]
+        [Obsolete("Use ValueTuple<string> or StructTuple<string> instead.")]
         public static VString VString(this string @this) => new(@this);
 
         /// <summary>

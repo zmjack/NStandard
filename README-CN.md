@@ -36,6 +36,12 @@
 
 ## 最近更新
 
+### 版本：0.40.0
+
+- 添加了新类型 **HashMap<TKey, TValue>**。
+
+  它是允许使用 **null** 键值的 **IDictionary** 类型，且在不存在键值时返回 **default**。
+
 ### 版本：0.39.0
 
 - **DateRangeType** 已重命名为 **DateOnlyType**. 

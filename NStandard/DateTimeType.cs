@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard
+﻿namespace NStandard
 {
     public enum DateTimeType
     {

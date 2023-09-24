@@ -40,7 +40,7 @@ namespace NStandard.Test
 
         }
 
-        private readonly UnaryOpFunc<Func<decimal, decimal>> d = func =>
+        private readonly UnaryFunc<Func<decimal, decimal>> d = func =>
         {
             decimal deltaX = 0.000_000_000_000_1m;
             return x => (func(x + deltaX) - func(x)) / deltaX;
@@ -64,7 +64,7 @@ namespace NStandard.Test
         public void HigherTest2()
         {
             var md5 = MD5.Create();
-            var computeMD5 = new UnaryOpFunc<byte[]>(x => md5.ComputeHash(x));
+            var computeMD5 = new UnaryFunc<byte[]>(x => md5.ComputeHash(x));
 
             var result1 = ((Func<byte[], byte[]>)md5.ComputeHash).Higher(3)("NStandard".Bytes());
             var result2 = computeMD5.Higher(3)("NStandard".Bytes());
