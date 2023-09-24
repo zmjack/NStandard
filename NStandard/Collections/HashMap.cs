@@ -10,57 +10,56 @@ namespace NStandard.Collections
     [Serializable]
     public class HashMap<TKey, TValue> : IDictionary<TKey, TValue>
     {
-        private bool _hasNullKey;
-        private TValue _nullKeyValue;
+        private Tuple<TValue> _valueOf_NullKey;
         private readonly Dictionary<TKey, TValue> _dictionary = new();
 
         public TValue this[TKey key]
         {
-            get => TryGetValue(key, out var value) ? value : default;
+            get
+            {
+                if (key is null)
+                {
+                    return _valueOf_NullKey is null
+                        ? throw new KeyNotFoundException($"The given key (null) was not present in the dictionary.")
+                        : _valueOf_NullKey.Item1;
+                }
+                else return _dictionary[key];
+            }
             set
             {
                 if (key is null)
                 {
-                    _hasNullKey = true;
-                    _nullKeyValue = value;
+                    _valueOf_NullKey = Tuple.Create(value);
                 }
                 else _dictionary[key] = value;
             }
         }
 
-        public ICollection<TKey> Keys
+        private IEnumerable<TKey> EnumKeys()
         {
-            get
+            if (_valueOf_NullKey is not null) yield return default;
+
+            foreach (var key in _dictionary.Keys)
             {
-                IEnumerable<TKey> EnumKeys()
-                {
-                    if (_hasNullKey) yield return default;
-                    foreach (var key in _dictionary.Keys)
-                    {
-                        yield return key;
-                    }
-                }
-                return EnumKeys().ToArray();
+                yield return key;
             }
         }
 
-        public ICollection<TValue> Values
+        public ICollection<TKey> Keys => EnumKeys().ToArray();
+
+        private IEnumerable<TValue> EnumValues()
         {
-            get
+            if (_valueOf_NullKey is not null) yield return _valueOf_NullKey.Item1;
+
+            foreach (var value in _dictionary.Values)
             {
-                IEnumerable<TValue> EnumValues()
-                {
-                    if (_hasNullKey) yield return _nullKeyValue;
-                    foreach (var value in _dictionary.Values)
-                    {
-                        yield return value;
-                    }
-                }
-                return EnumValues().ToArray();
+                yield return value;
             }
         }
 
-        public int Count => _hasNullKey ? _dictionary.Count + 1 : _dictionary.Count;
+        public ICollection<TValue> Values => EnumValues().ToArray();
+
+        public int Count => _valueOf_NullKey is not null ? _dictionary.Count + 1 : _dictionary.Count;
 
         public bool IsReadOnly => false;
 
@@ -68,8 +67,8 @@ namespace NStandard.Collections
         {
             if (key is null)
             {
-                if (_hasNullKey) throw new ArgumentException($"An item with the same key has already been added. Key: null");
-                _nullKeyValue = value;
+                if (_valueOf_NullKey is not null) throw new ArgumentException($"An item with the same key has already been added. Key: null");
+                _valueOf_NullKey = Tuple.Create(value);
             }
             else
             {
@@ -81,8 +80,7 @@ namespace NStandard.Collections
 
         public void Clear()
         {
-            _hasNullKey = false;
-            _nullKeyValue = default;
+            _valueOf_NullKey = null;
             _dictionary.Clear();
         }
 
@@ -90,19 +88,9 @@ namespace NStandard.Collections
         {
             if (item.Key is null)
             {
-                if (!_hasNullKey) return false;
-                else
-                {
-                    if (_nullKeyValue is null)
-                    {
-                        return item.Value is null;
-                    }
-                    else
-                    {
-                        if (item.Value is null) return false;
-                        else return _nullKeyValue.Equals(item.Value);
-                    }
-                }
+                if (_valueOf_NullKey is null) return false;
+
+                return _valueOf_NullKey.Item1?.Equals(item.Value) ?? item.Value is null;
             }
             else
             {
@@ -110,8 +98,11 @@ namespace NStandard.Collections
             }
         }
 
-        public bool ContainsKey(TKey key) => key is null ? _hasNullKey : _dictionary.ContainsKey(key);
-        public bool ContainsValue(TValue value) => Values.Contains(value);
+        public bool ContainsKey(TKey key) => key is null ? _valueOf_NullKey is not null : _dictionary.ContainsKey(key);
+        public bool ContainsValue(TValue value)
+        {
+            return EnumValues().Any(x => x?.Equals(value) ?? value is null);
+        }
 
         void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
@@ -130,7 +121,8 @@ namespace NStandard.Collections
         {
             IEnumerable<KeyValuePair<TKey, TValue>> EnumPairs()
             {
-                if (_hasNullKey) yield return new KeyValuePair<TKey, TValue>(default, _nullKeyValue);
+                if (_valueOf_NullKey is not null) yield return new KeyValuePair<TKey, TValue>(default, _valueOf_NullKey.Item1);
+
                 foreach (var pair in _dictionary)
                 {
                     yield return pair;
@@ -143,10 +135,9 @@ namespace NStandard.Collections
         {
             if (key is null)
             {
-                if (!_hasNullKey) return false;
+                if (_valueOf_NullKey is null) return false;
 
-                _hasNullKey = false;
-                _nullKeyValue = default;
+                _valueOf_NullKey = null;
                 return true;
             }
             else
@@ -160,15 +151,14 @@ namespace NStandard.Collections
         {
             if (key is null)
             {
-                if (!_hasNullKey)
+                if (_valueOf_NullKey is null)
                 {
                     value = default;
                     return false;
                 }
 
-                value = _nullKeyValue;
-                _hasNullKey = false;
-                _nullKeyValue = default;
+                value = _valueOf_NullKey.Item1;
+                _valueOf_NullKey = null;
                 return true;
             }
             else
@@ -187,13 +177,13 @@ namespace NStandard.Collections
         {
             if (key is null)
             {
-                if (!_hasNullKey)
+                if (_valueOf_NullKey is null)
                 {
                     value = default;
                     return false;
                 }
 
-                value = _nullKeyValue;
+                value = _valueOf_NullKey.Item1;
                 return true;
             }
             else

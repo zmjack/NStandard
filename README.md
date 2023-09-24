@@ -36,11 +36,11 @@ These frameworks are supported:
 
 ## Recently
 
-### Version 0.40.0
+### Version 0.41.0
 
 - Added new class **HashMap<TKey, TValue>**.
 
-  It is a **IDictionary** type that allows the use of **null** key, and returns **default** when the key value does not exist.
+  It is a **IDictionary** type that allows the use of **null** key.
 
 ### Version 0.39.0
 

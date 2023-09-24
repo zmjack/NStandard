@@ -6,12 +6,13 @@
       netstandard2.0;netstandard2.1;
       net35;net451;net452;net46;net461;net462;net47;net471;net472;net48;
     </TargetFrameworks>
+    <LangVersion>preview</LangVersion>
     <RootNamespace>NStandard</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Authors>zmjack</Authors>
     <Company>nstandard.net</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.40.0</Version>
+    <Version>0.41.0</Version>
     <Description>DotNet extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
