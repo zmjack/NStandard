@@ -36,6 +36,10 @@
 
 ## 最近更新
 
+### 版本：0.45.0
+
+- **中断性更新**：**DateOnlyType** 和 **DateTimeType** 已按 **Flags** 方案重新设计。
+
 ### 版本：0.42.0
 
 - 新功能：为 **DateOnly** / **DateTime** / **DateTimeOffset** 提供 **StartOfSeason** / **EndOfSeason** 方法。

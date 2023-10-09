@@ -2,8 +2,8 @@
 {
     public enum ChainOrigin
     {
-        Begin,
-        Current,
-        End,
+        Begin = 0,
+        Current = 1,
+        End = 2,
     }
 }

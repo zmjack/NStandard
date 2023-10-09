@@ -36,6 +36,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.45.0
+
+- **Breaking change**: DateOnlyType and DateTimeType redesigned as Flags.
+
 ### Version 0.42.0
 
 - New feature: Provide **StartOfSeason** / **EndOfSeason** methods for **DateOnly** / **DateTime** / **DateTimeOffset**.

@@ -3,8 +3,8 @@
     public enum DateOnlyType
     {
         Unspecified,
-        Year,
-        Month,
-        Day,
+        Year = 1,
+        Month = 2,
+        Day = 4,
     }
 }

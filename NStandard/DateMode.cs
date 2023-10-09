@@ -1,8 +1,11 @@
-﻿namespace NStandard
+﻿using System;
+
+namespace NStandard
 {
     /// <summary>
     /// Indicates Weekday or Weekend.
     /// </summary>
+    [Flags]
     public enum DayMode
     {
         /// <summary>
@@ -13,11 +16,11 @@
         /// <summary>
         /// Indicates Monday, Tuesday, Wednesday, Thursday, Friday.
         /// </summary>
-        Weekday,
+        Weekday = 1,
 
         /// <summary>
         /// Indicates Saturday, Sunday.
         /// </summary>
-        Weekend,
+        Weekend = 2,
     }
 }

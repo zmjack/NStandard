@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace NStandard
 {
-    [Obsolete("Use DateTimeType instead.")]
+    [Obsolete("Use DateOnlyType instead.")]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public enum DateTimeRangeType
     {
