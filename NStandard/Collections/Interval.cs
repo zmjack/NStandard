@@ -124,7 +124,7 @@ namespace NStandard.Collections
 #endif
         }
 
-        private int RangeComparison(Range x, Range y)
+        private int CompareRange(Range x, Range y)
         {
 #if NET7_0_OR_GREATER
             return x.Start < y.Start ? -1 : x.Start > y.Start ? 1 : 0;
@@ -161,7 +161,19 @@ namespace NStandard.Collections
             }
         }
 
-        public void Add(T value) => Add(new Range(value, value));
+        public void Add(T value)
+        {
+            Add(new Range(value, value));
+        }
+
+        public void Add(IEnumerable<T> values)
+        {
+            foreach (var value in values)
+            {
+                Add(new Range(value, value));
+            }
+        }
+
         public void Add(Range range)
         {
             _ranges.Add(range);
@@ -186,7 +198,19 @@ namespace NStandard.Collections
             _normalized = false;
         }
 
-        public void Subtract(T value) => Subtract(new Range(value, value));
+        public void Subtract(T value)
+        {
+            Subtract(new Range(value, value));
+        }
+
+        public void Subtract(IEnumerable<T> values)
+        {
+            foreach (var value in values)
+            {
+                Subtract(new Range(value, value));
+            }
+        }
+
         public void Subtract(Range range)
         {
             if (!_normalized) Normalize();
@@ -289,7 +313,7 @@ namespace NStandard.Collections
 
         public void Normalize()
         {
-            _ranges.Sort(RangeComparison);
+            _ranges.Sort(CompareRange);
             for (var i = 0; i < _ranges.Count - 1;)
             {
                 var current = _ranges[i];
