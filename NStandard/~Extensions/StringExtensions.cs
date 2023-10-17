@@ -10,10 +10,6 @@ namespace NStandard
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class StringExtensions
     {
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use ValueTuple<string> or StructTuple<string> instead.")]
-        public static VString VString(this string @this) => new(@this);
-
         /// <summary>
         /// Indicates whether the specified string is null or an System.String.Empty string.
         /// </summary>

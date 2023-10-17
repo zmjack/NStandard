@@ -36,6 +36,13 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.48.0
+
+- **Breaking change**: Simplified wrapper type implementation **Ref** (reference wrapper).
+- **Breaking change**: Added **Val** type (value wrapper).
+- **Breaking change**: Remove **ValueWrapper**, use **Val** instead.
+- **Breaking change**: Remove **VString** (the value wrapper type for **string**), use **Val\<string\>** instead.
+
 ### Version 0.45.0
 
 - **Breaking change**: DateOnlyType and DateTimeType redesigned as Flags.

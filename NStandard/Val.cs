@@ -3,18 +3,18 @@
 namespace NStandard
 {
     [DebuggerDisplay("{Any}")]
-    public class Ref<T>
+    public struct Val<T>
     {
         public T Any { get; }
 
-        public Ref(T any)
+        public Val(T any)
         {
             Any = any;
         }
 
-        public static implicit operator Ref<T>(T any)
+        public static implicit operator Val<T>(T any)
         {
-            return new Ref<T>(any);
+            return new Val<T>(any);
         }
     }
 }
