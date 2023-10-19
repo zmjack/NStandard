@@ -12,14 +12,13 @@
     <Authors>zmjack</Authors>
     <Company>nstandard.net</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.48.0</Version>
+    <Version>0.48.0.1</Version>
     <Description>DotNet extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
     <PackageProjectUrl>nstandard.net</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <Copyright>Copyright © nstandard.net 2020</Copyright>
-    <LangVersion>preview</LangVersion>
     <PackageId>NStandard</PackageId>
     <PackageTags>System Standard Extension</PackageTags>
     <PackageIcon>nstandard.png</PackageIcon>

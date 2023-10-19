@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
+using System.Text;
 using Xunit;
 
 namespace NStandard.Security.Test
@@ -10,7 +11,7 @@ namespace NStandard.Security.Test
         public void RsaTest()
         {
             var text = "Hello NStandard.";
-            var data = text.Bytes();
+            var data = Encoding.Default.GetBytes(text);
 
             var encryptRsa = new RsaProvider();
             encryptRsa.FromXmlString(@"<RSAKeyValue>
@@ -57,7 +58,7 @@ uOrTVXLuAd/LRaekwNb40RUEQkJsF/Nr6Hr8Ww75zlG1VPdA3Sy0/4R+EPN5lKo0
 b/Q9/kYqEMoXtizEUHzIezeRR/R83w+6ggUWo/BFcHg/K2a8qD2Hl79pJsDs/dba
 IO3mAf4hVQ4MXlwp8++KWTuLNw==
 -----END PRIVATE KEY-----");
-            var decipher = decryptRsa.Decrypt(cipher).String();
+            var decipher = Encoding.Default.GetString(decryptRsa.Decrypt(cipher));
             Assert.Equal(text, decipher);
             Assert.True(encryptRsa.VerifyData(data, signature, HashAlgorithmName.SHA1));
             Assert.True(encryptRsa.VerifyHash(hash, hashSignature, HashAlgorithmName.SHA1));
@@ -71,12 +72,12 @@ IO3mAf4hVQ4MXlwp8++KWTuLNw==
             static void Test(AesProvider aesProvider)
             {
                 var text = Guid.NewGuid().ToString();
-                var cipher = aesProvider.Encrypt(text.Bytes());
+                var cipher = aesProvider.Encrypt(Encoding.Default.GetBytes(text));
 
                 var bytes = cipher.ToBytes();
                 var _cipher = new AesCipher().FromBytes(bytes);
 
-                var source = aesProvider.Decrypt(_cipher).String();
+                var source = Encoding.Default.GetString(aesProvider.Decrypt(_cipher));
 
                 Assert.Equal(text, source);
             }
@@ -105,12 +106,12 @@ IO3mAf4hVQ4MXlwp8++KWTuLNw==
             static void Test(DesProvider desProvider)
             {
                 var text = Guid.NewGuid().ToString();
-                var cipher = desProvider.Encrypt(text.Bytes());
+                var cipher = desProvider.Encrypt(Encoding.Default.GetBytes(text));
 
                 var bytes = cipher.ToBytes();
                 var _cipher = new DesCipher().FromBytes(bytes);
 
-                var source = desProvider.Decrypt(_cipher).String();
+                var source = Encoding.Default.GetString(desProvider.Decrypt(_cipher));
 
                 Assert.Equal(text, source);
             }
@@ -133,12 +134,12 @@ IO3mAf4hVQ4MXlwp8++KWTuLNw==
             static void Test(TripleDesProvider desProvider)
             {
                 var text = Guid.NewGuid().ToString();
-                var cipher = desProvider.Encrypt(text.Bytes());
+                var cipher = desProvider.Encrypt(Encoding.Default.GetBytes(text));
 
                 var bytes = cipher.ToBytes();
                 var _cipher = new TripleDesCipher().FromBytes(bytes);
 
-                var source = desProvider.Decrypt(_cipher).String();
+                var source = Encoding.Default.GetString(desProvider.Decrypt(_cipher));
 
                 Assert.Equal(text, source);
             }

@@ -28,13 +28,13 @@ namespace NStandard.Flows
         public static string UrlDecode(string str) => WebUtility.UrlDecode(str);
         public static string UrlEncode(string str, Encoding e)
         {
-            var bytes = str.Bytes(e);
-            return WebUtility.UrlEncodeToBytes(bytes, 0, bytes.Length).String();
+            var bytes = e.GetBytes(str);
+            return Encoding.Default.GetString(WebUtility.UrlEncodeToBytes(bytes, 0, bytes.Length));
         }
         public static string UrlDecode(string str, Encoding e)
         {
-            var bytes = str.Bytes();
-            return WebUtility.UrlDecodeToBytes(bytes, 0, bytes.Length).String(e);
+            var bytes = Encoding.Default.GetBytes(str);
+            return e.GetString(WebUtility.UrlDecodeToBytes(bytes, 0, bytes.Length));
         }
 
         public static string HtmlEncode(string str) => WebUtility.HtmlEncode(str);

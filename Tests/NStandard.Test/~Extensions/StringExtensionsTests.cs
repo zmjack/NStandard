@@ -35,10 +35,10 @@ namespace NStandard.Test
         public void GetBytesTest1()
         {
             var str = "你好";
-            Assert.Equal(Encoding.UTF8.GetBytes(str), str.Bytes(Encoding.UTF8));
-            Assert.Equal(Encoding.UTF8.GetBytes(str), str.Bytes("utf-8"));
-            Assert.NotEqual(Encoding.ASCII.GetBytes(str), str.Bytes(Encoding.UTF8));
-            Assert.NotEqual(Encoding.ASCII.GetBytes(str), str.Bytes("utf-8"));
+            Assert.Equal(Encoding.UTF8.GetBytes(str), str.Pipe(Encoding.UTF8.GetBytes));
+            Assert.Equal(Encoding.UTF8.GetBytes(str), str.Pipe(Encoding.GetEncoding("utf-8").GetBytes));
+            Assert.NotEqual(Encoding.ASCII.GetBytes(str), str.Pipe(Encoding.UTF8.GetBytes));
+            Assert.NotEqual(Encoding.ASCII.GetBytes(str), str.Pipe(Encoding.GetEncoding("utf-8").GetBytes));
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace NStandard.Test
             };
             Assert.Equal(hexString_Bytes, hexString.Pipe(StringFlow.BytesFromHexString));
             Assert.Equal(hexString, hexString_Bytes.Pipe(BytesFlow.HexString));
-            Assert.Equal(hexString, hexString_Base64.Pipe(StringFlow.BytesFromBase64).String(Encoding.Default));
+            Assert.Equal(hexString, hexString_Base64.Pipe(StringFlow.BytesFromBase64).Pipe(Encoding.Default.GetString));
         }
 
         [Fact]

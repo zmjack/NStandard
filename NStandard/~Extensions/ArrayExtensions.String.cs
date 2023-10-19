@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace NStandard
 {
@@ -9,6 +10,7 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
+        [Obsolete("Use Pipe(Encoding.Unicode.GetString) instead.")]
         public static string String(this byte[] @this) => String(@this, Encoding.Unicode);
 
         /// <summary>
@@ -17,6 +19,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
+        [Obsolete("Use Pipe(Encoding.GetEncoding(*).GetString) instead.")]
         public static string String(this byte[] @this, string encoding) => Encoding.GetEncoding(encoding).GetString(@this);
 
         /// <summary>
@@ -25,6 +28,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
+        [Obsolete("Use Pipe(Encoding.*.GetString) instead.")]
         public static string String(this byte[] @this, Encoding encoding) => encoding.GetString(@this);
     }
 }

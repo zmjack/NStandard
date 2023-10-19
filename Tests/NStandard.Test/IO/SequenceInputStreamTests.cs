@@ -10,9 +10,9 @@ namespace NStandard.IO.Test
         public void Test1()
         {
             using var stream = new SequenceInputStream(
-                new MemoryStream("123".Bytes(Encoding.UTF8)),
-                new MemoryStream("456".Bytes(Encoding.UTF8)),
-                new MemoryStream("789".Bytes(Encoding.UTF8))
+                new MemoryStream("123".Pipe(Encoding.UTF8.GetBytes)),
+                new MemoryStream("456".Pipe(Encoding.UTF8.GetBytes)),
+                new MemoryStream("789".Pipe(Encoding.UTF8.GetBytes))
             );
             using var reader = new StreamReader(stream);
 

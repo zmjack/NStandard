@@ -565,6 +565,7 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
+        [Obsolete("Use Pipe(Encoding.Unicode.GetBytes) instead.")]
         public static byte[] Bytes(this string @this) => Bytes(@this, Encoding.Unicode);
 
         /// <summary>
@@ -573,6 +574,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
+        [Obsolete("Use Pipe(Encoding.*.GetBytes) instead.")]
         public static byte[] Bytes(this string @this, Encoding encoding) => encoding.GetBytes(@this);
 
         /// <summary>
@@ -581,6 +583,7 @@ namespace NStandard
         /// <param name="this"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
+        [Obsolete("Use Pipe(Encoding.GetEncoding(*).GetBytes) instead.")]
         public static byte[] Bytes(this string @this, string encoding) => Encoding.GetEncoding(encoding).GetBytes(@this);
 
     }

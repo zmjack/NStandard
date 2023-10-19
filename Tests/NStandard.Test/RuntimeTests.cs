@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Xunit;
 
 namespace NStandard.Test
@@ -16,7 +17,7 @@ namespace NStandard.Test
             Assert.Equal(3, length);
             Assert.Equal("abc", str);
 
-            Native.WriteMemory(pStrPart, "A".Bytes());
+            Native.WriteMemory(pStrPart, Encoding.Default.GetBytes("A"));
             Assert.Equal("Abc", str);
         }
 

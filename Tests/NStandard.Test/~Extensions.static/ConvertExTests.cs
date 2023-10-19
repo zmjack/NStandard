@@ -24,11 +24,11 @@ namespace NStandard.Test
         [Fact]
         public void Base58Test()
         {
-            Assert.Equal("zpsEBKbce3iT", ConvertEx.ToBase58String("NStandard".Bytes(Encoding.UTF8)));
-            Assert.Equal("NStandard", ConvertEx.FromBase58String("zpsEBKbce3iT").String(Encoding.UTF8));
+            Assert.Equal("zpsEBKbce3iT", ConvertEx.ToBase58String("NStandard".Pipe(Encoding.UTF8.GetBytes)));
+            Assert.Equal("NStandard", ConvertEx.FromBase58String("zpsEBKbce3iT").Pipe(Encoding.UTF8.GetString));
 
-            Assert.Equal("111zpsEBKbce3iT", ConvertEx.ToBase58String("\0\0\0NStandard".Bytes(Encoding.UTF8)));
-            Assert.Equal("\0\0\0NStandard", ConvertEx.FromBase58String("111zpsEBKbce3iT").String(Encoding.UTF8));
+            Assert.Equal("111zpsEBKbce3iT", ConvertEx.ToBase58String("\0\0\0NStandard".Pipe(Encoding.UTF8.GetBytes)));
+            Assert.Equal("\0\0\0NStandard", ConvertEx.FromBase58String("111zpsEBKbce3iT").Pipe(Encoding.UTF8.GetString));
         }
 
         [Fact]

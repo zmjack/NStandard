@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using Xunit;
 
@@ -64,11 +65,11 @@ namespace NStandard.Test
         public void HigherTest2()
         {
             var md5 = MD5.Create();
-            var computeMD5 = new UnaryFunc<byte[]>(x => md5.ComputeHash(x));
+            var computeMD5 = new UnaryFunc<byte[]>(md5.ComputeHash);
 
-            var result1 = ((Func<byte[], byte[]>)md5.ComputeHash).Higher(3)("NStandard".Bytes());
-            var result2 = computeMD5.Higher(3)("NStandard".Bytes());
-            var result3 = computeMD5(computeMD5(computeMD5("NStandard".Bytes())));
+            var result1 = ((Func<byte[], byte[]>)md5.ComputeHash).Higher(3)(Encoding.Default.GetBytes("NStandard"));
+            var result2 = computeMD5.Higher(3)(Encoding.Default.GetBytes("NStandard"));
+            var result3 = computeMD5(computeMD5(computeMD5(Encoding.Default.GetBytes("NStandard"))));
 
             Assert.Equal(result1, result2);
             Assert.Equal(result2, result3);

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.ComponentModel;
 using System.IO;
+using System.Text;
 
 namespace NStandard.Debug
 {
@@ -16,7 +17,7 @@ namespace NStandard.Debug
                 Dump(@this, writer);
                 writer.Flush();
                 memory.Seek(0, SeekOrigin.Begin);
-                return memory.ToArray().String();
+                return Encoding.Unicode.GetString(memory.ToArray());
             }
         }
         public static void Dump<TSelf>(this TSelf @this) => Dump(@this, Console.Out);

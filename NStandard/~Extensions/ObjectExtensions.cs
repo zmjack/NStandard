@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 #if NETCOREAPP1_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
 using System.Dynamic;
-using NStandard.Reflection;
 #endif
 
 namespace NStandard
@@ -139,7 +138,8 @@ namespace NStandard
         /// </summary>
         /// <param name="this"></param>
         /// <returns></returns>
-        [Obsolete("May be removed in the future.")]
+        [Obsolete("Use `is null` instead.")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static bool IsNull<TSelf>(this TSelf @this) where TSelf : class => @this is null;
 
         public static Reflector GetReflector(this object @this) => new(@this.GetType(), @this);
