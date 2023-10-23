@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 
 namespace NStandard
 {
@@ -28,6 +29,18 @@ namespace NStandard
             return (ToInt64(@this) & ToInt64(flag)) > 0;
         }
 #endif
+
+        /// <summary>
+        /// Get the attribute of enum.
+        /// </summary>
+        public static TAttribute GetAttribute<TAttribute>(this Enum enumValue) where TAttribute : Attribute
+        {
+            return enumValue
+                .GetType()
+                .GetMember(enumValue.ToString())
+                .FirstOrDefault()
+                .GetCustomAttribute<TAttribute>();
+        }
 
     }
 }

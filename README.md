@@ -36,6 +36,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.49.0
+
+- Adjust the **EnumOption** structure.
+
 ### Version 0.48.0
 
 - **Breaking change**: Simplified wrapper type implementation **Ref** (reference wrapper).

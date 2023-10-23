@@ -4,33 +4,44 @@ namespace NStandard
 {
     public class EnumOption : IEquatable<EnumOption>
     {
-        public object EnumValue { get; private set; }
-        public object UnderlyingValue { get; private set; }
+        public object Enum { get; }
+        public string Name { get; }
+        public object Value { get; }
 
-        public EnumOption(Type enumType, string value)
+        [Obsolete("Use Enum instead.")]
+        public object EnumValue => Enum;
+
+        [Obsolete("Use Value instead.")]
+        public object UnderlyingValue => Value;
+
+        public EnumOption(Type enumType, string name)
         {
-            var underlyingType = Enum.GetUnderlyingType(enumType);
-            EnumValue = Enum.Parse(enumType, value);
-            UnderlyingValue = Convert.ChangeType(EnumValue, underlyingType);
+            var underlyingType = System.Enum.GetUnderlyingType(enumType);
+            Enum = System.Enum.Parse(enumType, name);
+            Name = name;
+            Value = Convert.ChangeType(Enum, underlyingType);
         }
 
         public bool Equals(EnumOption other)
         {
-            return EnumValue.Equals(other.EnumValue) && UnderlyingValue.Equals(other.UnderlyingValue);
+            return Enum.Equals(other.Enum) && Value.Equals(other.Value);
         }
     }
 
-    public class EnumOption<TEnum, TUnderlying> : EnumOption, IEquatable<EnumOption<TEnum, TUnderlying>>
+    public class EnumOption<TEnum, TValue> : EnumOption, IEquatable<EnumOption<TEnum, TValue>>
         where TEnum : Enum
-        where TUnderlying : struct
+        where TValue : struct
     {
-        public new TEnum EnumValue => (TEnum)base.EnumValue;
-        public new TUnderlying UnderlyingValue => (TUnderlying)base.EnumValue;
+        public new TEnum Enum => (TEnum)base.Enum;
+        public new TValue Value => (TValue)base.Value;
+
+        public new TEnum EnumValue => (TEnum)base.Enum;
+        public new TValue UnderlyingValue => (TValue)base.Value;
 
         private void CheckUnderlyingType()
         {
-            var underlyingType = Enum.GetUnderlyingType(typeof(TEnum));
-            if (underlyingType != typeof(TUnderlying))
+            var underlyingType = System.Enum.GetUnderlyingType(typeof(TEnum));
+            if (underlyingType != typeof(TValue))
                 throw new InvalidOperationException($"The `{nameof(TEnum)}`'s underlying type should be {underlyingType.FullName}.");
         }
 
@@ -39,14 +50,14 @@ namespace NStandard
             CheckUnderlyingType();
         }
 
-        public EnumOption(TUnderlying value) : base(typeof(TEnum), value.ToString())
+        public EnumOption(TValue value) : base(typeof(TEnum), value.ToString())
         {
             CheckUnderlyingType();
         }
 
-        public bool Equals(EnumOption<TEnum, TUnderlying> other)
+        public bool Equals(EnumOption<TEnum, TValue> other)
         {
-            return EnumValue.Equals(other.EnumValue) && UnderlyingValue.Equals(other.UnderlyingValue);
+            return Enum.Equals(other.Enum) && Value.Equals(other.Value);
         }
     }
 
