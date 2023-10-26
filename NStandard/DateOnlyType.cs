@@ -1,10 +1,9 @@
-﻿namespace NStandard
+﻿namespace NStandard;
+
+public enum DateOnlyType
 {
-    public enum DateOnlyType
-    {
-        Unspecified,
-        Year = 1,
-        Month = 2,
-        Day = 4,
-    }
+    Unspecified,
+    Year = 1,
+    Month = 2,
+    Day = 4,
 }

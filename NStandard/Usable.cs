@@ -1,71 +1,70 @@
 ﻿using System;
 
-namespace NStandard
+namespace NStandard;
+
+public class Usable : IDisposable
 {
-    public class Usable : IDisposable
+    private readonly Action OnDisposing;
+
+    internal Usable(Action onUsing, Action onDisposing)
     {
-        private readonly Action OnDisposing;
+        OnDisposing = onDisposing;
+        onUsing();
+    }
 
-        internal Usable(Action onUsing, Action onDisposing)
-        {
-            OnDisposing = onDisposing;
-            onUsing();
-        }
+    public static Usable Begin(Action onUsing, Action onDisposing) => new(onUsing, onDisposing);
+    public static Usable<TUsingReturn> Begin<TUsingReturn>(Func<TUsingReturn> onUsing, Action<TUsingReturn> onDisposing)
+    {
+        return new Usable<TUsingReturn>(onUsing, onDisposing);
+    }
 
-        public static Usable Begin(Action onUsing, Action onDisposing) => new(onUsing, onDisposing);
-        public static Usable<TUsingReturn> Begin<TUsingReturn>(Func<TUsingReturn> onUsing, Action<TUsingReturn> onDisposing)
+    private bool disposedValue;
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
         {
-            return new Usable<TUsingReturn>(onUsing, onDisposing);
-        }
-
-        private bool disposedValue;
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
+            if (disposing)
             {
-                if (disposing)
-                {
-                    OnDisposing();
-                }
-                disposedValue = true;
+                OnDisposing();
             }
-        }
-
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+            disposedValue = true;
         }
     }
 
-    public class Usable<TUsingReturn> : IDisposable
+    public void Dispose()
     {
-        private readonly Action<TUsingReturn> OnDisposing;
-        public TUsingReturn Value { get; private set; }
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+}
 
-        internal Usable(Func<TUsingReturn> onUsing, Action<TUsingReturn> onDisposing)
-        {
-            OnDisposing = onDisposing;
-            Value = onUsing();
-        }
+public class Usable<TUsingReturn> : IDisposable
+{
+    private readonly Action<TUsingReturn> OnDisposing;
+    public TUsingReturn Value { get; private set; }
 
-        private bool disposedValue;
-        protected virtual void Dispose(bool disposing)
+    internal Usable(Func<TUsingReturn> onUsing, Action<TUsingReturn> onDisposing)
+    {
+        OnDisposing = onDisposing;
+        Value = onUsing();
+    }
+
+    private bool disposedValue;
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
         {
-            if (!disposedValue)
+            if (disposing)
             {
-                if (disposing)
-                {
-                    OnDisposing(Value);
-                }
-                disposedValue = true;
+                OnDisposing(Value);
             }
+            disposedValue = true;
         }
+    }
 
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

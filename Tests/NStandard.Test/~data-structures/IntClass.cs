@@ -1,7 +1,6 @@
-﻿namespace NStandard.Test
+﻿namespace NStandard.Test;
+
+public class IntClass
 {
-    public class IntClass
-    {
-        public int Value { get; set; }
-    }
+    public int Value { get; set; }
 }

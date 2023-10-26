@@ -1,9 +1,8 @@
-﻿namespace NStandard.Trees
+﻿namespace NStandard.Trees;
+
+public enum BinaryNodeType
 {
-    public enum BinaryNodeType
-    {
-        LeftNode = -1,
-        RootNode = 0,
-        RightNode = 1,
-    }
+    LeftNode = -1,
+    RootNode = 0,
+    RightNode = 1,
 }

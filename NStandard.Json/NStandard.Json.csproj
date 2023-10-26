@@ -6,6 +6,7 @@
       netstandard2.0;netstandard2.1;
       net461;net462;net47;net471;net472;net48;
     </TargetFrameworks>
+    <LangVersion>preview</LangVersion>
     <Authors>zmjack</Authors>
     <Version>0.7.0</Version>
     <Company>nstandard.net</Company>
@@ -21,7 +22,6 @@
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Json Extension</PackageTags>
-    <LangVersion>preview</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 

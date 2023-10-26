@@ -1,9 +1,8 @@
-﻿namespace NStandard
+﻿namespace NStandard;
+
+public enum ChainOrigin
 {
-    public enum ChainOrigin
-    {
-        Begin = 0,
-        Current = 1,
-        End = 2,
-    }
+    Begin = 0,
+    Current = 1,
+    End = 2,
 }

@@ -1,19 +1,18 @@
 ﻿using System;
 using Xunit;
 
-namespace NStandard.Test
+namespace NStandard.Test;
+
+public class AppDomainExtensionsTests
 {
-    public class AppDomainExtensionsTests
+    [Fact]
+    public void Test1()
     {
-        [Fact]
-        public void Test1()
-        {
-            var coreLib = AppDomain.CurrentDomain.GetCoreLibAssembly();
-            var sr = coreLib.GetType("System.SR").GetDeclaredMethodViaQualifiedName("System.String GetResourceString(System.String)");
-            var resourceString = sr.Invoke(null, new[] { "Argument_EnumTypeDoesNotMatch" });
+        var coreLib = AppDomain.CurrentDomain.GetCoreLibAssembly();
+        var sr = coreLib.GetType("System.SR").GetDeclaredMethodViaQualifiedName("System.String GetResourceString(System.String)");
+        var resourceString = sr.Invoke(null, new[] { "Argument_EnumTypeDoesNotMatch" });
 
-            Assert.Equal("The argument type, '{0}', is not the same as the enum type '{1}'.", resourceString);
-        }
-
+        Assert.Equal("The argument type, '{0}', is not the same as the enum type '{1}'.", resourceString);
     }
+
 }

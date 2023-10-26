@@ -3,31 +3,30 @@ using System.Linq;
 using System.Threading;
 using Xunit;
 
-namespace NStandard.Locks.Test
+namespace NStandard.Locks.Test;
+
+public class TypeLockTest
 {
-    public class TypeLockTest
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
+        var lockParser = new TypeLockParser(nameof(NStandard));
+
+        var report = Concurrency.Run(resultId =>
         {
-            var lockParser = new TypeLockParser(nameof(NStandard));
+            using var _lock = lockParser.Parse<TypeLockTest>().TryBegin(500);
 
-            var report = Concurrency.Run(resultId =>
+            if (_lock.Value)
             {
-                using var _lock = lockParser.Parse<TypeLockTest>().TryBegin(500);
+                Thread.Sleep(1000);
+                return "Entered";
+            }
+            else return "Timeout";
+        }, level: 2, threadCount: 2);
 
-                if (_lock.Value)
-                {
-                    Thread.Sleep(1000);
-                    return "Entered";
-                }
-                else return "Timeout";
-            }, level: 2, threadCount: 2);
-
-            Assert.Equal(1, report.Results.Count(x => x.Return == "Entered"));
-            Assert.Equal(1, report.Results.Count(x => x.Return == "Timeout"));
-            Assert.True(report.AverageElapsed?.TotalMilliseconds < 2000);
-        }
-
+        Assert.Equal(1, report.Results.Count(x => x.Return == "Entered"));
+        Assert.Equal(1, report.Results.Count(x => x.Return == "Timeout"));
+        Assert.True(report.AverageElapsed?.TotalMilliseconds < 2000);
     }
+
 }

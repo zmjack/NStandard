@@ -6,198 +6,197 @@ using System.Reflection;
 using System.Runtime.Loader;
 using System.Text.RegularExpressions;
 
-namespace NStandard.Runtime
+namespace NStandard.Runtime;
+
+public class AssemblyContext : AssemblyLoadContext
 {
-    public class AssemblyContext : AssemblyLoadContext
-    {
-        private static readonly string ProgramFilesFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+    private static readonly string ProgramFilesFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 #if NET35
-        private static readonly string UserProfileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "..");
+    private static readonly string UserProfileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "..");
 #else
-        private static readonly string UserProfileFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+    private static readonly string UserProfileFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 #endif
-        public Assembly MainAssembly { get; private set; }
+    public Assembly MainAssembly { get; private set; }
 
-        public List<string> Directories = new();
-        public List<string> LoadedSdks = new();
-        public List<Assembly> LoadedAssemblies = new();
-        public List<AssemblyName> LoadedAssemblyNames = new();
+    public List<string> Directories = new();
+    public List<string> LoadedSdks = new();
+    public List<Assembly> LoadedAssemblies = new();
+    public List<AssemblyName> LoadedAssemblyNames = new();
 
-        public readonly DotNetFramework Framework;
-        public readonly DotNetFramework[] CompatibilityFrameworks;
+    public readonly DotNetFramework Framework;
+    public readonly DotNetFramework[] CompatibilityFrameworks;
 
-        public AssemblyContext(DotNetFramework framework, string sdkType)
+    public AssemblyContext(DotNetFramework framework, string sdkType)
+    {
+        Framework = framework;
+        CompatibilityFrameworks = framework.CompatibilityFrameworks.OrderByDescending(x => x.Order).ToArray();
+        LoadSdk(sdkType);
+    }
+
+    public void LoadMain(string assemblyFile)
+    {
+        if (MainAssembly is not null) throw new InvalidOperationException("Main assembly has been loaded.");
+
+        var assembly = LoadFromAssemblyPath(assemblyFile);
+        LoadedAssemblies.Add(assembly);
+        LoadedAssemblyNames.Add(assembly.GetName());
+        Directories.Add(Path.GetDirectoryName(assemblyFile));
+        MainAssembly = assembly;
+
+        foreach (var refAsseblyName in MainAssembly.GetReferencedAssemblies())
         {
-            Framework = framework;
-            CompatibilityFrameworks = framework.CompatibilityFrameworks.OrderByDescending(x => x.Order).ToArray();
-            LoadSdk(sdkType);
+            Load(refAsseblyName);
         }
+    }
 
-        public void LoadMain(string assemblyFile)
+    private void AddToDirectories(string packageDir)
+    {
+        if (Directory.Exists(packageDir))
         {
-            if (MainAssembly is not null) throw new InvalidOperationException("Main assembly has been loaded.");
+            var verPairs = (
+                from nuVersion in Directory.GetDirectories(packageDir).Select(x => Path.GetFileName(x))
+                let ver = GetVersionFromNuVersion(nuVersion)
+                where ver >= Framework.Version
+                orderby ver
+                select new { NuVersion = nuVersion, Version = ver }
+            ).ToArray();
 
-            var assembly = LoadFromAssemblyPath(assemblyFile);
-            LoadedAssemblies.Add(assembly);
-            LoadedAssemblyNames.Add(assembly.GetName());
-            Directories.Add(Path.GetDirectoryName(assemblyFile));
-            MainAssembly = assembly;
-
-            foreach (var refAsseblyName in MainAssembly.GetReferencedAssemblies())
+            if (verPairs.Any())
             {
-                Load(refAsseblyName);
+                Directories.Add($"{packageDir}/{verPairs[0].NuVersion}");
             }
         }
+    }
 
-        private void AddToDirectories(string packageDir)
+    private void LoadSdk(string sdkType)
+    {
+        if (LoadedSdks.Contains(sdkType)) return;
+        if (!new[] { SdkType.Legacy, SdkType.Core, SdkType.Web }.Contains(sdkType)) throw new ArgumentException($"Unkown sdk type. ({sdkType})", nameof(sdkType));
+        if (sdkType == SdkType.Legacy) throw new NotSupportedException(".NET Framework is not supported.");
+
+        if (sdkType == SdkType.Core || sdkType == SdkType.Web)
         {
-            if (Directory.Exists(packageDir))
-            {
-                var verPairs = (
-                    from nuVersion in Directory.GetDirectories(packageDir).Select(x => Path.GetFileName(x))
-                    let ver = GetVersionFromNuVersion(nuVersion)
-                    where ver >= Framework.Version
-                    orderby ver
-                    select new { NuVersion = nuVersion, Version = ver }
-                ).ToArray();
+            LoadedSdks.Add(SdkType.Core);
+            AddToDirectories($"{ProgramFilesFolder}/dotnet/shared/Microsoft.NETCore.App");
+        }
 
-                if (verPairs.Any())
-                {
-                    Directories.Add($"{packageDir}/{verPairs[0].NuVersion}");
-                }
+        if (sdkType == SdkType.Web)
+        {
+            LoadedSdks.Add(SdkType.Web);
+
+            AddToDirectories($"{ProgramFilesFolder}/dotnet/shared/Microsoft.AspNetCore.App");
+            AddToDirectories($"{ProgramFilesFolder}/dotnet/shared/Microsoft.AspNetCore.All");
+        }
+    }
+
+    public string GetNuVersion(Version version)
+    {
+        return version.MinorRevision <= 0
+            ? $"{version.Major}.{version.Minor}.{version.Build}"
+            : $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+    }
+
+    private readonly Regex NuVersionRegex = new(@"(\d+)\.(\d+)\.(\d+)(?:\.(\d+))?(?:-\w+)?", RegexOptions.Singleline);
+    public Version GetVersionFromNuVersion(string nuVersion)
+    {
+        var match = NuVersionRegex.Match(nuVersion);
+        if (!match.Success) return default;
+
+        var groups = match.Groups;
+        var major = int.Parse(groups[1].Value);
+        var minor = int.Parse(groups[2].Value);
+        var build = int.Parse(groups[3].Value);
+        var revision = groups[4];
+        return new Version(major, minor, build, revision.Success ? int.Parse(revision.Value) : 0);
+    }
+
+    public string GetFileFromNugetCache(AssemblyName asmName)
+    {
+        var packageDir = $"{UserProfileFolder}/.nuget/packages/{asmName.Name.ToLower()}";
+        if (!Directory.Exists(packageDir)) return null;
+
+        var verPairs = (from nuVersion in Directory.GetDirectories(packageDir)
+                        let ver = GetVersionFromNuVersion(nuVersion)
+                        where ver >= asmName.Version
+                        orderby ver
+                        select new { NuVersion = nuVersion, Version = ver }).ToArray();
+        if (verPairs.Length == 0) return null;
+        foreach (var pair in verPairs)
+        {
+            var libDir = $"{packageDir}/{pair.NuVersion}/lib";
+            if (!Directory.Exists(libDir)) continue;
+
+            var tfms = Directory.GetDirectories(libDir);
+            var selectTfm = CompatibilityFrameworks.FirstOrDefault(framework => tfms.Contains(framework.TFM));
+            if (selectTfm != null)
+            {
+                var file = $"{libDir}/{selectTfm.TFM}/{asmName.Name}.dll";
+                if (File.Exists(file)) return file;
             }
         }
+        return null;
+    }
 
-        private void LoadSdk(string sdkType)
+    public string GetFileFromSdkNuGetFallbackFolder(AssemblyName asmName)
+    {
+        var packageDir = $"{ProgramFilesFolder}/dotnet/sdk/NuGetFallbackFolder/{asmName.Name.ToLower()}";
+        if (!Directory.Exists(packageDir)) return null;
+
+        var verPairs = (from nuVersion in Directory.GetDirectories(packageDir)
+                        let ver = GetVersionFromNuVersion(nuVersion)
+                        where ver >= asmName.Version
+                        orderby ver
+                        select new { NuVersion = nuVersion, Version = ver }).ToArray();
+        if (verPairs.Length == 0) return null;
+        foreach (var pair in verPairs)
         {
-            if (LoadedSdks.Contains(sdkType)) return;
-            if (!new[] { SdkType.Legacy, SdkType.Core, SdkType.Web }.Contains(sdkType)) throw new ArgumentException($"Unkown sdk type. ({sdkType})", nameof(sdkType));
-            if (sdkType == SdkType.Legacy) throw new NotSupportedException(".NET Framework is not supported.");
+            var libDir = $"{packageDir}/{pair.NuVersion}/lib";
+            if (!Directory.Exists(libDir)) continue;
 
-            if (sdkType == SdkType.Core || sdkType == SdkType.Web)
+            var tfms = Directory.GetDirectories(libDir);
+            var selectTfm = CompatibilityFrameworks.FirstOrDefault(framework => tfms.Contains(framework.TFM));
+            if (selectTfm != null)
             {
-                LoadedSdks.Add(SdkType.Core);
-                AddToDirectories($"{ProgramFilesFolder}/dotnet/shared/Microsoft.NETCore.App");
+                var file = $"{libDir}/{selectTfm.TFM}/{asmName.Name}.dll";
+                if (File.Exists(file)) return file;
             }
+        }
+        return null;
+    }
 
-            if (sdkType == SdkType.Web)
+    public virtual Type GetType(string name)
+    {
+        if (name.Count(',') == 1)
+        {
+            var parts = name.Split(',');
+            var typeName = parts[0];
+            var assemblyName = parts[1];
+            return LoadedAssemblies.FirstOrDefault(x => x.GetName().Name == assemblyName)?.GetType(typeName);
+        }
+        else return MainAssembly.GetType(name);
+    }
+
+    public virtual Type[] GetTypes() => MainAssembly.GetTypes();
+
+    protected override Assembly Load(AssemblyName assemblyName)
+    {
+        var found = LoadedAssemblies.FirstOrDefault(x => x.GetName().Name == assemblyName.Name);
+        if (found is not null) return found;
+
+        foreach (var directory in Directories)
+        {
+            var dll = Directory.EnumerateFiles(directory, $"{assemblyName.Name}.dll").FirstOrDefault()
+                ?? GetFileFromSdkNuGetFallbackFolder(assemblyName)
+                ?? GetFileFromNugetCache(assemblyName);
+
+            if (dll is not null)
             {
-                LoadedSdks.Add(SdkType.Web);
-
-                AddToDirectories($"{ProgramFilesFolder}/dotnet/shared/Microsoft.AspNetCore.App");
-                AddToDirectories($"{ProgramFilesFolder}/dotnet/shared/Microsoft.AspNetCore.All");
+                var assembly = LoadFromAssemblyPath(dll);
+                LoadedAssemblies.Add(assembly);
+                LoadedAssemblyNames.Add(assembly.GetName());
+                return assembly;
             }
         }
-
-        public string GetNuVersion(Version version)
-        {
-            return version.MinorRevision <= 0
-                ? $"{version.Major}.{version.Minor}.{version.Build}"
-                : $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
-        }
-
-        private readonly Regex NuVersionRegex = new(@"(\d+)\.(\d+)\.(\d+)(?:\.(\d+))?(?:-\w+)?", RegexOptions.Singleline);
-        public Version GetVersionFromNuVersion(string nuVersion)
-        {
-            var match = NuVersionRegex.Match(nuVersion);
-            if (!match.Success) return default;
-
-            var groups = match.Groups;
-            var major = int.Parse(groups[1].Value);
-            var minor = int.Parse(groups[2].Value);
-            var build = int.Parse(groups[3].Value);
-            var revision = groups[4];
-            return new Version(major, minor, build, revision.Success ? int.Parse(revision.Value) : 0);
-        }
-
-        public string GetFileFromNugetCache(AssemblyName asmName)
-        {
-            var packageDir = $"{UserProfileFolder}/.nuget/packages/{asmName.Name.ToLower()}";
-            if (!Directory.Exists(packageDir)) return null;
-
-            var verPairs = (from nuVersion in Directory.GetDirectories(packageDir)
-                            let ver = GetVersionFromNuVersion(nuVersion)
-                            where ver >= asmName.Version
-                            orderby ver
-                            select new { NuVersion = nuVersion, Version = ver }).ToArray();
-            if (verPairs.Length == 0) return null;
-            foreach (var pair in verPairs)
-            {
-                var libDir = $"{packageDir}/{pair.NuVersion}/lib";
-                if (!Directory.Exists(libDir)) continue;
-
-                var tfms = Directory.GetDirectories(libDir);
-                var selectTfm = CompatibilityFrameworks.FirstOrDefault(framework => tfms.Contains(framework.TFM));
-                if (selectTfm != null)
-                {
-                    var file = $"{libDir}/{selectTfm.TFM}/{asmName.Name}.dll";
-                    if (File.Exists(file)) return file;
-                }
-            }
-            return null;
-        }
-
-        public string GetFileFromSdkNuGetFallbackFolder(AssemblyName asmName)
-        {
-            var packageDir = $"{ProgramFilesFolder}/dotnet/sdk/NuGetFallbackFolder/{asmName.Name.ToLower()}";
-            if (!Directory.Exists(packageDir)) return null;
-
-            var verPairs = (from nuVersion in Directory.GetDirectories(packageDir)
-                            let ver = GetVersionFromNuVersion(nuVersion)
-                            where ver >= asmName.Version
-                            orderby ver
-                            select new { NuVersion = nuVersion, Version = ver }).ToArray();
-            if (verPairs.Length == 0) return null;
-            foreach (var pair in verPairs)
-            {
-                var libDir = $"{packageDir}/{pair.NuVersion}/lib";
-                if (!Directory.Exists(libDir)) continue;
-
-                var tfms = Directory.GetDirectories(libDir);
-                var selectTfm = CompatibilityFrameworks.FirstOrDefault(framework => tfms.Contains(framework.TFM));
-                if (selectTfm != null)
-                {
-                    var file = $"{libDir}/{selectTfm.TFM}/{asmName.Name}.dll";
-                    if (File.Exists(file)) return file;
-                }
-            }
-            return null;
-        }
-
-        public virtual Type GetType(string name)
-        {
-            if (name.Count(',') == 1)
-            {
-                var parts = name.Split(',');
-                var typeName = parts[0];
-                var assemblyName = parts[1];
-                return LoadedAssemblies.FirstOrDefault(x => x.GetName().Name == assemblyName)?.GetType(typeName);
-            }
-            else return MainAssembly.GetType(name);
-        }
-
-        public virtual Type[] GetTypes() => MainAssembly.GetTypes();
-
-        protected override Assembly Load(AssemblyName assemblyName)
-        {
-            var found = LoadedAssemblies.FirstOrDefault(x => x.GetName().Name == assemblyName.Name);
-            if (found is not null) return found;
-
-            foreach (var directory in Directories)
-            {
-                var dll = Directory.EnumerateFiles(directory, $"{assemblyName.Name}.dll").FirstOrDefault()
-                    ?? GetFileFromSdkNuGetFallbackFolder(assemblyName)
-                    ?? GetFileFromNugetCache(assemblyName);
-
-                if (dll is not null)
-                {
-                    var assembly = LoadFromAssemblyPath(dll);
-                    LoadedAssemblies.Add(assembly);
-                    LoadedAssemblyNames.Add(assembly.GetName());
-                    return assembly;
-                }
-            }
-            throw new FileNotFoundException($"Can not find {assemblyName}.dll");
-        }
+        throw new FileNotFoundException($"Can not find {assemblyName}.dll");
     }
 }

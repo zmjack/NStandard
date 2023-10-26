@@ -1,20 +1,19 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
 using System.IO;
 
-namespace Dawnx.Compress
+namespace Dawnx.Compress;
+
+public partial class ZipStream
 {
-    public partial class ZipStream
+    private class StaticDataSource : IStaticDataSource
     {
-        private class StaticDataSource : IStaticDataSource
+        private readonly Stream StoredStream;
+
+        public StaticDataSource(Stream stream)
         {
-            private readonly Stream StoredStream;
-
-            public StaticDataSource(Stream stream)
-            {
-                StoredStream = stream;
-            }
-
-            public Stream GetSource() => StoredStream;
+            StoredStream = stream;
         }
+
+        public Stream GetSource() => StoredStream;
     }
 }

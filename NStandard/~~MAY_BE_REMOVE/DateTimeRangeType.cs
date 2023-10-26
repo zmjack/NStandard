@@ -1,18 +1,17 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace NStandard
+namespace NStandard;
+
+[Obsolete("Use DateOnlyType instead.")]
+[EditorBrowsable(EditorBrowsableState.Never)]
+public enum DateTimeRangeType
 {
-    [Obsolete("Use DateOnlyType instead.")]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public enum DateTimeRangeType
-    {
-        Unset,
-        Year,
-        Month,
-        Day,
-        Hour,
-        Minute,
-        Second,
-    }
+    Unset,
+    Year,
+    Month,
+    Day,
+    Hour,
+    Minute,
+    Second,
 }

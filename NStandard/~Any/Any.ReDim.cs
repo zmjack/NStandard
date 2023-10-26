@@ -2,38 +2,37 @@
 using System.Collections;
 using System.Linq;
 
-namespace NStandard
+namespace NStandard;
+
+public static partial class Any
 {
-    public static partial class Any
+    private static ArgumentException Exception_IncompatibleRank(string paramName) => new("The lengths can not be incompatible with the array.", paramName);
+    private static ArgumentException Exception_VariableMustBeArray(string paramName) => new($"The {paramName} must be an array.", paramName);
+
+    /// <summary>
+    /// Reallocates storage space for an array variable.
+    /// </summary>
+    /// <typeparam name="TArray"></typeparam>
+    /// <param name="variable"></param>
+    /// <param name="lengths"></param>
+    /// <exception cref="ArgumentException"></exception>
+    public static void ReDim<TArray>(ref TArray variable, params int[] lengths) where TArray : class, ICollection, IEnumerable, IList, ICloneable
     {
-        private static ArgumentException Exception_IncompatibleRank(string paramName) => new("The lengths can not be incompatible with the array.", paramName);
-        private static ArgumentException Exception_VariableMustBeArray(string paramName) => new($"The {paramName} must be an array.", paramName);
+        var type = variable.GetType();
+        if (!type.IsArray) throw Exception_VariableMustBeArray(nameof(variable));
 
-        /// <summary>
-        /// Reallocates storage space for an array variable.
-        /// </summary>
-        /// <typeparam name="TArray"></typeparam>
-        /// <param name="variable"></param>
-        /// <param name="lengths"></param>
-        /// <exception cref="ArgumentException"></exception>
-        public static void ReDim<TArray>(ref TArray variable, params int[] lengths) where TArray : class, ICollection, IEnumerable, IList, ICloneable
+        var origin = variable as Array;
+        if (lengths.Length != origin.Rank) throw Exception_IncompatibleRank(nameof(lengths));
+
+        var elementType = type.GetElementType();
+        var newArray = Array.CreateInstance(elementType, lengths);
+        var originLengths = origin.GetLengths();
+
+        var stepper = new IndicesStepper(0, Zip(originLengths, lengths).Select(pair => Math.Min(pair.Item1, pair.Item2)).ToArray());
+        foreach (var indices in stepper)
         {
-            var type = variable.GetType();
-            if (!type.IsArray) throw Exception_VariableMustBeArray(nameof(variable));
-
-            var origin = variable as Array;
-            if (lengths.Length != origin.Rank) throw Exception_IncompatibleRank(nameof(lengths));
-
-            var elementType = type.GetElementType();
-            var newArray = Array.CreateInstance(elementType, lengths);
-            var originLengths = origin.GetLengths();
-
-            var stepper = new IndicesStepper(0, Zip(originLengths, lengths).Select(pair => Math.Min(pair.Item1, pair.Item2)).ToArray());
-            foreach (var indices in stepper)
-            {
-                newArray.SetValue(origin.GetValue(indices), indices);
-            }
-            variable = newArray as TArray;
+            newArray.SetValue(origin.GetValue(indices), indices);
         }
+        variable = newArray as TArray;
     }
 }

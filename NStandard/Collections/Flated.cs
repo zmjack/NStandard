@@ -1,49 +1,48 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace NStandard.Collections
+namespace NStandard.Collections;
+
+public class Flated<T> : IEnumerable<T>
 {
-    public class Flated<T> : IEnumerable<T>
+    private readonly List<IEnumerable<T>> list = new();
+
+    public void Add(T value)
     {
-        private readonly List<IEnumerable<T>> list = new();
+        list.Add(new[] { value });
+    }
 
-        public void Add(T value)
+    public void Add(IEnumerable<T> value)
+    {
+        list.Add(value);
+    }
+
+    public void Add(IEnumerable<IEnumerable<T>> value)
+    {
+        foreach (var item in value)
         {
-            list.Add(new[] { value });
+            list.Add(item);
         }
+    }
 
-        public void Add(IEnumerable<T> value)
+    private IEnumerable<T> GetItems()
+    {
+        foreach (var enumerable in list)
         {
-            list.Add(value);
-        }
-
-        public void Add(IEnumerable<IEnumerable<T>> value)
-        {
-            foreach (var item in value)
+            foreach (var item in enumerable)
             {
-                list.Add(item);
+                yield return item;
             }
         }
+    }
 
-        private IEnumerable<T> GetItems()
-        {
-            foreach (var enumerable in list)
-            {
-                foreach (var item in enumerable)
-                {
-                    yield return item;
-                }
-            }
-        }
+    public IEnumerator<T> GetEnumerator()
+    {
+        return GetItems().GetEnumerator();
+    }
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            return GetItems().GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }

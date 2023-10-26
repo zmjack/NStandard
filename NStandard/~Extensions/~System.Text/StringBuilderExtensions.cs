@@ -3,15 +3,14 @@
 using System.ComponentModel;
 using System.Text;
 
-namespace NStandard
+namespace NStandard;
+
+[EditorBrowsable(EditorBrowsableState.Never)]
+public static class StringBuilderExtensions
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static class StringBuilderExtensions
+    public static void Clear(this StringBuilder @this)
     {
-        public static void Clear(this StringBuilder @this)
-        {
-            @this.Length = 0;
-        }
+        @this.Length = 0;
     }
 }
 #endif

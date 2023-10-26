@@ -4,12 +4,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace System.Collections
+namespace System.Collections;
+
+public interface IStructuralEquatable
 {
-    public interface IStructuralEquatable
-    {
-        bool Equals(object other, IEqualityComparer comparer);
-        int GetHashCode(IEqualityComparer comparer);
-    }
+    bool Equals(object other, IEqualityComparer comparer);
+    int GetHashCode(IEqualityComparer comparer);
 }
 #endif

@@ -6,6 +6,7 @@
       netstandard2.0;netstandard2.1;
       net46;net461;net462;net47;net471;net472;net48;
     </TargetFrameworks>
+    <LangVersion>preview</LangVersion>
     <RootNamespace>NStandard</RootNamespace>
     <Description>DotNet Core extensions for system library.</Description>
     <Authors>zmjack</Authors>
@@ -14,7 +15,6 @@
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>System Standard Extension</PackageTags>
-    <Version>0.8.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>nstandard.png</PackageIcon>
     <Copyright>Copyright © nstandard.net 2020</Copyright>

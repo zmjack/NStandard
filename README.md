@@ -36,6 +36,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.50.0
+
+- New feature: Provides **JsonXmlSerializer** to convert **JSON** to **XmlDocument**, or **XmlNode** to **JSON**.
+
 ### Version 0.49.0
 
 - Adjust the **EnumOption** structure.

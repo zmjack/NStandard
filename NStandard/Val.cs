@@ -1,20 +1,19 @@
 ﻿using System.Diagnostics;
 
-namespace NStandard
+namespace NStandard;
+
+[DebuggerDisplay("{Any}")]
+public struct Val<T>
 {
-    [DebuggerDisplay("{Any}")]
-    public struct Val<T>
+    public T Any { get; }
+
+    public Val(T any)
     {
-        public T Any { get; }
+        Any = any;
+    }
 
-        public Val(T any)
-        {
-            Any = any;
-        }
-
-        public static implicit operator Val<T>(T any)
-        {
-            return new Val<T>(any);
-        }
+    public static implicit operator Val<T>(T any)
+    {
+        return new Val<T>(any);
     }
 }

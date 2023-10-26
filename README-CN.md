@@ -36,6 +36,10 @@
 
 ## 最近更新
 
+### 版本：0.50.0
+
+- 提供 **JsonXmlSerializer** 将 **JSON** 转换为 **XmlDocument**，或将 **XmlNode** 转换为 **JSON**。
+
 ### 版本：0.49.0
 
 - 调整 **EnumOption** 结构。

@@ -1,7 +1,6 @@
-﻿namespace NStandard.Security
+﻿namespace NStandard.Security;
+
+public class DesCipher : SymmetricCipher<DesCipher>
 {
-    public class DesCipher : SymmetricCipher<DesCipher>
-    {
-        public override int IVLength => 8;
-    }
+    public override int IVLength => 8;
 }

@@ -1,28 +1,12 @@
-﻿using System.ComponentModel;
+﻿namespace NStandard.UnitValues;
 
-namespace NStandard.UnitValues
+public interface IUnitValue
 {
-    public interface IUnitValue
-    {
-        string Unit { get; set; }
-    }
-
-    public interface IUnitValue<TValue> : IUnitValue
-    {
-        TValue Value { get; }
-        TValue GetValue(string unit);
-    }
+    string Unit { get; set; }
 }
 
-namespace NStandard
+public interface IUnitValue<TValue> : IUnitValue
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static class XIUnitValue
-    {
-        public static TUnitValue Unit<TUnitValue>(this TUnitValue @this, string unit) where TUnitValue : struct, UnitValues.IUnitValue
-        {
-            @this.Unit = unit;
-            return @this;
-        }
-    }
+    TValue Value { get; }
+    TValue GetValue(string unit);
 }

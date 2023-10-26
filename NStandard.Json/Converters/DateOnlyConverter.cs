@@ -2,23 +2,22 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace NStandard.Json.Converters
-{
-#if NET6_0_OR_GREATER
-    public class DateOnlyConverter : JsonConverter<DateOnly>
-    {
-        public override DateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        {
-            var str = reader.GetString();
-            var dt = DateTime.Parse(str).ToLocalTime();
-            return DateOnly.FromDateTime(dt);
-        }
+namespace NStandard.Json.Converters;
 
-        public override void Write(Utf8JsonWriter writer, DateOnly value, JsonSerializerOptions options)
-        {
-            var isoDate = value.ToString("O");
-            writer.WriteStringValue(isoDate);
-        }
+#if NET6_0_OR_GREATER
+public class DateOnlyConverter : JsonConverter<DateOnly>
+{
+    public override DateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var str = reader.GetString();
+        var dt = DateTime.Parse(str).ToLocalTime();
+        return DateOnly.FromDateTime(dt);
     }
-#endif
+
+    public override void Write(Utf8JsonWriter writer, DateOnly value, JsonSerializerOptions options)
+    {
+        var isoDate = value.ToString("O");
+        writer.WriteStringValue(isoDate);
+    }
 }
+#endif

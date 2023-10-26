@@ -6,85 +6,84 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Versioning;
 
-namespace System.Security.Cryptography
+namespace System.Security.Cryptography;
+
+// NOTE: This is *currently* 1:1 with the enum, but it exists to reserve room for more options
+//       such as custom # of PSS salt bytes without having to modify other parts of the API
+//       surface.
+
+/// <summary>
+/// Specifies the padding mode  and parameters to use with RSA signature creation or verification operations.
+/// </summary>
+public sealed class RSASignaturePadding : IEquatable<RSASignaturePadding>
 {
-    // NOTE: This is *currently* 1:1 with the enum, but it exists to reserve room for more options
-    //       such as custom # of PSS salt bytes without having to modify other parts of the API
-    //       surface.
+    private static readonly RSASignaturePadding s_pkcs1 = new RSASignaturePadding(RSASignaturePaddingMode.Pkcs1);
+    private static readonly RSASignaturePadding s_pss = new RSASignaturePadding(RSASignaturePaddingMode.Pss);
+
+    private readonly RSASignaturePaddingMode _mode;
+
+    private RSASignaturePadding(RSASignaturePaddingMode mode)
+    {
+        _mode = mode;
+    }
 
     /// <summary>
-    /// Specifies the padding mode  and parameters to use with RSA signature creation or verification operations.
+    /// <see cref="RSASignaturePaddingMode.Pkcs1"/> mode.
     /// </summary>
-    public sealed class RSASignaturePadding : IEquatable<RSASignaturePadding>
+    public static RSASignaturePadding Pkcs1
     {
-        private static readonly RSASignaturePadding s_pkcs1 = new RSASignaturePadding(RSASignaturePaddingMode.Pkcs1);
-        private static readonly RSASignaturePadding s_pss = new RSASignaturePadding(RSASignaturePaddingMode.Pss);
+        get { return s_pkcs1; }
+    }
 
-        private readonly RSASignaturePaddingMode _mode;
+    /// <summary>
+    /// <see cref="RSASignaturePaddingMode.Pss"/> mode with the number of salt bytes equal to the size of the hash.
+    /// </summary>
+    public static RSASignaturePadding Pss
+    {
+        get { return s_pss; }
+    }
 
-        private RSASignaturePadding(RSASignaturePaddingMode mode)
+    /// <summary>
+    /// Gets the padding mode to use.
+    /// </summary>
+    public RSASignaturePaddingMode Mode
+    {
+        get { return _mode; }
+    }
+
+    public override int GetHashCode()
+    {
+        return _mode.GetHashCode();
+    }
+
+    public override bool Equals(object obj)
+    {
+        return Equals(obj as RSASignaturePadding);
+    }
+
+    public bool Equals(RSASignaturePadding other)
+    {
+        return other is not null && _mode == other._mode;
+    }
+
+    public static bool operator ==(RSASignaturePadding left, RSASignaturePadding right)
+    {
+        if (left is null)
         {
-            _mode = mode;
+            return right is null;
         }
 
-        /// <summary>
-        /// <see cref="RSASignaturePaddingMode.Pkcs1"/> mode.
-        /// </summary>
-        public static RSASignaturePadding Pkcs1
-        {
-            get { return s_pkcs1; }
-        }
+        return left.Equals(right);
+    }
 
-        /// <summary>
-        /// <see cref="RSASignaturePaddingMode.Pss"/> mode with the number of salt bytes equal to the size of the hash.
-        /// </summary>
-        public static RSASignaturePadding Pss
-        {
-            get { return s_pss; }
-        }
+    public static bool operator !=(RSASignaturePadding left, RSASignaturePadding right)
+    {
+        return !(left == right);
+    }
 
-        /// <summary>
-        /// Gets the padding mode to use.
-        /// </summary>
-        public RSASignaturePaddingMode Mode
-        {
-            get { return _mode; }
-        }
-
-        public override int GetHashCode()
-        {
-            return _mode.GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as RSASignaturePadding);
-        }
-
-        public bool Equals(RSASignaturePadding other)
-        {
-            return other is not null && _mode == other._mode;
-        }
-
-        public static bool operator ==(RSASignaturePadding left, RSASignaturePadding right)
-        {
-            if (left is null)
-            {
-                return right is null;
-            }
-
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(RSASignaturePadding left, RSASignaturePadding right)
-        {
-            return !(left == right);
-        }
-
-        public override string ToString()
-        {
-            return _mode.ToString();
-        }
+    public override string ToString()
+    {
+        return _mode.ToString();
     }
 }
 #endif
