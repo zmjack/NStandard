@@ -104,7 +104,7 @@ public static class JsonXmlSerializer
         return JsonSerializer.Serialize(jsonNode);
     }
 
-    public static void WriteXmlNode(XmlDocument doc, Dictionary<string, string> namespaces, XmlNode node, JsonObject obj)
+    private static void WriteXmlNode(XmlDocument doc, Dictionary<string, string> namespaces, XmlNode node, JsonObject obj)
     {
         foreach (var pair in obj)
         {
