@@ -104,6 +104,21 @@ public static class JsonXmlSerializer
         return JsonSerializer.Serialize(jsonNode);
     }
 
+    /// <summary>
+    /// Serializes the xml to a JSON string.
+    /// </summary>
+    /// <param name="xml"></param>
+    /// <returns></returns>
+    public static string SerializeXmlNode(string? xml)
+    {
+        if (xml is null) return null;
+
+        var doc = new XmlDocument();
+        doc.LoadXml(xml);
+        var jsonNode = SerializeXmlNodeCore(doc);
+        return JsonSerializer.Serialize(jsonNode);
+    }
+
     private static void WriteXmlNode(XmlDocument doc, Dictionary<string, string> namespaces, XmlNode node, JsonObject obj)
     {
         foreach (var pair in obj)
