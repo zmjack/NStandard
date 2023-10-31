@@ -1,5 +1,6 @@
 ﻿#if NET6_0_OR_GREATER
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -109,7 +110,12 @@ public static class JsonXmlSerializer
     /// </summary>
     /// <param name="xml"></param>
     /// <returns></returns>
-    public static string SerializeXmlNode(string? xml)
+    public static string SerializeXmlNode(
+#if NET7_0_OR_GREATER
+        [StringSyntax(StringSyntaxAttribute.Xml)]
+#endif
+        string? xml
+    )
     {
         if (xml is null) return null;
 
@@ -188,8 +194,15 @@ public static class JsonXmlSerializer
     /// </summary>
     /// <param name="json"></param>
     /// <returns></returns>
-    public static XmlDocument DeserializeXmlNode(string json)
+    public static XmlDocument DeserializeXmlNode(
+#if NET7_0_OR_GREATER
+        [StringSyntax(StringSyntaxAttribute.Json)]
+#endif
+        string? json
+    )
     {
+        if (json is null) return null;
+
         var doc = new XmlDocument();
         var node = JsonSerializer.Deserialize<JsonNode>(json);
         var namespaces = new Dictionary<string, string>();
