@@ -32,6 +32,14 @@ public class JsonXmlSerializerTests
 {"xs:schema":{"@xmlns:xs":"url","xs:element":{"@xmlns:xs2":"url"}}}
 """
             ),
+        ValueTuple.Create(
+"""
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><table><v><c>cell</c><c anchor="data">cell-with-property</c></v></table>
+""",
+"""
+{"?xml":{"@version":"1.0","@encoding":"utf-8","@standalone":"yes"},"table":{"v":{"c":["cell",{"@anchor":"data","#text":"cell-with-property"}]}}}
+"""
+            ),
     };
 
     [Fact]

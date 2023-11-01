@@ -36,6 +36,12 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.51.0
+
+- Adjusted **JsonXmlSerializer** parsing method.
+- Add new class **Sequence\<T\>**.
+- Class **Flated\<T\>** is obsolete, use **Sequence\<T\>** instead.
+
 ### Version 0.50.0
 
 - New feature: Provides **JsonXmlSerializer** to convert **JSON** to **XmlDocument**, or **XmlNode** to **JSON**.

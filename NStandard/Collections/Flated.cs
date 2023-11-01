@@ -1,8 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace NStandard.Collections;
 
+[Obsolete("Use Sequence instead.")]
+[EditorBrowsable(EditorBrowsableState.Never)]
 public class Flated<T> : IEnumerable<T>
 {
     private readonly List<IEnumerable<T>> list = new();

@@ -42,7 +42,18 @@ public static class JsonXmlSerializer
     {
         if (node.FirstChild is not null && node.FirstChild.NodeType == XmlNodeType.Text)
         {
-            return node.ChildNodes[0].InnerText;
+            var text = node.ChildNodes[0].InnerText;
+            if (node.Attributes?.Count > 0)
+            {
+                var textObj = new JsonObject();
+                foreach (XmlAttribute attr in node.Attributes)
+                {
+                    textObj.Add($"@{attr.Name}", attr.Value);
+                }
+                textObj.Add("#text", text);
+                return textObj;
+            }
+            else return text;
         }
 
         var obj = new JsonObject();
@@ -55,7 +66,7 @@ public static class JsonXmlSerializer
             var standalone = declaration.Standalone;
             if (!string.IsNullOrWhiteSpace(standalone)) obj.Add("@standalone", standalone);
         }
-        else if (node.Attributes is not null)
+        else if (node.Attributes?.Count > 0)
         {
             foreach (XmlAttribute attr in node.Attributes)
             {
@@ -125,31 +136,39 @@ public static class JsonXmlSerializer
         return JsonSerializer.Serialize(jsonNode);
     }
 
-    private static void WriteXmlNode(XmlDocument doc, Dictionary<string, string> namespaces, XmlNode node, JsonObject obj)
+    private static void WriteXmlNode(XmlDocument doc, Dictionary<string, string> namespaces, XmlNode super, JsonObject obj)
     {
         foreach (var pair in obj)
         {
             var name = pair.Key;
-            var jsonNode = pair.Value;
+            var node = pair.Value;
 
             if (name.StartsWith("?"))
             {
-                var version = jsonNode["@version"]?.ToString();
-                var encoding = jsonNode["@encoding"]?.ToString();
-                var standalone = jsonNode["@standalone"]?.ToString();
+                var version = node["@version"]?.ToString();
+                var encoding = node["@encoding"]?.ToString();
+                var standalone = node["@standalone"]?.ToString();
                 var declaration = doc.CreateXmlDeclaration(version, encoding, standalone);
-                node.AppendChild(declaration);
+                super.AppendChild(declaration);
             }
             else if (name.StartsWith("@"))
             {
                 var pureName = name.Substring(1);
                 var attr = doc.CreateAttribute(pureName);
-                attr.Value = jsonNode.ToString();
-                node.Attributes.Append(attr);
+                attr.Value = node.ToString();
+                super.Attributes.Append(attr);
+            }
+            else if (name.StartsWith("#"))
+            {
+                if (name == "#text")
+                {
+                    var textNode = doc.CreateTextNode(node.ToString());
+                    super.AppendChild(textNode);
+                }
             }
             else
             {
-                if (jsonNode is JsonObject jsonObject)
+                if (node is JsonObject jsonObject)
                 {
                     var nsClear = new List<string>();
                     foreach (var prop in jsonObject.Where(x => x.Key.StartsWith("@xmlns")))
@@ -161,29 +180,36 @@ public static class JsonXmlSerializer
 
                     var element = CreateElement(doc, namespaces, name);
                     WriteXmlNode(doc, namespaces, element, jsonObject);
-                    node.AppendChild(element);
+                    super.AppendChild(element);
 
                     foreach (var ns in nsClear)
                     {
                         namespaces.Remove(ns);
                     }
                 }
-                else if (jsonNode is JsonArray jsonArray)
+                else if (node is JsonArray jsonArray)
                 {
-                    foreach (JsonObject item in jsonArray)
+                    foreach (var item in jsonArray)
                     {
                         var element = CreateElement(doc, namespaces, name);
-                        WriteXmlNode(doc, namespaces, element, item);
-                        node.AppendChild(element);
+                        if (item is JsonObject itemObject)
+                        {
+                            WriteXmlNode(doc, namespaces, element, itemObject);
+                        }
+                        else
+                        {
+                            var textNode = doc.CreateTextNode(item.ToString());
+                            element.AppendChild(textNode);
+                        }
+                        super.AppendChild(element);
                     }
                 }
                 else
                 {
                     var element = CreateElement(doc, namespaces, name);
-                    var textNode = doc.CreateTextNode(name);
-                    textNode.Value = jsonNode.ToString();
+                    var textNode = doc.CreateTextNode(node.ToString());
                     element.AppendChild(textNode);
-                    node.AppendChild(element);
+                    super.AppendChild(element);
                 }
             }
         }
