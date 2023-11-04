@@ -36,6 +36,13 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.52.0
+
+- Added **MathEx.Ceiling** for calculations that **round numbers up** to the nearest multiple of significance.
+- Added **MathEx.Floor** for calculations that **round numbers down** to the nearest multiple of significance.
+- **MathEx.Permutation** is obsolete, use **MathEx.Permut** instead.
+- **MathEx.Combination** is obsolete, use **MathEx.Combin** instead.
+
 ### Version 0.51.0
 
 - Adjusted **JsonXmlSerializer** parsing method.

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace NStandard;
 
-public static class MathEx
+public static partial class MathEx
 {
     /// <summary>
     /// The choice of m things from a set of n things without replacement and where the order matters.
@@ -10,6 +11,8 @@ public static class MathEx
     /// <param name="choice">The m value.</param>
     /// <param name="total">The n value.</param>
     /// <returns></returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Permut instead. (Signature has been adjusted.)")]
     public static int Permutation(int choice, int total)
     {
         if (choice < 0) throw new ArgumentException("The choice must be greater than zero.", nameof(choice));
@@ -29,6 +32,8 @@ public static class MathEx
     /// <param name="choice">The m value.</param>
     /// <param name="total">The n value.</param>
     /// <returns></returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Combin instead. (Signature has been adjusted.)")]
     public static int Combination(int choice, int total)
     {
         if (choice < 0) throw new ArgumentException("The choice must be greater than zero.", nameof(choice));

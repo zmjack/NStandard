@@ -36,6 +36,13 @@
 
 ## 最近更新
 
+### 版本：0.52.0
+
+- 新增 **MathEx.Ceiling**，用于计算将数字 **向上舍入** 到最接近的有效倍数。
+- 新增 **MathEx.Floor**，用于计算将数字 **向下舍入** 到最接近的有效倍数。
+- **MathEx.Permutation** 已过时，使用 **MathEx.Permut** 代替。
+- **MathEx.Combination** 已过时，使用 **MathEx.Combin** 代替。
+
 ### 版本：0.51.0
 
 - 调整了 **JsonXmlSerializer** 解析方法。

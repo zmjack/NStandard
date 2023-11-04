@@ -9,12 +9,12 @@ public class RuntimeTests
     [Fact]
     public void AddressOfClassTest()
     {
-        var str = "abc";
+        var str = new string("abc");
         var ptr = Native.AddressOf(str, true);
         var length = BitConverter.ToInt32(Native.ReadMemory(ptr, sizeof(int)), 0);
         var pStrPart = ptr + sizeof(int);
 
-        Assert.Equal(3, length);
+        Assert.Equal(str.Length, length);
         Assert.Equal("abc", str);
 
         Native.WriteMemory(pStrPart, Encoding.Default.GetBytes("A"));

@@ -12,7 +12,7 @@
     <Authors>zmjack</Authors>
     <Company>nstandard.net</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.51.1</Version>
+    <Version>0.52.0</Version>
     <Description>DotNet extensions for system library.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
@@ -60,6 +60,22 @@
       <LastGenOutput>StructTuple.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
+    <None Update="~Extensions.static\System\MathEx.Combin.tt">
+      <LastGenOutput>MathEx.Combin.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="~Extensions.static\System\MathEx.Permut.tt">
+      <LastGenOutput>MathEx.Permut.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="~Extensions.static\System\MathEx.Floor.tt">
+      <LastGenOutput>MathEx.Floor.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="~Extensions.static\System\MathEx.Ceiling.tt">
+      <LastGenOutput>MathEx.Ceiling.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="~Extensions\ArrayExtensions.Deconstruct.tt">
       <LastGenOutput>ArrayExtensions.Deconstruct.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -84,6 +100,26 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Any.Zip.tt</DependentUpon>
+    </Compile>
+    <Compile Update="~Extensions.static\System\MathEx.Combin.cs">
+      <DependentUpon>MathEx.Combin.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="~Extensions.static\System\MathEx.Permut.cs">
+      <DependentUpon>MathEx.Permut.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="~Extensions.static\System\MathEx.Floor.cs">
+      <DependentUpon>MathEx.Floor.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="~Extensions.static\System\MathEx.Ceiling.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MathEx.Ceiling.tt</DependentUpon>
     </Compile>
     <Compile Update="~Extensions\ArrayExtensions.Deconstruct.cs">
       <DesignTime>True</DesignTime>
