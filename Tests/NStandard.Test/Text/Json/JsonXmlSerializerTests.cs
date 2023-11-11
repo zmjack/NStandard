@@ -62,4 +62,19 @@ public class JsonXmlSerializerTests
         }
     }
 
+    [Fact]
+    public void NullNodeTest()
+    {
+        var xml = JsonXmlSerializer.DeserializeXmlNode("""
+{
+    "sheets": [{
+        "name": null,
+        "comment": "default"
+    }]
+}
+"""
+        ).OuterXml;
+        Assert.Equal(@"<sheets><comment>default</comment></sheets>", xml);
+    }
+
 }

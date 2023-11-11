@@ -168,7 +168,11 @@ public static class JsonXmlSerializer
             }
             else
             {
-                if (node is JsonObject jsonObject)
+                if (node is null)
+                {
+                    continue;
+                }
+                else if (node is JsonObject jsonObject)
                 {
                     var nsClear = new List<string>();
                     foreach (var prop in jsonObject.Where(x => x.Key.StartsWith("@xmlns")))
