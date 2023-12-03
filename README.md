@@ -24,9 +24,9 @@ These frameworks are supported:
 
 | Frameworks         | Versions                                                     |
 | ------------------ | ------------------------------------------------------------ |
-| **.NET**           | ![Static Badge](https://img.shields.io/badge/-8.0-8A2BE2)![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2)![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2)![Static Badge](https://img.shields.io/badge/-5.0-8A2BE2) |
-| **.NET Standard**  | ![Static Badge](https://img.shields.io/badge/-2.1-orange)![Static Badge](https://img.shields.io/badge/-2.0-orange) |
-| **.NET Framework** | ![Static Badge](https://img.shields.io/badge/-4.8-blue)![Static Badge](https://img.shields.io/badge/-4.7.2-blue)![Static Badge](https://img.shields.io/badge/-4.7.1-blue)![Static Badge](https://img.shields.io/badge/-4.7-blue)![Static Badge](https://img.shields.io/badge/-4.6.2-blue)![Static Badge](https://img.shields.io/badge/-4.6.1-blue)![Static Badge](https://img.shields.io/badge/-4.6-blue)![Static Badge](https://img.shields.io/badge/-4.5.2-blue)![Static Badge](https://img.shields.io/badge/-4.5.1-blue)![Static Badge](https://img.shields.io/badge/-3.5-blue) |
+| **.NET**           | ![Static Badge](https://img.shields.io/badge/-8.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-5.0-8A2BE2) |
+| **.NET Standard**  | ![Static Badge](https://img.shields.io/badge/-2.1-orange) ![Static Badge](https://img.shields.io/badge/-2.0-orange) |
+| **.NET Framework** | ![Static Badge](https://img.shields.io/badge/-4.8-blue) ![Static Badge](https://img.shields.io/badge/-4.7.2-blue) ![Static Badge](https://img.shields.io/badge/-4.7.1-blue) ![Static Badge](https://img.shields.io/badge/-4.7-blue) ![Static Badge](https://img.shields.io/badge/-4.6.2-blue) ![Static Badge](https://img.shields.io/badge/-4.6.1-blue) ![Static Badge](https://img.shields.io/badge/-4.6-blue) ![Static Badge](https://img.shields.io/badge/-4.5.2-blue) ![Static Badge](https://img.shields.io/badge/-4.5.1-blue) ![Static Badge](https://img.shields.io/badge/-3.5-blue) |
 
 <br/>
 
