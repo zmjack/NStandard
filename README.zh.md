@@ -1,9 +1,14 @@
-# NStandard
+<h1 align="center">NStandard</h1>
+
+<p align="center">
+    <a href="https://www.nuget.org/packages/NStandard" rel="nofollow"><img src="https://img.shields.io/nuget/v/NStandard.svg?logo=nuget&label=NStandard" /></a>
+    <a href="https://www.nuget.org/packages/NStandard" rel="nofollow"><img src="https://img.shields.io/nuget/dt/NStandard.svg?logo=nuget&label=Download" /></a>
+</p>
 
 **.NET** 系统库扩展包。
 
 - [English Readme](https://github.com/zmjack/NStandard/blob/master/README.md)
-- [中文自述](https://github.com/zmjack/NStandard/blob/master/README-CN.md)
+- [中文自述](https://github.com/zmjack/NStandard/blob/master/README.zh.md)
 
 **完全无依赖**，为 **.NET Framework** 框架提供与 **.Net Core** 部分功能相似的兼容实现。
 
@@ -18,9 +23,11 @@
 
 支持的目标框架：
 
-| NET                                        | NET Standard                                 | NET Framework                                                |
-| ------------------------------------------ | -------------------------------------------- | ------------------------------------------------------------ |
-| - .NET 5.0<br />- .NET 6.0<br />- .NET 7.0 | - .NET Standard 2.0<br />- .NET Standard 2.1 | - .NET Framework 3.5<br />- .NET Framework 4.5.1 - 4.5.2<br />- .NET Framework 4.6 - 4.6.2<br />- .NET Framework 4.7 - 4.7.2<br />- .NET Framework 4.8 |
+| 目标框架           | 版本                                                         |
+| ------------------ | ------------------------------------------------------------ |
+| **.NET**           | ![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2)![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2)![Static Badge](https://img.shields.io/badge/-5.0-8A2BE2) |
+| **.NET Standard**  | ![Static Badge](https://img.shields.io/badge/-2.1-orange)![Static Badge](https://img.shields.io/badge/-2.0-orange) |
+| **.NET Framework** | ![Static Badge](https://img.shields.io/badge/-4.8-blue)![Static Badge](https://img.shields.io/badge/-4.7.2-blue)![Static Badge](https://img.shields.io/badge/-4.7.1-blue)![Static Badge](https://img.shields.io/badge/-4.7-blue)![Static Badge](https://img.shields.io/badge/-4.6.2-blue)![Static Badge](https://img.shields.io/badge/-4.6.1-blue)![Static Badge](https://img.shields.io/badge/-4.6-blue)![Static Badge](https://img.shields.io/badge/-4.5.2-blue)![Static Badge](https://img.shields.io/badge/-4.5.1-blue)![Static Badge](https://img.shields.io/badge/-3.5-blue) |
 
 <br/>
 
@@ -35,6 +42,10 @@
 <br/>
 
 ## 最近更新
+
+### 版本：0.53.0
+
+- 新增类型 **ValueDiff**，用于描述某个值的变化。
 
 ### 版本：0.52.0
 

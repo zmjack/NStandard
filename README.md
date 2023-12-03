@@ -1,9 +1,13 @@
-# NStandard
+<h1 align="center">NStandard</h1>
 
+<p align="center">
+    <a href="https://www.nuget.org/packages/NStandard" rel="nofollow"><img src="https://img.shields.io/nuget/v/NStandard.svg?logo=nuget&label=NStandard" /></a>
+    <a href="https://www.nuget.org/packages/NStandard" rel="nofollow"><img src="https://img.shields.io/nuget/dt/NStandard.svg?logo=nuget&label=Download" /></a>
+</p>
 **.NET** extension library for system library.
 
 - [English Readme](https://github.com/zmjack/NStandard/blob/master/README.md)
-- [中文自述](https://github.com/zmjack/NStandard/blob/master/README-CN.md)
+- [中文自述](https://github.com/zmjack/NStandard/blob/master/README.zh.md)
 
 **No depndencies**, providing compatible implementations for .NET Framework similar to some of .NET Core functions.
 
@@ -18,9 +22,11 @@ You can use it to get the following support:
 
 These frameworks are supported:
 
-| NET                                      | NET Standard                                | NET Framework                                                |
-| ---------------------------------------- | ------------------------------------------- | ------------------------------------------------------------ |
-| - .NET 5.0<br/>- .NET 6.0<br/>- .NET 7.0 | - .NET Standard 2.0<br/>- .NET Standard 2.1 | - .NET Framework 3.5<br />- .NET Framework 4.5.1 - 4.5.2<br />- .NET Framework 4.6 - 4.6.2<br />- .NET Framework 4.7 - 4.7.2<br />- .NET Framework 4.8 |
+| Frameworks         | Versions                                                     |
+| ------------------ | ------------------------------------------------------------ |
+| **.NET**           | ![Static Badge](https://img.shields.io/badge/-8.0-8A2BE2)![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2)![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2)![Static Badge](https://img.shields.io/badge/-5.0-8A2BE2) |
+| **.NET Standard**  | ![Static Badge](https://img.shields.io/badge/-2.1-orange)![Static Badge](https://img.shields.io/badge/-2.0-orange) |
+| **.NET Framework** | ![Static Badge](https://img.shields.io/badge/-4.8-blue)![Static Badge](https://img.shields.io/badge/-4.7.2-blue)![Static Badge](https://img.shields.io/badge/-4.7.1-blue)![Static Badge](https://img.shields.io/badge/-4.7-blue)![Static Badge](https://img.shields.io/badge/-4.6.2-blue)![Static Badge](https://img.shields.io/badge/-4.6.1-blue)![Static Badge](https://img.shields.io/badge/-4.6-blue)![Static Badge](https://img.shields.io/badge/-4.5.2-blue)![Static Badge](https://img.shields.io/badge/-4.5.1-blue)![Static Badge](https://img.shields.io/badge/-3.5-blue) |
 
 <br/>
 
@@ -35,6 +41,10 @@ These frameworks are supported:
 <br/>
 
 ## Recently
+
+### Version 0.53.0
+
+- Added new class **ValueDiff**, describing the value of the state difference.
 
 ### Version 0.52.0
 
