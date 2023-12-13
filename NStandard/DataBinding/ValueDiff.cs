@@ -6,7 +6,7 @@ namespace NStandard.DataBinding;
 /// A value which describe a difference in state.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-[DebuggerDisplay("{OriginValue} → {CurrentValue}")]
+[DebuggerDisplay("{OldValue} → {NewValue}")]
 public class ValueDiff<T> : IDiff
 {
     public T OldValue { get; set; }
