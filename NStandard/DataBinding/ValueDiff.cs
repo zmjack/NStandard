@@ -8,7 +8,7 @@ namespace NStandard.DataBinding;
 /// </summary>
 /// <typeparam name="T"></typeparam>
 [DebuggerDisplay("{OldValue} → {NewValue}")]
-public sealed class ValueDiff<T> : IDiff
+public sealed class ValueDiff<T> : IDiff<T>
 {
     public T OldValue { get; set; }
     public T NewValue { get; set; }
