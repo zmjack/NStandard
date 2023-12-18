@@ -23,11 +23,17 @@ public sealed class ValueDiff<T> : IDiff
         NewValue = value;
     }
 
+    public ValueDiff(T oldValue, T newValue)
+    {
+        OldValue = oldValue;
+        NewValue = newValue;
+    }
+
     /// <summary>
     /// Use <see cref="NewValue"/> to assign to <see cref="OldValue" />, and then use the specified value to assign to <see cref="NewValue"/>.
     /// </summary>
     /// <param name="value"></param>
-    public void Change(T value)
+    public void Overwrite(T value)
     {
         OldValue = NewValue;
         NewValue = value;
