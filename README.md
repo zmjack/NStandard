@@ -42,6 +42,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.54.0
+
+- Add a new method **Clone** to **ValueDiff**, which is used to create a shallow copy of the original object.
+
 ### Version 0.53.0
 
 - Added new class **ValueDiff**, describing the value of the state difference.
