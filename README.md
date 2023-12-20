@@ -42,9 +42,9 @@ These frameworks are supported:
 
 ## Recently
 
-### Version0.55.0
+### Version0.56.0
 
-- Added a new structure: **MinMaxValue**.
+- Added a new structure: **MinMaxPair**.
 
 ### Version 0.54.0
 
