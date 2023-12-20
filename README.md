@@ -42,9 +42,13 @@ These frameworks are supported:
 
 ## Recently
 
+### Version0.55.0
+
+- Added a new structure: **MinMaxValue**.
+
 ### Version 0.54.0
 
-- Add a new method **Clone** to **ValueDiff**, which is used to create a shallow copy of the original object.
+- Added a new method **Clone** to **ValueDiff**, which is used to create a shallow copy of the original object.
 
 ### Version 0.53.0
 
@@ -60,7 +64,7 @@ These frameworks are supported:
 ### Version 0.51.0
 
 - Adjusted **JsonXmlSerializer** parsing method.
-- Add new class **Sequence\<T\>**.
+- Added new class **Sequence\<T\>**.
 - Class **Flated\<T\>** is obsolete, use **Sequence\<T\>** instead.
 
 ### Version 0.50.0
