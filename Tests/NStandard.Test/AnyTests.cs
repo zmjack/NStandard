@@ -182,8 +182,8 @@ public class AnyTests
 
         Assert.Equal("1", (from ex in forwards select ex).Last().Message);
         Assert.Equal("1", (from ex in forwards where ex.InnerException is null select ex).First().Message);
-        Assert.Equal("2", (from iv in forwards.AsIndexValuePairs() where iv.Index == 1 select iv.Value).First().Message);
-        Assert.Equal("3", (from iv in forwards.AsIndexValuePairs() select iv.Value).First().Message);
+        Assert.Equal("2", (from iv in forwards.Pairs() where iv.Index == 1 select iv.Value).First().Message);
+        Assert.Equal("3", (from iv in forwards.Pairs() select iv.Value).First().Message);
     }
 
     [Fact]

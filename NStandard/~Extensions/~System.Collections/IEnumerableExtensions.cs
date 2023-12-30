@@ -17,6 +17,52 @@ public static class IEnumerableExtensions
     /// <typeparam name="TSource"></typeparam>
     /// <param name="this"></param>
     /// <returns></returns>
+    public static IEnumerable<IndexAndValue<object>> Pairs(this IEnumerable @this)
+    {
+        int i = 0;
+        foreach (object item in @this)
+        {
+            yield return new(i++, item);
+        }
+    }
+
+    /// <summary>
+    /// Returns a collection of ValueTuple which contains the element's index and value.
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static IEnumerable<IndexAndValue<TSource>> Pairs<TSource>(this IEnumerable @this)
+    {
+        int i = 0;
+        foreach (TSource item in @this)
+        {
+            yield return new(i++, item);
+        }
+    }
+
+    /// <summary>
+    /// Returns a collection of ValueTuple which contains the element's index and value.
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static IEnumerable<IndexAndValue<TSource>> Pairs<TSource>(this IEnumerable<TSource> @this)
+    {
+        int i = 0;
+        foreach (var item in @this)
+        {
+            yield return new(i++, item);
+        }
+    }
+
+    /// <summary>
+    /// Returns a collection of ValueTuple which contains the element's index and value.
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    [Obsolete("Use Pairs instead.")]
     public static IEnumerable<IndexAndValue<TSource>> AsIndexValuePairs<TSource>(this IEnumerable @this)
     {
         int i = 0;
@@ -32,6 +78,7 @@ public static class IEnumerableExtensions
     /// <typeparam name="TSource"></typeparam>
     /// <param name="this"></param>
     /// <returns></returns>
+    [Obsolete("Use Pairs instead.")]
     public static IEnumerable<IndexAndValue<TSource>> AsIndexValuePairs<TSource>(this IEnumerable<TSource> @this)
     {
         int i = 0;

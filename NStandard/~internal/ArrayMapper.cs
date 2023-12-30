@@ -78,7 +78,7 @@ internal static class ArrayMapper
 
         if (elementType != underlyingType)
         {
-            foreach (var (index, value) in sourceVisitor.GetValues().AsIndexValuePairs())
+            foreach (var (index, value) in sourceVisitor.GetValues().Pairs())
             {
                 var array = InnerMap(value as Array, elementReversedRanks.Take(elementReversedRanks.Length - 1).ToArray(), underlyingType, convert);
                 targetVisitor.SetValue(array, index);
@@ -86,7 +86,7 @@ internal static class ArrayMapper
         }
         else
         {
-            foreach (var (index, value) in sourceVisitor.GetValues().AsIndexValuePairs())
+            foreach (var (index, value) in sourceVisitor.GetValues().Pairs())
             {
                 var finalValue = convert((TConvertFrom)value);
                 targetVisitor.SetValue(finalValue, index);

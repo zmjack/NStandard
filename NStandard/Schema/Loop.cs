@@ -31,7 +31,7 @@ public class Loop<T> : IEnumerable<T?[]> where T : struct
         int lastIndex = length - 1;
         var enumerators = enumerables.Select(x => x.GetEnumerator()).ToArray();
 
-        foreach (var kv in enumerators.AsIndexValuePairs())
+        foreach (var kv in enumerators.Pairs())
         {
             var enumerator = kv.Value;
             if (!enumerator.MoveNext()) lastIndex = kv.Index - 1;

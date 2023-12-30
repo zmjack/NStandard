@@ -12,7 +12,7 @@ public static class StringEx
 {
     public static string[] SplitIntoLines(string source, int lineLength)
     {
-        var ret = source.AsIndexValuePairs()
+        var ret = source.Pairs()
             .GroupBy(x => x.Index / lineLength)
             .Select(g => new string(g.Select(x => x.Value).ToArray()))
             .ToArray();

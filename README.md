@@ -42,9 +42,10 @@ These frameworks are supported:
 
 ## Recently
 
-### Version0.56.0
+### Version0.56.1
 
 - Added a new structure: **MinMaxPair**.
+- **AsIndexValuePairs** has been renamed to **Pairs**. 
 
 ### Version 0.54.0
 

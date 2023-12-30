@@ -88,7 +88,7 @@ public class RsaProvider
             Convert.ToBase64String(
                 RsaConverter.ParamsToPem(@params, includePrivateParameters)
             )
-                .ToCharArray().AsIndexValuePairs()
+                .ToCharArray().Pairs()
                 .GroupBy(x => x.Index / 64)
                 .Select(g => new string(g.Select(x => x.Value).ToArray()))
 #if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
