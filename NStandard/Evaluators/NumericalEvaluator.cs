@@ -8,7 +8,7 @@ namespace NStandard.Evaluators;
 public class NumericalEvaluator : EvaluatorBase
 {
     private static readonly MethodInfo MathPowMethod = typeof(Math).GetMethod("Pow");
-    private static readonly MethodInfo MathFloorMethod = typeof(Math).GetMethod("Floor", new[] { typeof(double) });
+    private static readonly MethodInfo MathFloorMethod = typeof(Math).GetMethod("Floor", [typeof(double)]);
     private static readonly MethodInfo DoubleIsNaNMethod = typeof(double).GetMethod("IsNaN");
 
     public NumericalEvaluator(bool autoInitialize = true) : base(autoInitialize)

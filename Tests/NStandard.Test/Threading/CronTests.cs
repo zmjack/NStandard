@@ -32,16 +32,16 @@ public class CronTests
         var cron = new Cron
         {
             SecondType = CronFieldType.Specified,
-            Seconds = new[] { 0 },
+            Seconds = [0],
 
             MinuteType = CronFieldType.Specified,
-            Minutes = new[] { 0 },
+            Minutes = [0],
 
             HourType = CronFieldType.Specified,
-            Hours = new[] { 0 },
+            Hours = [0],
 
             DayType = CronFieldType.Specified,
-            Days = new[] { 31 },
+            Days = [31],
         };
 
         Assert.Equal(new DateTime(2020, 1, 31), cron.GetNextTime(new DateTime(2020, 1, 30)));
@@ -55,21 +55,21 @@ public class CronTests
         var cron = new Cron
         {
             SecondType = CronFieldType.Specified,
-            Seconds = new[] { 0 },
+            Seconds = [0],
 
             MinuteType = CronFieldType.Specified,
-            Minutes = new[] { 0 },
+            Minutes = [0],
 
             HourType = CronFieldType.Specified,
-            Hours = new[] { 0 },
+            Hours = [0],
 
             DayType = CronFieldType.Specified,
-            Days = new[] { 31 },
+            Days = [31],
         };
 
         var results = GetNextTimes(cron, new DateTime(2020, 1, 30), 8);
-        Assert.Equal(new DateTime?[]
-        {
+        Assert.Equal(
+        [
             new DateTime(2020, 1, 31),
             new DateTime(2020, 3, 31),
             new DateTime(2020, 5, 31),
@@ -78,7 +78,7 @@ public class CronTests
             new DateTime(2020, 10, 31),
             new DateTime(2020, 12, 31),
             new DateTime(2021, 1, 31),
-        }, results);
+        ], results);
     }
 
     [Fact]
@@ -87,19 +87,19 @@ public class CronTests
         var cron = new Cron
         {
             SecondType = CronFieldType.Specified,
-            Seconds = new[] { 0 },
+            Seconds = [0],
 
             MinuteType = CronFieldType.Specified,
-            Minutes = new[] { 0 },
+            Minutes = [0],
 
             HourType = CronFieldType.Specified,
-            Hours = new[] { 0 },
+            Hours = [0],
 
             DayType = CronFieldType.Specified,
-            Days = new[] { 29, 31 },
+            Days = [29, 31],
 
             MonthType = CronFieldType.Specified,
-            Months = new[] { 2, 3 },
+            Months = [2, 3],
         };
 
         var results = GetNextTimes(cron, new DateTime(2020, 1, 30), 8);

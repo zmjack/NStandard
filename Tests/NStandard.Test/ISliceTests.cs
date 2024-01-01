@@ -7,7 +7,7 @@ public class ISliceTests
 {
     public class SliceCount : ISliceCount<int[]>
     {
-        public int[] Numbers = { 0, 1, 2, 3 };
+        public int[] Numbers = [0, 1, 2, 3];
 
         public int Count => Numbers.Length;
 
@@ -21,7 +21,7 @@ public class ISliceTests
 
     public class SliceLength : ISliceLength<int[]>
     {
-        public int[] Numbers = { 0, 1, 2, 3 };
+        public int[] Numbers = [0, 1, 2, 3];
         public int Length => Numbers.Length;
 
         public int[] Slice(int start, int length)
@@ -37,7 +37,7 @@ public class ISliceTests
     {
         var slice = new SliceCount();
         var result = slice[1..^1];
-        Assert.Equal(new[] { 1, 2 }, result);
+        Assert.Equal([1, 2], result);
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class ISliceTests
     {
         var slice = new SliceLength();
         var result = slice[1..^1];
-        Assert.Equal(new[] { 1, 2 }, result);
+        Assert.Equal([1, 2], result);
     }
 
 }

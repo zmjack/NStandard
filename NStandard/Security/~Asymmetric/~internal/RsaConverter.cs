@@ -54,18 +54,18 @@ internal class RsaConverter
         byte[][] resolved;
         if (includePrivateParameters)
         {
-            resolved = Resolve(Resolve(Resolve(Resolve(pem, new[]
-            {
+            resolved = Resolve(Resolve(Resolve(Resolve(pem,
+            [
                 PemNode.DataType.Sequence,
-            })[0], new[]
-            {
+            ])[0],
+            [
                 PemNode.DataType.Integer,
                 PemNode.DataType.Sequence,
                 PemNode.DataType.OctetString,
-            })[2], new[]
-            {
+            ])[2],
+            [
                 PemNode.DataType.Sequence,
-            })[0], new[] {
+            ])[0], [
                 PemNode.DataType.Integer,
                 PemNode.DataType.Integer,
                 PemNode.DataType.Integer,
@@ -75,7 +75,7 @@ internal class RsaConverter
                 PemNode.DataType.Integer,
                 PemNode.DataType.Integer,
                 PemNode.DataType.Integer,
-            });
+            ]);
 
             return new RSAParameters
             {
@@ -91,20 +91,20 @@ internal class RsaConverter
         }
         else
         {
-            resolved = Resolve(Resolve(Resolve(Resolve(pem, new[]
-            {
+            resolved = Resolve(Resolve(Resolve(Resolve(pem,
+            [
                 PemNode.DataType.Sequence,
-            })[0], new[]
-            {
+            ])[0],
+            [
                 PemNode.DataType.Sequence,
                 PemNode.DataType.BitString,
-            })[1], new[]
-            {
+            ])[1],
+            [
                 PemNode.DataType.Sequence,
-            })[0], new[] {
+            ])[0], [
                 PemNode.DataType.Integer,
                 PemNode.DataType.Integer,
-            });
+            ]);
 
             return new RSAParameters
             {

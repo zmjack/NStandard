@@ -9,7 +9,7 @@ namespace NStandard
         {
             private const string CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
             private static readonly int[] Map =
-            {
+            [
                 -1, -1, -1, -1, -1, -1, -1, -1,  -1, -1, -1, -1, -1, -1, -1, -1,
                 -1, -1, -1, -1, -1, -1, -1, -1,  -1, -1, -1, -1, -1, -1, -1, -1,
                 -1, -1, -1, -1, -1, -1, -1, -1,  -1, -1, -1, -1, -1, -1, -1, -1,
@@ -26,7 +26,7 @@ namespace NStandard
                 -1, -1, -1, -1, -1, -1, -1, -1,  -1, -1, -1, -1, -1, -1, -1, -1,
                 -1, -1, -1, -1, -1, -1, -1, -1,  -1, -1, -1, -1, -1, -1, -1, -1,
                 -1, -1, -1, -1, -1, -1, -1, -1,  -1, -1, -1, -1, -1, -1, -1, -1,
-            };
+            ];
 
             public static unsafe string ToBase32String(byte[] bytes)
             {

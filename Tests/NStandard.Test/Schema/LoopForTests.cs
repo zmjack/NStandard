@@ -10,7 +10,7 @@ public class LoopForTests
     {
         var lfor = new LoopFor<int>(new[] { 1, 3, 5 });
         var array = lfor.ToArray();
-        Assert.Equal(new[] { 1, 3, 5 }, array);
+        Assert.Equal([1, 3, 5], array);
     }
 
     [Fact]
@@ -18,6 +18,6 @@ public class LoopForTests
     {
         var lfor = new LoopFor<int>(() => 1, i => i < 7, i => i += 2);
         var array = lfor.ToArray();
-        Assert.Equal(new[] { 1, 3, 5 }, array);
+        Assert.Equal([1, 3, 5], array);
     }
 }

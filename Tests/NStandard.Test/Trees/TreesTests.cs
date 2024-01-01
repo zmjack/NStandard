@@ -18,29 +18,29 @@ public class TreesTests
     private readonly Tree<CA> Tree1 = Tree.Parse(new CA
     {
         Value = 1,
-        CAs = new[]
-        {
+        CAs =
+        [
             new CA
             {
                 Value = 2,
-                CAs = new[]
-                {
+                CAs =
+                [
                     new CA
                     {
                         Value = 3,
-                        CAs = new[]
-                        {
+                        CAs =
+                        [
                             new CA
                             {
                                 Value = 11,
                             }
-                        }
+                        ]
                     },
                     new CA { Value = 4 },
-                }
+                ]
             },
             new CA { Value = 5 },
-        }
+        ]
     }, x => x.CAs);
 
     private readonly Tree<CA> Tree2 = Tree.ParseRange(new[]
@@ -57,18 +57,18 @@ public class TreesTests
     public void Test1()
     {
         Assert.Equal(1, Tree1.Model.Value);
-        Assert.Equal(new[] { 2, 3 }, Tree1.SelectNonLeafs().Select(x => x.Model.Value).ToArray());
-        Assert.Equal(new[] { 11, 4, 5 }, Tree1.SelectLeafs().Select(x => x.Model.Value).ToArray());
-        Assert.Equal(new[] { 2, 3, 11, 4, 5 }, Tree1.GetNodes().Select(x => x.Model.Value).ToArray());
+        Assert.Equal([2, 3], Tree1.SelectNonLeafs().Select(x => x.Model.Value).ToArray());
+        Assert.Equal([11, 4, 5], Tree1.SelectLeafs().Select(x => x.Model.Value).ToArray());
+        Assert.Equal([2, 3, 11, 4, 5], Tree1.GetNodes().Select(x => x.Model.Value).ToArray());
     }
 
     [Fact]
     public void Test2()
     {
         Assert.Equal(1, Tree2.Model.Value);
-        Assert.Equal(new[] { 2, 3 }, Tree2.SelectNonLeafs().Select(x => x.Model.Value).ToArray());
-        Assert.Equal(new[] { 11, 4, 5 }, Tree2.SelectLeafs().Select(x => x.Model.Value).ToArray());
-        Assert.Equal(new[] { 2, 3, 11, 4, 5 }, Tree2.GetNodes().Select(x => x.Model.Value).ToArray());
+        Assert.Equal([2, 3], Tree2.SelectNonLeafs().Select(x => x.Model.Value).ToArray());
+        Assert.Equal([11, 4, 5], Tree2.SelectLeafs().Select(x => x.Model.Value).ToArray());
+        Assert.Equal([2, 3, 11, 4, 5], Tree2.GetNodes().Select(x => x.Model.Value).ToArray());
     }
 
     [Fact]
@@ -85,6 +85,6 @@ public class TreesTests
         }
 
         var tree = Tree1.Filter(IsValidNode(4, 11));
-        Assert.Equal(new[] { 2, 3, 11, 4 }, tree.GetNodes().Select(x => x.Model.Value).ToArray());
+        Assert.Equal([2, 3, 11, 4], tree.GetNodes().Select(x => x.Model.Value).ToArray());
     }
 }

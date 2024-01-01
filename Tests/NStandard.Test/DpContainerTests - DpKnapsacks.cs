@@ -38,7 +38,7 @@ public partial class DpContainerTests
             if (i == 0 && j < Goods[0].Weight)
                 return new Result { TotalValue = 0, GoodWeights = Array.Empty<int>() };
             if (i == 0 && j >= Goods[0].Weight)
-                return new Result { TotalValue = Goods[0].Value, GoodWeights = new[] { Goods[0].Weight } };
+                return new Result { TotalValue = Goods[0].Value, GoodWeights = [Goods[0].Weight] };
             if (i > 0 && j - Goods[i].Weight < 0) return this[(i - 1, j)];
 
             var (scheme, totalValue) = new[]
@@ -68,10 +68,10 @@ public partial class DpContainerTests
         var result50 = dpKnapsack[50];
 
         Assert.Equal(160, result30.TotalValue);
-        Assert.Equal(new[] { 10, 20 }, result30.GoodWeights);
+        Assert.Equal([10, 20], result30.GoodWeights);
 
         Assert.Equal(220, result50.TotalValue);
-        Assert.Equal(new[] { 20, 30 }, result50.GoodWeights);
+        Assert.Equal([20, 30], result50.GoodWeights);
     }
 
 }

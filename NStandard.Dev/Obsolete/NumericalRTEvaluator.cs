@@ -35,7 +35,7 @@ namespace NStandard.Obsolete.Evaluators
             [("(", ")")] = null,
         };
 #endif
-        private readonly string[] RegexSpecialLetters = { "[", "]", "-", ".", "^", "$", "{", "}", "?", "+", "*", "|", "(", ")" };
+        private readonly string[] RegexSpecialLetters = ["[", "]", "-", ".", "^", "$", "{", "}", "?", "+", "*", "|", "(", ")"];
 
         public void Resolve(string exp, out double[] operands, out string[] operators)
         {

@@ -39,7 +39,7 @@ public class NetAddressTests
     }
 
     private readonly IPAddress _ip = new(new byte[] { 127, 0, 0, 1 });
-    private readonly PhysicalAddress _mac = new(new byte[] { 0, 1, 2, 3, 4, 5 });
+    private readonly PhysicalAddress _mac = new([0, 1, 2, 3, 4, 5]);
 
     [Fact]
     public void SerializeTest()

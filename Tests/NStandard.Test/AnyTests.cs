@@ -47,10 +47,10 @@ public class AnyTests
     [Fact]
     public void FlatManyTest()
     {
-        var d1_d1 = new[]
+        var d1_d1 = new string[][]
         {
-            new[] { "0", "1" },
-            new[] { "2", "3" },
+            ["0", "1"],
+            ["2", "3"],
         };
         Assert.Equal(new[] { "0", "1", "2", "3" }, Any.Flat<string>(d1_d1));
     }
@@ -97,24 +97,24 @@ public class AnyTests
 
         fixed (int* pd2 = d2)
         {
-            Assert.Equal(new[] { 0, 1, 2, 3 }, Any.Flat(pd2, length));
+            Assert.Equal([0, 1, 2, 3], Any.Flat(pd2, length));
         }
     }
 
     [Fact]
     public unsafe void FlatUnmanagedManyTest()
     {
-        var d1_d1 = new[]
+        var d1_d1 = new int[][]
         {
-            new[] { 0, 1 },
-            new[] { 2, 3 },
+            [0, 1],
+            [2, 3],
         };
         var lengths = d1_d1.Select(x => x.GetSequenceLength()).ToArray();
 
         fixed (int* pd0 = d1_d1[0])
         fixed (int* pd1 = d1_d1[1])
         {
-            Assert.Equal(new[] { 0, 1, 2, 3 }, Any.Flat(new[] { pd0, pd1 }, lengths));
+            Assert.Equal([0, 1, 2, 3], Any.Flat(new[] { pd0, pd1 }, lengths));
         }
     }
 
@@ -191,8 +191,8 @@ public class AnyTests
     {
         var d1_d1 = new string[2][]
         {
-            new string[1] { "0" },
-            new string[2] { "1", "2" },
+            ["0"],
+            ["1", "2"],
         };
         var result = d1_d1.Map((string s) => int.Parse(s)) as int[][];
 
@@ -296,15 +296,15 @@ public class AnyTests
             .Select(x => x.Iterators.ToArray())
             .ToArray();
 
-        Assert.Equal(new[]
-        {
-            new[] { 1, 10 },
-            new[] { 1, 11 },
-            new[] { 1, 12 },
-            new[] { 2, 20 },
-            new[] { 2, 21 },
-            new[] { 2, 22 },
-        }, chainIterators);
+        Assert.Equal(
+        [
+            [1, 10],
+            [1, 11],
+            [1, 12],
+            [2, 20],
+            [2, 21],
+            [2, 22],
+        ], chainIterators);
     }
 
     [Fact]
@@ -312,21 +312,21 @@ public class AnyTests
     {
         var chainIterators = Any.Chain(new int[][]
         {
-            new[] { 1, 2 },
-            new[] { 3, 4, 5 },
+            [1, 2],
+            [3, 4, 5],
         })
             .Where(x => x.Origin == ChainOrigin.Current).Select(x => x.Iterators.ToArray())
             .ToArray();
 
-        Assert.Equal(new[]
-        {
-            new[] { 1, 3 },
-            new[] { 1, 4 },
-            new[] { 1, 5 },
-            new[] { 2, 3 },
-            new[] { 2, 4 },
-            new[] { 2, 5 },
-        }, chainIterators);
+        Assert.Equal(
+        [
+            [1, 3],
+            [1, 4],
+            [1, 5],
+            [2, 3],
+            [2, 4],
+            [2, 5],
+        ], chainIterators);
     }
 
     [Fact]

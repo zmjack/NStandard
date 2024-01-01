@@ -6,8 +6,8 @@ namespace NStandard.Text.Json.Test;
 
 public class JsonXmlSerializerTests
 {
-    private static readonly ValueTuple<string, string>[] tuples = new[]
-    {
+    private static readonly ValueTuple<string, string>[] tuples =
+    [
         ValueTuple.Create(
 """
 <?xml version="1.0" encoding="utf-8"?><books xmlns="http://www.contoso.com/books"><book genre="novel" ISBN="1-861001-57-8" publicationdate="1823-01-28"><title>Pride And Prejudice</title><price>24.95</price></book><book genre="novel" ISBN="1-861002-30-1" publicationdate="1985-01-01"><title>The Handmaid's Tale</title><price>29.95</price></book><book genre="novel" ISBN="1-861001-45-3" publicationdate="1811-01-01"><title>Sense and Sensibility</title><price>19.95</price></book></books>
@@ -40,7 +40,7 @@ public class JsonXmlSerializerTests
 {"?xml":{"@version":"1.0","@encoding":"utf-8","@standalone":"yes"},"table":{"v":{"c":["cell",{"@anchor":"data","#text":"cell-with-property"}]}}}
 """
             ),
-    };
+    ];
 
     [Fact]
     public void SerializeTest()

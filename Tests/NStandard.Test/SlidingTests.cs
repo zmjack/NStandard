@@ -10,11 +10,11 @@ public class SlidingTests
     {
         var numbers = new[] { 100, 200, 300 };
         var result = numbers.Slide(2, false).ToArray();
-        Assert.Equal(new[]
-        {
-            new[] { 100, 200 },
-            new[] { 200, 300 },
-        }, result);
+        Assert.Equal(
+        [
+            [100, 200],
+            [200, 300],
+        ], result);
     }
 
     [Fact]
@@ -22,11 +22,11 @@ public class SlidingTests
     {
         var numbers = new[] { 100, 200, 300 };
         var result = numbers.Slide(2, true).ToArray();
-        Assert.Equal(new[]
-        {
-            new[] { 200, 300 },
-            new[] { 200, 300 },
-        }, result);
+        Assert.Equal(
+        [
+            [200, 300],
+            [200, 300],
+        ], result);
     }
 
     [Fact]

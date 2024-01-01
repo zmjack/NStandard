@@ -10,7 +10,7 @@ namespace NStandard.Obsolete.Evaluators
     public class NumericalEvaluator : Evaluator<Expression, string>
     {
         private static readonly MethodInfo MathPowMethod = typeof(Math).GetMethod("Pow");
-        private static readonly MethodInfo MathFloorMethod = typeof(Math).GetMethod("Floor", new[] { typeof(double) });
+        private static readonly MethodInfo MathFloorMethod = typeof(Math).GetMethod("Floor", [typeof(double)]);
         private static readonly MethodInfo DictionaryGetItemMethod = typeof(IDictionary<,>).MakeGenericType(typeof(string), typeof(double)).GetMethod("get_Item");
         private static readonly MethodInfo DictionaryContainsKeyMethod = typeof(IDictionary<,>).MakeGenericType(typeof(string), typeof(double)).GetMethod("ContainsKey");
         private static readonly MethodInfo DoubleIsNaNMethod = typeof(double).GetMethod("IsNaN");

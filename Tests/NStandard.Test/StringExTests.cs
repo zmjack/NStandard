@@ -16,7 +16,7 @@ public class StringExTests
     [Fact]
     public void SplitIntoLines()
     {
-        Assert.Equal(new[] { "ABCDEF", "123456" }, StringEx.SplitIntoLines("ABCDEF123456", 6));
+        Assert.Equal(["ABCDEF", "123456"], StringEx.SplitIntoLines("ABCDEF123456", 6));
     }
 
     [Fact]

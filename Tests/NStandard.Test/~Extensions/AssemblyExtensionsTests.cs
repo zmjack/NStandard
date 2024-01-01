@@ -20,11 +20,11 @@ public class AssemblyExtensionsTests
     {
         var assembly = Assembly.GetExecutingAssembly();
 
-        Assert.Equal(new[] { typeof(B) }, assembly.GetTypesWhichExtends<A>(false));
-        Assert.Equal(new[] { typeof(B), typeof(C) }, assembly.GetTypesWhichExtends<A>(true));
+        Assert.Equal([typeof(B)], assembly.GetTypesWhichExtends<A>(false));
+        Assert.Equal([typeof(B), typeof(C)], assembly.GetTypesWhichExtends<A>(true));
 
-        Assert.Equal(new[] { typeof(A), typeof(B), typeof(C) }, assembly.GetTypesWhichImplements<IA>());
-        Assert.Equal(new[] { typeof(C) }, assembly.GetTypesWhichMarkedAs<MarkAttribute>());
+        Assert.Equal([typeof(A), typeof(B), typeof(C)], assembly.GetTypesWhichImplements<IA>());
+        Assert.Equal([typeof(C)], assembly.GetTypesWhichMarkedAs<MarkAttribute>());
     }
 
 }

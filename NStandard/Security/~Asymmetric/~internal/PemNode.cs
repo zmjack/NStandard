@@ -13,7 +13,7 @@ internal class PemNode
         Sequence = 0x30,
     }
 
-    public static readonly byte[] RSA_OID = { 0x06, 0x09, 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x01, 0x05, 0x00 };
+    public static readonly byte[] RSA_OID = [0x06, 0x09, 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x01, 0x05, 0x00];
 
     public DataType Type;
     public byte[] Data { get; private set; }
@@ -70,11 +70,11 @@ internal class PemNode
         switch (bytes[0])
         {
             case byte sign when sign < 0x80: return sign;
-            case byte sign when sign == 0x81: return BitConverter.ToInt32(new[] { bytes[1], (byte)0, (byte)0, (byte)0 }, 0);
-            case byte sign when sign == 0x82: return BitConverter.ToInt32(new[] { bytes[2], bytes[1], (byte)0, (byte)0 }, 0);
-            case byte sign when sign == 0x83: return BitConverter.ToInt32(new[] { bytes[3], bytes[2], bytes[1], (byte)0 }, 0);
+            case byte sign when sign == 0x81: return BitConverter.ToInt32([bytes[1], (byte)0, (byte)0, (byte)0], 0);
+            case byte sign when sign == 0x82: return BitConverter.ToInt32([bytes[2], bytes[1], (byte)0, (byte)0], 0);
+            case byte sign when sign == 0x83: return BitConverter.ToInt32([bytes[3], bytes[2], bytes[1], (byte)0], 0);
             case byte sign when sign == 0x84:
-                if (bytes[1] <= 0x7F) return BitConverter.ToInt32(new[] { bytes[4], bytes[3], bytes[2], bytes[1] }, 0);
+                if (bytes[1] <= 0x7F) return BitConverter.ToInt32([bytes[4], bytes[3], bytes[2], bytes[1]], 0);
                 else goto default;
             default: throw new ArgumentException("The length cannot greater than 0x7FFFFFFF.");
         }
@@ -84,34 +84,34 @@ internal class PemNode
     {
         switch (length)
         {
-            case int len when len < 0x80: return new byte[] { Convert.ToByte(len) };
-            case int len when len <= 0xFF: return new byte[] { 0x81, Convert.ToByte(len) };
+            case int len when len < 0x80: return [Convert.ToByte(len)];
+            case int len when len <= 0xFF: return [0x81, Convert.ToByte(len)];
             case int len when len <= 0xFFFF:
-                return new byte[]
-                {
+                return
+                [
                     0x82,
                     Convert.ToByte((len & (0xFF00)) >> 8),
                     Convert.ToByte(len & (0x00FF)),
-                };
+                ];
 
             case int len when len <= 0xFFFFFF:
-                return new byte[]
-                {
+                return
+                [
                     0x83,
                     Convert.ToByte((len & (0xFF0000)) >> 16),
                     Convert.ToByte((len & (0x00FF00)) >> 8),
                     Convert.ToByte(len & (0x0000FF)),
-                };
+                ];
 
             case int len when len <= 0x7FFFFFFF:
-                return new byte[]
-                {
+                return
+                [
                     0x84,
                     Convert.ToByte((len & (0xFF000000)) >> 24),
                     Convert.ToByte((len & (0x00FF0000)) >> 16),
                     Convert.ToByte((len & (0x0000FF00)) >> 8),
                     Convert.ToByte(len & (0x000000FF)),
-                };
+                ];
 
             default: throw new ArgumentException("The length cannot be greater than 0x7FFFFFFF.");
         }

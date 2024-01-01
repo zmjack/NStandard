@@ -20,47 +20,47 @@ public class EnumExTests
     {
         var enumType = typeof(TestEnums);
         var enumOptions = EnumEx.GetOptions(typeof(TestEnums));
-        Assert.Equal(new[]
-        {
+        Assert.Equal(
+        [
             new EnumOption(enumType, nameof(TestEnums.Undefined)),
             new EnumOption(enumType, nameof(TestEnums.A)),
             new EnumOption(enumType, nameof(TestEnums.B)),
             new EnumOption(enumType, nameof(TestEnums.AB)),
             new EnumOption(enumType, nameof(TestEnums.D)),
             new EnumOption(enumType, nameof(TestEnums.AD)),
-        }, enumOptions);
+        ], enumOptions);
     }
 
     [Fact]
     public void GetOptionsTest2()
     {
         var enumOptions = EnumEx.GetOptions<TestEnums, int>();
-        Assert.Equal(new[]
-        {
+        Assert.Equal(
+        [
             new EnumOption<TestEnums, int>(nameof(TestEnums.Undefined)),
             new EnumOption<TestEnums, int>(nameof(TestEnums.A)),
             new EnumOption<TestEnums, int>(nameof(TestEnums.B)),
             new EnumOption<TestEnums, int>(nameof(TestEnums.AB)),
             new EnumOption<TestEnums, int>(nameof(TestEnums.D)),
             new EnumOption<TestEnums, int>(nameof(TestEnums.AD)),
-        }, enumOptions);
+        ], enumOptions);
     }
 
     [Fact]
     public void GetFlagsTest1()
     {
-        Assert.Equal(new object[] { TestEnums.A, TestEnums.B }, EnumEx.GetFlags(typeof(TestEnums)));
-        Assert.Equal(new[] { TestEnums.A, TestEnums.B }, EnumEx.GetFlags<TestEnums>());
+        Assert.Equal([TestEnums.A, TestEnums.B], EnumEx.GetFlags(typeof(TestEnums)));
+        Assert.Equal([TestEnums.A, TestEnums.B], EnumEx.GetFlags<TestEnums>());
     }
 
     [Fact]
     public void GetFlagsTest2()
     {
-        Assert.Equal(new[] { TestEnums.A }, TestEnums.A.GetFlags());
-        Assert.Equal(new[] { TestEnums.B }, TestEnums.B.GetFlags());
+        Assert.Equal([TestEnums.A], TestEnums.A.GetFlags());
+        Assert.Equal([TestEnums.B], TestEnums.B.GetFlags());
         Assert.Equal(Array.Empty<TestEnums>(), TestEnums.D.GetFlags());
-        Assert.Equal(new[] { TestEnums.A, TestEnums.B }, TestEnums.AB.GetFlags());
-        Assert.Equal(new[] { TestEnums.A }, TestEnums.AD.GetFlags());
+        Assert.Equal([TestEnums.A, TestEnums.B], TestEnums.AB.GetFlags());
+        Assert.Equal([TestEnums.A], TestEnums.AD.GetFlags());
     }
 
 }

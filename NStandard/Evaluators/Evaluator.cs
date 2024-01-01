@@ -139,13 +139,13 @@ public abstract class EvaluatorBase
 
     protected Dictionary<NodeType, NodeType[]> FollowTypes = new()
     {
-        [NodeType.Unspecified] = new[] { NodeType.Operand, NodeType.Parameter, NodeType.UnaryOperator, NodeType.StartBracket, NodeType.EndBracket },
-        [NodeType.Operand] = new[] { NodeType.EndBracket, NodeType.BinaryOperator },
-        [NodeType.Parameter] = new[] { NodeType.EndBracket, NodeType.BinaryOperator },
-        [NodeType.UnaryOperator] = new[] { NodeType.UnaryOperator, NodeType.StartBracket, NodeType.Operand, NodeType.Parameter },
-        [NodeType.BinaryOperator] = new[] { NodeType.UnaryOperator, NodeType.StartBracket, NodeType.Operand, NodeType.Parameter },
-        [NodeType.StartBracket] = new[] { NodeType.UnaryOperator, NodeType.StartBracket, NodeType.Operand, NodeType.Parameter },
-        [NodeType.EndBracket] = new[] { NodeType.EndBracket, NodeType.BinaryOperator },
+        [NodeType.Unspecified] = [NodeType.Operand, NodeType.Parameter, NodeType.UnaryOperator, NodeType.StartBracket, NodeType.EndBracket],
+        [NodeType.Operand] = [NodeType.EndBracket, NodeType.BinaryOperator],
+        [NodeType.Parameter] = [NodeType.EndBracket, NodeType.BinaryOperator],
+        [NodeType.UnaryOperator] = [NodeType.UnaryOperator, NodeType.StartBracket, NodeType.Operand, NodeType.Parameter],
+        [NodeType.BinaryOperator] = [NodeType.UnaryOperator, NodeType.StartBracket, NodeType.Operand, NodeType.Parameter],
+        [NodeType.StartBracket] = [NodeType.UnaryOperator, NodeType.StartBracket, NodeType.Operand, NodeType.Parameter],
+        [NodeType.EndBracket] = [NodeType.EndBracket, NodeType.BinaryOperator],
     };
 
     public Node[] GetNodes(string exp)
@@ -319,12 +319,12 @@ public abstract class EvaluatorBase
                     if (func is null) stack.Push(operand);
                     else stack.Push(new NodeExpressionPair
                     {
-                        Expression = Expression.Call(Expression.Constant(this), BracketMethod, new[]
-                        {
+                        Expression = Expression.Call(Expression.Constant(this), BracketMethod,
+                        [
                             Expression.Constant(startBracketValue),
                             Expression.Constant(endBracketValue),
                             operand.Expression ,
-                        }),
+                        ]),
                     });
 
                     if (stack.Count >= 2)

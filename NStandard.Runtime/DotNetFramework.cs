@@ -5,7 +5,9 @@ namespace NStandard.Runtime;
 
 //TODO: Long-term Maintenance
 //TODO: To support more frameworks
-//Refer: https://docs.microsoft.com/en-us/nuget/reference/target-frameworks
+/// <summary>
+/// <see href="https://docs.microsoft.com/en-us/nuget/reference/target-frameworks" />
+/// </summary>
 public class DotNetFramework
 {
     public string Name { get; }
@@ -16,7 +18,7 @@ public class DotNetFramework
     public string TFM { get; }
     public Version Version { get; }
     public bool Supported { get; }
-    public DotNetFramework[] CompatibilityFrameworks { get; private set; }
+    public DotNetFramework[] Compatibility { get; private set; }
     public int Order { get; }
 
     internal DotNetFramework(string name, string abbreviation, string tfm, Version version, bool supported, int order)
@@ -69,64 +71,92 @@ public class DotNetFramework
     public static DotNetFramework Net50 = new(".NET 5+ (and .NET Core)", "net", "net5.0", new Version(5, 0, 0), true, 401);
     public static DotNetFramework Net60 = new(".NET 5+ (and .NET Core)", "net", "net6.0", new Version(6, 0, 0), true, 402);
     public static DotNetFramework Net70 = new(".NET 5+ (and .NET Core)", "net", "net7.0", new Version(7, 0, 0), true, 403);
+    public static DotNetFramework Net80 = new(".NET 5+ (and .NET Core)", "net", "net8.0", new Version(8, 0, 0), true, 404);
 
     static DotNetFramework()
     {
-        static DotNetFramework[] CombineFrameworks(DotNetFramework[] @new, DotNetFramework compatibility)
+        static DotNetFramework[] Combine(DotNetFramework[] @new, DotNetFramework compatibility)
         {
-            return @new.Concat(compatibility.CompatibilityFrameworks).ToArray();
+            return [.. @new, .. compatibility.Compatibility];
         }
 
-        NetStandard10.CompatibilityFrameworks = new[] { NetStandard10 };
-        NetStandard11.CompatibilityFrameworks = CombineFrameworks(new[] { NetStandard11 }, NetStandard10);
-        NetStandard12.CompatibilityFrameworks = CombineFrameworks(new[] { NetStandard12 }, NetStandard11);
-        NetStandard13.CompatibilityFrameworks = CombineFrameworks(new[] { NetStandard13 }, NetStandard12);
-        NetStandard14.CompatibilityFrameworks = CombineFrameworks(new[] { NetStandard14 }, NetStandard13);
-        NetStandard15.CompatibilityFrameworks = CombineFrameworks(new[] { NetStandard15 }, NetStandard14);
-        NetStandard16.CompatibilityFrameworks = CombineFrameworks(new[] { NetStandard16 }, NetStandard15);
-        NetStandard20.CompatibilityFrameworks = CombineFrameworks(new[] { NetStandard20 }, NetStandard16);
-        NetStandard21.CompatibilityFrameworks = CombineFrameworks(new[] { NetStandard21 }, NetStandard20);
+        NetStandard10.Compatibility = [NetStandard10];
+        NetStandard11.Compatibility = Combine([NetStandard11], NetStandard10);
+        NetStandard12.Compatibility = Combine([NetStandard12], NetStandard11);
+        NetStandard13.Compatibility = Combine([NetStandard13], NetStandard12);
+        NetStandard14.Compatibility = Combine([NetStandard14], NetStandard13);
+        NetStandard15.Compatibility = Combine([NetStandard15], NetStandard14);
+        NetStandard16.Compatibility = Combine([NetStandard16], NetStandard15);
+        NetStandard20.Compatibility = Combine([NetStandard20], NetStandard16);
+        NetStandard21.Compatibility = Combine([NetStandard21], NetStandard20);
 
-        Net11.CompatibilityFrameworks = new[] { Net11 };
-        Net20.CompatibilityFrameworks = CombineFrameworks(new[] { Net20 }, Net11);
-        Net35.CompatibilityFrameworks = CombineFrameworks(new[] { Net35 }, Net20);
-        Net40.CompatibilityFrameworks = CombineFrameworks(new[] { Net40 }, Net35);
-        Net403.CompatibilityFrameworks = CombineFrameworks(new[] { Net403 }, Net40);
-        Net45.CompatibilityFrameworks = CombineFrameworks(new[] { Net45, NetStandard11, NetStandard10 }, Net403);
-        Net451.CompatibilityFrameworks = CombineFrameworks(new[] { Net451, NetStandard12 }, Net45);
-        Net452.CompatibilityFrameworks = CombineFrameworks(new[] { Net452 }, Net451);
-        Net46.CompatibilityFrameworks = CombineFrameworks(new[] { Net46, NetStandard13 }, Net452);
-        Net461.CompatibilityFrameworks = CombineFrameworks(new[] { Net461, NetStandard20, NetStandard16, NetStandard15, NetStandard14, Net46 }, Net46);
-        Net462.CompatibilityFrameworks = CombineFrameworks(new[] { Net462 }, Net461);
-        Net47.CompatibilityFrameworks = CombineFrameworks(new[] { Net47 }, Net462);
-        Net471.CompatibilityFrameworks = CombineFrameworks(new[] { Net471 }, Net47);
-        Net472.CompatibilityFrameworks = CombineFrameworks(new[] { Net472 }, Net471);
-        Net48.CompatibilityFrameworks = CombineFrameworks(new[] { Net48 }, Net472);
+        Net11.Compatibility = [Net11];
+        Net20.Compatibility = Combine([Net20], Net11);
+        Net35.Compatibility = Combine([Net35], Net20);
+        Net40.Compatibility = Combine([Net40], Net35);
+        Net403.Compatibility = Combine([Net403], Net40);
+        Net45.Compatibility = Combine([Net45, NetStandard11, NetStandard10], Net403);
+        Net451.Compatibility = Combine([Net451, NetStandard12], Net45);
+        Net452.Compatibility = Combine([Net452], Net451);
+        Net46.Compatibility = Combine([Net46, NetStandard13], Net452);
+        Net461.Compatibility = Combine([Net461, NetStandard20, NetStandard16, NetStandard15, NetStandard14, Net46], Net46);
+        Net462.Compatibility = Combine([Net462], Net461);
+        Net47.Compatibility = Combine([Net47], Net462);
+        Net471.Compatibility = Combine([Net471], Net47);
+        Net472.Compatibility = Combine([Net472], Net471);
+        Net48.Compatibility = Combine([Net48], Net472);
 
-        NetCoreApp10.CompatibilityFrameworks = new[] { NetCoreApp10, NetStandard10 };
-        NetCoreApp11.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp11 }, NetCoreApp10);
-        NetCoreApp20.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp20, NetStandard20 }, NetCoreApp11);
-        NetCoreApp21.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp21 }, NetCoreApp20);
-        NetCoreApp22.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp22 }, NetCoreApp21);
-        NetCoreApp30.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp30, NetStandard21 }, NetCoreApp22);
-        NetCoreApp31.CompatibilityFrameworks = CombineFrameworks(new[] { NetCoreApp31 }, NetCoreApp30);
+        NetCoreApp10.Compatibility = [NetCoreApp10, NetStandard10];
+        NetCoreApp11.Compatibility = Combine([NetCoreApp11], NetCoreApp10);
+        NetCoreApp20.Compatibility = Combine([NetCoreApp20, NetStandard20], NetCoreApp11);
+        NetCoreApp21.Compatibility = Combine([NetCoreApp21], NetCoreApp20);
+        NetCoreApp22.Compatibility = Combine([NetCoreApp22], NetCoreApp21);
+        NetCoreApp30.Compatibility = Combine([NetCoreApp30, NetStandard21], NetCoreApp22);
+        NetCoreApp31.Compatibility = Combine([NetCoreApp31], NetCoreApp30);
 
-        Net50.CompatibilityFrameworks = CombineFrameworks(new[] { Net50 }, NetCoreApp31);
-        Net60.CompatibilityFrameworks = CombineFrameworks(new[] { Net60 }, Net50);
-        Net70.CompatibilityFrameworks = CombineFrameworks(new[] { Net70 }, Net60);
+        Net50.Compatibility = Combine([Net50], NetCoreApp31);
+        Net60.Compatibility = Combine([Net60], Net50);
+        Net70.Compatibility = Combine([Net70], Net60);
+        Net70.Compatibility = Combine([Net80], Net70);
     }
 
-    public static readonly DotNetFramework[] SupportedFrameworks = new[]
-    {
-        NetStandard10, NetStandard11, NetStandard12, NetStandard13, NetStandard14, NetStandard15, NetStandard16,
-        NetStandard20, NetStandard21,
-        Net11, Net20, Net35,
-        Net40, Net403, Net45, Net451, Net452, Net46, Net461, Net462, Net47, Net471, Net472, Net48,
-        NetCoreApp10, NetCoreApp11,
-        NetCoreApp20, NetCoreApp21, NetCoreApp22,
-        NetCoreApp30, NetCoreApp31,
-        Net50, Net60, Net70
-    };
+    public static readonly DotNetFramework[] SupportedFrameworks =
+    [
+        NetStandard10,
+        NetStandard11,
+        NetStandard12,
+        NetStandard13,
+        NetStandard14,
+        NetStandard15,
+        NetStandard16,
+        NetStandard20,
+        NetStandard21,
+        Net11,
+        Net20,
+        Net35,
+        Net40,
+        Net403,
+        Net45,
+        Net451,
+        Net452,
+        Net46,
+        Net461,
+        Net462,
+        Net47,
+        Net471,
+        Net472,
+        Net48,
+        NetCoreApp10,
+        NetCoreApp11,
+        NetCoreApp20,
+        NetCoreApp21,
+        NetCoreApp22,
+        NetCoreApp30,
+        NetCoreApp31,
+        Net50,
+        Net60,
+        Net70
+    ];
 
     public static DotNetFramework Parse(string tfm)
     {

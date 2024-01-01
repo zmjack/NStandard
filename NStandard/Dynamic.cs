@@ -54,7 +54,7 @@ public static class Dynamic
 #else
                 var param = ArrayEx.Empty<ParameterExpression>();
 #endif
-                return (lambdaMethod.Invoke(null, new object[] { exp, param }) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
+                return (lambdaMethod.Invoke(null, [exp, param]) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
             };
         }
         var container = new CacheSet<Type, Delegate> { CacheMethodBuilder = cacheMethodBuilder };
@@ -80,7 +80,7 @@ public static class Dynamic
 #else
                 var param = ArrayEx.Empty<ParameterExpression>();
 #endif
-                return (lambdaMethod.Invoke(null, new object[] { exp, param }) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
+                return (lambdaMethod.Invoke(null, [exp, param]) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
             };
         }
         var container = new CacheSet<Type, Delegate> { CacheMethodBuilder = cacheMethodBuilder };
@@ -106,7 +106,7 @@ public static class Dynamic
 #else
                 var param = ArrayEx.Empty<ParameterExpression>();
 #endif
-                return (lambdaMethod.Invoke(null, new object[] { exp, param }) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
+                return (lambdaMethod.Invoke(null, [exp, param]) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
             };
         }
         var container = new CacheSet<Type, Delegate> { CacheMethodBuilder = cacheMethodBuilder };

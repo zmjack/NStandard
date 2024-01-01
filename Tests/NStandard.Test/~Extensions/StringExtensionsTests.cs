@@ -129,11 +129,11 @@ public class StringExtensionsTests
     public void ProjectToArrayTest2()
     {
         var result = "A|1|11|B|2|22".Resolve(new Regex(@"(?:(?:^|\|)(.+?\|.+?\|.+?)(?=\||$))*"));
-        Assert.Equal(new string[][]
-        {
-            new [] { "A|1|11|B|2|22" },
-            new [] { "A|1|11", "B|2|22" },
-        }, result);
+        Assert.Equal(
+        [
+            ["A|1|11|B|2|22"],
+            ["A|1|11", "B|2|22"],
+        ], result);
     }
 
     [Fact]
@@ -143,26 +143,26 @@ public class StringExtensionsTests
 
         {
             var result = "void F(short a, [In] int b);".Resolve(declRegex);
-            Assert.Equal(new string[][]
-            {
-                new[] { "void F(short a, [In] int b);" },
-                new[] { "void" },
-                new[] { "F" },
-                new[] { "short", "int" },
-                new[] { "a", "b" },
-            }, result);
+            Assert.Equal(
+            [
+                ["void F(short a, [In] int b);"],
+                ["void"],
+                ["F"],
+                ["short", "int"],
+                ["a", "b"],
+            ], result);
         }
 
         {
             var result = "void F();".Resolve(declRegex);
-            Assert.Equal(new string[][]
-            {
-                new[] { "void F();" },
-                new[] { "void" },
-                new[] { "F" },
+            Assert.Equal(
+            [
+                ["void F();"],
+                ["void"],
+                ["F"],
                 Array.Empty<string>(),
                 Array.Empty<string>(),
-            }, result);
+            ], result);
         }
     }
 

@@ -23,7 +23,7 @@ public partial class DpContainerTests
         {
             if (i == 0)
             {
-                return new[] { Sequence[i] };
+                return [Sequence[i]];
             }
 
             var mi = new int[i].Let(i => i)
@@ -61,18 +61,18 @@ public partial class DpContainerTests
     [Fact]
     public void DpLISTest()
     {
-        var lis1 = new DpLIS(new[] { 2, 7, 1, 5, 6, 4, 3, 8, 9 });
+        var lis1 = new DpLIS([2, 7, 1, 5, 6, 4, 3, 8, 9]);
 
-        Assert.Equal(new[] { 2 }, lis1[0]);
-        Assert.Equal(new[] { 2, 7 }, lis1[1]);
-        Assert.Equal(new[] { 2, 7 }, lis1[2]);
-        Assert.Equal(new[] { 2, 5 }, lis1[3]);
-        Assert.Equal(new[] { 2, 5, 6 }, lis1[4]);
-        Assert.Equal(new[] { 2, 5, 6 }, lis1[5]);
-        Assert.Equal(new[] { 2, 5, 6 }, lis1[6]);
-        Assert.Equal(new[] { 2, 5, 6, 8 }, lis1[7]);
-        Assert.Equal(new[] { 2, 5, 6, 8, 9 }, lis1[8]);
-        Assert.Equal(new[] { 2, 5, 6, 8, 9 }, lis1.FindResult());
+        Assert.Equal([2], lis1[0]);
+        Assert.Equal([2, 7], lis1[1]);
+        Assert.Equal([2, 7], lis1[2]);
+        Assert.Equal([2, 5], lis1[3]);
+        Assert.Equal([2, 5, 6], lis1[4]);
+        Assert.Equal([2, 5, 6], lis1[5]);
+        Assert.Equal([2, 5, 6], lis1[6]);
+        Assert.Equal([2, 5, 6, 8], lis1[7]);
+        Assert.Equal([2, 5, 6, 8, 9], lis1[8]);
+        Assert.Equal([2, 5, 6, 8, 9], lis1.FindResult());
     }
 
 }

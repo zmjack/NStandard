@@ -121,7 +121,7 @@ public class TypeExtensionsTests
     public void GetExtendChainTest()
     {
         var chain = typeof(int).GetExtendChain();
-        Assert.Equal(new[] { typeof(int), typeof(ValueType), typeof(object) }, chain);
+        Assert.Equal([typeof(int), typeof(ValueType), typeof(object)], chain);
     }
 
 }

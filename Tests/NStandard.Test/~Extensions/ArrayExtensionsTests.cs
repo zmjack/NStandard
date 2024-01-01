@@ -12,7 +12,7 @@ public class ArrayExtensionsTests
     public void LetTest1()
     {
         var arr = new int[5].Let(i => i * 2 + 1);
-        Assert.Equal(new[] { 1, 3, 5, 7, 9 }, arr);
+        Assert.Equal([1, 3, 5, 7, 9], arr);
     }
 
     [Fact]

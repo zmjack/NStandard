@@ -18,8 +18,8 @@ public static partial class Any
             {
                 char t => BitConverter.GetBytes(t),
                 bool t => BitConverter.GetBytes(t),
-                byte t => new[] { t },
-                sbyte t => new[] { (byte)t },
+                byte t => [t],
+                sbyte t => [(byte)t],
                 short t => BitConverter.GetBytes(t),
                 ushort t => BitConverter.GetBytes(t),
                 int t => BitConverter.GetBytes(t),

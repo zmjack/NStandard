@@ -5,9 +5,9 @@ namespace NStandard.Trees.Test;
 
 public class BinaryTreeTests
 {
-    private readonly int[] InOrder = new[] { 4, 7, 2, 1, 5, 3, 8, 6 };
-    private readonly int[] PreOrder = new[] { 1, 2, 4, 7, 3, 5, 6, 8 };
-    private readonly int[] PostOrder = new[] { 7, 4, 2, 5, 8, 6, 3, 1 };
+    private readonly int[] InOrder = [4, 7, 2, 1, 5, 3, 8, 6];
+    private readonly int[] PreOrder = [1, 2, 4, 7, 3, 5, 6, 8];
+    private readonly int[] PostOrder = [7, 4, 2, 5, 8, 6, 3, 1];
     /*
      *              1
      *            /   \

@@ -46,11 +46,11 @@ public partial class DpContainerTests
     [Fact]
     public void DpCoinTest()
     {
-        var dpCoin = new DpCoin(new[] { 1, 2, 4, 5 });
+        var dpCoin = new DpCoin([1, 2, 4, 5]);
         var result8 = dpCoin[8];
 
         Assert.Equal(2, result8.CoinCount);
-        Assert.Equal(new[] { 4, 4 }, result8.Coins);
+        Assert.Equal([4, 4], result8.Coins);
     }
 
 }

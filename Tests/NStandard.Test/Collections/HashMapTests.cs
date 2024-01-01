@@ -117,7 +117,7 @@ public class HashMapTests
         var array = new KeyValuePair<string, string>[3];
 
         (map as ICollection<KeyValuePair<string, string>>).CopyTo(array, 1);
-        Assert.Equal(new[] { null, "n", "a" }, array.Select(x => x.Value).ToArray());
+        Assert.Equal([null, "n", "a"], array.Select(x => x.Value).ToArray());
 
         map.Remove(null);
         Assert.ThrowsAny<ArgumentException>(() =>

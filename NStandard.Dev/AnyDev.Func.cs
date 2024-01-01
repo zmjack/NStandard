@@ -41,7 +41,7 @@ namespace NStandard
 
                         try
                         {
-                            exp = Expression.Invoke(current, new[] { exp });
+                            exp = Expression.Invoke(current, [exp]);
                         }
                         catch (Exception ex)
                         {
@@ -49,7 +49,7 @@ namespace NStandard
                         }
                     }
 
-                    return Expression.Lambda<Func<TIn, TOut>>(exp, new[] { param });
+                    return Expression.Lambda<Func<TIn, TOut>>(exp, [param]);
                 }
 
                 return null;
