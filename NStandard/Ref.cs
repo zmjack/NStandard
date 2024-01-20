@@ -1,19 +1,23 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace NStandard;
 
-[DebuggerDisplay("{Any}")]
+[DebuggerDisplay("{Target}")]
 public class Ref<T>
 {
-    public T Any { get; }
+    public T Target { get; }
 
-    public Ref(T any)
+    [Obsolete("Use Target instead.")]
+    public T Any => Target;
+
+    public Ref(T target)
     {
-        Any = any;
+        Target = target;
     }
 
-    public static implicit operator Ref<T>(T any)
+    public static implicit operator Ref<T>(T target)
     {
-        return new Ref<T>(any);
+        return new Ref<T>(target);
     }
 }

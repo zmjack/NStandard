@@ -1,19 +1,23 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace NStandard;
 
-[DebuggerDisplay("{Any}")]
+[DebuggerDisplay("{Target}")]
 public struct Val<T>
 {
-    public T Any { get; }
+    public T Target { get; }
 
-    public Val(T any)
+    [Obsolete("Use Target instead.")]
+    public T Any => Target;
+
+    public Val(T target)
     {
-        Any = any;
+        Target = target;
     }
 
-    public static implicit operator Val<T>(T any)
+    public static implicit operator Val<T>(T target)
     {
-        return new Val<T>(any);
+        return new Val<T>(target);
     }
 }
