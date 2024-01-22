@@ -1,4 +1,5 @@
 ﻿using Xunit;
+using static NStandard.Measures.StorageCapacity;
 
 namespace NStandard.UnitValues.Test;
 
@@ -40,6 +41,28 @@ public class StorageUnitTests
         var average = new StorageValue();
         average.QuickAverage(values);
         Assert.Equal(5 * 1024, average.BitValue);
+    }
+
+    [Fact]
+    public void Test3()
+    {
+        var a = new MB(0.5);
+        var b = new KB(512);
+
+        Assert.Equal(1, (a + (MB)b).Value);
+        Assert.Equal(1024, ((KB)a + b).Value);
+
+        Assert.Equal(0, ((B)a - (B)b).Value);
+        Assert.Equal(1, (a * 2).Value);
+        Assert.Equal(0.25, (a / 2).Value);
+
+        Assert.True((KB)a == b);
+        Assert.False((KB)a != b);
+
+        Assert.False((KB)a < b);
+        Assert.True((KB)a <= b);
+        Assert.False((KB)a > b);
+        Assert.True((KB)a >= b);
     }
 
 }

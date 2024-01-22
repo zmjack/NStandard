@@ -42,7 +42,13 @@ These frameworks are supported:
 
 ## Recently
 
-### Version0.56.1
+### Version 0.57.0
+
+- **IUnitValue** is obsolete, use **IMeasurable** instead.
+- **StorageValue** is obsolete, use **StorageCapacity** instead.
+- New measures supported: **Measures.Length**, **Measures.Weight**.
+
+### Version 0.56.1
 
 - Added a new structure: **MinMaxPair**.
 - **AsIndexValuePairs** has been renamed to **Pairs**. 

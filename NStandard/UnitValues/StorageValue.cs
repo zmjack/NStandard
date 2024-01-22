@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace NStandard.UnitValues;
 
+[Obsolete("Use StorageCapacity instead.")]
 public struct StorageValue : IUnitValue, ISummable<StorageValue>
 {
     public const string DefaultUnit = "b";

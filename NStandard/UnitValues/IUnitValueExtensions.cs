@@ -1,7 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace NStandard;
 
+[Obsolete("Plan to remove.")]
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class IUnitValueExtensions
 {
