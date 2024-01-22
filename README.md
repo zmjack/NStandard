@@ -46,7 +46,7 @@ These frameworks are supported:
 
 - **IUnitValue** is obsolete, use **IMeasurable** instead.
 - **StorageValue** is obsolete, use **StorageCapacity** instead.
-- New measures supported: **Measures.Length**, **Measures.Weight**.
+- New measure classes supported: **Measures.Length**, **Measures.Weight**.
 
 ### Version 0.56.1
 

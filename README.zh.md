@@ -47,7 +47,7 @@
 
 - **IUnitValue** 已过时，请使用 **IMeasurable** 代替。
 - **StorageValue** 已过时，请使用 **StorageCapacity** 代替。
-- 支持新的测量单位：**Measures.Length**、**Measures.Weight**。
+- 支持新的度量单位类型：**Measures.Length**、**Measures.Weight**。
 
 ### 版本：0.56.1
 
