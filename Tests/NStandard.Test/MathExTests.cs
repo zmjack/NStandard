@@ -5,7 +5,7 @@ namespace NStandard.Test;
 public class MathExTests
 {
     [Fact]
-    public void PermutationTest()
+    public void PermutTest()
     {
         Assert.Equal(1, MathEx.Permut(0, 0));
         Assert.Equal(20, MathEx.Permut(5, 2));

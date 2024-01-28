@@ -13,11 +13,16 @@ public static partial class MathEx
     /// <returns></returns>
     public static int Combin(int number, int chosen)
     {
-        if (chosen < 0) throw new ArgumentException("The choice must be greater than zero.", nameof(chosen));
+        if (chosen < 0) throw new ArgumentException("The choice must be non-negative.", nameof(chosen));
         if (number < chosen) throw new ArgumentException("The total must be greater than or equal to the choice.", nameof(chosen));
 
         if (chosen == 0 || chosen == number) return 1;
-        else return Permut(number, chosen) / Permut(chosen, chosen);
+        else
+        {
+            var _chosen = number - chosen;
+            _chosen = _chosen < chosen ? _chosen : chosen;
+            return Permut(number, chosen) / Permut(chosen, chosen);
+        }
     }
 
     /// <summary>
@@ -28,11 +33,16 @@ public static partial class MathEx
     /// <returns></returns>
     public static long Combin(long number, long chosen)
     {
-        if (chosen < 0) throw new ArgumentException("The choice must be greater than zero.", nameof(chosen));
+        if (chosen < 0) throw new ArgumentException("The choice must be non-negative.", nameof(chosen));
         if (number < chosen) throw new ArgumentException("The total must be greater than or equal to the choice.", nameof(chosen));
 
         if (chosen == 0 || chosen == number) return 1;
-        else return Permut(number, chosen) / Permut(chosen, chosen);
+        else
+        {
+            var _chosen = number - chosen;
+            _chosen = _chosen < chosen ? _chosen : chosen;
+            return Permut(number, chosen) / Permut(chosen, chosen);
+        }
     }
 }
 
