@@ -42,6 +42,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.58.0
+
+- Provides singleton interface: **ISingleton\<T\>**.
+
 ### Version 0.57.0
 
 - **IUnitValue** is obsolete, use **IMeasurable** instead.
