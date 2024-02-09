@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 
 namespace NStandard.Test;
 
@@ -99,6 +100,16 @@ public class MathExTests
         Assert.Equal(6.9, MathEx.Floor(7, 0.3, true));
         Assert.Equal(-7.2, MathEx.Floor(-7, 0.3));
         Assert.Equal(-6.9, MathEx.Floor(-7, 0.3, true));
+    }
+
+    [Fact]
+    public void ApproximatelyTest()
+    {
+        Assert.False(2.4 + 2.4 - 1.2 == 3.6);
+        Assert.True(2.4 + 2.4 - 1.2 == 3.5999999999999996);
+        Assert.True(MathEx.Approximately(2.4 + 2.4 - 1.2, 3.6));
+        Assert.True(MathEx.Approximately(3.55, 3.6, 0.1));
+        Assert.ThrowsAny<ArgumentException>(() => MathEx.Approximately(3.55, 3.6, -0.1));
     }
 
 }

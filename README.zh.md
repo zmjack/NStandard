@@ -43,6 +43,14 @@
 
 ## 最近更新
 
+### 版本：0.59.0
+
+- 新增了一组方法来比较两个 **浮点数/双精度数** 是否 **相似**。
+  - 方法组：**MathEx.Approximately**。
+  - 与 **[UnityEngine.Mathf.Approximately](https://docs.unity3d.com/ScriptReference/Mathf.Approximately.html)** 类似，但允许指定容差。
+  - **False**：`2.4 + 2.4 - 1.2 == 3.6`
+  - **True**：`MathEx.Approximately(2.4 + 2.4 - 1.2, 3.6)`
+
 ### 版本：0.58.0
 
 - 提供单例接口：**ISingleton\<T\>**。

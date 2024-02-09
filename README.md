@@ -42,6 +42,14 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.59.0
+
+- Added a method group to compares two **floats/doubles** if they are similar.
+  - Method group: **MathEx.Approximately**.
+  - Similar to **[UnityEngine.Mathf.Approximately](https://docs.unity3d.com/ScriptReference/Mathf.Approximately.html)**, but the tolerance can be specified.
+  - **False**: `2.4 + 2.4 - 1.2 == 3.6`
+  - **True**: `MathEx.Approximately(2.4 + 2.4 - 1.2, 3.6)`
+
 ### Version 0.58.0
 
 - Provides singleton interface: **ISingleton\<T\>**.
