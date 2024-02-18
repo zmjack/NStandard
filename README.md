@@ -42,6 +42,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.60.0
+
+- Added a method **PadSlide** to create a **Sliding** with padding.
+
 ### Version 0.59.0
 
 - Added a method group to compares two **floats/doubles** if they are similar.

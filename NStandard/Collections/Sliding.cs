@@ -10,6 +10,7 @@ public class Sliding<T> : IEnumerable<T[]>
 
     public Sliding(IEnumerable<T> source, int capacity, bool sharedCache)
     {
+        if (capacity <= 0) throw new ArgumentOutOfRangeException(nameof(capacity));
         _enumerator = new(source, capacity, sharedCache);
     }
 

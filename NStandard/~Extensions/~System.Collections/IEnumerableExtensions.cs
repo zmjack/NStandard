@@ -175,4 +175,31 @@ public static class IEnumerableExtensions
         return new(@this, capacity, sharedCache);
     }
 
+    /// <summary>
+    /// Creates a sliding window for the specified enumerable object.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="this"></param>
+    /// <param name="capacity"></param>
+    /// <param name="sharedCache"></param>
+    /// <returns></returns>
+    public static Sliding<T> PadSlide<T>(this IEnumerable<T> @this, int capacity, bool sharedCache)
+    {
+        List<T> list = [];
+        for (int i = 0; i < capacity - 1; i++)
+        {
+            list.Add(default);
+        }
+        foreach (var item in @this)
+        {
+            list.Add(item);
+        }
+        for (int i = 0; i < capacity - 1; i++)
+        {
+            list.Add(default);
+        }
+
+        return new(list, capacity, sharedCache);
+    }
+
 }
