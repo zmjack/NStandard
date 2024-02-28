@@ -26,8 +26,8 @@ public class SnowflakeWorker
     private long lastTimestamp = -1L;
     private long sequence = 0;
 
-    public long WorkerId { get; }
-    public long DataCenterId { get; }
+    public long WorkerId { get; internal set; }
+    public long DataCenterId { get; internal set; }
 
     public SnowflakeWorker(int workerId, int dataCenterId)
     {
