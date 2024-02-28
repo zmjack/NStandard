@@ -4,7 +4,8 @@ using System.Runtime.CompilerServices;
 namespace NStandard.Algorithm;
 
 /// <summary>
-/// Translate from scala code (<see href="https://github.com/twitter-archive/snowflake" />).
+/// Snowflake generator.
+/// <para>Source: Scala code (<see href="https://github.com/twitter-archive/snowflake" />).</para>
 /// <para>0(1b) Timestamp(41b) DataCenterId(5b) WorkerId(5b) Sequnce(12b) </para>
 /// </summary>
 public class SnowflakeWorker
