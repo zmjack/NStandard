@@ -43,9 +43,13 @@
 
 ## 最近更新
 
+### 版本：0.62.0
+
+- 添加新类 **Snowflake128** 用于生成 **Snowflake ID128** 或 **Guid**。
+
 ### 版本：0.61.0
 
-- 添加新类 **SnowflakeWorker** 用于生成 **Snowflake ID**。
+- 添加新类 **Snowflake** 用于生成 **Snowflake ID**。
 
 ### 版本：0.60.0
 

@@ -8,7 +8,7 @@
     </TargetFrameworks>
     
     <LangVersion>preview</LangVersion>
-    <Version>0.61.5</Version>
+    <Version>0.62.0</Version>
     <RootNamespace>NStandard</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Authors>zmjack</Authors>

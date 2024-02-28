@@ -1,36 +1,37 @@
-﻿using System;
+﻿#if NET7_0_OR_GREATER
+using System;
 using System.Runtime.CompilerServices;
 
 namespace NStandard.Algorithm;
 
 /// <summary>
-/// Snowflake generator.
+/// Snowflake128 generator.
 /// <para>Source: Scala code (<see href="https://github.com/twitter-archive/snowflake" />).</para>
-/// <para>0(1b) Timestamp(41b) DataCenterId(5b) WorkerId(5b) Sequnce(12b) </para>
+/// <para>ID   = Timestamp(64b) DataCenterId(16b) WorkerId(16b) Sequnce(32b) </para>
+/// <para>GUID = Sequnce(8c) - WorkerId(4c) - DataCenterId(4c) - Timestamp(4c+12c) </para>
 /// </summary>
-public class SnowflakeWorker
+/// <inheritdoc cref="SnowflakeWorker"/>
+public class SnowflakeWorker128
 {
-    private static readonly long twepoch = 1288834974657;
-
-    private static readonly int workerIdBits = 5;
-    private static readonly int datacenterIdBits = 5;
+    private static readonly int workerIdBits = 16;
+    private static readonly int datacenterIdBits = 16;
     private static readonly int maxWorkerId = -1 ^ (-1 << workerIdBits);
     private static readonly int maxDatacenterId = -1 ^ (-1 << datacenterIdBits);
 
-    private static readonly int sequenceBits = 12;
+    private static readonly int sequenceBits = 32;
     private static readonly int workerIdShift = sequenceBits;
     private static readonly int datacenterIdShift = sequenceBits + workerIdBits;
     private static readonly int timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
 
-    private static readonly long sequenceMask = -1L ^ (-1L << sequenceBits);
+    private static readonly Int128 sequenceMask = (Int128)(-1) ^ ((Int128)(-1) << sequenceBits);
 
-    private long lastTimestamp = -1L;
-    private long sequence = 0;
+    private Int128 lastTimestamp = -1L;
+    private Int128 sequence = 0;
 
-    public long WorkerId { get; internal set; }
-    public long DataCenterId { get; internal set; }
+    public Int128 WorkerId { get; internal set; }
+    public Int128 DataCenterId { get; internal set; }
 
-    public SnowflakeWorker(long workerId, long dataCenterId)
+    public SnowflakeWorker128(Int128 workerId, Int128 dataCenterId)
     {
         // sanity check for workerId
         if (workerId > maxWorkerId || workerId < 0)
@@ -47,9 +48,9 @@ public class SnowflakeWorker
         DataCenterId = dataCenterId;
     }
 
-    protected virtual long NewTimestamp() => DateTime.Now.ToUnixTimeMilliseconds();
+    protected virtual Int128 NewTimestamp() => DateTime.Now.ToUnixTimeMilliseconds();
 
-    protected long NextTimeStamp(long lastTimestamp)
+    protected Int128 NextTimeStamp(Int128 lastTimestamp)
     {
         var timestamp = NewTimestamp();
 
@@ -61,7 +62,7 @@ public class SnowflakeWorker
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
-    public long NewId()
+    public Int128 NewId()
     {
         var timestamp = NewTimestamp();
 
@@ -85,9 +86,16 @@ public class SnowflakeWorker
 
         lastTimestamp = timestamp;
 
-        return ((timestamp - twepoch) << timestampLeftShift)
+        return (timestamp << timestampLeftShift)
             | (DataCenterId << datacenterIdShift)
             | (WorkerId << workerIdShift)
             | sequence;
     }
+
+    public Guid NewGuid()
+    {
+        var id = NewId();
+        return new Guid(BitConverterEx.GetBytes(id));
+    }
 }
+#endif

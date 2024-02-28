@@ -42,9 +42,13 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.62.0
+
+- Added a class **Snowflake128** to generate **Snowflake ID128** or **Guid**.
+
 ### Version 0.61.0
 
-- Added a class **SnowflakeWorker** to generate **Snowflake ID**.
+- Added a class **Snowflake** to generate **Snowflake ID**.
 
 ### Version 0.60.0
 
