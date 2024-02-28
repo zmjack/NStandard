@@ -43,6 +43,10 @@
 
 ## 最近更新
 
+### 版本：0.61.0
+
+- 添加新类 **SnowflakeWorker** 用于生成 **Snowflake ID**。
+
 ### 版本：0.60.0
 
 - 新增方法 **PadSlide** 用于创建带填充的 **Sliding**。

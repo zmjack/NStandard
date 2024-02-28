@@ -42,6 +42,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.61.0
+
+- Added a class **SnowflakeWorker** to generate **Snowflake ID**.
+
 ### Version 0.60.0
 
 - Added a method **PadSlide** to create a **Sliding** with padding.
