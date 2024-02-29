@@ -42,6 +42,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.63.0
+
+- Added new class **JsonImplConverter** to use instance types when serializing interfaces to Json.
+
 ### Version 0.62.0
 
 - Added a class **Snowflake128** to generate **Snowflake ID128** or **Guid**.
