@@ -42,25 +42,31 @@ These frameworks are supported:
 
 ## Recently
 
-### Version 0.63.0
+### Version 0.63.1
 
-- Added new class **JsonImplConverter** to use instance types when serializing interfaces to Json.
+- Adds new class **JsonImplConverter** to use instance types when serializing interfaces to Json.
+- Adds string extension methods for removing **head** or **tail** substrings from a string.
+
+  - StringExtensions.**TrimStart**(this string @this, string trimString)
+  - StringExtensions.**TrimStart**(this string @this, params string[] trimStrings)
+  - StringExtensions.**TrimEnd**(this string @this, string trimString)
+  - StringExtensions.**TrimEnd**(this string @this, params string[] trimStrings)
 
 ### Version 0.62.0
 
-- Added a class **Snowflake128** to generate **Snowflake ID128** or **Guid**.
+- Adds a class **Snowflake128** to generate **Snowflake ID128** or **Guid**.
 
 ### Version 0.61.0
 
-- Added a class **Snowflake** to generate **Snowflake ID**.
+- Adds a class **Snowflake** to generate **Snowflake ID**.
 
 ### Version 0.60.0
 
-- Added a method **PadSlide** to create a **Sliding** with padding.
+- Adds a method **PadSlide** to create a **Sliding** with padding.
 
 ### Version 0.59.0
 
-- Added a method group to compares two **floats/doubles** if they are similar.
+- Adds a method group to compares two **floats/doubles** if they are similar.
   - Method group: **MathEx.Approximately**.
   - Similar to **[UnityEngine.Mathf.Approximately](https://docs.unity3d.com/ScriptReference/Mathf.Approximately.html)**, but the tolerance can be specified.
   - **False**: `2.4 + 2.4 - 1.2 == 3.6`
@@ -78,28 +84,28 @@ These frameworks are supported:
 
 ### Version 0.56.1
 
-- Added a new structure: **MinMaxPair**.
+- Adds a new structure: **MinMaxPair**.
 - **AsIndexValuePairs** has been renamed to **Pairs**. 
 
 ### Version 0.54.0
 
-- Added a new method **Clone** to **ValueDiff**, which is used to create a shallow copy of the original object.
+- Adds a new method **Clone** to **ValueDiff**, which is used to create a shallow copy of the original object.
 
 ### Version 0.53.0
 
-- Added new class **ValueDiff**, describing the value of the state difference.
+- Adds new class **ValueDiff**, describing the value of the state difference.
 
 ### Version 0.52.0
 
-- Added **MathEx.Ceiling** for calculations that **round numbers up** to the nearest multiple of significance.
-- Added **MathEx.Floor** for calculations that **round numbers down** to the nearest multiple of significance.
+- Adds **MathEx.Ceiling** for calculations that **round numbers up** to the nearest multiple of significance.
+- Adds **MathEx.Floor** for calculations that **round numbers down** to the nearest multiple of significance.
 - **MathEx.Permutation** is obsolete, use **MathEx.Permut** instead.
 - **MathEx.Combination** is obsolete, use **MathEx.Combin** instead.
 
 ### Version 0.51.0
 
 - Adjusted **JsonXmlSerializer** parsing method.
-- Added new class **Sequence\<T\>**.
+- Adds new class **Sequence\<T\>**.
 - Class **Flated\<T\>** is obsolete, use **Sequence\<T\>** instead.
 
 ### Version 0.50.0
@@ -113,7 +119,7 @@ These frameworks are supported:
 ### Version 0.48.0
 
 - **Breaking change**: Simplified wrapper type implementation **Ref** (reference wrapper).
-- **Breaking change**: Added **Val** type (value wrapper).
+- **Breaking change**: Adds **Val** type (value wrapper).
 - **Breaking change**: Remove **ValueWrapper**, use **Val** instead.
 - **Breaking change**: Remove **VString** (the value wrapper type for **string**), use **Val\<string\>** instead.
 
@@ -127,7 +133,7 @@ These frameworks are supported:
 
 ### Version 0.41.0
 
-- Added new class **HashMap<TKey, TValue>**.
+- Adds new class **HashMap<TKey, TValue>**.
 
   It is a **IDictionary** type that allows the use of **null** key.
 
@@ -138,7 +144,7 @@ These frameworks are supported:
 
 ### Version: 0.38.0
 
-- Added new data structure **Interval\<T\>** for **.NET 7+** to support interval operations.
+- Adds new data structure **Interval\<T\>** for **.NET 7+** to support interval operations.
 
 ### Version: 0.36.0
 

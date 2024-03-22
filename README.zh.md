@@ -43,9 +43,14 @@
 
 ## 最近更新
 
-### 版本：0.63.0
+### 版本：0.63.1
 
 - 添加新类 **JsonImplConverter** 用于使接口按 Json 序列化时使用实例类型。
+- 添加字符串扩展方法，用于从字符串中移除 **头部** 或 **尾部** 的子字符串。
+  - StringExtensions.**TrimStart**(this string @this, string trimString)
+  - StringExtensions.**TrimStart**(this string @this, params string[] trimStrings)
+  - StringExtensions.**TrimEnd**(this string @this, string trimString)
+  - StringExtensions.**TrimEnd**(this string @this, params string[] trimStrings)
 
 ### 版本：0.62.0
 

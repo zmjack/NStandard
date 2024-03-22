@@ -12,8 +12,8 @@ public class RefTests
         Assert.NotEqual(refs[0], refs[1]);
         Assert.NotSame(refs[0], refs[1]);
 
-        Assert.Equal(refs[0].Any, refs[1].Any);
-        Assert.NotSame(refs[0].Any, refs[1].Any);
+        Assert.Equal(refs[0].Target, refs[1].Target);
+        Assert.NotSame(refs[0].Target, refs[1].Target);
     }
 
     [Fact]
@@ -25,8 +25,8 @@ public class RefTests
         Assert.NotEqual(refs[0], refs[1]);
         Assert.NotSame(refs[0], refs[1]);
 
-        Assert.Equal(refs[0].Any, refs[1].Any);
-        Assert.Same(refs[0].Any, refs[1].Any);
+        Assert.Equal(refs[0].Target, refs[1].Target);
+        Assert.Same(refs[0].Target, refs[1].Target);
     }
 
 }

@@ -235,4 +235,18 @@ public class StringExtensionsTests
         Assert.True("안녕".IsMatch(new Regex($"^{Unicode.Korean}+$")));
     }
 
+    [Fact]
+    public void TrimStartTest()
+    {
+        Assert.Equal("/folder", "/root/root/folder".TrimStart("/root"));
+        Assert.Equal("/folder", "/root/sub/folder".TrimStart("/root", "/sub"));
+    }
+
+    [Fact]
+    public void TrimEndTest()
+    {
+        Assert.Equal("/folder", "/folder/root/root".TrimEnd("/root"));
+        Assert.Equal("/folder", "/folder/root/sub".TrimEnd("/root", "/sub"));
+    }
+
 }

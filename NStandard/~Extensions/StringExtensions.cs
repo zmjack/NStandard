@@ -586,4 +586,73 @@ public static class StringExtensions
     [Obsolete("Use Pipe(Encoding.GetEncoding(*).GetBytes) instead.")]
     public static byte[] Bytes(this string @this, string encoding) => Encoding.GetEncoding(encoding).GetBytes(@this);
 
+    /// <summary>
+    /// Removes a string from the beginning of this string.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <param name="trimString"></param>
+    /// <returns></returns>
+    public static string TrimStart(this string @this, string trimString)
+    {
+        if (string.IsNullOrEmpty(trimString)) return @this;
+
+        string ret = @this;
+        while (ret.StartsWith(trimString))
+        {
+            ret = ret.Substring(trimString.Length);
+        }
+        return ret;
+    }
+
+    /// <summary>
+    /// Removes a set of strings from the beginning of this string.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <param name="trimStrings"></param>
+    /// <returns></returns>
+    public static string TrimStart(this string @this, params string[] trimStrings)
+    {
+        var ret = @this;
+        string trimString;
+        while ((trimString = trimStrings.FirstOrDefault(x => !string.IsNullOrEmpty(x) && ret.StartsWith(x))) is not null)
+        {
+            ret = ret.Substring(trimString.Length);
+        }
+        return ret;
+    }
+
+    /// <summary>
+    /// Removes a string from the end of this string.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <param name="trimString"></param>
+    /// <returns></returns>
+    public static string TrimEnd(this string @this, string trimString)
+    {
+        if (string.IsNullOrEmpty(trimString)) return @this;
+
+        string ret = @this;
+        while (ret.EndsWith(trimString))
+        {
+            ret = ret.Substring(0, ret.Length - trimString.Length);
+        }
+        return ret;
+    }
+
+    /// <summary>
+    /// Removes a set of strings from the end of this string.
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="trimStrings"></param>
+    /// <returns></returns>
+    public static string TrimEnd(this string target, params string[] trimStrings)
+    {
+        var ret = target;
+        string trimString;
+        while ((trimString = trimStrings.FirstOrDefault(x => !string.IsNullOrEmpty(x) && ret.EndsWith(x))) is not null)
+        {
+            ret = ret.Substring(0, ret.Length - trimString.Length);
+        }
+        return ret;
+    }
 }

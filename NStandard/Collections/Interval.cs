@@ -64,6 +64,11 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
         {
             return new Range(tuple.Start, tuple.End);
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Range && Equals((Range)obj);
+        }
 #endif
     }
 

@@ -21,6 +21,7 @@ public class JsonTests
         var values = new object[]
         {
             null,
+            1f, 2d,
             float.NaN, float.PositiveInfinity, float.NegativeInfinity,
             float.NaN, float.PositiveInfinity, float.NegativeInfinity,
             double.NaN, double.PositiveInfinity, double.NegativeInfinity,
@@ -28,7 +29,18 @@ public class JsonTests
         };
         foreach (var value in values)
         {
-            Assert.Equal(NewtonsoftJson.SerializeObject(value), SystemJson.Serialize(value, _options));
+            var nresult = NewtonsoftJson.SerializeObject(value);
+            var sresult = SystemJson.Serialize(value, _options);
+
+            if (double.TryParse(nresult, out var n) && double.TryParse(sresult, out var s))
+            {
+                // n is 1.0, but s is 1
+                Assert.Equal(n, s);
+            }
+            else
+            {
+                Assert.Equal(nresult, sresult);
+            }
         }
     }
 
