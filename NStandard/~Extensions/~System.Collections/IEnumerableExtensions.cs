@@ -182,7 +182,39 @@ public static class IEnumerableExtensions
     /// <param name="this"></param>
     /// <param name="capacity"></param>
     /// <param name="sharedCache"></param>
+    /// <param name="mode"></param>
+    /// <param name="pad"></param>
     /// <returns></returns>
+    public static Sliding<T> Slide<T>(this IEnumerable<T> @this, int capacity, bool sharedCache, SlidingMode mode, T pad = default)
+    {
+        return new(@this, capacity, sharedCache, mode, pad, pad);
+    }
+
+    /// <summary>
+    /// Creates a sliding window for the specified enumerable object.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="this"></param>
+    /// <param name="capacity"></param>
+    /// <param name="sharedCache"></param>
+    /// <param name="mode"></param>
+    /// <param name="padLeft"></param>
+    /// <param name="padRight"></param>
+    /// <returns></returns>
+    public static Sliding<T> Slide<T>(this IEnumerable<T> @this, int capacity, bool sharedCache, SlidingMode mode, T padLeft, T padRight)
+    {
+        return new(@this, capacity, sharedCache, mode, padLeft, padRight);
+    }
+
+    /// <summary>
+    /// Creates a sliding window for the specified enumerable object.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="this"></param>
+    /// <param name="capacity"></param>
+    /// <param name="sharedCache"></param>
+    /// <returns></returns>
+    [Obsolete("Use Slide(int capacity, bool sharedCache, SlidingMode mode, T pad) instead.")]
     public static Sliding<T> PadSlide<T>(this IEnumerable<T> @this, int capacity, bool sharedCache)
     {
         List<T> list = [];

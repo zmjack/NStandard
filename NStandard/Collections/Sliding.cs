@@ -14,6 +14,12 @@ public class Sliding<T> : IEnumerable<T[]>
         _enumerator = new(source, capacity, sharedCache);
     }
 
+    public Sliding(IEnumerable<T> source, int capacity, bool sharedCache, SlidingMode mode, T padPeft, T padRight)
+    {
+        if (capacity <= 0) throw new ArgumentOutOfRangeException(nameof(capacity));
+        _enumerator = new(source, capacity, sharedCache, mode, padPeft, padRight);
+    }
+
     public IEnumerator<T[]> GetEnumerator() => _enumerator;
     IEnumerator IEnumerable.GetEnumerator() => _enumerator;
 
@@ -40,6 +46,36 @@ public class Sliding<T> : IEnumerable<T[]>
         public Enumerator(IEnumerable<T> source, int capacity, bool sharedCache) : base(capacity)
         {
             _sourceEnumerator = source.GetEnumerator();
+            _sharedCache = sharedCache;
+        }
+
+        public Enumerator(IEnumerable<T> source, int capacity, bool sharedCache, SlidingMode mode, T padLeft, T padRight) : base(capacity)
+        {
+            IEnumerator<T> Build()
+            {
+                if (mode.HasFlag(SlidingMode.PadLeft))
+                {
+                    for (var i = 0; i < capacity - 1; i++)
+                    {
+                        yield return padLeft;
+                    }
+                }
+
+                foreach (var item in source)
+                {
+                    yield return item;
+                }
+
+                if (mode.HasFlag(SlidingMode.PadRight))
+                {
+                    for (var i = 0; i < capacity - 1; i++)
+                    {
+                        yield return padRight;
+                    }
+                }
+            }
+
+            _sourceEnumerator = Build();
             _sharedCache = sharedCache;
         }
 

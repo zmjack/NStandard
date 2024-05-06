@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using NStandard.Collections;
+using System.Linq;
 using Xunit;
 
 namespace NStandard.Test;
@@ -38,11 +39,27 @@ public class SlidingTests
     }
 
     [Fact]
-    public void Test4()
+    public void PadLeftTest()
     {
         var numbers = new[] { 100, 200, 300 };
-        var result = numbers.PadSlide(2, true).Select(w => w.Sum()).ToArray();
-        Assert.Equal([100, 300, 500, 300], result);
+        var result = numbers.Slide(2, true, SlidingMode.PadLeft, 100).Select(w => w.Sum()).ToArray();
+        Assert.Equal([200, 300, 500], result);
+    }
+
+    [Fact]
+    public void PadRightTest()
+    {
+        var numbers = new[] { 100, 200, 300 };
+        var result = numbers.Slide(2, true, SlidingMode.PadRight, 300).Select(w => w.Sum()).ToArray();
+        Assert.Equal([300, 500, 600], result);
+    }
+
+    [Fact]
+    public void PadBothTest()
+    {
+        var numbers = new[] { 100, 200, 300 };
+        var result = numbers.Slide(2, true, SlidingMode.PadBoth, 50).Select(w => w.Sum()).ToArray();
+        Assert.Equal([150, 300, 500, 350], result);
     }
 
 }

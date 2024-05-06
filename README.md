@@ -42,31 +42,32 @@ These frameworks are supported:
 
 ## Recently
 
-### Version 0.63.1
+### Version 0.63.2
 
-- Adds new class **JsonImplConverter** to use instance types when serializing interfaces to Json.
-- Adds string extension methods for removing **head** or **tail** substrings from a string.
+- Add new class **JsonImplConverter** to use instance types when serializing interfaces to Json.
+- Add string extension methods for removing **head** or **tail** substrings from a string.
 
   - StringExtensions.**TrimStart**(this string @this, string trimString)
   - StringExtensions.**TrimStart**(this string @this, params string[] trimStrings)
   - StringExtensions.**TrimEnd**(this string @this, string trimString)
   - StringExtensions.**TrimEnd**(this string @this, params string[] trimStrings)
+- Provide more options for **Sliding**.
 
 ### Version 0.62.0
 
-- Adds a class **Snowflake128** to generate **Snowflake ID128** or **Guid**.
+- Add a class **Snowflake128** to generate **Snowflake ID128** or **Guid**.
 
 ### Version 0.61.0
 
-- Adds a class **Snowflake** to generate **Snowflake ID**.
+- Add a class **Snowflake** to generate **Snowflake ID**.
 
 ### Version 0.60.0
 
-- Adds a method **PadSlide** to create a **Sliding** with padding.
+- Add a method **PadSlide** to create a **Sliding** with padding.
 
 ### Version 0.59.0
 
-- Adds a method group to compares two **floats/doubles** if they are similar.
+- Add a method group to compares two **floats/doubles** if they are similar.
   - Method group: **MathEx.Approximately**.
   - Similar to **[UnityEngine.Mathf.Approximately](https://docs.unity3d.com/ScriptReference/Mathf.Approximately.html)**, but the tolerance can be specified.
   - **False**: `2.4 + 2.4 - 1.2 == 3.6`
@@ -74,7 +75,7 @@ These frameworks are supported:
 
 ### Version 0.58.0
 
-- Provides singleton interface: **ISingleton\<T\>**.
+- Provide singleton interface: **ISingleton\<T\>**.
 
 ### Version 0.57.0
 
@@ -84,28 +85,28 @@ These frameworks are supported:
 
 ### Version 0.56.1
 
-- Adds a new structure: **MinMaxPair**.
+- Add a new structure: **MinMaxPair**.
 - **AsIndexValuePairs** has been renamed to **Pairs**. 
 
 ### Version 0.54.0
 
-- Adds a new method **Clone** to **ValueDiff**, which is used to create a shallow copy of the original object.
+- Add a new method **Clone** to **ValueDiff**, which is used to create a shallow copy of the original object.
 
 ### Version 0.53.0
 
-- Adds new class **ValueDiff**, describing the value of the state difference.
+- Add new class **ValueDiff**, describing the value of the state difference.
 
 ### Version 0.52.0
 
-- Adds **MathEx.Ceiling** for calculations that **round numbers up** to the nearest multiple of significance.
-- Adds **MathEx.Floor** for calculations that **round numbers down** to the nearest multiple of significance.
+- Add **MathEx.Ceiling** for calculations that **round numbers up** to the nearest multiple of significance.
+- Add **MathEx.Floor** for calculations that **round numbers down** to the nearest multiple of significance.
 - **MathEx.Permutation** is obsolete, use **MathEx.Permut** instead.
 - **MathEx.Combination** is obsolete, use **MathEx.Combin** instead.
 
 ### Version 0.51.0
 
 - Adjusted **JsonXmlSerializer** parsing method.
-- Adds new class **Sequence\<T\>**.
+- Add new class **Sequence\<T\>**.
 - Class **Flated\<T\>** is obsolete, use **Sequence\<T\>** instead.
 
 ### Version 0.50.0
@@ -119,7 +120,7 @@ These frameworks are supported:
 ### Version 0.48.0
 
 - **Breaking change**: Simplified wrapper type implementation **Ref** (reference wrapper).
-- **Breaking change**: Adds **Val** type (value wrapper).
+- **Breaking change**: Add **Val** type (value wrapper).
 - **Breaking change**: Remove **ValueWrapper**, use **Val** instead.
 - **Breaking change**: Remove **VString** (the value wrapper type for **string**), use **Val\<string\>** instead.
 
@@ -133,7 +134,7 @@ These frameworks are supported:
 
 ### Version 0.41.0
 
-- Adds new class **HashMap<TKey, TValue>**.
+- Add new class **HashMap<TKey, TValue>**.
 
   It is a **IDictionary** type that allows the use of **null** key.
 
@@ -144,7 +145,7 @@ These frameworks are supported:
 
 ### Version: 0.38.0
 
-- Adds new data structure **Interval\<T\>** for **.NET 7+** to support interval operations.
+- Add new data structure **Interval\<T\>** for **.NET 7+** to support interval operations.
 
 ### Version: 0.36.0
 
@@ -162,7 +163,7 @@ These frameworks are supported:
 
   **.NET 6** and earlier are calculated every **10'000 ticks**.
 
-  Provides **ToFixed** extension method for rounding **DateTime** every **10 ticks** using **Banker's Rounding**.
+  Provide **ToFixed** extension method for rounding **DateTime** every **10 ticks** using **Banker's Rounding**.
 
   ```csharp
   var dt = new DateTime(2000, 1, 1).AddDays(9.2);
