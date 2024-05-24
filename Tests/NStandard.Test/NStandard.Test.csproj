@@ -5,6 +5,7 @@
     <IsPackable>false</IsPackable>
     <RootNamespace>NStandard.Test</RootNamespace>
     <LangVersion>preview</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

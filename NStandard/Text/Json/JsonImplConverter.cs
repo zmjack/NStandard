@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace NStandard.Text.Json;
 
-public class JsonImplConverter<T> : JsonConverter<T>
+public class JsonImplConverter<T, TInput> : JsonConverter<T>
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -21,7 +21,7 @@ public class JsonImplConverter<T> : JsonConverter<T>
                 break;
 
             default:
-                var type = value.GetType();
+                var type = typeof(TInput);
                 JsonSerializer.Serialize(writer, value, type, options);
                 break;
         }

@@ -42,6 +42,11 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.64.5
+
+- Remove **JsonImplConverterAttribute**.
+- Add **JsonImplAttribute** to declare class to be serialized as the specified interface.
+
 ### Version 0.63.2
 
 - Add new class **JsonImplConverter** to use instance types when serializing interfaces to Json.

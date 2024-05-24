@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using NStandard.Text.Json;
+using System.Collections;
+using System.Text.Json;
 using Xunit;
 using NewtonsoftJson = Newtonsoft.Json.JsonConvert;
 using SystemJson = System.Text.Json.JsonSerializer;
@@ -59,6 +61,40 @@ public class JsonTests
             Assert.Equal(NewtonsoftJson.DeserializeObject<float?>(value), SystemJson.Deserialize<float?>(value, _options));
             Assert.Equal(NewtonsoftJson.DeserializeObject<double?>(value), SystemJson.Deserialize<double?>(value, _options));
         }
+    }
+
+    public interface Int
+    {
+        public int Length { get; set; }
+    }
+    public interface Int2
+    {
+        public int Length2 { get; set; }
+    }
+
+    [JsonImpl<Cls, Int2>]
+    public class Cls : Int, Int2, IEnumerable<int>
+    {
+        public int Length { get; set; }
+        public int Length2 { get; set; }
+
+        public IEnumerator<int> GetEnumerator()
+        {
+            return new int[0].AsEnumerable().GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
+    [Fact]
+    public void FF()
+    {
+        Int2 a = new Cls();
+        var b = SystemJson.Serialize(a);
+        var c = SystemJson.Serialize(a);
     }
 
 }
