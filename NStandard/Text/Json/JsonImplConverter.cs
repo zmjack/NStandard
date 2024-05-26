@@ -5,6 +5,29 @@ using System.Text.Json.Serialization;
 
 namespace NStandard.Text.Json;
 
+public class JsonImplConverter<T> : JsonConverter<T>
+{
+    public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    {
+        switch (value)
+        {
+            case null:
+                JsonSerializer.Serialize(writer, null, options);
+                break;
+
+            default:
+                var type = value.GetType();
+                JsonSerializer.Serialize(writer, value, type, options);
+                break;
+        }
+    }
+}
+
 public class JsonImplConverter<T, TInput> : JsonConverter<T>
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

@@ -63,20 +63,21 @@ public class JsonTests
         }
     }
 
-    public interface Int
+    [JsonImpl<ILength>]
+    public interface ILength
     {
         public int Length { get; set; }
     }
-    public interface Int2
+    public interface INameable
     {
-        public int Length2 { get; set; }
+        public string Name { get; set; }
     }
 
-    [JsonImpl<Cls, Int2>]
-    public class Cls : Int, Int2, IEnumerable<int>
+    [JsonImpl<Cls, INameable>]
+    public class Cls : ILength, INameable, IEnumerable<int>
     {
         public int Length { get; set; }
-        public int Length2 { get; set; }
+        public string Name { get; set; } = nameof(Cls);
 
         public IEnumerator<int> GetEnumerator()
         {
@@ -90,11 +91,16 @@ public class JsonTests
     }
 
     [Fact]
-    public void FF()
+    public void ImplTest()
     {
-        Int2 a = new Cls();
-        var b = SystemJson.Serialize(a);
-        var c = SystemJson.Serialize(a);
+        ILength a = new Cls();
+        Assert.Equal("{\"Name\":\"Cls\"}", SystemJson.Serialize(a));
+
+        INameable b = new Cls();
+        Assert.Equal("{\"Name\":\"Cls\"}", SystemJson.Serialize(b));
+
+        var c = new Cls();
+        Assert.Equal("{\"Name\":\"Cls\"}", SystemJson.Serialize(c));
     }
 
 }

@@ -42,10 +42,11 @@ These frameworks are supported:
 
 ## Recently
 
-### Version 0.64.5
+### Version 0.64.6
 
-- Remove **JsonImplConverterAttribute**.
-- Add **JsonImplAttribute** to declare class to be serialized as the specified interface.
+- Add **JsonImplAttribute\<TSelf\>** to declare interface to be serialized as its instance.
+- Add **JsonImplAttribute\<TSelf, TTarget\>** to declare class to be serialized as the specified interface.
+- Remove **JsonImplConverterAttribute**, use **JsonImplAttribute\<TSelf\>** instead.
 
 ### Version 0.63.2
 

@@ -43,10 +43,11 @@
 
 ## 最近更新
 
-### 版本：0.64.5
+### 版本：0.64.6
 
-- 删除 **JsonImplConverterAttribute**.
-- 添加 **JsonImplAttribute** 用于声明要序列化为指定接口的类。
+- 添加 **JsonImplAttribute\<TSelf\>** 声明要序列化为其实例的接口。
+- 添加 **JsonImplAttribute\<TSelf, TTarget\>** 声明要序列化为指定接口的类。
+- 删除 **JsonImplConverterAttribute\<T\>**，使用 **JsonImplAttribute\<TSelf\>** 代替。
 
 ### 版本：0.63.2
 
