@@ -46,7 +46,7 @@ These frameworks are supported:
 
 - Add **JsonImplAttribute\<TSelf\>** to declare interface to be serialized as its instance.
 - Add **JsonImplAttribute\<TSelf, TTarget\>** to declare class to be serialized as the specified interface.
-- Remove **JsonImplConverterAttribute**, use **JsonImplAttribute\<TSelf\>** instead.
+- Remove **JsonImplConverterAttribute\<T\>**, use **JsonImplAttribute\<TSelf\>** instead.
 
 ### Version 0.63.2
 
