@@ -66,16 +66,23 @@ public class JsonTests
     [JsonImpl<ILength>]
     public interface ILength
     {
-        public int Length { get; set; }
-    }
-    public interface INameable
-    {
-        public string Name { get; set; }
+        int Length { get; set; }
     }
 
-    [JsonImpl<Cls, INameable>]
-    public class Cls : ILength, INameable, IEnumerable<int>
+    [JsonImpl<INameable>]
+    public interface INameable
     {
+        string Name { get; set; }
+    }
+
+    [JsonImpl<Cls, IJson>]
+    public class Cls : ILength, INameable, Cls.IJson, IEnumerable<int>
+    {
+        public interface IJson
+        {
+            string Name { get; set; }
+        }
+
         public int Length { get; set; }
         public string Name { get; set; } = nameof(Cls);
 
