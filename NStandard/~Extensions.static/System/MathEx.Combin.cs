@@ -5,6 +5,24 @@ namespace NStandard;
 
 public static partial class MathEx
 {
+    private class CombinDpContainer : DpContainer<StructTuple<long, long>, long>
+    {
+        public override long StateTransfer(StructTuple<long, long> param)
+        {
+            var (number, chosen) = param;
+
+            var _chosen = number - chosen;
+            if (_chosen < chosen) chosen = _chosen;
+
+            if (chosen == 1) return number;
+            if (chosen == 0) return 1;
+            if (chosen == number) return 1;
+
+            //return MathEx.Permut(number, chosen) / MathEx.Permut(chosen, chosen);
+            return this[StructTuple.Create(number - 1, chosen - 1)] + this[StructTuple.Create(number - 1, chosen)];
+        }
+    }
+
     /// <summary>
     /// Returns the number of combinations for a given number of items.
     /// </summary>
@@ -12,7 +30,7 @@ public static partial class MathEx
     /// <param name="chosen"> The number of items in each combination. </param>
     /// <returns></returns>
     public static int Combin(int number, int chosen)
-    {
+    {        
         if (chosen < 0) throw new ArgumentException("The choice must be non-negative.", nameof(chosen));
         if (number < chosen) throw new ArgumentException("The total must be greater than or equal to the choice.", nameof(chosen));
 
@@ -20,8 +38,8 @@ public static partial class MathEx
         if (chosen == 0) return 1;
         if (chosen == number) return 1;
 
-        // return Permut(number, chosen) / Permut(chosen, chosen);
-        return Combin(number - 1, chosen - 1) + Combin(number - 1, chosen);
+        var dp = new CombinDpContainer();
+        return checked((int)dp[StructTuple.Create((long)number, (long)chosen)]);
     }
 
     /// <summary>
@@ -31,7 +49,7 @@ public static partial class MathEx
     /// <param name="chosen"> The number of items in each combination. </param>
     /// <returns></returns>
     public static long Combin(long number, long chosen)
-    {
+    {        
         if (chosen < 0) throw new ArgumentException("The choice must be non-negative.", nameof(chosen));
         if (number < chosen) throw new ArgumentException("The total must be greater than or equal to the choice.", nameof(chosen));
 
@@ -39,8 +57,8 @@ public static partial class MathEx
         if (chosen == 0) return 1;
         if (chosen == number) return 1;
 
-        // return Permut(number, chosen) / Permut(chosen, chosen);
-        return Combin(number - 1, chosen - 1) + Combin(number - 1, chosen);
+        var dp = new CombinDpContainer();
+        return dp[StructTuple.Create(number, chosen)];
     }
 }
 

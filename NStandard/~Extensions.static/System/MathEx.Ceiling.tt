@@ -25,15 +25,15 @@ private string Code(string type, string postfix = "")
     /// </summary>
     /// <param name="n"> The value that you want to round. </param>
     /// <param name="significance"> The multiple to which you want to round. </param>
-    /// <param name="mode"> When given a nonzero number, this function will round towards zero. </param>
+    /// <param name="awayFromZero"> When given a non-zero number, this function will round away from zero. </param>
     /// <returns></returns>
-    public static {type} Ceiling({type} n, {type} significance, bool mode = false)
+    public static {type} Ceiling({type} n, {type} significance, bool awayFromZero = false)
     {"{"}{(type == "double" ? """
-        
+
         if (double.IsInfinity(n) || double.IsNaN(n)) return double.NaN;
         if (double.IsInfinity(significance) || double.IsNaN(significance)) return double.NaN;
         
-        return (double)Ceiling((decimal)n, (decimal)significance, mode);
+        return (double)Ceiling((decimal)n, (decimal)significance, awayFromZero);
 """ : $"""
 
         if (n == 0{postfix}) return 0{postfix};
@@ -47,7 +47,7 @@ private string Code(string type, string postfix = "")
         if (n > 0{postfix}) return significance * (times + 1{postfix});
         else
         {"{"}
-            if (mode) return significance * (times - 1{postfix});
+            if (awayFromZero) return significance * (times - 1{postfix});
             else return significance * times;
         {"}"}
 """)

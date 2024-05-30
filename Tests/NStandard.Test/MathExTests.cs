@@ -27,6 +27,7 @@ public class MathExTests
         Assert.Equal(2000 * 1999 / 2, MathEx.Combin(2000, 2));
 
         Assert.Equal(1001, MathEx.Combin(14L, 10L));
+        Assert.Equal(536878650, MathEx.Combin(50L, 8L));
     }
 
     [Fact]

@@ -42,7 +42,7 @@ These frameworks are supported:
 
 ## Recently
 
-### Version 0.65.0
+### Version 0.65.1
 
 - Optimize **MathEx.Permut** / **MathEx.Combin** methods and add overflow checks.
 

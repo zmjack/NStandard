@@ -38,7 +38,7 @@ public partial class DpContainerTests
             return new Result
             {
                 CoinCount = preResult.CoinCount + 1,
-                Coins = preResult.Coins.Concat(new[] { take_v }).ToArray(),
+                Coins = [.. preResult.Coins, take_v],
             };
         }
     }
