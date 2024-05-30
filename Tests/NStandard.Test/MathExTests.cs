@@ -13,15 +13,20 @@ public class MathExTests
         Assert.Equal(60, MathEx.Permut(5, 3));
         Assert.Equal(2000, MathEx.Permut(2000, 1));
         Assert.Equal(2000 * 1999, MathEx.Permut(2000, 2));
+
+        Assert.Equal(3632428800, MathEx.Permut(14L, 10L));
+        Assert.Equal(3628800, MathEx.Permut(10L, 10L));
     }
 
     [Fact]
-    public void CombinationTest()
+    public void CombinTest()
     {
         Assert.Equal(1, MathEx.Combin(0, 0));
         Assert.Equal(10, MathEx.Combin(5, 2));
         Assert.Equal(10, MathEx.Combin(5, 3));
         Assert.Equal(2000 * 1999 / 2, MathEx.Combin(2000, 2));
+
+        Assert.Equal(1001, MathEx.Combin(14L, 10L));
     }
 
     [Fact]

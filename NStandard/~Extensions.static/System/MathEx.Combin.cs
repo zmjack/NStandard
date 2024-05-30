@@ -16,13 +16,12 @@ public static partial class MathEx
         if (chosen < 0) throw new ArgumentException("The choice must be non-negative.", nameof(chosen));
         if (number < chosen) throw new ArgumentException("The total must be greater than or equal to the choice.", nameof(chosen));
 
-        if (chosen == 0 || chosen == number) return 1;
-        else
-        {
-            var _chosen = number - chosen;
-            _chosen = _chosen < chosen ? _chosen : chosen;
-            return Permut(number, chosen) / Permut(chosen, chosen);
-        }
+        if (chosen == 1) return number;
+        if (chosen == 0) return 1;
+        if (chosen == number) return 1;
+
+        // return Permut(number, chosen) / Permut(chosen, chosen);
+        return Combin(number - 1, chosen - 1) + Combin(number - 1, chosen);
     }
 
     /// <summary>
@@ -36,13 +35,12 @@ public static partial class MathEx
         if (chosen < 0) throw new ArgumentException("The choice must be non-negative.", nameof(chosen));
         if (number < chosen) throw new ArgumentException("The total must be greater than or equal to the choice.", nameof(chosen));
 
-        if (chosen == 0 || chosen == number) return 1;
-        else
-        {
-            var _chosen = number - chosen;
-            _chosen = _chosen < chosen ? _chosen : chosen;
-            return Permut(number, chosen) / Permut(chosen, chosen);
-        }
+        if (chosen == 1) return number;
+        if (chosen == 0) return 1;
+        if (chosen == number) return 1;
+
+        // return Permut(number, chosen) / Permut(chosen, chosen);
+        return Combin(number - 1, chosen - 1) + Combin(number - 1, chosen);
     }
 }
 

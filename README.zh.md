@@ -43,6 +43,10 @@
 
 ## 最近更新
 
+### 版本：0.65.0
+
+- 优化 **MathEx.Permut** / **MathEx.Combin** 方法，且加入了溢出检查。
+
 ### 版本：0.64.6
 
 - 添加 **JsonImplAttribute\<TSelf\>** 声明要序列化为其实例的接口。

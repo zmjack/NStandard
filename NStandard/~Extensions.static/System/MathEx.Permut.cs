@@ -17,9 +17,12 @@ public static partial class MathEx
         if (number < chosen) throw new ArgumentException("The total must be greater than or equal to the choice.", nameof(chosen));
 
         int ret = 1;
-        for (int i = number; i > number - chosen; i--)
+        checked
         {
-            ret *= i;
+            for (int i = number; i > number - chosen; i--)
+            {
+                ret *= i;
+            }
         }
         return ret;
     }
@@ -36,9 +39,12 @@ public static partial class MathEx
         if (number < chosen) throw new ArgumentException("The total must be greater than or equal to the choice.", nameof(chosen));
 
         long ret = 1;
-        for (long i = number; i > number - chosen; i--)
+        checked
         {
-            ret *= i;
+            for (long i = number; i > number - chosen; i--)
+            {
+                ret *= i;
+            }
         }
         return ret;
     }

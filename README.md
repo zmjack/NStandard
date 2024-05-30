@@ -42,6 +42,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.65.0
+
+- Optimize **MathEx.Permut** / **MathEx.Combin** methods and add overflow checks.
+
 ### Version 0.64.6
 
 - Add **JsonImplAttribute\<TSelf\>** to declare interface to be serialized as its instance.
