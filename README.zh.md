@@ -43,6 +43,11 @@
 
 ## 最近更新
 
+### 版本：0.66.0
+
+- 更改 **Sequence** 类的底层逻辑。
+- 优化 **NStandard.Measures** 命名空间中的类，将底层类型改为 **decimal**。
+
 ### 版本：0.65.1
 
 - 优化 **MathEx.Permut** / **MathEx.Combin** 方法，且加入了溢出检查。

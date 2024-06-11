@@ -20,14 +20,24 @@ public static class <#=_class#>
         var key = pair.Key;
         var div = pair.Value;
 #>
-	public struct <#=key#>(<#=_valueType#> value) : IMeasurable<<#=_valueType#>>
+	public struct <#=key#> : IMeasurable<<#=_underlyingType#>>
 	{
-		public <#=_valueType#> Value { get; set; } = value;
+		public <#=_underlyingType#> Value { get; set; }
+
+        public <#=key#>(<#=_underlyingType#> value) => Value = value;
+<#
+    foreach(var type in _numberTypes)
+    {
+#>
+        public <#=key#>(<#=type#> value) => Value = (<#=_underlyingType#>)value;
+<#
+    }
+#>
 
 		public static <#=key#> operator +(<#=key#> left, <#=key#> right) => new(left.Value + right.Value);
 		public static <#=key#> operator -(<#=key#> left, <#=key#> right) => new(left.Value - right.Value);
-		public static <#=key#> operator *(<#=key#> left, double right) => new(left.Value * right);
-		public static <#=key#> operator /(<#=key#> left, double right) => new(left.Value / right);
+		public static <#=key#> operator *(<#=key#> left, <#=_underlyingType#> right) => new(left.Value * right);
+		public static <#=key#> operator /(<#=key#> left, <#=_underlyingType#> right) => new(left.Value / right);
 		public static <#=key#> operator /(<#=key#> left, <#=key#> right) => left.Value / right.Value;
         
 		public static bool operator ==(<#=key#> left, <#=key#> right) => left.Value == right.Value;
@@ -60,7 +70,15 @@ public static class <#=_class#>
         }
     }
 #>
-        public static implicit operator <#=key#>(double value) => new <#=key#>(value);
+        public static implicit operator <#=key#>(<#=_underlyingType#> value) => new <#=key#>(value);
+<#
+    foreach(var type in _numberTypes)
+    {
+#>
+        public static implicit operator <#=key#>(<#=type#> value) => new((<#=_underlyingType#>)value);
+<#
+    }
+#>
 
 		public override string ToString() => $"{Value} <#=key.ToLower()#>";
 	}
@@ -89,7 +107,8 @@ public static class <#=_class#>Extensions
 
 <#+
 private readonly string _class = "Length";
-private readonly string _valueType = "double";
+private readonly string _underlyingType = "decimal";
+private readonly string[] _numberTypes = ["short", "int", "long", "ushort", "uint", "ulong", "float", "double"];
 
 private readonly Dictionary<string, int> _dict = new()
 {

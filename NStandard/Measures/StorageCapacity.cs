@@ -8,14 +8,24 @@ namespace NStandard.Measures;
 
 public static class StorageCapacity
 {
-	public struct b(double value) : IMeasurable<double>
+	public struct b : IMeasurable<decimal>
 	{
-		public double Value { get; set; } = value;
+		public decimal Value { get; set; }
+
+        public b(decimal value) => Value = value;
+        public b(short value) => Value = (decimal)value;
+        public b(int value) => Value = (decimal)value;
+        public b(long value) => Value = (decimal)value;
+        public b(ushort value) => Value = (decimal)value;
+        public b(uint value) => Value = (decimal)value;
+        public b(ulong value) => Value = (decimal)value;
+        public b(float value) => Value = (decimal)value;
+        public b(double value) => Value = (decimal)value;
 
 		public static b operator +(b left, b right) => new(left.Value + right.Value);
 		public static b operator -(b left, b right) => new(left.Value - right.Value);
-		public static b operator *(b left, double right) => new(left.Value * right);
-		public static b operator /(b left, double right) => new(left.Value / right);
+		public static b operator *(b left, decimal right) => new(left.Value * right);
+		public static b operator /(b left, decimal right) => new(left.Value / right);
 		public static b operator /(b left, b right) => left.Value / right.Value;
         
 		public static bool operator ==(b left, b right) => left.Value == right.Value;
@@ -36,19 +46,37 @@ public static class StorageCapacity
 		public static explicit operator b(GB other) => new(other.Value * 8589934592);
 		public static explicit operator b(TB other) => new(other.Value * 8796093022208);
 		public static explicit operator b(PB other) => new(other.Value * 9007199254740992);
-        public static implicit operator b(double value) => new b(value);
+        public static implicit operator b(decimal value) => new b(value);
+        public static implicit operator b(short value) => new((decimal)value);
+        public static implicit operator b(int value) => new((decimal)value);
+        public static implicit operator b(long value) => new((decimal)value);
+        public static implicit operator b(ushort value) => new((decimal)value);
+        public static implicit operator b(uint value) => new((decimal)value);
+        public static implicit operator b(ulong value) => new((decimal)value);
+        public static implicit operator b(float value) => new((decimal)value);
+        public static implicit operator b(double value) => new((decimal)value);
 
 		public override string ToString() => $"{Value} b";
 	}
 
-	public struct kb(double value) : IMeasurable<double>
+	public struct kb : IMeasurable<decimal>
 	{
-		public double Value { get; set; } = value;
+		public decimal Value { get; set; }
+
+        public kb(decimal value) => Value = value;
+        public kb(short value) => Value = (decimal)value;
+        public kb(int value) => Value = (decimal)value;
+        public kb(long value) => Value = (decimal)value;
+        public kb(ushort value) => Value = (decimal)value;
+        public kb(uint value) => Value = (decimal)value;
+        public kb(ulong value) => Value = (decimal)value;
+        public kb(float value) => Value = (decimal)value;
+        public kb(double value) => Value = (decimal)value;
 
 		public static kb operator +(kb left, kb right) => new(left.Value + right.Value);
 		public static kb operator -(kb left, kb right) => new(left.Value - right.Value);
-		public static kb operator *(kb left, double right) => new(left.Value * right);
-		public static kb operator /(kb left, double right) => new(left.Value / right);
+		public static kb operator *(kb left, decimal right) => new(left.Value * right);
+		public static kb operator /(kb left, decimal right) => new(left.Value / right);
 		public static kb operator /(kb left, kb right) => left.Value / right.Value;
         
 		public static bool operator ==(kb left, kb right) => left.Value == right.Value;
@@ -69,19 +97,37 @@ public static class StorageCapacity
 		public static explicit operator kb(GB other) => new(other.Value * 8388608);
 		public static explicit operator kb(TB other) => new(other.Value * 8589934592);
 		public static explicit operator kb(PB other) => new(other.Value * 8796093022208);
-        public static implicit operator kb(double value) => new kb(value);
+        public static implicit operator kb(decimal value) => new kb(value);
+        public static implicit operator kb(short value) => new((decimal)value);
+        public static implicit operator kb(int value) => new((decimal)value);
+        public static implicit operator kb(long value) => new((decimal)value);
+        public static implicit operator kb(ushort value) => new((decimal)value);
+        public static implicit operator kb(uint value) => new((decimal)value);
+        public static implicit operator kb(ulong value) => new((decimal)value);
+        public static implicit operator kb(float value) => new((decimal)value);
+        public static implicit operator kb(double value) => new((decimal)value);
 
 		public override string ToString() => $"{Value} kb";
 	}
 
-	public struct mb(double value) : IMeasurable<double>
+	public struct mb : IMeasurable<decimal>
 	{
-		public double Value { get; set; } = value;
+		public decimal Value { get; set; }
+
+        public mb(decimal value) => Value = value;
+        public mb(short value) => Value = (decimal)value;
+        public mb(int value) => Value = (decimal)value;
+        public mb(long value) => Value = (decimal)value;
+        public mb(ushort value) => Value = (decimal)value;
+        public mb(uint value) => Value = (decimal)value;
+        public mb(ulong value) => Value = (decimal)value;
+        public mb(float value) => Value = (decimal)value;
+        public mb(double value) => Value = (decimal)value;
 
 		public static mb operator +(mb left, mb right) => new(left.Value + right.Value);
 		public static mb operator -(mb left, mb right) => new(left.Value - right.Value);
-		public static mb operator *(mb left, double right) => new(left.Value * right);
-		public static mb operator /(mb left, double right) => new(left.Value / right);
+		public static mb operator *(mb left, decimal right) => new(left.Value * right);
+		public static mb operator /(mb left, decimal right) => new(left.Value / right);
 		public static mb operator /(mb left, mb right) => left.Value / right.Value;
         
 		public static bool operator ==(mb left, mb right) => left.Value == right.Value;
@@ -102,19 +148,37 @@ public static class StorageCapacity
 		public static explicit operator mb(GB other) => new(other.Value * 8192);
 		public static explicit operator mb(TB other) => new(other.Value * 8388608);
 		public static explicit operator mb(PB other) => new(other.Value * 8589934592);
-        public static implicit operator mb(double value) => new mb(value);
+        public static implicit operator mb(decimal value) => new mb(value);
+        public static implicit operator mb(short value) => new((decimal)value);
+        public static implicit operator mb(int value) => new((decimal)value);
+        public static implicit operator mb(long value) => new((decimal)value);
+        public static implicit operator mb(ushort value) => new((decimal)value);
+        public static implicit operator mb(uint value) => new((decimal)value);
+        public static implicit operator mb(ulong value) => new((decimal)value);
+        public static implicit operator mb(float value) => new((decimal)value);
+        public static implicit operator mb(double value) => new((decimal)value);
 
 		public override string ToString() => $"{Value} mb";
 	}
 
-	public struct gb(double value) : IMeasurable<double>
+	public struct gb : IMeasurable<decimal>
 	{
-		public double Value { get; set; } = value;
+		public decimal Value { get; set; }
+
+        public gb(decimal value) => Value = value;
+        public gb(short value) => Value = (decimal)value;
+        public gb(int value) => Value = (decimal)value;
+        public gb(long value) => Value = (decimal)value;
+        public gb(ushort value) => Value = (decimal)value;
+        public gb(uint value) => Value = (decimal)value;
+        public gb(ulong value) => Value = (decimal)value;
+        public gb(float value) => Value = (decimal)value;
+        public gb(double value) => Value = (decimal)value;
 
 		public static gb operator +(gb left, gb right) => new(left.Value + right.Value);
 		public static gb operator -(gb left, gb right) => new(left.Value - right.Value);
-		public static gb operator *(gb left, double right) => new(left.Value * right);
-		public static gb operator /(gb left, double right) => new(left.Value / right);
+		public static gb operator *(gb left, decimal right) => new(left.Value * right);
+		public static gb operator /(gb left, decimal right) => new(left.Value / right);
 		public static gb operator /(gb left, gb right) => left.Value / right.Value;
         
 		public static bool operator ==(gb left, gb right) => left.Value == right.Value;
@@ -135,19 +199,37 @@ public static class StorageCapacity
 		public static explicit operator gb(GB other) => new(other.Value * 8);
 		public static explicit operator gb(TB other) => new(other.Value * 8192);
 		public static explicit operator gb(PB other) => new(other.Value * 8388608);
-        public static implicit operator gb(double value) => new gb(value);
+        public static implicit operator gb(decimal value) => new gb(value);
+        public static implicit operator gb(short value) => new((decimal)value);
+        public static implicit operator gb(int value) => new((decimal)value);
+        public static implicit operator gb(long value) => new((decimal)value);
+        public static implicit operator gb(ushort value) => new((decimal)value);
+        public static implicit operator gb(uint value) => new((decimal)value);
+        public static implicit operator gb(ulong value) => new((decimal)value);
+        public static implicit operator gb(float value) => new((decimal)value);
+        public static implicit operator gb(double value) => new((decimal)value);
 
 		public override string ToString() => $"{Value} gb";
 	}
 
-	public struct tb(double value) : IMeasurable<double>
+	public struct tb : IMeasurable<decimal>
 	{
-		public double Value { get; set; } = value;
+		public decimal Value { get; set; }
+
+        public tb(decimal value) => Value = value;
+        public tb(short value) => Value = (decimal)value;
+        public tb(int value) => Value = (decimal)value;
+        public tb(long value) => Value = (decimal)value;
+        public tb(ushort value) => Value = (decimal)value;
+        public tb(uint value) => Value = (decimal)value;
+        public tb(ulong value) => Value = (decimal)value;
+        public tb(float value) => Value = (decimal)value;
+        public tb(double value) => Value = (decimal)value;
 
 		public static tb operator +(tb left, tb right) => new(left.Value + right.Value);
 		public static tb operator -(tb left, tb right) => new(left.Value - right.Value);
-		public static tb operator *(tb left, double right) => new(left.Value * right);
-		public static tb operator /(tb left, double right) => new(left.Value / right);
+		public static tb operator *(tb left, decimal right) => new(left.Value * right);
+		public static tb operator /(tb left, decimal right) => new(left.Value / right);
 		public static tb operator /(tb left, tb right) => left.Value / right.Value;
         
 		public static bool operator ==(tb left, tb right) => left.Value == right.Value;
@@ -168,19 +250,37 @@ public static class StorageCapacity
 		public static explicit operator tb(GB other) => new(other.Value / 128);
 		public static explicit operator tb(TB other) => new(other.Value * 8);
 		public static explicit operator tb(PB other) => new(other.Value * 8192);
-        public static implicit operator tb(double value) => new tb(value);
+        public static implicit operator tb(decimal value) => new tb(value);
+        public static implicit operator tb(short value) => new((decimal)value);
+        public static implicit operator tb(int value) => new((decimal)value);
+        public static implicit operator tb(long value) => new((decimal)value);
+        public static implicit operator tb(ushort value) => new((decimal)value);
+        public static implicit operator tb(uint value) => new((decimal)value);
+        public static implicit operator tb(ulong value) => new((decimal)value);
+        public static implicit operator tb(float value) => new((decimal)value);
+        public static implicit operator tb(double value) => new((decimal)value);
 
 		public override string ToString() => $"{Value} tb";
 	}
 
-	public struct pb(double value) : IMeasurable<double>
+	public struct pb : IMeasurable<decimal>
 	{
-		public double Value { get; set; } = value;
+		public decimal Value { get; set; }
+
+        public pb(decimal value) => Value = value;
+        public pb(short value) => Value = (decimal)value;
+        public pb(int value) => Value = (decimal)value;
+        public pb(long value) => Value = (decimal)value;
+        public pb(ushort value) => Value = (decimal)value;
+        public pb(uint value) => Value = (decimal)value;
+        public pb(ulong value) => Value = (decimal)value;
+        public pb(float value) => Value = (decimal)value;
+        public pb(double value) => Value = (decimal)value;
 
 		public static pb operator +(pb left, pb right) => new(left.Value + right.Value);
 		public static pb operator -(pb left, pb right) => new(left.Value - right.Value);
-		public static pb operator *(pb left, double right) => new(left.Value * right);
-		public static pb operator /(pb left, double right) => new(left.Value / right);
+		public static pb operator *(pb left, decimal right) => new(left.Value * right);
+		public static pb operator /(pb left, decimal right) => new(left.Value / right);
 		public static pb operator /(pb left, pb right) => left.Value / right.Value;
         
 		public static bool operator ==(pb left, pb right) => left.Value == right.Value;
@@ -201,19 +301,37 @@ public static class StorageCapacity
 		public static explicit operator pb(GB other) => new(other.Value / 131072);
 		public static explicit operator pb(TB other) => new(other.Value / 128);
 		public static explicit operator pb(PB other) => new(other.Value * 8);
-        public static implicit operator pb(double value) => new pb(value);
+        public static implicit operator pb(decimal value) => new pb(value);
+        public static implicit operator pb(short value) => new((decimal)value);
+        public static implicit operator pb(int value) => new((decimal)value);
+        public static implicit operator pb(long value) => new((decimal)value);
+        public static implicit operator pb(ushort value) => new((decimal)value);
+        public static implicit operator pb(uint value) => new((decimal)value);
+        public static implicit operator pb(ulong value) => new((decimal)value);
+        public static implicit operator pb(float value) => new((decimal)value);
+        public static implicit operator pb(double value) => new((decimal)value);
 
 		public override string ToString() => $"{Value} pb";
 	}
 
-	public struct B(double value) : IMeasurable<double>
+	public struct B : IMeasurable<decimal>
 	{
-		public double Value { get; set; } = value;
+		public decimal Value { get; set; }
+
+        public B(decimal value) => Value = value;
+        public B(short value) => Value = (decimal)value;
+        public B(int value) => Value = (decimal)value;
+        public B(long value) => Value = (decimal)value;
+        public B(ushort value) => Value = (decimal)value;
+        public B(uint value) => Value = (decimal)value;
+        public B(ulong value) => Value = (decimal)value;
+        public B(float value) => Value = (decimal)value;
+        public B(double value) => Value = (decimal)value;
 
 		public static B operator +(B left, B right) => new(left.Value + right.Value);
 		public static B operator -(B left, B right) => new(left.Value - right.Value);
-		public static B operator *(B left, double right) => new(left.Value * right);
-		public static B operator /(B left, double right) => new(left.Value / right);
+		public static B operator *(B left, decimal right) => new(left.Value * right);
+		public static B operator /(B left, decimal right) => new(left.Value / right);
 		public static B operator /(B left, B right) => left.Value / right.Value;
         
 		public static bool operator ==(B left, B right) => left.Value == right.Value;
@@ -234,19 +352,37 @@ public static class StorageCapacity
 		public static explicit operator B(GB other) => new(other.Value * 1073741824);
 		public static explicit operator B(TB other) => new(other.Value * 1099511627776);
 		public static explicit operator B(PB other) => new(other.Value * 1125899906842624);
-        public static implicit operator B(double value) => new B(value);
+        public static implicit operator B(decimal value) => new B(value);
+        public static implicit operator B(short value) => new((decimal)value);
+        public static implicit operator B(int value) => new((decimal)value);
+        public static implicit operator B(long value) => new((decimal)value);
+        public static implicit operator B(ushort value) => new((decimal)value);
+        public static implicit operator B(uint value) => new((decimal)value);
+        public static implicit operator B(ulong value) => new((decimal)value);
+        public static implicit operator B(float value) => new((decimal)value);
+        public static implicit operator B(double value) => new((decimal)value);
 
-		public override string ToString() => $"{Value} B";
+		public override string ToString() => $"{Value} b";
 	}
 
-	public struct KB(double value) : IMeasurable<double>
+	public struct KB : IMeasurable<decimal>
 	{
-		public double Value { get; set; } = value;
+		public decimal Value { get; set; }
+
+        public KB(decimal value) => Value = value;
+        public KB(short value) => Value = (decimal)value;
+        public KB(int value) => Value = (decimal)value;
+        public KB(long value) => Value = (decimal)value;
+        public KB(ushort value) => Value = (decimal)value;
+        public KB(uint value) => Value = (decimal)value;
+        public KB(ulong value) => Value = (decimal)value;
+        public KB(float value) => Value = (decimal)value;
+        public KB(double value) => Value = (decimal)value;
 
 		public static KB operator +(KB left, KB right) => new(left.Value + right.Value);
 		public static KB operator -(KB left, KB right) => new(left.Value - right.Value);
-		public static KB operator *(KB left, double right) => new(left.Value * right);
-		public static KB operator /(KB left, double right) => new(left.Value / right);
+		public static KB operator *(KB left, decimal right) => new(left.Value * right);
+		public static KB operator /(KB left, decimal right) => new(left.Value / right);
 		public static KB operator /(KB left, KB right) => left.Value / right.Value;
         
 		public static bool operator ==(KB left, KB right) => left.Value == right.Value;
@@ -267,19 +403,37 @@ public static class StorageCapacity
 		public static explicit operator KB(GB other) => new(other.Value * 1048576);
 		public static explicit operator KB(TB other) => new(other.Value * 1073741824);
 		public static explicit operator KB(PB other) => new(other.Value * 1099511627776);
-        public static implicit operator KB(double value) => new KB(value);
+        public static implicit operator KB(decimal value) => new KB(value);
+        public static implicit operator KB(short value) => new((decimal)value);
+        public static implicit operator KB(int value) => new((decimal)value);
+        public static implicit operator KB(long value) => new((decimal)value);
+        public static implicit operator KB(ushort value) => new((decimal)value);
+        public static implicit operator KB(uint value) => new((decimal)value);
+        public static implicit operator KB(ulong value) => new((decimal)value);
+        public static implicit operator KB(float value) => new((decimal)value);
+        public static implicit operator KB(double value) => new((decimal)value);
 
-		public override string ToString() => $"{Value} KB";
+		public override string ToString() => $"{Value} kb";
 	}
 
-	public struct MB(double value) : IMeasurable<double>
+	public struct MB : IMeasurable<decimal>
 	{
-		public double Value { get; set; } = value;
+		public decimal Value { get; set; }
+
+        public MB(decimal value) => Value = value;
+        public MB(short value) => Value = (decimal)value;
+        public MB(int value) => Value = (decimal)value;
+        public MB(long value) => Value = (decimal)value;
+        public MB(ushort value) => Value = (decimal)value;
+        public MB(uint value) => Value = (decimal)value;
+        public MB(ulong value) => Value = (decimal)value;
+        public MB(float value) => Value = (decimal)value;
+        public MB(double value) => Value = (decimal)value;
 
 		public static MB operator +(MB left, MB right) => new(left.Value + right.Value);
 		public static MB operator -(MB left, MB right) => new(left.Value - right.Value);
-		public static MB operator *(MB left, double right) => new(left.Value * right);
-		public static MB operator /(MB left, double right) => new(left.Value / right);
+		public static MB operator *(MB left, decimal right) => new(left.Value * right);
+		public static MB operator /(MB left, decimal right) => new(left.Value / right);
 		public static MB operator /(MB left, MB right) => left.Value / right.Value;
         
 		public static bool operator ==(MB left, MB right) => left.Value == right.Value;
@@ -300,19 +454,37 @@ public static class StorageCapacity
 		public static explicit operator MB(GB other) => new(other.Value * 1024);
 		public static explicit operator MB(TB other) => new(other.Value * 1048576);
 		public static explicit operator MB(PB other) => new(other.Value * 1073741824);
-        public static implicit operator MB(double value) => new MB(value);
+        public static implicit operator MB(decimal value) => new MB(value);
+        public static implicit operator MB(short value) => new((decimal)value);
+        public static implicit operator MB(int value) => new((decimal)value);
+        public static implicit operator MB(long value) => new((decimal)value);
+        public static implicit operator MB(ushort value) => new((decimal)value);
+        public static implicit operator MB(uint value) => new((decimal)value);
+        public static implicit operator MB(ulong value) => new((decimal)value);
+        public static implicit operator MB(float value) => new((decimal)value);
+        public static implicit operator MB(double value) => new((decimal)value);
 
-		public override string ToString() => $"{Value} MB";
+		public override string ToString() => $"{Value} mb";
 	}
 
-	public struct GB(double value) : IMeasurable<double>
+	public struct GB : IMeasurable<decimal>
 	{
-		public double Value { get; set; } = value;
+		public decimal Value { get; set; }
+
+        public GB(decimal value) => Value = value;
+        public GB(short value) => Value = (decimal)value;
+        public GB(int value) => Value = (decimal)value;
+        public GB(long value) => Value = (decimal)value;
+        public GB(ushort value) => Value = (decimal)value;
+        public GB(uint value) => Value = (decimal)value;
+        public GB(ulong value) => Value = (decimal)value;
+        public GB(float value) => Value = (decimal)value;
+        public GB(double value) => Value = (decimal)value;
 
 		public static GB operator +(GB left, GB right) => new(left.Value + right.Value);
 		public static GB operator -(GB left, GB right) => new(left.Value - right.Value);
-		public static GB operator *(GB left, double right) => new(left.Value * right);
-		public static GB operator /(GB left, double right) => new(left.Value / right);
+		public static GB operator *(GB left, decimal right) => new(left.Value * right);
+		public static GB operator /(GB left, decimal right) => new(left.Value / right);
 		public static GB operator /(GB left, GB right) => left.Value / right.Value;
         
 		public static bool operator ==(GB left, GB right) => left.Value == right.Value;
@@ -333,19 +505,37 @@ public static class StorageCapacity
 		public static explicit operator GB(MB other) => new(other.Value / 1024);
 		public static explicit operator GB(TB other) => new(other.Value * 1024);
 		public static explicit operator GB(PB other) => new(other.Value * 1048576);
-        public static implicit operator GB(double value) => new GB(value);
+        public static implicit operator GB(decimal value) => new GB(value);
+        public static implicit operator GB(short value) => new((decimal)value);
+        public static implicit operator GB(int value) => new((decimal)value);
+        public static implicit operator GB(long value) => new((decimal)value);
+        public static implicit operator GB(ushort value) => new((decimal)value);
+        public static implicit operator GB(uint value) => new((decimal)value);
+        public static implicit operator GB(ulong value) => new((decimal)value);
+        public static implicit operator GB(float value) => new((decimal)value);
+        public static implicit operator GB(double value) => new((decimal)value);
 
-		public override string ToString() => $"{Value} GB";
+		public override string ToString() => $"{Value} gb";
 	}
 
-	public struct TB(double value) : IMeasurable<double>
+	public struct TB : IMeasurable<decimal>
 	{
-		public double Value { get; set; } = value;
+		public decimal Value { get; set; }
+
+        public TB(decimal value) => Value = value;
+        public TB(short value) => Value = (decimal)value;
+        public TB(int value) => Value = (decimal)value;
+        public TB(long value) => Value = (decimal)value;
+        public TB(ushort value) => Value = (decimal)value;
+        public TB(uint value) => Value = (decimal)value;
+        public TB(ulong value) => Value = (decimal)value;
+        public TB(float value) => Value = (decimal)value;
+        public TB(double value) => Value = (decimal)value;
 
 		public static TB operator +(TB left, TB right) => new(left.Value + right.Value);
 		public static TB operator -(TB left, TB right) => new(left.Value - right.Value);
-		public static TB operator *(TB left, double right) => new(left.Value * right);
-		public static TB operator /(TB left, double right) => new(left.Value / right);
+		public static TB operator *(TB left, decimal right) => new(left.Value * right);
+		public static TB operator /(TB left, decimal right) => new(left.Value / right);
 		public static TB operator /(TB left, TB right) => left.Value / right.Value;
         
 		public static bool operator ==(TB left, TB right) => left.Value == right.Value;
@@ -366,19 +556,37 @@ public static class StorageCapacity
 		public static explicit operator TB(MB other) => new(other.Value / 1048576);
 		public static explicit operator TB(GB other) => new(other.Value / 1024);
 		public static explicit operator TB(PB other) => new(other.Value * 1024);
-        public static implicit operator TB(double value) => new TB(value);
+        public static implicit operator TB(decimal value) => new TB(value);
+        public static implicit operator TB(short value) => new((decimal)value);
+        public static implicit operator TB(int value) => new((decimal)value);
+        public static implicit operator TB(long value) => new((decimal)value);
+        public static implicit operator TB(ushort value) => new((decimal)value);
+        public static implicit operator TB(uint value) => new((decimal)value);
+        public static implicit operator TB(ulong value) => new((decimal)value);
+        public static implicit operator TB(float value) => new((decimal)value);
+        public static implicit operator TB(double value) => new((decimal)value);
 
-		public override string ToString() => $"{Value} TB";
+		public override string ToString() => $"{Value} tb";
 	}
 
-	public struct PB(double value) : IMeasurable<double>
+	public struct PB : IMeasurable<decimal>
 	{
-		public double Value { get; set; } = value;
+		public decimal Value { get; set; }
+
+        public PB(decimal value) => Value = value;
+        public PB(short value) => Value = (decimal)value;
+        public PB(int value) => Value = (decimal)value;
+        public PB(long value) => Value = (decimal)value;
+        public PB(ushort value) => Value = (decimal)value;
+        public PB(uint value) => Value = (decimal)value;
+        public PB(ulong value) => Value = (decimal)value;
+        public PB(float value) => Value = (decimal)value;
+        public PB(double value) => Value = (decimal)value;
 
 		public static PB operator +(PB left, PB right) => new(left.Value + right.Value);
 		public static PB operator -(PB left, PB right) => new(left.Value - right.Value);
-		public static PB operator *(PB left, double right) => new(left.Value * right);
-		public static PB operator /(PB left, double right) => new(left.Value / right);
+		public static PB operator *(PB left, decimal right) => new(left.Value * right);
+		public static PB operator /(PB left, decimal right) => new(left.Value / right);
 		public static PB operator /(PB left, PB right) => left.Value / right.Value;
         
 		public static bool operator ==(PB left, PB right) => left.Value == right.Value;
@@ -399,9 +607,17 @@ public static class StorageCapacity
 		public static explicit operator PB(MB other) => new(other.Value / 1073741824);
 		public static explicit operator PB(GB other) => new(other.Value / 1048576);
 		public static explicit operator PB(TB other) => new(other.Value / 1024);
-        public static implicit operator PB(double value) => new PB(value);
+        public static implicit operator PB(decimal value) => new PB(value);
+        public static implicit operator PB(short value) => new((decimal)value);
+        public static implicit operator PB(int value) => new((decimal)value);
+        public static implicit operator PB(long value) => new((decimal)value);
+        public static implicit operator PB(ushort value) => new((decimal)value);
+        public static implicit operator PB(uint value) => new((decimal)value);
+        public static implicit operator PB(ulong value) => new((decimal)value);
+        public static implicit operator PB(float value) => new((decimal)value);
+        public static implicit operator PB(double value) => new((decimal)value);
 
-		public override string ToString() => $"{Value} PB";
+		public override string ToString() => $"{Value} pb";
 	}
 
 }

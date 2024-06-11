@@ -8,14 +8,24 @@ namespace NStandard.Measures;
 
 public static class Weight
 {
-	public struct g(double value) : IMeasurable<double>
+	public struct g : IMeasurable<decimal>
 	{
-		public double Value { get; set; } = value;
+		public decimal Value { get; set; }
+
+        public g(decimal value) => Value = value;
+        public g(short value) => Value = (decimal)value;
+        public g(int value) => Value = (decimal)value;
+        public g(long value) => Value = (decimal)value;
+        public g(ushort value) => Value = (decimal)value;
+        public g(uint value) => Value = (decimal)value;
+        public g(ulong value) => Value = (decimal)value;
+        public g(float value) => Value = (decimal)value;
+        public g(double value) => Value = (decimal)value;
 
 		public static g operator +(g left, g right) => new(left.Value + right.Value);
 		public static g operator -(g left, g right) => new(left.Value - right.Value);
-		public static g operator *(g left, double right) => new(left.Value * right);
-		public static g operator /(g left, double right) => new(left.Value / right);
+		public static g operator *(g left, decimal right) => new(left.Value * right);
+		public static g operator /(g left, decimal right) => new(left.Value / right);
 		public static g operator /(g left, g right) => left.Value / right.Value;
         
 		public static bool operator ==(g left, g right) => left.Value == right.Value;
@@ -27,19 +37,37 @@ public static class Weight
         
 		public static explicit operator g(kg other) => new(other.Value * 1000);
 		public static explicit operator g(t other) => new(other.Value * 1000000);
-        public static implicit operator g(double value) => new g(value);
+        public static implicit operator g(decimal value) => new g(value);
+        public static implicit operator g(short value) => new((decimal)value);
+        public static implicit operator g(int value) => new((decimal)value);
+        public static implicit operator g(long value) => new((decimal)value);
+        public static implicit operator g(ushort value) => new((decimal)value);
+        public static implicit operator g(uint value) => new((decimal)value);
+        public static implicit operator g(ulong value) => new((decimal)value);
+        public static implicit operator g(float value) => new((decimal)value);
+        public static implicit operator g(double value) => new((decimal)value);
 
 		public override string ToString() => $"{Value} g";
 	}
 
-	public struct kg(double value) : IMeasurable<double>
+	public struct kg : IMeasurable<decimal>
 	{
-		public double Value { get; set; } = value;
+		public decimal Value { get; set; }
+
+        public kg(decimal value) => Value = value;
+        public kg(short value) => Value = (decimal)value;
+        public kg(int value) => Value = (decimal)value;
+        public kg(long value) => Value = (decimal)value;
+        public kg(ushort value) => Value = (decimal)value;
+        public kg(uint value) => Value = (decimal)value;
+        public kg(ulong value) => Value = (decimal)value;
+        public kg(float value) => Value = (decimal)value;
+        public kg(double value) => Value = (decimal)value;
 
 		public static kg operator +(kg left, kg right) => new(left.Value + right.Value);
 		public static kg operator -(kg left, kg right) => new(left.Value - right.Value);
-		public static kg operator *(kg left, double right) => new(left.Value * right);
-		public static kg operator /(kg left, double right) => new(left.Value / right);
+		public static kg operator *(kg left, decimal right) => new(left.Value * right);
+		public static kg operator /(kg left, decimal right) => new(left.Value / right);
 		public static kg operator /(kg left, kg right) => left.Value / right.Value;
         
 		public static bool operator ==(kg left, kg right) => left.Value == right.Value;
@@ -51,19 +79,37 @@ public static class Weight
         
 		public static explicit operator kg(g other) => new(other.Value / 1000);
 		public static explicit operator kg(t other) => new(other.Value * 1000);
-        public static implicit operator kg(double value) => new kg(value);
+        public static implicit operator kg(decimal value) => new kg(value);
+        public static implicit operator kg(short value) => new((decimal)value);
+        public static implicit operator kg(int value) => new((decimal)value);
+        public static implicit operator kg(long value) => new((decimal)value);
+        public static implicit operator kg(ushort value) => new((decimal)value);
+        public static implicit operator kg(uint value) => new((decimal)value);
+        public static implicit operator kg(ulong value) => new((decimal)value);
+        public static implicit operator kg(float value) => new((decimal)value);
+        public static implicit operator kg(double value) => new((decimal)value);
 
 		public override string ToString() => $"{Value} kg";
 	}
 
-	public struct t(double value) : IMeasurable<double>
+	public struct t : IMeasurable<decimal>
 	{
-		public double Value { get; set; } = value;
+		public decimal Value { get; set; }
+
+        public t(decimal value) => Value = value;
+        public t(short value) => Value = (decimal)value;
+        public t(int value) => Value = (decimal)value;
+        public t(long value) => Value = (decimal)value;
+        public t(ushort value) => Value = (decimal)value;
+        public t(uint value) => Value = (decimal)value;
+        public t(ulong value) => Value = (decimal)value;
+        public t(float value) => Value = (decimal)value;
+        public t(double value) => Value = (decimal)value;
 
 		public static t operator +(t left, t right) => new(left.Value + right.Value);
 		public static t operator -(t left, t right) => new(left.Value - right.Value);
-		public static t operator *(t left, double right) => new(left.Value * right);
-		public static t operator /(t left, double right) => new(left.Value / right);
+		public static t operator *(t left, decimal right) => new(left.Value * right);
+		public static t operator /(t left, decimal right) => new(left.Value / right);
 		public static t operator /(t left, t right) => left.Value / right.Value;
         
 		public static bool operator ==(t left, t right) => left.Value == right.Value;
@@ -75,7 +121,15 @@ public static class Weight
         
 		public static explicit operator t(g other) => new(other.Value / 1000000);
 		public static explicit operator t(kg other) => new(other.Value / 1000);
-        public static implicit operator t(double value) => new t(value);
+        public static implicit operator t(decimal value) => new t(value);
+        public static implicit operator t(short value) => new((decimal)value);
+        public static implicit operator t(int value) => new((decimal)value);
+        public static implicit operator t(long value) => new((decimal)value);
+        public static implicit operator t(ushort value) => new((decimal)value);
+        public static implicit operator t(uint value) => new((decimal)value);
+        public static implicit operator t(ulong value) => new((decimal)value);
+        public static implicit operator t(float value) => new((decimal)value);
+        public static implicit operator t(double value) => new((decimal)value);
 
 		public override string ToString() => $"{Value} t";
 	}

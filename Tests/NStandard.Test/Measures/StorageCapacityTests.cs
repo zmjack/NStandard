@@ -13,7 +13,7 @@ public class StorageCapacityTests
 
         Assert.Equal(512 * 1024, (B)KB512);
         Assert.Equal(512, KB512);
-        Assert.Equal(0.5, (MB)KB512);
+        Assert.Equal(0.5m, (MB)KB512);
 
         Assert.Equal(8 * 512 * 1024, (b)KB512);
         Assert.Equal(8 * 512, (kb)KB512);

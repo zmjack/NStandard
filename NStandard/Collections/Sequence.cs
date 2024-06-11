@@ -5,45 +5,73 @@ using System.Linq;
 
 namespace NStandard.Collections;
 
-public class Sequence<T> : IEnumerable<T>
+public class Sequence<T> : IEnumerable<T>, IList<T>
 {
-    private IEnumerable<T> _enumerable;
-    private bool _notEmpty;
+    private readonly List<T> _list = [];
 
     public Sequence()
     {
         Clear();
     }
 
+    public T this[int index] { get => ((IList<T>)_list)[index]; set => ((IList<T>)_list)[index] = value; }
+
+    public int Count => ((ICollection<T>)_list).Count;
+
+    public bool IsReadOnly => ((ICollection<T>)_list).IsReadOnly;
+
     public void Add(T value)
     {
-        _notEmpty = true;
-        _enumerable = _enumerable.Concat(new[] { value });
+        _list.Add(value);
     }
 
     public void Add(IEnumerable<T> values)
     {
-        _notEmpty = true;
-        _enumerable = _enumerable.Concat(values);
+        _list.AddRange(values);
     }
 
     public void Clear()
     {
-        _notEmpty = false;
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
-        _enumerable = Array.Empty<T>();
-#else
-        _enumerable = ArrayEx.Empty<T>();
-#endif
+        _list.Clear();
+    }
+
+    public bool Contains(T item)
+    {
+        return ((ICollection<T>)_list).Contains(item);
+    }
+
+    public void CopyTo(T[] array, int arrayIndex)
+    {
+        ((ICollection<T>)_list).CopyTo(array, arrayIndex);
     }
 
     public IEnumerator<T> GetEnumerator()
     {
-        return _enumerable.GetEnumerator();
+        return _list.GetEnumerator();
+    }
+
+    public int IndexOf(T item)
+    {
+        return ((IList<T>)_list).IndexOf(item);
+    }
+
+    public void Insert(int index, T item)
+    {
+        ((IList<T>)_list).Insert(index, item);
+    }
+
+    public bool Remove(T item)
+    {
+        return ((ICollection<T>)_list).Remove(item);
+    }
+
+    public void RemoveAt(int index)
+    {
+        ((IList<T>)_list).RemoveAt(index);
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return _enumerable.GetEnumerator();
+        return _list.GetEnumerator();
     }
 }

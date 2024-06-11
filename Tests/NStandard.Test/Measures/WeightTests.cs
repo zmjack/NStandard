@@ -13,7 +13,7 @@ public class WeightTests
 
         Assert.Equal(200_000, (g)kg200);
         Assert.Equal(200, kg200);
-        Assert.Equal(0.2, (t)kg200);
+        Assert.Equal(0.2m, (t)kg200);
     }
 
     [Fact]
@@ -25,7 +25,7 @@ public class WeightTests
 
         Assert.Equal(60_000, (g)kg60);
         Assert.Equal(60, kg60);
-        Assert.Equal(0.06, (t)kg60);
+        Assert.Equal(0.06m, (t)kg60);
     }
 
     [Fact]

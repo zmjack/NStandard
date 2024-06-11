@@ -42,6 +42,11 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.66.0
+
+- Change the underlying logic of the **Sequence** class.
+- Optimize the classes in the **NStandard.Measures** namespace and change the underlying type to **decimal**.
+
 ### Version 0.65.1
 
 - Optimize **MathEx.Permut** / **MathEx.Combin** methods and add overflow checks.
