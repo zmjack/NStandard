@@ -42,6 +42,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.67.0
+
+- Fix **NullReferenceException** when using **State\<string\>**.
+
 ### Version 0.66.0
 
 - Change the underlying logic of the **Sequence** class.

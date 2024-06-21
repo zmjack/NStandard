@@ -5,6 +5,10 @@ namespace NStandard.Text.Json;
 #if NET5_0_OR_GREATER
 using System.Text.Json.Serialization;
 
+/// <summary>
+/// Serialize interface by instance type.
+/// </summary>
+/// <typeparam name="TSelf"></typeparam>
 [AttributeUsage(AttributeTargets.Interface, AllowMultiple = false)]
 public class JsonImplAttribute<TSelf> : JsonConverterAttribute
 {
@@ -13,6 +17,11 @@ public class JsonImplAttribute<TSelf> : JsonConverterAttribute
     }
 }
 
+/// <summary>
+/// Serialize instance by interface type.
+/// </summary>
+/// <typeparam name="TSelf"></typeparam>
+/// <typeparam name="TTarget"></typeparam>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false)]
 public class JsonImplAttribute<TSelf, TTarget> : JsonConverterAttribute
 {

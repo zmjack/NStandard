@@ -71,6 +71,10 @@ internal class DependencyCollector
                 var dependency = GetMemberValue(member);
                 _dependencies.Add(dependency);
             }
+            else if (member.Type == typeof(string))
+            {
+                Collect(member.Expression, types);
+            }
             else if (member.Type.IsImplement(typeof(IEnumerable<>)))
             {
                 var elementType = member.Type.GetElementType();

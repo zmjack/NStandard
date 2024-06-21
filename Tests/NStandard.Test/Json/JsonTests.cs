@@ -88,7 +88,7 @@ public class JsonTests
 
         public IEnumerator<int> GetEnumerator()
         {
-            return new int[0].AsEnumerable().GetEnumerator();
+            return Array.Empty<int>().AsEnumerable().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

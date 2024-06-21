@@ -15,6 +15,16 @@ public class StateTests
     }
 
     [Fact]
+    public void BindStringTest()
+    {
+        using var a = State.Use("1");
+        using var b = State.Use("2");
+        using var r = State.From(() => a.Value + b.Value);
+        Assert.Equal(2, r.Dependencies.Length);
+        Assert.Equal("12", r.Value);
+    }
+
+    [Fact]
     public void ArrayTest()
     {
         var syncs = new State<int>[]

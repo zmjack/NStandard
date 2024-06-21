@@ -43,6 +43,10 @@
 
 ## 最近更新
 
+### 版本：0.67.0
+
+- 修复使用 **State\<string\>** 时出现的 **NullReferenceException**。
+
 ### 版本：0.66.0
 
 - 更改 **Sequence** 类的底层逻辑。
