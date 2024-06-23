@@ -1,6 +1,4 @@
 ﻿using NStandard.Caching;
-using System;
-using System.Threading;
 using Xunit;
 
 namespace NStandard.Test;

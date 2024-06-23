@@ -33,45 +33,45 @@ public class DotNetFramework
 
     public override string ToString() => TFM;
 
-    public static DotNetFramework Net11 = new(".NET Framework", "net", "net11", new Version(1, 1, 0), true, 101);
-    public static DotNetFramework Net20 = new(".NET Framework", "net", "net20", new Version(2, 0, 0), true, 102);
-    public static DotNetFramework Net35 = new(".NET Framework", "net", "net35", new Version(3, 5, 0), true, 103);
-    public static DotNetFramework Net40 = new(".NET Framework", "net", "net40", new Version(4, 0, 0), true, 104);
-    public static DotNetFramework Net403 = new(".NET Framework", "net", "net403", new Version(4, 0, 3), true, 105);
-    public static DotNetFramework Net45 = new(".NET Framework", "net", "net45", new Version(4, 5, 0), true, 106);
-    public static DotNetFramework Net451 = new(".NET Framework", "net", "net451", new Version(4, 5, 1), true, 107);
-    public static DotNetFramework Net452 = new(".NET Framework", "net", "net452", new Version(4, 5, 2), true, 108);
-    public static DotNetFramework Net46 = new(".NET Framework", "net", "net46", new Version(4, 6, 0), true, 109);
-    public static DotNetFramework Net461 = new(".NET Framework", "net", "net461", new Version(4, 6, 1), true, 110);
-    public static DotNetFramework Net462 = new(".NET Framework", "net", "net462", new Version(4, 6, 2), true, 111);
-    public static DotNetFramework Net47 = new(".NET Framework", "net", "net47", new Version(4, 7, 0), true, 112);
-    public static DotNetFramework Net471 = new(".NET Framework", "net", "net471", new Version(4, 7, 1), true, 113);
-    public static DotNetFramework Net472 = new(".NET Framework", "net", "net472", new Version(4, 7, 2), true, 114);
-    public static DotNetFramework Net48 = new(".NET Framework", "net", "net48", new Version(4, 8, 0), true, 115);
+    public static DotNetFramework Net11 { get; } = new(".NET Framework", "net", "net11", new Version(1, 1, 0), true, 101);
+    public static DotNetFramework Net20 { get; } = new(".NET Framework", "net", "net20", new Version(2, 0, 0), true, 102);
+    public static DotNetFramework Net35 { get; } = new(".NET Framework", "net", "net35", new Version(3, 5, 0), true, 103);
+    public static DotNetFramework Net40 { get; } = new(".NET Framework", "net", "net40", new Version(4, 0, 0), true, 104);
+    public static DotNetFramework Net403 { get; } = new(".NET Framework", "net", "net403", new Version(4, 0, 3), true, 105);
+    public static DotNetFramework Net45 { get; } = new(".NET Framework", "net", "net45", new Version(4, 5, 0), true, 106);
+    public static DotNetFramework Net451 { get; } = new(".NET Framework", "net", "net451", new Version(4, 5, 1), true, 107);
+    public static DotNetFramework Net452 { get; } = new(".NET Framework", "net", "net452", new Version(4, 5, 2), true, 108);
+    public static DotNetFramework Net46 { get; } = new(".NET Framework", "net", "net46", new Version(4, 6, 0), true, 109);
+    public static DotNetFramework Net461 { get; } = new(".NET Framework", "net", "net461", new Version(4, 6, 1), true, 110);
+    public static DotNetFramework Net462 { get; } = new(".NET Framework", "net", "net462", new Version(4, 6, 2), true, 111);
+    public static DotNetFramework Net47 { get; } = new(".NET Framework", "net", "net47", new Version(4, 7, 0), true, 112);
+    public static DotNetFramework Net471 { get; } = new(".NET Framework", "net", "net471", new Version(4, 7, 1), true, 113);
+    public static DotNetFramework Net472 { get; } = new(".NET Framework", "net", "net472", new Version(4, 7, 2), true, 114);
+    public static DotNetFramework Net48 { get; } = new(".NET Framework", "net", "net48", new Version(4, 8, 0), true, 115);
 
-    public static DotNetFramework NetStandard10 = new(".NET Standard", "netstandard", "netstandard1.0", new Version(1, 0, 0), true, 200);
-    public static DotNetFramework NetStandard11 = new(".NET Standard", "netstandard", "netstandard1.1", new Version(1, 1, 0), true, 201);
-    public static DotNetFramework NetStandard12 = new(".NET Standard", "netstandard", "netstandard1.2", new Version(1, 2, 0), true, 202);
-    public static DotNetFramework NetStandard13 = new(".NET Standard", "netstandard", "netstandard1.3", new Version(1, 3, 0), true, 203);
-    public static DotNetFramework NetStandard14 = new(".NET Standard", "netstandard", "netstandard1.4", new Version(1, 4, 0), true, 204);
-    public static DotNetFramework NetStandard15 = new(".NET Standard", "netstandard", "netstandard1.5", new Version(1, 5, 0), true, 205);
-    public static DotNetFramework NetStandard16 = new(".NET Standard", "netstandard", "netstandard1.6", new Version(1, 6, 0), true, 206);
-    public static DotNetFramework NetStandard20 = new(".NET Standard", "netstandard", "netstandard2.0", new Version(2, 0, 0), true, 207);
-    public static DotNetFramework NetStandard21 = new(".NET Standard", "netstandard", "netstandard2.1", new Version(2, 1, 0), true, 208);
+    public static DotNetFramework NetStandard10 { get; } = new(".NET Standard", "netstandard", "netstandard1.0", new Version(1, 0, 0), true, 200);
+    public static DotNetFramework NetStandard11 { get; } = new(".NET Standard", "netstandard", "netstandard1.1", new Version(1, 1, 0), true, 201);
+    public static DotNetFramework NetStandard12 { get; } = new(".NET Standard", "netstandard", "netstandard1.2", new Version(1, 2, 0), true, 202);
+    public static DotNetFramework NetStandard13 { get; } = new(".NET Standard", "netstandard", "netstandard1.3", new Version(1, 3, 0), true, 203);
+    public static DotNetFramework NetStandard14 { get; } = new(".NET Standard", "netstandard", "netstandard1.4", new Version(1, 4, 0), true, 204);
+    public static DotNetFramework NetStandard15 { get; } = new(".NET Standard", "netstandard", "netstandard1.5", new Version(1, 5, 0), true, 205);
+    public static DotNetFramework NetStandard16 { get; } = new(".NET Standard", "netstandard", "netstandard1.6", new Version(1, 6, 0), true, 206);
+    public static DotNetFramework NetStandard20 { get; } = new(".NET Standard", "netstandard", "netstandard2.0", new Version(2, 0, 0), true, 207);
+    public static DotNetFramework NetStandard21 { get; } = new(".NET Standard", "netstandard", "netstandard2.1", new Version(2, 1, 0), true, 208);
 
-    public static DotNetFramework NetCoreApp10 = new(".NET 5+ (and .NET Core)", "netcoreapp", "netcoreapp1.0", new Version(1, 0, 0), true, 301);
-    public static DotNetFramework NetCoreApp11 = new(".NET 5+ (and .NET Core)", "netcoreapp", "netcoreapp1.1", new Version(1, 1, 0), true, 302);
-    public static DotNetFramework NetCoreApp20 = new(".NET 5+ (and .NET Core)", "netcoreapp", "netcoreapp2.0", new Version(2, 0, 0), true, 303);
-    public static DotNetFramework NetCoreApp21 = new(".NET 5+ (and .NET Core)", "netcoreapp", "netcoreapp2.1", new Version(2, 1, 0), true, 304);
-    public static DotNetFramework NetCoreApp22 = new(".NET 5+ (and .NET Core)", "netcoreapp", "netcoreapp2.2", new Version(2, 2, 0), true, 305);
-    public static DotNetFramework NetCoreApp30 = new(".NET 5+ (and .NET Core)", "netcoreapp", "netcoreapp3.0", new Version(3, 0, 0), true, 306);
-    public static DotNetFramework NetCoreApp31 = new(".NET 5+ (and .NET Core)", "netcoreapp", "netcoreapp3.1", new Version(3, 1, 0), true, 307);
+    public static DotNetFramework NetCoreApp10 { get; } = new(".NET 5+ (and .NET Core)", "netcoreapp", "netcoreapp1.0", new Version(1, 0, 0), true, 301);
+    public static DotNetFramework NetCoreApp11 { get; } = new(".NET 5+ (and .NET Core)", "netcoreapp", "netcoreapp1.1", new Version(1, 1, 0), true, 302);
+    public static DotNetFramework NetCoreApp20 { get; } = new(".NET 5+ (and .NET Core)", "netcoreapp", "netcoreapp2.0", new Version(2, 0, 0), true, 303);
+    public static DotNetFramework NetCoreApp21 { get; } = new(".NET 5+ (and .NET Core)", "netcoreapp", "netcoreapp2.1", new Version(2, 1, 0), true, 304);
+    public static DotNetFramework NetCoreApp22 { get; } = new(".NET 5+ (and .NET Core)", "netcoreapp", "netcoreapp2.2", new Version(2, 2, 0), true, 305);
+    public static DotNetFramework NetCoreApp30 { get; } = new(".NET 5+ (and .NET Core)", "netcoreapp", "netcoreapp3.0", new Version(3, 0, 0), true, 306);
+    public static DotNetFramework NetCoreApp31 { get; } = new(".NET 5+ (and .NET Core)", "netcoreapp", "netcoreapp3.1", new Version(3, 1, 0), true, 307);
 
     // .NET 5.0 and later has NetCoreApp identifier
-    public static DotNetFramework Net50 = new(".NET 5+ (and .NET Core)", "net", "net5.0", new Version(5, 0, 0), true, 401);
-    public static DotNetFramework Net60 = new(".NET 5+ (and .NET Core)", "net", "net6.0", new Version(6, 0, 0), true, 402);
-    public static DotNetFramework Net70 = new(".NET 5+ (and .NET Core)", "net", "net7.0", new Version(7, 0, 0), true, 403);
-    public static DotNetFramework Net80 = new(".NET 5+ (and .NET Core)", "net", "net8.0", new Version(8, 0, 0), true, 404);
+    public static DotNetFramework Net50 { get; } = new(".NET 5+ (and .NET Core)", "net", "net5.0", new Version(5, 0, 0), true, 401);
+    public static DotNetFramework Net60 { get; } = new(".NET 5+ (and .NET Core)", "net", "net6.0", new Version(6, 0, 0), true, 402);
+    public static DotNetFramework Net70 { get; } = new(".NET 5+ (and .NET Core)", "net", "net7.0", new Version(7, 0, 0), true, 403);
+    public static DotNetFramework Net80 { get; } = new(".NET 5+ (and .NET Core)", "net", "net8.0", new Version(8, 0, 0), true, 404);
 
     static DotNetFramework()
     {
@@ -117,7 +117,7 @@ public class DotNetFramework
         Net50.Compatibility = Combine([Net50], NetCoreApp31);
         Net60.Compatibility = Combine([Net60], Net50);
         Net70.Compatibility = Combine([Net70], Net60);
-        Net70.Compatibility = Combine([Net80], Net70);
+        Net80.Compatibility = Combine([Net80], Net70);
     }
 
     public static readonly DotNetFramework[] SupportedFrameworks =
@@ -155,7 +155,8 @@ public class DotNetFramework
         NetCoreApp31,
         Net50,
         Net60,
-        Net70
+        Net70,
+        Net80,
     ];
 
     public static DotNetFramework Parse(string tfm)

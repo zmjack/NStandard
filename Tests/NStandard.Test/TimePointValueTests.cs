@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using Xunit;
+﻿using Xunit;
 
 namespace NStandard.Test;
 

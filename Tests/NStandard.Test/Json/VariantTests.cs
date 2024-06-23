@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using NStandard.Json.Converters;
-using System;
 using System.Text.Json;
 using Xunit;
 using NewtonsoftJson = Newtonsoft.Json.JsonConvert;
@@ -18,10 +17,10 @@ public class VariantTests
     });
     private readonly JsonSerializerSettings _settings = new()
     {
-        Converters = new JsonConverter[]
-        {
+        Converters =
+        [
             new Net.Converters.VariantConverter(),
-        },
+        ],
     };
 
     private void Assert_Serialize<T>(string expected, T actual)

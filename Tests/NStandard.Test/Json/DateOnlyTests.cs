@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using NStandard.Json.Converters;
-using System;
 using System.Text.Json;
 using Xunit;
 using NewtonsoftJson = Newtonsoft.Json.JsonConvert;
@@ -18,7 +17,7 @@ public class DateOnlyTests
     });
     private readonly JsonSerializerSettings _settings = new()
     {
-        Converters = new JsonConverter[] { new Net.Converters.DateOnlyConverter() },
+        Converters = [new Net.Converters.DateOnlyConverter()],
     };
 
     private void Assert_Serialize<T>(string expected, T actual)

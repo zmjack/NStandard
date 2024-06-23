@@ -18,10 +18,10 @@ public class AssemblyContext : AssemblyLoadContext
 #endif
     public Assembly MainAssembly { get; private set; }
 
-    public List<string> Directories = new();
-    public List<string> LoadedSdks = new();
-    public List<Assembly> LoadedAssemblies = new();
-    public List<AssemblyName> LoadedAssemblyNames = new();
+    public List<string> Directories = [];
+    public List<string> LoadedSdks = [];
+    public List<Assembly> LoadedAssemblies = [];
+    public List<AssemblyName> LoadedAssemblyNames = [];
 
     public readonly DotNetFramework Framework;
     public readonly DotNetFramework[] CompatibilityFrameworks;

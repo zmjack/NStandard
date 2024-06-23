@@ -1,7 +1,4 @@
 ﻿using NStandard.Collections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace NStandard.Test.Collections;

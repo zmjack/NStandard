@@ -4,6 +4,7 @@
     <a href="https://www.nuget.org/packages/NStandard" rel="nofollow"><img src="https://img.shields.io/nuget/v/NStandard.svg?logo=nuget&label=NStandard" /></a>
     <a href="https://www.nuget.org/packages/NStandard" rel="nofollow"><img src="https://img.shields.io/nuget/dt/NStandard.svg?logo=nuget&label=Download" /></a>
 </p>
+
 **.NET** extension library for system library.
 
 - [English Readme](https://github.com/zmjack/NStandard/blob/master/README.md)
@@ -42,6 +43,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.68.0
+
+- Add **JsonValueAttribute\<T\>** to declare the Value of its instance to be used when serializing.
+
 ### Version 0.67.0
 
 - Fix **NullReferenceException** when using **State\<string\>**.
@@ -57,9 +62,9 @@ These frameworks are supported:
 
 ### Version 0.64.6
 
-- Add **JsonImplAttribute\<TSelf\>** to declare interface to be serialized as its instance.
-- Add **JsonImplAttribute\<TSelf, TTarget\>** to declare class to be serialized as the specified interface.
-- Remove **JsonImplConverterAttribute\<T\>**, use **JsonImplAttribute\<TSelf\>** instead.
+- Add **JsonImplAttribute\<T\>** to declare interface to be serialized as its instance.
+- Add **JsonImplAttribute\<T, TSerialize\>** to declare class to be serialized as the specified interface.
+- Remove **JsonImplConverterAttribute\<T\>**, use **JsonImplAttribute\<T\>** instead.
 
 ### Version 0.63.2
 

@@ -20,11 +20,11 @@ public class NetAddressTests
     });
     private readonly JsonSerializerSettings _settings = new()
     {
-        Converters = new JsonConverter[]
-        {
+        Converters =
+        [
             new Net.Converters.IPAddressConverter(),
             new Net.Converters.PhysicalAddressConverter(),
-        },
+        ],
     };
 
     private void Assert_Serialize<T>(string expected, T actual)

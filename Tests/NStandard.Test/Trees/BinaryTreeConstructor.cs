@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace NStandard.Trees.Test;
+﻿namespace NStandard.Trees.Test;
 
 public static class BinaryTreeConstructor
 {

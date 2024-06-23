@@ -8,11 +8,11 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Serialize interface by instance type.
 /// </summary>
-/// <typeparam name="TSelf"></typeparam>
+/// <typeparam name="T"></typeparam>
 [AttributeUsage(AttributeTargets.Interface, AllowMultiple = false)]
-public class JsonImplAttribute<TSelf> : JsonConverterAttribute
+public class JsonImplAttribute<T> : JsonConverterAttribute
 {
-    public JsonImplAttribute() : base(typeof(JsonImplConverter<TSelf>))
+    public JsonImplAttribute() : base(typeof(JsonImplConverter<T>))
     {
     }
 }
@@ -20,28 +20,37 @@ public class JsonImplAttribute<TSelf> : JsonConverterAttribute
 /// <summary>
 /// Serialize instance by interface type.
 /// </summary>
-/// <typeparam name="TSelf"></typeparam>
-/// <typeparam name="TTarget"></typeparam>
+/// <typeparam name="T"></typeparam>
+/// <typeparam name="TSerialize"></typeparam>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false)]
-public class JsonImplAttribute<TSelf, TTarget> : JsonConverterAttribute
+public class JsonImplAttribute<T, TSerialize> : JsonConverterAttribute
 {
-    public JsonImplAttribute() : base(typeof(JsonImplConverter<TSelf, TTarget>))
+    public JsonImplAttribute() : base(typeof(JsonImplConverter<T, TSerialize>))
     {
     }
 }
 #else
+/// <summary>
+/// Serialize interface by instance type.
+/// </summary>
+/// <typeparam name="T"></typeparam>
 [Obsolete("Must be manually configured based on the actual serializer used.")]
 [AttributeUsage(AttributeTargets.Interface, AllowMultiple = false)]
-public class JsonImplAttribute<TSelf> : Attribute
+public class JsonImplAttribute<T> : Attribute
 {
     public JsonImplAttribute()
     {
     }
 }
 
+/// <summary>
+/// Serialize instance by interface type.
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <typeparam name="TSerialize"></typeparam>
 [Obsolete("Must be manually configured based on the actual serializer used.")]
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false)]
-public class JsonImplAttribute<TSelf, TTarget> : Attribute
+public class JsonImplAttribute<T, TSerialize> : Attribute
 {
     public JsonImplAttribute()
     {

@@ -1,6 +1,4 @@
 ﻿using LinqSharp;
-using System;
-using System.Linq;
 using Xunit;
 
 namespace NStandard.Test;

@@ -1,5 +1,4 @@
 using NStandard.Diagnostics;
-using System;
 using Xunit;
 
 namespace NStandard.Test;

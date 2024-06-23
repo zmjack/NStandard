@@ -1,19 +1,17 @@
-﻿using NStandard.Text.Json;
-using System.Collections;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Xunit;
 using NewtonsoftJson = Newtonsoft.Json.JsonConvert;
 using SystemJson = System.Text.Json.JsonSerializer;
 
-namespace NStandard.Test.Json;
+namespace NStandard.Json.Test;
 
 public class JsonTests
 {
     private readonly JsonSerializerOptions _options = Any.Create(() =>
     {
         var options = new JsonSerializerOptions();
-        options.Converters.Add(new NStandard.Json.Converters.NetSingleConverter());
-        options.Converters.Add(new NStandard.Json.Converters.NetDoubleConverter());
+        options.Converters.Add(new Converters.NetSingleConverter());
+        options.Converters.Add(new Converters.NetDoubleConverter());
         return options;
     });
 
@@ -61,53 +59,6 @@ public class JsonTests
             Assert.Equal(NewtonsoftJson.DeserializeObject<float?>(value), SystemJson.Deserialize<float?>(value, _options));
             Assert.Equal(NewtonsoftJson.DeserializeObject<double?>(value), SystemJson.Deserialize<double?>(value, _options));
         }
-    }
-
-    [JsonImpl<ILength>]
-    public interface ILength
-    {
-        int Length { get; set; }
-    }
-
-    [JsonImpl<INameable>]
-    public interface INameable
-    {
-        string Name { get; set; }
-    }
-
-    [JsonImpl<Cls, IJson>]
-    public class Cls : ILength, INameable, Cls.IJson, IEnumerable<int>
-    {
-        public interface IJson
-        {
-            string Name { get; set; }
-        }
-
-        public int Length { get; set; }
-        public string Name { get; set; } = nameof(Cls);
-
-        public IEnumerator<int> GetEnumerator()
-        {
-            return Array.Empty<int>().AsEnumerable().GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-    }
-
-    [Fact]
-    public void ImplTest()
-    {
-        ILength a = new Cls();
-        Assert.Equal("{\"Name\":\"Cls\"}", SystemJson.Serialize(a));
-
-        INameable b = new Cls();
-        Assert.Equal("{\"Name\":\"Cls\"}", SystemJson.Serialize(b));
-
-        var c = new Cls();
-        Assert.Equal("{\"Name\":\"Cls\"}", SystemJson.Serialize(c));
     }
 
 }

@@ -14,21 +14,19 @@ public class JsonImplConverter<T> : JsonConverter<T>
 
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
-        switch (value)
+        if (value is null)
         {
-            case null:
-                JsonSerializer.Serialize(writer, null, options);
-                break;
-
-            default:
-                var type = value.GetType();
-                JsonSerializer.Serialize(writer, value, type, options);
-                break;
+            JsonSerializer.Serialize(writer, null, options);
+        }
+        else
+        {
+            var type = value.GetType();
+            JsonSerializer.Serialize(writer, value, type, options);
         }
     }
 }
 
-public class JsonImplConverter<T, TInput> : JsonConverter<T>
+public class JsonImplConverter<T, TSerialize> : JsonConverter<T>
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -37,16 +35,14 @@ public class JsonImplConverter<T, TInput> : JsonConverter<T>
 
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
-        switch (value)
+        if (value is null)
         {
-            case null:
-                JsonSerializer.Serialize(writer, null, options);
-                break;
-
-            default:
-                var type = typeof(TInput);
-                JsonSerializer.Serialize(writer, value, type, options);
-                break;
+            JsonSerializer.Serialize(writer, null, options);
+        }
+        else
+        {
+            var type = typeof(TSerialize);
+            JsonSerializer.Serialize(writer, value, type, options);
         }
     }
 }

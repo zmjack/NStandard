@@ -43,6 +43,10 @@
 
 ## 最近更新
 
+### 版本：0.68.0
+
+- 添加 **JsonValueAttribute\<T\>** 声明序列化时使用其实例的 Value。
+
 ### 版本：0.67.0
 
 - 修复使用 **State\<string\>** 时出现的 **NullReferenceException**。
@@ -58,9 +62,9 @@
 
 ### 版本：0.64.6
 
-- 添加 **JsonImplAttribute\<TSelf\>** 声明要序列化为其实例的接口。
-- 添加 **JsonImplAttribute\<TSelf, TTarget\>** 声明要序列化为指定接口的类。
-- 删除 **JsonImplConverterAttribute\<T\>**，使用 **JsonImplAttribute\<TSelf\>** 代替。
+- 添加 **JsonImplAttribute\<T\>** 声明要序列化为其实例的接口。
+- 添加 **JsonImplAttribute\<T, TSerialize\>** 声明要序列化为指定接口的类。
+- 删除 **JsonImplConverterAttribute\<T\>**，使用 **JsonImplAttribute\<T\>** 代替。
 
 ### 版本：0.63.2
 

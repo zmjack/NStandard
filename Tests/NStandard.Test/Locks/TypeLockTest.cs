@@ -1,6 +1,4 @@
 ﻿using NStandard.Diagnostics;
-using System.Linq;
-using System.Threading;
 using Xunit;
 
 namespace NStandard.Locks.Test;
