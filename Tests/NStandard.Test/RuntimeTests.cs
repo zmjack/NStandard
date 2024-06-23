@@ -5,6 +5,7 @@ namespace NStandard.Test;
 
 public class RuntimeTests
 {
+#pragma warning disable CS0618 // Type or member is obsolete
     [Fact]
     public void AddressOfClassTest()
     {
@@ -37,6 +38,7 @@ public class RuntimeTests
         Assert.Equal((IntPtr)(&astruct), ptr);
         Assert.NotEqual((IntPtr)(&astruct), wrappedPtr);
     }
+#pragma warning restore CS0618 // Type or member is obsolete
 
     [Fact]
     public void AreSameTest()
