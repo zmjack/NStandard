@@ -10,7 +10,7 @@ public class ConsoleContext : Scope<ConsoleContext>
     public int CursorSize { get; }
     public int CursorTop { get; }
     public bool CursorVisible { get; }
-    public string Title { get; }
+    public string? Title { get; }
     public TextReader In { get; }
     public TextWriter Out { get; }
     public TextWriter Error { get; }
@@ -30,13 +30,28 @@ public class ConsoleContext : Scope<ConsoleContext>
         {
             CursorLeft = Console.CursorLeft;
             CursorTop = Console.CursorTop;
-            CursorSize = Console.CursorSize;
-            CursorVisible = Console.CursorVisible;
+
+#if NET5_0_OR_GREATER
+            if (OperatingSystem.IsWindows())
+            {
+                CursorSize = Console.CursorSize;
+                CursorVisible = Console.CursorVisible;
+            }
+#else
+                CursorVisible = Console.CursorVisible;
+#endif
             _hasCursor = true;
         }
         catch { }
 
+#if NET5_0_OR_GREATER
+        if (OperatingSystem.IsWindows())
+        {
+            Title = Console.Title;
+        }
+#else
         Title = Console.Title;
+#endif
         ForegroundColor = Console.ForegroundColor;
         BackgroundColor = Console.BackgroundColor;
 
@@ -55,11 +70,27 @@ public class ConsoleContext : Scope<ConsoleContext>
         {
             if (Console.CursorLeft != CursorLeft) Console.CursorLeft = CursorLeft;
             if (Console.CursorTop != CursorTop) Console.CursorTop = CursorTop;
+
+#if NET5_0_OR_GREATER
+            if (OperatingSystem.IsWindows())
+            {
+                if (Console.CursorSize != CursorSize) Console.CursorSize = CursorSize;
+                if (Console.CursorVisible != CursorVisible) Console.CursorVisible = CursorVisible;
+            }
+#else
             if (Console.CursorSize != CursorSize) Console.CursorSize = CursorSize;
             if (Console.CursorVisible != CursorVisible) Console.CursorVisible = CursorVisible;
+#endif
         }
 
+#if NET5_0_OR_GREATER
+        if (OperatingSystem.IsWindows())
+        {
+            if (Console.Title != Title) Console.Title = Title!;
+        }
+#else
         if (Console.Title != Title) Console.Title = Title;
+#endif
         if (Console.ForegroundColor != ForegroundColor) Console.ForegroundColor = ForegroundColor;
         if (Console.BackgroundColor != BackgroundColor) Console.BackgroundColor = BackgroundColor;
 

@@ -8,23 +8,23 @@ public class EnumOption : IEquatable<EnumOption>
     public string Name { get; }
     public object Value { get; }
 
-    [Obsolete("Use Enum instead.")]
+    [Obsolete("Use Enum instead.", true)]
     public object EnumValue => Enum;
 
-    [Obsolete("Use Value instead.")]
+    [Obsolete("Use Value instead.", true)]
     public object UnderlyingValue => Value;
 
     public EnumOption(Type enumType, string name)
     {
         var underlyingType = Enum.GetUnderlyingType(enumType);
-        Enum = Enum.Parse(enumType, name) as Enum;
+        Enum = (Enum.Parse(enumType, name) as Enum)!;
         Name = name;
         Value = Convert.ChangeType(Enum, underlyingType);
     }
 
-    public bool Equals(EnumOption other)
+    public bool Equals(EnumOption? other)
     {
-        return Enum.Equals(other.Enum) && Value.Equals(other.Value);
+        return other is not null && Enum.Equals(other.Enum) && Value.Equals(other.Value);
     }
 }
 
@@ -50,13 +50,24 @@ public class EnumOption<TEnum, TValue> : EnumOption, IEquatable<EnumOption<TEnum
         CheckUnderlyingType();
     }
 
-    public EnumOption(TValue value) : base(typeof(TEnum), value.ToString())
+    public EnumOption(TValue value) : base(typeof(TEnum), value.ToString()!)
     {
         CheckUnderlyingType();
     }
 
-    public bool Equals(EnumOption<TEnum, TValue> other)
+    public bool Equals(EnumOption<TEnum, TValue>? other)
     {
-        return Enum.Equals(other.Enum) && Value.Equals(other.Value);
+        return other is not null && Enum.Equals(other.Enum) && Value.Equals(other.Value);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is not EnumOption<TEnum, TValue> enumOption) return false;
+        return Equals(enumOption);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
 }

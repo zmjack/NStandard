@@ -10,7 +10,7 @@ public static partial class ConvertEx
     /// </summary>
     /// <param name="value">An object that implements the System.IConvertible interface.</param>
     /// <param name="conversionType">The type of object to return.</param>
-    public static object ChangeType(object value, Type conversionType)
+    public static object? ChangeType(object value, Type conversionType)
     {
         if (conversionType.IsNullable())
         {

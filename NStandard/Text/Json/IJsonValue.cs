@@ -2,5 +2,5 @@
 
 public interface IJsonValue
 {
-    object Value { get; }
+    object? Value { get; }
 }

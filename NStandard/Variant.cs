@@ -4,9 +4,9 @@ namespace NStandard;
 
 public class Variant
 {
-    private readonly string _string;
+    private readonly string? _string;
 
-    public Variant(string str) => _string = str ?? string.Empty;
+    public Variant(string? str) => _string = str ?? string.Empty;
 
     public Variant(char obj) => _string = obj.ToString();
     public Variant(byte obj) => _string = obj.ToString();
@@ -49,7 +49,7 @@ public class Variant
 #endif
 
     public static implicit operator Variant(string str) => new(str);
-    public static implicit operator string(Variant @this) => @this._string;
+    public static implicit operator string?(Variant @this) => @this._string;
 
     public static implicit operator Variant(char obj) => new(obj);
     public static implicit operator Variant(byte obj) => new(obj);
@@ -323,8 +323,13 @@ public class Variant
     }
 #endif
 
-    public override bool Equals(object obj)
+    public override int GetHashCode()
     {
+        return base.GetHashCode();
+    }
+    public override bool Equals(object? obj)
+    {
+        if (obj is null) return false;
         if (obj is Variant variant) return ToString() == variant.ToString();
 
         switch (obj)
@@ -379,6 +384,5 @@ public class Variant
     public static bool operator ==(Variant left, Variant right) => left.ToString() == right.ToString();
     public static bool operator !=(Variant left, Variant right) => left.ToString() != right.ToString();
 
-    public override string ToString() => _string;
-
+    public override string? ToString() => _string;
 }

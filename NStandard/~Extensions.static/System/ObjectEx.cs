@@ -5,13 +5,12 @@ namespace NStandard;
 public static class ObjectEx
 {
     public static void AcceptPropValues(object source, object provider) => AcceptPropValues(source, provider, null);
-    public static void AcceptPropValues(object source, object provider, string[] names)
+    public static void AcceptPropValues(object source, object provider, string[]? names)
     {
         var sourceProps = source.GetType().GetProperties();
         var providerProps = provider.GetType().GetProperties();
 
-        if (names is null)
-            names = sourceProps.Select(x => x.Name).Intersect(providerProps.Select(x => x.Name)).ToArray();
+        names ??= sourceProps.Select(x => x.Name).Intersect(providerProps.Select(x => x.Name)).ToArray();
 
         foreach (var name in names)
         {
@@ -35,7 +34,7 @@ public static class ObjectEx
 
         foreach (var window in objs.Slide(2, true))
         {
-            if (!window[0].Equals(window[1])) return false;
+            if (!Equals(window[0], window[1])) return false;
         }
         return true;
     }

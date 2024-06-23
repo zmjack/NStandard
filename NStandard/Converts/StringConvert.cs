@@ -57,7 +57,6 @@ public static class StringConvert
     ///     an equivalent 8-bit unsigned integer array.
     /// </summary>
     /// <param name="this"></param>
-    /// <param name="separator"></param>
     /// <returns></returns>
     public static byte[] FromHexString(string @this) => FromHexString(@this, "");
 

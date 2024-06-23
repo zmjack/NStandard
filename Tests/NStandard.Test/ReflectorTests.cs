@@ -38,11 +38,11 @@ public class ReflectorTests
         var cls = new Outter();
         var reflector = cls.GetReflector();
 
-        Assert.Null(reflector.Field("PrivateField"));
-        Assert.Null(reflector.Property("PrivateProperty"));
+        Assert.ThrowsAny<ArgumentException>(() => reflector.Field("PrivateField"));
+        Assert.ThrowsAny<ArgumentException>(() => reflector.Property("PrivateProperty"));
         reflector.Field("PublicField").Value = 3;
         reflector.Property("PublicProperty").Value = 4;
-        Assert.Null(reflector.Field("Inner"));
+        Assert.ThrowsAny<ArgumentException>(() => reflector.Field("Inner"));
         Assert.Equal("0 0 3 4", cls.ToString());
 
         reflector.DeclaredField("PrivateField").Value = 5;
@@ -58,11 +58,11 @@ public class ReflectorTests
         var cls = new Outter();
         var reflector = cls.GetReflector();
 
-        Assert.Null(reflector.Field<int>("PrivateField"));
-        Assert.Null(reflector.Property<int>("PrivateProperty"));
+        Assert.ThrowsAny<ArgumentException>(() => reflector.Field<int>("PrivateField"));
+        Assert.ThrowsAny<ArgumentException>(() => reflector.Property<int>("PrivateProperty"));
         reflector.Field<long>("PublicField").Value = 3;
         reflector.Property<long>("PublicProperty").Value = 4;
-        Assert.Null(reflector.Field<Inner>("Inner"));
+        Assert.ThrowsAny<ArgumentException>(() => reflector.Field<Inner>("Inner"));
         Assert.Equal("0 0 3 4", cls.ToString());
 
         reflector.DeclaredField<int>("PrivateField").Value = 5;
@@ -88,12 +88,12 @@ public class ReflectorTests
         var reflector = cls.GetReflector();
 
         Assert.NotNull(reflector.DeclaredField("Inner").Property("Public"));
-        Assert.Null(reflector.DeclaredField("Inner").Property("Private"));
-        Assert.Null(reflector.DeclaredField("Inner").DeclaredProperty("Public"));
-        Assert.Null(reflector.DeclaredField("Inner").DeclaredProperty("Private"));
+        Assert.ThrowsAny<ArgumentException>(() => reflector.DeclaredField("Inner").Property("Private"));
+        Assert.ThrowsAny<ArgumentException>(() => reflector.DeclaredField("Inner").DeclaredProperty("Public"));
+        Assert.ThrowsAny<ArgumentException>(() => reflector.DeclaredField("Inner").DeclaredProperty("Private"));
 
         Assert.NotNull(reflector.DeclaredField<InnerSuper>("Inner").Property("Public"));
-        Assert.Null(reflector.DeclaredField<InnerSuper>("Inner").Property("Private"));
+        Assert.ThrowsAny<ArgumentException>(() => reflector.DeclaredField<InnerSuper>("Inner").Property("Private"));
         Assert.NotNull(reflector.DeclaredField<InnerSuper>("Inner").DeclaredProperty("Public"));
         Assert.NotNull(reflector.DeclaredField<InnerSuper>("Inner").DeclaredProperty("Private"));
     }

@@ -6,6 +6,7 @@ using static NStandard.Measures.Length;
 
 namespace NStandard.Measures;
 
+#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
 public static class Length
 {
 	public struct mm : IMeasurable<decimal>
@@ -49,6 +50,12 @@ public static class Length
         public static implicit operator mm(float value) => new((decimal)value);
         public static implicit operator mm(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not mm other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} mm";
 	}
 
@@ -93,6 +100,12 @@ public static class Length
         public static implicit operator cm(float value) => new((decimal)value);
         public static implicit operator cm(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not cm other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} cm";
 	}
 
@@ -137,6 +150,12 @@ public static class Length
         public static implicit operator dm(float value) => new((decimal)value);
         public static implicit operator dm(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not dm other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} dm";
 	}
 
@@ -181,6 +200,12 @@ public static class Length
         public static implicit operator m(float value) => new((decimal)value);
         public static implicit operator m(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not m other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} m";
 	}
 
@@ -225,6 +250,12 @@ public static class Length
         public static implicit operator km(float value) => new((decimal)value);
         public static implicit operator km(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not km other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} km";
 	}
 
@@ -249,4 +280,5 @@ public static class LengthExtensions
     public static km Average(this IEnumerable<km> @this) => new km(@this.Average(x => x.Value));
 
 }
+#pragma warning restore CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
 

@@ -12,10 +12,13 @@ public static class DpContainer
     /// <typeparam name="TOut"></typeparam>
     /// <param name="stateTransferFunc"></param>
     /// <returns></returns>
-    public static DefaultDpContainer<TIn, TOut> Create<TIn, TOut>(Func<DefaultDpContainer<TIn, TOut>, TIn, TOut> stateTransferFunc) => new(stateTransferFunc);
+    public static DefaultDpContainer<TIn, TOut> Create<TIn, TOut>(Func<DefaultDpContainer<TIn, TOut>, TIn, TOut> stateTransferFunc) where TIn : notnull
+    {
+        return new(stateTransferFunc);
+    }
 }
 
-public abstract class DpContainer<TIn, TOut> : Dictionary<TIn, TOut>
+public abstract class DpContainer<TIn, TOut> : Dictionary<TIn, TOut> where TIn : notnull
 {
     public abstract TOut StateTransfer(TIn param);
 
@@ -31,7 +34,7 @@ public abstract class DpContainer<TIn, TOut> : Dictionary<TIn, TOut>
     }
 }
 
-public class DefaultDpContainer<TIn, TOut> : DpContainer<TIn, TOut>
+public class DefaultDpContainer<TIn, TOut> : DpContainer<TIn, TOut> where TIn : notnull
 {
     private readonly Func<DefaultDpContainer<TIn, TOut>, TIn, TOut> StateTransferFunc;
 

@@ -14,12 +14,12 @@ public static partial class Any
     /// <typeparam name="T"></typeparam>
     /// <param name="sources"></param>
     /// <returns></returns>
-    public static IEnumerable<T> Flat<T>(params IEnumerable[] sources)
+    public static IEnumerable<T?> Flat<T>(params IEnumerable[] sources)
     {
         var flater = new Flater<T>(sources.GetEnumerator());
         while (flater.MoveNext())
         {
-            yield return (T)flater.Current;
+            yield return (T?)flater.Current;
         }
     }
 
@@ -40,7 +40,7 @@ public static partial class Any
     {
         if (length < 0) throw Exception_LengthMustBeGreaterThanZero(nameof(length));
 
-        var dst = Array.CreateInstance(typeof(T), length) as T[];
+        var dst = (Array.CreateInstance(typeof(T), length) as T[])!;
         fixed (T* pdst = dst)
         {
             Unsafe.CopyBlock(pdst, psource, (uint)(length * sizeof(T)));
@@ -62,7 +62,7 @@ public static partial class Any
         if (lengths.Any(x => x <= 0)) throw Exception_AnyLengthMustBeGreaterThanZero(nameof(lengths));
 
         var size = sizeof(T);
-        var dst = Array.CreateInstance(typeof(T), lengths.Sum()) as T[];
+        var dst = (Array.CreateInstance(typeof(T), lengths.Sum()) as T[])!;
         fixed (T* pdst = dst)
         {
             var _pdst = pdst;

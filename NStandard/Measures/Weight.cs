@@ -6,6 +6,7 @@ using static NStandard.Measures.Weight;
 
 namespace NStandard.Measures;
 
+#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
 public static class Weight
 {
 	public struct g : IMeasurable<decimal>
@@ -46,6 +47,13 @@ public static class Weight
         public static implicit operator g(ulong value) => new((decimal)value);
         public static implicit operator g(float value) => new((decimal)value);
         public static implicit operator g(double value) => new((decimal)value);
+
+        public override bool Equals(object obj)
+        {
+            if (obj is not g other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 
 		public override string ToString() => $"{Value} g";
 	}
@@ -89,6 +97,13 @@ public static class Weight
         public static implicit operator kg(float value) => new((decimal)value);
         public static implicit operator kg(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not kg other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
+
 		public override string ToString() => $"{Value} kg";
 	}
 
@@ -131,6 +146,13 @@ public static class Weight
         public static implicit operator t(float value) => new((decimal)value);
         public static implicit operator t(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not t other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
+
 		public override string ToString() => $"{Value} t";
 	}
 
@@ -149,4 +171,5 @@ public static class WeightExtensions
     public static t Average(this IEnumerable<t> @this) => new t(@this.Average(x => x.Value));
 
 }
+#pragma warning restore CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
 

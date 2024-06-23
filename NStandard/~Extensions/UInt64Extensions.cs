@@ -11,7 +11,7 @@ public static class UInt64Extensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    [Obsolete("Use (@this & 1) == 1 instead.")]
+    [Obsolete("Use (@this & 1) == 1 instead.", true)]
     public static bool IsOdd(this ulong @this) => (@this & 1) == 1;
 
     /// <summary>
@@ -19,7 +19,7 @@ public static class UInt64Extensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    [Obsolete("Use (@this & 1) == 0 instead.")]
+    [Obsolete("Use (@this & 1) == 0 instead.", true)]
     public static bool IsEven(this ulong @this) => (@this & 1) == 0;
 
     /// <summary>

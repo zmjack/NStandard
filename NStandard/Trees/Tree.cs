@@ -6,7 +6,7 @@ namespace NStandard.Trees;
 
 public static class Tree
 {
-    public static Tree<TModel> Parse<TModel>(TModel model, Func<TModel, ICollection<TModel>> childrenGetter) where TModel : class
+    public static Tree<TModel> Parse<TModel>(TModel? model, Func<TModel?, ICollection<TModel?>> childrenGetter) where TModel : class
     {
         void AddChildren(Tree<TModel> tree)
         {
@@ -25,18 +25,18 @@ public static class Tree
         return tree;
     }
 
-    public static Tree<TModel>[] Parse<TModel>(IEnumerable<TModel> models, Func<TModel, ICollection<TModel>> childrenGetter) where TModel : class
+    public static Tree<TModel>[] Parse<TModel>(IEnumerable<TModel?> models, Func<TModel?, ICollection<TModel?>> childrenGetter) where TModel : class
     {
         return models.Select(x => Parse(x, childrenGetter)).ToArray();
     }
 
-    public static Tree<TModel>[] ParseRange<TModel, TKey>(IEnumerable<TModel> models, Func<TModel, TKey> keySelector, Func<TModel, TKey> parentGetter) where TModel : class
+    public static Tree<TModel>[] ParseRange<TModel, TKey>(IEnumerable<TModel?> models, Func<TModel?, TKey> keySelector, Func<TModel?, TKey> parentGetter) where TModel : class
     {
         if (!typeof(TKey).IsNullable()) throw new ArgumentException($"The argument({nameof(parentGetter)} must return a nullable type.");
 
         void AddChildren(Tree<TModel> tree)
         {
-            var children = models.Where(x => parentGetter(x).Equals(keySelector(tree.Model)));
+            var children = models.Where(x => Equals(parentGetter(x), keySelector(tree.Model)));
 
             if (children?.Any() ?? false)
             {
@@ -54,32 +54,34 @@ public static class Tree
 
 public class Tree<TModel> where TModel : class
 {
-    private readonly HashSet<Tree<TModel>> _innerChildren = new();
+    private readonly HashSet<Tree<TModel>> _innerChildren = [];
 
-    public Tree<TModel> Parent { get; private set; }
+    public Tree<TModel>? Parent { get; private set; }
     public IEnumerable<Tree<TModel>> Children => _innerChildren.AsEnumerable();
 
-    public TModel Model { get; set; }
+    public TModel? Model { get; set; }
 
     public Tree() { }
-    public Tree(TModel model)
+    public Tree(TModel? model)
     {
         Model = model;
     }
 
-    public Tree<TModel> AddChild(TModel model)
+    public Tree<TModel> AddChild(TModel? model)
     {
-        var tree = new Tree<TModel>(model);
-        tree.Parent = this;
+        var tree = new Tree<TModel>(model)
+        {
+            Parent = this
+        };
         _innerChildren.Add(tree);
         return tree;
     }
 
-    public Tree<TModel>[] AddChildren(IEnumerable<TModel> models)
+    public Tree<TModel>[] AddChildren(IEnumerable<TModel?> models)
     {
         var list = new List<Tree<TModel>>();
         foreach (var model in models) list.Add(AddChild(model));
-        return list.ToArray();
+        return [.. list];
     }
 
     public bool RemoveChild(Tree<TModel> tree) => _innerChildren.Remove(tree);
@@ -101,7 +103,7 @@ public class Tree<TModel> where TModel : class
 
     public IEnumerable<Tree<TModel>> SelectNonLeafs()
     {
-        foreach (var node in _innerChildren.Where(x => x._innerChildren.Any()))
+        foreach (var node in _innerChildren.Where(x => x._innerChildren.Count != 0))
         {
             yield return node;
 

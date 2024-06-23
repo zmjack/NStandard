@@ -61,24 +61,19 @@ public sealed class RSASignaturePadding : IEquatable<RSASignaturePadding>
         return Equals(obj as RSASignaturePadding);
     }
 
-    public bool Equals(RSASignaturePadding other)
+    public bool Equals(RSASignaturePadding? other)
     {
         return other is not null && _mode == other._mode;
     }
 
     public static bool operator ==(RSASignaturePadding left, RSASignaturePadding right)
     {
-        if (left is null)
-        {
-            return right is null;
-        }
-
-        return left.Equals(right);
+        return Equals(left, right);
     }
 
     public static bool operator !=(RSASignaturePadding left, RSASignaturePadding right)
     {
-        return !(left == right);
+        return !Equals(left, right);
     }
 
     public override string ToString()

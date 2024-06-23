@@ -8,12 +8,12 @@ namespace NStandard.Collections;
 
 [DebuggerDisplay("Count = {Count}")]
 [Serializable]
-public class HashMap<TKey, TValue> : IDictionary<TKey, TValue>
+public class HashMap<TKey, TValue> : IDictionary<TKey?, TValue?> where TKey : notnull
 {
-    private Tuple<TValue> _valueOf_NullKey;
-    private readonly Dictionary<TKey, TValue> _dictionary = new();
+    private Tuple<TValue?>? _valueOf_NullKey;
+    private readonly Dictionary<TKey, TValue?> _dictionary = [];
 
-    public TValue this[TKey key]
+    public TValue? this[TKey? key]
     {
         get
         {
@@ -35,7 +35,7 @@ public class HashMap<TKey, TValue> : IDictionary<TKey, TValue>
         }
     }
 
-    private IEnumerable<TKey> EnumKeys()
+    private IEnumerable<TKey?> EnumKeys()
     {
         if (_valueOf_NullKey is not null) yield return default;
 
@@ -45,9 +45,9 @@ public class HashMap<TKey, TValue> : IDictionary<TKey, TValue>
         }
     }
 
-    public ICollection<TKey> Keys => EnumKeys().ToArray();
+    public ICollection<TKey?> Keys => EnumKeys().ToArray();
 
-    private IEnumerable<TValue> EnumValues()
+    private IEnumerable<TValue?> EnumValues()
     {
         if (_valueOf_NullKey is not null) yield return _valueOf_NullKey.Item1;
 
@@ -57,13 +57,13 @@ public class HashMap<TKey, TValue> : IDictionary<TKey, TValue>
         }
     }
 
-    public ICollection<TValue> Values => EnumValues().ToArray();
+    public ICollection<TValue?> Values => EnumValues().ToArray();
 
     public int Count => _valueOf_NullKey is not null ? _dictionary.Count + 1 : _dictionary.Count;
 
     public bool IsReadOnly => false;
 
-    public void Add(TKey key, TValue value)
+    public void Add(TKey? key, TValue? value)
     {
         if (key is null)
         {
@@ -76,7 +76,7 @@ public class HashMap<TKey, TValue> : IDictionary<TKey, TValue>
         }
     }
 
-    void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item) => Add(item.Key, item.Value);
+    void ICollection<KeyValuePair<TKey?, TValue?>>.Add(KeyValuePair<TKey?, TValue?> item) => Add(item.Key, item.Value);
 
     public void Clear()
     {
@@ -84,27 +84,27 @@ public class HashMap<TKey, TValue> : IDictionary<TKey, TValue>
         _dictionary.Clear();
     }
 
-    bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
+    bool ICollection<KeyValuePair<TKey?, TValue?>>.Contains(KeyValuePair<TKey?, TValue?> item)
     {
         if (item.Key is null)
         {
             if (_valueOf_NullKey is null) return false;
 
-            return _valueOf_NullKey.Item1?.Equals(item.Value) ?? item.Value is null;
+            return Equals(_valueOf_NullKey.Item1, item.Value);
         }
         else
         {
-            return _dictionary.Contains(item);
+            return _dictionary.Contains(item!);
         }
     }
 
-    public bool ContainsKey(TKey key) => key is null ? _valueOf_NullKey is not null : _dictionary.ContainsKey(key);
+    public bool ContainsKey(TKey? key) => key is null ? _valueOf_NullKey is not null : _dictionary.ContainsKey(key);
     public bool ContainsValue(TValue value)
     {
-        return EnumValues().Any(x => x?.Equals(value) ?? value is null);
+        return EnumValues().Any(x => Equals(x, value));
     }
 
-    void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+    void ICollection<KeyValuePair<TKey?, TValue?>>.CopyTo(KeyValuePair<TKey?, TValue?>[] array, int arrayIndex)
     {
         if (array.Length - arrayIndex < Count) throw new ArgumentException("Destination array is not long enough to copy all the items in the collection. Check array index and length.");
 
@@ -117,21 +117,24 @@ public class HashMap<TKey, TValue> : IDictionary<TKey, TValue>
         }
     }
 
-    public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+    public IEnumerator<KeyValuePair<TKey?, TValue?>> GetEnumerator()
     {
-        IEnumerable<KeyValuePair<TKey, TValue>> EnumPairs()
+        IEnumerable<KeyValuePair<TKey?, TValue?>> EnumPairs()
         {
-            if (_valueOf_NullKey is not null) yield return new KeyValuePair<TKey, TValue>(default, _valueOf_NullKey.Item1);
+            if (_valueOf_NullKey is not null)
+            {
+                yield return new(default, _valueOf_NullKey.Item1);
+            }
 
             foreach (var pair in _dictionary)
             {
-                yield return pair;
+                yield return pair!;
             }
         }
         return EnumPairs().GetEnumerator();
     }
 
-    public bool Remove(TKey key)
+    public bool Remove(TKey? key)
     {
         if (key is null)
         {
@@ -147,7 +150,7 @@ public class HashMap<TKey, TValue> : IDictionary<TKey, TValue>
     }
 
 #if NET5_0_OR_GREATER
-    public bool Remove(TKey key, out TValue value)
+    public bool Remove(TKey? key, out TValue? value)
     {
         if (key is null)
         {
@@ -168,12 +171,12 @@ public class HashMap<TKey, TValue> : IDictionary<TKey, TValue>
     }
 #endif
 
-    bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
+    bool ICollection<KeyValuePair<TKey?, TValue?>>.Remove(KeyValuePair<TKey?, TValue?> item)
     {
         return Remove(item.Key);
     }
 
-    public bool TryGetValue(TKey key, out TValue value)
+    public bool TryGetValue(TKey? key, out TValue? value)
     {
         if (key is null)
         {

@@ -102,7 +102,7 @@ public sealed class RSAEncryptionPadding : IEquatable<RSAEncryptionPadding>
         return Equals(obj as RSAEncryptionPadding);
     }
 
-    public bool Equals(RSAEncryptionPadding other)
+    public bool Equals(RSAEncryptionPadding? other)
     {
         return other is not null
             && _mode == other._mode

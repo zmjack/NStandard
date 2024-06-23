@@ -31,7 +31,7 @@ public class PatternSearcher<T>
         nexts[0] = 0;
         for (int i = 1; i < length;)
         {
-            if (_pattern[scan].Equals(_pattern[i]))
+            if (Equals(_pattern[scan], _pattern[i]))
             {
                 scan++;
                 nexts[i] = scan;
@@ -64,7 +64,7 @@ public class PatternSearcher<T>
         var length = Pattern.Length;
         for (int si = startIndex, pi = 0; si < stopIndex;)
         {
-            if (array[si].Equals(_pattern[pi]))
+            if (Equals(array[si], _pattern[pi]))
             {
                 si++;
                 pi++;
@@ -93,7 +93,7 @@ public class PatternSearcher<T>
         var length = Pattern.Length;
         for (int si = startIndex, pi = 0; si < stopIndex;)
         {
-            if (array[si].Equals(_pattern[pi]))
+            if (Equals(array[si], _pattern[pi]))
             {
                 si++;
                 pi++;

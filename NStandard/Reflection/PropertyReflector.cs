@@ -6,40 +6,40 @@ namespace NStandard.Reflection;
 public class PropertyReflector : Reflector
 {
     public readonly PropertyInfo PropertyInfo;
-    public readonly object DeclaringObject;
+    public readonly object? DeclaringObject;
 
-    public PropertyReflector(Type propertyType, PropertyInfo propertyInfo, object declaringObj) : base(propertyType, declaringObj)
+    public PropertyReflector(PropertyInfo propertyInfo, object? declaringObj) : this(propertyInfo, propertyInfo.PropertyType, declaringObj) { }
+    public PropertyReflector(PropertyInfo propertyInfo, Type type, object? declaringObj) : base(type, declaringObj)
     {
         PropertyInfo = propertyInfo;
         DeclaringObject = declaringObj;
-
         Object = Value;
     }
 
-    public virtual object Value
+    public virtual object? Value
     {
-        get => DeclaringObject?.Pipe(x => PropertyInfo.GetValue(x));
+        get => DeclaringObject?.Pipe(PropertyInfo.GetValue);
         set
         {
-            if (!(DeclaringObject is null))
-                PropertyInfo.SetValue(DeclaringObject, value);
+            if (DeclaringObject is not null)
+            {
+                PropertyInfo.SetValue(DeclaringObject, value!);
+            }
             else throw new AccessViolationException();
         }
     }
-    public virtual object GetValue() => PropertyInfo.GetValue(DeclaringObject);
-    public void SetValue(object value) => PropertyInfo.SetValue(DeclaringObject, value);
+    public virtual object? GetValue() => PropertyInfo.GetValue(DeclaringObject!);
+    public void SetValue(object? value) => PropertyInfo.SetValue(DeclaringObject!, value!);
 }
 
-public class PropertyReflector<T> : PropertyReflector
+public class PropertyReflector<T>(PropertyInfo propertyInfo, object? declaringObj) : PropertyReflector(propertyInfo, typeof(T), declaringObj)
 {
-    public PropertyReflector(PropertyInfo propertyInfo, object declaringObj) : base(typeof(T), propertyInfo, declaringObj) { }
-
-    public new T Value
+    public new T? Value
     {
         get => base.Value is null ? default : (T)base.Value;
         set => base.Value = value;
     }
 
-    public new T GetValue() => (T)base.GetValue();
-    public void SetValue(T value) => base.SetValue(value);
+    public new T? GetValue() => (T?)base.GetValue();
+    public void SetValue(T? value) => base.SetValue(value);
 }

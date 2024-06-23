@@ -16,7 +16,7 @@ public class JsonImplConverter<T> : JsonConverter<T>
     {
         if (value is null)
         {
-            JsonSerializer.Serialize(writer, null, options);
+            JsonSerializer.Serialize<string?>(writer, null);
         }
         else
         {
@@ -37,7 +37,7 @@ public class JsonImplConverter<T, TSerialize> : JsonConverter<T>
     {
         if (value is null)
         {
-            JsonSerializer.Serialize(writer, null, options);
+            JsonSerializer.Serialize<string?>(writer, null);
         }
         else
         {

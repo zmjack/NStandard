@@ -8,7 +8,7 @@ namespace NStandard;
 public static class AppDomainExtensions
 {
     //TODO: Long-term Maintenance
-    public static Assembly GetCoreLibAssembly(this AppDomain @this)
+    public static Assembly? GetCoreLibAssembly(this AppDomain @this)
     {
         var assemblies = @this.GetAssemblies();
         foreach (var assembly in assemblies)

@@ -14,14 +14,14 @@ namespace NStandard.Text.Json;
 /// </summary>
 public static class JsonXmlSerializer
 {
-    private static StructTuple<string, string> GetPrefixNameTuple(string name)
+    private static StructTuple<string?, string> GetPrefixNameTuple(string name)
     {
         if (name.Contains(':'))
         {
             var parts = name.Split(':');
-            return StructTuple.Create(parts[0], parts[1]);
+            return StructTuple.Create((string?)parts[0], parts[1] ?? "");
         }
-        else return StructTuple.Create((string)null, name);
+        else return StructTuple.Create((string?)null, name);
     }
 
     private static XmlElement CreateElement(XmlDocument doc, Dictionary<string, string> namespaces, string name)
@@ -42,7 +42,7 @@ public static class JsonXmlSerializer
     {
         if (node.FirstChild is not null && node.FirstChild.NodeType == XmlNodeType.Text)
         {
-            var text = node.ChildNodes[0].InnerText;
+            var text = node.ChildNodes[0]!.InnerText!;
             if (node.Attributes?.Count > 0)
             {
                 var textObj = new JsonObject();
@@ -53,7 +53,7 @@ public static class JsonXmlSerializer
                 textObj.Add("#text", text);
                 return textObj;
             }
-            else return text;
+            else return text!;
         }
 
         var obj = new JsonObject();
@@ -108,7 +108,7 @@ public static class JsonXmlSerializer
     /// </summary>
     /// <param name="node"></param>
     /// <returns></returns>
-    public static string SerializeXmlNode(XmlNode? node)
+    public static string? SerializeXmlNode(XmlNode? node)
     {
         if (node is null) return null;
 
@@ -121,7 +121,7 @@ public static class JsonXmlSerializer
     /// </summary>
     /// <param name="xml"></param>
     /// <returns></returns>
-    public static string SerializeXmlNode(
+    public static string? SerializeXmlNode(
 #if NET7_0_OR_GREATER
         [StringSyntax(StringSyntaxAttribute.Xml)]
 #endif
@@ -141,24 +141,24 @@ public static class JsonXmlSerializer
         foreach (var pair in obj)
         {
             var name = pair.Key;
-            var node = pair.Value;
+            var node = pair.Value!;
 
-            if (name.StartsWith("?"))
+            if (name.StartsWith('?'))
             {
-                var version = node["@version"]?.ToString();
+                var version = node["@version"]?.ToString() ?? "";
                 var encoding = node["@encoding"]?.ToString();
                 var standalone = node["@standalone"]?.ToString();
                 var declaration = doc.CreateXmlDeclaration(version, encoding, standalone);
                 super.AppendChild(declaration);
             }
-            else if (name.StartsWith("@"))
+            else if (name.StartsWith('@'))
             {
                 var pureName = name.Substring(1);
                 var attr = doc.CreateAttribute(pureName);
                 attr.Value = node.ToString();
-                super.Attributes.Append(attr);
+                super.Attributes!.Append(attr);
             }
-            else if (name.StartsWith("#"))
+            else if (name.StartsWith('#'))
             {
                 if (name == "#text")
                 {
@@ -178,7 +178,7 @@ public static class JsonXmlSerializer
                     foreach (var prop in jsonObject.Where(x => x.Key.StartsWith("@xmlns")))
                     {
                         var (_, nsPrefix) = GetPrefixNameTuple(prop.Key);
-                        namespaces.Add(nsPrefix, prop.Value.ToString());
+                        namespaces.Add(nsPrefix, prop.Value!.ToString());
                         nsClear.Add(nsPrefix);
                     }
 
@@ -202,7 +202,7 @@ public static class JsonXmlSerializer
                         }
                         else
                         {
-                            var textNode = doc.CreateTextNode(item.ToString());
+                            var textNode = doc.CreateTextNode(item?.ToString());
                             element.AppendChild(textNode);
                         }
                         super.AppendChild(element);
@@ -224,7 +224,7 @@ public static class JsonXmlSerializer
     /// </summary>
     /// <param name="json"></param>
     /// <returns></returns>
-    public static XmlDocument DeserializeXmlNode(
+    public static XmlDocument? DeserializeXmlNode(
 #if NET7_0_OR_GREATER
         [StringSyntax(StringSyntaxAttribute.Json)]
 #endif
@@ -234,7 +234,7 @@ public static class JsonXmlSerializer
         if (json is null) return null;
 
         var doc = new XmlDocument();
-        var node = JsonSerializer.Deserialize<JsonNode>(json);
+        var node = JsonSerializer.Deserialize<JsonNode>(json)!;
         var namespaces = new Dictionary<string, string>();
         WriteXmlNode(doc, namespaces, doc, node.AsObject());
         return doc;

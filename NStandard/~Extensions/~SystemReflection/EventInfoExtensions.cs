@@ -9,7 +9,7 @@ public static class EventInfoExtensions
 {
     public static void AddEventHandler(this EventInfo @this, object declaringObject, MethodInfo method)
     {
-        @this.AddEventHandler(declaringObject, Delegate.CreateDelegate(@this.EventHandlerType, method));
+        @this.AddEventHandler(declaringObject, Delegate.CreateDelegate(@this.EventHandlerType!, method));
     }
 
 }

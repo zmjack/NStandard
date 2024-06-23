@@ -4,7 +4,7 @@ namespace NStandard.Collections;
 
 public class FixedSizeQueue<T>
 {
-    protected readonly T[] _store;
+    protected readonly T?[] _store;
     protected readonly int _maxIndex;
 
     protected int _fillCount;
@@ -21,7 +21,7 @@ public class FixedSizeQueue<T>
         _maxIndex = capacity - 1;
     }
 
-    public void Enqueue(T obj)
+    public void Enqueue(T? obj)
     {
         var startIndex = IsFilled ? 0 : _maxIndex - _fillCount;
         for (int i = startIndex; i < _maxIndex; i++)
@@ -37,7 +37,7 @@ public class FixedSizeQueue<T>
         }
     }
 
-    public T this[int i]
+    public T? this[int i]
     {
         get
         {

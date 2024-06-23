@@ -5,7 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace NStandard.UnitValues;
 
-[Obsolete("Use StorageCapacity instead.")]
+#pragma warning disable CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
+#pragma warning disable CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
+[Obsolete("Use StorageCapacity instead.", true)]
 public struct StorageValue : IUnitValue, ISummable<StorageValue>
 {
     public const string DefaultUnit = "b";
@@ -150,3 +152,5 @@ public struct StorageValue : IUnitValue, ISummable<StorageValue>
         Unit = DefaultUnit;
     }
 }
+#pragma warning restore CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
+#pragma warning restore CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)

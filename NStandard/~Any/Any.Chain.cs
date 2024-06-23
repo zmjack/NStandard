@@ -16,17 +16,21 @@ public static partial class Any
     /// <param name="enumerables"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static IEnumerable<ChainIterator<T>> Chain<T>(IEnumerable<T>[] enumerables)
+    public static IEnumerable<ChainIterator<T?>> Chain<T>(IEnumerable<T?>[] enumerables)
     {
+#if NET6_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(enumerables);
+#else
         if (enumerables is null) throw new ArgumentNullException(nameof(enumerables));
+#endif
         if (enumerables.Length == 0) throw EmptyArgumentException(nameof(enumerables));
 
         var length = enumerables.Length;
         var cursor = 0;
         var maxIndex = length - 1;
 
-        var iterators = new T[length];
-        var chain = new ChainIterator<T>
+        var iterators = new T?[length];
+        var chain = new ChainIterator<T?>
         {
             Iterators = iterators,
         };
@@ -42,7 +46,7 @@ public static partial class Any
         {
             if (enumerator.MoveNext())
             {
-                var current = (T)enumerator.Current;
+                var current = (T?)enumerator.Current;
                 iterators[cursor] = current;
                 chain.Cursor = cursor;
 
@@ -92,18 +96,23 @@ public static partial class Any
     /// <param name="generators"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static IEnumerable<ChainIterator<T>> Chain<T>(T seed, Func<T, IEnumerable<T>>[] generators)
+    public static IEnumerable<ChainIterator<T?>> Chain<T>(T seed, Func<T, IEnumerable<T>>[] generators)
     {
+#if NET6_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(seed);
+        ArgumentNullException.ThrowIfNull(generators);
+#else
         if (seed is null) throw new ArgumentNullException(nameof(seed));
         if (generators is null) throw new ArgumentNullException(nameof(generators));
+#endif
         if (generators.Length == 0) throw EmptyArgumentException(nameof(generators));
 
         var length = generators.Length;
         var cursor = 0;
         var maxIndex = length - 1;
 
-        var iterators = new T[length];
-        var chain = new ChainIterator<T>
+        var iterators = new T?[length];
+        var chain = new ChainIterator<T?>
         {
             Iterators = iterators,
         };

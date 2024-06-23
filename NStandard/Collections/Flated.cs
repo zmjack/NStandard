@@ -5,15 +5,15 @@ using System.ComponentModel;
 
 namespace NStandard.Collections;
 
-[Obsolete("Use Sequence instead.")]
+[Obsolete("Use Sequence instead.", true)]
 [EditorBrowsable(EditorBrowsableState.Never)]
 public class Flated<T> : IEnumerable<T>
 {
-    private readonly List<IEnumerable<T>> list = new();
+    private readonly List<IEnumerable<T>> list = [];
 
     public void Add(T value)
     {
-        list.Add(new[] { value });
+        list.Add([value]);
     }
 
     public void Add(IEnumerable<T> value)

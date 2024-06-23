@@ -7,7 +7,7 @@ namespace NStandard;
 public class ResourceAccessor
 {
     public Assembly Assembly { get; }
-    public string Namespace { get; }
+    public string? Namespace { get; }
     public string[] ResourceNames { get; }
 
     public ResourceAccessor(Assembly assembly)
@@ -25,10 +25,10 @@ public class ResourceAccessor
         else Namespace = null;
     }
 
-    public Stream OpenStream(string name)
+    public Stream? OpenStream(string name)
     {
         if (Namespace is not null)
-            return Assembly.GetManifestResourceStream($"{Namespace}.{name}");
+            return Assembly.GetManifestResourceStream($"{Namespace}.{name}")!;
         else return null;
     }
 

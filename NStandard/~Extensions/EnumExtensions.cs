@@ -33,12 +33,12 @@ public static class EnumExtensions
     /// <summary>
     /// Get the attribute of enum.
     /// </summary>
-    public static TAttribute GetAttribute<TAttribute>(this Enum enumValue) where TAttribute : Attribute
+    public static TAttribute? GetAttribute<TAttribute>(this Enum enumValue) where TAttribute : Attribute
     {
         return enumValue
             .GetType()
             .GetMember(enumValue.ToString())
-            .FirstOrDefault()
+            .FirstOrDefault()?
             .GetCustomAttribute<TAttribute>();
     }
 

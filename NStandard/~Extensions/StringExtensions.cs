@@ -15,7 +15,7 @@ public static class StringExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    public static bool IsNullOrEmpty(this string @this) => string.IsNullOrEmpty(@this);
+    public static bool IsNullOrEmpty(this string? @this) => string.IsNullOrEmpty(@this);
 
 
     /// <summary>
@@ -23,7 +23,7 @@ public static class StringExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    public static bool IsNullOrWhiteSpace(this string @this)
+    public static bool IsNullOrWhiteSpace(this string? @this)
     {
 #if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
         return string.IsNullOrWhiteSpace(@this);
@@ -42,15 +42,21 @@ public static class StringExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    public static bool IsEmpty(this string @this) => @this.Length == 0;
+    public static bool IsEmpty(this string? @this)
+    {
+        if (@this is null) return false;
+        return @this.Length == 0;
+    }
 
     /// <summary>
     /// Indicates whether a specified string is empty, or consists only of white-space characters.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    public static bool IsWhiteSpace(this string @this)
+    public static bool IsWhiteSpace(this string? @this)
     {
+        if (@this is null) return false;
+
         foreach (var c in @this)
             if (!char.IsWhiteSpace(c)) return false;
         return true;
@@ -254,7 +260,7 @@ public static class StringExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    public static string Unique(this string @this)
+    public static string? Unique(this string @this)
     {
         if (@this is null) return null;
         return UniqueRegex.Replace(@this.NormalizeNewLine().Replace(Environment.NewLine, " ").Trim(), " ");
@@ -262,7 +268,7 @@ public static class StringExtensions
 
     /// <summary>
     /// In a specified input string, replaces all strings that match a regular expression
-    //      pattern with a specified replacement string.
+    ///      pattern with a specified replacement string.
     /// </summary>
     /// <param name="this"></param>
     /// <param name="regex"></param>
@@ -272,11 +278,11 @@ public static class StringExtensions
 
     /// <summary>
     /// In a specified input string, replaces all strings that match a regular expression
-    //      pattern with a specified replacement string.
+    ///      pattern with a specified replacement string.
     /// </summary>
     /// <param name="this"></param>
     /// <param name="regex"></param>
-    /// <param name="replacement"></param>
+    /// <param name="evaluator"></param>
     /// <returns></returns>
     public static string RegexReplace(this string @this, Regex regex, MatchEvaluator evaluator) => regex.Replace(@this, evaluator);
 
@@ -287,7 +293,7 @@ public static class StringExtensions
     /// <param name="regex"></param>
     /// <param name="replacement"></param>
     /// <returns></returns>
-    public static IEnumerable<string> Extract(this string @this, Regex regex, string replacement = null)
+    public static IEnumerable<string> Extract(this string @this, Regex regex, string? replacement = null)
     {
         if (@this is null) yield break;
 
@@ -319,7 +325,7 @@ public static class StringExtensions
     /// <param name="regex"></param>
     /// <param name="replacement"></param>
     /// <returns></returns>
-    public static string ExtractFirst(this string @this, Regex regex, string replacement = null)
+    public static string? ExtractFirst(this string @this, Regex regex, string? replacement = null)
     {
         return Extract(@this, regex, replacement).FirstOrDefault();
     }
@@ -332,8 +338,8 @@ public static class StringExtensions
     /// <returns></returns>
     public static string[][] Resolve(this string @this, Regex regex)
     {
-        if (TryResolve(@this, regex, out var ret)) return ret;
-        else throw new ArgumentNullException("Can not match the sepecifed Regex.");
+        if (TryResolve(@this, regex, out var ret)) return ret!;
+        else throw new ArgumentNullException(nameof(regex), "Can not match the sepecifed Regex.");
     }
 
     /// <summary>
@@ -341,8 +347,9 @@ public static class StringExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <param name="regex"></param>
+    /// <param name="ret"></param>
     /// <returns></returns>
-    public static bool TryResolve(this string @this, Regex regex, out string[][] ret)
+    public static bool TryResolve(this string @this, Regex regex, out string[][]? ret)
     {
         var match = regex.Match(@this);
         if (match.Success)
@@ -501,7 +508,6 @@ public static class StringExtensions
     /// <summary>
     /// Reports the zero-based index of the first occurrence of the specified element in this string.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     /// <param name="this"></param>
     /// <param name="predicate"></param>
     /// <returns></returns>
@@ -565,7 +571,7 @@ public static class StringExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    [Obsolete("Use Pipe(Encoding.Unicode.GetBytes) instead.")]
+    [Obsolete("Use Pipe(Encoding.Unicode.GetBytes) instead.", true)]
     public static byte[] Bytes(this string @this) => Bytes(@this, Encoding.Unicode);
 
     /// <summary>
@@ -574,7 +580,7 @@ public static class StringExtensions
     /// <param name="this"></param>
     /// <param name="encoding"></param>
     /// <returns></returns>
-    [Obsolete("Use Pipe(Encoding.*.GetBytes) instead.")]
+    [Obsolete("Use Pipe(Encoding.*.GetBytes) instead.", true)]
     public static byte[] Bytes(this string @this, Encoding encoding) => encoding.GetBytes(@this);
 
     /// <summary>
@@ -583,23 +589,23 @@ public static class StringExtensions
     /// <param name="this"></param>
     /// <param name="encoding"></param>
     /// <returns></returns>
-    [Obsolete("Use Pipe(Encoding.GetEncoding(*).GetBytes) instead.")]
+    [Obsolete("Use Pipe(Encoding.GetEncoding(*).GetBytes) instead.", true)]
     public static byte[] Bytes(this string @this, string encoding) => Encoding.GetEncoding(encoding).GetBytes(@this);
 
     /// <summary>
     /// Removes a string from the beginning of this string.
     /// </summary>
     /// <param name="this"></param>
-    /// <param name="trimString"></param>
+    /// <param name="trim"></param>
     /// <returns></returns>
-    public static string TrimStart(this string @this, string trimString)
+    public static string TrimStart(this string? @this, string trim)
     {
-        if (string.IsNullOrEmpty(trimString)) return @this;
+        if (@this is null) throw new NullReferenceException();
 
         string ret = @this;
-        while (ret.StartsWith(trimString))
+        while (ret.StartsWith(trim))
         {
-            ret = ret.Substring(trimString.Length);
+            ret = ret.Substring(trim.Length);
         }
         return ret;
     }
@@ -608,15 +614,17 @@ public static class StringExtensions
     /// Removes a set of strings from the beginning of this string.
     /// </summary>
     /// <param name="this"></param>
-    /// <param name="trimStrings"></param>
+    /// <param name="trims"></param>
     /// <returns></returns>
-    public static string TrimStart(this string @this, params string[] trimStrings)
+    public static string TrimStart(this string? @this, params string[] trims)
     {
+        if (@this is null) throw new NullReferenceException();
+
         var ret = @this;
-        string trimString;
-        while ((trimString = trimStrings.FirstOrDefault(x => !string.IsNullOrEmpty(x) && ret.StartsWith(x))) is not null)
+        string? trim;
+        while ((trim = trims.FirstOrDefault(x => !string.IsNullOrEmpty(x) && ret.StartsWith(x))) is not null)
         {
-            ret = ret.Substring(trimString.Length);
+            ret = ret.Substring(trim.Length);
         }
         return ret;
     }
@@ -625,16 +633,16 @@ public static class StringExtensions
     /// Removes a string from the end of this string.
     /// </summary>
     /// <param name="this"></param>
-    /// <param name="trimString"></param>
+    /// <param name="trim"></param>
     /// <returns></returns>
-    public static string TrimEnd(this string @this, string trimString)
+    public static string TrimEnd(this string? @this, string trim)
     {
-        if (string.IsNullOrEmpty(trimString)) return @this;
+        if (@this is null) throw new NullReferenceException();
 
         string ret = @this;
-        while (ret.EndsWith(trimString))
+        while (ret.EndsWith(trim))
         {
-            ret = ret.Substring(0, ret.Length - trimString.Length);
+            ret = ret.Substring(0, ret.Length - trim.Length);
         }
         return ret;
     }
@@ -642,16 +650,18 @@ public static class StringExtensions
     /// <summary>
     /// Removes a set of strings from the end of this string.
     /// </summary>
-    /// <param name="target"></param>
-    /// <param name="trimStrings"></param>
+    /// <param name="this"></param>
+    /// <param name="trims"></param>
     /// <returns></returns>
-    public static string TrimEnd(this string target, params string[] trimStrings)
+    public static string TrimEnd(this string? @this, params string[] trims)
     {
-        var ret = target;
-        string trimString;
-        while ((trimString = trimStrings.FirstOrDefault(x => !string.IsNullOrEmpty(x) && ret.EndsWith(x))) is not null)
+        if (@this is null) throw new NullReferenceException();
+
+        var ret = @this;
+        string? trim;
+        while ((trim = trims.FirstOrDefault(x => !string.IsNullOrEmpty(x) && ret.EndsWith(x))) is not null)
         {
-            ret = ret.Substring(0, ret.Length - trimString.Length);
+            ret = ret.Substring(0, ret.Length - trim.Length);
         }
         return ret;
     }

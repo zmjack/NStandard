@@ -10,7 +10,7 @@ public static partial class ArrayExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    [Obsolete("Use Pipe(Encoding.Unicode.GetString) instead.")]
+    [Obsolete("Use Pipe(Encoding.Unicode.GetString) instead.", true)]
     public static string String(this byte[] @this) => String(@this, Encoding.Unicode);
 
     /// <summary>
@@ -19,7 +19,7 @@ public static partial class ArrayExtensions
     /// <param name="this"></param>
     /// <param name="encoding"></param>
     /// <returns></returns>
-    [Obsolete("Use Pipe(Encoding.GetEncoding(*).GetString) instead.")]
+    [Obsolete("Use Pipe(Encoding.GetEncoding(*).GetString) instead.", true)]
     public static string String(this byte[] @this, string encoding) => Encoding.GetEncoding(encoding).GetString(@this);
 
     /// <summary>
@@ -28,6 +28,6 @@ public static partial class ArrayExtensions
     /// <param name="this"></param>
     /// <param name="encoding"></param>
     /// <returns></returns>
-    [Obsolete("Use Pipe(Encoding.*.GetString) instead.")]
+    [Obsolete("Use Pipe(Encoding.*.GetString) instead.", true)]
     public static string String(this byte[] @this, Encoding encoding) => encoding.GetString(@this);
 }

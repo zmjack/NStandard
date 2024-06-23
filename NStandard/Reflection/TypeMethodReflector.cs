@@ -11,5 +11,5 @@ public class TypeMethodReflector
         MethodInfo = methodInfo;
     }
 
-    public object Invoke(object obj, params object[] parameters) => MethodInfo.Invoke(obj, parameters);
+    public object? Invoke(object obj, params object[] parameters) => MethodInfo.Invoke(obj, parameters);
 }

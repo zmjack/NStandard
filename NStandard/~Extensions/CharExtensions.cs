@@ -22,7 +22,7 @@ public static class CharExtensions
     /// <summary>
     /// Converts the value of a Unicode character to its uppercase equivalent.
     /// </summary>
-    /// <param name="thsi"></param>
+    /// <param name="this"></param>
     /// <returns></returns>
     public static char ToUpper(this char @this) => char.ToUpper(@this);
 

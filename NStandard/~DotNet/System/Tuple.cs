@@ -184,7 +184,7 @@ public class Tuple<T1> : IStructuralEquatable, IStructuralComparable, IComparabl
     /// <summary>
     /// Get the element at position <param name="index"/>.
     /// </summary>
-    object ITuple.this[int index]
+    object? ITuple.this[int index]
     {
         get
         {
@@ -288,7 +288,7 @@ public class Tuple<T1, T2> : IStructuralEquatable, IStructuralComparable, ICompa
     /// <summary>
     /// Get the element at position <param name="index"/>.
     /// </summary>
-    object ITuple.this[int index] =>
+    object? ITuple.this[int index] =>
         index switch
         {
             0 => Item1,
@@ -397,7 +397,7 @@ public class Tuple<T1, T2, T3> : IStructuralEquatable, IStructuralComparable, IC
     /// <summary>
     /// Get the element at position <param name="index"/>.
     /// </summary>
-    object ITuple.this[int index] =>
+    object? ITuple.this[int index] =>
         index switch
         {
             0 => Item1,
@@ -516,7 +516,7 @@ public class Tuple<T1, T2, T3, T4> : IStructuralEquatable, IStructuralComparable
     /// <summary>
     /// Get the element at position <param name="index"/>.
     /// </summary>
-    object ITuple.this[int index] =>
+    object? ITuple.this[int index] =>
         index switch
         {
             0 => Item1,
@@ -645,7 +645,7 @@ public class Tuple<T1, T2, T3, T4, T5> : IStructuralEquatable, IStructuralCompar
     /// <summary>
     /// Get the element at position <param name="index"/>.
     /// </summary>
-    object ITuple.this[int index] =>
+    object? ITuple.this[int index] =>
         index switch
         {
             0 => Item1,
@@ -784,7 +784,7 @@ public class Tuple<T1, T2, T3, T4, T5, T6> : IStructuralEquatable, IStructuralCo
     /// <summary>
     /// Get the element at position <param name="index"/>.
     /// </summary>
-    object ITuple.this[int index] =>
+    object? ITuple.this[int index] =>
         index switch
         {
             0 => Item1,
@@ -933,7 +933,7 @@ public class Tuple<T1, T2, T3, T4, T5, T6, T7> : IStructuralEquatable, IStructur
     /// <summary>
     /// Get the element at position <param name="index"/>.
     /// </summary>
-    object ITuple.this[int index] =>
+    object? ITuple.this[int index] =>
         index switch
         {
             0 => Item1,
@@ -1119,7 +1119,7 @@ public class Tuple<T1, T2, T3, T4, T5, T6, T7, TRest> : IStructuralEquatable, IS
     /// <summary>
     /// Get the element at position <param name="index"/>.
     /// </summary>
-    object ITuple.this[int index] =>
+    object? ITuple.this[int index] =>
         index switch
         {
             0 => Item1,

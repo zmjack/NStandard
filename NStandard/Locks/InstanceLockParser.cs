@@ -22,11 +22,11 @@ public class InstanceLockParser<TInstance>
             switch (x.Body.NodeType)
             {
                 case ExpressionType.Convert:
-                    return (x.Body as UnaryExpression).Operand.Type.IsBasicType();
+                    return (x.Body as UnaryExpression)!.Operand.Type.IsBasicType();
                 case ExpressionType.MemberAccess:
                     return x.Body.Type.IsBasicType();
                 case ExpressionType.Constant:
-                    return (x.Body as ConstantExpression).Type.IsBasicType();
+                    return (x.Body as ConstantExpression)!.Type.IsBasicType();
                 default: return false;
             }
         });
@@ -42,7 +42,7 @@ public class InstanceLockParser<TInstance>
     {
         return new Lock(string.Intern(
             $"[{StringFlow.UrlEncode(LockName)}<{typeof(TInstance).FullName}>]:" +
-            $"{FlagLambdas.Select(x => StringFlow.UrlEncode(x(instance).ToString())).Join(" ")}"));
+            $"{FlagLambdas.Select(f => StringFlow.UrlEncode(f(instance).ToString())).Join(" ")}"));
     }
 
     public virtual Lock ParseThreadLock(TInstance instance)

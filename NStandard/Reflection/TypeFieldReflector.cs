@@ -3,23 +3,20 @@ using System.Reflection;
 
 namespace NStandard.Reflection;
 
-public class TypeFieldReflector : TypeReflector
+public class TypeFieldReflector(FieldInfo fieldInfo, Type type) : TypeReflector(type)
 {
-    public readonly FieldInfo FieldInfo;
+    public readonly FieldInfo FieldInfo = fieldInfo;
 
-    public TypeFieldReflector(Type fieldType, FieldInfo fieldInfo) : base(fieldType)
+    public TypeFieldReflector(FieldInfo fieldInfo) : this(fieldInfo, fieldInfo.FieldType)
     {
-        FieldInfo = fieldInfo;
     }
 
-    public virtual object GetValue(object obj) => FieldInfo.GetValue(obj);
-    public void SetValue(object obj, object value) => FieldInfo.SetValue(obj, value);
+    public virtual object? GetValue(object? obj) => FieldInfo.GetValue(obj);
+    public void SetValue(object obj, object? value) => FieldInfo.SetValue(obj, value);
 }
 
-public class TypeFieldReflector<T> : TypeFieldReflector
+public class TypeFieldReflector<T>(FieldInfo fieldInfo) : TypeFieldReflector(fieldInfo, typeof(T))
 {
-    public TypeFieldReflector(FieldInfo fieldInfo) : base(typeof(T), fieldInfo) { }
-
-    public new T GetValue(object obj) => (T)base.GetValue(obj);
-    public void SetValue(object obj, T value) => base.SetValue(obj, value);
+    public new T? GetValue(object obj) => (T?)base.GetValue(obj);
+    public void SetValue(object obj, T? value) => base.SetValue(obj, value);
 }

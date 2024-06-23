@@ -12,17 +12,17 @@ public class State
 
     public static State<TValue> Use<TValue>() => new();
     public static State<TValue> Use<TValue>(TValue value) => new(value);
-    public static State<TValue> From<TValue>(Expression<Func<TValue>> value) => new(value);
+    public static State<TValue> From<TValue>(Expression<Func<TValue?>> value) => new(value);
 }
 
 public interface IState
 {
-    event State.ValueReceivedHandler<object> Updating;
-    event State.ValueReceivedHandler<object> Changed;
-    event Action Noticing;
+    event State.ValueReceivedHandler<object?>? Updating;
+    event State.ValueReceivedHandler<object?>? Changed;
+    event Action? Noticing;
 
     IState[] Dependencies { get; }
-    object Value { get; set; }
+    object? Value { get; set; }
     Type ValueType { get; }
 
     bool CanSetValue { get; }
@@ -30,19 +30,19 @@ public interface IState
 
 public sealed class State<T> : IState, IDisposable
 {
-    public event Action Noticing;
+    public event Action? Noticing;
 
-    public event State.ValueReceivedHandler<T> Updating;
-    private event State.ValueReceivedHandler<object> ValueUpdating;
-    event State.ValueReceivedHandler<object> IState.Updating
+    public event State.ValueReceivedHandler<T?>? Updating;
+    private event State.ValueReceivedHandler<object?>? ValueUpdating;
+    event State.ValueReceivedHandler<object?>? IState.Updating
     {
         add => ValueUpdating += value;
         remove => ValueUpdating -= value;
     }
 
-    public event State.ValueReceivedHandler<T> Changed;
-    private event State.ValueReceivedHandler<object> ValueChanged;
-    event State.ValueReceivedHandler<object> IState.Changed
+    public event State.ValueReceivedHandler<T?>? Changed;
+    private event State.ValueReceivedHandler<object?>? ValueChanged;
+    event State.ValueReceivedHandler<object?>? IState.Changed
     {
         add => ValueChanged += value;
         remove => ValueChanged -= value;
@@ -50,11 +50,11 @@ public sealed class State<T> : IState, IDisposable
 
     private bool disposedValue;
 
-    private readonly HashSet<IState> _dependencyList = new();
-    public IState[] Dependencies => _dependencyList.ToArray();
+    private readonly HashSet<IState> _dependencyList = [];
+    public IState[] Dependencies => [.. _dependencyList];
 
-    private readonly Func<T> _getValue;
-    private T _value;
+    private readonly Func<T?> _getValue;
+    private T? _value;
 
 #if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET40_OR_GREATER
     private readonly Lazy<Type> _valueType = new(() => typeof(T));
@@ -76,10 +76,10 @@ public sealed class State<T> : IState, IDisposable
     }
 
     public bool CanSetValue { get; }
-    private T GetStoredValue() => _value;
+    private T? GetStoredValue() => _value;
 
     internal State() : this(default(T)) { }
-    internal State(T value)
+    internal State(T? value)
     {
         IsValueCreated = true;
         CanSetValue = true;
@@ -88,7 +88,7 @@ public sealed class State<T> : IState, IDisposable
         _getValue = GetStoredValue;
     }
 
-    internal State(Expression<Func<T>> getValue)
+    internal State(Expression<Func<T?>> getValue)
     {
         CanSetValue = false;
 
@@ -116,7 +116,7 @@ public sealed class State<T> : IState, IDisposable
         dependency.Noticing -= Update;
     }
 
-    public void CollectDependencies(Expression<Func<T>> getValue)
+    public void CollectDependencies(Expression<Func<T?>> getValue)
     {
         _dependencyList.Clear();
 
@@ -139,7 +139,7 @@ public sealed class State<T> : IState, IDisposable
         InnerCollectDependencies(dependencies);
     }
 
-    public T Value
+    public T? Value
     {
         get
         {
@@ -154,10 +154,9 @@ public sealed class State<T> : IState, IDisposable
         {
             if (!CanSetValue) throw new InvalidOperationException("Cannot set value for state which is calculated from other object.");
 
-            if (!_value.Equals(value))
+            if (!Equals(_value, value))
             {
                 _value = value;
-
                 Changed?.Invoke(value);
                 ValueChanged?.Invoke(value);
                 Noticing?.Invoke();
@@ -165,10 +164,10 @@ public sealed class State<T> : IState, IDisposable
         }
     }
 
-    object IState.Value
+    object? IState.Value
     {
         get => Value;
-        set => Value = (T)value;
+        set => Value = (T?)value;
     }
 
     /// <summary>
@@ -192,12 +191,12 @@ public sealed class State<T> : IState, IDisposable
         }
     }
 
-    public static implicit operator T(State<T> @this)
+    public static implicit operator T?(State<T> @this)
     {
         return @this.Value;
     }
 
-    protected void Dispose(bool disposing)
+    private void Dispose(bool disposing)
     {
         if (!disposedValue)
         {

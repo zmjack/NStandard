@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 
 namespace NStandard.Security;
@@ -15,7 +16,7 @@ public abstract class SymmetricProvider<TSymmetricCipher> where TSymmetricCipher
     {
         var alg = CreateAlgorithm();
         alg.GenerateKey();
-        Key = alg.Key.Clone() as byte[];
+        Key = (alg.Key.Clone() as byte[])!;
         Mode = mode;
         Padding = padding;
     }
@@ -33,7 +34,7 @@ public abstract class SymmetricProvider<TSymmetricCipher> where TSymmetricCipher
         var alg = CreateAlgorithm();
         alg.Mode = Mode;
         alg.Padding = Padding;
-        alg.Key = Key.Clone() as byte[];
+        alg.Key = (Key.Clone() as byte[])!;
         return alg;
     }
 
@@ -57,7 +58,7 @@ public abstract class SymmetricProvider<TSymmetricCipher> where TSymmetricCipher
         else
         {
             alg.GenerateIV();
-            iv = alg.IV.Clone() as byte[];
+            iv = (alg.IV.Clone() as byte[])!;
         }
         using var encryptor = alg.CreateEncryptor();
         using var crypto = new CryptoStream(cipherStream, encryptor, CryptoStreamMode.Write);
@@ -66,6 +67,9 @@ public abstract class SymmetricProvider<TSymmetricCipher> where TSymmetricCipher
 
     public byte[] Decrypt(TSymmetricCipher pair)
     {
+        if (pair.Cipher is null) throw new ArgumentException("The cipher can not be null.", nameof(pair));
+        if (pair.IV is null) throw new ArgumentException("The IV can not be null.", nameof(pair));
+
         using var cipherStream = new MemoryStream(pair.Cipher);
         using var stream = new MemoryStream();
         Decrypt(cipherStream, stream, pair.IV);
@@ -75,7 +79,7 @@ public abstract class SymmetricProvider<TSymmetricCipher> where TSymmetricCipher
     {
         var alg = InnerCreateAlgorithm();
         if (Mode == CipherMode.ECB) alg.IV = EmptyIV;
-        else alg.IV = iv.Clone() as byte[];
+        else alg.IV = (iv.Clone() as byte[])!;
 
         using var decryptor = alg.CreateDecryptor(alg.Key, alg.IV);
         using var crypto = new CryptoStream(cipherStream, decryptor, CryptoStreamMode.Read);

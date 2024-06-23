@@ -12,7 +12,7 @@ public static partial class MathEx
     /// <param name="total">The n value.</param>
     /// <returns></returns>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use Permut instead. (Signature has been adjusted.)")]
+    [Obsolete("Use Permut instead. (Signature has been adjusted.)", true)]
     public static int Permutation(int choice, int total)
     {
         if (choice < 0) throw new ArgumentException("The choice must be greater than zero.", nameof(choice));
@@ -33,7 +33,7 @@ public static partial class MathEx
     /// <param name="total">The n value.</param>
     /// <returns></returns>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use Combin instead. (Signature has been adjusted.)")]
+    [Obsolete("Use Combin instead. (Signature has been adjusted.)", true)]
     public static int Combination(int choice, int total)
     {
         if (choice < 0) throw new ArgumentException("The choice must be greater than zero.", nameof(choice));

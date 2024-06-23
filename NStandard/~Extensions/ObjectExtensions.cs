@@ -57,7 +57,7 @@ public static class ObjectExtensions
     /// <param name="this"></param>
     /// <param name="task"></param>
     /// <returns></returns>
-    [Obsolete("Use Pipe instead.")]
+    [Obsolete("Use Pipe instead.", true)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static TSelf Then<TSelf>(this TSelf @this, Action<TSelf> task)
     {
@@ -72,7 +72,7 @@ public static class ObjectExtensions
     /// <param name="this"></param>
     /// <param name="task"></param>
     /// <returns></returns>
-    [Obsolete("Use Pipe instead.")]
+    [Obsolete("Use Pipe instead.", true)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static TSelf Then<TSelf>(this TSelf @this, Action task)
     {
@@ -87,7 +87,7 @@ public static class ObjectExtensions
     /// <param name="this"></param>
     /// <param name="out"></param>
     /// <returns></returns>
-    [Obsolete("Use Pipe instead.")]
+    [Obsolete("Use Pipe instead.", true)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static TSelf For<TSelf>(this TSelf @this, out TSelf @out)
     {
@@ -103,7 +103,7 @@ public static class ObjectExtensions
     /// <param name="this"></param>
     /// <param name="convert"></param>
     /// <returns></returns>
-    [Obsolete("Use Pipe instead.")]
+    [Obsolete("Use Pipe instead.", true)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static TRet For<TSelf, TRet>(this TSelf @this, TRet convert) => convert;
 
@@ -115,7 +115,7 @@ public static class ObjectExtensions
     /// <param name="this"></param>
     /// <param name="convert"></param>
     /// <returns></returns>
-    [Obsolete("Use Pipe instead.")]
+    [Obsolete("Use Pipe instead.", true)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static TRet For<TSelf, TRet>(this TSelf @this, Func<TSelf, TRet> convert) => convert(@this);
 
@@ -129,7 +129,7 @@ public static class ObjectExtensions
     /// <param name="param"></param>
     /// <param name="convert"></param>
     /// <returns></returns>
-    [Obsolete("Use Pipe instead.")]
+    [Obsolete("Use Pipe instead.", true)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static TRet For<TSelf, TParam, TRet>(this TSelf @this, Func<TSelf, TParam, TRet> convert, TParam param) => convert(@this, param);
 
@@ -138,7 +138,7 @@ public static class ObjectExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    [Obsolete("Use `is null` instead.")]
+    [Obsolete("Use `is null` instead.", true)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static bool IsNull<TSelf>(this TSelf @this) where TSelf : class => @this is null;
 
@@ -160,7 +160,7 @@ public static class ObjectExtensions
         var props = @this.GetType().GetProperties();
         foreach (var prop in props)
         {
-            var value = prop.GetValue(@this);
+            var value = prop.GetValue(@this)!;
             if (value.GetType().IsAnonymousType())
                 objDict[prop.Name] = ToExpandoObject(value);
             else objDict[prop.Name] = value;

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using NStandard.Reflection;
 
 namespace NStandard;
 
@@ -60,10 +61,10 @@ public static class TypeExtensions
             case Type when @this == typeof(decimal?): return "decimal?";
 
             default:
-                if (@this.IsArray) return $"{GetSimplifiedName(@this.GetElementType())}[]";
+                if (@this.IsArray) return $"{GetSimplifiedName(@this.GetElementType()!)}[]";
                 else if (@this.IsNullable()) return $"{GetSimplifiedName(@this.GetGenericArguments()[0])}?";
                 else if (@this.IsGenericTypeDefinition) return $"{@this.Name}<>";
-                else if (@this.IsGenericType) return $"{@this.Name.Extract(GetSimplifiedNameRegex).FirstOrDefault()}<{@this.GetGenericArguments().Select(x => GetSimplifiedName(x)).Join(", ")}>";
+                else if (@this.IsGenericType) return $"{@this.Name.Extract(GetSimplifiedNameRegex).FirstOrDefault()}<{@this.GetGenericArguments().Select(GetSimplifiedName).Join(", ")}>";
                 else return @this.Name;
         };
     }
@@ -190,12 +191,12 @@ public static class TypeExtensions
         else return @this.GetInterfaces().Any(x => x == @interface);
     }
 
-    public static Type AsInterface<TInterface>(this Type @this)
+    public static Type? AsInterface<TInterface>(this Type @this)
         where TInterface : class
     {
         return AsInterface(@this, typeof(TInterface));
     }
-    public static Type AsInterface(this Type @this, Type @interface)
+    public static Type? AsInterface(this Type @this, Type @interface)
     {
         // Similar to IsImplement Method.
         if (@interface.IsGenericTypeDefinition)
@@ -235,12 +236,12 @@ public static class TypeExtensions
         else return IsType(@this, compatibleType) || IsExtend(@this, compatibleType);
     }
 
-    public static Type AsClass<TInterface>(this Type @this)
+    public static Type? AsClass<TInterface>(this Type @this)
         where TInterface : class
     {
         return AsClass(@this, typeof(TInterface));
     }
-    public static Type AsClass(this Type @this, Type extendType)
+    public static Type? AsClass(this Type @this, Type extendType)
     {
         // Similar to IsExtend Method.
         var baseType = @this.BaseType;
@@ -261,11 +262,11 @@ public static class TypeExtensions
         else return null;
     }
 
-    public static object CreateDefault(this Type @this)
+    public static object? CreateDefault(this Type @this)
     {
         return @this.IsValueType ? Activator.CreateInstance(@this) : null;
     }
-    public static object CreateInstance(this Type @this)
+    public static object? CreateInstance(this Type @this)
     {
 #if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
         var args = Array.Empty<object>();
@@ -274,21 +275,23 @@ public static class TypeExtensions
 #endif
         return CreateInstance(@this, args);
     }
-    public static object CreateInstance(this Type @this, params object[] args) => Activator.CreateInstance(@this, TypeEx.DeclaredOnlyLookup, null, args, null);
+    public static object? CreateInstance(this Type @this, params object[] args)
+    {
+        return Activator.CreateInstance(@this, TypeEx.DeclaredOnlyLookup, null, args, null);
+    }
 
     public static Type GetCoClassType(this Type @this)
     {
         var attr = @this.GetCustomAttribute<CoClassAttribute>();
-        if (attr == null) throw new InvalidOperationException($"Can not find CoClass from '{@this.FullName}'.");
-        return attr.CoClass;
+        return attr is null ? throw new InvalidOperationException($"Can not find CoClass from '{@this.FullName}'.") : attr.CoClass;
     }
 
-    private static bool RecursiveSearchExtends(Type type, Type extendType, bool generic)
+    private static bool RecursiveSearchExtends(Type? type, Type extendType, bool generic)
     {
-        if (type != null)
+        if (type is not null)
         {
             if (!generic && type.FullName == extendType.FullName) return true;
-            else if (generic && type.FullName.StartsWith(extendType.FullName)) return true;
+            else if (generic && type.FullName!.StartsWith(extendType.FullName!)) return true;
             else return RecursiveSearchExtends(type.BaseType, extendType, generic);
         }
         else return false;
@@ -304,13 +307,19 @@ public static class TypeExtensions
         var list = new List<Type> { @this };
         for (var baseType = @this.BaseType; baseType is not null; baseType = baseType.BaseType)
             list.Add(baseType);
-        return list.ToArray();
+        return [.. list];
     }
 
-    public static MethodInfo GetDeclaredMethod(this Type @this, string name) => @this.GetMethod(name, TypeEx.DeclaredOnlyLookup);
+    public static MethodInfo? GetDeclaredMethod(this Type @this, string name)
+    {
+        return @this.GetMethod(name, TypeEx.DeclaredOnlyLookup);
+    }
     public static IEnumerable<MethodInfo> GetDeclaredMethods(this Type @this)
     {
-        foreach (var item in @this.GetMethods(TypeEx.DeclaredOnlyLookup)) yield return item;
+        foreach (var item in @this.GetMethods(TypeEx.DeclaredOnlyLookup))
+        {
+            yield return item;
+        }
     }
     public static IEnumerable<MethodInfo> GetDeclaredMethods(this Type @this, string name)
     {
@@ -320,7 +329,7 @@ public static class TypeExtensions
         }
     }
 
-    public static EventInfo GetDeclaredEvent(this Type @this, string name) => @this.GetEvent(name, TypeEx.DeclaredOnlyLookup);
+    public static EventInfo? GetDeclaredEvent(this Type @this, string name) => @this.GetEvent(name, TypeEx.DeclaredOnlyLookup);
     public static IEnumerable<EventInfo> GetDeclaredEvents(this Type @this)
     {
         foreach (var item in @this.GetEvents(TypeEx.DeclaredOnlyLookup)) yield return item;
@@ -333,7 +342,7 @@ public static class TypeExtensions
         }
     }
 
-    public static FieldInfo GetDeclaredField(this Type @this, string name) => @this.GetField(name, TypeEx.DeclaredOnlyLookup);
+    public static FieldInfo? GetDeclaredField(this Type @this, string name) => @this.GetField(name, TypeEx.DeclaredOnlyLookup);
     public static IEnumerable<FieldInfo> GetDeclaredFields(this Type @this)
     {
         foreach (var item in @this.GetFields(TypeEx.DeclaredOnlyLookup)) yield return item;
@@ -346,7 +355,7 @@ public static class TypeExtensions
         }
     }
 
-    public static PropertyInfo GetDeclaredProperty(this Type @this, string name) => @this.GetProperty(name, TypeEx.DeclaredOnlyLookup);
+    public static PropertyInfo? GetDeclaredProperty(this Type @this, string name) => @this.GetProperty(name, TypeEx.DeclaredOnlyLookup);
     public static IEnumerable<PropertyInfo> GetDeclaredProperties(this Type @this)
     {
         foreach (var item in @this.GetProperties(TypeEx.DeclaredOnlyLookup)) yield return item;
@@ -359,7 +368,7 @@ public static class TypeExtensions
         }
     }
 
-    public static Type GetDeclaredNestedType(this Type @this, string name) => @this.GetNestedType(name, TypeEx.DeclaredOnlyLookup);
+    public static Type? GetDeclaredNestedType(this Type @this, string name) => @this.GetNestedType(name, TypeEx.DeclaredOnlyLookup);
     public static IEnumerable<Type> GetDeclaredNestedTypes(this Type @this)
     {
         foreach (var item in @this.GetNestedTypes(TypeEx.DeclaredOnlyLookup)) yield return item;
@@ -389,12 +398,12 @@ public static class TypeExtensions
 
     public static TypeReflector GetTypeReflector(this Type @this) => new(@this);
 
-    public static PropertyInfo GetChainProperty(this Type type, params string[] chain)
+    public static PropertyInfo? GetChainProperty(this Type type, params string[] chain)
     {
-        if (chain is null) throw new ArgumentNullException("The property can not be null.", nameof(chain));
-        if (!chain.Any()) throw new ArgumentException("The property can not be empty.", nameof(chain));
+        if (chain is null) throw new ArgumentNullException(nameof(chain), "The property can not be null.");
+        if (chain.Length == 0) throw new ArgumentException("The property can not be empty.", nameof(chain));
 
-        static PropertyInfo GetProperty(Type type, string name)
+        static PropertyInfo? GetProperty(Type type, string name)
         {
             var property = type.GetProperty(name, TypeEx.DeclaredOnlyLookup);
             if (property is not null) return property;
@@ -403,18 +412,28 @@ public static class TypeExtensions
             else return GetProperty(type.BaseType, name);
         }
 
-        PropertyInfo property;
+        PropertyInfo? property;
         var enumerator = chain.GetEnumerator();
-        enumerator.MoveNext();
 
-        var name = enumerator.Current as string;
+        string? name = null;
+        while (enumerator.MoveNext())
+        {
+            name = enumerator.Current as string;
+            if (name is not null) break;
+        }
+
+        if (name is null) return null;
+
         property = GetProperty(type, name);
+        if (property is null) return null;
 
         while (enumerator.MoveNext())
         {
             name = enumerator.Current as string;
-            type = property.PropertyType;
-            property = GetProperty(type, name);
+            if (name is null) continue;
+
+            property = GetProperty(property!.PropertyType, name);
+            if (property is null) return null;
         }
 
         return property;

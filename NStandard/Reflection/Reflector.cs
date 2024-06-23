@@ -3,41 +3,59 @@ using System.Reflection;
 
 namespace NStandard.Reflection;
 
-public class Reflector
+public class Reflector(Type objType, object? obj)
 {
-    public object Object { get; internal set; }
-    public Type Type { get; private set; }
+    private static ArgumentException FieldNotFound(string name) => throw new ArgumentException("The field can not be found.", name);
+    private static ArgumentException PropertyNotFound(string name) => throw new ArgumentException("The property can not be found.", name);
+    private static ArgumentException MethodNotFound(string name) => throw new ArgumentException("The method can not be found.", name);
 
-    public Reflector(Type objType, object obj)
+    public object? Object { get; internal set; } = obj;
+    public Type Type { get; private set; } = objType;
+
+    private FieldInfo GetField(string name)
     {
-        Object = obj;
-        Type = objType;
+        return Type.GetField(name) ?? throw FieldNotFound(nameof(name));
+    }
+    private FieldInfo GetField(string name, BindingFlags bindingAttr)
+    {
+        return Type.GetField(name, bindingAttr) ?? throw FieldNotFound(nameof(name));
     }
 
-    public FieldReflector Field(string name) => Type.GetField(name)?.Pipe(x => new FieldReflector(x.FieldType, x, Object));
-    public FieldReflector Field(string name, Type type) => Type.GetField(name)?.Pipe(x => new FieldReflector(type, x, Object));
-    public FieldReflector<T> Field<T>(string name) => Type.GetField(name)?.Pipe(x => new FieldReflector<T>(x, Object));
-    public FieldReflector Field(string name, BindingFlags bindingAttr) => Type.GetField(name, bindingAttr)?.Pipe(x => new FieldReflector(x.FieldType, x, Object));
-    public FieldReflector Field(string name, Type type, BindingFlags bindingAttr) => Type.GetField(name, bindingAttr)?.Pipe(x => new FieldReflector(type, x, Object));
-    public FieldReflector<T> Field<T>(string name, BindingFlags bindingAttr) => Type.GetField(name, bindingAttr)?.Pipe(x => new FieldReflector<T>(x, Object));
-    public FieldReflector DeclaredField(string name) => Type.GetDeclaredField(name)?.Pipe(x => new FieldReflector(x.FieldType, x, Object));
-    public FieldReflector DeclaredField(string name, Type type) => Type.GetDeclaredField(name)?.Pipe(x => new FieldReflector(type, x, Object));
-    public FieldReflector<T> DeclaredField<T>(string name) => Type.GetDeclaredField(name)?.Pipe(x => new FieldReflector<T>(x, Object));
+    public FieldReflector Field(string name) => new(GetField(name), Object);
+    public FieldReflector<T> Field<T>(string name) => new(GetField(name), Object);
+    public FieldReflector Field(string name, BindingFlags bindingAttr) => new(GetField(name, bindingAttr), Object);
+    public FieldReflector<T> Field<T>(string name, BindingFlags bindingAttr) => new(GetField(name, bindingAttr), Object);
 
+    public FieldReflector DeclaredField(string name) => new(GetField(name, TypeEx.DeclaredOnlyLookup), Object);
+    public FieldReflector<T> DeclaredField<T>(string name) => new(GetField(name, TypeEx.DeclaredOnlyLookup), Object);
 
-    public PropertyReflector Property(string name) => Type.GetProperty(name)?.Pipe(x => new PropertyReflector(x.PropertyType, x, Object));
-    public PropertyReflector Property(string name, Type type) => Type.GetProperty(name)?.Pipe(x => new PropertyReflector(type, x, Object));
-    public PropertyReflector<T> Property<T>(string name) => Type.GetProperty(name)?.Pipe(x => new PropertyReflector<T>(x, Object));
-    public PropertyReflector Property(string name, BindingFlags bindingAttr) => Type.GetProperty(name, bindingAttr)?.Pipe(x => new PropertyReflector(x.PropertyType, x, Object));
-    public PropertyReflector Property(string name, Type type, BindingFlags bindingAttr) => Type.GetProperty(name, bindingAttr)?.Pipe(x => new PropertyReflector(type, x, Object));
-    public PropertyReflector<T> Property<T>(string name, BindingFlags bindingAttr) => Type.GetProperty(name, bindingAttr)?.Pipe(x => new PropertyReflector<T>(x, Object));
-    public PropertyReflector DeclaredProperty(string name) => Type.GetDeclaredProperty(name)?.Pipe(x => new PropertyReflector(x.PropertyType, x, Object));
-    public PropertyReflector DeclaredProperty(string name, Type type) => Type.GetDeclaredProperty(name)?.Pipe(x => new PropertyReflector(type, x, Object));
-    public PropertyReflector<T> DeclaredProperty<T>(string name) => Type.GetDeclaredProperty(name)?.Pipe(x => new PropertyReflector<T>(x, Object));
+    private PropertyInfo GetProperty(string name)
+    {
+        return Type.GetProperty(name) ?? throw PropertyNotFound(nameof(name));
+    }
+    private PropertyInfo GetProperty(string name, BindingFlags bindingAttr)
+    {
+        return Type.GetProperty(name, bindingAttr) ?? throw PropertyNotFound(nameof(name));
+    }
+    public PropertyReflector Property(string name) => new(GetProperty(name), Object);
+    public PropertyReflector<T> Property<T>(string name) => new(GetProperty(name), Object);
+    public PropertyReflector Property(string name, BindingFlags bindingAttr) => new(GetProperty(name, bindingAttr), Object);
+    public PropertyReflector<T> Property<T>(string name, BindingFlags bindingAttr) => new(GetProperty(name, bindingAttr), Object);
 
-    public MethodReflector Method(string name) => new(Type.GetMethod(name), Object);
-    public MethodReflector Method(string name, BindingFlags bindingAttr) => new(Type.GetMethod(name, bindingAttr), Object);
-    public MethodReflector DeclaredMethod(string name) => new(Type.GetDeclaredMethod(name), Object);
+    public PropertyReflector DeclaredProperty(string name) => new(GetProperty(name, TypeEx.DeclaredOnlyLookup), Object);
+    public PropertyReflector<T> DeclaredProperty<T>(string name) => new(GetProperty(name, TypeEx.DeclaredOnlyLookup), Object);
+
+    private MethodInfo GetMethod(string name)
+    {
+        return Type.GetMethod(name) ?? throw MethodNotFound(nameof(name));
+    }
+    private MethodInfo GetMethod(string name, BindingFlags bindingAttr)
+    {
+        return Type.GetMethod(name, bindingAttr) ?? throw MethodNotFound(nameof(name));
+    }
+    public MethodReflector Method(string name) => new(GetMethod(name), Object);
+    public MethodReflector Method(string name, BindingFlags bindingAttr) => new(GetMethod(name, bindingAttr), Object);
+    public MethodReflector DeclaredMethod(string name) => new(GetMethod(name, TypeEx.DeclaredOnlyLookup), Object);
 
     public MethodReflector MethodViaQualifiedName(string name) => new(Type.GetMethodViaQualifiedName(name), Object);
     public MethodReflector MethodViaQualifiedName(string name, BindingFlags bindingAttr) => new(Type.GetMethodViaQualifiedName(name, bindingAttr), Object);

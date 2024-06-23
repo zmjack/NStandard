@@ -16,7 +16,7 @@ public class JsonValueConverter<T> : JsonConverter<T> where T : IJsonValue
     {
         if (value is null || value.Value is null)
         {
-            JsonSerializer.Serialize(writer, null, options);
+            JsonSerializer.Serialize<string?>(writer, null);
         }
         else
         {

@@ -4,17 +4,12 @@ using System.Diagnostics;
 namespace NStandard;
 
 [DebuggerDisplay("{Target}")]
-public struct Val<T>
+public struct Val<T>(T target)
 {
-    public T Target { get; }
+    public T Target { get; } = target;
 
-    [Obsolete("Use Target instead.")]
+    [Obsolete("Use Target instead.", true)]
     public T Any => Target;
-
-    public Val(T target)
-    {
-        Target = target;
-    }
 
     public static implicit operator Val<T>(T target)
     {

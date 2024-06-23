@@ -13,12 +13,19 @@ public static class Evaluator
     public static readonly NumericalEvaluator Numerical = new();
 }
 
-public abstract class EvaluatorBase
+public abstract partial class EvaluatorBase
 {
-    private static readonly MethodInfo BracketMethod = typeof(EvaluatorBase).GetDeclaredMethod(nameof(Bracket));
-    private static readonly MethodInfo DictionaryGetItemMethod = typeof(IDictionary<,>).MakeGenericType(typeof(string), typeof(double)).GetMethod("get_Item");
-    private static readonly MethodInfo DictionaryContainsKeyMethod = typeof(IDictionary<,>).MakeGenericType(typeof(string), typeof(double)).GetMethod("ContainsKey");
+    private static readonly MethodInfo BracketMethod = typeof(EvaluatorBase).GetDeclaredMethod(nameof(Bracket))!;
+    private static readonly MethodInfo DictionaryGetItemMethod = typeof(IDictionary<,>).MakeGenericType(typeof(string), typeof(double)).GetMethod("get_Item")!;
+    private static readonly MethodInfo DictionaryContainsKeyMethod = typeof(IDictionary<,>).MakeGenericType(typeof(string), typeof(double)).GetMethod("ContainsKey")!;
+
+#if NET8_0_OR_GREATER
+    [GeneratedRegex(@"([\[\]\-\.\^\$\{\}\?\+\*\|\(\)])")]
+    private static partial Regex GetNormalRegex();
+    private static readonly Regex NormalRegex = GetNormalRegex();
+#else
     private static readonly Regex NormalRegex = new(@"([\[\]\-\.\^\$\{\}\?\+\*\|\(\)])");
+#endif
 
     protected abstract string DefaultExpression { get; }
     protected abstract string OperandRegexString { get; }
@@ -27,28 +34,29 @@ public abstract class EvaluatorBase
     protected abstract Func<string, string> GetParameterName { get; }
 
     protected abstract Dictionary<string, int> BinaryOpLevels { get; }
-    protected abstract Dictionary<string, UnaryFunc<Expression>> UnaryOpFunctions { get; }
+    protected abstract Dictionary<string, UnaryFunc<Expression>?> UnaryOpFunctions { get; }
     protected abstract Dictionary<string, BinaryFunc<Expression>> BinaryOpFunctions { get; }
 
-    protected abstract Dictionary<Bracket, UnaryFunc<double>> BracketFunctions { get; }
+    protected abstract Dictionary<Bracket, UnaryFunc<double>?> BracketFunctions { get; }
 
-    protected string[] UnaryOperators { get; private set; }
-    protected string[] BinaryOperators { get; private set; }
-    protected string[] StartBrackets { get; private set; }
-    protected string[] EndBrackets { get; private set; }
-    protected Dictionary<string, string[]> StartBracketMap { get; private set; }
-    protected IEnumerable<Node> PendingNodes { get; private set; }
+    protected string[]? UnaryOperators { get; private set; }
+    protected string[]? BinaryOperators { get; private set; }
+    protected string[]? StartBrackets { get; private set; }
+    protected string[]? EndBrackets { get; private set; }
+    protected Dictionary<string, string[]>? StartBracketMap { get; private set; }
+    protected IEnumerable<Node>? PendingNodes { get; private set; }
+    protected Regex? OperandRegex { get; private set; }
+    protected Regex? ParameterRegex { get; private set; }
+    protected Regex? ResolveRegex { get; private set; }
 
-    protected Regex OperandRegex { get; private set; }
-    protected Regex ParameterRegex { get; private set; }
-    protected Regex ResolveRegex { get; private set; }
+    private bool Initialized;
 
     public EvaluatorBase(bool autoInitialize = true)
     {
-        var undefinedOps = BinaryOpLevels.Keys.Where(x => !BinaryOpFunctions.Keys.Contains(x));
+        var undefinedOps = BinaryOpLevels.Keys.Where(x => !BinaryOpFunctions.ContainsKey(x));
         if (undefinedOps.Any()) throw new ArgumentException($"Some operators are undefined. ({undefinedOps.Join(",")})");
 
-        var undefinedLevels = BinaryOpFunctions.Keys.Where(x => !BinaryOpLevels.Keys.Contains(x));
+        var undefinedLevels = BinaryOpFunctions.Keys.Where(x => !BinaryOpLevels.ContainsKey(x));
         if (undefinedLevels.Any()) throw new ArgumentException($"Some operators are undefined. ({undefinedLevels.Join(",")})");
 
         if (autoInitialize) Initialize();
@@ -56,8 +64,8 @@ public abstract class EvaluatorBase
 
     protected void Initialize()
     {
-        UnaryOperators = UnaryOpFunctions.Keys.ToArray();
-        BinaryOperators = BinaryOpFunctions.Keys.ToArray();
+        UnaryOperators = [.. UnaryOpFunctions.Keys];
+        BinaryOperators = [.. BinaryOpFunctions.Keys];
         StartBrackets = BracketFunctions.Select(x => x.Key.Start).Distinct().ToArray();
         EndBrackets = BracketFunctions.Select(x => x.Key.End).Distinct().ToArray();
         StartBracketMap = BracketFunctions
@@ -65,8 +73,8 @@ public abstract class EvaluatorBase
             .ToDictionary(x => x.Key, x => x.Select(i => i.Start)
             .ToArray());
 
-        OperandRegex = new Regex(OperandRegexString);
-        ParameterRegex = new Regex(ParameterRegexString);
+        OperandRegex = new Regex(OperandRegexString, RegexOptions.Compiled);
+        ParameterRegex = new Regex(ParameterRegexString, RegexOptions.Compiled);
 
         var sb = new StringBuilder();
         sb.Append($@"^\s*(?:({OperandRegexString}|{ParameterRegexString}");
@@ -79,17 +87,24 @@ public abstract class EvaluatorBase
 
         IEnumerable<Node> GetPendingNodes()
         {
-            foreach (var value in UnaryOperators) yield return new Node { NodeType = NodeType.UnaryOperator, Value = value };
-            foreach (var value in BinaryOperators) yield return new Node { NodeType = NodeType.BinaryOperator, Value = value };
-            foreach (var value in StartBrackets) yield return new Node { NodeType = NodeType.StartBracket, Value = value };
-            foreach (var value in EndBrackets) yield return new Node { NodeType = NodeType.EndBracket, Value = value };
+            foreach (var value in UnaryOperators) yield return new Node(NodeType.UnaryOperator, value);
+            foreach (var value in BinaryOperators) yield return new Node(NodeType.BinaryOperator, value);
+            foreach (var value in StartBrackets) yield return new Node(NodeType.StartBracket, value);
+            foreach (var value in EndBrackets) yield return new Node(NodeType.EndBracket, value);
         }
-        PendingNodes = GetPendingNodes().OrderByDescending(x => x.Value.Length);
+        PendingNodes = GetPendingNodes().OrderByDescending(x => x.Value!.Length);
+
+        Initialized = true;
     }
 
-    protected string NormalRegexString(string origin) => origin.RegexReplace(NormalRegex, "\\$1");
+    protected void ThrowIf_NotInitialize()
+    {
+        if (!Initialized) throw new InvalidOperationException("Evaluator not initialized.");
+    }
 
-    protected Expression ParameterToExpression(string name, Expression parameter, Type parameterType)
+    protected static string NormalRegexString(string origin) => origin.RegexReplace(NormalRegex, "\\$1");
+
+    protected static Expression ParameterToExpression(string name, Expression? parameter, Type? parameterType)
     {
         if (parameter == null) throw new ArgumentException($"No dictionary or object found.");
 
@@ -150,6 +165,8 @@ public abstract class EvaluatorBase
 
     public Node[] GetNodes(string exp)
     {
+        ThrowIf_NotInitialize();
+
         var nodes = GetInitialNodes(exp);
         GrammarAnalysis(exp, nodes);
         return nodes;
@@ -157,35 +174,27 @@ public abstract class EvaluatorBase
 
     public Node[] GetInitialNodes(string exp)
     {
+        ThrowIf_NotInitialize();
+
         if (exp.IsNullOrWhiteSpace()) exp = DefaultExpression;
 
-        var match = ResolveRegex.Match(exp);
+        var match = ResolveRegex!.Match(exp);
         if (match.Success)
         {
             var nodes = match.Groups.OfType<Group>().Skip(1).First().Captures.OfType<Capture>().Select(capture =>
             {
                 var value = capture.Value.Trim();
-                var matchNode = PendingNodes.FirstOrDefault(x => x.Value == value);
+                var matchNode = PendingNodes!.FirstOrDefault(x => x.Value == value);
 
                 if (matchNode is null)
                 {
-                    if (value.IsMatch(OperandRegex))
+                    if (value.IsMatch(OperandRegex!))
                     {
-                        return new Node
-                        {
-                            NodeType = NodeType.Operand,
-                            Index = capture.Index,
-                            Value = value,
-                        };
+                        return new Node(NodeType.Operand, value, capture.Index);
                     }
-                    else if (value.IsMatch(ParameterRegex))
+                    else if (value.IsMatch(ParameterRegex!))
                     {
-                        return new Node
-                        {
-                            NodeType = NodeType.Parameter,
-                            Index = capture.Index,
-                            Value = value,
-                        };
+                        return new Node(NodeType.Parameter, value, capture.Index);
                     }
                     else throw new NotImplementedException();
                 }
@@ -193,19 +202,14 @@ public abstract class EvaluatorBase
                 {
                     NodeType nodeType = NodeType.Unspecified;
 
-                    if (StartBrackets.Contains(value)) nodeType |= NodeType.StartBracket;
-                    if (EndBrackets.Contains(value)) nodeType |= NodeType.EndBracket;
-                    if (UnaryOperators.Contains(value)) nodeType |= NodeType.UnaryOperator;
-                    if (BinaryOperators.Contains(value)) nodeType |= NodeType.BinaryOperator;
+                    if (StartBrackets!.Contains(value)) nodeType |= NodeType.StartBracket;
+                    if (EndBrackets!.Contains(value)) nodeType |= NodeType.EndBracket;
+                    if (UnaryOperators!.Contains(value)) nodeType |= NodeType.UnaryOperator;
+                    if (BinaryOperators!.Contains(value)) nodeType |= NodeType.BinaryOperator;
 
                     if (nodeType != NodeType.Unspecified)
                     {
-                        return new Node
-                        {
-                            NodeType = nodeType,
-                            Index = capture.Index,
-                            Value = value,
-                        };
+                        return new Node(nodeType, value, capture.Index);
                     }
                     else throw new NotImplementedException();
                 }
@@ -237,19 +241,21 @@ public abstract class EvaluatorBase
         }
     }
 
-    protected string GetDebugString(string prompt, string exp, Node node) => $@"{prompt}{Environment.NewLine}{exp}{Environment.NewLine}{" ".Repeat(node.Index)}↑";
+    protected static string GetDebugString(string prompt, string exp, Node node) => $@"{prompt}{Environment.NewLine}{exp}{Environment.NewLine}{" ".Repeat(node.Index)}↑";
     protected double Bracket(string start, string end, double operand)
     {
-        return BracketFunctions[new(start, end)](operand);
+        return BracketFunctions[new(start, end)]!(operand);
     }
 
     public Expression GetExpression(string exp, out ParameterExpression dictionary)
     {
+        ThrowIf_NotInitialize();
+
         dictionary = Expression.Parameter(typeof(IDictionary<,>).MakeGenericType(typeof(string), typeof(double)), "p");
         return InnerBuild(exp, dictionary, typeof(IDictionary<string, double>));
     }
 
-    protected Expression InnerBuild(string exp, Expression parameter, Type parameterType)
+    protected Expression InnerBuild(string exp, Expression? parameter, Type? parameterType)
     {
         var nodes = GetNodes(exp);
 
@@ -268,7 +274,7 @@ public abstract class EvaluatorBase
             {
                 var current = stack.Pop();
                 var prev = stack.Pop();
-                var result = UnaryOpFunctions[prev.Node.Value](current.Expression);
+                var result = UnaryOpFunctions[prev.Node.Value]?.Invoke(current.Expression) ?? current.Expression;
                 stack.Push(new NodeExpressionPair { Expression = result });
             }
         }
@@ -297,7 +303,7 @@ public abstract class EvaluatorBase
         void HandleClose(Node node)
         {
             var endBracketValue = node.Value;
-            var startBracketValues = StartBracketMap[endBracketValue];
+            var startBracketValues = StartBracketMap![endBracketValue];
 
             if (stack.Count >= 2)
             {
@@ -411,27 +417,31 @@ public abstract class EvaluatorBase
 
     public double Eval(string exp)
     {
+        ThrowIf_NotInitialize();
+
         var expression = InnerBuild(exp, null, null);
         var lambda = Expression.Lambda<Func<double>>(expression);
         var func = lambda.Compile();
         return func();
     }
 
-    private static readonly MethodInfo ObjectToDictionaryMethod = ((Func<object, IDictionary<string, double>>)ObjectToDictionary).Method;
-    private static IDictionary<string, double> ObjectToDictionary(object obj)
+    private static readonly MethodInfo ObjectToDictionaryMethod = ((Func<object, Dictionary<string, double>>)ObjectToDictionary).Method;
+    private static Dictionary<string, double> ObjectToDictionary(object obj)
     {
         var props = obj.GetType().GetProperties();
         var dict = new Dictionary<string, double>();
         foreach (var prop in props)
         {
             var value = prop.GetValue(obj);
-            dict[prop.Name] = (double)Convert.ChangeType(value, typeof(double));
+            dict[prop.Name] = (double)Convert.ChangeType(value, typeof(double))!;
         }
         return dict;
     }
 
     public Func<TParameter, double> Compile<TParameter>(string exp)
     {
+        ThrowIf_NotInitialize();
+
         var parameter = Expression.Parameter(typeof(TParameter), "p");
         var expression = InnerBuild(exp, parameter, typeof(TParameter));
         var lambda = Expression.Lambda<Func<TParameter, double>>(expression, parameter);
@@ -440,6 +450,8 @@ public abstract class EvaluatorBase
 
     public Func<object, double> Compile(string exp)
     {
+        ThrowIf_NotInitialize();
+
         var parameter = Expression.Parameter(typeof(object), "p");
         var typeIsIDictionaryExp = Expression.TypeIs(parameter, typeof(IDictionary<string, double>));
 

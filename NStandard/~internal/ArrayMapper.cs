@@ -6,15 +6,22 @@ using System.Text.RegularExpressions;
 
 namespace NStandard;
 
-internal static class ArrayMapper
+internal static partial class ArrayMapper
 {
-    private static readonly Regex ArrayTypeRanksRegex = new Regex(@"(\[,*\])+", RegexOptions.Singleline);
+#if NET7_0_OR_GREATER
+    [GeneratedRegex(@"(\[,*\])+", RegexOptions.Singleline)]
+    private static partial Regex GetArrayTypeRanksRegex();
+    private static readonly Regex ArrayTypeRanksRegex = GetArrayTypeRanksRegex();
+#else
+    private static readonly Regex ArrayTypeRanksRegex = new(@"(\[,*\])+", RegexOptions.Singleline);
+#endif
+
 
     private static int[] GetReversedRanks(Type arrayType)
     {
-        var forwards = Any.Forward(arrayType, x => x.GetElementType()?.UnderlyingSystemType);
+        var forwards = Any.Forward(arrayType, x => x.GetElementType()!.UnderlyingSystemType);
 
-        var match = ArrayTypeRanksRegex.Match(arrayType.FullName);
+        var match = ArrayTypeRanksRegex.Match(arrayType.FullName!);
         if (match.Success)
         {
             var captures = match.Groups[1].Captures;
@@ -43,19 +50,19 @@ internal static class ArrayMapper
             sb.Append($"[{",".Repeat(rank - 1)}]");
         }
         var typeName = sb.ToString();
-        return Type.GetType(typeName);
+        return Type.GetType(typeName)!;
     }
 
-    private static Exception Exception_TypeNotMatched(Type underlyingType, Type fromType)
+    private static InvalidCastException Exception_TypeNotMatched(Type underlyingType, Type fromType)
     {
-        return new InvalidCastException($"Can not convert {underlyingType} to {fromType}.");
+        return new($"Can not convert {underlyingType} to {fromType}.");
     }
 
     public static Array Map<TConvertFrom, TConvertTo>(Array source, Func<TConvertFrom, TConvertTo> convert)
     {
         var type = source.GetType();
         var ranks = GetReversedRanks(type);
-        var elementTypes = Any.Forward(type, x => x.GetElementType());
+        var elementTypes = Any.Forward(type, x => x.GetElementType()!);
         var underlyingType = elementTypes.Last();
 
         var fromType = typeof(TConvertFrom);
@@ -80,7 +87,7 @@ internal static class ArrayMapper
         {
             foreach (var (index, value) in sourceVisitor.GetValues().Pairs())
             {
-                var array = InnerMap(value as Array, elementReversedRanks.Take(elementReversedRanks.Length - 1).ToArray(), underlyingType, convert);
+                var array = InnerMap((value as Array)!, elementReversedRanks.Take(elementReversedRanks.Length - 1).ToArray(), underlyingType, convert);
                 targetVisitor.SetValue(array, index);
             }
         }
@@ -88,7 +95,7 @@ internal static class ArrayMapper
         {
             foreach (var (index, value) in sourceVisitor.GetValues().Pairs())
             {
-                var finalValue = convert((TConvertFrom)value);
+                var finalValue = convert((TConvertFrom)value!);
                 targetVisitor.SetValue(finalValue, index);
             }
         }

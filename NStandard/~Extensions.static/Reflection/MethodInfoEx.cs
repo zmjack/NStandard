@@ -14,13 +14,11 @@ public static class MethodInfoEx
     /// <exception cref="ArgumentException"></exception>
     public static MethodInfo GetMethodInfo(Expression<Func<Delegate>> methodSelector)
     {
-        var unary = methodSelector.Body as UnaryExpression;
-        if (unary is null) throw new ArgumentException(nameof(methodSelector), $"The method selector must point to a method.");
+        var unary = (methodSelector.Body as UnaryExpression) ?? throw new ArgumentException("The method selector must point to a method.", nameof(methodSelector));
 
-        var operand = unary.Operand as MethodCallExpression;
-        var constant = operand.Object as ConstantExpression;
-        var method = constant.Value as MethodInfo;
-
+        var operand = (unary.Operand as MethodCallExpression) ?? throw new ArgumentException("The operand must be MethodCallExpression.");
+        var constant = (operand.Object as ConstantExpression) ?? throw new ArgumentException("The operand object must be ConstantExpression.");
+        var method = (constant.Value as MethodInfo) ?? throw new ArgumentException("The value of operand object must be MethodInfo.");
         return method;
     }
 }

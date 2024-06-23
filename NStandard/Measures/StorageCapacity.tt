@@ -12,6 +12,7 @@ using static NStandard.Measures.<#=_class#>;
 
 namespace NStandard.Measures;
 
+#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
 public static class <#=_class#>
 {
 <#
@@ -80,6 +81,12 @@ public static class <#=_class#>
     }
 #>
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not <#=key#> other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} <#=key.ToLower()#>";
 	}
 
@@ -104,6 +111,7 @@ public static class <#=_class#>Extensions
     }
 #>
 }
+#pragma warning restore CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
 
 <#+
 private readonly string _class = "StorageCapacity";

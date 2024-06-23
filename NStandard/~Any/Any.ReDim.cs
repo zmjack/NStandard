@@ -21,10 +21,10 @@ public static partial class Any
         var type = variable.GetType();
         if (!type.IsArray) throw Exception_VariableMustBeArray(nameof(variable));
 
-        var origin = variable as Array;
+        var origin = (variable as Array)!;
         if (lengths.Length != origin.Rank) throw Exception_IncompatibleRank(nameof(lengths));
 
-        var elementType = type.GetElementType();
+        var elementType = type.GetElementType()!;
         var newArray = Array.CreateInstance(elementType, lengths);
         var originLengths = origin.GetLengths();
 
@@ -33,6 +33,6 @@ public static partial class Any
         {
             newArray.SetValue(origin.GetValue(indices), indices);
         }
-        variable = newArray as TArray;
+        variable = (newArray as TArray)!;
     }
 }

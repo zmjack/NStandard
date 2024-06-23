@@ -20,14 +20,14 @@ internal class RsaConverter
                     new PemNode(PemNode.DataType.Sequence, new[]
                     {
                         new PemNode(PemNode.DataType.Integer, new byte[] { 0x00 } ),
-                        new PemNode(PemNode.DataType.Integer, parameters.Modulus ),
-                        new PemNode(PemNode.DataType.Integer, parameters.Exponent ),
-                        new PemNode(PemNode.DataType.Integer, parameters.D ),
-                        new PemNode(PemNode.DataType.Integer, parameters.P ),
-                        new PemNode(PemNode.DataType.Integer, parameters.Q ),
-                        new PemNode(PemNode.DataType.Integer, parameters.DP ),
-                        new PemNode(PemNode.DataType.Integer, parameters.DQ ),
-                        new PemNode(PemNode.DataType.Integer, parameters.InverseQ ),
+                        new PemNode(PemNode.DataType.Integer, parameters.Modulus! ),
+                        new PemNode(PemNode.DataType.Integer, parameters.Exponent! ),
+                        new PemNode(PemNode.DataType.Integer, parameters.D! ),
+                        new PemNode(PemNode.DataType.Integer, parameters.P! ),
+                        new PemNode(PemNode.DataType.Integer, parameters.Q! ),
+                        new PemNode(PemNode.DataType.Integer, parameters.DP! ),
+                        new PemNode(PemNode.DataType.Integer, parameters.DQ! ),
+                        new PemNode(PemNode.DataType.Integer, parameters.InverseQ! ),
                     })
                 }),
             }).Fragment;
@@ -41,8 +41,8 @@ internal class RsaConverter
                 {
                     new PemNode(PemNode.DataType.Sequence, new[]
                     {
-                        new PemNode(PemNode.DataType.Integer, parameters.Modulus ),
-                        new PemNode(PemNode.DataType.Integer, parameters.Exponent ),
+                        new PemNode(PemNode.DataType.Integer, parameters.Modulus! ),
+                        new PemNode(PemNode.DataType.Integer, parameters.Exponent! ),
                     })
                 }),
             }).Fragment;

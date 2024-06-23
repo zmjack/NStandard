@@ -43,6 +43,20 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.70.0
+
+- Enable **nullable** checking.
+- Fix some potential issues.
+- **Breaking Change**: Most of the deprecated features have been marked as errors. Please upgrade to version **0.68.0** and follow the prompts to modify them.
+
+>[!Warning]
+>
+>Most of the deprecated features have been marked as errors. Please upgrade to version **0.68.0** and follow the prompts to modify them.
+>
+>**These features will be removed in the next version.**
+
+---
+
 ### Version 0.68.0
 
 - Add **JsonValueAttribute\<T\>** to declare the Value of its instance to be used when serializing.

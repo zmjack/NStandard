@@ -6,13 +6,13 @@ namespace NStandard.Collections;
 
 public static class Counter
 {
-    public static Counter<TKey> Parse<TKey>(IEnumerable<TKey> source)
+    public static Counter<TKey> Parse<TKey>(IEnumerable<TKey> source) where TKey : notnull
     {
         return new Counter<TKey>(source);
     }
 }
 
-public class Counter<TKey> : Dictionary<TKey, int>, IEquatable<Counter<TKey>>
+public class Counter<TKey> : Dictionary<TKey, int>, IEquatable<Counter<TKey>> where TKey : notnull
 {
     private Counter() { }
     public Counter(IEnumerable<TKey> source)
@@ -75,8 +75,10 @@ public class Counter<TKey> : Dictionary<TKey, int>, IEquatable<Counter<TKey>>
         return counter;
     }
 
-    public bool Equals(Counter<TKey> other)
+    public bool Equals(Counter<TKey>? other)
     {
+        if (other is null) return false;
+
         var set = new HashSet<TKey>(Keys);
         var otherSet = new HashSet<TKey>(other.Keys);
 

@@ -24,22 +24,16 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
 #endif
 {
     [DebuggerDisplay("({Start}, {End})")]
-    public struct Range : IEquatable<Range>
+    public struct Range(T start, T end) : IEquatable<Range>
     {
         public T Start
         {
             get; set;
-        }
+        } = start;
         public T End
         {
             get; set;
-        }
-
-        public Range(T start, T end)
-        {
-            Start = start;
-            End = end;
-        }
+        } = end;
 
         public bool Contains(Range other)
         {
@@ -65,9 +59,13 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
             return new Range(tuple.Start, tuple.End);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            return obj is Range && Equals((Range)obj);
+            return obj is Range range && Equals(range);
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 #endif
     }
@@ -84,7 +82,7 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
 
     public Interval()
     {
-        _ranges = new();
+        _ranges = [];
     }
     public Interval(Interval<T> interval)
     {
@@ -100,7 +98,7 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
         var count = interval._ranges.Count;
         if (count < 4)
         {
-            _ranges = new();
+            _ranges = [];
         }
         else
         {
@@ -360,7 +358,7 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
         return GetEnumerator();
     }
 
-    public bool Equals(Interval<T> other)
+    public bool Equals(Interval<T>? other)
     {
         if (other is null) return false;
 
@@ -375,7 +373,7 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
         while (first.MoveNext())
         {
             second.MoveNext();
-            if (!first.Current.Equals(second.Current)) return false;
+            if (!Equals(first.Current, second.Current)) return false;
         }
 
         return true;
@@ -417,5 +415,14 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
         return instance;
     }
 
+    public override bool Equals(object? obj)
+    {
+        return obj is Interval<T> interval && Equals(interval);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }
 #endif

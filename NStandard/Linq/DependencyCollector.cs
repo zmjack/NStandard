@@ -9,21 +9,21 @@ namespace NStandard.Linq;
 
 internal class DependencyCollector
 {
-    private readonly List<object> _dependencies = new();
+    private readonly List<object> _dependencies = [];
 
     internal void Collect(Expression expression, params Type[] types)
     {
-        object GetMemberValue(MemberExpression member)
+        static object GetMemberValue(MemberExpression member)
         {
             if (member.Expression is null)
             {
                 if (member.Member is FieldInfo fieldInfo)
                 {
-                    return fieldInfo.GetValue(null);
+                    return fieldInfo.GetValue(null)!;
                 }
                 else if (member.Member is PropertyInfo propertyInfo)
                 {
-                    return propertyInfo.GetValue(null);
+                    return propertyInfo.GetValue(null!)!;
                 }
                 else throw new NotImplementedException();
             }
@@ -32,9 +32,9 @@ internal class DependencyCollector
                 var memberExpression = member.Expression;
                 if (memberExpression is ConstantExpression memberConstant)
                 {
-                    var type = memberConstant.Value.GetType();
-                    var innerMember = type.GetField(member.Member.Name);
-                    return innerMember.GetValue(memberConstant.Value);
+                    var type = memberConstant.Value!.GetType();
+                    var innerMember = type.GetField(member.Member.Name)!;
+                    return innerMember.GetValue(memberConstant.Value)!;
                 }
                 else if (memberExpression is MemberExpression memberMember)
                 {
@@ -73,14 +73,14 @@ internal class DependencyCollector
             }
             else if (member.Type == typeof(string))
             {
-                Collect(member.Expression, types);
+                Collect(member.Expression!, types);
             }
             else if (member.Type.IsImplement(typeof(IEnumerable<>)))
             {
-                var elementType = member.Type.GetElementType();
+                var elementType = member.Type.GetElementType()!;
                 if (types.Any(elementType.IsType))
                 {
-                    var dependencies = GetMemberValue(member) as IEnumerable;
+                    var dependencies = (GetMemberValue(member) as IEnumerable)!;
                     foreach (var dependency in dependencies)
                     {
                         _dependencies.Add(dependency);
@@ -89,7 +89,7 @@ internal class DependencyCollector
             }
             else
             {
-                Collect(member.Expression, types);
+                Collect(member.Expression!, types);
             }
         }
         else if (expression is NewArrayExpression newArray)

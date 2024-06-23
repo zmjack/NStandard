@@ -27,7 +27,6 @@ public class BytesConvert
     ///     that is encoded with hex digits.
     /// </summary>
     /// <param name="bytes"></param>
-    /// <param name="separator"></param>
     /// <returns></returns>
     public static string ToHexString(byte[] bytes) => HexString(bytes, "");
 

@@ -6,6 +6,7 @@ using static NStandard.Measures.StorageCapacity;
 
 namespace NStandard.Measures;
 
+#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
 public static class StorageCapacity
 {
 	public struct b : IMeasurable<decimal>
@@ -56,6 +57,12 @@ public static class StorageCapacity
         public static implicit operator b(float value) => new((decimal)value);
         public static implicit operator b(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not b other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} b";
 	}
 
@@ -107,6 +114,12 @@ public static class StorageCapacity
         public static implicit operator kb(float value) => new((decimal)value);
         public static implicit operator kb(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not kb other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} kb";
 	}
 
@@ -158,6 +171,12 @@ public static class StorageCapacity
         public static implicit operator mb(float value) => new((decimal)value);
         public static implicit operator mb(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not mb other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} mb";
 	}
 
@@ -209,6 +228,12 @@ public static class StorageCapacity
         public static implicit operator gb(float value) => new((decimal)value);
         public static implicit operator gb(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not gb other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} gb";
 	}
 
@@ -260,6 +285,12 @@ public static class StorageCapacity
         public static implicit operator tb(float value) => new((decimal)value);
         public static implicit operator tb(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not tb other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} tb";
 	}
 
@@ -311,6 +342,12 @@ public static class StorageCapacity
         public static implicit operator pb(float value) => new((decimal)value);
         public static implicit operator pb(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not pb other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} pb";
 	}
 
@@ -362,6 +399,12 @@ public static class StorageCapacity
         public static implicit operator B(float value) => new((decimal)value);
         public static implicit operator B(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not B other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} b";
 	}
 
@@ -413,6 +456,12 @@ public static class StorageCapacity
         public static implicit operator KB(float value) => new((decimal)value);
         public static implicit operator KB(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not KB other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} kb";
 	}
 
@@ -464,6 +513,12 @@ public static class StorageCapacity
         public static implicit operator MB(float value) => new((decimal)value);
         public static implicit operator MB(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not MB other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} mb";
 	}
 
@@ -515,6 +570,12 @@ public static class StorageCapacity
         public static implicit operator GB(float value) => new((decimal)value);
         public static implicit operator GB(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not GB other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} gb";
 	}
 
@@ -566,6 +627,12 @@ public static class StorageCapacity
         public static implicit operator TB(float value) => new((decimal)value);
         public static implicit operator TB(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not TB other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} tb";
 	}
 
@@ -617,6 +684,12 @@ public static class StorageCapacity
         public static implicit operator PB(float value) => new((decimal)value);
         public static implicit operator PB(double value) => new((decimal)value);
 
+        public override bool Equals(object obj)
+        {
+            if (obj is not PB other) return false;
+            return Value == other.Value;
+        }
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
 		public override string ToString() => $"{Value} pb";
 	}
 
@@ -662,4 +735,5 @@ public static class StorageCapacityExtensions
     public static PB Average(this IEnumerable<PB> @this) => new PB(@this.Average(x => x.Value));
 
 }
+#pragma warning restore CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
 

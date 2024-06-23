@@ -3,13 +3,13 @@
 public static class Singleton<T> where T : class, ISingleton<T>, new()
 {
     private static readonly object _sync = new();
-    private static T _instance = null;
+    private static T? _instance = null;
 
     /// <summary>
     /// Get or create a thread-safe singleton instance.
     /// </summary>
     /// <returns></returns>
-    public static T GetOrCreate()
+    public static T? GetOrCreate()
     {
         if (_instance is null)
         {

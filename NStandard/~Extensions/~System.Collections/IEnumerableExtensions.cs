@@ -14,7 +14,6 @@ public static class IEnumerableExtensions
     /// <summary>
     /// Returns a collection of ValueTuple which contains the element's index and value.
     /// </summary>
-    /// <typeparam name="TSource"></typeparam>
     /// <param name="this"></param>
     /// <returns></returns>
     public static IEnumerable<IndexAndValue<object>> Pairs(this IEnumerable @this)
@@ -62,7 +61,7 @@ public static class IEnumerableExtensions
     /// <typeparam name="TSource"></typeparam>
     /// <param name="this"></param>
     /// <returns></returns>
-    [Obsolete("Use Pairs instead.")]
+    [Obsolete("Use Pairs instead.", true)]
     public static IEnumerable<IndexAndValue<TSource>> AsIndexValuePairs<TSource>(this IEnumerable @this)
     {
         int i = 0;
@@ -78,7 +77,7 @@ public static class IEnumerableExtensions
     /// <typeparam name="TSource"></typeparam>
     /// <param name="this"></param>
     /// <returns></returns>
-    [Obsolete("Use Pairs instead.")]
+    [Obsolete("Use Pairs instead.", true)]
     public static IEnumerable<IndexAndValue<TSource>> AsIndexValuePairs<TSource>(this IEnumerable<TSource> @this)
     {
         int i = 0;
@@ -158,7 +157,7 @@ public static class IEnumerableExtensions
 #if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
         return string.Join(separator, @this);
 #else
-        return string.Join(separator, @this.Select(x => x.ToString()).ToArray());
+        return string.Join(separator, @this.Select(x => x?.ToString()).ToArray());
 #endif
     }
 
@@ -170,7 +169,7 @@ public static class IEnumerableExtensions
     /// <param name="capacity"></param>
     /// <param name="sharedCache"></param>
     /// <returns></returns>
-    public static Sliding<T> Slide<T>(this IEnumerable<T> @this, int capacity, bool sharedCache)
+    public static Sliding<T> Slide<T>(this IEnumerable<T?> @this, int capacity, bool sharedCache)
     {
         return new(@this, capacity, sharedCache);
     }
@@ -185,7 +184,7 @@ public static class IEnumerableExtensions
     /// <param name="mode"></param>
     /// <param name="pad"></param>
     /// <returns></returns>
-    public static Sliding<T> Slide<T>(this IEnumerable<T> @this, int capacity, bool sharedCache, SlidingMode mode, T pad = default)
+    public static Sliding<T> Slide<T>(this IEnumerable<T?> @this, int capacity, bool sharedCache, SlidingMode mode, T? pad = default)
     {
         return new(@this, capacity, sharedCache, mode, pad, pad);
     }
@@ -201,7 +200,7 @@ public static class IEnumerableExtensions
     /// <param name="padLeft"></param>
     /// <param name="padRight"></param>
     /// <returns></returns>
-    public static Sliding<T> Slide<T>(this IEnumerable<T> @this, int capacity, bool sharedCache, SlidingMode mode, T padLeft, T padRight)
+    public static Sliding<T> Slide<T>(this IEnumerable<T?> @this, int capacity, bool sharedCache, SlidingMode mode, T? padLeft, T? padRight)
     {
         return new(@this, capacity, sharedCache, mode, padLeft, padRight);
     }
@@ -214,10 +213,10 @@ public static class IEnumerableExtensions
     /// <param name="capacity"></param>
     /// <param name="sharedCache"></param>
     /// <returns></returns>
-    [Obsolete("Use Slide(int capacity, bool sharedCache, SlidingMode mode, T pad) instead.")]
+    [Obsolete("Use Slide(int capacity, bool sharedCache, SlidingMode mode, T pad) instead.", true)]
     public static Sliding<T> PadSlide<T>(this IEnumerable<T> @this, int capacity, bool sharedCache)
     {
-        List<T> list = [];
+        List<T?> list = [];
         for (int i = 0; i < capacity - 1; i++)
         {
             list.Add(default);

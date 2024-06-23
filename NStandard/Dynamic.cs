@@ -54,7 +54,7 @@ public static class Dynamic
 #else
                 var param = ArrayEx.Empty<ParameterExpression>();
 #endif
-                return (lambdaMethod.Invoke(null, [exp, param]) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
+                return ((lambdaMethod.Invoke(null, [exp, param]) as LambdaExpression)!.Compile().DynamicInvoke() as Delegate)!;
             };
         }
         var container = new CacheSet<Type, Delegate> { CacheMethodBuilder = cacheMethodBuilder };
@@ -80,7 +80,7 @@ public static class Dynamic
 #else
                 var param = ArrayEx.Empty<ParameterExpression>();
 #endif
-                return (lambdaMethod.Invoke(null, [exp, param]) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
+                return ((lambdaMethod.Invoke(null, [exp, param]) as LambdaExpression)!.Compile().DynamicInvoke() as Delegate)!;
             };
         }
         var container = new CacheSet<Type, Delegate> { CacheMethodBuilder = cacheMethodBuilder };
@@ -106,7 +106,7 @@ public static class Dynamic
 #else
                 var param = ArrayEx.Empty<ParameterExpression>();
 #endif
-                return (lambdaMethod.Invoke(null, [exp, param]) as LambdaExpression).Compile().DynamicInvoke() as Delegate;
+                return ((lambdaMethod.Invoke(null, [exp, param]) as LambdaExpression)!.Compile().DynamicInvoke() as Delegate)!;
             };
         }
         var container = new CacheSet<Type, Delegate> { CacheMethodBuilder = cacheMethodBuilder };
@@ -115,12 +115,12 @@ public static class Dynamic
 
     private static MethodInfo GetOpMethod(Type op1, Type ret)
     {
-        return typeof(Dynamic).GetDeclaredMethod(nameof(Op2)).MakeGenericMethod(op1, ret);
+        return typeof(Dynamic).GetDeclaredMethod(nameof(Op2))!.MakeGenericMethod(op1, ret);
     }
 
     private static MethodInfo GetOpMethod(Type op1, Type op2, Type ret)
     {
-        return typeof(Dynamic).GetDeclaredMethod(nameof(Op3)).MakeGenericMethod(op1, op2, ret);
+        return typeof(Dynamic).GetDeclaredMethod(nameof(Op3))!.MakeGenericMethod(op1, op2, ret);
     }
 
     private static Func<TOp1, TRet> Op2<TOp1, TRet>(UnaryDelegate @delegate)
@@ -138,21 +138,21 @@ public static class Dynamic
         return lambda.Compile();
     }
 
-    public static TOperand OpIncrement<TOperand>(TOperand self) => (OpContainers[nameof(OpIncrement)][typeof(TOperand)].Value as Func<TOperand, TOperand>)(self);
-    public static TOperand OpDecrement<TOperand>(TOperand self) => (OpContainers[nameof(OpDecrement)][typeof(TOperand)].Value as Func<TOperand, TOperand>)(self);
+    public static TOperand OpIncrement<TOperand>(TOperand self) => (OpContainers[nameof(OpIncrement)][typeof(TOperand)].Value as Func<TOperand, TOperand>)!(self);
+    public static TOperand OpDecrement<TOperand>(TOperand self) => (OpContainers[nameof(OpDecrement)][typeof(TOperand)].Value as Func<TOperand, TOperand>)!(self);
 
-    public static TOperand OpAdd<TOperand>(TOperand left, TOperand right) => (OpContainers[nameof(OpAdd)][typeof(TOperand)].Value as Func<TOperand, TOperand, TOperand>)(left, right);
-    public static TOperand OpAddChecked<TOperand>(TOperand left, TOperand right) => (OpContainers[nameof(OpAddChecked)][typeof(TOperand)].Value as Func<TOperand, TOperand, TOperand>)(left, right);
-    public static TOperand OpSubtract<TOperand>(TOperand left, TOperand right) => (OpContainers[nameof(OpSubtract)][typeof(TOperand)].Value as Func<TOperand, TOperand, TOperand>)(left, right);
-    public static TRet OpSubtractChecked<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpSubtractChecked)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
-    public static TRet OpMultiply<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpMultiply)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
-    public static TRet OpMultiplyChecked<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpMultiplyChecked)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
-    public static TRet OpDivide<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpDivide)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)(left, right);
+    public static TOperand OpAdd<TOperand>(TOperand left, TOperand right) => (OpContainers[nameof(OpAdd)][typeof(TOperand)].Value as Func<TOperand, TOperand, TOperand>)!(left, right);
+    public static TOperand OpAddChecked<TOperand>(TOperand left, TOperand right) => (OpContainers[nameof(OpAddChecked)][typeof(TOperand)].Value as Func<TOperand, TOperand, TOperand>)!(left, right);
+    public static TOperand OpSubtract<TOperand>(TOperand left, TOperand right) => (OpContainers[nameof(OpSubtract)][typeof(TOperand)].Value as Func<TOperand, TOperand, TOperand>)!(left, right);
+    public static TRet OpSubtractChecked<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpSubtractChecked)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)!(left, right);
+    public static TRet OpMultiply<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpMultiply)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)!(left, right);
+    public static TRet OpMultiplyChecked<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpMultiplyChecked)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)!(left, right);
+    public static TRet OpDivide<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpDivide)][typeof(TRet)].Value as Func<TRet, TRet, TRet>)!(left, right);
 
-    public static bool OpLessThan<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpLessThan)][typeof(TRet)].Value as Func<TRet, TRet, bool>)(left, right);
-    public static bool OpLessThanOrEqual<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpLessThanOrEqual)][typeof(TRet)].Value as Func<TRet, TRet, bool>)(left, right);
-    public static bool OpEqual<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpEqual)][typeof(TRet)].Value as Func<TRet, TRet, bool>)(left, right);
-    public static bool OpNotEqual<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpNotEqual)][typeof(TRet)].Value as Func<TRet, TRet, bool>)(left, right);
-    public static bool OpGreaterThan<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpGreaterThan)][typeof(TRet)].Value as Func<TRet, TRet, bool>)(left, right);
-    public static bool OpGreaterThanOrEqual<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpGreaterThanOrEqual)][typeof(TRet)].Value as Func<TRet, TRet, bool>)(left, right);
+    public static bool OpLessThan<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpLessThan)][typeof(TRet)].Value as Func<TRet, TRet, bool>)!(left, right);
+    public static bool OpLessThanOrEqual<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpLessThanOrEqual)][typeof(TRet)].Value as Func<TRet, TRet, bool>)!(left, right);
+    public static bool OpEqual<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpEqual)][typeof(TRet)].Value as Func<TRet, TRet, bool>)!(left, right);
+    public static bool OpNotEqual<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpNotEqual)][typeof(TRet)].Value as Func<TRet, TRet, bool>)!(left, right);
+    public static bool OpGreaterThan<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpGreaterThan)][typeof(TRet)].Value as Func<TRet, TRet, bool>)!(left, right);
+    public static bool OpGreaterThanOrEqual<TRet>(TRet left, TRet right) => (OpContainers[nameof(OpGreaterThanOrEqual)][typeof(TRet)].Value as Func<TRet, TRet, bool>)!(left, right);
 }

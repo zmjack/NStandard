@@ -25,18 +25,18 @@ public abstract class Scope<TSelf> : IDisposable where TSelf : Scope<TSelf>
 
     // Use TSelf to make sure the ThreadStatic attribute working correctly.
     [ThreadStatic]
-    private static Stack<TSelf> _scopes;
+    private static Stack<TSelf?>? _scopes;
 
-    public static Stack<TSelf> Scopes
+    public static Stack<TSelf?> Scopes
     {
         get
         {
-            if (_scopes is null) _scopes = new Stack<TSelf>();
+            _scopes ??= new Stack<TSelf?>();
             return _scopes;
         }
     }
 
-    public static TSelf Current => (Scopes.Count > 0 ? Scopes.Peek() : null) ?? null;
+    public static TSelf? Current => (Scopes.Count > 0 ? Scopes.Peek() : null) ?? null;
 
     private bool disposedValue;
     protected virtual void Dispose(bool disposing)

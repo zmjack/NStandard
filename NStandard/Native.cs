@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace NStandard;
 
+#pragma warning disable CS8500 // This takes the address of, gets the size of, or declares a pointer to a managed type
 public static class Native
 {
     [Obsolete("Do not use this function in PRODUCTION environment. GC may change the pointer of MANAGED OBJECT.")]
@@ -44,3 +45,4 @@ public static class Native
     }
 
 }
+#pragma warning restore CS8500 // This takes the address of, gets the size of, or declares a pointer to a managed type

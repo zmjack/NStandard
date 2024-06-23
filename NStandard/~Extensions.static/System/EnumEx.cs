@@ -48,7 +48,7 @@ public static class EnumEx
 
     public static TEnum[] GetFlags<TEnum>() where TEnum : Enum
     {
-        var values = Enum.GetValues(typeof(TEnum)) as TEnum[];
+        var values = (Enum.GetValues(typeof(TEnum)) as TEnum[])!;
         var flags = values.Where(x =>
         {
             var v = (int)(object)x;

@@ -1,10 +1,12 @@
-﻿using Xunit;
+﻿using System.Diagnostics.CodeAnalysis;
+using Xunit;
 
 namespace NStandard.Test;
 
 public class RefTests
 {
     [Fact]
+    [SuppressMessage("Assertions", "xUnit2005:Do not use identity check on value type", Justification = "<Pending>")]
     public void StructTest()
     {
         var refs = new Ref<int>[] { 8, 8 };

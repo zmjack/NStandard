@@ -4,13 +4,13 @@ using System.Runtime.CompilerServices;
 
 namespace NStandard.Caching;
 
-public class CacheSet<TKey, TValue> : Dictionary<TKey, Cache<TValue>>
+public class CacheSet<TKey, TValue> : Dictionary<TKey, Cache<TValue>> where TKey : notnull
 {
-    public Func<TKey, Func<TValue>> CacheMethodBuilder;
-    public UpdateCacheExpirationDelegate UpdateExpirationMethod;
+    public Func<TKey, Func<TValue>?>? CacheMethodBuilder;
+    public UpdateCacheExpirationDelegate? UpdateExpirationMethod;
 
     public CacheSet() { }
-    public CacheSet(Func<TKey, Func<TValue>> cacheMethodBuilder)
+    public CacheSet(Func<TKey, Func<TValue>?>? cacheMethodBuilder)
     {
         CacheMethodBuilder = cacheMethodBuilder;
     }
@@ -35,13 +35,19 @@ public class CacheSet<TKey, TValue> : Dictionary<TKey, Cache<TValue>>
     [MethodImpl(MethodImplOptions.Synchronized)]
     public void UpdateAll()
     {
-        foreach (var key in Keys) base[key].Update();
+        foreach (var key in Keys)
+        {
+            base[key].Update();
+        }
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
     public void ExpireAll()
     {
-        foreach (var key in Keys) base[key].Expire();
+        foreach (var key in Keys)
+        {
+            base[key].Expire();
+        }
     }
 
 }

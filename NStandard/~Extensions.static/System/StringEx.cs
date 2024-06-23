@@ -236,17 +236,20 @@ public static class StringEx
     /// <param name="patternExp"></param>
     public static void Extract<TClass>(string source, TClass instance, Expression<Func<TClass, FormattableString>> patternExp) where TClass : class
     {
-        var arguments = (patternExp.Body as MethodCallExpression)?.Arguments;
-        if (arguments is null)
-            throw new ArgumentException($"The argument `{nameof(patternExp)}` must be return a single line FormattableString.");
+        var arguments = ((patternExp.Body as MethodCallExpression)?.Arguments)
+            ?? throw new ArgumentException($"The argument must be return a single line FormattableString.", nameof(patternExp));
 
-        var format = (arguments[0] as ConstantExpression).Value.ToString();
-        var members = (arguments[1] as NewArrayExpression).Expressions.Select(exp => exp switch
+        var format = (arguments[0] as ConstantExpression)?.Value?.ToString()
+            ?? throw new ArgumentException($"The argument[0] must be ConstantExpression.", nameof(patternExp));
+
+        var members = (arguments[1] as NewArrayExpression)?.Expressions.Select(exp => exp switch
         {
             MemberExpression memberExp => memberExp.Member,
-            UnaryExpression unaryExp => (unaryExp.Operand as MemberExpression).Member,
+            UnaryExpression unaryExp => (unaryExp.Operand as MemberExpression)?.Member
+                ?? throw new ArgumentException($"The operand of argument[1] must be MemberExpression.", nameof(patternExp)),
             _ => throw new ArgumentException("At least one member info can not be accessed."),
-        }).ToArray();
+        }).ToArray()
+            ?? throw new ArgumentException($"The of argument[1] must be MemberExpression or UnaryExpression.", nameof(patternExp));
 
         var prePattern = new[] { "/", @"\", "+", "*", "[", "]", "(", ")", "?", "|", "^" }
             .Aggregate(format, (_acc, ch) => _acc.Replace(ch, $"\\{ch}"));

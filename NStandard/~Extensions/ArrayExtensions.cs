@@ -88,7 +88,7 @@ public static partial class ArrayExtensions
         }
     }
 
-    public static T GetValueOrDefault<T>(this T[] @this, int index)
+    public static T? GetValueOrDefault<T>(this T?[] @this, int index)
     {
         var lbound = @this.GetLowerBound(0);
         var ubound = @this.GetUpperBound(0);
@@ -99,7 +99,7 @@ public static partial class ArrayExtensions
         else return default;
     }
 
-    public static bool TryGetValue<T>(this T[] @this, int index, out T value)
+    public static bool TryGetValue<T>(this T[] @this, int index, out T? value)
     {
         var lbound = @this.GetLowerBound(0);
         var ubound = @this.GetUpperBound(0);

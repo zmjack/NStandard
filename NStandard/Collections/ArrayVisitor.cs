@@ -3,21 +3,14 @@ using System.Collections.Generic;
 
 namespace NStandard.Collections;
 
-public class ArrayVisitor
+public class ArrayVisitor(Array source)
 {
     private static ArgumentException Exception_FlattenedIndexMustBeGreaterThanZero(string paramName) => new($"The flattened index must be greater than 0.", paramName);
     private static ArgumentException Exception_FlattenedIndexMustBeLessThanSequenceLength(int sequenceLength, string paramName) => new($"The flattened index must be less than {sequenceLength}.", paramName);
 
-    public Array Source { get; }
-    public int[] Lengths { get; }
-    public int SequenceLength { get; }
-
-    public ArrayVisitor(Array source)
-    {
-        Source = source;
-        Lengths = source.GetLengths();
-        SequenceLength = source.GetSequenceLength();
-    }
+    public Array Source { get; } = source;
+    public int[] Lengths { get; } = source.GetLengths();
+    public int SequenceLength { get; } = source.GetSequenceLength();
 
     private int[] GetIndices(int flattenedIndex)
     {
@@ -48,7 +41,7 @@ public class ArrayVisitor
         return flattenedIndex;
     }
 
-    public void SetValue(object value, int flattenedIndex)
+    public void SetValue(object? value, int flattenedIndex)
     {
         if (flattenedIndex < 0) throw Exception_FlattenedIndexMustBeGreaterThanZero(nameof(flattenedIndex));
         if (flattenedIndex >= SequenceLength) throw Exception_FlattenedIndexMustBeLessThanSequenceLength(SequenceLength, nameof(flattenedIndex));
@@ -57,7 +50,7 @@ public class ArrayVisitor
         Source.SetValue(value, indeces);
     }
 
-    public object GetValue(int flattenedIndex)
+    public object? GetValue(int flattenedIndex)
     {
         if (flattenedIndex < 0) throw Exception_FlattenedIndexMustBeGreaterThanZero(nameof(flattenedIndex));
         if (flattenedIndex >= SequenceLength) throw Exception_FlattenedIndexMustBeLessThanSequenceLength(SequenceLength, nameof(flattenedIndex));
@@ -66,7 +59,7 @@ public class ArrayVisitor
         return Source.GetValue(indeces);
     }
 
-    public IEnumerable<object> GetValues()
+    public IEnumerable<object?> GetValues()
     {
         var stepper = new IndicesStepper(0, Lengths);
         foreach (var indeces in stepper)
@@ -96,8 +89,8 @@ public class ArrayVisitor<T> : ArrayVisitor
         base.SetValue(value, flattenedIndex);
     }
 
-    public new T GetValue(int flattenedIndex)
+    public new T? GetValue(int flattenedIndex)
     {
-        return (T)base.GetValue(flattenedIndex);
+        return (T?)base.GetValue(flattenedIndex);
     }
 }

@@ -4,17 +4,12 @@ using System.Diagnostics;
 namespace NStandard;
 
 [DebuggerDisplay("{Target}")]
-public class Ref<T>
+public class Ref<T>(T target)
 {
-    public T Target { get; }
+    public T Target { get; } = target;
 
-    [Obsolete("Use Target instead.")]
+    [Obsolete("Use Target instead.", true)]
     public T Any => Target;
-
-    public Ref(T target)
-    {
-        Target = target;
-    }
 
     public static implicit operator Ref<T>(T target)
     {

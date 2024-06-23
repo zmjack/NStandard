@@ -23,7 +23,7 @@ public static class ICustomAttributeProviderExtensions
         return @this.GetCustomAttributes(inherit).Where(x => x.GetType().FullName == fullName).OfType<Attribute>().ToArray();
     }
 
-    public static Attribute GetAttributeViaName(this ICustomAttributeProvider @this, string fullName, bool inherit = true)
+    public static Attribute? GetAttributeViaName(this ICustomAttributeProvider @this, string fullName, bool inherit = true)
     {
         return @this.GetCustomAttributes(inherit).Where(x => x.GetType().FullName == fullName).FirstOrDefault() as Attribute;
     }

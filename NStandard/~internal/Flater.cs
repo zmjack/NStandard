@@ -7,7 +7,7 @@ namespace NStandard;
 internal class Flater<T> : IEnumerator
 {
     private readonly Stack<IEnumerator> Stack = new();
-    private object _current;
+    private object? _current;
 
     /// <summary>
     /// The sources for flatting.
@@ -17,7 +17,7 @@ internal class Flater<T> : IEnumerator
     /// <summary>
     /// Gets the element in the collection at the current position of the enumerator.
     /// </summary>
-    public object Current => _current;
+    public object? Current => _current;
 
     public Flater(IEnumerator source)
     {

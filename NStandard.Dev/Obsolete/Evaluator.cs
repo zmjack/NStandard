@@ -17,7 +17,7 @@ namespace NStandard.Obsolete.Evaluators
 #if NET35 || NET40 || NET45 || NET451 || NET452 || NET46
         protected virtual Dictionary<Tuple<TOperator, TOperator>, UnaryOpFunc<TOperand>> BracketFunctions { get; } = new Dictionary<Tuple<TOperator, TOperator>, UnaryOpFunc<TOperand>>();
 #else
-        protected virtual Dictionary<(TOperator, TOperator), UnaryFunc<TOperand>> BracketFunctions { get; } = new Dictionary<(TOperator, TOperator), UnaryFunc<TOperand>>();
+        protected virtual Dictionary<(TOperator, TOperator), UnaryFunc<TOperand>> BracketFunctions { get; } = [];
 #endif
 
         public bool TryEval(IEnumerable<TOperator> operators, IEnumerable<TOperand> operands, out TOperand result)
