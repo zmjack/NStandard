@@ -213,7 +213,7 @@ public class MyEvaluator : NumericalEvaluator
 - Use `| ... |` to calculate the absolute value of a number.
 - Use `!` to invert a **boolean**.
 
-> ![Note]
+> [!NOTE]
 >
 > Calling the Initialize method in the constructor can give better performance for the first operation.
 

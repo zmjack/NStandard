@@ -213,7 +213,7 @@ public class MyEvaluator : NumericalEvaluator
 - 使用 `| ... |` 计算数值的绝对值。
 - 使用 `!` 对 **布尔值** 取反。
 
-> ![Note]
+> [!NOTE]
 >
 > 在构造函数中调用 Initialize 方法可以为第一次操作提供更好的性能。
 
