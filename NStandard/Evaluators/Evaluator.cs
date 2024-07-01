@@ -233,7 +233,7 @@ public abstract partial class EvaluatorBase
             else
             {
                 var followTypes = nodeType.GetFlags().SingleOrDefault(x => FollowTypes[lastNodeType].Contains(x));
-                if (followTypes == NodeType.Unspecified) throw new ArgumentException(GetDebugString($"{nodeType} can not come after {lastNodeType}. (Index: {node.Index})", exp, node));
+                if (followTypes == NodeType.Unspecified) throw new ArgumentException(GetDebugString($"{nodeType} can not be located after {lastNodeType}. (Index: {node.Index})", exp, node));
                 node.NodeType = followTypes;
             }
 
