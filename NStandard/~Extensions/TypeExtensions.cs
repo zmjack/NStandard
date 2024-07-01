@@ -20,6 +20,8 @@ public static class TypeExtensions
     {
         return @this.GetMethods(bindingAttr).First(x => x.ToString() == qualifiedName);
     }
+
+    [Obsolete("Use GetMethodViaQualifiedName(string qualifiedName, TypeEx.DeclaredOnlyLookup) instead.")]
     public static MethodInfo GetDeclaredMethodViaQualifiedName(this Type @this, string qualifiedName)
     {
         return GetMethodViaQualifiedName(@this, qualifiedName, TypeEx.DeclaredOnlyLookup);
