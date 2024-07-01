@@ -10,7 +10,7 @@ namespace NStandard.Evaluators;
 
 public static class Evaluator
 {
-    public static readonly NumericalEvaluator Numerical = new();
+    public static readonly NumericalEvaluator Numerical = new(true);
 }
 
 public abstract partial class EvaluatorBase
@@ -49,16 +49,18 @@ public abstract partial class EvaluatorBase
     protected Regex? ParameterRegex { get; private set; }
     protected Regex? ResolveRegex { get; private set; }
 
-    private bool Initialized;
+    public bool Initialized { get; }
 
-    public EvaluatorBase(bool autoInitialize = true)
+    public EvaluatorBase()
     {
         var undefinedOps = BinaryOpLevels.Keys.Where(x => !BinaryOpFunctions.ContainsKey(x));
         if (undefinedOps.Any()) throw new ArgumentException($"Some operators are undefined. ({undefinedOps.Join(",")})");
 
         var undefinedLevels = BinaryOpFunctions.Keys.Where(x => !BinaryOpLevels.ContainsKey(x));
         if (undefinedLevels.Any()) throw new ArgumentException($"Some operators are undefined. ({undefinedLevels.Join(",")})");
-
+    }
+    public EvaluatorBase(bool autoInitialize) : this()
+    {
         if (autoInitialize) Initialize();
     }
 
@@ -93,13 +95,11 @@ public abstract partial class EvaluatorBase
             foreach (var value in EndBrackets) yield return new Node(NodeType.EndBracket, value);
         }
         PendingNodes = GetPendingNodes().OrderByDescending(x => x.Value!.Length);
-
-        Initialized = true;
     }
 
-    protected void ThrowIf_NotInitialize()
+    protected void InitializeIfNot()
     {
-        if (!Initialized) throw new InvalidOperationException("Evaluator not initialized.");
+        if (!Initialized) Initialize();
     }
 
     protected static string NormalRegexString(string origin) => origin.RegexReplace(NormalRegex, "\\$1");
@@ -165,7 +165,7 @@ public abstract partial class EvaluatorBase
 
     public Node[] GetNodes(string exp)
     {
-        ThrowIf_NotInitialize();
+        InitializeIfNot();
 
         var nodes = GetInitialNodes(exp);
         GrammarAnalysis(exp, nodes);
@@ -174,7 +174,7 @@ public abstract partial class EvaluatorBase
 
     public Node[] GetInitialNodes(string exp)
     {
-        ThrowIf_NotInitialize();
+        InitializeIfNot();
 
         if (exp.IsNullOrWhiteSpace()) exp = DefaultExpression;
 
@@ -249,7 +249,7 @@ public abstract partial class EvaluatorBase
 
     public Expression GetExpression(string exp, out ParameterExpression dictionary)
     {
-        ThrowIf_NotInitialize();
+        InitializeIfNot();
 
         dictionary = Expression.Parameter(typeof(IDictionary<,>).MakeGenericType(typeof(string), typeof(double)), "p");
         return InnerBuild(exp, dictionary, typeof(IDictionary<string, double>));
@@ -417,7 +417,7 @@ public abstract partial class EvaluatorBase
 
     public double Eval(string exp)
     {
-        ThrowIf_NotInitialize();
+        InitializeIfNot();
 
         var expression = InnerBuild(exp, null, null);
         var lambda = Expression.Lambda<Func<double>>(expression);
@@ -440,7 +440,7 @@ public abstract partial class EvaluatorBase
 
     public Func<TParameter, double> Compile<TParameter>(string exp)
     {
-        ThrowIf_NotInitialize();
+        InitializeIfNot();
 
         var parameter = Expression.Parameter(typeof(TParameter), "p");
         var expression = InnerBuild(exp, parameter, typeof(TParameter));
@@ -450,7 +450,7 @@ public abstract partial class EvaluatorBase
 
     public Func<object, double> Compile(string exp)
     {
-        ThrowIf_NotInitialize();
+        InitializeIfNot();
 
         var parameter = Expression.Parameter(typeof(object), "p");
         var typeIsIDictionaryExp = Expression.TypeIs(parameter, typeof(IDictionary<string, double>));
@@ -465,10 +465,27 @@ public abstract partial class EvaluatorBase
         return lambda.Compile();
     }
 
-    public void AddBracketFunction(Bracket key, UnaryFunc<double> value) => BracketFunctions.Add(key, value);
-    public void AddUnaryOpFunction(string key, UnaryFunc<double> value) => UnaryOpFunctions.Add(key, exp => Expression.Call(Expression.Constant(value.Target), value.Method, exp));
-    public void AddBinaryOpFunction(string key, BinaryFunc<double> value) => BinaryOpFunctions.Add(key, (left, rigth) => Expression.Call(Expression.Constant(value.Target), value.Method, left, rigth));
-    public void AddBinaryOpLevel(string key, int value) => BinaryOpLevels.Add(key, value);
+    protected void ThrowIf_DefineAfterInitializing()
+    {
+        if (Initialized) throw new InvalidOperationException("Define operations should be used in the constructor.");
+    }
+
+    public void DefineBracket(Bracket key, UnaryFunc<double> value)
+    {
+        ThrowIf_DefineAfterInitializing();
+        BracketFunctions.Add(key, value);
+    }
+    public void Define(string key, UnaryFunc<double> value)
+    {
+        ThrowIf_DefineAfterInitializing();
+        UnaryOpFunctions.Add(key, exp => Expression.Call(Expression.Constant(value.Target), value.Method, exp));
+    }
+    public void Define(string key, int priority, BinaryFunc<double> value)
+    {
+        ThrowIf_DefineAfterInitializing();
+        BinaryOpFunctions.Add(key, (left, rigth) => Expression.Call(Expression.Constant(value.Target), value.Method, left, rigth));
+        BinaryOpLevels.Add(key, priority);
+    }
 
     protected struct NodeExpressionPair
     {

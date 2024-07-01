@@ -201,19 +201,21 @@ There is a simple evaluator which extend **NumericalEvaluator**:
 ```csharp
 public class MyEvaluator : NumericalEvaluator
 {
-    public MyEvaluator() : base(false)
+    public MyEvaluator()
     {
-        AddUnaryOpFunction("!", value => value != 0d ? 0d : 1d);
-        AddBracketFunction(new("|", "|"), value => Math.Abs(value));
+        Define("!", value => value != 0d ? 0d : 1d);
+        DefineBracket(new("|", "|"), value => Math.Abs(value));
         Initialize();
     }
 }
 ```
 
-- Use **| ... |** to calculate the absolute value of a number.
-- Use **!** to invert a boolean.
+- Use `| ... |` to calculate the absolute value of a number.
+- Use `!` to invert a **boolean**.
 
-**Note:** You must call the **Initialize** method at the end to complete the initialization.
+> ![Note]
+>
+> Calling the Initialize method in the constructor can give better performance for the first operation.
 
 <br/>
 

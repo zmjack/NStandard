@@ -2,16 +2,10 @@
 
 namespace NStandard.Evaluators;
 
-public struct Bracket
+public struct Bracket(string start, string end)
 {
-    public string Start;
-    public string End;
-
-    public Bracket(string start, string end)
-    {
-        Start = start;
-        End = end;
-    }
+    public string Start = start;
+    public string End = end;
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     public void Deconstruct(out string start, out string end)

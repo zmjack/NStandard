@@ -43,6 +43,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.71.0
+
+- Adjust the **Evaluator** code structure to make it easier to extend.
+
 ### Version 0.70.0
 
 - Enable **nullable** checking.

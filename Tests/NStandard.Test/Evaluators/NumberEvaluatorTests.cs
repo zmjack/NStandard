@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using Xunit;
+﻿using Xunit;
 
 namespace NStandard.Evaluators.Test;
 
@@ -12,10 +11,10 @@ public class NumberEvaluatorTests
 
     public class MyEvaluator : NumericalEvaluator
     {
-        public MyEvaluator() : base(false)
+        public MyEvaluator()
         {
-            AddUnaryOpFunction("!", value => value != 0d ? 0d : 1d);
-            AddBracketFunction(new("|", "|"), Math.Abs);
+            Define("!", value => value != 0d ? 0d : 1d);
+            DefineBracket(new("|", "|"), Math.Abs);
             Initialize();
         }
     }

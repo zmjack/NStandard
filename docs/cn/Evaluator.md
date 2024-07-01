@@ -196,24 +196,26 @@ var exp = "${x} + sqrt(abs(${x} * 3)) * 3";
 
 ### 自定义求值器
 
-有一个扩展 **NumericalEvaluator** 的简单求值器：
+扩展 **NumericalEvaluator** 创建一个更多运算符的求值器：
 
 ```csharp
 public class MyEvaluator : NumericalEvaluator
 {
-    public MyEvaluator() : base(false)
+    public MyEvaluator()
     {
-        AddUnaryOpFunction("!", value => value != 0d ? 0d : 1d);
-        AddBracketFunction(new("|", "|"), value => Math.Abs(value));
+        Define("!", value => value != 0d ? 0d : 1d);
+        DefineBracket(new("|", "|"), value => Math.Abs(value));
         Initialize();
     }
 }
 ```
 
-- 使用 **| ... |** 计算数值的绝对值。
-- 使用 **!** 对布尔值取反。
+- 使用 `| ... |` 计算数值的绝对值。
+- 使用 `!` 对 **布尔值** 取反。
 
-**注意：**必须在末尾调用 **Initialize** 方法，以完成初始化。
+> ![Note]
+>
+> 在构造函数中调用 Initialize 方法可以为第一次操作提供更好的性能。
 
 <br/>
 

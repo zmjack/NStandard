@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace NStandard.Security;
+﻿namespace NStandard.Security;
 
 public abstract class SymmetricCipher<TSelf> where TSelf : SymmetricCipher<TSelf>, new()
 {
