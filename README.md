@@ -43,6 +43,12 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.72.0
+
+- **Breaking Change**: Adjust **Variant** logic to throw an error when conversion is not possible. 
+  - Previously, the default value was returned, which resulted in some erroneous logic not being perceived by users.
+- Provide deserialization support for **IJsonValue**.
+
 ### Version 0.71.0
 
 - Adjust the **Evaluator** code structure to make it easier to extend.

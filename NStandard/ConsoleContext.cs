@@ -38,7 +38,7 @@ public class ConsoleContext : Scope<ConsoleContext>
                 CursorVisible = Console.CursorVisible;
             }
 #else
-                CursorVisible = Console.CursorVisible;
+            CursorVisible = Console.CursorVisible;
 #endif
             _hasCursor = true;
         }

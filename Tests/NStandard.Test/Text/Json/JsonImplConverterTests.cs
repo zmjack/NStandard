@@ -1,6 +1,7 @@
 ﻿using NStandard.Text.Json;
 using System.Collections;
 using System.Drawing;
+using System.Text;
 using System.Text.Json;
 using Xunit;
 
@@ -27,12 +28,43 @@ public class JsonImplConverterTests
         WriteIndented = true,
     };
     private string Json<T>(T obj) => JsonSerializer.Serialize(obj, _option);
+    private T FromJson<T>(string json) => JsonSerializer.Deserialize<T>(json, _option);
 
     [JsonValue<WebColor>]
-    public class WebColor(Color color) : IJsonValue
+    public class WebColor : IJsonValue
     {
-        object IJsonValue.Value => $"rgba({Color.R},{Color.G},{Color.B},{(double)Color.A / 255})";
-        public Color Color { get; set; } = color;
+        public byte R { get; set; }
+        public byte G { get; set; }
+        public byte B { get; set; }
+        public byte A { get; set; }
+
+        public WebColor() { }
+        public WebColor(Color color)
+        {
+            R = color.R;
+            G = color.G;
+            B = color.B;
+            A = color.A;
+        }
+
+        object IJsonValue.Value
+        {
+            get => $"rgba({R},{G},{B},{(double)(A * 10000 / 255) / 10000})";
+            set
+            {
+                var buffer = value as byte[];
+                var str = Encoding.UTF8.GetString(buffer);
+                if (str.StartsWith("rgba") && str.EndsWith(")"))
+                {
+                    var parts = str[5..^1].Split(',');
+                    R = byte.Parse(parts[0]);
+                    G = byte.Parse(parts[1]);
+                    B = byte.Parse(parts[2]);
+                    A = (byte)Math.Clamp(Math.Round(double.Parse(parts[3]) * 255, 0), 0, 255);
+                }
+                else throw new NotSupportedException();
+            }
+        }
     }
 
     public class SimpleModel
@@ -46,13 +78,25 @@ public class JsonImplConverterTests
         Assert.Equal(
 """
 {
-  "Color": "rgba(11,22,33,0.5019607843137255)"
+  "Color": "rgba(11,22,33,0.5019)"
 }
 """,
         Json(new SimpleModel
         {
             Color = new(Color.FromArgb(128, 11, 22, 33))
         }));
+
+        var model = FromJson<SimpleModel>(
+"""
+{
+  "Color": "rgba(11,22,33,0.5019)"
+}
+"""
+        );
+        Assert.Equal(11, model.Color.R);
+        Assert.Equal(22, model.Color.G);
+        Assert.Equal(33, model.Color.B);
+        Assert.Equal(128, model.Color.A);
     }
 
     [Fact]

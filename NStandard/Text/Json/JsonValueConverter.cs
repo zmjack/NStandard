@@ -5,11 +5,18 @@ using System.Text.Json.Serialization;
 
 namespace NStandard.Text.Json;
 
-public class JsonValueConverter<T> : JsonConverter<T> where T : IJsonValue
+public class JsonValueConverter<T> : JsonConverter<T> where T : IJsonValue, new()
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
+        var bytes = new byte[reader.ValueSpan.Length];
+        reader.ValueSpan.CopyTo(bytes);
+
+        var instance = new T
+        {
+            Value = bytes,
+        };
+        return instance;
     }
 
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
