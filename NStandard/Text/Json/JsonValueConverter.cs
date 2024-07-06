@@ -9,12 +9,10 @@ public class JsonValueConverter<T> : JsonConverter<T> where T : IJsonValue, new(
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var bytes = new byte[reader.ValueSpan.Length];
-        reader.ValueSpan.CopyTo(bytes);
-
+        var value = JsonSerializer.Deserialize<JsonElement>(ref reader);
         var instance = new T
         {
-            Value = bytes,
+            RawValue = value,
         };
         return instance;
     }

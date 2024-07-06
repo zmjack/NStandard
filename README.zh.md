@@ -43,6 +43,25 @@
 
 ## 最近更新
 
+### 版本：0.72.5
+
+- 调整 **IJsonValue** 结构。
+  - 拆分
+
+  - ```csharp
+    object Value { get; set; }
+    ```
+
+  - 为
+  
+  - ```csharp
+    object Value { get; }
+    ```
+  
+  - ```csharp
+    JsonElement RawValue { set; }
+    ```
+
 ### 版本：0.72.0
 
 - 调整 **Variant** 逻辑，当无法转换时抛出错误。

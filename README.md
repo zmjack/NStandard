@@ -43,6 +43,25 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.72.5
+
+- Adjust **IJsonValue** structure.
+  - Split
+
+  - ```csharp
+    object Value { get; set; }
+    ```
+
+  - into 
+  
+  - ```csharp
+    object Value { get; }
+    ```
+  
+  - ```csharp
+    JsonElement RawValue { set; }
+    ```
+
 ### Version 0.72.0
 
 - **Breaking Change**: Adjust **Variant** logic to throw an error when conversion is not possible. 

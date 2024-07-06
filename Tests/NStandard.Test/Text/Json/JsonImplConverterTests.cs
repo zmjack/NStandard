@@ -1,7 +1,6 @@
 ﻿using NStandard.Text.Json;
 using System.Collections;
 using System.Drawing;
-using System.Text;
 using System.Text.Json;
 using Xunit;
 
@@ -47,13 +46,12 @@ public class JsonImplConverterTests
             A = color.A;
         }
 
-        object IJsonValue.Value
+        object IJsonValue.Value => $"rgba({R},{G},{B},{(double)(A * 10000 / 255) / 10000})";
+        JsonElement IJsonValue.RawValue
         {
-            get => $"rgba({R},{G},{B},{(double)(A * 10000 / 255) / 10000})";
             set
             {
-                var buffer = value as byte[];
-                var str = Encoding.UTF8.GetString(buffer);
+                var str = value.Deserialize<string>();
                 if (str.StartsWith("rgba") && str.EndsWith(")"))
                 {
                     var parts = str[5..^1].Split(',');

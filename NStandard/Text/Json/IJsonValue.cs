@@ -1,11 +1,14 @@
-﻿namespace NStandard.Text.Json;
+﻿#if NET5_0_OR_GREATER
+using System.Text.Json;
+#endif
+
+namespace NStandard.Text.Json;
 
 public interface IJsonValue
 {
+    object? Value { get; }
+
 #if NET5_0_OR_GREATER
-    /// <summary>
-    /// Property setter always input <see cref="System.Buffers.ReadOnlySequence{Byte}"/> .
-    /// </summary>
+    JsonElement RawValue { set; }
 #endif
-    object? Value { get; set; }
 }
