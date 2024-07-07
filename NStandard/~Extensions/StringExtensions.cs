@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 namespace NStandard;
 
 [EditorBrowsable(EditorBrowsableState.Never)]
-public static class StringExtensions
+public static partial class StringExtensions
 {
     /// <summary>
     /// Indicates whether the specified string is null or an System.String.Empty string.
@@ -253,7 +253,14 @@ public static class StringExtensions
         }
     }
 
-    private static readonly Regex UniqueRegex = new(@"[\s]{2,}");
+#if NET7_0_OR_GREATER
+    [GeneratedRegex(@"[\s]{2,}")]
+    private static partial Regex UniqueRegex();
+    private static readonly Regex _uniqueRegex = UniqueRegex();
+#else
+    private static readonly Regex _uniqueRegex = new(@"[\s]{2,}");
+#endif
+
     /// <summary>
     /// Removes all leading and trailing white-space characters from the current string,
     ///     and replaces multiple spaces with a single.
@@ -263,7 +270,7 @@ public static class StringExtensions
     public static string? Unique(this string @this)
     {
         if (@this is null) return null;
-        return UniqueRegex.Replace(@this.NormalizeNewLine().Replace(Environment.NewLine, " ").Trim(), " ");
+        return _uniqueRegex.Replace(@this.NormalizeNewLine().Replace(Environment.NewLine, " ").Trim(), " ");
     }
 
     /// <summary>

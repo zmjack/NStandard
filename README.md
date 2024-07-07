@@ -43,6 +43,10 @@ These frameworks are supported:
 
 ## Recently
 
+### Version 0.73.0
+
+- Add class **RgbaColor** and provide **Json** serialization.
+
 ### Version 0.72.5
 
 - Adjust **IJsonValue** structure.

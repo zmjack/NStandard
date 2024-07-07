@@ -1,4 +1,5 @@
-﻿using NStandard.Text.Json;
+﻿using NStandard.Drawing;
+using NStandard.Text.Json;
 using System.Collections;
 using System.Drawing;
 using System.Text.Json;
@@ -29,45 +30,9 @@ public class JsonImplConverterTests
     private string Json<T>(T obj) => JsonSerializer.Serialize(obj, _option);
     private T FromJson<T>(string json) => JsonSerializer.Deserialize<T>(json, _option);
 
-    [JsonValue<WebColor>]
-    public class WebColor : IJsonValue
-    {
-        public byte R { get; set; }
-        public byte G { get; set; }
-        public byte B { get; set; }
-        public byte A { get; set; }
-
-        public WebColor() { }
-        public WebColor(Color color)
-        {
-            R = color.R;
-            G = color.G;
-            B = color.B;
-            A = color.A;
-        }
-
-        object IJsonValue.Value => $"rgba({R},{G},{B},{(double)(A * 10000 / 255) / 10000})";
-        JsonElement IJsonValue.RawValue
-        {
-            set
-            {
-                var str = value.Deserialize<string>();
-                if (str.StartsWith("rgba") && str.EndsWith(")"))
-                {
-                    var parts = str[5..^1].Split(',');
-                    R = byte.Parse(parts[0]);
-                    G = byte.Parse(parts[1]);
-                    B = byte.Parse(parts[2]);
-                    A = (byte)Math.Clamp(Math.Round(double.Parse(parts[3]) * 255, 0), 0, 255);
-                }
-                else throw new NotSupportedException();
-            }
-        }
-    }
-
     public class SimpleModel
     {
-        public WebColor Color { get; set; }
+        public RgbaColor Color { get; set; }
     }
 
     [Fact]
