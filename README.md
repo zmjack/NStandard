@@ -39,9 +39,20 @@ These frameworks are supported:
   dotnet add package NStandard
   ```
 
-<br/>
+```mermaid
+graph LR
+subgraph Upgrade suggestion
+0.0.0 --> 0.70.0 --> |Fix errors| Lastest
+end
+```
 
 ## Recently
+
+### Version 0.74.0
+
+- Add **JsonAsAttribute** to specify **class** or **structure** to be serialized according to **specified interface**.
+- **[Breaking Change]**
+  Adjust **JsonImplAttribute**, you can now specify **interface** to be deserialized by **specified type** by default.
 
 ### Version 0.73.0
 

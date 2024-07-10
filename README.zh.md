@@ -39,9 +39,20 @@
   dotnet add package NStandard
   ```
 
-<br/>
+```mermaid
+graph LR
+subgraph 升级建议
+0.0.0 --> 0.70.0 --> |修复错误| Lastest
+end
+```
 
 ## 最近更新
+
+### 版本：0.74.0
+
+- 新增 **JsonAsAttribute** 用于指定 **类** 或 **结构体** 按 **指定接口** 序列化。
+- **[中断性更新]**
+  调整 **JsonImplAttribute**，现可指定 **接口** 默认按 **指定类型** 反序列化。
 
 ### 版本：0.73.0
 

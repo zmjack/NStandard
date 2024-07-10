@@ -3,6 +3,7 @@
 namespace NStandard.Text.Json;
 
 #if NET5_0_OR_GREATER
+using NStandard.Text.Json.Converters;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -18,14 +19,14 @@ public class JsonImplAttribute<T> : JsonConverterAttribute
 }
 
 /// <summary>
-/// Serialize instance by interface type.
+/// Serialize interface by instance type.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-/// <typeparam name="TSerialize"></typeparam>
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false)]
-public class JsonImplAttribute<T, TSerialize> : JsonConverterAttribute
+/// <typeparam name="TDeserialize"></typeparam>
+[AttributeUsage(AttributeTargets.Interface, AllowMultiple = false)]
+public class JsonImplAttribute<T, TDeserialize> : JsonConverterAttribute where TDeserialize : T, new()
 {
-    public JsonImplAttribute() : base(typeof(JsonImplConverter<T, TSerialize>))
+    public JsonImplAttribute() : base(typeof(JsonImplConverter<T, TDeserialize>))
     {
     }
 }
@@ -44,13 +45,13 @@ public class JsonImplAttribute<T> : Attribute
 }
 
 /// <summary>
-/// Serialize instance by interface type.
+/// Serialize interface by instance type.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-/// <typeparam name="TSerialize"></typeparam>
+/// <typeparam name="TDeserialize"></typeparam>
 [Obsolete("Must be manually configured based on the actual serializer used.")]
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false)]
-public class JsonImplAttribute<T, TSerialize> : Attribute
+[AttributeUsage(AttributeTargets.Interface, AllowMultiple = false)]
+public class JsonImplAttribute<T, TDeserialize> : Attribute where TDeserialize : T, new()
 {
     public JsonImplAttribute()
     {

@@ -1,8 +1,8 @@
 ﻿using NStandard.Text.Json;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Drawing;
 using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 #if NET6_0_OR_GREATER
 using System.Text.Json;
@@ -60,16 +60,7 @@ public partial struct RgbaColor : IRgbaColor, IJsonValue
     {
         set
         {
-#if NET6_0_OR_GREATER
             var str = value.Deserialize<string>()!;
-#else
-            var bufferWriter = new ArrayBufferWriter<byte>();
-            using (var writer = new Utf8JsonWriter(bufferWriter))
-            {
-                value.WriteTo(writer);
-            }
-            var str = JsonSerializer.Deserialize<string>(bufferWriter.WrittenSpan)!;
-#endif
             if (str is null)
             {
                 _red = 0;
