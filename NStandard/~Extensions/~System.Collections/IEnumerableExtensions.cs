@@ -56,38 +56,6 @@ public static class IEnumerableExtensions
     }
 
     /// <summary>
-    /// Returns a collection of ValueTuple which contains the element's index and value.
-    /// </summary>
-    /// <typeparam name="TSource"></typeparam>
-    /// <param name="this"></param>
-    /// <returns></returns>
-    [Obsolete("Use Pairs instead.", true)]
-    public static IEnumerable<IndexAndValue<TSource>> AsIndexValuePairs<TSource>(this IEnumerable @this)
-    {
-        int i = 0;
-        foreach (TSource item in @this)
-        {
-            yield return new(i++, item);
-        }
-    }
-
-    /// <summary>
-    /// Returns a collection of ValueTuple which contains the element's index and value.
-    /// </summary>
-    /// <typeparam name="TSource"></typeparam>
-    /// <param name="this"></param>
-    /// <returns></returns>
-    [Obsolete("Use Pairs instead.", true)]
-    public static IEnumerable<IndexAndValue<TSource>> AsIndexValuePairs<TSource>(this IEnumerable<TSource> @this)
-    {
-        int i = 0;
-        foreach (var item in @this)
-        {
-            yield return new(i++, item);
-        }
-    }
-
-    /// <summary>
     /// Do action for each item.
     /// </summary>
     /// <typeparam name="TSource"></typeparam>
@@ -203,34 +171,6 @@ public static class IEnumerableExtensions
     public static Sliding<T> Slide<T>(this IEnumerable<T?> @this, int capacity, bool sharedCache, SlidingMode mode, T? padLeft, T? padRight)
     {
         return new(@this, capacity, sharedCache, mode, padLeft, padRight);
-    }
-
-    /// <summary>
-    /// Creates a sliding window for the specified enumerable object.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="this"></param>
-    /// <param name="capacity"></param>
-    /// <param name="sharedCache"></param>
-    /// <returns></returns>
-    [Obsolete("Use Slide(int capacity, bool sharedCache, SlidingMode mode, T pad) instead.", true)]
-    public static Sliding<T> PadSlide<T>(this IEnumerable<T> @this, int capacity, bool sharedCache)
-    {
-        List<T?> list = [];
-        for (int i = 0; i < capacity - 1; i++)
-        {
-            list.Add(default);
-        }
-        foreach (var item in @this)
-        {
-            list.Add(item);
-        }
-        for (int i = 0; i < capacity - 1; i++)
-        {
-            list.Add(default);
-        }
-
-        return new(list, capacity, sharedCache);
     }
 
 }

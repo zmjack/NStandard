@@ -10,18 +10,6 @@ using System.Text.Json.Serialization;
 /// Serialize interface by instance type.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-[AttributeUsage(AttributeTargets.Interface, AllowMultiple = false)]
-public class JsonImplAttribute<T> : JsonConverterAttribute
-{
-    public JsonImplAttribute() : base(typeof(JsonImplConverter<T>))
-    {
-    }
-}
-
-/// <summary>
-/// Serialize interface by instance type.
-/// </summary>
-/// <typeparam name="T"></typeparam>
 /// <typeparam name="TDeserialize"></typeparam>
 [AttributeUsage(AttributeTargets.Interface, AllowMultiple = false)]
 public class JsonImplAttribute<T, TDeserialize> : JsonConverterAttribute where TDeserialize : T, new()
@@ -31,19 +19,6 @@ public class JsonImplAttribute<T, TDeserialize> : JsonConverterAttribute where T
     }
 }
 #else
-/// <summary>
-/// Serialize interface by instance type.
-/// </summary>
-/// <typeparam name="T"></typeparam>
-[Obsolete("Must be manually configured based on the actual serializer used.")]
-[AttributeUsage(AttributeTargets.Interface, AllowMultiple = false)]
-public class JsonImplAttribute<T> : Attribute
-{
-    public JsonImplAttribute()
-    {
-    }
-}
-
 /// <summary>
 /// Serialize interface by instance type.
 /// </summary>

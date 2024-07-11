@@ -48,6 +48,14 @@ end
 
 ## Recently
 
+### Version 0.75.0
+
+- Adjust **JsonAsConverter** to provide **circular serialization** or **deserialization** checks.
+- **[Breaking Change]**
+  Remove **JsonImplAttribute\<T\>**, use **JsonImplAttribute\<T, TDeserialize\>** instead.
+- **[Breaking Change]**
+  Remove all methods or types which marked as **error**.
+
 ### Version 0.74.0
 
 - Add **JsonAsAttribute** to specify **class** or **structure** to be serialized according to **specified interface**.

@@ -16,7 +16,7 @@ namespace NStandard.Drawing;
 [DebuggerDisplay("R:{R} G:{G} B:{B} A:{A}")]
 [StructLayout(LayoutKind.Explicit)]
 [JsonValue<RgbaColor>]
-public partial struct RgbaColor : IRgbaColor, IJsonValue
+public partial struct RgbaColor : IJsonValue
 {
     private static ArgumentException InvalidColor(string str, string paramName) => new($"The string is invalid color. (RawValue: {str})", paramName);
 
@@ -151,7 +151,7 @@ public partial struct RgbaColor : IRgbaColor, IJsonValue
     public override bool Equals(object? obj)
     {
         if (obj is null) return false;
-        if (obj is IRgbaColor other) return Value == other.Value;
+        if (obj is RgbaColor other) return Value == other.Value;
         return false;
     }
 

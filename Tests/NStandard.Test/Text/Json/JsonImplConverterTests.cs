@@ -1,6 +1,5 @@
 ﻿using NStandard.Drawing;
 using NStandard.Text.Json;
-using System.Collections;
 using System.Drawing;
 using System.Text.Json;
 using Xunit;
@@ -199,14 +198,13 @@ public class JsonImplConverterTests
         int Length { get; set; }
     }
 
-    [JsonImpl<INameable>]
-    public interface INameable
+    public interface IJson_Cls
     {
-        string Name { get; set; }
+        int Length { get; set; }
     }
 
-    [JsonAs<Cls, ILength>]
-    public class Cls : ILength, INameable, IEnumerable<int>
+    [JsonAs<Cls, IJson_Cls>]
+    public class Cls : ILength, IJson_Cls
     {
         public int Length
         {
@@ -216,72 +214,34 @@ public class JsonImplConverterTests
         int ILength.Length { get; set; }
 
         public string Name { get; set; } = nameof(Cls);
-
-        public IEnumerator<int> GetEnumerator()
-        {
-            return Array.Empty<int>().AsEnumerable().GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
     }
 
     [Fact]
-    public void ImplTest()
+    public void FromJsonTest()
     {
-        ILength a = new Cls
-        {
-            Length = 10,
-        };
         Assert.Equal(
-"""
-{
-  "Length": 100
-}
-""",
-        Json(a));
+            """
+            {
+              "Length": 100
+            }
+            """,
+            Json(new Cls
+            {
+                Length = 10,
+            })
+        );
 
-        INameable b = new Cls
-        {
-            Length = 10,
-        };
         Assert.Equal(
-"""
-{
-  "Length": 100
-}
-""",
-        Json(b));
-
-        var c = new Cls
-        {
-            Length = 10,
-        };
-        Assert.Equal(
-"""
-{
-  "Length": 100
-}
-""",
-        Json(c));
+            """
+            {
+              "Length": 100
+            }
+            """,
+            Json((ILength)new Cls
+            {
+                Length = 10,
+            })
+        );
     }
 
-    [Fact]
-    public void ImplTest2()
-    {
-        var cls = JsonSerializer.Deserialize<ILength>(
-"""
-{
-  "name": "Back",
-  "length": 10
-}
-""", new JsonSerializerOptions(JsonSerializerDefaults.Web));
-
-        Assert.Equal(new Cls
-        {
-            Length = 10,
-        }, cls);
-    }
 }

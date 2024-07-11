@@ -8,12 +8,6 @@ public class EnumOption : IEquatable<EnumOption>
     public string Name { get; }
     public object Value { get; }
 
-    [Obsolete("Use Enum instead.", true)]
-    public object EnumValue => Enum;
-
-    [Obsolete("Use Value instead.", true)]
-    public object UnderlyingValue => Value;
-
     public EnumOption(Type enumType, string name)
     {
         var underlyingType = Enum.GetUnderlyingType(enumType);
@@ -34,9 +28,6 @@ public class EnumOption<TEnum, TValue> : EnumOption, IEquatable<EnumOption<TEnum
 {
     public new TEnum Enum => (TEnum)base.Enum;
     public new TValue Value => (TValue)base.Value;
-
-    public new TEnum EnumValue => (TEnum)base.Enum;
-    public new TValue UnderlyingValue => (TValue)base.Value;
 
     private void CheckUnderlyingType()
     {

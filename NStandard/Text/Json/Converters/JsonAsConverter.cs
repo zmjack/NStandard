@@ -1,5 +1,7 @@
 ﻿#if NET5_0_OR_GREATER
 using System;
+using System.Drawing;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -7,6 +9,14 @@ namespace NStandard.Text.Json.Converters;
 
 public class JsonAsConverter<T, TSerialize> : JsonConverter<T> where T : TSerialize, new()
 {
+    public override bool CanConvert(Type typeToConvert)
+    {
+        var invalidMark = typeof(TSerialize).GetCustomAttribute(typeof(JsonImplAttribute<,>));
+        if (invalidMark is not null) throw new InvalidOperationException($"Circular serialization or deserialization detected. (Remove JsonImpl from {typeof(TSerialize)}.)");
+
+        return base.CanConvert(typeToConvert);
+    }
+
     public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var value = JsonSerializer.Deserialize<JsonElement>(ref reader, options);

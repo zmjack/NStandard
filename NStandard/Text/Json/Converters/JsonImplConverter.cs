@@ -5,11 +5,11 @@ using System.Text.Json.Serialization;
 
 namespace NStandard.Text.Json.Converters;
 
-public class JsonImplConverter<T> : JsonConverter<T>
+public class JsonImplConverter<T, TDeserialize> : JsonConverter<T> where TDeserialize : T, new()
 {
     public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        throw new NotSupportedException();
+        return JsonSerializer.Deserialize<TDeserialize>(ref reader, options);
     }
 
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
@@ -23,14 +23,6 @@ public class JsonImplConverter<T> : JsonConverter<T>
             var type = value.GetType();
             JsonSerializer.Serialize(writer, value, type, options);
         }
-    }
-}
-
-public class JsonImplConverter<T, TDeserialize> : JsonImplConverter<T> where TDeserialize : T, new()
-{
-    public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        return JsonSerializer.Deserialize<TDeserialize>(ref reader, options);
     }
 }
 #endif

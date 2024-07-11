@@ -574,32 +574,6 @@ public static partial class StringExtensions
     }
 
     /// <summary>
-    /// Encodes all the characters in the specified string into a sequence of bytes(Unicode), then returns it.
-    /// </summary>
-    /// <param name="this"></param>
-    /// <returns></returns>
-    [Obsolete("Use Pipe(Encoding.Unicode.GetBytes) instead.", true)]
-    public static byte[] Bytes(this string @this) => Bytes(@this, Encoding.Unicode);
-
-    /// <summary>
-    /// Encodes all the characters in the specified string into a sequence of bytes, then returns it.
-    /// </summary>
-    /// <param name="this"></param>
-    /// <param name="encoding"></param>
-    /// <returns></returns>
-    [Obsolete("Use Pipe(Encoding.*.GetBytes) instead.", true)]
-    public static byte[] Bytes(this string @this, Encoding encoding) => encoding.GetBytes(@this);
-
-    /// <summary>
-    /// Encodes all the characters in the specified string into a sequence of bytes, then returns it.
-    /// </summary>
-    /// <param name="this"></param>
-    /// <param name="encoding"></param>
-    /// <returns></returns>
-    [Obsolete("Use Pipe(Encoding.GetEncoding(*).GetBytes) instead.", true)]
-    public static byte[] Bytes(this string @this, string encoding) => Encoding.GetEncoding(encoding).GetBytes(@this);
-
-    /// <summary>
     /// Removes a string from the beginning of this string.
     /// </summary>
     /// <param name="this"></param>
