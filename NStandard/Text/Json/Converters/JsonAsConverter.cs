@@ -12,7 +12,7 @@ public class JsonAsConverter<T, TSerialize> : JsonConverter<T> where T : TSerial
     public override bool CanConvert(Type typeToConvert)
     {
         var invalidMark = typeof(TSerialize).GetCustomAttribute(typeof(JsonImplAttribute<,>));
-        if (invalidMark is not null) throw new InvalidOperationException($"Circular serialization or deserialization detected. (Remove JsonImpl from {typeof(TSerialize)}.)");
+        if (invalidMark is not null) throw new InvalidOperationException($"Circular serialization or deserialization detected when converting {typeToConvert} to {typeof(TSerialize)}.");
 
         return base.CanConvert(typeToConvert);
     }
@@ -30,7 +30,10 @@ public class JsonAsConverter<T, TSerialize> : JsonConverter<T> where T : TSerial
             if (value.TryGetProperty(name, out var _prop))
             {
                 var _value = _prop.Deserialize(prop.PropertyType, options);
-                prop.SetValue(instance, _value);
+                if (prop.GetSetMethod() is not null)
+                {
+                    prop.SetValue(instance, _value);
+                }
             }
         }
         return instance;
