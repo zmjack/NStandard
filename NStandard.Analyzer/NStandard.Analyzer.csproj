@@ -19,7 +19,7 @@
     <PackageProjectUrl>nstandard.net</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <Copyright>Copyright © nstandard.net 2020</Copyright>
-    <PackageId>NStandard</PackageId>
+    <PackageId>NStandard.Analyzer</PackageId>
     <PackageTags>System Standard Extension</PackageTags>
     <PackageIcon>nstandard.png</PackageIcon>
   </PropertyGroup>
