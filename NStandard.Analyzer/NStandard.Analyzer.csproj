@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <Nullable>enable</Nullable>
+
+    <Version>0.0.1-alpha</Version>
+    <RootNamespace>NStandard.Analyzer</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Authors>zmjack</Authors>
+    <Company>nstandard.net</Company>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>DotNet extensions for system library.</Description>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
+    <PackageProjectUrl>nstandard.net</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <Copyright>Copyright © nstandard.net 2020</Copyright>
+    <PackageId>NStandard</PackageId>
+    <PackageTags>System Standard Extension</PackageTags>
+    <PackageIcon>nstandard.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\nstandard.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.7.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>
