@@ -91,7 +91,7 @@ public class MeasureGenerator : ISourceGenerator
         }
 
         var syntaxTrees = context.Compilation.SyntaxTrees;
-
+        var edgeList = new List<Edge>();
         foreach (var tree in syntaxTrees)
         {
             var semantic = context.Compilation.GetSemanticModel(tree);
@@ -101,7 +101,6 @@ public class MeasureGenerator : ISourceGenerator
 
             if (!namespaces.Any()) continue;
 
-            var edgeList = new List<Edge>();
             foreach (var ns in namespaces)
             {
                 var nsName = ns.Name.ToString();
@@ -141,84 +140,85 @@ public class MeasureGenerator : ISourceGenerator
                     }
                 }
             }
+        }
 
-            if (edgeList.Count == 0) continue;
+        if (edgeList.Count == 0) return;
 
-            void AttachFirst(LinkedList<Edge> list, TypeSymbol symbol)
+        void AttachFirst(LinkedList<Edge> list, TypeSymbol symbol)
+        {
+            var targets = edgeList.Where(x => x.CoefSymbol == symbol).ToArray();
+            if (targets.Length == 1)
             {
-                var targets = edgeList.Where(x => x.CoefSymbol == symbol).ToArray();
-                if (targets.Length == 1)
+                var target = targets.First();
+                list.AddFirst(target);
+                edgeList.Remove(target);
+                AttachFirst(list, target.Symbol);
+            }
+            else
+            {
+                foreach (var target in targets)
                 {
-                    var target = targets.First();
-                    list.AddFirst(target);
                     edgeList.Remove(target);
-                    AttachFirst(list, target.Symbol);
-                }
-                else
-                {
-                    foreach (var target in targets)
-                    {
-                        edgeList.Remove(target);
-                    }
                 }
             }
-            void AttachLast(LinkedList<Edge> list, TypeSymbol symbol)
+        }
+        void AttachLast(LinkedList<Edge> list, TypeSymbol symbol)
+        {
+            var targets = edgeList.Where(x => x.Symbol == symbol).ToArray();
+            if (targets.Length == 1)
             {
-                var targets = edgeList.Where(x => x.Symbol == symbol).ToArray();
-                if (targets.Length == 1)
+                var target = targets.First();
+                list.AddLast(target);
+                edgeList.Remove(target);
+                AttachLast(list, target.CoefSymbol!);
+            }
+            else
+            {
+                foreach (var target in targets)
                 {
-                    var target = targets.First();
-                    list.AddLast(target);
                     edgeList.Remove(target);
-                    AttachLast(list, target.CoefSymbol!);
-                }
-                else
-                {
-                    foreach (var target in targets)
-                    {
-                        edgeList.Remove(target);
-                    }
                 }
             }
-            LinkedList<Edge> TakeChain()
+        }
+        LinkedList<Edge> TakeChain()
+        {
+            var lastIndex = edgeList.Count - 1;
+            var list = new LinkedList<Edge>();
+            var last = edgeList[lastIndex];
+
+            list.AddLast(last);
+            edgeList.RemoveAt(lastIndex);
+
+            AttachFirst(list, last.Symbol);
+            AttachLast(list, last.CoefSymbol!);
+
+            list.AddLast(new Edge()
             {
-                var lastIndex = edgeList.Count - 1;
-                var list = new LinkedList<Edge>();
-                var last = edgeList[lastIndex];
+                Symbol = list.Last.Value.CoefSymbol!,
+                CoefSymbol = null,
+            });
 
-                list.AddLast(last);
-                edgeList.RemoveAt(lastIndex);
+            return list;
+        }
 
-                AttachFirst(list, last.Symbol);
-                AttachLast(list, last.CoefSymbol!);
+        var chains = new List<LinkedList<Edge>>();
+        while (edgeList.Count > 0)
+        {
+            chains.Add(TakeChain());
+        }
 
-                list.AddLast(new Edge()
-                {
-                    Symbol = last.CoefSymbol!,
-                    CoefSymbol = null,
-                });
-
-                return list;
-            }
-
-            var chains = new List<LinkedList<Edge>>();
-            while (edgeList.Count > 0)
+        foreach (var chain in chains)
+        {
+            foreach (var edge in chain)
             {
-                chains.Add(TakeChain());
-            }
+                var symbol = edge.Symbol;
+                var snippetList = new LinkedList<Snippet>();
 
-            foreach (var chain in chains)
-            {
-                foreach (var edge in chain)
-                {
-                    var symbol = edge.Symbol;
-                    var snippetList = new LinkedList<Snippet>();
+                var current = chain.Find(edge);
+                AttachSnippetFirst(snippetList, current, 1);
+                AttachSnippet(snippetList, current, 1);
 
-                    var current = chain.Find(edge);
-                    AttachSnippetFirst(snippetList, current, 1);
-                    AttachSnippet(snippetList, current, 1);
-
-                    var source =
+                var source =
 $"""
 // <auto-generated/>
 using System;
@@ -270,22 +270,21 @@ public partial struct {symbol.Name}
     public static implicit operator {symbol.Name}(double value) => new((decimal)value);
 
 {string.Join("\r\n",
-    from x in snippetList
-    select
+from x in snippetList
+select
 $"""
     public static implicit operator {x.CoefSymbol.GetSimplifiedName(symbol.Namespace)}({symbol.Name} @this) => new(@this.Value * {x.Coef}m);
 """
 )}
 {"}"}
 """;
-                    context.AddSource($"{symbol}.Generated.cs", source);
-                }
+                context.AddSource($"{symbol}.g.cs", source);
             }
         }
     }
 
     public void Initialize(GeneratorInitializationContext context)
     {
-        //if (!Debugger.IsAttached) Debugger.Launch();
+        // if (!Debugger.IsAttached) Debugger.Launch();
     }
 }
