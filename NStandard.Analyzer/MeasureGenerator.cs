@@ -227,6 +227,7 @@ namespace {symbol.Namespace};
 
 public partial struct {symbol.Name}
 {"{"}
+    #region Core
     public {symbol.Name}(decimal value) => Value = value;
     public {symbol.Name}(short value) => Value = (decimal)value;
     public {symbol.Name}(int value) => Value = (decimal)value;
@@ -250,15 +251,6 @@ public partial struct {symbol.Name}
     public static bool operator >({symbol.Name} left, {symbol.Name} right) => left.Value > right.Value;
     public static bool operator >=({symbol.Name} left, {symbol.Name} right) => left.Value >= right.Value;
     
-    public override bool Equals(object obj)
-    {"{"}
-        if (obj is not {symbol.Name} other) return false;
-        return Value == other.Value;
-    {"}"}
-
-    public override int GetHashCode() => (int)(Value % int.MaxValue);
-    public override string ToString() => $"{"{"}Value{"}"} {"{"}Measure{"}"}";
-
     public static implicit operator {symbol.Name}(decimal value) => new(value);
     public static implicit operator {symbol.Name}(short value) => new((decimal)value);
     public static implicit operator {symbol.Name}(int value) => new((decimal)value);
@@ -268,7 +260,18 @@ public partial struct {symbol.Name}
     public static implicit operator {symbol.Name}(ulong value) => new((decimal)value);
     public static implicit operator {symbol.Name}(float value) => new((decimal)value);
     public static implicit operator {symbol.Name}(double value) => new((decimal)value);
+    
+    public override bool Equals(object obj)
+    {"{"}
+        if (obj is not {symbol.Name} other) return false;
+        return Value == other.Value;
+    {"}"}
 
+    public override int GetHashCode() => (int)(Value % int.MaxValue);
+    public override string ToString() => $"{"{"}Value{"}"} {"{"}Measure{"}"}";
+    #endregion
+
+    #region Converting
 {string.Join("\r\n",
 from x in snippetList
 select
@@ -276,7 +279,9 @@ $"""
     public static implicit operator {x.CoefSymbol.GetSimplifiedName(symbol.Namespace)}({symbol.Name} @this) => new(@this.Value * {x.Coef}m);
 """
 )}
+    #endregion
 {"}"}
+
 """;
                 context.AddSource($"{symbol}.g.cs", source);
             }
