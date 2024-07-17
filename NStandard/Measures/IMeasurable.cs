@@ -10,6 +10,6 @@ public interface IMeasurable<TValue>
 
 public interface IMeasurable
 {
-    string Measure { get; }
+    string? Measure { get; }
     decimal Value { get; set; }
 }

@@ -46,36 +46,16 @@ public class _FeatureTests
     }
 }
 
-[Measure<_m>(1000)]
-public partial struct _km : IMeasurable
+[Measure("km"), Measure<_m>(1000)]
+public partial struct _km
 {
-    public string Measure => "km";
-    public decimal Value { get; set; }
 }
 
-[Measure<_cm>(100)]
-public partial struct _m : IMeasurable
+[Measure("m"), Measure<_cm>(100)]
+public partial struct _m
 {
-    public string Measure => "m";
-    public decimal Value { get; set; }
 }
 
-public partial struct _cm : IMeasurable
+public partial struct _cm
 {
-    public string Measure => "cm";
-    public decimal Value { get; set; }
 }
-
-[Measure<_g>(1000)]
-public partial struct _kg : IMeasurable
-{
-    public string Measure => "kg";
-    public decimal Value { get; set; }
-}
-
-public partial struct _g : IMeasurable
-{
-    public string Measure => "g";
-    public decimal Value { get; set; }
-}
-

@@ -1,22 +1,126 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 
 namespace NStandard.Analyzer;
 
 [Generator]
 public class MeasureGenerator : ISourceGenerator
 {
-    public const string InterfaceName = "NStandard.Measures.IMeasurable";
     public const string MeasureAttributeName = "NStandard.Measures.MeasureAttribute";
+
+    [DebuggerDisplay("{Symbol}")]
+    private class GraphNode
+    {
+        public TypeSymbol Symbol { get; set; }
+        public List<GraphLine> Lines = [];
+
+        public GraphNode(TypeSymbol symbol)
+        {
+            Symbol = symbol;
+        }
+    }
+
+    [DebuggerDisplay("{Node} = {Coef}")]
+    private class GraphLine
+    {
+        public GraphNode Node { get; set; }
+        public decimal Coef { get; set; }
+    }
+
+    private class Graph : IEnumerable<GraphNode>
+    {
+        private readonly List<GraphNode> _list = [];
+
+        private GraphNode GetOrCreate(TypeSymbol symbol)
+        {
+            var node = _list.Find(x => x.Symbol == symbol);
+            if (node is null)
+            {
+                node = new GraphNode(symbol);
+                _list.Add(node);
+            }
+            return node;
+        }
+
+        public void Add(TypeSymbol symbol)
+        {
+            GetOrCreate(symbol);
+        }
+
+        public void Add(TypeSymbol start, TypeSymbol end, decimal coef)
+        {
+            var node = GetOrCreate(start);
+            var target = GetOrCreate(end);
+
+            var found = node.Lines.Any(x => x.Node == target);
+            if (found) return;
+
+            node.Lines.Add(new GraphLine
+            {
+                Node = target,
+                Coef = coef,
+            });
+
+            target.Lines.Add(new GraphLine
+            {
+                Node = node,
+                Coef = 1 / coef,
+            });
+        }
+
+        public GraphLine[] GetDirectLines(GraphNode node)
+        {
+            List<GraphNode> visited = [];
+
+            IEnumerable<GraphLine> GetPaths(GraphNode node, decimal coef)
+            {
+                if (!visited.Exists(x => x == node))
+                {
+                    visited.Add(node);
+                    foreach (var line in node.Lines)
+                    {
+                        if (visited.Exists(x => x == line.Node)) continue;
+
+                        var nextCoef = coef * line.Coef;
+                        yield return new GraphLine
+                        {
+                            Node = line.Node,
+                            Coef = coef * line.Coef,
+                        };
+
+                        foreach (var subNode in GetPaths(line.Node, nextCoef))
+                        {
+                            yield return subNode;
+                        }
+                    }
+                }
+            }
+
+            return GetPaths(node, 1).ToArray();
+        }
+
+        public IEnumerator<GraphNode> GetEnumerator()
+        {
+            return _list.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _list.GetEnumerator();
+        }
+    }
 
     private class TypeSymbol
     {
         public string Namespace { get; set; }
         public string Name { get; set; }
+        public string Measure { get; set; }
 
         public override string ToString() => $"{Namespace}.{Name}";
 
@@ -28,49 +132,19 @@ public class MeasureGenerator : ISourceGenerator
         }
     }
 
-    [DebuggerDisplay("{Symbol} = {Coef} * {CoefSymbol} : {ValueType}")]
+    [DebuggerDisplay("{Symbol} = {Coef} * {CoefSymbol}")]
     private class Edge
     {
         public TypeSymbol Symbol { get; set; }
-        public TypeSymbol? CoefSymbol { get; set; }
-        public int Coef { get; set; }
-        public string ValueType => "decimal";
-    }
-
-    private class Snippet
-    {
         public TypeSymbol CoefSymbol { get; set; }
+        public int Coef { get; set; }
+    }
+
+    [DebuggerDisplay("{CoefSymbol} : {Coef}")]
+    private class WeightedEdge
+    {
+        public TypeSymbol? CoefSymbol { get; set; }
         public decimal Coef { get; set; }
-    }
-
-    void AttachSnippetFirst(LinkedList<Snippet> snippetList, LinkedListNode<Edge> node, decimal coef)
-    {
-        var prev = node.Previous;
-        if (prev is not null)
-        {
-            var nextCoef = coef / prev.Value.Coef;
-            snippetList.AddFirst(new Snippet()
-            {
-                CoefSymbol = prev.Value.Symbol,
-                Coef = nextCoef,
-            });
-            AttachSnippetFirst(snippetList, prev, nextCoef);
-        }
-    }
-
-    void AttachSnippet(LinkedList<Snippet> snippetList, LinkedListNode<Edge> node, decimal coef)
-    {
-        if (node.Value.CoefSymbol is not null)
-        {
-            var nextCoef = coef * node.Value.Coef;
-            snippetList.AddLast(new Snippet()
-            {
-                CoefSymbol = node.Value.CoefSymbol,
-                Coef = nextCoef,
-            });
-
-            AttachSnippet(snippetList, node.Next, nextCoef);
-        }
     }
 
     public void Execute(GeneratorExecutionContext context)
@@ -108,35 +182,70 @@ public class MeasureGenerator : ISourceGenerator
 
                 foreach (var _struct in structs)
                 {
-                    if (_struct.BaseList is null) continue;
-
-                    var measurable = (
-                        from type in _struct.BaseList!.Types
-                        let info = semantic.GetTypeInfo(type.Type)
-                        where info.ConvertedType!.ToString().StartsWith(InterfaceName)
-                        select info
-                    ).FirstOrDefault();
-
-                    if (measurable.Type is null) continue;
-
                     var name = _struct.Identifier.Text;
                     var attributes = _struct.AttributeLists.SelectMany(x => x.Attributes);
+                    TypeSymbol? symbol = null;
 
                     foreach (var attr in attributes)
                     {
                         var info = semantic.GetTypeInfo(attr);
                         if (!info.ConvertedType!.ToString().StartsWith(MeasureAttributeName)) continue;
 
-                        // argument[0]
-                        var coef = int.Parse(attr.ArgumentList!.Arguments.ToString());
-                        var coefType = (info.ConvertedType as INamedTypeSymbol)!.TypeArguments[0];
-
-                        edgeList.Add(new()
+                        symbol ??= GetSymbol(ns.Name.ToString(), name);
+                        var typeArguments = (info.ConvertedType as INamedTypeSymbol)!.TypeArguments;
+                        if (typeArguments.Any())
                         {
-                            Symbol = GetSymbol(ns.Name.ToString(), name),
-                            CoefSymbol = GetSymbol(coefType.ContainingNamespace.ToString(), coefType.Name),
-                            Coef = coef,
-                        });
+                            // argument[0]
+                            var arg0 = attr.ArgumentList!.Arguments[0];
+                            var kind = arg0.Expression.Kind();
+                            if (kind == SyntaxKind.NumericLiteralExpression)
+                            {
+                                var coefType = typeArguments[0];
+                                var coef = int.Parse(arg0.ToString());
+                                var coefSymbol = GetSymbol(coefType.ContainingNamespace.ToString(), coefType.Name);
+                                edgeList.Add(new()
+                                {
+                                    Symbol = symbol,
+                                    CoefSymbol = coefSymbol,
+                                    Coef = coef,
+                                });
+                            }
+                            else
+                            {
+                                var discriptor = new DiagnosticDescriptor(
+                                    "ERR001",
+                                    "Expression Error",
+                                    "Only constant number is supported.",
+                                    "Generator",
+                                    DiagnosticSeverity.Error,
+                                    true
+                                );
+                                var error = Diagnostic.Create(discriptor, arg0.GetLocation());
+                                context.ReportDiagnostic(error);
+                            }
+                        }
+                        else
+                        {
+                            var arg0 = attr.ArgumentList!.Arguments[0];
+                            var kind = arg0.Expression.Kind();
+                            if (kind == SyntaxKind.StringLiteralExpression)
+                            {
+                                symbol.Measure = arg0.ToString();
+                            }
+                            else
+                            {
+                                var discriptor = new DiagnosticDescriptor(
+                                    "ERR002",
+                                    "Expression Error",
+                                    "Only constant string is supported.",
+                                    "Generator",
+                                    DiagnosticSeverity.Error,
+                                    true
+                                );
+                                var error = Diagnostic.Create(discriptor, arg0.GetLocation());
+                                context.ReportDiagnostic(error);
+                            }
+                        }
                     }
                 }
             }
@@ -144,152 +253,104 @@ public class MeasureGenerator : ISourceGenerator
 
         if (edgeList.Count == 0) return;
 
-        void AttachFirst(LinkedList<Edge> list, TypeSymbol symbol)
+        var graph = new Graph();
+        foreach (var edge in edgeList)
         {
-            var targets = edgeList.Where(x => x.CoefSymbol == symbol).ToArray();
-            if (targets.Length == 1)
-            {
-                var target = targets.First();
-                list.AddFirst(target);
-                edgeList.Remove(target);
-                AttachFirst(list, target.Symbol);
-            }
-            else
-            {
-                foreach (var target in targets)
-                {
-                    edgeList.Remove(target);
-                }
-            }
-        }
-        void AttachLast(LinkedList<Edge> list, TypeSymbol symbol)
-        {
-            var targets = edgeList.Where(x => x.Symbol == symbol).ToArray();
-            if (targets.Length == 1)
-            {
-                var target = targets.First();
-                list.AddLast(target);
-                edgeList.Remove(target);
-                AttachLast(list, target.CoefSymbol!);
-            }
-            else
-            {
-                foreach (var target in targets)
-                {
-                    edgeList.Remove(target);
-                }
-            }
-        }
-        LinkedList<Edge> TakeChain()
-        {
-            var lastIndex = edgeList.Count - 1;
-            var list = new LinkedList<Edge>();
-            var last = edgeList[lastIndex];
-
-            list.AddLast(last);
-            edgeList.RemoveAt(lastIndex);
-
-            AttachFirst(list, last.Symbol);
-            AttachLast(list, last.CoefSymbol!);
-
-            list.AddLast(new Edge()
-            {
-                Symbol = list.Last.Value.CoefSymbol!,
-                CoefSymbol = null,
-            });
-
-            return list;
+            graph.Add(edge.Symbol, edge.CoefSymbol, edge.Coef);
         }
 
-        var chains = new List<LinkedList<Edge>>();
-        while (edgeList.Count > 0)
+        foreach (var node in graph)
         {
-            chains.Add(TakeChain());
-        }
+            var lines = graph.GetDirectLines(node);
+            var symbol = node.Symbol;
+            var builder = new StringBuilder();
 
-        foreach (var chain in chains)
-        {
-            foreach (var edge in chain)
-            {
-                var symbol = edge.Symbol;
-                var snippetList = new LinkedList<Snippet>();
-
-                var current = chain.Find(edge);
-                AttachSnippetFirst(snippetList, current, 1);
-                AttachSnippet(snippetList, current, 1);
-
-                var source =
+            builder.AppendLine(
 $"""
 // <auto-generated/>
 using System;
+using NStandard.Measures;
 
-namespace {symbol.Namespace};
-
-public partial struct {symbol.Name}
+namespace {symbol.Namespace}
 {"{"}
-    #region Core
-    public {symbol.Name}(decimal value) => Value = value;
-    public {symbol.Name}(short value) => Value = (decimal)value;
-    public {symbol.Name}(int value) => Value = (decimal)value;
-    public {symbol.Name}(long value) => Value = (decimal)value;
-    public {symbol.Name}(ushort value) => Value = (decimal)value;
-    public {symbol.Name}(uint value) => Value = (decimal)value;
-    public {symbol.Name}(ulong value) => Value = (decimal)value;
-    public {symbol.Name}(float value) => Value = (decimal)value;
-    public {symbol.Name}(double value) => Value = (decimal)value;
-
-    public static {symbol.Name} operator +({symbol.Name} left, {symbol.Name} right) => new(left.Value + right.Value);
-    public static {symbol.Name} operator -({symbol.Name} left, {symbol.Name} right) => new(left.Value - right.Value);
-    public static {symbol.Name} operator *({symbol.Name} left, decimal right) => new(left.Value * right);
-    public static {symbol.Name} operator /({symbol.Name} left, decimal right) => new(left.Value / right);
-    public static decimal operator /({symbol.Name} left, {symbol.Name} right) => left.Value / right.Value;
-
-    public static bool operator ==({symbol.Name} left, {symbol.Name} right) => left.Value == right.Value;
-    public static bool operator !=({symbol.Name} left, {symbol.Name} right) => left.Value != right.Value;
-    public static bool operator <({symbol.Name} left, {symbol.Name} right) => left.Value < right.Value;
-    public static bool operator <=({symbol.Name} left, {symbol.Name} right) => left.Value <= right.Value;
-    public static bool operator >({symbol.Name} left, {symbol.Name} right) => left.Value > right.Value;
-    public static bool operator >=({symbol.Name} left, {symbol.Name} right) => left.Value >= right.Value;
-    
-    public static implicit operator {symbol.Name}(decimal value) => new(value);
-    public static implicit operator {symbol.Name}(short value) => new((decimal)value);
-    public static implicit operator {symbol.Name}(int value) => new((decimal)value);
-    public static implicit operator {symbol.Name}(long value) => new((decimal)value);
-    public static implicit operator {symbol.Name}(ushort value) => new((decimal)value);
-    public static implicit operator {symbol.Name}(uint value) => new((decimal)value);
-    public static implicit operator {symbol.Name}(ulong value) => new((decimal)value);
-    public static implicit operator {symbol.Name}(float value) => new((decimal)value);
-    public static implicit operator {symbol.Name}(double value) => new((decimal)value);
-    
-    public override bool Equals(object obj)
+    public partial struct {symbol.Name} : IMeasurable
     {"{"}
-        if (obj is not {symbol.Name} other) return false;
-        return Value == other.Value;
-    {"}"}
+        public string Measure => {(symbol.Measure is null ? "null" : $"{symbol.Measure}")};
+        public decimal Value {"{"} get; set; {"}"}
 
-    public override int GetHashCode() => (int)(Value % int.MaxValue);
-    public override string ToString() => $"{"{"}Value{"}"} {"{"}Measure{"}"}";
-    #endregion
+        #region Core
+        public {symbol.Name}(decimal value) => Value = value;
+        public {symbol.Name}(short value) => Value = (decimal)value;
+        public {symbol.Name}(int value) => Value = (decimal)value;
+        public {symbol.Name}(long value) => Value = (decimal)value;
+        public {symbol.Name}(ushort value) => Value = (decimal)value;
+        public {symbol.Name}(uint value) => Value = (decimal)value;
+        public {symbol.Name}(ulong value) => Value = (decimal)value;
+        public {symbol.Name}(float value) => Value = (decimal)value;
+        public {symbol.Name}(double value) => Value = (decimal)value;
 
-    #region Converting
-{string.Join("\r\n",
-from x in snippetList
-select
-$"""
-    public static implicit operator {x.CoefSymbol.GetSimplifiedName(symbol.Namespace)}({symbol.Name} @this) => new(@this.Value * {x.Coef}m);
+        public static {symbol.Name} operator +({symbol.Name} left, {symbol.Name} right) => new(left.Value + right.Value);
+        public static {symbol.Name} operator -({symbol.Name} left, {symbol.Name} right) => new(left.Value - right.Value);
+        public static {symbol.Name} operator *({symbol.Name} left, decimal right) => new(left.Value * right);
+        public static {symbol.Name} operator /({symbol.Name} left, decimal right) => new(left.Value / right);
+        public static decimal operator /({symbol.Name} left, {symbol.Name} right) => left.Value / right.Value;
+
+        public static bool operator ==({symbol.Name} left, {symbol.Name} right) => left.Value == right.Value;
+        public static bool operator !=({symbol.Name} left, {symbol.Name} right) => left.Value != right.Value;
+        public static bool operator <({symbol.Name} left, {symbol.Name} right) => left.Value < right.Value;
+        public static bool operator <=({symbol.Name} left, {symbol.Name} right) => left.Value <= right.Value;
+        public static bool operator >({symbol.Name} left, {symbol.Name} right) => left.Value > right.Value;
+        public static bool operator >=({symbol.Name} left, {symbol.Name} right) => left.Value >= right.Value;
+    
+        public static implicit operator {symbol.Name}(decimal value) => new(value);
+        public static implicit operator {symbol.Name}(short value) => new((decimal)value);
+        public static implicit operator {symbol.Name}(int value) => new((decimal)value);
+        public static implicit operator {symbol.Name}(long value) => new((decimal)value);
+        public static implicit operator {symbol.Name}(ushort value) => new((decimal)value);
+        public static implicit operator {symbol.Name}(uint value) => new((decimal)value);
+        public static implicit operator {symbol.Name}(ulong value) => new((decimal)value);
+        public static implicit operator {symbol.Name}(float value) => new((decimal)value);
+        public static implicit operator {symbol.Name}(double value) => new((decimal)value);
+    
+        public override bool Equals(object obj)
+        {"{"}
+            if (obj is not {symbol.Name} other) return false;
+            return Value == other.Value;
+        {"}"}
+
+        public override int GetHashCode() => (int)(Value % int.MaxValue);
+        public override string ToString() => $"{"{"}Value{"}"} {"{"}Measure{"}"}";
+        #endregion
+
+        #region Converting
 """
-)}
-    #endregion
-{"}"}
+            );
 
-""";
-                context.AddSource($"{symbol}.g.cs", source);
+            foreach (var x in lines)
+            {
+                builder.AppendLine(
+$"""
+        public static implicit operator {x.Node.Symbol.GetSimplifiedName(symbol.Namespace)}({symbol.Name} @this) => new(@this.Value * {x.Coef}m);
+"""
+                );
             }
+            builder.AppendLine(
+$"""
+        #endregion
+    {"}"}
+{"}"}
+"""
+            );
+
+            var source = builder.ToString();
+            context.AddSource($"{symbol}.g.cs", source);
         }
     }
 
     public void Initialize(GeneratorInitializationContext context)
     {
+#if DEBUG
         // if (!Debugger.IsAttached) Debugger.Launch();
+#endif
     }
 }

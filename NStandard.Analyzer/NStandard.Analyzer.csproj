@@ -8,7 +8,7 @@
     <Nullable>enable</Nullable>
     <IncludeBuildOutput>false</IncludeBuildOutput>
 
-    <Version>0.0.1-beta</Version>
+    <Version>0.0.1-beta2</Version>
     <RootNamespace>NStandard.Analyzer</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Authors>zmjack</Authors>
@@ -37,12 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None
-      Include="$(OutputPath)\$(AssemblyName).dll"
-      Pack="true"
-      PackagePath="analyzers/dotnet/cs"
-      Visible="false"
-    />
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
 
   <ItemGroup>
