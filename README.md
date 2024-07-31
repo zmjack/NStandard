@@ -48,6 +48,10 @@ end
 
 ## Recently
 
+### Version 0.77.0
+
+- Add new class **DataFrame**.
+
 ### Version 0.75.0
 
 - Adjust **JsonAsConverter** to provide **circular serialization** or **deserialization** checks.

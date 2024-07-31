@@ -140,13 +140,6 @@ public class MeasureGenerator : ISourceGenerator
         public int Coef { get; set; }
     }
 
-    [DebuggerDisplay("{CoefSymbol} : {Coef}")]
-    private class WeightedEdge
-    {
-        public TypeSymbol? CoefSymbol { get; set; }
-        public decimal Coef { get; set; }
-    }
-
     public void Execute(GeneratorExecutionContext context)
     {
         var symbolList = new List<TypeSymbol>();
@@ -178,7 +171,7 @@ public class MeasureGenerator : ISourceGenerator
             foreach (var ns in namespaces)
             {
                 var nsName = ns.Name.ToString();
-                var structs = ns.DescendantNodesAndSelf().OfType<StructDeclarationSyntax>();
+                var structs = ns.DescendantNodes().OfType<StructDeclarationSyntax>();
 
                 foreach (var _struct in structs)
                 {
@@ -190,6 +183,22 @@ public class MeasureGenerator : ISourceGenerator
                     {
                         var info = semantic.GetTypeInfo(attr);
                         if (!info.ConvertedType!.ToString().StartsWith(MeasureAttributeName)) continue;
+
+                        var parentKind = _struct.Parent!.Kind();
+                        if (parentKind != SyntaxKind.NamespaceDeclaration && parentKind != SyntaxKind.FileScopedNamespaceDeclaration)
+                        {
+                            var discriptor = new DiagnosticDescriptor(
+                                "ERR003",
+                                "Unsupported Location",
+                                "Nested types are not supported.",
+                                "Generator",
+                                DiagnosticSeverity.Error,
+                                true
+                            );
+                            var error = Diagnostic.Create(discriptor, attr.GetLocation());
+                            context.ReportDiagnostic(error);
+                            continue;
+                        }
 
                         symbol ??= GetSymbol(ns.Name.ToString(), name);
                         var typeArguments = (info.ConvertedType as INamedTypeSymbol)!.TypeArguments;
