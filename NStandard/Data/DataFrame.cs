@@ -17,12 +17,12 @@ public class DataFrame<T>
         public T[] Values { get; set; }
     }
 
-    public DataFrame(Dictionary<string, T[]> source)
+    public DataFrame(Dictionary<string, T[]> source, IEnumerable<string>? index = null)
     {
         var rowLength = source.Values.Max(x => x.Length);
         var colLength = source.Keys.Count;
 
-        Index = GetSequenceIndex(rowLength);
+        Index = NormalizeIndex(index, rowLength);
         Columns = NormalizeColumns(source.Keys, colLength);
 
         var values = new T[rowLength, colLength];
