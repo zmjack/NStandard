@@ -11,13 +11,13 @@ public abstract class Scope<TSelf> : IDisposable where TSelf : Scope<TSelf>
 {
     protected Scope()
     {
-        CheckAndThrow();
+        CheckType();
         Scopes.Push(this as TSelf);
     }
 
-    private void CheckAndThrow()
+    private void CheckType()
     {
-        var scopeType = typeof(Scope<TSelf>).GetGenericArguments()[0];
+        var scopeType = typeof(TSelf);
         if (GetType() != scopeType) throw new TypeLoadException($"Generic type `TSelf` must be defined as '{GetType().FullName}'.");
     }
 
@@ -26,7 +26,6 @@ public abstract class Scope<TSelf> : IDisposable where TSelf : Scope<TSelf>
     // Use TSelf to make sure the ThreadStatic attribute working correctly.
     [ThreadStatic]
     private static Stack<TSelf?>? _scopes;
-
     public static Stack<TSelf?> Scopes
     {
         get
@@ -47,7 +46,7 @@ public abstract class Scope<TSelf> : IDisposable where TSelf : Scope<TSelf>
             {
                 Disposing();
                 if (Scopes.Peek() == this) Scopes.Pop();
-                else throw new InvalidOperationException("Scope must pop up in order.");
+                else throw new InvalidOperationException("Scope must be popped in order.");
             }
             disposedValue = true;
         }
