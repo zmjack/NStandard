@@ -48,6 +48,10 @@ end
 
 ## Recently
 
+### Version 0.78.0
+
+- **StringExtensions.NormalizeNewLine** performance improvement.
+
 ### Version 0.77.0
 
 - Add new class **DataFrame**.

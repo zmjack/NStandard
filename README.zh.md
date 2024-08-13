@@ -48,6 +48,10 @@ end
 
 ## 最近更新
 
+### 版本：0.78.0
+
+- **StringExtensions.NormalizeNewLine** 性能优化。
+
 ### 版本：0.77.0
 
 - 新增类 **DataFrame**。

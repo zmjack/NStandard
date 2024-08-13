@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-
-namespace NStandard;
+﻿namespace NStandard;
 
 public static partial class ArrayExtensions
 {

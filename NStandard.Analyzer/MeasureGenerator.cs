@@ -337,12 +337,14 @@ namespace {symbol.Namespace}
 
             foreach (var x in lines)
             {
+                var retName = x.Node.Symbol.GetSimplifiedName(symbol.Namespace);
                 builder.AppendLine(
 $"""
-        public static implicit operator {x.Node.Symbol.GetSimplifiedName(symbol.Namespace)}({symbol.Name} @this) => new(@this.Value * {x.Coef}m);
+        public static implicit operator {retName}({symbol.Name} @this) => new(@this.Value * {x.Coef}m);
 """
                 );
             }
+
             builder.AppendLine(
 $"""
         #endregion

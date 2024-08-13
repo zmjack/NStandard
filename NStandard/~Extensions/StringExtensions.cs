@@ -188,6 +188,24 @@ public static partial class StringExtensions
         return count;
     }
 
+#if NET7_0_OR_GREATER
+    [GeneratedRegex("\r(?!\n)|(?<!\r)\n", RegexOptions.Singleline | RegexOptions.Compiled)]
+    private static partial Regex GetNormalizeAsCrlfRegex();
+    private static readonly Regex _normalizeAsCrlfRegex = GetNormalizeAsCrlfRegex();
+
+    [GeneratedRegex("\r\n|\r(?!\n)", RegexOptions.Singleline | RegexOptions.Compiled)]
+    private static partial Regex GetNormalizeAsLfRegex();
+    private static readonly Regex _normalizeAsLfRegex = GetNormalizeAsLfRegex();
+
+    [GeneratedRegex("\r\n|(?<!\r)\n", RegexOptions.Singleline | RegexOptions.Compiled)]
+    private static partial Regex GetNormalizeAsCrRegex();
+    private static readonly Regex _normalizeAsCrRegex = GetNormalizeAsCrRegex();
+#else
+    private static readonly Regex _normalizeAsCrlfRegex = new("\r(?!\n)|(?<!\r)\n", RegexOptions.Singleline | RegexOptions.Compiled);
+    private static readonly Regex _normalizeAsLfRegex = new("\r\n|\r(?!\n)", RegexOptions.Singleline | RegexOptions.Compiled);
+    private static readonly Regex _normalizeAsCrRegex = new("\r\n|(?<!\r)\n", RegexOptions.Singleline | RegexOptions.Compiled);
+#endif
+
     /// <summary>
     /// Returns a new string which is normalized by the newline string of current environment.
     /// <para>If a string come from non-Unix platforms, then its NewLine is "\r\n".</para>
@@ -199,9 +217,9 @@ public static partial class StringExtensions
     {
         return Environment.NewLine switch
         {
-            "\r\n" => new Regex("\r(?!\n)|(?<!\r)\n", RegexOptions.Singleline).Replace(@this, "\r\n"),
-            "\n" => new Regex("\r\n|\r(?!\n)", RegexOptions.Singleline).Replace(@this, "\n"),
-            "\r" => new Regex("\r\n|(?<!\r)\n", RegexOptions.Singleline).Replace(@this, "\n"),
+            "\r\n" => _normalizeAsCrlfRegex.Replace(@this, "\r\n"),
+            "\n" => _normalizeAsLfRegex.Replace(@this, "\n"),
+            "\r" => _normalizeAsCrRegex.Replace(@this, "\n"),
             _ => throw new NotSupportedException(),
         };
     }
