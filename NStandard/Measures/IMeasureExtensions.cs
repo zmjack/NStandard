@@ -9,7 +9,17 @@ namespace NStandard;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class IMeasureExtensions
 {
-    public static TMeasure QSum<TMeasure>(this IEnumerable<TMeasure> @this) where TMeasure : struct, IMeasurable
+    public static TMeasure SumAs<TMeasure>(this IEnumerable<IMeasureConvertible> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable
+    {
+        return @this.Select(x => x.Convert<TMeasure>()).QSum();
+    }
+
+    public static TMeasure AverageAs<TMeasure>(this IEnumerable<IMeasureConvertible> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable
+    {
+        return @this.Select(x => x.Convert<TMeasure>()).QAverage();
+    }
+
+    public static TMeasure QSum<TMeasure>(this IEnumerable<TMeasure> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable
     {
         decimal sum = 0;
         foreach (var item in @this)
@@ -23,7 +33,7 @@ public static class IMeasureExtensions
         };
     }
 
-    public static TMeasure QSum<TMeasure>(this IEnumerable<TMeasure?> @this) where TMeasure : struct, IMeasurable
+    public static TMeasure QSum<TMeasure>(this IEnumerable<TMeasure?> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable
     {
         decimal sum = 0;
         foreach (var item in @this)
@@ -39,7 +49,7 @@ public static class IMeasureExtensions
         };
     }
 
-    public static TMeasure QAverage<TMeasure>(this IEnumerable<TMeasure> @this) where TMeasure : struct, IMeasurable
+    public static TMeasure QAverage<TMeasure>(this IEnumerable<TMeasure> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable
     {
         if (!@this.Any()) throw new InvalidOperationException("Sequence contains no elements");
 
@@ -57,7 +67,7 @@ public static class IMeasureExtensions
         };
     }
 
-    public static TMeasure QAverageOrDefault<TMeasure>(this IEnumerable<TMeasure> @this, TMeasure @default = default) where TMeasure : struct, IMeasurable
+    public static TMeasure QAverageOrDefault<TMeasure>(this IEnumerable<TMeasure> @this, TMeasure @default = default) where TMeasure : struct, IMeasurable, IAdditionMeasurable
     {
         if (!@this.Any()) return @default;
 
@@ -75,7 +85,7 @@ public static class IMeasureExtensions
         };
     }
 
-    public static TMeasure? QAverage<TMeasure>(this IEnumerable<TMeasure?> @this) where TMeasure : struct, IMeasurable
+    public static TMeasure? QAverage<TMeasure>(this IEnumerable<TMeasure?> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable
     {
         if (!@this.Any()) return default;
 
@@ -99,7 +109,7 @@ public static class IMeasureExtensions
         }
     }
 
-    public static TMeasure? QAverageOrDefault<TMeasure>(this IEnumerable<TMeasure?> @this, TMeasure? @default = default) where TMeasure : struct, IMeasurable
+    public static TMeasure? QAverageOrDefault<TMeasure>(this IEnumerable<TMeasure?> @this, TMeasure? @default = default) where TMeasure : struct, IMeasurable, IAdditionMeasurable
     {
         if (!@this.Any()) return @default;
 

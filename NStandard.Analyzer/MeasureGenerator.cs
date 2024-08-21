@@ -282,9 +282,9 @@ using NStandard.Measures;
 
 namespace {symbol.Namespace}
 {"{"}
-    public partial struct {symbol.Name} : IMeasurable
+    public partial struct {symbol.Name} : IMeasurable, IAdditionMeasurable
     {"{"}
-        public string Measure => {(symbol.Measure is null ? "null" : $"{symbol.Measure}")};
+        public static string Measure {"{"} get; {"}"} = {(symbol.Measure is null ? "\"\"" : $"{symbol.Measure}")};        
         public decimal Value {"{"} get; set; {"}"}
 
         #region Core
