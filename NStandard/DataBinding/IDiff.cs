@@ -2,7 +2,7 @@
 
 public interface IDiff<T>
 {
-    T OldValue { get; set; }
-    T NewValue { get; set; }
-    void Overwrite(T value);
+    T? OldValue { get; set; }
+    T? NewValue { get; set; }
+    T? Value { get; set; }
 }

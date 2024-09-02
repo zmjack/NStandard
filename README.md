@@ -48,6 +48,20 @@ end
 
 ## Recently
 
+### Version 0.80.0
+
+- All built-in measures have been removed.
+
+  - If necessary, install **NStandard.Analyzer** and use the following code instead.
+
+  - ```csharp
+    [Measure("g")]
+    public partial struct g { }
+    
+    [Measure("kg"), Measure<g>(1000)]
+    public partial struct kg { }
+    ```
+
 ### Version 0.78.0
 
 - **StringExtensions.NormalizeNewLine** performance improvement.

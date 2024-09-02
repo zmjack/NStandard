@@ -48,6 +48,20 @@ end
 
 ## 最近更新
 
+### 版本：0.80.0
+
+- 移除所有内置度量单位。
+
+  - 如有需要，请安装 **NStandard.Analyzer** 后使用以下代码代替。
+
+  - ```csharp
+    [Measure("g")]
+    public partial struct g { }
+    
+    [Measure("kg"), Measure<g>(1000)]
+    public partial struct kg { }
+    ```
+
 ### 版本：0.78.0
 
 - **StringExtensions.NormalizeNewLine** 性能优化。

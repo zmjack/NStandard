@@ -7,10 +7,19 @@ namespace NStandard.DataBinding;
 /// </summary>
 /// <typeparam name="T"></typeparam>
 [DebuggerDisplay("{OldValue} → {NewValue}")]
-public sealed class ValueDiff<T> : IDiff<T?>
+public sealed class ValueDiff<T> : IDiff<T>
 {
     public T? OldValue { get; set; }
     public T? NewValue { get; set; }
+    public T? Value
+    {
+        get => NewValue;
+        set
+        {
+            OldValue = NewValue;
+            NewValue = value;
+        }
+    }
 
     public ValueDiff()
     {
@@ -26,16 +35,6 @@ public sealed class ValueDiff<T> : IDiff<T?>
     {
         OldValue = oldValue;
         NewValue = newValue;
-    }
-
-    /// <summary>
-    /// Use <see cref="NewValue"/> to assign to <see cref="OldValue" />, and then use the specified value to assign to <see cref="NewValue"/>.
-    /// </summary>
-    /// <param name="value"></param>
-    public void Overwrite(T? value)
-    {
-        OldValue = NewValue;
-        NewValue = value;
     }
 
     /// <summary>

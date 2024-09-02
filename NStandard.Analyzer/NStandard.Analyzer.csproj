@@ -8,7 +8,7 @@
     <Nullable>enable</Nullable>
     <IncludeBuildOutput>false</IncludeBuildOutput>
 
-    <Version>0.0.1-beta3</Version>
+    <Version>0.0.1</Version>
     <RootNamespace>NStandard.Analyzer</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Authors>zmjack</Authors>

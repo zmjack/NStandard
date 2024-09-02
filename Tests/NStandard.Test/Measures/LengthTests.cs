@@ -1,7 +1,12 @@
 ﻿using Xunit;
-using static NStandard.Measures.Length;
 
 namespace NStandard.Measures.Test;
+
+[Measure("mm")] public partial struct mm { }
+[Measure("cm"), Measure<mm>(10)] public partial struct cm { }
+[Measure("dm"), Measure<cm>(10)] public partial struct dm { }
+[Measure("m"), Measure<dm>(10)] public partial struct m { }
+[Measure("km"), Measure<m>(1000)] public partial struct km { }
 
 public class LengthTests
 {

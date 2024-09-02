@@ -9,7 +9,7 @@
 
     <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
-    <Version>0.78.1</Version>
+    <Version>0.80.0</Version>
     <RootNamespace>NStandard</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Authors>zmjack</Authors>
@@ -53,18 +53,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Measures\Length.tt">
-      <LastGenOutput>Length.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="Measures\Weight.tt">
-      <LastGenOutput>Weight.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="Measures\StorageCapacity.tt">
-      <LastGenOutput>StorageCapacity.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
     <None Update="~Any\Any.Zip.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Any.Zip.cs</LastGenOutput>
@@ -104,21 +92,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Measures\Length.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Length.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Measures\StorageCapacity.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>StorageCapacity.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Measures\Weight.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Weight.tt</DependentUpon>
-    </Compile>
     <Compile Update="StructTuple.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

@@ -1,7 +1,14 @@
 ﻿using Xunit;
-using static NStandard.Measures.StorageCapacity;
 
 namespace NStandard.Measures.Test;
+
+[Measure("b")] public partial struct b { }
+[Measure("kb"), Measure<b>(1024)] public partial struct kb { }
+[Measure("mb"), Measure<kb>(1024)] public partial struct mb { }
+
+[Measure("B"), Measure<b>(8)] public partial struct B { }
+[Measure("KB"), Measure<B>(1024)] public partial struct KB { }
+[Measure("MB"), Measure<KB>(1024)] public partial struct MB { }
 
 public class StorageCapacityTests
 {

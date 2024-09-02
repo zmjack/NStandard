@@ -1,7 +1,10 @@
 ﻿using Xunit;
-using static NStandard.Measures.Weight;
 
 namespace NStandard.Measures.Test;
+
+[Measure("g")] public partial struct g { }
+[Measure("kg"), Measure<g>(1000)] public partial struct kg { }
+[Measure("t"), Measure<kg>(1000)] public partial struct t { }
 
 public class WeightTests
 {
