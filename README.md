@@ -50,7 +50,9 @@ end
 
 ### Version 0.82.0
 
-- Redesigned the **Tree** type for better performance.
+- 
+  **[Breaking Change]**
+  Redesigned the **Tree** type for better performance.
 
 ### Version 0.80.0
 
