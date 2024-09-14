@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard;
+﻿namespace NStandard;
 
 public static partial class Any<T>
 {

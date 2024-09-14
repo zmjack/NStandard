@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard.UnitValues;
+﻿namespace NStandard.UnitValues;
 
 [Obsolete("Use IMeasurable instead.")]
 public interface IUnitValue

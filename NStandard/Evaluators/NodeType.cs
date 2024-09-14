@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard.Evaluators;
+﻿namespace NStandard.Evaluators;
 
 [Flags]
 public enum NodeType

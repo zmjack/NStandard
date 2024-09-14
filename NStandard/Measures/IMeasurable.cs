@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard.Measures;
+﻿namespace NStandard.Measures;
 
 [Obsolete("Use IMeasurable instead.")]
 public interface IMeasurable<TValue>

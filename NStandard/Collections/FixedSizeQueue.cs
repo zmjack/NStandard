@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard.Collections;
+﻿namespace NStandard.Collections;
 
 public class FixedSizeQueue<T>
 {

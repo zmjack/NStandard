@@ -50,9 +50,9 @@ public class AvlTreeTests
          */
         tree.GetInOrderNodes().First(x => x.Model == 5).RightTotate();
 
-        Assert.Equal(new[] { 3, 4, 5, 8, 10, 11, 13, 15, 16 }, tree.GetInOrderNodes().Select(x => x.Model));
-        Assert.Equal(new[] { 13, 5, 4, 3, 10, 8, 11, 15, 16 }, tree.GetPreOrderNodes().Select(x => x.Model));
-        Assert.Equal(new[] { 3, 4, 8, 11, 10, 5, 16, 15, 13 }, tree.GetPostOrderNodes().Select(x => x.Model));
+        Assert.Equal([3, 4, 5, 8, 10, 11, 13, 15, 16], tree.GetInOrderNodes().Select(x => x.Model));
+        Assert.Equal([13, 5, 4, 3, 10, 8, 11, 15, 16], tree.GetPreOrderNodes().Select(x => x.Model));
+        Assert.Equal([3, 4, 8, 11, 10, 5, 16, 15, 13], tree.GetPostOrderNodes().Select(x => x.Model));
     }
 
 }

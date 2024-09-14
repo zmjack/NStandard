@@ -69,8 +69,8 @@ public class TypeExtensionsTests
     [Fact]
     public void IsNullableTest()
     {
-        Assert.False(typeof(DateTime).IsNullable());
-        Assert.True(typeof(DateTime?).IsNullable());
+        Assert.False(typeof(DateTime).IsNullableValue());
+        Assert.True(typeof(DateTime?).IsNullableValue());
     }
 
     [Fact]

@@ -149,7 +149,7 @@ namespace NStandard.Obsolete.Evaluators
                                 }
                                 else
                                 {
-                                    if (propertyOrField.Type.IsNullable())
+                                    if (propertyOrField.Type.IsNullableValue())
                                     {
                                         return
                                             Expression.Condition(

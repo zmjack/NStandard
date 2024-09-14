@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace NStandard;
+﻿namespace NStandard;
 
 public static class RangeEx
 {

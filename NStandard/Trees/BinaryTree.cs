@@ -11,46 +11,46 @@ public class BinaryTree<TModel> : IBinaryTree<BinaryTree<TModel>, TModel>
     public TModel? Model { get; set; }
     public BinaryTree<TModel>? Parent { get; set; }
 
-    private BinaryTree<TModel>? _LeftNode;
+    private BinaryTree<TModel>? _left;
     public BinaryTree<TModel>? LeftNode
     {
-        get => _LeftNode;
+        get => _left;
         set
         {
             if (value is not null)
             {
                 value.Parent = this;
-                _LeftNode = value;
+                _left = value;
             }
             else
             {
-                if (_LeftNode is not null)
+                if (_left is not null)
                 {
-                    _LeftNode.Parent = null;
+                    _left.Parent = null;
                 }
-                _LeftNode = null;
+                _left = null;
             }
         }
     }
 
-    private BinaryTree<TModel>? _RightNode;
+    private BinaryTree<TModel>? _right;
     public BinaryTree<TModel>? RightNode
     {
-        get => _RightNode;
+        get => _right;
         set
         {
             if (value is not null)
             {
                 value.Parent = this;
-                _RightNode = value;
+                _right = value;
             }
             else
             {
-                if (_RightNode is not null)
+                if (_right is not null)
                 {
-                    _RightNode.Parent = null;
+                    _right.Parent = null;
                 }
-                _RightNode = null;
+                _right = null;
             }
         }
     }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard;
+﻿namespace NStandard;
 
 [Obsolete("Maybe it will be removed in the future.")]
 public class Discards

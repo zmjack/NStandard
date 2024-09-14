@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace NStandard;
+﻿namespace NStandard;
 
 /// <summary>
 /// Cooperate with 'using' keyword to use thread safe <see cref="Scope{TSelf}"/>.

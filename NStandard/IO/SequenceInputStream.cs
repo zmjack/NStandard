@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-
-namespace NStandard.IO;
+﻿namespace NStandard.IO;
 
 public class SequenceInputStream : SequenceInputStream<Stream>
 {

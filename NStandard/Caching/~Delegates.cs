@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard.Caching;
+﻿namespace NStandard.Caching;
 
 /// <summary>
 /// 

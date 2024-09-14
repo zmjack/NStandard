@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard.Flows;
+﻿namespace NStandard.Flows;
 
 public static class GuidFlow
 {

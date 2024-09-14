@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace NStandard.Trees;
+﻿namespace NStandard.Trees;
 
 public interface IBinaryTree<TNode, TModel> where TNode : class, IBinaryTree<TNode, TModel>
 {
@@ -11,7 +9,7 @@ public interface IBinaryTree<TNode, TModel> where TNode : class, IBinaryTree<TNo
     TNode? RightNode { get; set; }
 }
 
-public static class XIBinaryTree
+public static class IBinaryTreeExtensions
 {
     public static IEnumerable<TNode?> GetPreOrderNodes<TNode, TModel>(this IBinaryTree<TNode, TModel> @this)
         where TNode : class, IBinaryTree<TNode, TModel>

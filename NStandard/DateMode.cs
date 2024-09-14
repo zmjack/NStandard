@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard;
+﻿namespace NStandard;
 
 /// <summary>
 /// Indicates Weekday or Weekend.

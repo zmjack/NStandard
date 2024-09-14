@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard.Measures;
+﻿namespace NStandard.Measures;
 
 [AttributeUsage(AttributeTargets.Struct, AllowMultiple = false)]
 public class MeasureAttribute<T> : Attribute

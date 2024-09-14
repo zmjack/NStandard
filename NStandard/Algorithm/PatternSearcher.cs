@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace NStandard.Algorithm;
+﻿namespace NStandard.Algorithm;
 
 /// <summary>
 /// Sequence searcher using KMP algorithm.

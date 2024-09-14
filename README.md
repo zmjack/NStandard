@@ -48,6 +48,10 @@ end
 
 ## Recently
 
+### Version 0.82.0
+
+- Redesigned the **Tree** type for better performance.
+
 ### Version 0.80.0
 
 - All built-in measures have been removed.

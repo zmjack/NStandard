@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace NStandard;
+﻿namespace NStandard;
 
 public static class EnumEx
 {

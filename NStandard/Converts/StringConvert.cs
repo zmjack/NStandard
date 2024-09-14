@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard.Converts;
+﻿namespace NStandard.Converts;
 
 public static class StringConvert
 {

@@ -1,8 +1,5 @@
 ﻿using NStandard.Measures;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 
 namespace NStandard;
 

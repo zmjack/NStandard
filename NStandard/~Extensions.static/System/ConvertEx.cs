@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard;
+﻿namespace NStandard;
 
 public static partial class ConvertEx
 {
@@ -12,7 +10,7 @@ public static partial class ConvertEx
     /// <param name="conversionType">The type of object to return.</param>
     public static object? ChangeType(object value, Type conversionType)
     {
-        if (conversionType.IsNullable())
+        if (conversionType.IsNullableValue())
         {
             if (value is null) return null;
             else return Convert.ChangeType(value, conversionType.GetGenericArguments()[0]);

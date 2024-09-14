@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard.Collections;
+﻿namespace NStandard.Collections;
 
 [Flags]
 public enum SlidingMode

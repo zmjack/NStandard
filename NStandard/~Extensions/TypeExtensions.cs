@@ -1,8 +1,5 @@
 ﻿using NStandard.Reflection;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -64,7 +61,7 @@ public static class TypeExtensions
 
             default:
                 if (@this.IsArray) return $"{GetSimplifiedName(@this.GetElementType()!)}[]";
-                else if (@this.IsNullable()) return $"{GetSimplifiedName(@this.GetGenericArguments()[0])}?";
+                else if (@this.IsNullableValue()) return $"{GetSimplifiedName(@this.GetGenericArguments()[0])}?";
                 else if (@this.IsGenericTypeDefinition) return $"{@this.Name}<>";
                 else if (@this.IsGenericType) return $"{@this.Name.Extract(GetSimplifiedNameRegex).FirstOrDefault()}<{@this.GetGenericArguments().Select(GetSimplifiedName).Join(", ")}>";
                 else return @this.Name;
@@ -76,7 +73,13 @@ public static class TypeExtensions
         return @this.Name.StartsWith("<>f__AnonymousType");
     }
 
+    [Obsolete("Use IsNullableValue instead.")]
     public static bool IsNullable(this Type @this)
+    {
+        return IsNullableValue(@this);
+    }
+
+    public static bool IsNullableValue(this Type @this)
     {
         if (@this.IsGenericType)
         {
@@ -388,13 +391,13 @@ public static class TypeExtensions
 
     public static Type MakeNullableType(this Type @this)
     {
-        if (@this.IsValueType && !@this.IsNullable()) return typeof(Nullable<>).MakeGenericType(@this);
+        if (@this.IsValueType && !@this.IsNullableValue()) return typeof(Nullable<>).MakeGenericType(@this);
         else throw new ArgumentException($"The type {@this.Name} must be a non-nullable value type");
     }
 
     public static Type MakeNonNullableType(this Type @this)
     {
-        if (@this.IsNullable()) return @this.GetGenericArguments()[0];
+        if (@this.IsNullableValue()) return @this.GetGenericArguments()[0];
         else throw new ArgumentException($"The type {@this.Name} must be a nullable value type");
     }
 

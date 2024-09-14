@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace NStandard;
+﻿namespace NStandard;
 
 public static class ObjectEx
 {
