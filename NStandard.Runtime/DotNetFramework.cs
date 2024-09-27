@@ -72,6 +72,7 @@ public class DotNetFramework
     public static DotNetFramework Net60 { get; } = new(".NET 5+ (and .NET Core)", "net", "net6.0", new Version(6, 0, 0), true, 402);
     public static DotNetFramework Net70 { get; } = new(".NET 5+ (and .NET Core)", "net", "net7.0", new Version(7, 0, 0), true, 403);
     public static DotNetFramework Net80 { get; } = new(".NET 5+ (and .NET Core)", "net", "net8.0", new Version(8, 0, 0), true, 404);
+    public static DotNetFramework Net90 { get; } = new(".NET 5+ (and .NET Core)", "net", "net9.0", new Version(9, 0, 0), true, 405);
 
     static DotNetFramework()
     {
@@ -118,6 +119,7 @@ public class DotNetFramework
         Net60.Compatibility = Combine([Net60], Net50);
         Net70.Compatibility = Combine([Net70], Net60);
         Net80.Compatibility = Combine([Net80], Net70);
+        Net90.Compatibility = Combine([Net90], Net80);
     }
 
     public static readonly DotNetFramework[] SupportedFrameworks =
@@ -157,6 +159,7 @@ public class DotNetFramework
         Net60,
         Net70,
         Net80,
+        Net90,
     ];
 
     public static DotNetFramework Parse(string tfm)
