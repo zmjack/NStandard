@@ -48,6 +48,10 @@ end
 
 ## Recently
 
+### Version 0.83.0
+
+- Adjust the **IMeasureExtensions** implementations.
+
 ### Version 0.82.0
 
 - 

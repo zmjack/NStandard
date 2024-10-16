@@ -29,7 +29,7 @@ public class AssemblyContext : AssemblyLoadContext
     public AssemblyContext(DotNetFramework framework, string sdkType)
     {
         Framework = framework;
-        CompatibilityFrameworks = framework.Compatibility.OrderByDescending(x => x.Order).ToArray();
+        CompatibilityFrameworks = [.. framework.Compatibility.OrderByDescending(x => x.Order)];
         LoadSdk(sdkType);
     }
 

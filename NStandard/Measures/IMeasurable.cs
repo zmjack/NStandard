@@ -6,8 +6,12 @@ public interface IMeasurable<TValue>
     TValue Value { get; set; }
 }
 
-public interface IAdditionMeasurable
+public interface IAdditionMeasurable<TSelf> where TSelf : IMeasurable, IAdditionMeasurable<TSelf>
 {
+#if NET7_0_OR_GREATER
+    static abstract bool ForceAggregate { get; }
+#endif
+    bool CanAggregate(TSelf other);
 }
 
 public interface IMeasurable

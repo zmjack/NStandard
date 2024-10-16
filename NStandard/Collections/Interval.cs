@@ -20,7 +20,7 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
     ISubtractionOperators<Interval<T>, T, Interval<T>>,
     ISubtractionOperators<Interval<T>, Interval<T>.Range, Interval<T>>,
     ISubtractionOperators<Interval<T>, Interval<T>, Interval<T>>
-    where T : IComparisonOperators<T, T, bool>, IBinaryInteger<T>
+    where T : IComparisonOperators<T, T, bool>, IDecrementOperators<T>, IIncrementOperators<T>
 #endif
 {
     [DebuggerDisplay("({Start}, {End})")]
@@ -73,12 +73,12 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
     private bool _normalized;
     private readonly List<Range> _ranges;
 #if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
-    public IReadOnlyCollection<Range> Items => _ranges;
+    public IReadOnlyCollection<Range> Ranges => _ranges;
 #else
-    public ICollection<Range> Items => _ranges;
+    public ICollection<Range> Ranges => _ranges;
 #endif
 
-    public int Count => Items.Count;
+    public int Count => Ranges.Count;
 
     public Interval()
     {
@@ -365,10 +365,10 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
         if (!_normalized) Normalize();
         if (!other._normalized) other.Normalize();
 
-        if (Items.Count != other.Items.Count) return false;
+        if (Ranges.Count != other.Ranges.Count) return false;
 
-        var first = Items.GetEnumerator();
-        var second = other.Items.GetEnumerator();
+        var first = Ranges.GetEnumerator();
+        var second = other.Ranges.GetEnumerator();
 
         while (first.MoveNext())
         {

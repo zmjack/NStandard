@@ -6,42 +6,52 @@ namespace NStandard.Test;
 public class _FeatureTests
 {
     [Fact]
-    public void Test1()
+    public void ValuesTest()
     {
-        var kmArray = new km[100].Let(i => new(1));
-        Assert.Equal("100 km", kmArray.QSum().ToString());
-        Assert.Equal("1 km", kmArray.QAverage().ToString());
-        Assert.Equal("1 km", kmArray.QAverageOrDefault().ToString());
-        Assert.Equal("1 km", kmArray.QAverageOrDefault(10).ToString());
+        var kms = new km[10].Let(i => new(i));
+        Assert.Equal("45 km", kms.QSum().ToString());
+        Assert.Equal("4.5 km", kms.QAverage().ToString());
+        Assert.Equal("4.5 km", kms.QAverageOrDefault().ToString());
+        Assert.Equal("4.5 km", kms.QAverageOrDefault(10).ToString());
     }
 
     [Fact]
-    public void Test2()
+    public void EmptyValuesTest()
     {
-        var kmArray = new km[0];
-        Assert.Equal("0 km", kmArray.QSum().ToString());
-        Assert.ThrowsAny<InvalidOperationException>(() => kmArray.QAverage().ToString());
-        Assert.Equal("0 km", kmArray.QAverageOrDefault().ToString());
-        Assert.Equal("10 km", kmArray.QAverageOrDefault(10).ToString());
+        km[] kms = [];
+        Assert.Equal("0 km", kms.QSum().ToString());
+        Assert.ThrowsAny<InvalidOperationException>(() => kms.QAverage().ToString());
+        Assert.Equal("0 km", kms.QAverageOrDefault().ToString());
+        Assert.Equal("10 km", kms.QAverageOrDefault(10).ToString());
     }
 
     [Fact]
-    public void Test3()
+    public void NullsTest()
     {
-        var kmArray = new km?[100].Let(i => default);
-        Assert.Equal("0 km", kmArray.QSum().ToString());
-        Assert.Null(kmArray.QAverage());
-        Assert.Null(kmArray.QAverageOrDefault());
-        Assert.Equal("10 km", kmArray.QAverageOrDefault(10).ToString());
+        var kms = new km?[10].Let(i => null);
+        Assert.Equal("0 km", kms.QSum().ToString());
+        Assert.Null(kms.QAverage());
+        Assert.Null(kms.QAverageOrDefault());
+        Assert.Equal("10 km", kms.QAverageOrDefault(10).ToString());
     }
 
     [Fact]
-    public void Test4()
+    public void EmptyNullableValuesTest()
     {
-        var kmArray = new km?[0];
-        Assert.Equal("0 km", kmArray.QSum().ToString());
-        Assert.Null(kmArray.QAverage());
-        Assert.Null(kmArray.QAverageOrDefault());
-        Assert.Equal("10 km", kmArray.QAverageOrDefault(10).ToString());
+        km?[] kms = [];
+        Assert.Equal("0 km", kms.QSum().ToString());
+        Assert.Null(kms.QAverage());
+        Assert.Null(kms.QAverageOrDefault());
+        Assert.Equal("10 km", kms.QAverageOrDefault(10).ToString());
+    }
+
+    [Fact]
+    public void NullableValuesTest()
+    {
+        var kms = new km?[10].Let(i => i % 2 == 0 ? new(i) : null);
+        Assert.Equal("20 km", kms.QSum().ToString());
+        Assert.Equal("4 km", kms.QAverage().ToString());
+        Assert.Equal("4 km", kms.QAverageOrDefault().ToString());
+        Assert.Equal("4 km", kms.QAverageOrDefault(10).ToString());
     }
 }

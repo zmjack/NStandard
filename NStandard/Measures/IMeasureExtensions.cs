@@ -6,22 +6,41 @@ namespace NStandard;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class IMeasureExtensions
 {
-    public static TMeasure SumAs<TMeasure>(this IEnumerable<IMeasureConvertible> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable
+    private static class Throws
     {
-        return @this.Select(x => x.Convert<TMeasure>()).QSum();
+        public static InvalidOperationException UnableToAggregate(IMeasurable left, IMeasurable right) => new($"Unable to aggregate. ({left} + {right})");
     }
 
-    public static TMeasure AverageAs<TMeasure>(this IEnumerable<IMeasureConvertible> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable
-    {
-        return @this.Select(x => x.Convert<TMeasure>()).QAverage();
-    }
-
-    public static TMeasure QSum<TMeasure>(this IEnumerable<TMeasure> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable
+    public static TMeasure QSum<TMeasure>(this IEnumerable<TMeasure> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable<TMeasure>
     {
         decimal sum = 0;
-        foreach (var item in @this)
+
+#if NET7_0_OR_GREATER
+        var force = TMeasure.ForceAggregate;
+        if (force)
         {
-            sum += item.Value;
+            foreach (var item in @this)
+            {
+                sum += item.Value;
+            }
+
+            return new TMeasure
+            {
+                Value = sum,
+            };
+        }
+#endif
+        var enumerator = @this.GetEnumerator();
+        enumerator.MoveNext();
+        var prev = enumerator.Current;
+
+        while (enumerator.MoveNext())
+        {
+            var item = enumerator.Current;
+            if (!prev.CanAggregate(item)) throw Throws.UnableToAggregate(prev, item);
+
+            sum += enumerator.Current.Value;
+            prev = item;
         }
 
         return new TMeasure
@@ -30,14 +49,46 @@ public static class IMeasureExtensions
         };
     }
 
-    public static TMeasure QSum<TMeasure>(this IEnumerable<TMeasure?> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable
+    public static TMeasure QSum<TMeasure>(this IEnumerable<TMeasure?> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable<TMeasure>
     {
         decimal sum = 0;
-        foreach (var item in @this)
+
+#if NET7_0_OR_GREATER
+        var force = TMeasure.ForceAggregate;
+
+        if (force)
         {
+            foreach (var item in @this)
+            {
+                if (!item.HasValue) continue;
+                sum += item.Value.Value;
+            }
+
+            return new TMeasure
+            {
+                Value = sum,
+            };
+        }
+#endif
+        var enumerator = @this.GetEnumerator();
+        TMeasure prev = new();
+        while (enumerator.MoveNext())
+        {
+            var item = enumerator.Current;
             if (!item.HasValue) continue;
 
+            prev = item.Value;
+            break;
+        }
+
+        while (enumerator.MoveNext())
+        {
+            var item = enumerator.Current;
+            if (!item.HasValue) continue;
+            if (!prev.CanAggregate(item.Value)) throw Throws.UnableToAggregate(prev, item.Value);
+
             sum += item.Value.Value;
+            prev = item.Value;
         }
 
         return new TMeasure
@@ -46,16 +97,42 @@ public static class IMeasureExtensions
         };
     }
 
-    public static TMeasure QAverage<TMeasure>(this IEnumerable<TMeasure> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable
+    public static TMeasure QAverage<TMeasure>(this IEnumerable<TMeasure> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable<TMeasure>
     {
         if (!@this.Any()) throw new InvalidOperationException("Sequence contains no elements");
 
         decimal sum = 0;
-        int count = 0;
-        foreach (var item in @this)
+        decimal count = 0;
+
+#if NET7_0_OR_GREATER
+        var force = TMeasure.ForceAggregate;
+        if (force)
         {
-            sum += item.Value;
+            foreach (var item in @this)
+            {
+                sum += item.Value;
+                count++;
+            }
+
+            return new TMeasure
+            {
+                Value = sum / count,
+            };
+        }
+#endif
+        var enumerator = @this.GetEnumerator();
+        enumerator.MoveNext();
+        var prev = enumerator.Current;
+        count++;
+
+        while (enumerator.MoveNext())
+        {
+            var item = enumerator.Current;
+            if (!prev.CanAggregate(item)) throw Throws.UnableToAggregate(prev, item);
+
+            sum += enumerator.Current.Value;
             count++;
+            prev = item;
         }
 
         return new TMeasure
@@ -64,69 +141,76 @@ public static class IMeasureExtensions
         };
     }
 
-    public static TMeasure QAverageOrDefault<TMeasure>(this IEnumerable<TMeasure> @this, TMeasure @default = default) where TMeasure : struct, IMeasurable, IAdditionMeasurable
-    {
-        if (!@this.Any()) return @default;
-
-        decimal sum = 0;
-        int count = 0;
-        foreach (var item in @this)
-        {
-            sum += item.Value;
-            count++;
-        }
-
-        return new TMeasure
-        {
-            Value = sum / count,
-        };
-    }
-
-    public static TMeasure? QAverage<TMeasure>(this IEnumerable<TMeasure?> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable
+    public static TMeasure? QAverage<TMeasure>(this IEnumerable<TMeasure?> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable<TMeasure>
     {
         if (!@this.Any()) return default;
 
         decimal sum = 0;
-        int count = 0;
-        foreach (var item in @this)
+        decimal count = 0;
+
+#if NET7_0_OR_GREATER
+        var force = TMeasure.ForceAggregate;
+
+        if (force)
         {
+            foreach (var item in @this)
+            {
+                if (!item.HasValue) continue;
+                sum += item.Value.Value;
+                count++;
+            }
+
+            if (count > 0)
+            {
+                return new TMeasure
+                {
+                    Value = sum / count,
+                };
+            }
+            else return default;
+        }
+#endif
+        var enumerator = @this.GetEnumerator();
+        TMeasure prev = new();
+        while (enumerator.MoveNext())
+        {
+            var item = enumerator.Current;
             if (!item.HasValue) continue;
+
+            prev = item.Value;
+            count++;
+            break;
+        }
+
+        while (enumerator.MoveNext())
+        {
+            var item = enumerator.Current;
+            if (!item.HasValue) continue;
+            if (!prev.CanAggregate(item.Value)) throw Throws.UnableToAggregate(prev, item);
 
             sum += item.Value.Value;
             count++;
+            prev = item.Value;
         }
 
-        if (count == 0) return default;
-        else
+        if (count > 0)
         {
             return new TMeasure
             {
                 Value = sum / count,
             };
         }
+        else return default;
     }
 
-    public static TMeasure? QAverageOrDefault<TMeasure>(this IEnumerable<TMeasure?> @this, TMeasure? @default = default) where TMeasure : struct, IMeasurable, IAdditionMeasurable
+    public static TMeasure QAverageOrDefault<TMeasure>(this IEnumerable<TMeasure> @this, TMeasure @default = default) where TMeasure : struct, IMeasurable, IAdditionMeasurable<TMeasure>
     {
         if (!@this.Any()) return @default;
+        return QAverage(@this);
+    }
 
-        decimal sum = 0;
-        int count = 0;
-        foreach (var item in @this)
-        {
-            if (!item.HasValue) continue;
-
-            sum += item.Value.Value;
-            count++;
-        }
-
-        if (count == 0) return @default;
-        else
-        {
-            return new TMeasure
-            {
-                Value = sum / count,
-            };
-        }
+    public static TMeasure? QAverageOrDefault<TMeasure>(this IEnumerable<TMeasure?> @this, TMeasure? @default = default) where TMeasure : struct, IMeasurable, IAdditionMeasurable<TMeasure>
+    {
+        return QAverage(@this) ?? @default;
     }
 }

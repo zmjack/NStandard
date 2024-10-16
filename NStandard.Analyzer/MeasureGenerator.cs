@@ -12,6 +12,13 @@ namespace NStandard.Analyzer;
 [Generator]
 public class MeasureGenerator : ISourceGenerator
 {
+    public void Initialize(GeneratorInitializationContext context)
+    {
+#if DEBUG
+        // if (!Debugger.IsAttached) Debugger.Launch();
+#endif
+    }
+
     public const string MeasureAttributeName = "NStandard.Measures.MeasureAttribute";
 
     [DebuggerDisplay("{Symbol}")]
@@ -121,6 +128,7 @@ public class MeasureGenerator : ISourceGenerator
         public string Namespace { get; set; }
         public string Name { get; set; }
         public string Measure { get; set; }
+        public string[] DefinedIdentifiers { get; set; }
 
         public override string ToString() => $"{Namespace}.{Name}";
 
@@ -177,7 +185,22 @@ public class MeasureGenerator : ISourceGenerator
                 {
                     var name = _struct.Identifier.Text;
                     var attributes = _struct.AttributeLists.SelectMany(x => x.Attributes);
-                    TypeSymbol? symbol = null;
+                    TypeSymbol? symbol = GetSymbol(ns.Name.ToString(), name); ;
+
+                    var definedlist = new List<string>();
+                    var props = _struct.DescendantNodes().OfType<PropertyDeclarationSyntax>();
+                    foreach (var prop in props)
+                    {
+                        var _name = prop.Identifier.Text;
+                        if (_name == "ForceAggregate") definedlist.Add(_name);
+                    }
+                    var methods = _struct.DescendantNodes().OfType<MethodDeclarationSyntax>();
+                    foreach (var method in methods)
+                    {
+                        var _name = method.Identifier.Text;
+                        if (_name == "CanAggregate") definedlist.Add(_name);
+                    }
+                    symbol.DefinedIdentifiers = definedlist.ToArray();
 
                     foreach (var attr in attributes)
                     {
@@ -200,7 +223,6 @@ public class MeasureGenerator : ISourceGenerator
                             continue;
                         }
 
-                        symbol ??= GetSymbol(ns.Name.ToString(), name);
                         var typeArguments = (info.ConvertedType as INamedTypeSymbol)!.TypeArguments;
                         if (typeArguments.Any())
                         {
@@ -290,10 +312,13 @@ using NStandard.Measures;
 
 namespace {symbol.Namespace}
 {"{"}
-    public partial struct {symbol.Name} : IMeasurable, IAdditionMeasurable
+    public partial struct {symbol.Name} : IMeasurable, IAdditionMeasurable<{symbol.Name}>
     {"{"}
         public static string Measure {"{"} get; {"}"} = {(symbol.Measure is null ? "\"\"" : $"{symbol.Measure}")};        
         public decimal Value {"{"} get; set; {"}"}
+
+        {(!symbol.DefinedIdentifiers.Contains("ForceAggregate") ? "public static bool ForceAggregate => true;" : "// ForceAggregate")}
+        {(!symbol.DefinedIdentifiers.Contains("CanAggregate") ? $"public bool CanAggregate({symbol.Name} other) => true;" : "// CanAggregate")}
 
         public {symbol.Name}(decimal value) => Value = value;
         public {symbol.Name}(short value) => Value = (decimal)value;
@@ -374,12 +399,5 @@ $"""
             );
             context.AddSource($"{fileName}.Converting.g.cs", builder.ToString());
         }
-    }
-
-    public void Initialize(GeneratorInitializationContext context)
-    {
-#if DEBUG
-        // if (!Debugger.IsAttached) Debugger.Launch();
-#endif
     }
 }
