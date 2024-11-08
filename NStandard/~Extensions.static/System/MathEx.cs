@@ -3,6 +3,38 @@
 public static partial class MathEx
 {
     /// <summary>
+    /// Determines if a value represents an integral number.
+    /// </summary>
+    /// <param name="number"></param>
+    /// <returns></returns>
+    public static bool IsInteger(float number)
+    {
+        if (float.IsInfinity(number)) return false;
+        return Math.Truncate(number) == number;
+    }
+
+    /// <summary>
+    /// Determines if a value represents an integral number.
+    /// </summary>
+    /// <param name="number"></param>
+    /// <returns></returns>
+    public static bool IsInteger(double number)
+    {
+        if (double.IsInfinity(number)) return false;
+        return Math.Truncate(number) == number;
+    }
+
+    /// <summary>
+    /// Determines if a value represents an integral number.
+    /// </summary>
+    /// <param name="number"></param>
+    /// <returns></returns>
+    public static bool IsInteger(decimal number)
+    {
+        return Math.Truncate(number) == number;
+    }
+
+    /// <summary>
     /// Compares two floats if they are similar.
     /// </summary>
     /// <param name="number">One of the numbers to compare.</param>

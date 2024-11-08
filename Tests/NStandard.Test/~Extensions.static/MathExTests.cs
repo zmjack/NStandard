@@ -117,4 +117,20 @@ public class MathExTests
         Assert.ThrowsAny<ArgumentException>(() => MathEx.Approximately(3.55, 3.6, -0.1));
     }
 
+    [Fact]
+    public void IsIntegerTest()
+    {
+        Assert.True(MathEx.IsInteger(0f));
+        Assert.True(MathEx.IsInteger(float.NegativeZero));
+        Assert.True(MathEx.IsInteger(888f));
+        Assert.True(MathEx.IsInteger(-888f));
+
+        Assert.False(MathEx.IsInteger(888.666f));
+        Assert.False(MathEx.IsInteger(-888.666f));
+        Assert.False(MathEx.IsInteger(float.NaN));
+        Assert.False(MathEx.IsInteger(float.Epsilon));
+        Assert.False(MathEx.IsInteger(float.PositiveInfinity));
+        Assert.False(MathEx.IsInteger(float.NegativeInfinity));
+    }
+
 }

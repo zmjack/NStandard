@@ -107,25 +107,28 @@ public static class JsonXmlSerializer
     /// Serializes the <see cref="XmlNode" /> to a JSON string.
     /// </summary>
     /// <param name="node"></param>
+    /// <param name="options"></param>
     /// <returns></returns>
-    public static string? SerializeXmlNode(XmlNode? node)
+    public static string? SerializeXmlNode(XmlNode? node, JsonSerializerOptions? options = null)
     {
         if (node is null) return null;
 
         var jsonNode = SerializeXmlNodeCore(node);
-        return JsonSerializer.Serialize(jsonNode);
+        return JsonSerializer.Serialize(jsonNode, options);
     }
 
     /// <summary>
     /// Serializes the xml to a JSON string.
     /// </summary>
     /// <param name="xml"></param>
+    /// <param name="options"></param>
     /// <returns></returns>
     public static string? SerializeXmlNode(
 #if NET7_0_OR_GREATER
         [StringSyntax(StringSyntaxAttribute.Xml)]
 #endif
-        string? xml
+        string? xml,
+        JsonSerializerOptions? options = null
     )
     {
         if (xml is null) return null;
@@ -133,7 +136,7 @@ public static class JsonXmlSerializer
         var doc = new XmlDocument();
         doc.LoadXml(xml);
         var jsonNode = SerializeXmlNodeCore(doc);
-        return JsonSerializer.Serialize(jsonNode);
+        return JsonSerializer.Serialize(jsonNode, options);
     }
 
     private static void WriteXmlNode(XmlDocument doc, Dictionary<string, string> namespaces, XmlNode super, JsonObject obj)
