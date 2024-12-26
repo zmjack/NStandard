@@ -120,7 +120,24 @@ public static class DateTimeEx
     /// <param name="kind"></param>
     /// <param name="weekStart"></param>
     /// <returns></returns>
+    [Obsolete("Use FromWeek instead.")]
     public static DateTime ParseFromWeek(int year, int week, DateTimeKind kind, DayOfWeek weekStart = DayOfWeek.Sunday)
+    {
+        var day1 = new DateTime(year, 1, 1, 0, 0, 0, kind);
+        var week0 = DateTimeExtensions.PastDay(day1, weekStart, true);
+        if (week0.Year == year) week0 = week0.AddDays(-7);
+        return week0.AddDays(week * 7);
+    }
+
+    /// <summary>
+    /// Gets a DateTime for the specified week of year.
+    /// </summary>
+    /// <param name="year"></param>
+    /// <param name="week"></param>
+    /// <param name="kind"></param>
+    /// <param name="weekStart"></param>
+    /// <returns></returns>
+    public static DateTime FromWeek(int year, int week, DateTimeKind kind, DayOfWeek weekStart = DayOfWeek.Sunday)
     {
         var day1 = new DateTime(year, 1, 1, 0, 0, 0, kind);
         var week0 = DateTimeExtensions.PastDay(day1, weekStart, true);

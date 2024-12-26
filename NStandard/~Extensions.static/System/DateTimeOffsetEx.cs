@@ -138,7 +138,24 @@ public static class DateTimeOffsetEx
     /// <param name="offset"></param>
     /// <param name="weekStart"></param>
     /// <returns></returns>
+    [Obsolete("Use FromWeek instead.")]
     public static DateTimeOffset ParseFromWeek(int year, int week, TimeSpan offset, DayOfWeek weekStart = DayOfWeek.Sunday)
+    {
+        var day1 = new DateTimeOffset(year, 1, 1, 0, 0, 0, offset);
+        var week0 = DateTimeOffsetExtensions.PastDay(day1, weekStart, true);
+        if (week0.Year == year) week0 = week0.AddDays(-7);
+        return week0.AddDays(week * 7);
+    }
+
+    /// <summary>
+    /// Gets a DateTimeOffset for the specified week of year.
+    /// </summary>
+    /// <param name="year"></param>
+    /// <param name="week"></param>
+    /// <param name="offset"></param>
+    /// <param name="weekStart"></param>
+    /// <returns></returns>
+    public static DateTimeOffset FromWeek(int year, int week, TimeSpan offset, DayOfWeek weekStart = DayOfWeek.Sunday)
     {
         var day1 = new DateTimeOffset(year, 1, 1, 0, 0, 0, offset);
         var week0 = DateTimeOffsetExtensions.PastDay(day1, weekStart, true);

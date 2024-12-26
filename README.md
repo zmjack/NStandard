@@ -48,14 +48,17 @@ end
 
 ## Recently
 
+### Version 0.84.0
+
+- Allows **Ref/Val** to set the value of **Target**.
+
 ### Version 0.83.0
 
 - Adjust the **IMeasureExtensions** implementations.
 
 ### Version 0.82.0
 
-- 
-  **[Breaking Change]**
+- **[Breaking Change]**
   Redesigned the **Tree** type for better performance.
 
 ### Version 0.80.0

@@ -69,7 +69,7 @@ public static class StringEx
     /// <returns></returns>
     public static string CamelCase(string source)
     {
-        if (source.IsNullOrEmpty()) return source;
+        if (string.IsNullOrEmpty(source)) return source;
 
         static bool IsNotUpper(char c) => c is < 'A' or > 'Z';
         var index = source.IndexOf(IsNotUpper);

@@ -5,7 +5,7 @@ namespace NStandard;
 [DebuggerDisplay("{Target}")]
 public struct Val<T>(T target)
 {
-    public T Target { get; } = target;
+    public T Target { get; set; } = target;
 
     public static implicit operator Val<T>(T target)
     {

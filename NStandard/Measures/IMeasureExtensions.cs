@@ -11,6 +11,11 @@ public static class IMeasureExtensions
         public static InvalidOperationException UnableToAggregate(IMeasurable left, IMeasurable right) => new($"Unable to aggregate. ({left} + {right})");
     }
 
+    public static TMeasure QSum<TMeasure>(this IEnumerable<IMeasureConvertible<TMeasure>> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable<TMeasure>
+    {
+        return QSum(from x in @this select x.Convert());
+    }
+
     public static TMeasure QSum<TMeasure>(this IEnumerable<TMeasure> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable<TMeasure>
     {
         decimal sum = 0;
@@ -95,6 +100,11 @@ public static class IMeasureExtensions
         {
             Value = sum,
         };
+    }
+
+    public static TMeasure QAverage<TMeasure>(this IEnumerable<IMeasureConvertible<TMeasure>> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable<TMeasure>
+    {
+        return QAverage(from x in @this select x.Convert());
     }
 
     public static TMeasure QAverage<TMeasure>(this IEnumerable<TMeasure> @this) where TMeasure : struct, IMeasurable, IAdditionMeasurable<TMeasure>
@@ -201,6 +211,11 @@ public static class IMeasureExtensions
             };
         }
         else return default;
+    }
+
+    public static TMeasure QAverageOrDefault<TMeasure>(this IEnumerable<IMeasureConvertible<TMeasure>> @this, TMeasure @default = default) where TMeasure : struct, IMeasurable, IAdditionMeasurable<TMeasure>
+    {
+        return QAverageOrDefault(from x in @this select x.Convert());
     }
 
     public static TMeasure QAverageOrDefault<TMeasure>(this IEnumerable<TMeasure> @this, TMeasure @default = default) where TMeasure : struct, IMeasurable, IAdditionMeasurable<TMeasure>

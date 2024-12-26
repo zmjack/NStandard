@@ -100,7 +100,23 @@ public static class DateOnlyEx
     /// <param name="week"></param>
     /// <param name="weekStart"></param>
     /// <returns></returns>
+    [Obsolete("Use FromWeek instead.")]
     public static DateOnly ParseFromWeek(int year, int week, DayOfWeek weekStart = DayOfWeek.Sunday)
+    {
+        var day1 = new DateOnly(year, 1, 1);
+        var week0 = DateOnlyExtensions.PastDay(day1, weekStart, true);
+        if (week0.Year == year) week0 = week0.AddDays(-7);
+        return week0.AddDays(week * 7);
+    }
+
+    /// <summary>
+    /// Gets a DateOnly for the specified week of year.
+    /// </summary>
+    /// <param name="year"></param>
+    /// <param name="week"></param>
+    /// <param name="weekStart"></param>
+    /// <returns></returns>
+    public static DateOnly FromWeek(int year, int week, DayOfWeek weekStart = DayOfWeek.Sunday)
     {
         var day1 = new DateOnly(year, 1, 1);
         var week0 = DateOnlyExtensions.PastDay(day1, weekStart, true);
