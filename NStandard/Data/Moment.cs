@@ -1,10 +1,7 @@
 ﻿namespace NStandard.Data;
 
-public record struct Moment
+public record struct Moment(MomentType Type, long Value)
 {
-    public MomentType Type { get; set; }
-    public long Value { get; set; }
-
 #if NET6_0_OR_GREATER
     public static Moment From(DateOnly date, MomentType type)
     {

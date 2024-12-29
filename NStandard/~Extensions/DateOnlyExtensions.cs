@@ -63,7 +63,7 @@ public static class DateOnlyExtensions
     /// <param name="weekStart"></param>
     /// <returns></returns>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use Week(@this, CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday) instead.", true)]
+    [Obsolete("Use WeekOfYear(@this, CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday) instead.", true)]
     public static int Week(this DateOnly @this, DayOfWeek weekStart = DayOfWeek.Sunday)
     {
         var day1 = new DateOnly(@this.Year, 1, 1);

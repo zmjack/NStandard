@@ -80,7 +80,7 @@ public static class DateTimeOffsetExtensions
     /// <param name="weekStart"></param>
     /// <returns></returns>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use Week(@this, CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday) instead.", true)]
+    [Obsolete("Use WeekOfYear(@this, CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday) instead.", true)]
     public static int Week(this DateTimeOffset @this, DayOfWeek weekStart = DayOfWeek.Sunday)
     {
         var day1 = new DateTimeOffset(@this.Year, 1, 1, 0, 0, 0, @this.Offset);
