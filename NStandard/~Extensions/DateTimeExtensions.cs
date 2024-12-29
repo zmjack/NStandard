@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Globalization;
 
 namespace NStandard;
 
@@ -55,7 +56,7 @@ public static class DateTimeExtensions
 
     /// <summary>
     /// Gets the number of weeks in a month for the specified date.
-    /// (eg. If define Sunday as the fisrt day of the week, its first appearance means week 1, before is week 0.)
+    /// (eg. If define Sunday as the first day of the week, its first appearance means week 1, before is week 0.)
     /// </summary>
     /// <param name="this"></param>
     /// <param name="weekStart"></param>
@@ -70,11 +71,15 @@ public static class DateTimeExtensions
     }
 
     /// <summary>
-    /// Gets the number of weeks in a year for the specified date. 
+    /// Gets the number of weeks in a year for the specified date.
+    /// <para>[BUG] If <paramref name="weekStart"/> is not <see cref="DayOfWeek.Sunday"/>, the return value may be wrong.</para>
+    /// <para>Please use <see cref="WeekOfYear(DateTime, CalendarWeekRule, DayOfWeek)"/> instead.</para>
     /// </summary>
     /// <param name="this"></param>
     /// <param name="weekStart"></param>
     /// <returns></returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Week(@this, CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday) instead.", true)]
     public static int Week(this DateTime @this, DayOfWeek weekStart = DayOfWeek.Sunday)
     {
         var day1 = new DateTime(@this.Year, 1, 1, 0, 0, 0, @this.Kind);
@@ -85,33 +90,77 @@ public static class DateTimeExtensions
     }
 
     /// <summary>
-    /// Returns the number of milliseconds that have elapsed since 1970-01-01T00:00:00.000Z.
+    /// Gets the iso-week number of the year for the specified date.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    public static long ToUnixTimeMilliseconds(this DateTime @this)
+    public static YearWeekPair WeekOfYear(this DateTime @this)
     {
-        long num = @this.ToUniversalTime().Ticks / 10000;
-        return num - 62135596800000L;
+        return WeekOfYear(@this, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+    }
+    /// <summary>
+    /// Gets the week number of the year for the specified date.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <param name="rule"></param>
+    /// <param name="firstDayOfWeek"></param>
+    /// <returns></returns>
+    public static YearWeekPair WeekOfYear(this DateTime @this, CalendarWeekRule rule, DayOfWeek firstDayOfWeek)
+    {
+        //TODO: optimize
+        var week = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(@this, rule, firstDayOfWeek);
+        if (rule == CalendarWeekRule.FirstDay)
+        {
+            return new(@this.Year, week);
+        }
+        else
+        {
+            if (@this.Month == 1 && week > 6)
+            {
+                return new(@this.Year - 1, week);
+            }
+            else return new(@this.Year, week);
+        }
+    }
+
+    public static DateTime StartOfWeek(this DateTime @this)
+    {
+        return StartOfWeek(@this, DayOfWeek.Monday);
+    }
+    public static DateTime EndOfWeek(this DateTime @this)
+    {
+        return EndOfWeek(@this, DayOfWeek.Monday);
+    }
+    public static DateTime StartOfWeek(this DateTime @this, DayOfWeek firstDayOfWeek)
+    {
+        var offset = @this.DayOfWeek - firstDayOfWeek;
+        if (offset < 0) offset += 7;
+        return @this.AddDays(-offset);
+    }
+    public static DateTime EndOfWeek(this DateTime @this, DayOfWeek firstDayOfWeek)
+    {
+        var offset = @this.DayOfWeek - firstDayOfWeek;
+        if (offset < 0) offset += 7;
+        return @this.AddDays(6 - offset);
     }
 
     /// <summary>
-    /// Returns the number of seconds that have elapsed since 1970-01-01T00:00:00Z.
+    /// Gets the quarter of the specified date.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    public static long ToUnixTimeSeconds(this DateTime @this)
-    {
-        long num = @this.ToUniversalTime().Ticks / 10000000;
-        return num - 62135596800L;
-    }
-
-    /// <summary>
-    /// Gets the number of seasons in a year for the specified date. 
-    /// </summary>
-    /// <param name="this"></param>
-    /// <returns></returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Quarter(@this) instead.")]
     public static int Season(this DateTime @this)
+    {
+        return Quarter(@this);
+    }
+    /// <summary>
+    /// Gets the quarter of the specified date.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static int Quarter(this DateTime @this)
     {
         return @this.Month switch
         {
@@ -124,11 +173,22 @@ public static class DateTimeExtensions
     }
 
     /// <summary>
-    /// Get the start point of the sepecified season.
+    /// Gets the first day of the quarter for the specified date.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use StartOfQuarter(@this) instead.")]
     public static DateTime StartOfSeason(this DateTime @this)
+    {
+        return StartOfQuarter(@this);
+    }
+    /// <summary>
+    /// Gets the first day of the quarter for the specified date.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static DateTime StartOfQuarter(this DateTime @this)
     {
         return @this.Month switch
         {
@@ -141,11 +201,22 @@ public static class DateTimeExtensions
     }
 
     /// <summary>
-    /// Get the end point of the sepecified season.
+    /// Gets the last day of the quarter for the specified date.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use EndOfQuarter(@this) instead.")]
     public static DateTime EndOfSeason(this DateTime @this)
+    {
+        return EndOfQuarter(@this);
+    }
+    /// <summary>
+    /// Gets the last day of the quarter for the specified date.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static DateTime EndOfQuarter(this DateTime @this)
     {
         return @this.Month switch
         {
@@ -158,56 +229,56 @@ public static class DateTimeExtensions
     }
 
     /// <summary>
-    /// Get the start point of the sepecified year.
+    /// Gets the start point of the specified year.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTime StartOfYear(this DateTime @this) => new(@this.Year, 1, 1, 0, 0, 0, 0, @this.Kind);
 
     /// <summary>
-    /// Get the start point of the sepecified month.
+    /// Gets the start point of the specified month.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTime StartOfMonth(this DateTime @this) => new(@this.Year, @this.Month, 1, 0, 0, 0, 0, @this.Kind);
 
     /// <summary>
-    /// Get the start point of the sepecified day.
+    /// Gets the start point of the specified day.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTime StartOfDay(this DateTime @this) => @this.Date;
 
     /// <summary>
-    /// Get the start point of the sepecified hour.
+    /// Gets the start point of the specified hour.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTime StartOfHour(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, 0, 0, 0, @this.Kind);
 
     /// <summary>
-    /// Get the start point of the sepecified minute.
+    /// Gets the start point of the specified minute.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTime StartOfMinute(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, 0, 0, @this.Kind);
 
     /// <summary>
-    /// Get the start point of the sepecified second.
+    /// Gets the start point of the specified second.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTime StartOfSecond(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, @this.Second, 0, @this.Kind);
 
     /// <summary>
-    /// Get the end point of the sepecified year.
+    /// Gets the end point of the specified year.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTime EndOfYear(this DateTime @this) => new(@this.Year, 12, 31, 23, 59, 59, 999, @this.Kind);
 
     /// <summary>
-    /// Get the end point of the sepecified month.
+    /// Gets the end point of the specified month.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
@@ -226,28 +297,28 @@ public static class DateTimeExtensions
     }
 
     /// <summary>
-    /// Get the end point of the sepecified day.
+    /// Gets the end point of the specified day.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTime EndOfDay(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, 23, 59, 59, 999, @this.Kind);
 
     /// <summary>
-    /// Get the end point of the sepecified hour.
+    /// Gets the end point of the specified hour.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTime EndOfHour(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, 59, 59, 999, @this.Kind);
 
     /// <summary>
-    /// Get the end point of the sepecified minute.
+    /// Gets the end point of the specified minute.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTime EndOfMinute(this DateTime @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, 59, 999, @this.Kind);
 
     /// <summary>
-    /// Get the end point of the sepecified second.
+    /// Gets the end point of the specified second.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
@@ -497,6 +568,28 @@ public static class DateTimeExtensions
         days %= 7;
         if (isBackward) return days > 0 ? days - 7 : days;
         else return days < 0 ? days + 7 : days;
+    }
+
+    /// <summary>
+    /// Returns the number of milliseconds that have elapsed since 1970-01-01T00:00:00.000Z.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static long ToUnixTimeMilliseconds(this DateTime @this)
+    {
+        long num = @this.ToUniversalTime().Ticks / 10000;
+        return num - 62135596800000L;
+    }
+
+    /// <summary>
+    /// Returns the number of seconds that have elapsed since 1970-01-01T00:00:00Z.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static long ToUnixTimeSeconds(this DateTime @this)
+    {
+        long num = @this.ToUniversalTime().Ticks / 10000000;
+        return num - 62135596800L;
     }
 
 }

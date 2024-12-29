@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.ComponentModel;
+using System.Globalization;
 
 namespace NStandard;
 
@@ -132,13 +133,15 @@ public static class DateTimeOffsetEx
 
     /// <summary>
     /// Gets a DateTimeOffset for the specified week of year.
+    /// <para>[BUG] If <paramref name="weekStart"/> is not <see cref="DayOfWeek.Sunday"/>, the return value may be wrong.</para>
+    /// <para>Please use <see cref="FromWeekOfYear(int, int, TimeSpan, CalendarWeekRule, DayOfWeek)"/> instead.</para>
     /// </summary>
     /// <param name="year"></param>
     /// <param name="week"></param>
     /// <param name="offset"></param>
     /// <param name="weekStart"></param>
     /// <returns></returns>
-    [Obsolete("Use FromWeek instead.")]
+    [Obsolete("Use FromWeek(year, week, offset, CalendarWeekRule.FirstFullWeek, firstDayOfWeek) instead.", true)]
     public static DateTimeOffset ParseFromWeek(int year, int week, TimeSpan offset, DayOfWeek weekStart = DayOfWeek.Sunday)
     {
         var day1 = new DateTimeOffset(year, 1, 1, 0, 0, 0, offset);
@@ -149,18 +152,74 @@ public static class DateTimeOffsetEx
 
     /// <summary>
     /// Gets a DateTimeOffset for the specified week of year.
+    /// <para>[BUG] If <paramref name="weekStart"/> is not <see cref="DayOfWeek.Sunday"/>, the return value may be wrong.</para>
+    /// <para>Please use <see cref="FromWeekOfYear(int, int, TimeSpan, CalendarWeekRule, DayOfWeek)"/> instead.</para>
     /// </summary>
     /// <param name="year"></param>
     /// <param name="week"></param>
     /// <param name="offset"></param>
     /// <param name="weekStart"></param>
     /// <returns></returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use FromWeek(year, week, offset, CalendarWeekRule.FirstFullWeek, firstDayOfWeek) instead.", true)]
     public static DateTimeOffset FromWeek(int year, int week, TimeSpan offset, DayOfWeek weekStart = DayOfWeek.Sunday)
     {
         var day1 = new DateTimeOffset(year, 1, 1, 0, 0, 0, offset);
         var week0 = DateTimeOffsetExtensions.PastDay(day1, weekStart, true);
         if (week0.Year == year) week0 = week0.AddDays(-7);
         return week0.AddDays(week * 7);
+    }
+
+    /// <summary>
+    /// Gets a DateTimeOffset for the specified iso-week of year.
+    /// </summary>
+    /// <param name="pair"></param>
+    /// <param name="offset"></param>
+    /// <returns></returns>
+    public static DateTimeOffset FromWeekOfYear(YearWeekPair pair, TimeSpan offset)
+    {
+        return FromWeekOfYear(pair.Year, pair.Week, offset, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+    }
+    /// <summary>
+    /// Gets a DateTimeOffset for the specified week of year.
+    /// </summary>
+    /// <param name="pair"></param>
+    /// <param name="offset"></param>
+    /// <param name="rule"></param>
+    /// <param name="firstDayOfWeek"></param>
+    /// <returns></returns>
+    public static DateTimeOffset FromWeekOfYear(YearWeekPair pair, TimeSpan offset, CalendarWeekRule rule, DayOfWeek firstDayOfWeek)
+    {
+        return FromWeekOfYear(pair.Year, pair.Week, offset, rule, firstDayOfWeek);
+    }
+
+    /// <summary>
+    /// Gets a DateTimeOffset for the specified iso-week of year.
+    /// </summary>
+    /// <param name="year"></param>
+    /// <param name="week"></param>
+    /// <param name="offset"></param>
+    /// <returns></returns>
+    public static DateTimeOffset FromWeekOfYear(int year, int week, TimeSpan offset)
+    {
+        return FromWeekOfYear(year, week, offset, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+    }
+    /// <summary>
+    /// Gets a DateTimeOffset for the specified week of year.
+    /// </summary>
+    /// <param name="year"></param>
+    /// <param name="week"></param>
+    /// <param name="offset"></param>
+    /// <param name="rule"></param>
+    /// <param name="firstDayOfWeek"></param>
+    /// <returns></returns>
+    public static DateTimeOffset FromWeekOfYear(int year, int week, TimeSpan offset, CalendarWeekRule rule, DayOfWeek firstDayOfWeek)
+    {
+        var firstDayOfYear = new DateTimeOffset(year, 1, 1, 0, 0, 0, offset);
+        var pair = firstDayOfYear.WeekOfYear(rule, firstDayOfWeek);
+        var offsetWeek = pair.Year == year ? week - 1 : week;
+        var target = firstDayOfYear.AddDays(7 * offsetWeek);
+        return target.StartOfWeek(firstDayOfWeek);
     }
 
     /// <summary>

@@ -1,6 +1,7 @@
 ﻿#if NET6_0_OR_GREATER
 using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 
 namespace NStandard;
@@ -39,7 +40,7 @@ public static class DateOnlyExtensions
 
     /// <summary>
     /// Gets the number of weeks in a month for the specified date.
-    /// (eg. If define Sunday as the fisrt day of the week, its first appearance means week 1, before is week 0.)
+    /// (eg. If define Sunday as the first day of the week, its first appearance means week 1, before is week 0.)
     /// </summary>
     /// <param name="this"></param>
     /// <param name="weekStart"></param>
@@ -54,11 +55,15 @@ public static class DateOnlyExtensions
     }
 
     /// <summary>
-    /// Gets the number of weeks in a year for the specified date. 
+    /// Gets the number of weeks in a year for the specified date.
+    /// <para>[BUG] If <paramref name="weekStart"/> is not <see cref="DayOfWeek.Sunday"/>, the return value may be wrong.</para>
+    /// <para>Please use <see cref="WeekOfYear(DateOnly, CalendarWeekRule, DayOfWeek)"/> instead.</para>
     /// </summary>
     /// <param name="this"></param>
     /// <param name="weekStart"></param>
     /// <returns></returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Week(@this, CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday) instead.", true)]
     public static int Week(this DateOnly @this, DayOfWeek weekStart = DayOfWeek.Sunday)
     {
         var day1 = new DateOnly(@this.Year, 1, 1);
@@ -69,11 +74,78 @@ public static class DateOnlyExtensions
     }
 
     /// <summary>
-    /// Gets the number of seasons in a year for the specified date. 
+    /// Gets the iso-week number of the year for the specified date.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
+    public static YearWeekPair WeekOfYear(this DateOnly @this)
+    {
+        return WeekOfYear(@this, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+    }
+    /// <summary>
+    /// Gets the week number of the year for the specified date.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <param name="rule"></param>
+    /// <param name="firstDayOfWeek"></param>
+    /// <returns></returns>
+    public static YearWeekPair WeekOfYear(this DateOnly @this, CalendarWeekRule rule, DayOfWeek firstDayOfWeek)
+    {
+        //TODO: optimize
+        var time = new DateTime(@this.Year, @this.Month, @this.Day);
+        var week = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, rule, firstDayOfWeek);
+        if (rule == CalendarWeekRule.FirstDay)
+        {
+            return new(@this.Year, week);
+        }
+        else
+        {
+            if (@this.Month == 1 && week > 6)
+            {
+                return new(@this.Year - 1, week);
+            }
+            else return new(@this.Year, week);
+        }
+    }
+
+    public static DateOnly StartOfWeek(this DateOnly @this)
+    {
+        return StartOfWeek(@this, DayOfWeek.Monday);
+    }
+    public static DateOnly EndOfWeek(this DateOnly @this)
+    {
+        return EndOfWeek(@this, DayOfWeek.Monday);
+    }
+    public static DateOnly StartOfWeek(this DateOnly @this, DayOfWeek firstDayOfWeek)
+    {
+        var offset = @this.DayOfWeek - firstDayOfWeek;
+        if (offset < 0) offset += 7;
+        return @this.AddDays(-offset);
+    }
+    public static DateOnly EndOfWeek(this DateOnly @this, DayOfWeek firstDayOfWeek)
+    {
+        var offset = @this.DayOfWeek - firstDayOfWeek;
+        if (offset < 0) offset += 7;
+        return @this.AddDays(6 - offset);
+    }
+
+    /// <summary>
+    /// Gets the quarter of the specified date.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Quarter(@this) instead.")]
     public static int Season(this DateOnly @this)
+    {
+        return Quarter(@this);
+    }
+    /// <summary>
+    /// Gets the quarter of the specified date.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static int Quarter(this DateOnly @this)
     {
         return @this.Month switch
         {
@@ -86,11 +158,22 @@ public static class DateOnlyExtensions
     }
 
     /// <summary>
-    /// Get the start point of the sepecified season.
+    /// Gets the first day of the quarter for the specified date.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use StartOfQuarter(@this) instead.")]
     public static DateOnly StartOfSeason(this DateOnly @this)
+    {
+        return StartOfQuarter(@this);
+    }
+    /// <summary>
+    /// Gets the first day of the quarter for the specified date.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static DateOnly StartOfQuarter(this DateOnly @this)
     {
         return @this.Month switch
         {
@@ -103,11 +186,22 @@ public static class DateOnlyExtensions
     }
 
     /// <summary>
-    /// Get the end point of the sepecified season.
+    /// Gets the last day of the quarter for the specified date.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use EndOfQuarter(@this) instead.")]
     public static DateOnly EndOfSeason(this DateOnly @this)
+    {
+        return EndOfQuarter(@this);
+    }
+    /// <summary>
+    /// Gets the last day of the quarter for the specified date.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static DateOnly EndOfQuarter(this DateOnly @this)
     {
         return @this.Month switch
         {
@@ -120,28 +214,28 @@ public static class DateOnlyExtensions
     }
 
     /// <summary>
-    /// Get the start point of the sepecified year.
+    /// Gets the first day of the specified year.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateOnly StartOfYear(this DateOnly @this) => new(@this.Year, 1, 1);
 
     /// <summary>
-    /// Get the start point of the sepecified month.
+    /// Gets the first day of the specified month.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateOnly StartOfMonth(this DateOnly @this) => new(@this.Year, @this.Month, 1);
 
     /// <summary>
-    /// Get the end point of the sepecified year.
+    /// Gets the last day of the specified year.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateOnly EndOfYear(this DateOnly @this) => new(@this.Year, 12, 31);
 
     /// <summary>
-    /// Get the end point of the sepecified month.
+    /// Gets the last day of the specified month.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>

@@ -39,14 +39,28 @@ These frameworks are supported:
   dotnet add package NStandard
   ```
 
+<br/>
+
+## Upgrade suggestion
+
+Since the latest version contains breaking updates, it is recommended to update via the following path:
+
 ```mermaid
 graph LR
-subgraph Upgrade suggestion
 0.0.0 --> 0.70.0 --> |Fix errors| Lastest
-end
 ```
 
+<br/>
+
 ## Recently
+
+### Version 0.85.0
+
+- Added **Moment** type.
+- New extension methods for **DateOnly / DateTime / DateTimeOffset**:
+  - **WeekOfYear**: Get the week number of the current date.
+  - **StartOfWeek**: Get the date of the first day of the week.
+  - **EndOfWeek**: Get the date of the last day of the week.
 
 ### Version 0.84.0
 

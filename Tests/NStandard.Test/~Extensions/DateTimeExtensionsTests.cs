@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System.Globalization;
+using Xunit;
 
 namespace NStandard.Test;
 
@@ -59,8 +60,8 @@ public class DateTimeExtensionsTests
     [Fact]
     public void WeekTest()
     {
-        Assert.Equal(0, new DateTime(2017, 1, 1).Week(DayOfWeek.Monday));
-        Assert.Equal(1, new DateTime(2018, 1, 1).Week(DayOfWeek.Monday));
+        Assert.Equal(2016, new DateTime(2017, 1, 1).WeekOfYear(CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday).Year);
+        Assert.Equal(1, new DateTime(2018, 1, 1).WeekOfYear(CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday).Week);
 
         /*  2020 - 01
          *  Su  Mo  Tu  We  Th  Fr  Sa
@@ -70,10 +71,10 @@ public class DateTimeExtensionsTests
          *  19  20  21  22  23  24 (25)
          *  26  27  28  29  30  31
          */
-        Assert.Equal(0, new DateTime(2020, 1, 1).Week());
-        Assert.Equal(1, new DateTime(2020, 1, 5).Week());
-        Assert.Equal(2, new DateTime(2020, 1, 13).Week());
-        Assert.Equal(3, new DateTime(2020, 1, 25).Week());
+        Assert.Equal(2019, new DateTime(2020, 1, 1).WeekOfYear(CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday).Year);
+        Assert.Equal(1, new DateTime(2020, 1, 5).WeekOfYear(CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday).Week);
+        Assert.Equal(2, new DateTime(2020, 1, 13).WeekOfYear(CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday).Week);
+        Assert.Equal(3, new DateTime(2020, 1, 25).WeekOfYear(CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday).Week);
     }
 
     [Fact]
@@ -273,6 +274,24 @@ public class DateTimeExtensionsTests
         Assert.Equal(new DateTime(2017, 1, 1).AddDays(-1, DayMode.Weekend), new DateTime(2016, 12, 31));
         Assert.Equal(new DateTime(2017, 1, 1).AddDays(-2, DayMode.Weekend), new DateTime(2016, 12, 25));
         Assert.Equal(new DateTime(2017, 1, 1).AddDays(-3, DayMode.Weekend), new DateTime(2016, 12, 24));
+    }
+
+    [Fact]
+    public void WeekFullTest()
+    {
+        for (var dt = new DateTime(2000, 1, 1); dt < new DateTime(3000, 1, 1); dt = dt.AddDays(1))
+        {
+            var isoWeek = ISOWeek.GetWeekOfYear(dt);
+            var pair = dt.WeekOfYear();
+            if (pair.Week != isoWeek)
+            {
+                var nextYearPair = new YearWeekPair(dt.Year + 1, 1);
+                Assert.Equal(isoWeek, nextYearPair.Week);
+                Assert.Equal(dt.StartOfWeek(), DateTimeEx.FromWeekOfYear(nextYearPair, DateTimeKind.Unspecified));
+            }
+
+            Assert.Equal(dt.StartOfWeek(), DateTimeEx.FromWeekOfYear(pair, DateTimeKind.Unspecified));
+        }
     }
 
 }

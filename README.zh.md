@@ -39,14 +39,26 @@
   dotnet add package NStandard
   ```
 
+<br/>
+
+## 升级建议
+
+由于最新版本包含中断性更新，建议按以下路径进行更新：
+
 ```mermaid
 graph LR
-subgraph 升级建议
 0.0.0 --> 0.70.0 --> |修复错误| Lastest
-end
 ```
 
 ## 最近更新
+
+### 版本：0.85.0
+
+- 为 **DateOnly / DateTime / DateTimeOffset** 新增扩展方法：
+  - **WeekOfYear**：获取当前日期的周数。
+  - **StartOfWeek**：获取本周第一天的日期。
+  - **EndOfWeek**：获取本周最后一天的日期。
+- 新增 **Moment** 类型。
 
 ### 版本：0.84.0
 

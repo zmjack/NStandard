@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Globalization;
 
 namespace NStandard;
 
@@ -56,7 +57,7 @@ public static class DateTimeOffsetExtensions
 
     /// <summary>
     /// Gets the number of weeks in a month for the specified date.
-    /// (eg. If define Sunday as the fisrt day of the week, its first appearance means week 1, before is week 0.)
+    /// (eg. If define Sunday as the first day of the week, its first appearance means week 1, before is week 0.)
     /// </summary>
     /// <param name="this"></param>
     /// <param name="weekStart"></param>
@@ -71,11 +72,15 @@ public static class DateTimeOffsetExtensions
     }
 
     /// <summary>
-    /// Gets the number of weeks in a year for the specified date. 
+    /// Gets the number of weeks in a year for the specified date.
+    /// <para>[BUG] If <paramref name="weekStart"/> is not <see cref="DayOfWeek.Sunday"/>, the return value may be wrong.</para>
+    /// <para>Please use <see cref="WeekOfYear(DateTimeOffset, CalendarWeekRule, DayOfWeek)"/> instead.</para>
     /// </summary>
     /// <param name="this"></param>
     /// <param name="weekStart"></param>
     /// <returns></returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Week(@this, CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday) instead.", true)]
     public static int Week(this DateTimeOffset @this, DayOfWeek weekStart = DayOfWeek.Sunday)
     {
         var day1 = new DateTimeOffset(@this.Year, 1, 1, 0, 0, 0, @this.Offset);
@@ -85,37 +90,86 @@ public static class DateTimeOffsetExtensions
         return (PastDay(@this, weekStart, true) - week0).Days / 7;
     }
 
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
-#else
     /// <summary>
-    /// Returns the number of milliseconds that have elapsed since 1970-01-01T00:00:00.000Z.
+    /// Gets the iso-week number of the year for the specified date.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    public static long ToUnixTimeMilliseconds(this DateTimeOffset @this)
+    public static YearWeekPair WeekOfYear(this DateTimeOffset @this)
     {
-        long num = @this.UtcDateTime.Ticks / 10000;
-        return num - 62135596800000L;
+        return WeekOfYear(@this, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+    }
+    /// <summary>
+    /// Gets the week number of the year for the specified date.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <param name="rule"></param>
+    /// <param name="firstDayOfWeek"></param>
+    /// <returns></returns>
+    public static YearWeekPair WeekOfYear(this DateTimeOffset @this, CalendarWeekRule rule, DayOfWeek firstDayOfWeek)
+    {
+        //TODO: optimize
+        var dt = new DateTime(@this.Year, @this.Month, @this.Day);
+        var week = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(dt, rule, firstDayOfWeek);
+        if (rule == CalendarWeekRule.FirstDay)
+        {
+            return new(@this.Year, week);
+        }
+        else
+        {
+            if (@this.Month == 1 && week > 6)
+            {
+                return new(@this.Year - 1, week);
+            }
+            else return new(@this.Year, week);
+        }
+    }
+
+    public static DateTimeOffset StartOfWeek(this DateTimeOffset @this)
+    {
+        return StartOfWeek(@this, DayOfWeek.Monday);
+    }
+    public static DateTimeOffset EndOfWeek(this DateTimeOffset @this)
+    {
+        return EndOfWeek(@this, DayOfWeek.Monday);
+    }
+    public static DateTimeOffset StartOfWeek(this DateTimeOffset @this, DayOfWeek firstDayOfWeek)
+    {
+        var offset = @this.DayOfWeek - firstDayOfWeek;
+        if (offset < 0) offset += 7;
+        return @this.AddDays(-offset);
+    }
+    public static DateTimeOffset EndOfWeek(this DateTimeOffset @this, DayOfWeek firstDayOfWeek)
+    {
+        var offset = @this.DayOfWeek - firstDayOfWeek;
+        if (offset < 0) offset += 7;
+        return @this.AddDays(6 - offset);
     }
 
     /// <summary>
-    /// Returns the number of seconds that have elapsed since 1970-01-01T00:00:00Z.
+    /// Gets the quarter of the specified date.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    public static long ToUnixTimeSeconds(this DateTimeOffset @this)
-    {
-        long num = @this.UtcDateTime.Ticks / 10000000;
-        return num - 62135596800L;
-    }
-#endif
-
-    /// <summary>
-    /// Gets the number of seasons in a year for the specified date. 
-    /// </summary>
-    /// <param name="this"></param>
-    /// <returns></returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Quarter(@this) instead.")]
     public static int Season(this DateTimeOffset @this)
+    {
+        return @this.Month switch
+        {
+            >= 1 and <= 3 => 1,
+            >= 4 and <= 6 => 2,
+            >= 7 and <= 9 => 3,
+            >= 10 and <= 12 => 4,
+            _ => throw new NotImplementedException(),
+        };
+    }
+    /// <summary>
+    /// Gets the quarter of the specified date.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static int Quarter(this DateTimeOffset @this)
     {
         return @this.Month switch
         {
@@ -128,11 +182,22 @@ public static class DateTimeOffsetExtensions
     }
 
     /// <summary>
-    /// Get the start point of the sepecified season.
+    /// Gets the first day of the quarter for the specified date.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use StartOfQuarter(@this) instead.")]
     public static DateTimeOffset StartOfSeason(this DateTimeOffset @this)
+    {
+        return StartOfQuarter(@this);
+    }
+    /// <summary>
+    /// Gets the first day of the quarter for the specified date.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static DateTimeOffset StartOfQuarter(this DateTimeOffset @this)
     {
         return @this.Month switch
         {
@@ -145,11 +210,22 @@ public static class DateTimeOffsetExtensions
     }
 
     /// <summary>
-    /// Get the end point of the sepecified season.
+    /// Gets the last day of the quarter for the specified date.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use EndOfQuarter(@this) instead.")]
     public static DateTimeOffset EndOfSeason(this DateTimeOffset @this)
+    {
+        return EndOfQuarter(@this);
+    }
+    /// <summary>
+    /// Gets the last day of the quarter for the specified date.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static DateTimeOffset EndOfQuarter(this DateTimeOffset @this)
     {
         return @this.Month switch
         {
@@ -162,56 +238,56 @@ public static class DateTimeOffsetExtensions
     }
 
     /// <summary>
-    /// Get the start point of the sepecified month.
+    /// Get the start point of the specified month.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTimeOffset StartOfYear(this DateTimeOffset @this) => new(@this.Year, 1, 1, 0, 0, 0, 0, @this.Offset);
 
     /// <summary>
-    /// Get the start point of the sepecified month.
+    /// Get the start point of the specified month.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTimeOffset StartOfMonth(this DateTimeOffset @this) => new(@this.Year, @this.Month, 1, 0, 0, 0, 0, @this.Offset);
 
     /// <summary>
-    /// Get the start point of the sepecified day.
+    /// Get the start point of the specified day.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTimeOffset StartOfDay(this DateTimeOffset @this) => @this.Date;
 
     /// <summary>
-    /// Get the start point of the sepecified hour.
+    /// Get the start point of the specified hour.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTimeOffset StartOfHour(this DateTimeOffset @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, 0, 0, 0, @this.Offset);
 
     /// <summary>
-    /// Get the start point of the sepecified minute.
+    /// Get the start point of the specified minute.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTimeOffset StartOfMinute(this DateTimeOffset @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, 0, 0, @this.Offset);
 
     /// <summary>
-    /// Get the start point of the sepecified second.
+    /// Get the start point of the specified second.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTimeOffset StartOfSecond(this DateTimeOffset @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, @this.Second, 0, @this.Offset);
 
     /// <summary>
-    /// Get the end point of the sepecified month.
+    /// Get the end point of the specified month.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTimeOffset EndOfYear(this DateTimeOffset @this) => new(@this.Year, 12, 31, 23, 59, 59, 999, @this.Offset);
 
     /// <summary>
-    /// Get the end point of the sepecified month.
+    /// Get the end point of the specified month.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
@@ -230,28 +306,28 @@ public static class DateTimeOffsetExtensions
     }
 
     /// <summary>
-    /// Get the end point of the sepecified day.
+    /// Get the end point of the specified day.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTimeOffset EndOfDay(this DateTimeOffset @this) => new(@this.Year, @this.Month, @this.Day, 23, 59, 59, 999, @this.Offset);
 
     /// <summary>
-    /// Get the end point of the sepecified hour.
+    /// Get the end point of the specified hour.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTimeOffset EndOfHour(this DateTimeOffset @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, 59, 59, 999, @this.Offset);
 
     /// <summary>
-    /// Get the end point of the sepecified minute.
+    /// Get the end point of the specified minute.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
     public static DateTimeOffset EndOfMinute(this DateTimeOffset @this) => new(@this.Year, @this.Month, @this.Day, @this.Hour, @this.Minute, 59, 999, @this.Offset);
 
     /// <summary>
-    /// Get the end point of the sepecified second.
+    /// Get the end point of the specified second.
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
@@ -489,5 +565,30 @@ public static class DateTimeOffsetExtensions
         if (isBackward) return days > 0 ? days - 7 : days;
         else return days < 0 ? days + 7 : days;
     }
+
+#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
+#else
+    /// <summary>
+    /// Returns the number of milliseconds that have elapsed since 1970-01-01T00:00:00.000Z.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static long ToUnixTimeMilliseconds(this DateTimeOffset @this)
+    {
+        long num = @this.UtcDateTime.Ticks / 10000;
+        return num - 62135596800000L;
+    }
+
+    /// <summary>
+    /// Returns the number of seconds that have elapsed since 1970-01-01T00:00:00Z.
+    /// </summary>
+    /// <param name="this"></param>
+    /// <returns></returns>
+    public static long ToUnixTimeSeconds(this DateTimeOffset @this)
+    {
+        long num = @this.UtcDateTime.Ticks / 10000000;
+        return num - 62135596800L;
+    }
+#endif
 
 }

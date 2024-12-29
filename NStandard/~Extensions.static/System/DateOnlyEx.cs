@@ -1,6 +1,7 @@
 ﻿#if NET6_0_OR_GREATER
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 
 namespace NStandard;
@@ -95,12 +96,15 @@ public static class DateOnlyEx
 
     /// <summary>
     /// Gets a DateOnly for the specified week of year.
+    /// <para>[BUG] If <paramref name="weekStart"/> is not <see cref="DayOfWeek.Sunday"/>, the return value may be wrong.</para>
+    /// <para>Please use <see cref="FromWeekOfYear(int, int, CalendarWeekRule, DayOfWeek)"/> instead.</para>
     /// </summary>
     /// <param name="year"></param>
     /// <param name="week"></param>
     /// <param name="weekStart"></param>
     /// <returns></returns>
-    [Obsolete("Use FromWeek instead.")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use FromWeek(year, week, CalendarWeekRule.FirstFullWeek, firstDayOfWeek) instead.", true)]
     public static DateOnly ParseFromWeek(int year, int week, DayOfWeek weekStart = DayOfWeek.Sunday)
     {
         var day1 = new DateOnly(year, 1, 1);
@@ -111,11 +115,15 @@ public static class DateOnlyEx
 
     /// <summary>
     /// Gets a DateOnly for the specified week of year.
+    /// <para>[BUG] If <paramref name="weekStart"/> is not <see cref="DayOfWeek.Sunday"/>, the return value may be wrong.</para>
+    /// <para>Please use <see cref="FromWeekOfYear(int, int, CalendarWeekRule, DayOfWeek)"/> instead.</para>
     /// </summary>
     /// <param name="year"></param>
     /// <param name="week"></param>
     /// <param name="weekStart"></param>
     /// <returns></returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use FromWeek(year, week, CalendarWeekRule.FirstFullWeek, firstDayOfWeek) instead.", true)]
     public static DateOnly FromWeek(int year, int week, DayOfWeek weekStart = DayOfWeek.Sunday)
     {
         var day1 = new DateOnly(year, 1, 1);
@@ -124,5 +132,52 @@ public static class DateOnlyEx
         return week0.AddDays(week * 7);
     }
 
+    /// <summary>
+    /// Gets a DateOnly for the specified iso-week of year.
+    /// </summary>
+    /// <param name="pair"></param>
+    /// <returns></returns>
+    public static DateOnly FromWeekOfYear(YearWeekPair pair)
+    {
+        return FromWeekOfYear(pair.Year, pair.Week, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+    }
+    /// <summary>
+    /// Gets a DateOnly for the specified week of year.
+    /// </summary>
+    /// <param name="pair"></param>
+    /// <param name="rule"></param>
+    /// <param name="firstDayOfWeek"></param>
+    /// <returns></returns>
+    public static DateOnly FromWeekOfYear(YearWeekPair pair, CalendarWeekRule rule, DayOfWeek firstDayOfWeek)
+    {
+        return FromWeekOfYear(pair.Year, pair.Week, rule, firstDayOfWeek);
+    }
+
+    /// <summary>
+    /// Gets a DateOnly for the specified iso-week of year.
+    /// </summary>
+    /// <param name="year"></param>
+    /// <param name="week"></param>
+    /// <returns></returns>
+    public static DateOnly FromWeekOfYear(int year, int week)
+    {
+        return FromWeekOfYear(year, week, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+    }
+    /// <summary>
+    /// Gets a DateOnly for the specified week of year.
+    /// </summary>
+    /// <param name="year"></param>
+    /// <param name="week"></param>
+    /// <param name="rule"></param>
+    /// <param name="firstDayOfWeek"></param>
+    /// <returns></returns>
+    public static DateOnly FromWeekOfYear(int year, int week, CalendarWeekRule rule, DayOfWeek firstDayOfWeek)
+    {
+        var firstDayOfYear = new DateOnly(year, 1, 1);
+        var pair = firstDayOfYear.WeekOfYear(rule, firstDayOfWeek);
+        var offsetWeek = pair.Year == year ? week - 1 : week;
+        var target = firstDayOfYear.AddDays(7 * offsetWeek);
+        return target.StartOfWeek(firstDayOfWeek);
+    }
 }
 #endif
