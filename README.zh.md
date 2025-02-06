@@ -52,13 +52,17 @@ graph LR
 
 ## 最近更新
 
+### 版本：0.85.1
+
+- 新增 Fraction 结构体，用于表示分数。
+
 ### 版本：0.85.0
 
+- 新增 **Moment** 类型。
 - 为 **DateOnly / DateTime / DateTimeOffset** 新增扩展方法：
   - **WeekOfYear**：获取当前日期的周数。
   - **StartOfWeek**：获取本周第一天的日期。
   - **EndOfWeek**：获取本周最后一天的日期。
-- 新增 **Moment** 类型。
 
 ### 版本：0.84.0
 

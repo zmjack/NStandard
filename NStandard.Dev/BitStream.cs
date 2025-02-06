@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace NStandard.IO
+﻿namespace NStandard.IO
 {
     public class BitStream : Stream
     {

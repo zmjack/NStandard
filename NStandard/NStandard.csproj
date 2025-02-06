@@ -9,7 +9,7 @@
 
     <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
-    <Version>0.85.0.1</Version>
+    <Version>0.85.1</Version>
     <RootNamespace>NStandard</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Authors>zmjack</Authors>

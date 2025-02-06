@@ -73,6 +73,7 @@ public static class TypeExtensions
         return @this.Name.StartsWith("<>f__AnonymousType");
     }
 
+    [EditorBrowsable(EditorBrowsableState.Never)]
     [Obsolete("Use IsNullableValue instead.")]
     public static bool IsNullable(this Type @this)
     {

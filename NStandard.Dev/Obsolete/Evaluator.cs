@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace NStandard.Obsolete.Evaluators
+﻿namespace NStandard.Obsolete.Evaluators
 {
     public static class Evaluator
     {

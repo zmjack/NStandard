@@ -77,4 +77,78 @@ public static partial class ArrayExtensions
         return @this;
     }
 
+    /// <summary>
+    /// Use the specified function to initialize each element.
+    /// </summary>
+    /// <typeparam name="TElement"></typeparam>
+    /// <param name="this"></param>
+    /// <param name="initValue"></param>
+    /// <returns></returns>
+    public static TElement[] Let<TElement>(this TElement[] @this, TElement initValue)
+    {
+        int i = 0;
+        foreach (var item in @this)
+        {
+            @this[i] = initValue;
+            i++;
+        }
+        return @this;
+    }
+
+    /// <summary>
+    /// Use the specified function to initialize each element.
+    /// </summary>
+    /// <typeparam name="TElement"></typeparam>
+    /// <param name="this"></param>
+    /// <param name="initValue"></param>
+    /// <returns></returns>
+    public static TElement[,] Let<TElement>(this TElement[,] @this, TElement initValue)
+    {
+        var lengths = @this.GetLengths();
+        var stepper = new IndicesStepper(0, lengths);
+
+        foreach (var indices in stepper)
+        {
+            @this[indices[0], indices[1]] = initValue;
+        }
+        return @this;
+    }
+
+    /// <summary>
+    /// Use the specified function to initialize each element.
+    /// </summary>
+    /// <typeparam name="TElement"></typeparam>
+    /// <param name="this"></param>
+    /// <param name="initValue"></param>
+    /// <returns></returns>
+    public static TElement[,,] Let<TElement>(this TElement[,,] @this, TElement initValue)
+    {
+        var lengths = @this.GetLengths();
+        var stepper = new IndicesStepper(0, lengths);
+
+        foreach (var indices in stepper)
+        {
+            @this[indices[0], indices[1], indices[2]] = initValue;
+        }
+        return @this;
+    }
+
+    /// <summary>
+    /// Use the specified function to initialize each element.
+    /// </summary>
+    /// <typeparam name="TElement"></typeparam>
+    /// <param name="this"></param>
+    /// <param name="initValue"></param>
+    /// <returns></returns>
+    public static Array Let<TElement>(this Array @this, TElement initValue)
+    {
+        var lengths = @this.GetLengths();
+        var stepper = new IndicesStepper(0, lengths);
+
+        foreach (var indices in stepper)
+        {
+            @this.SetValue(initValue, indices);
+        }
+        return @this;
+    }
 }

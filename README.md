@@ -54,6 +54,10 @@ graph LR
 
 ## Recently
 
+### Version 0.85.1
+
+- A new `Fraction` structure is added to represent fractions.
+
 ### Version 0.85.0
 
 - Added **Moment** type.

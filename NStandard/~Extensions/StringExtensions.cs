@@ -282,7 +282,7 @@ public static partial class StringExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    public static string? Unique(this string @this)
+    public static string? Unique(this string? @this)
     {
         if (@this is null) return null;
         return _uniqueRegex.Replace(@this.NormalizeNewLine().Replace(Environment.NewLine, " ").Trim(), " ");
