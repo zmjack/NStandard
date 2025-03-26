@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using NStandard.Static;
+using Xunit;
 
 namespace NStandard.Test;
 

@@ -10,7 +10,7 @@ public class LoopTests
         var values = Loop.Create(2, 3).ToArray();
         Assert.Equal(
         [
-            new int?[] { 0, 0 }, [0, 1], [0, 2],
+            [0, 0], [0, 1], [0, 2],
             [1, 0], [1, 1], [1, 2],
         ], values);
     }
@@ -18,10 +18,10 @@ public class LoopTests
     [Fact]
     public void Test2()
     {
-        var values = Loop.Create(new[] { 1, 2 }, new[] { 3, 4 }).ToArray();
+        var values = Loop.Create([1, 2], [3, 4]).ToArray();
         Assert.Equal(
         [
-            new int?[] { 1, 3 }, [1, 4],
+            [1, 3], [1, 4],
             [2, 3], [2, 4],
         ], values);
     }
@@ -35,7 +35,7 @@ public class LoopTests
 
         Assert.Equal(
         [
-            new int?[] { 1, 2 }, [1, 4],
+            [1, 2], [1, 4],
             [3, 2], [3, 4],
         ], values);
     }
@@ -46,7 +46,7 @@ public class LoopTests
         var values = Loop.Create(2, 0, 3).ToArray();
         Assert.Equal(
         [
-            new int?[] { 0, null, null },
+            [0, null, null],
             [1, null, null],
         ], values);
     }

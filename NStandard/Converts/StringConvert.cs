@@ -1,4 +1,6 @@
-﻿namespace NStandard.Converts;
+﻿using NStandard.Static;
+
+namespace NStandard.Converts;
 
 public static class StringConvert
 {

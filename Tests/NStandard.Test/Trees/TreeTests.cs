@@ -41,15 +41,15 @@ public class TreeTests
         ]
     }, x => x.CAs);
 
-    private readonly Tree<CA> Tree2 = Tree.From(new[]
-    {
+    private readonly Tree<CA> Tree2 = Tree.From(
+    [
         new CA { Value = 1, Parent = null },
         new CA { Value = 2, Parent = 1 },
         new CA { Value = 3, Parent = 2 },
         new CA { Value = 4, Parent = 2 },
         new CA { Value = 5, Parent = 1 },
         new CA { Value = 11, Parent = 3 },
-    }, x => x.Value, x => x.Parent).First();
+    ], x => x.Value, x => x.Parent).First();
 
     [Fact]
     public void Test1()

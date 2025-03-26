@@ -1,4 +1,5 @@
 ﻿#if NET7_0_OR_GREATER
+using NStandard.Static;
 using System;
 using System.Runtime.CompilerServices;
 

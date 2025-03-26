@@ -35,13 +35,13 @@ public partial class DpContainerTests
                     return this[i - 1];
 
                 case int _mi when _mi == i - 1:
-                    return this[mi].Concat(new[] { Sequence[i] }).ToArray();
+                    return this[mi].Concat([Sequence[i]]).ToArray();
 
                 case int _mi when _mi < i - 1:
                     var scheme = new[]
                     {
                         (Scheme: 0, AfterSubSequence: this[i - 1]),
-                        (Scheme: 1, AfterSubSequence: this[mi].Concat(new[] { Sequence[i] }).ToArray()),
+                        (Scheme: 1, AfterSubSequence: this[mi].Concat([Sequence[i]]).ToArray()),
                     }
                     .WhereMax(x => x.AfterSubSequence.Length)
                     .WhereMin(x => x.AfterSubSequence.Last())

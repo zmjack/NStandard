@@ -22,8 +22,8 @@ public class HashMapTests
         Assert.Equal("n", map[null]);
         Assert.Equal("a", map["A"]);
         Assert.ThrowsAny<KeyNotFoundException>(() => map["B"]);
-        Assert.Equal(new[] { null, "A" }, map.Keys);
-        Assert.Equal(new[] { "n", "a" }, map.Values);
+        Assert.Equal([null, "A"], map.Keys);
+        Assert.Equal(["n", "a"], map.Values);
         Assert.Equal(2, map.Count);
 
         map.Add("B", "b");
@@ -36,8 +36,8 @@ public class HashMapTests
         Assert.Equal("n", map[null]);
         Assert.Equal("a", map["A"]);
         Assert.Equal("b", map["B"]);
-        Assert.Equal(new[] { null, "A", "B" }, map.Keys);
-        Assert.Equal(new[] { "n", "a", "b" }, map.Values);
+        Assert.Equal([null, "A", "B"], map.Keys);
+        Assert.Equal(["n", "a", "b"], map.Values);
         Assert.Equal(3, map.Count);
 
         map.Remove("A");
@@ -50,8 +50,8 @@ public class HashMapTests
         Assert.Equal("n", map[null]);
         Assert.ThrowsAny<KeyNotFoundException>(() => map["A"]);
         Assert.Equal("b", map["B"]);
-        Assert.Equal(new[] { null, "B" }, map.Keys);
-        Assert.Equal(new[] { "n", "b" }, map.Values);
+        Assert.Equal([null, "B"], map.Keys);
+        Assert.Equal(["n", "b"], map.Values);
         Assert.Equal(2, map.Count);
 
         map.Remove(null);
@@ -64,8 +64,8 @@ public class HashMapTests
         Assert.ThrowsAny<KeyNotFoundException>(() => map[null]);
         Assert.ThrowsAny<KeyNotFoundException>(() => map["A"]);
         Assert.Equal("b", map["B"]);
-        Assert.Equal(new[] { "B" }, map.Keys);
-        Assert.Equal(new[] { "b" }, map.Values);
+        Assert.Equal(["B"], map.Keys);
+        Assert.Equal(["b"], map.Values);
         Assert.Single(map);
 
         map.Clear();

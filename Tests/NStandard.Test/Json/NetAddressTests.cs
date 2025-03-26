@@ -38,7 +38,7 @@ public class NetAddressTests
         Assert.Equal(expected, NewtonsoftJson.DeserializeObject<T>(actual, _settings));
     }
 
-    private readonly IPAddress _ip = new(new byte[] { 127, 0, 0, 1 });
+    private readonly IPAddress _ip = new([127, 0, 0, 1]);
     private readonly PhysicalAddress _mac = new([0, 1, 2, 3, 4, 5]);
 
     [Fact]

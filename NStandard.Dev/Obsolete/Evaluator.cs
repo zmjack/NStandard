@@ -95,7 +95,7 @@
                 skipOperand = true;
             }
 
-            foreach (var pair in Any.Zip(operands, operators.Concat(new[] { (TOperator)null })))
+            foreach (var pair in Any.Zip(operands, operators.Concat([(TOperator)null])))
             {
                 var operand = pair.Item1;
                 if (!skipOperand)

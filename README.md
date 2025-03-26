@@ -47,16 +47,22 @@ Since the latest version contains breaking updates, it is recommended to update 
 
 ```mermaid
 graph LR
-0.0.0 --> 0.70.0 --> |Fix errors| Lastest
+0.0.0 --> 0.70.0 --> 0.85.1 --> Lastest
 ```
 
 <br/>
 
 ## Recently
 
+### Version 0.90.0
+
+- **[Breaking Change]**
+  Adjust the namespace of static extension classes of base types.
+- Add a new extension method **ExpressionEx.GetSetter** to get the **setter** method of **Expression**.
+
 ### Version 0.85.1
 
-- A new `Fraction` structure is added to represent fractions.
+- New `Fraction` structure is added to represent fractions.
 
 ### Version 0.85.0
 

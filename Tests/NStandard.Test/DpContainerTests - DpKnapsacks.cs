@@ -51,7 +51,7 @@ public partial class DpContainerTests
                 {
                     TotalValue = totalValue,
                     GoodWeights = this[(i - 1, j - Goods[i].Weight)].GoodWeights
-                        .Concat(new[] { Goods[i].Weight }).ToArray(),
+                        .Concat([Goods[i].Weight]).ToArray(),
                 };
             }
             else return this[(i - 1, j)];
@@ -61,7 +61,7 @@ public partial class DpContainerTests
     [Fact]
     public void DpKnapsackTest()
     {
-        var dpKnapsack = new DpKnapsack(new[] { (10, 60), (20, 100), (30, 120) });
+        var dpKnapsack = new DpKnapsack([(10, 60), (20, 100), (30, 120)]);
         var result30 = dpKnapsack[30];
         var result50 = dpKnapsack[50];
 

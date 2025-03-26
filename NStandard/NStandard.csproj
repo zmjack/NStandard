@@ -1,137 +1,137 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>
-      net5.0;net6.0;net7.0;net8.0;
-      netstandard2.0;netstandard2.1;
-      net35;net451;net452;net46;net461;net462;net47;net471;net472;net48;
-    </TargetFrameworks>
+	<PropertyGroup>
+		<TargetFrameworks>
+			net5.0;net6.0;net7.0;net8.0;
+			netstandard2.0;netstandard2.1;
+			net35;net451;net452;net46;net461;net462;net47;net471;net472;net48;
+		</TargetFrameworks>
 
-    <LangVersion>preview</LangVersion>
-    <Nullable>enable</Nullable>
-    <Version>0.85.1</Version>
-    <RootNamespace>NStandard</RootNamespace>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Authors>zmjack</Authors>
-    <Company>nstandard.net</Company>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>DotNet extensions for system library.</Description>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
-    <PackageProjectUrl>nstandard.net</PackageProjectUrl>
-    <RepositoryType>git</RepositoryType>
-    <Copyright>Copyright © nstandard.net 2020</Copyright>
-    <PackageId>NStandard</PackageId>
-    <PackageTags>System Standard Extension</PackageTags>
-    <PackageIcon>nstandard.png</PackageIcon>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-  </PropertyGroup>
+		<LangVersion>preview</LangVersion>
+		<Nullable>enable</Nullable>
+		<Version>0.90.0</Version>
+		<RootNamespace>NStandard</RootNamespace>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Authors>zmjack</Authors>
+		<Company>nstandard.net</Company>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Description>DotNet extensions for system library.</Description>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
+		<PackageProjectUrl>nstandard.net</PackageProjectUrl>
+		<RepositoryType>git</RepositoryType>
+		<Copyright>Copyright © nstandard.net 2020</Copyright>
+		<PackageId>NStandard</PackageId>
+		<PackageTags>System Standard Extension</PackageTags>
+		<PackageIcon>nstandard.png</PackageIcon>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+		<DocumentationFile></DocumentationFile>
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+		<DocumentationFile></DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\LICENSE.md">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="..\nstandard.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\LICENSE.md">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\nstandard.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="System.Web" Condition="'$(TargetFramework)'=='net35' or '$(TargetFramework)'=='net451' or '$(TargetFramework)'=='net452' or '$(TargetFramework)'=='net46' or '$(TargetFramework)'=='net461' or '$(TargetFramework)'=='net462' or '$(TargetFramework)'=='net47' or '$(TargetFramework)'=='net471' or '$(TargetFramework)'=='net472' or '$(TargetFramework)'=='net48'" />
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="System.Web" Condition="'$(TargetFramework)'=='net35' or '$(TargetFramework)'=='net451' or '$(TargetFramework)'=='net452' or '$(TargetFramework)'=='net46' or '$(TargetFramework)'=='net461' or '$(TargetFramework)'=='net462' or '$(TargetFramework)'=='net47' or '$(TargetFramework)'=='net471' or '$(TargetFramework)'=='net472' or '$(TargetFramework)'=='net48'" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="~Any\Any.Zip.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Any.Zip.cs</LastGenOutput>
-    </None>
-    <None Update="StructTuple.tt">
-      <LastGenOutput>StructTuple.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="~Extensions.static\System\MathEx.Combin.tt">
-      <LastGenOutput>MathEx.Combin.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="~Extensions.static\System\MathEx.Permut.tt">
-      <LastGenOutput>MathEx.Permut.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="~Extensions.static\System\MathEx.Floor.tt">
-      <LastGenOutput>MathEx.Floor.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="~Extensions.static\System\MathEx.Ceiling.tt">
-      <LastGenOutput>MathEx.Ceiling.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="~Extensions\ArrayExtensions.Deconstruct.tt">
-      <LastGenOutput>ArrayExtensions.Deconstruct.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="~Extensions\SpanExtensions.tt">
-      <LastGenOutput>SpanExtensions.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="!Any\Any.Zip.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>Any.Zip.cs</LastGenOutput>
+		</None>
+		<None Update="StructTuple.tt">
+			<LastGenOutput>StructTuple.cs</LastGenOutput>
+			<Generator>TextTemplatingFileGenerator</Generator>
+		</None>
+		<None Update="!Static\MathEx.Combin.tt">
+			<LastGenOutput>MathEx.Combin.cs</LastGenOutput>
+			<Generator>TextTemplatingFileGenerator</Generator>
+		</None>
+		<None Update="!Static\MathEx.Permut.tt">
+			<LastGenOutput>MathEx.Permut.cs</LastGenOutput>
+			<Generator>TextTemplatingFileGenerator</Generator>
+		</None>
+		<None Update="!Static\MathEx.Floor.tt">
+			<LastGenOutput>MathEx.Floor.cs</LastGenOutput>
+			<Generator>TextTemplatingFileGenerator</Generator>
+		</None>
+		<None Update="!Static\MathEx.Ceiling.tt">
+			<LastGenOutput>MathEx.Ceiling.cs</LastGenOutput>
+			<Generator>TextTemplatingFileGenerator</Generator>
+		</None>
+		<None Update="!Extensions\ArrayExtensions.Deconstruct.tt">
+			<LastGenOutput>ArrayExtensions.Deconstruct.cs</LastGenOutput>
+			<Generator>TextTemplatingFileGenerator</Generator>
+		</None>
+		<None Update="!Extensions\SpanExtensions.tt">
+			<LastGenOutput>SpanExtensions.cs</LastGenOutput>
+			<Generator>TextTemplatingFileGenerator</Generator>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
+	<ItemGroup>
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="StructTuple.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>StructTuple.tt</DependentUpon>
-    </Compile>
-    <Compile Update="~Any\Any.Zip.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Any.Zip.tt</DependentUpon>
-    </Compile>
-    <Compile Update="~Extensions.static\System\MathEx.Combin.cs">
-      <DependentUpon>MathEx.Combin.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="~Extensions.static\System\MathEx.Permut.cs">
-      <DependentUpon>MathEx.Permut.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="~Extensions.static\System\MathEx.Floor.cs">
-      <DependentUpon>MathEx.Floor.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="~Extensions.static\System\MathEx.Ceiling.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>MathEx.Ceiling.tt</DependentUpon>
-    </Compile>
-    <Compile Update="~Extensions\ArrayExtensions.Deconstruct.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ArrayExtensions.Deconstruct.tt</DependentUpon>
-    </Compile>
-    <Compile Update="~Extensions\SpanExtensions.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SpanExtensions.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="StructTuple.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>StructTuple.tt</DependentUpon>
+		</Compile>
+		<Compile Update="!Any\Any.Zip.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Any.Zip.tt</DependentUpon>
+		</Compile>
+		<Compile Update="!Static\MathEx.Combin.cs">
+			<DependentUpon>MathEx.Combin.tt</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="!Static\MathEx.Permut.cs">
+			<DependentUpon>MathEx.Permut.tt</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="!Static\MathEx.Floor.cs">
+			<DependentUpon>MathEx.Floor.tt</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="!Static\MathEx.Ceiling.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>MathEx.Ceiling.tt</DependentUpon>
+		</Compile>
+		<Compile Update="!Extensions\ArrayExtensions.Deconstruct.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ArrayExtensions.Deconstruct.tt</DependentUpon>
+		</Compile>
+		<Compile Update="!Extensions\SpanExtensions.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>SpanExtensions.tt</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
 </Project>

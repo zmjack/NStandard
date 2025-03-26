@@ -1,4 +1,5 @@
 ﻿using NStandard.Converts;
+using NStandard.Static;
 using System.Text;
 #if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
 using System.Net;

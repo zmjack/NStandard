@@ -1,4 +1,5 @@
 ﻿using NStandard.Converts;
+using NStandard.Static;
 
 namespace NStandard.Flows;
 

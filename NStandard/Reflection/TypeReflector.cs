@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using NStandard.Static;
+using System.Reflection;
 
 namespace NStandard.Reflection;
 

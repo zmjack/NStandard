@@ -31,7 +31,7 @@ namespace NStandard
                     var current = enumerator.Current as Expression ?? throw ExpressionNullException(0, null);
 
                     var param = Expression.Parameter(typeof(TIn), "param");
-                    Expression exp = Expression.Invoke(current, new[] { param });
+                    Expression exp = Expression.Invoke(current, [param]);
 
                     for (int index = 1; enumerator.MoveNext(); index++)
                     {

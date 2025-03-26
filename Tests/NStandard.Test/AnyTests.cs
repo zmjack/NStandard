@@ -39,7 +39,7 @@ public class AnyTests
             { "0", "1" },
             { "2", "3" }
         };
-        Assert.Equal(new[] { "0", "1", "2", "3" }, Any.Flat<string>(d2));
+        Assert.Equal(["0", "1", "2", "3"], Any.Flat<string>(d2));
     }
 
     [Fact]
@@ -50,7 +50,7 @@ public class AnyTests
             ["0", "1"],
             ["2", "3"],
         };
-        Assert.Equal(new[] { "0", "1", "2", "3" }, Any.Flat<string>(d1_d1));
+        Assert.Equal(["0", "1", "2", "3"], Any.Flat<string>(d1_d1));
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public class AnyTests
                 }
             }
         };
-        Assert.Equal(new[] { "0", "1", "2", "3", "4" }, Any.Flat<string>(array));
+        Assert.Equal(["0", "1", "2", "3", "4"], Any.Flat<string>(array));
     }
 
     [Fact]
@@ -285,11 +285,11 @@ public class AnyTests
     [Fact]
     public void ChainTest1()
     {
-        var chainIterators = Any.Chain(1, new Func<int, int[]>[]
-        {
+        var chainIterators = Any.Chain(1,
+        [
             x => new int[2].Let(i => x + i),
             x => new int[3].Let(i => 10 * x + i),
-        })
+        ])
             .Where(x => x.Origin == ChainOrigin.Current)
             .Select(x => x.Iterators.ToArray())
             .ToArray();
@@ -308,11 +308,11 @@ public class AnyTests
     [Fact]
     public void ChainTest2()
     {
-        var chainIterators = Any.Chain(new int[][]
-        {
+        var chainIterators = Any.Chain(
+        [
             [1, 2],
             [3, 4, 5],
-        })
+        ])
             .Where(x => x.Origin == ChainOrigin.Current).Select(x => x.Iterators.ToArray())
             .ToArray();
 

@@ -18,7 +18,7 @@ public class LazyConverter : JsonConverter
     {
         var constructor = typeof(Lazy<>).MakeGenericType(underlying).GetConstructor([typeof(Func<>).MakeGenericType(underlying)]);
         var func = Expression.Lambda(Expression.Constant(value)).Compile();
-        var lazy = constructor.Invoke(new[] { func });
+        var lazy = constructor.Invoke([func]);
         return lazy;
     }
 

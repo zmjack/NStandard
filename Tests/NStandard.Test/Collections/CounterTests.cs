@@ -16,7 +16,7 @@ public class CounterTests
     public void ElementTest()
     {
         var counter = Counter.Parse("aba");
-        Assert.Equal(new[] { 'a', 'a', 'b' }, counter.Elements());
+        Assert.Equal(['a', 'a', 'b'], counter.Elements());
     }
 
     [Fact]

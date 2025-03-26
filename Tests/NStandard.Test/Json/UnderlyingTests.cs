@@ -17,10 +17,10 @@ public class LazyTests
     });
     private readonly JsonSerializerSettings _settings = new()
     {
-        Converters = new JsonConverter[]
-        {
+        Converters =
+        [
             new Net.Converters.LazyConverter(),
-        },
+        ],
     };
 
     private void Assert_Serialize<T>(string expected, T actual)

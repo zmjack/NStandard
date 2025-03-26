@@ -3,25 +3,25 @@
     public class Cron
     {
         public CronFieldType SecondType { get; set; }
-        public int[] Seconds { get; set; } = new int[0];
+        public int[] Seconds { get; set; } = [];
 
         public CronFieldType MinuteType { get; set; }
-        public int[] Minutes { get; set; } = new int[0];
+        public int[] Minutes { get; set; } = [];
 
         public CronFieldType HourType { get; set; }
-        public int[] Hours { get; set; } = new int[0];
+        public int[] Hours { get; set; } = [];
 
         public CronFieldType DayType { get; set; }
-        public int[] Days { get; set; } = new int[0];
+        public int[] Days { get; set; } = [];
 
         public CronFieldType MonthType { get; set; }
-        public int[] Months { get; set; } = new int[0];
+        public int[] Months { get; set; } = [];
 
         public CronFieldType DayOfWeekType { get; set; }
-        public DayOfWeek[] DayOfWeeks { get; set; } = new DayOfWeek[0];
+        public DayOfWeek[] DayOfWeeks { get; set; } = [];
 
         public CronFieldType YearType { get; set; }
-        public int[] Years { get; set; } = new int[0];
+        public int[] Years { get; set; } = [];
 
         public DateTime? GetNextTime(DateTime current)
         {

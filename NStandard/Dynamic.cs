@@ -1,4 +1,5 @@
 ﻿using NStandard.Caching;
+using NStandard.Static;
 using System.Linq.Expressions;
 using System.Reflection;
 
