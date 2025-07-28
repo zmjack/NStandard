@@ -10,7 +10,7 @@ public class TypeLockTest
     {
         var lockParser = new TypeLockParser(nameof(NStandard));
 
-        var report = Concurrency.Run(resultId =>
+        var report = Concurrency.Run(2, 2, id =>
         {
             using var _lock = lockParser.Parse<TypeLockTest>().TryBegin(500);
 
@@ -20,7 +20,7 @@ public class TypeLockTest
                 return "Entered";
             }
             else return "Timeout";
-        }, level: 2, threadCount: 2);
+        });
 
         Assert.Equal(1, report.Results.Count(x => x.Return == "Entered"));
         Assert.Equal(1, report.Results.Count(x => x.Return == "Timeout"));

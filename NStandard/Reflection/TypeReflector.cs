@@ -55,7 +55,7 @@ public class TypeReflector(Type objType)
 
     public TypeMethodReflector MethodViaQualifiedName(string name) => new(Type.GetMethodViaQualifiedName(name));
     public TypeMethodReflector MethodViaQualifiedName(string name, BindingFlags bindingAttr) => new(Type.GetMethodViaQualifiedName(name, bindingAttr));
-    public TypeMethodReflector DeclaredMethodViaQualifiedName(string name) => new(Type.GetDeclaredMethodViaQualifiedName(name));
+    public TypeMethodReflector DeclaredMethodViaQualifiedName(string name) => new(Type.GetMethodViaQualifiedName(name, TypeEx.DeclaredOnlyLookup));
 
     public TypeMethodReflector ToStringMethod() => new(Type.GetToStringMethod());
     public TypeMethodReflector GetHashCodeMethod() => new(Type.GetGetHashCodeMethod());

@@ -1,4 +1,5 @@
 ﻿#if NET6_0_OR_GREATER
+using NStandard.ValueTuples;
 using System;
 using System.ComponentModel;
 using System.Globalization;
@@ -51,25 +52,6 @@ public static class DateOnlyExtensions
         var week0 = PastDay(day1, weekStart, true);
 
         if (week0.Month == @this.Month) week0 = week0.AddDays(-7);
-        return (PastDay(@this, weekStart, true).DayNumber - week0.DayNumber) / 7;
-    }
-
-    /// <summary>
-    /// Gets the number of weeks in a year for the specified date.
-    /// <para>[BUG] If <paramref name="weekStart"/> is not <see cref="DayOfWeek.Sunday"/>, the return value may be wrong.</para>
-    /// <para>Please use <see cref="WeekOfYear(DateOnly, CalendarWeekRule, DayOfWeek)"/> instead.</para>
-    /// </summary>
-    /// <param name="this"></param>
-    /// <param name="weekStart"></param>
-    /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use WeekOfYear(@this, CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday) instead.", true)]
-    public static int Week(this DateOnly @this, DayOfWeek weekStart = DayOfWeek.Sunday)
-    {
-        var day1 = new DateOnly(@this.Year, 1, 1);
-        var week0 = PastDay(day1, weekStart, true);
-
-        if (week0.Year == @this.Year) week0 = week0.AddDays(-7);
         return (PastDay(@this, weekStart, true).DayNumber - week0.DayNumber) / 7;
     }
 
@@ -134,17 +116,6 @@ public static class DateOnlyExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use Quarter(@this) instead.")]
-    public static int Season(this DateOnly @this)
-    {
-        return Quarter(@this);
-    }
-    /// <summary>
-    /// Gets the quarter of the specified date.
-    /// </summary>
-    /// <param name="this"></param>
-    /// <returns></returns>
     public static int Quarter(this DateOnly @this)
     {
         return @this.Month switch
@@ -162,17 +133,6 @@ public static class DateOnlyExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use StartOfQuarter(@this) instead.")]
-    public static DateOnly StartOfSeason(this DateOnly @this)
-    {
-        return StartOfQuarter(@this);
-    }
-    /// <summary>
-    /// Gets the first day of the quarter for the specified date.
-    /// </summary>
-    /// <param name="this"></param>
-    /// <returns></returns>
     public static DateOnly StartOfQuarter(this DateOnly @this)
     {
         return @this.Month switch
@@ -185,17 +145,6 @@ public static class DateOnlyExtensions
         };
     }
 
-    /// <summary>
-    /// Gets the last day of the quarter for the specified date.
-    /// </summary>
-    /// <param name="this"></param>
-    /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use EndOfQuarter(@this) instead.")]
-    public static DateOnly EndOfSeason(this DateOnly @this)
-    {
-        return EndOfQuarter(@this);
-    }
     /// <summary>
     /// Gets the last day of the quarter for the specified date.
     /// </summary>

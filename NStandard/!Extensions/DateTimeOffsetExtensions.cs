@@ -1,4 +1,5 @@
 ﻿using NStandard.Static;
+using NStandard.ValueTuples;
 using System.ComponentModel;
 using System.Globalization;
 
@@ -73,25 +74,6 @@ public static class DateTimeOffsetExtensions
     }
 
     /// <summary>
-    /// Gets the number of weeks in a year for the specified date.
-    /// <para>[BUG] If <paramref name="weekStart"/> is not <see cref="DayOfWeek.Sunday"/>, the return value may be wrong.</para>
-    /// <para>Please use <see cref="WeekOfYear(DateTimeOffset, CalendarWeekRule, DayOfWeek)"/> instead.</para>
-    /// </summary>
-    /// <param name="this"></param>
-    /// <param name="weekStart"></param>
-    /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use WeekOfYear(@this, CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday) instead.", true)]
-    public static int Week(this DateTimeOffset @this, DayOfWeek weekStart = DayOfWeek.Sunday)
-    {
-        var day1 = new DateTimeOffset(@this.Year, 1, 1, 0, 0, 0, @this.Offset);
-        var week0 = PastDay(day1, weekStart, true);
-
-        if (week0.Year == @this.Year) week0 = week0.AddDays(-7);
-        return (PastDay(@this, weekStart, true) - week0).Days / 7;
-    }
-
-    /// <summary>
     /// Gets the iso-week number of the year for the specified date.
     /// </summary>
     /// <param name="this"></param>
@@ -152,24 +134,6 @@ public static class DateTimeOffsetExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use Quarter(@this) instead.")]
-    public static int Season(this DateTimeOffset @this)
-    {
-        return @this.Month switch
-        {
-            >= 1 and <= 3 => 1,
-            >= 4 and <= 6 => 2,
-            >= 7 and <= 9 => 3,
-            >= 10 and <= 12 => 4,
-            _ => throw new NotImplementedException(),
-        };
-    }
-    /// <summary>
-    /// Gets the quarter of the specified date.
-    /// </summary>
-    /// <param name="this"></param>
-    /// <returns></returns>
     public static int Quarter(this DateTimeOffset @this)
     {
         return @this.Month switch
@@ -187,17 +151,6 @@ public static class DateTimeOffsetExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use StartOfQuarter(@this) instead.")]
-    public static DateTimeOffset StartOfSeason(this DateTimeOffset @this)
-    {
-        return StartOfQuarter(@this);
-    }
-    /// <summary>
-    /// Gets the first day of the quarter for the specified date.
-    /// </summary>
-    /// <param name="this"></param>
-    /// <returns></returns>
     public static DateTimeOffset StartOfQuarter(this DateTimeOffset @this)
     {
         return @this.Month switch
@@ -210,17 +163,6 @@ public static class DateTimeOffsetExtensions
         };
     }
 
-    /// <summary>
-    /// Gets the last day of the quarter for the specified date.
-    /// </summary>
-    /// <param name="this"></param>
-    /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use EndOfQuarter(@this) instead.")]
-    public static DateTimeOffset EndOfSeason(this DateTimeOffset @this)
-    {
-        return EndOfQuarter(@this);
-    }
     /// <summary>
     /// Gets the last day of the quarter for the specified date.
     /// </summary>

@@ -1,4 +1,5 @@
 ﻿#if NET6_0_OR_GREATER
+using NStandard.ValueTuples;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -92,44 +93,6 @@ public static class DateOnlyEx
             var fractional = (double)(targetStart.DayNumber - end.DayNumber) / (targetStart.DayNumber - targetEnd.DayNumber);
             return integer - fractional;
         }
-    }
-
-    /// <summary>
-    /// Gets a DateOnly for the specified week of year.
-    /// <para>[BUG] If <paramref name="weekStart"/> is not <see cref="DayOfWeek.Sunday"/>, the return value may be wrong.</para>
-    /// <para>Please use <see cref="FromWeekOfYear(int, int, CalendarWeekRule, DayOfWeek)"/> instead.</para>
-    /// </summary>
-    /// <param name="year"></param>
-    /// <param name="week"></param>
-    /// <param name="weekStart"></param>
-    /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use FromWeek(year, week, CalendarWeekRule.FirstFullWeek, firstDayOfWeek) instead.", true)]
-    public static DateOnly ParseFromWeek(int year, int week, DayOfWeek weekStart = DayOfWeek.Sunday)
-    {
-        var day1 = new DateOnly(year, 1, 1);
-        var week0 = DateOnlyExtensions.PastDay(day1, weekStart, true);
-        if (week0.Year == year) week0 = week0.AddDays(-7);
-        return week0.AddDays(week * 7);
-    }
-
-    /// <summary>
-    /// Gets a DateOnly for the specified week of year.
-    /// <para>[BUG] If <paramref name="weekStart"/> is not <see cref="DayOfWeek.Sunday"/>, the return value may be wrong.</para>
-    /// <para>Please use <see cref="FromWeekOfYear(int, int, CalendarWeekRule, DayOfWeek)"/> instead.</para>
-    /// </summary>
-    /// <param name="year"></param>
-    /// <param name="week"></param>
-    /// <param name="weekStart"></param>
-    /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use FromWeek(year, week, CalendarWeekRule.FirstFullWeek, firstDayOfWeek) instead.", true)]
-    public static DateOnly FromWeek(int year, int week, DayOfWeek weekStart = DayOfWeek.Sunday)
-    {
-        var day1 = new DateOnly(year, 1, 1);
-        var week0 = DateOnlyExtensions.PastDay(day1, weekStart, true);
-        if (week0.Year == year) week0 = week0.AddDays(-7);
-        return week0.AddDays(week * 7);
     }
 
     /// <summary>

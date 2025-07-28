@@ -19,12 +19,6 @@ public static class TypeExtensions
         return @this.GetMethods(bindingAttr).First(x => x.ToString() == qualifiedName);
     }
 
-    [Obsolete("Use GetMethodViaQualifiedName(string qualifiedName, TypeEx.DeclaredOnlyLookup) instead.")]
-    public static MethodInfo GetDeclaredMethodViaQualifiedName(this Type @this, string qualifiedName)
-    {
-        return GetMethodViaQualifiedName(@this, qualifiedName, TypeEx.DeclaredOnlyLookup);
-    }
-
     private static readonly Regex GetSimplifiedNameRegex = new(@"^([^`]+)`");
     public static string GetSimplifiedName(this Type @this)
     {
@@ -72,13 +66,6 @@ public static class TypeExtensions
     public static bool IsAnonymousType(this Type @this)
     {
         return @this.Name.StartsWith("<>f__AnonymousType");
-    }
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use IsNullableValue instead.")]
-    public static bool IsNullable(this Type @this)
-    {
-        return IsNullableValue(@this);
     }
 
     public static bool IsNullableValue(this Type @this)

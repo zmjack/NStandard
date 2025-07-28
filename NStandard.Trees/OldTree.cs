@@ -32,7 +32,8 @@ public static class OldTree
 
     public static OldTree<TModel>[] ParseRange<TModel, TKey>(IEnumerable<TModel?> models, Func<TModel?, TKey> keySelector, Func<TModel?, TKey> parentGetter) where TModel : class
     {
-        if (!typeof(TKey).IsNullable()) throw new ArgumentException($"The argument({nameof(parentGetter)} must return a nullable type.");
+        var keyType = typeof(TKey);
+        if (keyType.IsValueType && !typeof(TKey).IsNullableValue()) throw new ArgumentException($"The argument({nameof(parentGetter)} must return a nullable type.");
 
         void AddChildren(OldTree<TModel> tree)
         {

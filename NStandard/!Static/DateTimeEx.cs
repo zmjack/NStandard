@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿using NStandard.ValueTuples;
 using System.Globalization;
 
 namespace NStandard.Static;
@@ -111,46 +111,6 @@ public static class DateTimeEx
             var fractional = (targetStart - end).TotalDays / (targetStart - targetEnd).TotalDays;
             return integer - fractional;
         }
-    }
-
-    /// <summary>
-    /// Gets a DateTime for the specified week of year.
-    /// <para>[BUG] If <paramref name="weekStart"/> is not <see cref="DayOfWeek.Sunday"/>, the return value may be wrong.</para>
-    /// <para>Please use <see cref="FromWeekOfYear(int, int, DateTimeKind, CalendarWeekRule, DayOfWeek)"/> instead.</para>
-    /// </summary>
-    /// <param name="year"></param>
-    /// <param name="week"></param>
-    /// <param name="kind"></param>
-    /// <param name="weekStart"></param>
-    /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use FromWeek(year, week, kind, CalendarWeekRule.FirstFullWeek, firstDayOfWeek) instead.", true)]
-    public static DateTime ParseFromWeek(int year, int week, DateTimeKind kind, DayOfWeek weekStart = DayOfWeek.Sunday)
-    {
-        var day1 = new DateTime(year, 1, 1, 0, 0, 0, kind);
-        var week0 = DateTimeExtensions.PastDay(day1, weekStart, true);
-        if (week0.Year == year) week0 = week0.AddDays(-7);
-        return week0.AddDays(week * 7);
-    }
-
-    /// <summary>
-    /// Gets a DateTime for the specified week of year.
-    /// <para>[BUG] If <paramref name="weekStart"/> is not <see cref="DayOfWeek.Sunday"/>, the return value may be wrong.</para>
-    /// <para>Please use <see cref="FromWeekOfYear(int, int, DateTimeKind, CalendarWeekRule, DayOfWeek)"/> instead.</para>
-    /// </summary>
-    /// <param name="year"></param>
-    /// <param name="week"></param>
-    /// <param name="kind"></param>
-    /// <param name="weekStart"></param>
-    /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use FromWeek(year, week, kind, CalendarWeekRule.FirstFullWeek, firstDayOfWeek) instead.", true)]
-    public static DateTime FromWeek(int year, int week, DateTimeKind kind, DayOfWeek weekStart = DayOfWeek.Sunday)
-    {
-        var day1 = new DateTime(year, 1, 1, 0, 0, 0, kind);
-        var week0 = DateTimeExtensions.PastDay(day1, weekStart, true);
-        if (week0.Year == year) week0 = week0.AddDays(-7);
-        return week0.AddDays(week * 7);
     }
 
     /// <summary>

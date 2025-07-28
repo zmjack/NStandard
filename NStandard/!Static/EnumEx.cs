@@ -1,4 +1,6 @@
-﻿namespace NStandard.Static;
+﻿using NStandard.Infrastructure;
+
+namespace NStandard.Static;
 
 public static class EnumEx
 {

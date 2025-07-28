@@ -9,7 +9,7 @@ public static partial class ArrayExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="this"></param>
     /// <returns></returns>
-    [Obsolete("May be removed in the future, replaced by a better implementation.")]
+    [Obsolete(Obsoletions.MayChangeOrBeRemoved)]
     public static T[,] ToMultiArray<T>(this T[][] @this)
     {
         var ret = new T[@this.Length,
@@ -27,7 +27,7 @@ public static partial class ArrayExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="this"></param>
     /// <returns></returns>
-    [Obsolete("May be removed in the future, replaced by a better implementation.")]
+    [Obsolete(Obsoletions.MayChangeOrBeRemoved)]
     public static T[,,] ToMultiArray<T>(this T[][][] @this)
     {
         var ret = new T[@this.Length,
@@ -48,7 +48,7 @@ public static partial class ArrayExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="this"></param>
     /// <returns></returns>
-    [Obsolete("May be removed in the future, replaced by a better implementation.")]
+    [Obsolete(Obsoletions.MayChangeOrBeRemoved)]
     public static T[,,,] ToMultiArray<T>(this T[][][][] @this)
     {
         var ret = new T[@this.Length,

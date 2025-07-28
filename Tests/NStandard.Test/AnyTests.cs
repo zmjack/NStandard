@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using NStandard.Infrastructure;
+using System.Text;
 using Xunit;
 
 namespace NStandard.Test;

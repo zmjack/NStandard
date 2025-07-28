@@ -2,6 +2,5 @@
 
 public interface IMeasureConvertible<T> where T : IMeasurable
 {
-    bool CanConvert();
-    T Convert();
+    T GetUnderlyingValue();
 }

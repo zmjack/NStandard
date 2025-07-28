@@ -22,7 +22,7 @@ public class InstanceLockTest
         var lockParser = new InstanceLockParser<Model>(nameof(NStandard), x => x.Year, x => x.Month, x => x.Sex, x => "const");
         var model = new Model { Year = 2012, Month = 4, };
 
-        var report = Concurrency.Run(resultId =>
+        var report = Concurrency.Run(2, 2, id =>
         {
             using var _lock = lockParser.Parse(model).TryBegin(500);
 
@@ -32,7 +32,7 @@ public class InstanceLockTest
                 return "Entered";
             }
             else return "Timeout";
-        }, level: 2, threadCount: 2);
+        });
 
         Assert.Equal(1, report.Results.Count(x => x.Return == "Entered"));
         Assert.Equal(1, report.Results.Count(x => x.Return == "Timeout"));

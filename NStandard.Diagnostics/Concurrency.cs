@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NStandard.Static;
+using System;
 #if NET35
 using System.Collections.Generic;
 #else
@@ -15,32 +16,37 @@ public static class Concurrency
     /// Use mutil-thread to simulate concurrent scenarios.
     /// </summary>
     /// <typeparam name="TRet"></typeparam>
-    /// <param name="task"></param>
-    /// <param name="level"></param>
+    /// <param name="count"></param>
     /// <param name="threadCount">If the value is 0, <see cref="Environment.ProcessorCount"/> will be used.</param>
+    /// <param name="task"></param>
     /// <returns></returns>
-    public static TestReport<object> Run(Action<TestId> task, int level, int threadCount = 0)
+    public static TestReport<object> Run(int count, int threadCount, Action<TestId> task)
     {
-        return Run<object>(id => { task(id); return null; }, level, threadCount);
+        return Run<object>(count, threadCount, id =>
+        {
+            task(id);
+            return null;
+        });
     }
 
     /// <summary>
     /// Use mutil-thread to simulate concurrent scenarios.
     /// </summary>
     /// <typeparam name="TRet"></typeparam>
-    /// <param name="task"></param>
-    /// <param name="level"></param>
+    /// <param name="count"></param>
     /// <param name="threadCount">If the value is 0, <see cref="Environment.ProcessorCount"/> will be used.</param>
+    /// <param name="task"></param>
     /// <returns></returns>
-    public static TestReport<TRet> Run<TRet>(Func<TestId, TRet> task, int level, int threadCount = 0)
+    public static TestReport<TRet> Run<TRet>(int count, int threadCount, Func<TestId, TRet> task)
     {
-        if (level < 1) throw new ArgumentException($"The `{nameof(level)}` must be greater than 0.", nameof(level));
-        if (threadCount < 0) throw new ArgumentException($"The `{nameof(threadCount)}` must be non-negative.", nameof(threadCount));
-        if (threadCount == 0) threadCount = Environment.ProcessorCount;
 
-        var div = level / threadCount;
-        var mod = level % threadCount;
-        threadCount = Math.Min(level, threadCount);
+        if (count < threadCount) throw new ArgumentException($"The `{nameof(count)}` must be greater than or equal to `{nameof(threadCount)}`.", nameof(threadCount));
+        if (count < 1) throw new ArgumentException($"The `{nameof(count)}` must be greater than 0.", nameof(count));
+        if (threadCount < 1) throw new ArgumentException($"The `{nameof(threadCount)}` must be non-negative.", nameof(threadCount));
+
+        var div = count / threadCount;
+        var mod = count % threadCount;
+        threadCount = Math.Min(count, threadCount);
 
 #if NET35
         var results = new List<TestResult<TRet>>();
@@ -48,11 +54,11 @@ public static class Concurrency
         var results = new ConcurrentBag<TestResult<TRet>>();
 #endif
         var threads = new Thread[threadCount];
-        foreach (var threadNumber in new int[threadCount].Let(i => i))
+        foreach (var i in RangeEx.Create(0, threadCount))
         {
-            threads[threadNumber] = new Thread(() =>
+            threads[i] = new Thread(() =>
             {
-                var s_count = threadNumber < mod ? div + 1 : div;
+                var s_count = i < mod ? div + 1 : div;
                 for (int invokeNumber = 0; invokeNumber < s_count; invokeNumber++)
                 {
                     var threadId = Thread.CurrentThread.ManagedThreadId;
@@ -113,7 +119,7 @@ public static class Concurrency
         foreach (var thread in threads) thread.Start();
 
         do { Thread.Sleep(500); }
-        while (results.Count != level);
+        while (results.Count != count);
 
         return new TestReport<TRet>(results.ToArray());
     }

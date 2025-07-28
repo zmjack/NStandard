@@ -4,9 +4,9 @@ public enum MomentType
 {
     Undefined = 0,
 
-    [Obsolete("Not supported")]
+    [Obsolete(Obsoletions.Reserved)]
     Nanosecond = 1,
-    [Obsolete("Not supported")]
+    [Obsolete(Obsoletions.Reserved)]
     Microsecond = Nanosecond * 0b1000,
 
     Millisecond = Microsecond * 0b1000,

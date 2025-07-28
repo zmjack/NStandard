@@ -1,4 +1,5 @@
 ﻿using NStandard.Static;
+using NStandard.ValueTuples;
 using System.Globalization;
 using Xunit;
 

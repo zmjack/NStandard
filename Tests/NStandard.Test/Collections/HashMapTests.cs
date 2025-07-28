@@ -1,7 +1,6 @@
-﻿using NStandard.Collections;
-using Xunit;
+﻿using Xunit;
 
-namespace NStandard.Test.Collections;
+namespace NStandard.Collections.Test;
 
 public class HashMapTests
 {

@@ -5,7 +5,7 @@ namespace NStandard;
 #pragma warning disable CS8500 // This takes the address of, gets the size of, or declares a pointer to a managed type
 public static class Native
 {
-    [Obsolete("Do not use this function in PRODUCTION environment. GC may change the pointer of MANAGED OBJECT.")]
+    [Obsolete(Obsoletions.ProductionIncompatible)]
     public unsafe static IntPtr AddressOf<T>(T obj, bool skipPrefix) where T : class
     {
         var oref = __makeref(obj);
@@ -27,7 +27,7 @@ public static class Native
         return pobj;
     }
 
-    [Obsolete("Do not use this function in PRODUCTION environment. GC may change the pointer of MANAGED OBJECT.")]
+    [Obsolete(Obsoletions.ProductionIncompatible)]
     public static bool AreSame<T>(T obj1, T obj2) where T : class => AddressOf(obj1, false) == AddressOf(obj2, false);
     public static bool AreSame<T>(ref T obj1, ref T obj2) where T : struct => AddressOf(ref obj1) == AddressOf(ref obj2);
 

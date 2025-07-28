@@ -1,4 +1,5 @@
 ﻿using NStandard.Static;
+using NStandard.ValueTuples;
 using System.ComponentModel;
 using System.Globalization;
 
@@ -72,25 +73,6 @@ public static class DateTimeExtensions
     }
 
     /// <summary>
-    /// Gets the number of weeks in a year for the specified date.
-    /// <para>[BUG] If <paramref name="weekStart"/> is not <see cref="DayOfWeek.Sunday"/>, the return value may be wrong.</para>
-    /// <para>Please use <see cref="WeekOfYear(DateTime, CalendarWeekRule, DayOfWeek)"/> instead.</para>
-    /// </summary>
-    /// <param name="this"></param>
-    /// <param name="weekStart"></param>
-    /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use WeekOfYear(@this, CalendarWeekRule.FirstFullWeek, DayOfWeek.Sunday) instead.", true)]
-    public static int Week(this DateTime @this, DayOfWeek weekStart = DayOfWeek.Sunday)
-    {
-        var day1 = new DateTime(@this.Year, 1, 1, 0, 0, 0, @this.Kind);
-        var week0 = PastDay(day1, weekStart, true);
-
-        if (week0.Year == @this.Year) week0 = week0.AddDays(-7);
-        return (PastDay(@this, weekStart, true) - week0).Days / 7;
-    }
-
-    /// <summary>
     /// Gets the iso-week number of the year for the specified date.
     /// </summary>
     /// <param name="this"></param>
@@ -150,17 +132,6 @@ public static class DateTimeExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use Quarter(@this) instead.")]
-    public static int Season(this DateTime @this)
-    {
-        return Quarter(@this);
-    }
-    /// <summary>
-    /// Gets the quarter of the specified date.
-    /// </summary>
-    /// <param name="this"></param>
-    /// <returns></returns>
     public static int Quarter(this DateTime @this)
     {
         return @this.Month switch
@@ -178,17 +149,6 @@ public static class DateTimeExtensions
     /// </summary>
     /// <param name="this"></param>
     /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use StartOfQuarter(@this) instead.")]
-    public static DateTime StartOfSeason(this DateTime @this)
-    {
-        return StartOfQuarter(@this);
-    }
-    /// <summary>
-    /// Gets the first day of the quarter for the specified date.
-    /// </summary>
-    /// <param name="this"></param>
-    /// <returns></returns>
     public static DateTime StartOfQuarter(this DateTime @this)
     {
         return @this.Month switch
@@ -201,17 +161,6 @@ public static class DateTimeExtensions
         };
     }
 
-    /// <summary>
-    /// Gets the last day of the quarter for the specified date.
-    /// </summary>
-    /// <param name="this"></param>
-    /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use EndOfQuarter(@this) instead.")]
-    public static DateTime EndOfSeason(this DateTime @this)
-    {
-        return EndOfQuarter(@this);
-    }
     /// <summary>
     /// Gets the last day of the quarter for the specified date.
     /// </summary>

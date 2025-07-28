@@ -10,7 +10,7 @@ public static partial class ArrayExtensions
     /// <param name="this"></param>
     /// <param name="task"></param>
     /// <returns></returns>
-    [Obsolete("May be removed in the future, replaced by a better implementation.")]
+    [Obsolete(Obsoletions.MayChangeOrBeRemoved)]
     public static T[][] Each<T>(this T[][] @this, Action<T, int, int> task)
     {
         for (int i0 = 0; i0 < @this.Length; i0++)
@@ -26,7 +26,7 @@ public static partial class ArrayExtensions
     /// <param name="this"></param>
     /// <param name="task"></param>
     /// <returns></returns>
-    [Obsolete("May be removed in the future, replaced by a better implementation.")]
+    [Obsolete(Obsoletions.MayChangeOrBeRemoved)]
     public static T[][][] Each<T>(this T[][][] @this, Action<T, int, int, int> task)
     {
         for (int i0 = 0; i0 < @this.Length; i0++)
@@ -44,7 +44,7 @@ public static partial class ArrayExtensions
     /// <param name="this"></param>
     /// <param name="task"></param>
     /// <returns></returns>
-    [Obsolete("May be removed in the future, replaced by a better implementation.")]
+    [Obsolete(Obsoletions.MayChangeOrBeRemoved)]
     public static T[][][][] Each<T>(this T[][][][] @this, Action<T, int, int, int, int> task)
     {
         for (int i0 = 0; i0 < @this.Length; i0++)
@@ -62,7 +62,7 @@ public static partial class ArrayExtensions
     /// <param name="this"></param>
     /// <param name="task"></param>
     /// <returns></returns>
-    [Obsolete("May be removed in the future, replaced by a better implementation.")]
+    [Obsolete(Obsoletions.MayChangeOrBeRemoved)]
     public static T[][][][][] Each<T>(this T[][][][][] @this, Action<T, int, int, int, int, int> task)
     {
         for (int i0 = 0; i0 < @this.Length; i0++)
@@ -81,7 +81,7 @@ public static partial class ArrayExtensions
     /// <param name="this"></param>
     /// <param name="task"></param>
     /// <returns></returns>
-    [Obsolete("May be removed in the future, replaced by a better implementation.")]
+    [Obsolete(Obsoletions.MayChangeOrBeRemoved)]
     public static T[][][][][][] Each<T>(this T[][][][][][] @this, Action<T, int, int, int, int, int, int> task)
     {
         for (int i0 = 0; i0 < @this.Length; i0++)
@@ -101,7 +101,7 @@ public static partial class ArrayExtensions
     /// <param name="this"></param>
     /// <param name="task"></param>
     /// <returns></returns>
-    [Obsolete("May be removed in the future, replaced by a better implementation.")]
+    [Obsolete(Obsoletions.MayChangeOrBeRemoved)]
     public static T[][][][][][][] Each<T>(this T[][][][][][][] @this, Action<T, int, int, int, int, int, int, int> task)
     {
         for (int i0 = 0; i0 < @this.Length; i0++)
@@ -122,7 +122,7 @@ public static partial class ArrayExtensions
     /// <param name="this"></param>
     /// <param name="task"></param>
     /// <returns></returns>
-    [Obsolete("May be removed in the future, replaced by a better implementation.")]
+    [Obsolete(Obsoletions.MayChangeOrBeRemoved)]
     public static T[][][][][][][][] Each<T>(this T[][][][][][][][] @this, Action<T, int, int, int, int, int, int, int, int> task)
     {
         for (int i0 = 0; i0 < @this.Length; i0++)

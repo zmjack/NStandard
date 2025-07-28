@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿using NStandard.ValueTuples;
 using System.Globalization;
 
 namespace NStandard.Static;
@@ -129,45 +129,6 @@ public static class DateTimeOffsetEx
             var fractional = (targetStart - end).TotalDays / (targetStart - targetEnd).TotalDays;
             return integer - fractional;
         }
-    }
-
-    /// <summary>
-    /// Gets a DateTimeOffset for the specified week of year.
-    /// <para>[BUG] If <paramref name="weekStart"/> is not <see cref="DayOfWeek.Sunday"/>, the return value may be wrong.</para>
-    /// <para>Please use <see cref="FromWeekOfYear(int, int, TimeSpan, CalendarWeekRule, DayOfWeek)"/> instead.</para>
-    /// </summary>
-    /// <param name="year"></param>
-    /// <param name="week"></param>
-    /// <param name="offset"></param>
-    /// <param name="weekStart"></param>
-    /// <returns></returns>
-    [Obsolete("Use FromWeek(year, week, offset, CalendarWeekRule.FirstFullWeek, firstDayOfWeek) instead.", true)]
-    public static DateTimeOffset ParseFromWeek(int year, int week, TimeSpan offset, DayOfWeek weekStart = DayOfWeek.Sunday)
-    {
-        var day1 = new DateTimeOffset(year, 1, 1, 0, 0, 0, offset);
-        var week0 = DateTimeOffsetExtensions.PastDay(day1, weekStart, true);
-        if (week0.Year == year) week0 = week0.AddDays(-7);
-        return week0.AddDays(week * 7);
-    }
-
-    /// <summary>
-    /// Gets a DateTimeOffset for the specified week of year.
-    /// <para>[BUG] If <paramref name="weekStart"/> is not <see cref="DayOfWeek.Sunday"/>, the return value may be wrong.</para>
-    /// <para>Please use <see cref="FromWeekOfYear(int, int, TimeSpan, CalendarWeekRule, DayOfWeek)"/> instead.</para>
-    /// </summary>
-    /// <param name="year"></param>
-    /// <param name="week"></param>
-    /// <param name="offset"></param>
-    /// <param name="weekStart"></param>
-    /// <returns></returns>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("Use FromWeek(year, week, offset, CalendarWeekRule.FirstFullWeek, firstDayOfWeek) instead.", true)]
-    public static DateTimeOffset FromWeek(int year, int week, TimeSpan offset, DayOfWeek weekStart = DayOfWeek.Sunday)
-    {
-        var day1 = new DateTimeOffset(year, 1, 1, 0, 0, 0, offset);
-        var week0 = DateTimeOffsetExtensions.PastDay(day1, weekStart, true);
-        if (week0.Year == year) week0 = week0.AddDays(-7);
-        return week0.AddDays(week * 7);
     }
 
     /// <summary>

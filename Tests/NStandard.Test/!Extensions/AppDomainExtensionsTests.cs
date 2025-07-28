@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using NStandard.Static;
+using Xunit;
 
 namespace NStandard.Test;
 
@@ -8,7 +9,7 @@ public class AppDomainExtensionsTests
     public void Test1()
     {
         var coreLib = AppDomain.CurrentDomain.GetCoreLibAssembly();
-        var sr = coreLib.GetType("System.SR").GetDeclaredMethodViaQualifiedName("System.String GetResourceString(System.String)");
+        var sr = coreLib.GetType("System.SR").GetMethodViaQualifiedName("System.String GetResourceString(System.String)", TypeEx.DeclaredOnlyLookup);
         var resourceString = sr.Invoke(null, ["Argument_EnumTypeDoesNotMatch"]);
 
         Assert.Equal("The argument type, '{0}', is not the same as the enum type '{1}'.", resourceString);

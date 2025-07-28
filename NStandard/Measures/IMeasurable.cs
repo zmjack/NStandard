@@ -1,11 +1,5 @@
 ﻿namespace NStandard.Measures;
 
-[Obsolete("Use IMeasurable instead.")]
-public interface IMeasurable<TValue>
-{
-    TValue Value { get; set; }
-}
-
 public interface IAdditionMeasurable<TSelf> where TSelf : IMeasurable, IAdditionMeasurable<TSelf>
 {
 #if NET7_0_OR_GREATER

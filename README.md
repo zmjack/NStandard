@@ -47,12 +47,31 @@ Since the latest version contains breaking updates, it is recommended to update 
 
 ```mermaid
 graph LR
-0.0.0 --> 0.70.0 --> 0.85.1 --> Lastest
+0.0.0 --> 0.70.0 --> 0.85.1 --> 0.90.0 --> Lastest
+```
+
+## Package reference suggestion
+
+The current library will be iterated quickly before the **1.0** version is released.
+
+Every **10** minor version, the code will be cleaned up and all methods marked as deprecated will be removed.
+
+Starting from **0.100.0**, please only reference **10** minor versions to ensure the best compatibility.
+
+For example, from **0.100.0** to **0.110.0** (excluding **0.110.0**):
+
+```xml
+<PackageReference Include="NStandard" Version="[0.100.0,0.110.0)" />
 ```
 
 <br/>
 
 ## Recently
+
+### Version 0.100.0
+
+- **[Breaking Change]**
+  Adjust the namespaces of many classes and removed deprecated methods.
 
 ### Version 0.90.0
 

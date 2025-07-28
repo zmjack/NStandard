@@ -60,7 +60,7 @@ public class ScopeTests
     [Fact]
     public void ConcurrencyTest()
     {
-        var report = Concurrency.Run(cid =>
+        var report = Concurrency.Run(20, 10, id =>
         {
             Assert.Null(StringScope.Current);
             using (new StringScope("outter"))
@@ -74,7 +74,7 @@ public class ScopeTests
                 }
             }
             return 0;
-        }, level: 20, threadCount: 10);
+        });
     }
 
     private class FakeTransaction : Scope<FakeTransaction>
