@@ -68,7 +68,7 @@ With Analyzer:
 
 ```xml
 <PackageReference Include="NStandard" Version="[0.100.0,0.110.0)" />
-<PackageReference Include="NStandard.Analyzer" Version="[0.100.0,0.110.0)" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+<PackageReference Include="NStandard.Analyzer" Version="[0.100.0,0.110.0)" />
 ```
 
 <br/>
