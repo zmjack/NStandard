@@ -14,7 +14,6 @@ public static partial class StringExtensions
     /// <returns></returns>
     public static bool IsNullOrEmpty(this string? @this) => string.IsNullOrEmpty(@this);
 
-
     /// <summary>
     /// Indicates whether a specified string is null, empty, or consists only of white-space characters.
     /// </summary>
@@ -103,6 +102,8 @@ public static partial class StringExtensions
     /// <returns></returns>
     public static string Slice(this string @this, int start) => Slice(@this, start, @this.Length);
 
+    private static int GetCharPosition(ref string str, int pos) => pos < 0 ? str.Length + pos : pos;
+
     /// <summary>
     /// Retrieves a substring from this instance. The substring starts at a specified
     ///     character position and ends with a specified character position.
@@ -120,7 +121,6 @@ public static partial class StringExtensions
         var length = stop - start;
         return @this.Substring(start, length);
     }
-    private static int GetCharPosition(ref string str, int pos) => pos < 0 ? str.Length + pos : pos;
 
     /// <summary>
     /// Returns the char at a specified index in the string.

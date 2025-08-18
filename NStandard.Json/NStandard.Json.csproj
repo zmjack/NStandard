@@ -1,52 +1,52 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>
-      net5.0;net6.0;net7.0;net8.0;
-      netstandard2.0;netstandard2.1;
-      net461;net462;net47;net471;net472;net48;
-    </TargetFrameworks>
-    <LangVersion>preview</LangVersion>
-    <Authors>zmjack</Authors>
-    <Version>0.100.0</Version>
-    <Company>nstandard.net</Company>
-    <Description>
-      Json extensions for System.Text.Json.
-      - Includes built-in type compatibility, such as Lazy, DateOnly, etc.
-      - As well as Newtonsoft.Json behavior compatibility.
-    </Description>
-    <Copyright>Copyright © nstandard.net 2021</Copyright>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageProjectUrl>nstandard.net</PackageProjectUrl>
-    <PackageIcon>nstandard.png</PackageIcon>
-    <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>Json Extension</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>
+			net5.0;net6.0;net7.0;net8.0;
+			netstandard2.0;netstandard2.1;
+			net461;net462;net47;net471;net472;net48;
+		</TargetFrameworks>
+		<LangVersion>13.0</LangVersion>
+		<Authors>zmjack</Authors>
+		<Version>0.100.0</Version>
+		<Company>nstandard.net</Company>
+		<Description>
+			Json extensions for System.Text.Json.
+			- Includes built-in type compatibility, such as Lazy, DateOnly, etc.
+			- As well as Newtonsoft.Json behavior compatibility.
+		</Description>
+		<Copyright>Copyright © nstandard.net 2021</Copyright>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageProjectUrl>nstandard.net</PackageProjectUrl>
+		<PackageIcon>nstandard.png</PackageIcon>
+		<RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>Json Extension</PackageTags>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="5.0.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="System.Text.Json" Version="5.0.2" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\LICENSE.md">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="..\nstandard.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\LICENSE.md">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\nstandard.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\NStandard\NStandard.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\NStandard\NStandard.csproj" />
+	</ItemGroup>
 
 </Project>

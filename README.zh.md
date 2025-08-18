@@ -64,9 +64,113 @@ graph LR
 <PackageReference Include="NStandard" Version="[0.100.0,0.110.0)" />
 ```
 
+使用分析器：
 
+```xml
+<PackageReference Include="NStandard" Version="[0.100.0,0.110.0)" />
+<PackageReference Include="NStandard.Analyzer" Version="[0.100.0,0.110.0)" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+```
+
+<br/>
 
 ## 最近更新
+
+### 版本：0.100.1
+
+- 新增 **FieldBackendAttribute** 用于生成属性的后端字段。(**C# 13- 推荐**)
+
+  ```c#
+  // C# 13- backing field
+  public partial struct Model
+  {
+      // Backing field
+      private int _int;
+      // Exposes field safely.
+      public int Int
+      {
+          get => _int;
+          set => _int = value;
+      }
+  }
+  ```
+
+  后端字段让代码难以维护，所以我们需要一种更简单的方法来处理它。
+
+  使用 **FieldBackend** 来简化：
+
+  ```c#
+  // Generator for C# 13-
+  public partial struct Model
+  {
+      [FieldBackend] public int Int
+      {
+          get => GetValue();
+          set => SetValue(value);
+      }
+  }
+  ```
+
+- 新增 **DependencyPropertyAttribute** 为 WPF 生成 **DependencyProperty**：
+
+  ```c#
+  public partial class Hexagon : UserControl
+  {
+      [DependencyProperty] public partial Geometry Data { get; set; }
+  }
+  ```
+
+  生成代码：
+
+  ```c#
+  public partial class Hexagon
+  {
+      public static readonly DependencyProperty DataProperty = DependencyProperty.Register("Data", typeof(Geometry), typeof(Hexagon));
+      public partial Geometry Data
+      {
+          get => (Geometry)GetValue(DataProperty);
+          set => SetValue(DataProperty, value);
+      }
+  }
+  ```
+
+  使用以下范式为指定属性附加 **OnChanged** 回调：
+
+  ```c#
+  static void [Property]_OnChanged([Class] sender, [PropertyType] value) { }
+  ```
+
+  例如：
+
+  ```c#
+  public partial class Hexagon : UserControl
+  {
+      [DependencyProperty]
+      public partial int FlatTop { get; set; }
+      public static void FlatTop_OnChanged(Hexagon hexagon, int value)
+      {
+      }
+  }
+  ```
+
+  生成代码：
+
+  ```c#
+  public partial class Hexagon
+  {
+      public static readonly DependencyProperty FlatTopProperty = DependencyProperty.Register("FlatTop", typeof(int), typeof(Hexagon), new()
+      {
+          PropertyChangedCallback = (d, e) =>
+          {
+              FlatTop_OnChanged((Hexagon)d, (int)e.NewValue);
+          },
+      });
+      public partial int FlatTop
+      {
+          get => (int)GetValue(FlatTopProperty);
+          set => SetValue(FlatTopProperty, value);
+      }
+  }
+  ```
 
 ### 版本：0.100.0
 

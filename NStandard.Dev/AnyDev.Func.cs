@@ -36,7 +36,7 @@ namespace NStandard
                     for (int index = 1; enumerator.MoveNext(); index++)
                     {
                         current = enumerator.Current as LambdaExpression;
-                        if (current is null) throw ExpressionNullException(index, null); ;
+                        if (current is null) throw ExpressionNullException(index, null);
 
                         try
                         {

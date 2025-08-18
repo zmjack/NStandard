@@ -355,7 +355,8 @@ public class Variant
             case DateOnly o: return _string == o.ToString();
             case TimeOnly o: return _string == o.ToString();
 #endif
-        };
+        }
+        ;
 
         switch (obj.GetType())
         {

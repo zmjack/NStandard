@@ -60,7 +60,8 @@ public static class TypeExtensions
                 else if (@this.IsGenericTypeDefinition) return $"{@this.Name}<>";
                 else if (@this.IsGenericType) return $"{@this.Name.Extract(GetSimplifiedNameRegex).FirstOrDefault()}<{@this.GetGenericArguments().Select(GetSimplifiedName).Join(", ")}>";
                 else return @this.Name;
-        };
+        }
+        ;
     }
 
     public static bool IsAnonymousType(this Type @this)

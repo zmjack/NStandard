@@ -1,45 +1,45 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>
-      net5.0;net6.0;net7.0;net8.0;
-      netstandard2.0;netstandard2.1;
-      net46;net461;net462;net47;net471;net472;net48;
-    </TargetFrameworks>
-    <Version>0.8.5</Version>
-    <LangVersion>preview</LangVersion>
-    <RootNamespace>NStandard</RootNamespace>
-    <Description>DotNet Core extensions for system library.</Description>
-    <Authors>zmjack</Authors>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/zmjack/NStandard</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>System Standard Extension</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageIcon>nstandard.png</PackageIcon>
-    <Copyright>Copyright © nstandard.net 2020</Copyright>
-    <PackageId>NStandard.Encoding</PackageId>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>
+			net5.0;net6.0;net7.0;net8.0;
+			netstandard2.0;netstandard2.1;
+			net46;net461;net462;net47;net471;net472;net48;
+		</TargetFrameworks>
+		<Version>0.8.5</Version>
+		<LangVersion>13.0</LangVersion>
+		<RootNamespace>NStandard</RootNamespace>
+		<Description>DotNet Core extensions for system library.</Description>
+		<Authors>zmjack</Authors>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageProjectUrl>https://github.com/zmjack/NStandard</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/zmjack/NStandard</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>System Standard Extension</PackageTags>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageIcon>nstandard.png</PackageIcon>
+		<Copyright>Copyright © nstandard.net 2020</Copyright>
+		<PackageId>NStandard.Encoding</PackageId>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\LICENSE.md">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="..\nstandard.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\LICENSE.md">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\nstandard.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>

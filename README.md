@@ -64,9 +64,113 @@ For example, from **0.100.0** to **0.110.0** (excluding **0.110.0**):
 <PackageReference Include="NStandard" Version="[0.100.0,0.110.0)" />
 ```
 
+With Analyzer:
+
+```xml
+<PackageReference Include="NStandard" Version="[0.100.0,0.110.0)" />
+<PackageReference Include="NStandard.Analyzer" Version="[0.100.0,0.110.0)" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+```
+
 <br/>
 
 ## Recently
+
+### Version 0.100.1
+
+- Add **FieldBackendAttribute** to generate backing fields for field backend properties. (**C# 13- recommend**)
+
+  ```c#
+  // C# 13- backing field
+  public partial struct Model
+  {
+      // Backing field
+      private int _int;
+      // Exposes field safely.
+      public int Int
+      {
+          get => _int;
+          set => _int = value;
+      }
+  }
+  ```
+
+  The backing field makes the code hard to maintain, so we need a simpler way to handle it.
+
+  Use **FieldBackend** to simplify:
+
+  ```c#
+  // Generator for C# 13-
+  public partial struct Model
+  {
+      [FieldBackend] public int Int
+      {
+          get => GetValue();
+          set => SetValue(value);
+      }
+  }
+  ```
+
+- Add **DependencyPropertyAttribute** to generate **DependencyProperty** for WPF:
+
+  ```c#
+  public partial class Hexagon : UserControl
+  {
+    [DependencyProperty] public partial Geometry Data { get; set; }
+  }
+  ```
+  
+  The generated code is
+  
+  ```c#
+  public partial class Hexagon
+  {
+      public static readonly DependencyProperty DataProperty = DependencyProperty.Register("Data", typeof(Geometry), typeof(Hexagon));
+      public partial Geometry Data
+      {
+          get => (Geometry)GetValue(DataProperty);
+          set => SetValue(DataProperty, value);
+      }
+  }
+  ```
+  
+  Use the following pattern to add an **OnChanged** callback for a specified property:
+  
+  ```c#
+  static void [Property]_OnChanged([Class] sender, [PropertyType] value) { }
+  ```
+  
+  For example:
+  
+  ```c#
+  public partial class Hexagon : UserControl
+  {
+      [DependencyProperty]
+      public partial int FlatTop { get; set; }
+      public static void FlatTop_OnChanged(Hexagon hexagon, int value)
+      {
+      }
+  }
+  ```
+  
+  The generated code is
+  
+  ```c#
+  public partial class Hexagon
+  {
+      public static readonly DependencyProperty FlatTopProperty = DependencyProperty.Register("FlatTop", typeof(int), typeof(Hexagon), new()
+      {
+          PropertyChangedCallback = (d, e) =>
+          {
+              FlatTop_OnChanged((Hexagon)d, (int)e.NewValue);
+          },
+      });
+      public partial int FlatTop
+      {
+          get => (int)GetValue(FlatTopProperty);
+          set => SetValue(FlatTopProperty, value);
+      }
+  }
+  ```
 
 ### Version 0.100.0
 

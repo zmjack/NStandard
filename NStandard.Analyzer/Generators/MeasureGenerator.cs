@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace NStandard.Analyzer;
+namespace NStandard.Analyzer.Generators;
 
 [Generator]
 public class MeasureGenerator : ISourceGenerator
@@ -24,10 +24,10 @@ public class MeasureGenerator : ISourceGenerator
     [DebuggerDisplay("{Symbol}")]
     private class GraphNode
     {
-        public TypeSymbol Symbol { get; set; }
+        public CustomTypeSymbol Symbol { get; set; }
         public List<GraphLine> Lines = [];
 
-        public GraphNode(TypeSymbol symbol)
+        public GraphNode(CustomTypeSymbol symbol)
         {
             Symbol = symbol;
         }
@@ -44,7 +44,7 @@ public class MeasureGenerator : ISourceGenerator
     {
         private readonly List<GraphNode> _list = [];
 
-        private GraphNode GetOrCreate(TypeSymbol symbol)
+        private GraphNode GetOrCreate(CustomTypeSymbol symbol)
         {
             var node = _list.Find(x => x.Symbol == symbol);
             if (node is null)
@@ -55,12 +55,12 @@ public class MeasureGenerator : ISourceGenerator
             return node;
         }
 
-        public void Add(TypeSymbol symbol)
+        public void Add(CustomTypeSymbol symbol)
         {
             GetOrCreate(symbol);
         }
 
-        public void Add(TypeSymbol start, TypeSymbol end, decimal coef)
+        public void Add(CustomTypeSymbol start, CustomTypeSymbol end, decimal coef)
         {
             var node = GetOrCreate(start);
             var target = GetOrCreate(end);
@@ -123,44 +123,33 @@ public class MeasureGenerator : ISourceGenerator
         }
     }
 
-    private class TypeSymbol
+    private class CustomTypeSymbol : TypeSymbol
     {
-        public string Namespace { get; set; }
-        public string Name { get; set; }
+        public CustomTypeSymbol(string ns, string name, bool isValueType) : base(ns, name, isValueType)
+        {
+        }
+
         public string Measure { get; set; }
         public string[] DefinedIdentifiers { get; set; }
-
-        public override string ToString() => $"{Namespace}.{Name}";
-
-        public string GetSimplifiedName(string ns)
-        {
-            var fullName = ToString();
-            if (fullName.StartsWith(ns)) return fullName.Substring(ns.Length + 1);
-            else return fullName;
-        }
     }
 
     [DebuggerDisplay("{Symbol} = {Coef} * {CoefSymbol}")]
     private class Edge
     {
-        public TypeSymbol Symbol { get; set; }
-        public TypeSymbol CoefSymbol { get; set; }
+        public CustomTypeSymbol Symbol { get; set; }
+        public CustomTypeSymbol CoefSymbol { get; set; }
         public int Coef { get; set; }
     }
 
     public void Execute(GeneratorExecutionContext context)
     {
-        var symbolList = new List<TypeSymbol>();
-        TypeSymbol GetSymbol(string ns, string name)
+        var symbolList = new List<CustomTypeSymbol>();
+        CustomTypeSymbol GetSymbol(string ns, string name, bool isValueType)
         {
             var find = symbolList.Find(x => x.Namespace == ns && x.Name == name);
             if (find is not null) return find;
 
-            var symbol = new TypeSymbol
-            {
-                Namespace = ns,
-                Name = name,
-            };
+            var symbol = new CustomTypeSymbol(ns, name, isValueType);
             symbolList.Add(symbol);
             return symbol;
         }
@@ -185,16 +174,16 @@ public class MeasureGenerator : ISourceGenerator
                 {
                     var name = _struct.Identifier.Text;
                     var attributes = _struct.AttributeLists.SelectMany(x => x.Attributes);
-                    TypeSymbol? symbol = GetSymbol(ns.Name.ToString(), name); ;
+                    CustomTypeSymbol? symbol = GetSymbol(ns.Name.ToString(), name, true);
 
                     var definedlist = new List<string>();
-                    var props = _struct.DescendantNodes().OfType<PropertyDeclarationSyntax>();
+                    var props = _struct.ChildNodes().OfType<PropertyDeclarationSyntax>();
                     foreach (var prop in props)
                     {
                         var _name = prop.Identifier.Text;
                         if (_name == "ForceAggregate") definedlist.Add(_name);
                     }
-                    var methods = _struct.DescendantNodes().OfType<MethodDeclarationSyntax>();
+                    var methods = _struct.ChildNodes().OfType<MethodDeclarationSyntax>();
                     foreach (var method in methods)
                     {
                         var _name = method.Identifier.Text;
@@ -233,7 +222,7 @@ public class MeasureGenerator : ISourceGenerator
                             {
                                 var coefType = typeArguments[0];
                                 var coef = int.Parse(arg0.ToString());
-                                var coefSymbol = GetSymbol(coefType.ContainingNamespace.ToString(), coefType.Name);
+                                var coefSymbol = GetSymbol(coefType.ContainingNamespace.ToString(), coefType.Name, true);
                                 edgeList.Add(new()
                                 {
                                     Symbol = symbol,
@@ -304,84 +293,78 @@ public class MeasureGenerator : ISourceGenerator
 
             var builder = new StringBuilder();
 
-            builder.AppendLine(
-$"""
-// <auto-generated/>
-using System;
-using NStandard.Measures;
+            builder.AppendLine($"""
+            // <auto-generated/>
+            using System;
+            using NStandard.Measures;
 
-namespace {symbol.Namespace}
-{"{"}
-    public partial struct {symbol.Name} : IMeasurable, IAdditionMeasurable<{symbol.Name}>
-    {"{"}
-        public static string Measure {"{"} get; {"}"} = {(symbol.Measure is null ? "\"\"" : $"{symbol.Measure}")};        
-        public decimal Value {"{"} get; set; {"}"}
+            namespace {symbol.Namespace}
+            {"{"}
+                public partial struct {symbol.Name} : IMeasurable, IAdditionMeasurable<{symbol.Name}>
+                {"{"}
+                    public static string Measure {"{"} get; {"}"} = {(symbol.Measure is null ? "\"\"" : $"{symbol.Measure}")};        
+                    public decimal Value {"{"} get; set; {"}"}
 
-        {(!symbol.DefinedIdentifiers.Contains("ForceAggregate") ? "public static bool ForceAggregate => true;" : "// ForceAggregate")}
-        {(!symbol.DefinedIdentifiers.Contains("CanAggregate") ? $"public bool CanAggregate({symbol.Name} other) => true;" : "// CanAggregate")}
+                    {(!symbol.DefinedIdentifiers.Contains("ForceAggregate") ? "public static bool ForceAggregate => true;" : "// ForceAggregate")}
+                    {(!symbol.DefinedIdentifiers.Contains("CanAggregate") ? $"public bool CanAggregate({symbol.Name} other) => true;" : "// CanAggregate")}
 
-        public {symbol.Name}(decimal value) => Value = value;
-        public {symbol.Name}(short value) => Value = (decimal)value;
-        public {symbol.Name}(int value) => Value = (decimal)value;
-        public {symbol.Name}(long value) => Value = (decimal)value;
-        public {symbol.Name}(ushort value) => Value = (decimal)value;
-        public {symbol.Name}(uint value) => Value = (decimal)value;
-        public {symbol.Name}(ulong value) => Value = (decimal)value;
-        public {symbol.Name}(float value) => Value = (decimal)value;
-        public {symbol.Name}(double value) => Value = (decimal)value;
+                    public {symbol.Name}(decimal value) => Value = value;
+                    public {symbol.Name}(short value) => Value = (decimal)value;
+                    public {symbol.Name}(int value) => Value = (decimal)value;
+                    public {symbol.Name}(long value) => Value = (decimal)value;
+                    public {symbol.Name}(ushort value) => Value = (decimal)value;
+                    public {symbol.Name}(uint value) => Value = (decimal)value;
+                    public {symbol.Name}(ulong value) => Value = (decimal)value;
+                    public {symbol.Name}(float value) => Value = (decimal)value;
+                    public {symbol.Name}(double value) => Value = (decimal)value;
 
-        public static {symbol.Name} operator +({symbol.Name} left, {symbol.Name} right) => new(left.Value + right.Value);
-        public static {symbol.Name} operator -({symbol.Name} left, {symbol.Name} right) => new(left.Value - right.Value);
-        public static {symbol.Name} operator *({symbol.Name} left, decimal right) => new(left.Value * right);
-        public static {symbol.Name} operator /({symbol.Name} left, decimal right) => new(left.Value / right);
-        public static decimal operator /({symbol.Name} left, {symbol.Name} right) => left.Value / right.Value;
+                    public static {symbol.Name} operator +({symbol.Name} left, {symbol.Name} right) => new(left.Value + right.Value);
+                    public static {symbol.Name} operator -({symbol.Name} left, {symbol.Name} right) => new(left.Value - right.Value);
+                    public static {symbol.Name} operator *({symbol.Name} left, decimal right) => new(left.Value * right);
+                    public static {symbol.Name} operator /({symbol.Name} left, decimal right) => new(left.Value / right);
+                    public static decimal operator /({symbol.Name} left, {symbol.Name} right) => left.Value / right.Value;
 
-        public static bool operator ==({symbol.Name} left, {symbol.Name} right) => left.Value == right.Value;
-        public static bool operator !=({symbol.Name} left, {symbol.Name} right) => left.Value != right.Value;
-        public static bool operator <({symbol.Name} left, {symbol.Name} right) => left.Value < right.Value;
-        public static bool operator <=({symbol.Name} left, {symbol.Name} right) => left.Value <= right.Value;
-        public static bool operator >({symbol.Name} left, {symbol.Name} right) => left.Value > right.Value;
-        public static bool operator >=({symbol.Name} left, {symbol.Name} right) => left.Value >= right.Value;
+                    public static bool operator ==({symbol.Name} left, {symbol.Name} right) => left.Value == right.Value;
+                    public static bool operator !=({symbol.Name} left, {symbol.Name} right) => left.Value != right.Value;
+                    public static bool operator <({symbol.Name} left, {symbol.Name} right) => left.Value < right.Value;
+                    public static bool operator <=({symbol.Name} left, {symbol.Name} right) => left.Value <= right.Value;
+                    public static bool operator >({symbol.Name} left, {symbol.Name} right) => left.Value > right.Value;
+                    public static bool operator >=({symbol.Name} left, {symbol.Name} right) => left.Value >= right.Value;
     
-        public static implicit operator {symbol.Name}(decimal value) => new(value);
-        public static implicit operator {symbol.Name}(short value) => new((decimal)value);
-        public static implicit operator {symbol.Name}(int value) => new((decimal)value);
-        public static implicit operator {symbol.Name}(long value) => new((decimal)value);
-        public static implicit operator {symbol.Name}(ushort value) => new((decimal)value);
-        public static implicit operator {symbol.Name}(uint value) => new((decimal)value);
-        public static implicit operator {symbol.Name}(ulong value) => new((decimal)value);
-        public static implicit operator {symbol.Name}(float value) => new((decimal)value);
-        public static implicit operator {symbol.Name}(double value) => new((decimal)value);
+                    public static implicit operator {symbol.Name}(decimal value) => new(value);
+                    public static implicit operator {symbol.Name}(short value) => new((decimal)value);
+                    public static implicit operator {symbol.Name}(int value) => new((decimal)value);
+                    public static implicit operator {symbol.Name}(long value) => new((decimal)value);
+                    public static implicit operator {symbol.Name}(ushort value) => new((decimal)value);
+                    public static implicit operator {symbol.Name}(uint value) => new((decimal)value);
+                    public static implicit operator {symbol.Name}(ulong value) => new((decimal)value);
+                    public static implicit operator {symbol.Name}(float value) => new((decimal)value);
+                    public static implicit operator {symbol.Name}(double value) => new((decimal)value);
     
-        public override bool Equals(object obj)
-        {"{"}
-            if (obj is not {symbol.Name} other) return false;
-            return Value == other.Value;
-        {"}"}
+                    public override bool Equals(object obj)
+                    {"{"}
+                        if (obj is not {symbol.Name} other) return false;
+                        return Value == other.Value;
+                    {"}"}
 
-        public override int GetHashCode() => (int)(Value % int.MaxValue);
-        public override string ToString() => $"{"{"}Value{"}"} {"{"}Measure{"}"}";
-"""
-        );
+                    public override int GetHashCode() => (int)(Value % int.MaxValue);
+                    public override string ToString() => $"{"{"}Value{"}"} {"{"}Measure{"}"}";
+            """);
 
             if (lines.Any()) builder.AppendLine();
 
             foreach (var x in lines)
             {
                 var retName = x.Node.Symbol.GetSimplifiedName(symbol.Namespace);
-                builder.AppendLine(
-$"""
-        public static implicit operator {retName}({symbol.Name} @this) => new(@this.Value * {x.Coef}m);
-"""
-                );
+                builder.AppendLine($"""
+                    public static implicit operator {retName}({symbol.Name} @this) => new(@this.Value * {x.Coef}m);
+            """);
             }
 
-            builder.AppendLine(
-$"""
-    {"}"}
-{"}"}
-"""
-            );
+            builder.AppendLine($"""
+                {"}"}
+            {"}"}
+            """);
             context.AddSource($"{fileName}.g.cs", builder.ToString());
         }
     }
