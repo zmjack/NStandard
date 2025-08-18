@@ -115,7 +115,7 @@ With Analyzer:
   ```c#
   public partial class Hexagon : UserControl
   {
-    [DependencyProperty] public partial Geometry Data { get; set; }
+      [DependencyProperty] public partial Geometry Data { get; set; }
   }
   ```
   
