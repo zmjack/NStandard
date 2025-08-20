@@ -75,13 +75,13 @@ graph LR
 
 ## 最近更新
 
-### 版本：0.100.1
+### 版本：0.100.2
 
-- 新增 **FieldBackendAttribute** 用于生成属性的后端字段。(**C# 13- 推荐**)
+- 新增 **FieldFeatureAttribute**、**FieldBackendAttribute** 用于生成属性的后端字段。(**C# 13- 推荐**)
 
   ```c#
   // C# 13- backing field
-  public partial struct Model
+  public struct Model
   {
       // Backing field
       private int _int;
@@ -96,19 +96,21 @@ graph LR
 
   后端字段让代码难以维护，所以我们需要一种更简单的方法来处理它。
 
-  使用 **FieldBackend** 来简化：
-
   ```c#
-  // Generator for C# 13-
+// Generator for C# 13-
+  [FieldFeature]
   public partial struct Model
   {
-      [FieldBackend] public int Int
+      [FieldBackend]
+      public int Int
       {
           get => GetValue();
           set => SetValue(value);
       }
   }
   ```
+  
+  更好的方法是更新到 **.NET 10**（**C# 14+**），使用 **field** 关键字。
 
 - 新增 **DependencyPropertyAttribute** 为 WPF 生成 **DependencyProperty**：
 

@@ -15,7 +15,7 @@ public class DependencyPropertyGenerator : ISourceGenerator
     public void Initialize(GeneratorInitializationContext context)
     {
 #if DEBUG
-        // if (!Debugger.IsAttached) Debugger.Launch();
+        //if (!Debugger.IsAttached) Debugger.Launch();
 #endif
     }
 
@@ -54,9 +54,7 @@ public class DependencyPropertyGenerator : ISourceGenerator
 
                 foreach (var _class in classes)
                 {
-                    var name = _class.Identifier.Text;
-                    var symbol = _typeDetector.GetSymbol(ns.Name.ToString(), _class);
-
+                    var symbol = _typeDetector.GetSymbol(nsName, _class);
                     var methods = _class.ChildNodes().OfType<MethodDeclarationSyntax>();
                     var props = _class.ChildNodes().OfType<PropertyDeclarationSyntax>();
                     foreach (var prop in props)

@@ -2,21 +2,30 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 
 namespace NStandard.Analyzer.Generators;
 
 [Generator]
-public class BackingFieldsGenerator : ISourceGenerator
+public class BackingFieldsGenerator : IIncrementalGenerator
 {
     private readonly TypeDetector _typeDetector = new();
 
-    public void Initialize(GeneratorInitializationContext context)
+    public void Initialize(IncrementalGeneratorInitializationContext context)
     {
 #if DEBUG
-        // if (!Debugger.IsAttached) Debugger.Launch();
+        //if (!Debugger.IsAttached) Debugger.Launch();
 #endif
+        var provider = context.SyntaxProvider
+            .ForAttributeWithMetadataName(
+                "NStandard.Design.FieldFeatureAttribute",
+                static (node, _) => node is TypeDeclarationSyntax,
+                static (ctx, _) => (ctx.TargetNode as TypeDeclarationSyntax)!
+            );
+        var compilation = context.CompilationProvider.Combine(provider.Collect());
+        context.RegisterSourceOutput(compilation, Execute);
     }
 
     private class Field
@@ -28,8 +37,12 @@ public class BackingFieldsGenerator : ISourceGenerator
         public object DefaultValue { get; set; }
     }
 
-    public void Execute(GeneratorExecutionContext context)
+    public void Execute(SourceProductionContext context, (Compilation, ImmutableArray<TypeDeclarationSyntax>) tuple)
     {
+        var (compilation, nodes) = tuple;
+
+        if (nodes.Length == 0) return;
+
         var usings = new HashSet<string>()
         {
             "System",
@@ -37,48 +50,30 @@ public class BackingFieldsGenerator : ISourceGenerator
         };
         var list = new List<Field>();
 
-        var syntaxTrees = context.Compilation.SyntaxTrees;
-        foreach (var tree in syntaxTrees)
+        foreach (var typeDeclaration in nodes)
         {
-            var semantic = context.Compilation.GetSemanticModel(tree);
-            var namespaces = tree.GetRoot()
-                .DescendantNodesAndSelf()
-                .OfType<BaseNamespaceDeclarationSyntax>();
+            var semantic = compilation.GetSemanticModel(typeDeclaration.SyntaxTree);
+            var symbol = _typeDetector.GetSymbol(compilation, typeDeclaration);
+            var props = typeDeclaration.ChildNodes().OfType<PropertyDeclarationSyntax>();
+            var typeAttributes = typeDeclaration.AttributeLists.SelectMany(x => x.Attributes);
 
-            if (!namespaces.Any()) continue;
-
-            foreach (var ns in namespaces)
+            foreach (var prop in props)
             {
-                var nsName = ns.Name.ToString();
-                var typeDeclarations = ns.DescendantNodes().OfType<TypeDeclarationSyntax>();
-
-                foreach (var typeDeclaration in typeDeclarations)
+                var attributes = prop.AttributeLists.SelectMany(x => x.Attributes);
+                foreach (var attr in attributes)
                 {
-                    var name = typeDeclaration.Identifier.Text;
-                    TypeSymbol? symbol = _typeDetector.GetSymbol(ns.Name.ToString(), typeDeclaration);
-
-                    var methods = typeDeclaration.DescendantNodes().OfType<MethodDeclarationSyntax>();
-                    var props = typeDeclaration.ChildNodes().OfType<PropertyDeclarationSyntax>();
-                    foreach (var prop in props)
+                    var attrType = semantic.GetTypeInfo(attr);
+                    if (attrType.ConvertedType!.ToDisplayString() == "NStandard.Design.FieldBackendAttribute")
                     {
-                        var attributes = prop.AttributeLists.SelectMany(x => x.Attributes);
-                        foreach (var attr in attributes)
+                        var propType = semantic.GetTypeInfo(prop.Type);
+                        usings.Add(propType.ConvertedType!.ContainingNamespace.ToDisplayString());
+                        list.Add(new()
                         {
-                            var attrType = semantic.GetTypeInfo(attr);
-                            if (attrType.ConvertedType!.ToString() == "NStandard.Design.FieldBackendAttribute")
-                            {
-                                var propType = semantic.GetTypeInfo(prop.Type);
-                                usings.Add(propType.ConvertedType!.ContainingNamespace.ToString());
-
-                                list.Add(new()
-                                {
-                                    Symbol = symbol,
-                                    Modifier = prop.Modifiers.ToString(),
-                                    Type = prop.Type!.ToString(),
-                                    Name = prop.Identifier.Text,
-                                });
-                            }
-                        }
+                            Symbol = symbol,
+                            Modifier = prop.Modifiers.ToString(),
+                            Type = prop.Type!.ToString(),
+                            Name = prop.Identifier.Text,
+                        });
                     }
                 }
             }

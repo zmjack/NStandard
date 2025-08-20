@@ -15,7 +15,7 @@ public class MeasureGenerator : ISourceGenerator
     public void Initialize(GeneratorInitializationContext context)
     {
 #if DEBUG
-        // if (!Debugger.IsAttached) Debugger.Launch();
+        //if (!Debugger.IsAttached) Debugger.Launch();
 #endif
     }
 
@@ -125,7 +125,7 @@ public class MeasureGenerator : ISourceGenerator
 
     private class CustomTypeSymbol : TypeSymbol
     {
-        public CustomTypeSymbol(string ns, string name, bool isValueType) : base(ns, name, isValueType)
+        public CustomTypeSymbol(string ns, string name, bool isValueType) : base(ns, ["public"], name, isValueType)
         {
         }
 
@@ -169,12 +169,11 @@ public class MeasureGenerator : ISourceGenerator
             {
                 var nsName = ns.Name.ToString();
                 var structs = ns.DescendantNodes().OfType<StructDeclarationSyntax>();
-
                 foreach (var _struct in structs)
                 {
                     var name = _struct.Identifier.Text;
                     var attributes = _struct.AttributeLists.SelectMany(x => x.Attributes);
-                    CustomTypeSymbol? symbol = GetSymbol(ns.Name.ToString(), name, true);
+                    CustomTypeSymbol? symbol = GetSymbol(nsName, name, true);
 
                     var definedlist = new List<string>();
                     var props = _struct.ChildNodes().OfType<PropertyDeclarationSyntax>();

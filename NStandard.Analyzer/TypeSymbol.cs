@@ -1,4 +1,5 @@
-﻿using NStandard.Analyzer.Extensions;
+﻿using Microsoft.CodeAnalysis;
+using NStandard.Analyzer.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,11 @@ using TypeSharp;
 
 namespace NStandard.Analyzer;
 
-public class TypeSymbol(string ns, string name, bool isValueType)
+public class TypeSymbol(string? ns, string[] modifiers, string name, bool isValueType)
 {
     public TypeSymbol? Parent { get; set; }
-    public string Namespace { get; set; } = ns;
+    public string[] Modifiers { get; set; } = modifiers;
+    public string? Namespace { get; set; } = ns;
     public string Name { get; set; } = name;
     public bool IsValueType { get; set; } = isValueType;
 
@@ -20,7 +22,9 @@ public class TypeSymbol(string ns, string name, bool isValueType)
             ..GetParents().Reverse(),
             this,
         ];
-        return string.Join(".", types.Select(x => x.Name));
+
+        var typeName = string.Join(".", types.Select(x => x.Name));
+        return ns is not null ? $"{ns}.{typeName}" : typeName;
     }
 
     public string GetSimplifiedName(string ns)
@@ -45,17 +49,20 @@ public class TypeSymbol(string ns, string name, bool isValueType)
         var sb = new StringBuilder();
         var indent = new Indent(0, 4);
 
-        sb.AppendLine($"namespace {Namespace}\r\n{"{"}");
-        indent++;
+        if (Namespace is not null)
+        {
+            sb.AppendLine($"namespace {Namespace}\r\n{"{"}");
+            indent++;
+        }
 
-        IEnumerable<TypeSymbol> types =
+        IEnumerable<TypeSymbol> symbols =
         [
             ..GetParents().Reverse(),
             this,
         ];
-        foreach (var parent in types)
+        foreach (var symbol in symbols)
         {
-            sb.AppendLine($"{indent}public partial {(parent.IsValueType ? "struct" : "class")} {parent.Name}");
+            sb.AppendLine($"{indent}{string.Join(" ", symbol.Modifiers)} {(symbol.IsValueType ? "struct" : "class")} {symbol.Name}");
             sb.AppendLine($"{indent}{"{"}");
             indent++;
         }
@@ -63,12 +70,16 @@ public class TypeSymbol(string ns, string name, bool isValueType)
         {
             sb.AppendLine($"{indent}{line}");
         }
-        foreach (var parent in types)
+        foreach (var symbol in symbols)
         {
             indent--;
             sb.AppendLine($"{indent}{"}"}");
         }
-        sb.AppendLine($"{"}"}");
+
+        if (Namespace is not null)
+        {
+            sb.AppendLine($"{"}"}");
+        }
 
         return sb.ToString();
     }

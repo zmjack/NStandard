@@ -75,13 +75,13 @@ With Analyzer:
 
 ## Recently
 
-### Version 0.100.1
+### Version 0.100.2
 
-- Add **FieldBackendAttribute** to generate backing fields for field backend properties. (**C# 13- recommend**)
+- Add **FieldFeatureAttribute** and **FieldBackendAttribute** to generate backing fields for field backend properties. (**C# 13- recommend**)
 
   ```c#
   // C# 13- backing field
-  public partial struct Model
+  public struct Model
   {
       // Backing field
       private int _int;
@@ -96,19 +96,21 @@ With Analyzer:
 
   The backing field makes the code hard to maintain, so we need a simpler way to handle it.
 
-  Use **FieldBackend** to simplify:
-
   ```c#
   // Generator for C# 13-
+  [FieldFeature]
   public partial struct Model
   {
-      [FieldBackend] public int Int
+      [FieldBackend]
+      public int Int
       {
           get => GetValue();
           set => SetValue(value);
       }
   }
   ```
+  
+  A better approach is to update to **.NET 10** (**C# 14+**) and use the **field** keyword.
 
 - Add **DependencyPropertyAttribute** to generate **DependencyProperty** for WPF:
 
