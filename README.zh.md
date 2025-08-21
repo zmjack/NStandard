@@ -97,7 +97,7 @@ graph LR
   后端字段让代码难以维护，所以我们需要一种更简单的方法来处理它。
 
   ```c#
-// Generator for C# 13-
+  // Generator for C# 13-
   [FieldFeature]
   public partial struct Model
   {
@@ -109,8 +109,19 @@ graph LR
       }
   }
   ```
-  
+
   更好的方法是更新到 **.NET 10**（**C# 14+**），使用 **field** 关键字。
+
+  ```c#
+  public struct Model
+  {
+      public int Int
+      {
+          get;
+          set => field = value;
+      }
+  }
+  ```
 
 - 新增 **DependencyPropertyAttribute** 为 WPF 生成 **DependencyProperty**：
 
@@ -173,6 +184,7 @@ graph LR
       }
   }
   ```
+  
 
 ### 版本：0.100.0
 
@@ -187,7 +199,7 @@ graph LR
 
 ### 版本：0.85.1
 
-- 新增 Fraction 结构体，用于表示分数。
+- 新增 **Fraction** 结构体，用于表示分数。
 
 ### 版本：0.85.0
 

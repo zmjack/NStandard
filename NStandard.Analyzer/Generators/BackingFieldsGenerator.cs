@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using NStandard.Analyzer.Extensions;
 
 namespace NStandard.Analyzer.Generators;
 
@@ -16,7 +17,7 @@ public class BackingFieldsGenerator : IIncrementalGenerator
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
 #if DEBUG
-        //if (!Debugger.IsAttached) Debugger.Launch();
+        if (!System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Launch();
 #endif
         var provider = context.SyntaxProvider
             .ForAttributeWithMetadataName(
@@ -66,7 +67,12 @@ public class BackingFieldsGenerator : IIncrementalGenerator
                     if (attrType.ConvertedType!.ToDisplayString() == "NStandard.Design.FieldBackendAttribute")
                     {
                         var propType = semantic.GetTypeInfo(prop.Type);
-                        usings.Add(propType.ConvertedType!.ContainingNamespace.ToDisplayString());
+                        var propNamespaces = propType.ConvertedType!.GetUsingNamespaces();
+                        foreach (var _ns in propNamespaces)
+                        {
+                            usings.Add(_ns.ToDisplayString());
+                        }
+
                         list.Add(new()
                         {
                             Symbol = symbol,

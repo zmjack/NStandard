@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using NStandard.Analyzer.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ public class DependencyPropertyGenerator : ISourceGenerator
     public void Initialize(GeneratorInitializationContext context)
     {
 #if DEBUG
-        //if (!Debugger.IsAttached) Debugger.Launch();
+        //if (!System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Launch();
 #endif
     }
 
@@ -67,7 +68,11 @@ public class DependencyPropertyGenerator : ISourceGenerator
                             {
                                 var hasChangedCallback = methods.Any(x => x.Identifier.Text == $"{prop.Identifier.Text}_OnChanged");
                                 var propType = semantic.GetTypeInfo(prop.Type);
-                                usings.Add(propType.ConvertedType!.ContainingNamespace.ToString());
+                                var propNamespaces = propType.ConvertedType!.GetUsingNamespaces();
+                                foreach (var _ns in propNamespaces)
+                                {
+                                    usings.Add(_ns.ToDisplayString());
+                                }
 
                                 list.Add(new()
                                 {

@@ -15,7 +15,7 @@ public class MeasureGenerator : ISourceGenerator
     public void Initialize(GeneratorInitializationContext context)
     {
 #if DEBUG
-        //if (!Debugger.IsAttached) Debugger.Launch();
+        //if (!System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Launch();
 #endif
     }
 

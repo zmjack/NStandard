@@ -109,8 +109,19 @@ With Analyzer:
       }
   }
   ```
-  
+
   A better approach is to update to **.NET 10** (**C# 14+**) and use the **field** keyword.
+
+  ```c#
+  public struct Model
+  {
+      public int Int
+      {
+          get;
+          set => field = value;
+      }
+  }
+  ```
 
 - Add **DependencyPropertyAttribute** to generate **DependencyProperty** for WPF:
 
@@ -187,7 +198,7 @@ With Analyzer:
 
 ### Version 0.85.1
 
-- New `Fraction` structure is added to represent fractions.
+- New **Fraction** structure is added to represent fractions.
 
 ### Version 0.85.0
 
