@@ -12,23 +12,19 @@ public class TypeDetector()
 
     public TypeSymbol GetSymbol(Compilation compilation, TypeDeclarationSyntax syntax)
     {
-        TypeSymbol? parent = null;
-        string? ns = null;
-
-        if (syntax.Parent is TypeDeclarationSyntax typeDecl)
+        TypeSymbol? parent = syntax.Parent switch
         {
-            parent = GetSymbol(compilation, typeDecl);
-            ns = parent.Namespace;
-        }
-        else if (syntax.Parent is NamespaceDeclarationSyntax nsDecl)
+            TypeDeclarationSyntax typeDecl => GetSymbol(compilation, typeDecl),
+            _ => null,
+        };
+        string? ns = syntax.Parent switch
         {
-            ns = nsDecl.Name.ToString();
-        }
-        else if (syntax.Parent is FileScopedNamespaceDeclarationSyntax fsnsDecl)
-        {
-            ns = fsnsDecl.Name.ToString();
-        }
-        else throw new NotSupportedException($"Unsupported parent syntax: {syntax.Parent?.GetType().FullName}");
+            TypeDeclarationSyntax typeDecl => parent!.Namespace,
+            NamespaceDeclarationSyntax nsDecl => nsDecl.Name.ToString(),
+            FileScopedNamespaceDeclarationSyntax fsnsDecl => fsnsDecl.Name.ToString(),
+            CompilationUnitSyntax cus => null,
+            _ => throw new NotSupportedException($"Unsupported parent syntax: {syntax.Parent?.GetType().FullName}"),
+        };
 
         var name = syntax.Identifier.Text;
         var find = _list.Find(x => x.Namespace == ns && x.Parent == parent && x.Name == name);
