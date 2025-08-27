@@ -109,7 +109,7 @@ public class BackingFieldsGenerator : IIncrementalGenerator
             }
             code.AppendLine($"""
             {"}"}
-            private Fields fields = new Fields();
+            private Fields fields;
             """);
 
             code.AppendLine();
