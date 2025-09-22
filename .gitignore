@@ -5,6 +5,7 @@
 
 #private files
 private/
+docfx/_site
 
 # User-specific files
 *.rsuser

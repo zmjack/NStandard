@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -10,16 +11,24 @@ using System.Text;
 namespace NStandard.Analyzer.Generators;
 
 [Generator]
-public class MeasureGenerator : ISourceGenerator
+public class MeasureGenerator : IIncrementalGenerator
 {
-    public void Initialize(GeneratorInitializationContext context)
+    public const string FeatureAttributeName = "NStandard.Measures.MeasureAttribute";
+    private readonly TypeDetector _typeDetector = new();
+
+    public void Initialize(IncrementalGeneratorInitializationContext context)
     {
 #if DEBUG
         //if (!System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Launch();
 #endif
+        var provider = context.SyntaxProvider
+            .ForAttributeWithMetadataName(FeatureAttributeName,
+                static (node, _) => node is TypeDeclarationSyntax,
+                static (ctx, _) => (ctx.TargetNode as TypeDeclarationSyntax)!
+            );
+        var compilation = context.CompilationProvider.Combine(provider.Collect());
+        context.RegisterSourceOutput(compilation, Execute);
     }
-
-    public const string MeasureAttributeName = "NStandard.Measures.MeasureAttribute";
 
     [DebuggerDisplay("{Symbol}")]
     private class GraphNode
@@ -141,8 +150,11 @@ public class MeasureGenerator : ISourceGenerator
         public int Coef { get; set; }
     }
 
-    public void Execute(GeneratorExecutionContext context)
+    public void Execute(SourceProductionContext context, (Compilation, ImmutableArray<TypeDeclarationSyntax>) tuple)
     {
+        var (compilation, nodes) = tuple;
+        if (nodes.Length == 0) return;
+
         var symbolList = new List<CustomTypeSymbol>();
         CustomTypeSymbol GetSymbol(string ns, string name, bool isValueType)
         {
@@ -154,117 +166,103 @@ public class MeasureGenerator : ISourceGenerator
             return symbol;
         }
 
-        var syntaxTrees = context.Compilation.SyntaxTrees;
         var edgeList = new List<Edge>();
-        foreach (var tree in syntaxTrees)
+        foreach (var typeDeclaration in nodes)
         {
-            var semantic = context.Compilation.GetSemanticModel(tree);
-            var namespaces = tree.GetRoot()
-                .DescendantNodesAndSelf()
-                .OfType<BaseNamespaceDeclarationSyntax>();
+            var semantic = compilation.GetSemanticModel(typeDeclaration.SyntaxTree);
+            var tsymbol = _typeDetector.GetSymbol(compilation, typeDeclaration);
+            var name = typeDeclaration.Identifier.Text;
+            var attributes = typeDeclaration.AttributeLists.SelectMany(x => x.Attributes);
+            CustomTypeSymbol symbol = GetSymbol(tsymbol.Namespace!, name, true);
 
-            if (!namespaces.Any()) continue;
-
-            foreach (var ns in namespaces)
+            var definedlist = new List<string>();
+            var props = typeDeclaration.ChildNodes().OfType<PropertyDeclarationSyntax>();
+            foreach (var prop in props)
             {
-                var nsName = ns.Name.ToString();
-                var structs = ns.DescendantNodes().OfType<StructDeclarationSyntax>();
-                foreach (var _struct in structs)
+                var _name = prop.Identifier.Text;
+                if (_name == "ForceAggregate") definedlist.Add(_name);
+            }
+            var methods = typeDeclaration.ChildNodes().OfType<MethodDeclarationSyntax>();
+            foreach (var method in methods)
+            {
+                var _name = method.Identifier.Text;
+                if (_name == "CanAggregate") definedlist.Add(_name);
+            }
+            symbol.DefinedIdentifiers = definedlist.ToArray();
+
+            foreach (var attr in attributes)
+            {
+                var info = semantic.GetTypeInfo(attr);
+                if (!info.ConvertedType!.ToString().StartsWith(FeatureAttributeName)) continue;
+
+                var parentKind = typeDeclaration.Parent!.Kind();
+                if (parentKind != SyntaxKind.NamespaceDeclaration && parentKind != SyntaxKind.FileScopedNamespaceDeclaration)
                 {
-                    var name = _struct.Identifier.Text;
-                    var attributes = _struct.AttributeLists.SelectMany(x => x.Attributes);
-                    CustomTypeSymbol? symbol = GetSymbol(nsName, name, true);
+                    var discriptor = new DiagnosticDescriptor(
+                        "ERR003",
+                        "Unsupported Location",
+                        "Nested types are not supported.",
+                        "Generator",
+                        DiagnosticSeverity.Error,
+                        true
+                    );
+                    var error = Diagnostic.Create(discriptor, attr.GetLocation());
+                    context.ReportDiagnostic(error);
+                    continue;
+                }
 
-                    var definedlist = new List<string>();
-                    var props = _struct.ChildNodes().OfType<PropertyDeclarationSyntax>();
-                    foreach (var prop in props)
+                var typeArguments = (info.ConvertedType as INamedTypeSymbol)!.TypeArguments;
+                if (typeArguments.Any())
+                {
+                    // argument[0]
+                    var arg0 = attr.ArgumentList!.Arguments[0];
+                    var kind = arg0.Expression.Kind();
+                    if (kind == SyntaxKind.NumericLiteralExpression)
                     {
-                        var _name = prop.Identifier.Text;
-                        if (_name == "ForceAggregate") definedlist.Add(_name);
+                        var coefType = typeArguments[0];
+                        var coef = int.Parse(arg0.ToString());
+                        var coefSymbol = GetSymbol(coefType.ContainingNamespace.ToString(), coefType.Name, true);
+                        edgeList.Add(new()
+                        {
+                            Symbol = symbol,
+                            CoefSymbol = coefSymbol,
+                            Coef = coef,
+                        });
                     }
-                    var methods = _struct.ChildNodes().OfType<MethodDeclarationSyntax>();
-                    foreach (var method in methods)
+                    else
                     {
-                        var _name = method.Identifier.Text;
-                        if (_name == "CanAggregate") definedlist.Add(_name);
+                        var discriptor = new DiagnosticDescriptor(
+                            "ERR001",
+                            "Expression Error",
+                            "Only constant number is supported.",
+                            "Generator",
+                            DiagnosticSeverity.Error,
+                            true
+                        );
+                        var error = Diagnostic.Create(discriptor, arg0.GetLocation());
+                        context.ReportDiagnostic(error);
                     }
-                    symbol.DefinedIdentifiers = definedlist.ToArray();
-
-                    foreach (var attr in attributes)
+                }
+                else
+                {
+                    var arg0 = attr.ArgumentList!.Arguments[0];
+                    var kind = arg0.Expression.Kind();
+                    if (kind == SyntaxKind.StringLiteralExpression)
                     {
-                        var info = semantic.GetTypeInfo(attr);
-                        if (!info.ConvertedType!.ToString().StartsWith(MeasureAttributeName)) continue;
-
-                        var parentKind = _struct.Parent!.Kind();
-                        if (parentKind != SyntaxKind.NamespaceDeclaration && parentKind != SyntaxKind.FileScopedNamespaceDeclaration)
-                        {
-                            var discriptor = new DiagnosticDescriptor(
-                                "ERR003",
-                                "Unsupported Location",
-                                "Nested types are not supported.",
-                                "Generator",
-                                DiagnosticSeverity.Error,
-                                true
-                            );
-                            var error = Diagnostic.Create(discriptor, attr.GetLocation());
-                            context.ReportDiagnostic(error);
-                            continue;
-                        }
-
-                        var typeArguments = (info.ConvertedType as INamedTypeSymbol)!.TypeArguments;
-                        if (typeArguments.Any())
-                        {
-                            // argument[0]
-                            var arg0 = attr.ArgumentList!.Arguments[0];
-                            var kind = arg0.Expression.Kind();
-                            if (kind == SyntaxKind.NumericLiteralExpression)
-                            {
-                                var coefType = typeArguments[0];
-                                var coef = int.Parse(arg0.ToString());
-                                var coefSymbol = GetSymbol(coefType.ContainingNamespace.ToString(), coefType.Name, true);
-                                edgeList.Add(new()
-                                {
-                                    Symbol = symbol,
-                                    CoefSymbol = coefSymbol,
-                                    Coef = coef,
-                                });
-                            }
-                            else
-                            {
-                                var discriptor = new DiagnosticDescriptor(
-                                    "ERR001",
-                                    "Expression Error",
-                                    "Only constant number is supported.",
-                                    "Generator",
-                                    DiagnosticSeverity.Error,
-                                    true
-                                );
-                                var error = Diagnostic.Create(discriptor, arg0.GetLocation());
-                                context.ReportDiagnostic(error);
-                            }
-                        }
-                        else
-                        {
-                            var arg0 = attr.ArgumentList!.Arguments[0];
-                            var kind = arg0.Expression.Kind();
-                            if (kind == SyntaxKind.StringLiteralExpression)
-                            {
-                                symbol.Measure = arg0.ToString();
-                            }
-                            else
-                            {
-                                var discriptor = new DiagnosticDescriptor(
-                                    "ERR002",
-                                    "Expression Error",
-                                    "Only constant string is supported.",
-                                    "Generator",
-                                    DiagnosticSeverity.Error,
-                                    true
-                                );
-                                var error = Diagnostic.Create(discriptor, arg0.GetLocation());
-                                context.ReportDiagnostic(error);
-                            }
-                        }
+                        symbol.Measure = arg0.ToString();
+                    }
+                    else
+                    {
+                        var discriptor = new DiagnosticDescriptor(
+                            "ERR002",
+                            "Expression Error",
+                            "Only constant string is supported.",
+                            "Generator",
+                            DiagnosticSeverity.Error,
+                            true
+                        );
+                        var error = Diagnostic.Create(discriptor, arg0.GetLocation());
+                        context.ReportDiagnostic(error);
                     }
                 }
             }

@@ -1,0 +1,478 @@
+{
+  "source_base_path": "D:/Solutions/Library/NStandard/docfx",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "cn/Any/Any.Chain.md",
+      "output": {
+        ".html": {
+          "relative_path": "cn/Any/Any.Chain.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "cn/Any/Any.Flat.md",
+      "output": {
+        ".html": {
+          "relative_path": "cn/Any/Any.Flat.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "cn/Any/Any.Forward.md",
+      "output": {
+        ".html": {
+          "relative_path": "cn/Any/Any.Forward.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "cn/Any/Any.ReDim.md",
+      "output": {
+        ".html": {
+          "relative_path": "cn/Any/Any.ReDim.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "cn/Any/Any.Zip.md",
+      "output": {
+        ".html": {
+          "relative_path": "cn/Any/Any.Zip.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "cn/ArrayExtensions.md",
+      "output": {
+        ".html": {
+          "relative_path": "cn/ArrayExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "cn/Compatibility.md",
+      "output": {
+        ".html": {
+          "relative_path": "cn/Compatibility.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "cn/DateTimeExtensions.md",
+      "output": {
+        ".html": {
+          "relative_path": "cn/DateTimeExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "cn/DpContainer.md",
+      "output": {
+        ".html": {
+          "relative_path": "cn/DpContainer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "cn/Evaluator.md",
+      "output": {
+        ".html": {
+          "relative_path": "cn/Evaluator.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "cn/SequenceInputStream.md",
+      "output": {
+        ".html": {
+          "relative_path": "cn/SequenceInputStream.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "cn/State.md",
+      "output": {
+        ".html": {
+          "relative_path": "cn/State.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "cn/UnitValue.md",
+      "output": {
+        ".html": {
+          "relative_path": "cn/UnitValue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "cn/field-feature.md",
+      "output": {
+        ".html": {
+          "relative_path": "cn/field-feature.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "cn/getting-started.md",
+      "output": {
+        ".html": {
+          "relative_path": "cn/getting-started.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "cn/introduction.md",
+      "output": {
+        ".html": {
+          "relative_path": "cn/introduction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "cn/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "cn/toc.html"
+        },
+        ".json": {
+          "relative_path": "cn/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "en/Any/Any.Chain.md",
+      "output": {
+        ".html": {
+          "relative_path": "en/Any/Any.Chain.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "en/Any/Any.Flat.md",
+      "output": {
+        ".html": {
+          "relative_path": "en/Any/Any.Flat.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "en/Any/Any.Forward.md",
+      "output": {
+        ".html": {
+          "relative_path": "en/Any/Any.Forward.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "en/Any/Any.ReDim.md",
+      "output": {
+        ".html": {
+          "relative_path": "en/Any/Any.ReDim.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "en/Any/Any.Zip.md",
+      "output": {
+        ".html": {
+          "relative_path": "en/Any/Any.Zip.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "en/ArrayExtensions.md",
+      "output": {
+        ".html": {
+          "relative_path": "en/ArrayExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "en/Compatibility.md",
+      "output": {
+        ".html": {
+          "relative_path": "en/Compatibility.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "en/DateTimeExtensions.md",
+      "output": {
+        ".html": {
+          "relative_path": "en/DateTimeExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "en/DpContainer.md",
+      "output": {
+        ".html": {
+          "relative_path": "en/DpContainer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "en/Evaluator.md",
+      "output": {
+        ".html": {
+          "relative_path": "en/Evaluator.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "en/SequenceInputStream.md",
+      "output": {
+        ".html": {
+          "relative_path": "en/SequenceInputStream.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "en/State.md",
+      "output": {
+        ".html": {
+          "relative_path": "en/State.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "en/UnitValue.md",
+      "output": {
+        ".html": {
+          "relative_path": "en/UnitValue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "en/field-feature.md",
+      "output": {
+        ".html": {
+          "relative_path": "en/field-feature.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "en/getting-started.md",
+      "output": {
+        ".html": {
+          "relative_path": "en/getting-started.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "en/introduction.md",
+      "output": {
+        ".html": {
+          "relative_path": "en/introduction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "en/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "en/toc.html"
+        },
+        ".json": {
+          "relative_path": "en/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/State-001.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/State-001.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/State-002.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/State-002.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/State-003.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/State-003.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/State-004.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/State-004.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/State-005.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/State-005.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/State-006.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/State-006.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/image-20221227131745251.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/image-20221227131745251.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/image-20221227134222183.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/image-20221227134222183.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/image-20221227134321883.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/image-20221227134321883.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

@@ -75,6 +75,69 @@ With Analyzer:
 
 ## Recently
 
+### Version 0.100.3
+
+- **[Preview feature]**
+
+  Adds **ObservableFeature** to generate models for **INotifyPropertyChanging** and **INotifyPropertyChanged**.
+
+  The analyzer will **automatically collect dependencies** and generate code at **compile time**, eliminating the need to manually mark affected properties.
+
+  For example, write the following code:
+
+  ```csharp
+  [ObservableFeature]
+  public partial class ObservableModel
+  {
+      public partial string FirstName { get; set; }
+      public partial string LastName { get; set; }
+      public string FullName => $"{FirstName} {LastName}";
+  }
+  ```
+
+  The generated code is:
+
+  ```csharp
+  public partial class ObservableModel : INotifyPropertyChanging, INotifyPropertyChanged
+  {
+      public event PropertyChangingEventHandler PropertyChanging;
+      public event PropertyChangedEventHandler PropertyChanged;
+  
+      private string backing_FirstName;
+      public partial string FirstName
+      {
+          get => backing_FirstName;
+          set
+          {
+              if (!EqualityComparer<string>.Default.Equals(backing_FirstName, value))
+              {
+                  PropertyChanging?.Invoke(this, new PropertyChangingEventArgs("FirstName"));
+                  PropertyChanging?.Invoke(this, new PropertyChangingEventArgs("FullName"));
+                  backing_FirstName = value;
+                  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FirstName"));
+                  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FullName"));
+              }
+          }
+      }
+      private string backing_LastName;
+      public partial string LastName
+      {
+          get => backing_LastName;
+          set
+          {
+              if (!EqualityComparer<string>.Default.Equals(backing_LastName, value))
+              {
+                  PropertyChanging?.Invoke(this, new PropertyChangingEventArgs("LastName"));
+                  PropertyChanging?.Invoke(this, new PropertyChangingEventArgs("FullName"));
+                  backing_LastName = value;
+                  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LastName"));
+                  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FullName"));
+              }
+          }
+      }
+  }
+  ```
+
 ### Version 0.100.2
 
 - Add **FieldFeatureAttribute** and **FieldBackendAttribute** to generate backing fields for field backend properties. (**C# 13- recommend**)
@@ -126,6 +189,7 @@ With Analyzer:
 - Add **DependencyPropertyAttribute** to generate **DependencyProperty** for WPF:
 
   ```c#
+  [DependencyPropertyFeature]
   public partial class Hexagon : UserControl
   {
       [DependencyProperty] public partial Geometry Data { get; set; }
@@ -155,6 +219,7 @@ With Analyzer:
   For example:
   
   ```c#
+  [DependencyPropertyFeature]
   public partial class Hexagon : UserControl
   {
       [DependencyProperty]

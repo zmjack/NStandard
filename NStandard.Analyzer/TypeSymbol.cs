@@ -44,7 +44,7 @@ public class TypeSymbol(string? ns, string[] modifiers, string name, bool isValu
         }
     }
 
-    public string Format(string code)
+    public string Format(string code, string? lastDefinition = null)
     {
         var sb = new StringBuilder();
         var indent = new Indent(0, 4);
@@ -62,7 +62,8 @@ public class TypeSymbol(string? ns, string[] modifiers, string name, bool isValu
         ];
         foreach (var symbol in symbols)
         {
-            sb.AppendLine($"{indent}{string.Join(" ", symbol.Modifiers)} {(symbol.IsValueType ? "struct" : "class")} {symbol.Name}");
+            sb.Append($"{indent}{string.Join(" ", symbol.Modifiers)} {(symbol.IsValueType ? "struct" : "class")} {symbol.Name}");
+            sb.AppendLine($"{(symbol == this && lastDefinition is not null ? $" {lastDefinition}" : null)}");
             sb.AppendLine($"{indent}{"{"}");
             indent++;
         }

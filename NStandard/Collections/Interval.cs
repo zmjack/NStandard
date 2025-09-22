@@ -23,6 +23,7 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
     where T : IComparisonOperators<T, T, bool>, IDecrementOperators<T>, IIncrementOperators<T>
 #endif
 {
+    //TODO: Change name to StartAndEndPair
     [DebuggerDisplay("({Start}, {End})")]
     public struct Range(T start, T end) : IEquatable<Range>
     {

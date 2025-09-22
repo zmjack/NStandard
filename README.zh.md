@@ -75,6 +75,69 @@ graph LR
 
 ## 最近更新
 
+### 版本：0.100.3
+
+- **[预览功能]**
+
+  添加 **ObservableFeature** 来生成 **INotifyPropertyChanging** 和 **INotifyPropertyChanged** 的模型。
+
+  分析器将 **自动收集依赖项** 并在 **编译时生成代码**，无需手动标记受影响的属性。
+
+  例如，编写以下代码：
+
+  ```csharp
+  [ObservableFeature]
+  public partial class ObservableModel
+  {
+      public partial string FirstName { get; set; }
+      public partial string LastName { get; set; }
+      public string FullName => $"{FirstName} {LastName}";
+  }
+  ```
+
+  生成代码：
+
+  ```csharp
+  public partial class ObservableModel : INotifyPropertyChanging, INotifyPropertyChanged
+  {
+      public event PropertyChangingEventHandler PropertyChanging;
+      public event PropertyChangedEventHandler PropertyChanged;
+  
+      private string backing_FirstName;
+      public partial string FirstName
+      {
+          get => backing_FirstName;
+          set
+          {
+              if (!EqualityComparer<string>.Default.Equals(backing_FirstName, value))
+              {
+                  PropertyChanging?.Invoke(this, new PropertyChangingEventArgs("FirstName"));
+                  PropertyChanging?.Invoke(this, new PropertyChangingEventArgs("FullName"));
+                  backing_FirstName = value;
+                  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FirstName"));
+                  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FullName"));
+              }
+          }
+      }
+      private string backing_LastName;
+      public partial string LastName
+      {
+          get => backing_LastName;
+          set
+          {
+              if (!EqualityComparer<string>.Default.Equals(backing_LastName, value))
+              {
+                  PropertyChanging?.Invoke(this, new PropertyChangingEventArgs("LastName"));
+                  PropertyChanging?.Invoke(this, new PropertyChangingEventArgs("FullName"));
+                  backing_LastName = value;
+                  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LastName"));
+                  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FullName"));
+              }
+          }
+      }
+  }
+  ```
+
 ### 版本：0.100.2
 
 - 新增 **FieldFeatureAttribute**、**FieldBackendAttribute** 用于生成属性的后端字段。(**C# 13- 推荐**)

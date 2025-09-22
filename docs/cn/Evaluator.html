@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title> | NStandard </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content=" | NStandard ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/zmjack/NStandard/blob/master/docfx/cn/Evaluator.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="NStandard">
+            NStandard
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+
+<h2 id="numerical-evaluator">Numerical Evaluator</h2>
+<p><strong>NumericalEvaluator</strong> 用于解析支持字符串表达式。</p>
+<p>例如：</p>
+<pre><code class="lang-csharp">Evaluator.Numerical.Eval(&quot;2 &gt;= 3 ? 5 : 7&quot;);
+</code></pre>
+<p>结果为 <em><strong>7</strong></em>.</p>
+<br>
+<p>我们提供了一组丰富的运算符：</p>
+<table>
+<thead>
+<tr>
+<th>优先级</th>
+<th>运算符</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>**</td>
+<td>求幂。</td>
+<td>(2 ** 3) 等于 8.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>//</td>
+<td>整除，向下取整。</td>
+<td>(7 // 5) 等于 1.</td>
+</tr>
+<tr>
+<td></td>
+<td>*</td>
+<td>乘法。</td>
+<td>(2 * 3) 等于 6.</td>
+</tr>
+<tr>
+<td></td>
+<td>/</td>
+<td>除法。</td>
+<td>(7 / 5) 等于 1.4.</td>
+</tr>
+<tr>
+<td></td>
+<td>%</td>
+<td>取模。</td>
+<td>(7 % 5) 等于 2.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>+</td>
+<td>加法。</td>
+<td>(2 + 3) 等于 5.</td>
+</tr>
+<tr>
+<td></td>
+<td>-</td>
+<td>减法。</td>
+<td>(7 - 5) 等于 2.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>&gt;</td>
+<td>大于。</td>
+<td>(7 &gt; 5) 等于 1.</td>
+</tr>
+<tr>
+<td></td>
+<td>&gt;=</td>
+<td>大于等于。</td>
+<td>(7 &gt;= 5) 等于 1.</td>
+</tr>
+<tr>
+<td></td>
+<td>&lt;</td>
+<td>小于。</td>
+<td>(2 &lt; 3) 等于 1.</td>
+</tr>
+<tr>
+<td></td>
+<td>&lt;=</td>
+<td>小于等于。</td>
+<td>(2 &lt;= 3) 等于 1.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>==</td>
+<td>等于。</td>
+<td>(7 == 7) 等于 1.</td>
+</tr>
+<tr>
+<td></td>
+<td>!=</td>
+<td>不等于。</td>
+<td>(2 != 3) 等于 1.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>and</td>
+<td>如果 <strong>左表达式</strong> 为 <strong>0</strong>，<strong>返回</strong> <strong>左表达式</strong>，否则 <strong>返回</strong> <strong>右表达式</strong>。</td>
+<td>(3 and 5) 等于 5.<br>(0 and 3) 等于 0.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>or</td>
+<td>如果 <strong>左表达式</strong> 不为 <strong>0</strong>，<strong>返回</strong> <strong>左表达式</strong>，否则 <strong>返回</strong> <strong>右表达式</strong>。</td>
+<td>(3 or 5) 等于 3.<br>(0 or 3) 等于 3.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>??</td>
+<td>如果 <strong>左表达式</strong> 为 <strong>double.NaN</strong>，<strong>返回</strong> <strong>右表达式</strong>，否则 <strong>返回</strong> <strong>左表达式</strong>。</td>
+<td>(5 ?? 7) 等于 5.<br>(NaN ?? 7) 等于 7.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>?</td>
+<td>如果 <strong>左表达式</strong> 不为 <strong>0</strong>，<strong>返回</strong> <strong>右表达式</strong>，否则 <strong>返回</strong> <strong>double.NaN</strong>。</td>
+<td>(2 &gt; 3 ? 5) 等于 NaN.<br>(2 &lt; 3 ? 5) 等于 5.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>:</td>
+<td>如果 <strong>左表达式</strong> 为 <strong>double.NaN</strong>，<strong>返回</strong> <strong>右表达式</strong>，否则 <strong>返回</strong> <strong>左表达式</strong>。</td>
+<td>(2 &gt; 3 ? 5 : 7) 等于 7.<br>(2 &lt; 3 ? 5 : 7) 等于 5.</td>
+</tr>
+</tbody>
+</table>
+<p>内置的 <strong>一元运算符</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>not</td>
+<td>等同运算 <code>!x</code>.</td>
+<td>not 0 = 1</td>
+</tr>
+<tr>
+<td>+</td>
+<td>等同运算 <code>+x</code>.</td>
+<td>+ ( 2 + 3 ) = 5</td>
+</tr>
+<tr>
+<td>-</td>
+<td>等同运算 <code>–x</code>.</td>
+<td>- ( 2 + 3 ) = -5</td>
+</tr>
+</tbody>
+</table>
+<p>内置的 <strong>运算函数</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>( ... )</td>
+<td>高优先级运算。</td>
+<td>2 * ( 3 + 5 ) = 16</td>
+</tr>
+<tr>
+<td>abs( ... )</td>
+<td>返回双精度浮点数的绝对值。</td>
+<td>abs(-2) = 2</td>
+</tr>
+<tr>
+<td>sqrt( ... )</td>
+<td>返回指定数值的平方根。</td>
+<td>sqrt(9) = 3</td>
+</tr>
+<tr>
+<td>ceil( ... )</td>
+<td>返回大于或等于指定双精度浮点数的最小整数值。</td>
+<td>ceil(6.8) = 7</td>
+</tr>
+<tr>
+<td>floor( ... )</td>
+<td>返回小于或等于指定双精度浮点数的最大整数。</td>
+<td>floor(6.8) = 6</td>
+</tr>
+<tr>
+<td>sin( ... )</td>
+<td>返回指定角度的正弦值。</td>
+<td>sin({Math.PI / 2}) = 1</td>
+</tr>
+<tr>
+<td>cos( ... )</td>
+<td>返回指定角度的余弦值。</td>
+<td>cos(0) = 1</td>
+</tr>
+<tr>
+<td>tan( ... )</td>
+<td>返回指定角度的正切值。</td>
+<td>tan({Math.PI / 4}) = 1</td>
+</tr>
+<tr>
+<td>asin( ... )</td>
+<td>返回正弦为指定数值的角度。</td>
+<td>sin(1) = {Math.PI / 2}</td>
+</tr>
+<tr>
+<td>acos( ... )</td>
+<td>返回余弦为指定数值的角度。</td>
+<td>acos(1) = 0</td>
+</tr>
+<tr>
+<td>atan( ... )</td>
+<td>返回正切为指定数值的角度。</td>
+<td>atan(1) = {Math.PI / 4}</td>
+</tr>
+<tr>
+<td>sinh( ... )</td>
+<td>返回指定角度的双曲正弦值。</td>
+<td>sinh(0.1) = 0.1001...</td>
+</tr>
+<tr>
+<td>cosh( ... )</td>
+<td>返回指定角度的双曲余弦值。</td>
+<td>cosh(0.1)  = 1.0050...</td>
+</tr>
+<tr>
+<td>tanh( ... )</td>
+<td>返回指定角度的双曲正切值。</td>
+<td>tanh(0.1) = 0.0996...</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p>不带参数的求值示例：</p>
+<pre><code class="lang-csharp">Evaluator.Numerical.Eval(&quot;2 &gt;= 3 ? 5 : 7&quot;);
+</code></pre>
+<p>带参数的求值求例：</p>
+<pre><code class="lang-csharp">var exp = &quot;${price} &gt;= 100 ? ${price} * 0.8 : ${price}&quot;;
+var func = Evaluator.Numerical.Compile(exp);
+var result = func(new { Price = 100 });
+// 结果为 80.
+</code></pre>
+<pre><code class="lang-csharp">var exp = &quot;${price} &gt;= 100 ? ${price} * 0.8 : ${price}&quot;;
+var func = Evaluator.Numerical.Compile(exp);
+var result = func(new Dictionary&lt;string, double&gt; 
+{
+    [&quot;price&quot;] = 100
+});
+// 结果为 80.
+</code></pre>
+<pre><code class="lang-csharp">class Item
+{
+    public double Price { get; set; }
+}
+
+void Main()
+{
+    var exp = &quot;${price} &gt;= 100 ? ${price} * 0.8 : ${price}&quot;;
+    var func = Evaluator.Numerical.Compile&lt;Item&gt;(exp);
+    var result = func(new Item { Price = 100 });
+    // 结果为 80.
+}
+</code></pre>
+<p>值得注意的是，这些运算符（ <strong>?</strong> 和 <strong>:</strong> ）是特定的。 结合使用，它将具有与三元运算符 ( <strong>? :</strong> ) 相同的效果。</p>
+<br>
+<h3 id="编译阶段">编译阶段</h3>
+<p>比如把字符串解析成函数。</p>
+<pre><code class="lang-csharp">var exp = &quot;${x} + sqrt(abs(${x} * 3)) * 3&quot;;
+</code></pre>
+<ol>
+<li><p>将字符串解析为节点集合。</p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th style="text-align: left;">节点类型</th>
+<th style="text-align: left;">索引</th>
+<th style="text-align: left;">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td style="text-align: left;">Parameter</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">${x}</td>
+</tr>
+<tr>
+<td>节点歧义</td>
+<td style="text-align: left;">UnaryOperator, BinaryOperator</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">+</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">StartBracket</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">sqrt(</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">StartBracket</td>
+<td style="text-align: left;">12</td>
+<td style="text-align: left;">abs(</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">Parameter</td>
+<td style="text-align: left;">16</td>
+<td style="text-align: left;">${x}</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">BinaryOperator</td>
+<td style="text-align: left;">21</td>
+<td style="text-align: left;">*</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">Operand</td>
+<td style="text-align: left;">23</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">EndBracket</td>
+<td style="text-align: left;">24</td>
+<td style="text-align: left;">)</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">EndBracket</td>
+<td style="text-align: left;">25</td>
+<td style="text-align: left;">)</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">BinaryOperator</td>
+<td style="text-align: left;">27</td>
+<td style="text-align: left;">*</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">Operand</td>
+<td style="text-align: left;">29</td>
+<td style="text-align: left;">3</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>消除节点歧义。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">节点类型</th>
+<th style="text-align: left;">索引</th>
+<th style="text-align: left;">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Parameter</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">${x}</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>BinaryOperator</strong></td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">+</td>
+</tr>
+<tr>
+<td style="text-align: left;">StartBracket</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">sqrt(</td>
+</tr>
+<tr>
+<td style="text-align: left;">StartBracket</td>
+<td style="text-align: left;">12</td>
+<td style="text-align: left;">abs(</td>
+</tr>
+<tr>
+<td style="text-align: left;">Parameter</td>
+<td style="text-align: left;">16</td>
+<td style="text-align: left;">${x}</td>
+</tr>
+<tr>
+<td style="text-align: left;">BinaryOperator</td>
+<td style="text-align: left;">21</td>
+<td style="text-align: left;">*</td>
+</tr>
+<tr>
+<td style="text-align: left;">Operand</td>
+<td style="text-align: left;">23</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr>
+<td style="text-align: left;">EndBracket</td>
+<td style="text-align: left;">24</td>
+<td style="text-align: left;">)</td>
+</tr>
+<tr>
+<td style="text-align: left;">EndBracket</td>
+<td style="text-align: left;">25</td>
+<td style="text-align: left;">)</td>
+</tr>
+<tr>
+<td style="text-align: left;">BinaryOperator</td>
+<td style="text-align: left;">27</td>
+<td style="text-align: left;">*</td>
+</tr>
+<tr>
+<td style="text-align: left;">Operand</td>
+<td style="text-align: left;">29</td>
+<td style="text-align: left;">3</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>构建 <strong>表达式</strong>。</p>
+<pre><code>(
+    IIF(p.ContainsKey(&quot;x&quot;), p.get_Item(&quot;x&quot;), 0) +
+    (
+        value(NStandard.Evaluators.NumericalEvaluator).Bracket
+        (
+            &quot;sqrt(&quot;, &quot;)&quot;, 
+            value(NStandard.Evaluators.NumericalEvaluator).Bracket
+            (
+                &quot;abs(&quot;, &quot;)&quot;, 
+                (
+                    IIF(p.ContainsKey(&quot;x&quot;), p.get_Item(&quot;x&quot;), 0) * 3
+                )
+            )
+        ) * 3
+    )
+)
+</code></pre>
+</li>
+<li><p>将表达式编译为 <strong>Func&lt;object, double&gt;</strong>。</p>
+<pre><code class="lang-csharp">var func = Evaluator.Numerical.Compile(exp);
+</code></pre>
+</li>
+<li><p>调用 <strong>Func&lt;object, double&gt;</strong>。</p>
+<p>使用 <strong>匿名对象</strong>：</p>
+<pre><code class="lang-csharp">var result = func(new { x = -3 });
+</code></pre>
+<p>或者 <strong>Dictionary&lt;string, double&gt;</strong>:</p>
+<pre><code class="lang-csharp">var result = func(new Dictionary&lt;string, double&gt; 
+{
+    [&quot;x&quot;] = -3
+});
+</code></pre>
+</li>
+</ol>
+<br>
+<h3 id="自定义求值器">自定义求值器</h3>
+<p>扩展 <strong>NumericalEvaluator</strong> 创建一个更多运算符的求值器：</p>
+<pre><code class="lang-csharp">public class MyEvaluator : NumericalEvaluator
+{
+    public MyEvaluator()
+    {
+        Define(&quot;!&quot;, value =&gt; value != 0d ? 0d : 1d);
+        DefineBracket(new(&quot;|&quot;, &quot;|&quot;), value =&gt; Math.Abs(value));
+        Initialize();
+    }
+}
+</code></pre>
+<ul>
+<li>使用 <code>| ... |</code> 计算数值的绝对值。</li>
+<li>使用 <code>!</code> 对 <strong>布尔值</strong> 取反。</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>在构造函数中调用 Initialize 方法可以为第一次操作提供更好的性能。</p>
+</div>
+<br>
+<p>让我们对下面的字符串求值：</p>
+<pre><code class="lang-csharp">&quot;|-9| + !0&quot;
+</code></pre>
+<pre><code class="lang-csharp">var evaluator = new MyEvaluator();
+var result = evaluator.Eval(&quot;|-9| + !0&quot;);
+// |-9| is abs(-9) = 9
+// !0  is 1
+// 结果为 10.
+</code></pre>
+<br>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zmjack/NStandard/blob/master/docfx/cn/Evaluator.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,33 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <IsPackable>false</IsPackable>
-    <RootNamespace>NStandard.Test</RootNamespace>
-    <LangVersion>preview</LangVersion>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<RootNamespace>NStandard.Test</RootNamespace>
+		<LangVersion>preview</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Def" Version="1.1.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
-    <PackageReference Include="xunit" Version="2.4.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
-    <PackageReference Include="coverlet.collector" Version="1.0.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Def" Version="1.1.2" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+		<PackageReference Include="xunit" Version="2.4.0" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+		<PackageReference Include="coverlet.collector" Version="1.0.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\NStandard.Analyzer\NStandard.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-    <ProjectReference Include="..\..\NStandard.Debug\NStandard.Debug.csproj" />
-    <ProjectReference Include="..\..\NStandard.Dev\[NoRelease] NStandard.Dev.csproj" />
-    <ProjectReference Include="..\..\NStandard.Diagnostics\NStandard.Diagnostics.csproj" />
-    <ProjectReference Include="..\..\NStandard.Encoding\NStandard.Encoding.csproj" />
-    <ProjectReference Include="..\..\NStandard.Json.Net\NStandard.Json.Net.csproj" />
-    <ProjectReference Include="..\..\NStandard.Json\NStandard.Json.csproj" />
-    <ProjectReference Include="..\..\NStandard.Runtime\NStandard.Runtime.csproj" />
-    <ProjectReference Include="..\..\NStandard.Trees\NStandard.Trees.csproj" />
-    <ProjectReference Include="..\..\NStandard\NStandard.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\NStandard.Analyzer\NStandard.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\..\NStandard.Debug\NStandard.Debug.csproj" />
+		<ProjectReference Include="..\..\NStandard.Dev\[NoRelease] NStandard.Dev.csproj" />
+		<ProjectReference Include="..\..\NStandard.Diagnostics\NStandard.Diagnostics.csproj" />
+		<ProjectReference Include="..\..\NStandard.Encoding\NStandard.Encoding.csproj" />
+		<ProjectReference Include="..\..\NStandard.Json.Net\NStandard.Json.Net.csproj" />
+		<ProjectReference Include="..\..\NStandard.Json\NStandard.Json.csproj" />
+		<ProjectReference Include="..\..\NStandard.Runtime\NStandard.Runtime.csproj" />
+		<ProjectReference Include="..\..\NStandard.Trees\NStandard.Trees.csproj" />
+		<ProjectReference Include="..\..\NStandard\NStandard.csproj" />
+	</ItemGroup>
 
 </Project>
