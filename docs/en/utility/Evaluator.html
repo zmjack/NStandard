@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title> | NStandard </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content=" | NStandard ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/zmjack/NStandard/blob/master/docfx/en/utility/Evaluator.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="NStandard">
+            NStandard
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+
+<h2 id="numerical-evaluator">Numerical Evaluator</h2>
+<p><strong>NumericalEvaluator</strong> is used for parsing string expressions.</p>
+<p>For example:</p>
+<pre><code class="lang-csharp">Evaluator.Numerical.Eval(&quot;2 &gt;= 3 ? 5 : 7&quot;);
+</code></pre>
+<p>The result is <em><strong>7</strong></em>.</p>
+<br>
+<p>We provide a rich set of operators:</p>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Operator</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>**</td>
+<td>Exponentiation.</td>
+<td>(2 ** 3) is 8.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>//</td>
+<td>Floor division.</td>
+<td>(7 // 5) is 1.</td>
+</tr>
+<tr>
+<td></td>
+<td>*</td>
+<td>Multiplication.</td>
+<td>(2 * 3) is 6.</td>
+</tr>
+<tr>
+<td></td>
+<td>/</td>
+<td>Division.</td>
+<td>(7 / 5) is 1.4.</td>
+</tr>
+<tr>
+<td></td>
+<td>%</td>
+<td>Modulus.</td>
+<td>(7 % 5) is 2.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>+</td>
+<td>Addition.</td>
+<td>(2 + 3) is 5.</td>
+</tr>
+<tr>
+<td></td>
+<td>-</td>
+<td>Subtraction.</td>
+<td>(7 - 5) is 2.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>&gt;</td>
+<td>Greater than.</td>
+<td>(7 &gt; 5) is 1.</td>
+</tr>
+<tr>
+<td></td>
+<td>&gt;=</td>
+<td>Greater than or equal to.</td>
+<td>(7 &gt;= 5) is 1.</td>
+</tr>
+<tr>
+<td></td>
+<td>&lt;</td>
+<td>Less than.</td>
+<td>(2 &lt; 3) is 1.</td>
+</tr>
+<tr>
+<td></td>
+<td>&lt;=</td>
+<td>Less than or equal to.</td>
+<td>(2 &lt;= 3) is 1.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>==</td>
+<td>Equal.</td>
+<td>(7 == 7) is 1.</td>
+</tr>
+<tr>
+<td></td>
+<td>!=</td>
+<td>Not equal.</td>
+<td>(2 != 3) is 1.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>and</td>
+<td><strong>Returns</strong> the <strong>left-hand</strong> expression <strong>if</strong> the <strong>left-hand</strong> expression <strong>is 0</strong>,<br><strong>otherwise</strong> the <strong>right-hand</strong> expression.</td>
+<td>(3 and 5) is 5.<br>(0 and 3) is 0.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>or</td>
+<td><strong>Returns</strong> the <strong>left-hand</strong> expression <strong>if</strong> the <strong>left-hand</strong> expression <strong>is not 0</strong>,<br><strong>otherwise</strong> the <strong>right-hand</strong> expression.</td>
+<td>(3 or 5) is 3.<br>(0 or 3) is 3.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>??</td>
+<td><strong>Returns</strong> the <strong>right-hand</strong> expression <strong>if</strong> the <strong>left-hand</strong> expression <strong>is</strong> <strong>double.NaN</strong>,<br><strong>otherwise</strong> the <strong>left-hand</strong> expression.</td>
+<td>(5 ?? 7) is 5.<br>(NaN ?? 7) is 7.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>?</td>
+<td><strong>Returns</strong> the <strong>right-hand</strong> expression <strong>if</strong> the <strong>left-hand</strong> expression <strong>is not 0</strong>,<br><strong>otherwise</strong> <strong>double.NaN</strong>.</td>
+<td>(2 &gt; 3 ? 5) is NaN.<br>(2 &lt; 3 ? 5) is 5.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>:</td>
+<td><strong>Returns</strong> the <strong>right-hand</strong> expression <strong>if</strong> the <strong>left-hand</strong> expression <strong>is</strong> <strong>double.NaN</strong>,<br><strong>otherwise</strong> the <strong>left-hand</strong> expression.</td>
+<td>(2 &gt; 3 ? 5 : 7) is 7.<br>(2 &lt; 3 ? 5 : 7) is 5.</td>
+</tr>
+</tbody>
+</table>
+<p>The built-in <strong>UnaryOpFunctions</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>not</td>
+<td>For an operation of the form <code>!x</code>.</td>
+<td>not 0 = 1</td>
+</tr>
+<tr>
+<td>+</td>
+<td>For an operation of the form <code>+x</code>.</td>
+<td>+ ( 2 + 3 ) = 5</td>
+</tr>
+<tr>
+<td>-</td>
+<td>For an operation of the form <code>–x</code>.</td>
+<td>- ( 2 + 3 ) = -5</td>
+</tr>
+</tbody>
+</table>
+<p>The built-in <strong>BracketFunctions</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>( ... )</td>
+<td>High priority operation.</td>
+<td>2 * ( 3 + 5 ) = 16</td>
+</tr>
+<tr>
+<td>abs( ... )</td>
+<td>Returns the absolute value of a double-precision floating-point number.</td>
+<td>abs(-2) = 2</td>
+</tr>
+<tr>
+<td>sqrt( ... )</td>
+<td>Returns the square root of a specified number.</td>
+<td>sqrt(9) = 3</td>
+</tr>
+<tr>
+<td>ceil( ... )</td>
+<td>Returns the smallest integral value that is greater than or equal to the specified double-precision floating-point number.</td>
+<td>ceil(6.8) = 7</td>
+</tr>
+<tr>
+<td>floor( ... )</td>
+<td>Returns the largest integer less than or equal to the specified double-precision floating-point number.</td>
+<td>floor(6.8) = 6</td>
+</tr>
+<tr>
+<td>sin( ... )</td>
+<td>Returns the sine of the specified angle.</td>
+<td>sin({Math.PI / 2}) = 1</td>
+</tr>
+<tr>
+<td>cos( ... )</td>
+<td>Returns the cosine of the specified angle.</td>
+<td>cos(0) = 1</td>
+</tr>
+<tr>
+<td>tan( ... )</td>
+<td>Returns the tangent of the specified angle.</td>
+<td>tan({Math.PI / 4}) = 1</td>
+</tr>
+<tr>
+<td>asin( ... )</td>
+<td>Returns the angle whose sine is the specified number.</td>
+<td>sin(1) = {Math.PI / 2}</td>
+</tr>
+<tr>
+<td>acos( ... )</td>
+<td>Returns the angle whose cosine is the specified number.</td>
+<td>acos(1) = 0</td>
+</tr>
+<tr>
+<td>atan( ... )</td>
+<td>Returns the angle whose tangent is the specified number.</td>
+<td>atan(1) = {Math.PI / 4}</td>
+</tr>
+<tr>
+<td>sinh( ... )</td>
+<td>Returns the hyperbolic sine of the specified angle.</td>
+<td>sinh(0.1) = 0.1001...</td>
+</tr>
+<tr>
+<td>cosh( ... )</td>
+<td>Returns the hyperbolic cosine of the specified angle.</td>
+<td>cosh(0.1)  = 1.0050...</td>
+</tr>
+<tr>
+<td>tanh( ... )</td>
+<td>Returns the hyperbolic tangent of the specified angle.</td>
+<td>tanh(0.1) = 0.0996...</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p>If there are no parameters:</p>
+<pre><code class="lang-csharp">Evaluator.Numerical.Eval(&quot;2 &gt;= 3 ? 5 : 7&quot;);
+</code></pre>
+<p>or there is any parameters:</p>
+<pre><code class="lang-csharp">var exp = &quot;${price} &gt;= 100 ? ${price} * 0.8 : ${price}&quot;;
+var func = Evaluator.Numerical.Compile(exp);
+var result = func(new { Price = 100 });
+// The result is 80.
+</code></pre>
+<pre><code class="lang-csharp">var exp = &quot;${price} &gt;= 100 ? ${price} * 0.8 : ${price}&quot;;
+var func = Evaluator.Numerical.Compile(exp);
+var result = func(new Dictionary&lt;string, double&gt; 
+{
+    [&quot;price&quot;] = 100
+});
+// The result is 80.
+</code></pre>
+<pre><code class="lang-csharp">class Item
+{
+    public double Price { get; set; }
+}
+
+void Main()
+{
+    var exp = &quot;${price} &gt;= 100 ? ${price} * 0.8 : ${price}&quot;;
+    var func = Evaluator.Numerical.Compile&lt;Item&gt;(exp);
+    var result = func(new Item { Price = 100 });
+    // The result is 80.
+}
+</code></pre>
+<p>It's worth noting that, these operators ( <strong>?</strong> and <strong>:</strong> ) are specific. Used in combination, it will have the same effect as the ternary operator ( <strong>? :</strong> ).</p>
+<br>
+<h3 id="compilation-phase">Compilation phase</h3>
+<p>For example, parse the string into a function.</p>
+<pre><code class="lang-csharp">var exp = &quot;${x} + sqrt(abs(${x} * 3)) * 3&quot;;
+</code></pre>
+<ol>
+<li><p>Parse a string into a collection of nodes.</p>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th style="text-align: left;">NodeType</th>
+<th style="text-align: left;">Index</th>
+<th style="text-align: left;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td style="text-align: left;">Parameter</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">${x}</td>
+</tr>
+<tr>
+<td>Ambiguity</td>
+<td style="text-align: left;">UnaryOperator, BinaryOperator</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">+</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">StartBracket</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">sqrt(</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">StartBracket</td>
+<td style="text-align: left;">12</td>
+<td style="text-align: left;">abs(</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">Parameter</td>
+<td style="text-align: left;">16</td>
+<td style="text-align: left;">${x}</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">BinaryOperator</td>
+<td style="text-align: left;">21</td>
+<td style="text-align: left;">*</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">Operand</td>
+<td style="text-align: left;">23</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">EndBracket</td>
+<td style="text-align: left;">24</td>
+<td style="text-align: left;">)</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">EndBracket</td>
+<td style="text-align: left;">25</td>
+<td style="text-align: left;">)</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">BinaryOperator</td>
+<td style="text-align: left;">27</td>
+<td style="text-align: left;">*</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: left;">Operand</td>
+<td style="text-align: left;">29</td>
+<td style="text-align: left;">3</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>Disambiguate nodes.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">NodeType</th>
+<th style="text-align: left;">Index</th>
+<th style="text-align: left;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Parameter</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">${x}</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>BinaryOperator</strong></td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">+</td>
+</tr>
+<tr>
+<td style="text-align: left;">StartBracket</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">sqrt(</td>
+</tr>
+<tr>
+<td style="text-align: left;">StartBracket</td>
+<td style="text-align: left;">12</td>
+<td style="text-align: left;">abs(</td>
+</tr>
+<tr>
+<td style="text-align: left;">Parameter</td>
+<td style="text-align: left;">16</td>
+<td style="text-align: left;">${x}</td>
+</tr>
+<tr>
+<td style="text-align: left;">BinaryOperator</td>
+<td style="text-align: left;">21</td>
+<td style="text-align: left;">*</td>
+</tr>
+<tr>
+<td style="text-align: left;">Operand</td>
+<td style="text-align: left;">23</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr>
+<td style="text-align: left;">EndBracket</td>
+<td style="text-align: left;">24</td>
+<td style="text-align: left;">)</td>
+</tr>
+<tr>
+<td style="text-align: left;">EndBracket</td>
+<td style="text-align: left;">25</td>
+<td style="text-align: left;">)</td>
+</tr>
+<tr>
+<td style="text-align: left;">BinaryOperator</td>
+<td style="text-align: left;">27</td>
+<td style="text-align: left;">*</td>
+</tr>
+<tr>
+<td style="text-align: left;">Operand</td>
+<td style="text-align: left;">29</td>
+<td style="text-align: left;">3</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>Build the <strong>Expression</strong>.</p>
+<pre><code>(
+    IIF(p.ContainsKey(&quot;x&quot;), p.get_Item(&quot;x&quot;), 0) +
+    (
+        value(NStandard.Evaluators.NumericalEvaluator).Bracket
+        (
+            &quot;sqrt(&quot;, &quot;)&quot;, 
+            value(NStandard.Evaluators.NumericalEvaluator).Bracket
+            (
+                &quot;abs(&quot;, &quot;)&quot;, 
+                (
+                    IIF(p.ContainsKey(&quot;x&quot;), p.get_Item(&quot;x&quot;), 0) * 3
+                )
+            )
+        ) * 3
+    )
+)
+</code></pre>
+</li>
+<li><p>Compile the Expression to <strong>Func&lt;object, double&gt;</strong>.</p>
+<pre><code class="lang-csharp">var func = Evaluator.Numerical.Compile(exp);
+</code></pre>
+</li>
+<li><p>Call the <strong>Func&lt;object, double&gt;</strong>.</p>
+<p>Use <strong>anonymous object</strong>:</p>
+<pre><code class="lang-csharp">var result = func(new { x = -3 });
+</code></pre>
+<p>or <strong>Dictionary&lt;string, double&gt;</strong>:</p>
+<pre><code class="lang-csharp">var result = func(new Dictionary&lt;string, double&gt; 
+{
+    [&quot;x&quot;] = -3
+});
+</code></pre>
+</li>
+</ol>
+<br>
+<h3 id="customize-evaluator">Customize evaluator</h3>
+<p>There is a simple evaluator which extend <strong>NumericalEvaluator</strong>:</p>
+<pre><code class="lang-csharp">public class MyEvaluator : NumericalEvaluator
+{
+    public MyEvaluator()
+    {
+        Define(&quot;!&quot;, value =&gt; value != 0d ? 0d : 1d);
+        DefineBracket(new(&quot;|&quot;, &quot;|&quot;), value =&gt; Math.Abs(value));
+        Initialize();
+    }
+}
+</code></pre>
+<ul>
+<li>Use <code>| ... |</code> to calculate the absolute value of a number.</li>
+<li>Use <code>!</code> to invert a <strong>boolean</strong>.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Calling the Initialize method in the constructor can give better performance for the first operation.</p>
+</div>
+<br>
+<p>Let's evaluate the string:</p>
+<pre><code class="lang-csharp">&quot;|-9| + !0&quot;
+</code></pre>
+<pre><code class="lang-csharp">var evaluator = new MyEvaluator();
+var result = evaluator.Eval(&quot;|-9| + !0&quot;);
+// |-9| is abs(-9) = 9
+// !0  is 1
+// The result is 10.
+</code></pre>
+<br>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zmjack/NStandard/blob/master/docfx/en/utility/Evaluator.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

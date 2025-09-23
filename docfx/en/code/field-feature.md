@@ -10,15 +10,15 @@ The backing field name must then be kept in sync with the property, and the back
 
 This is the one of implementation:
 
-[!code-csharp[](../../Tests/NStandard.Test/Analyzer/FieldFeatureTests.cs#LegacyModel)]
+[!code-csharp[](../../../Tests/NStandard.Test/Analyzer/FieldFeatureTests.cs#LegacyModel)]
 
 However, we hope to **avoid manually declaring backing fields** for older projects.
 
 Use **FieldFeature** to enable the generator to analyze the code of a class or struct, and use **FieldBackend** to hide the backing fields:
 
-[!code-csharp[](../../Tests/NStandard.Test/Analyzer/FieldFeatureTests.ModelsWithNoNs.cs#ModelWithNoNS)]
+[!code-csharp[](../../../Tests/NStandard.Test/Analyzer/FieldFeatureTests.ModelsWithNoNs.cs#ModelWithNoNS)]
 
-**.NET 10 (C# 14)** added the **field** keyword to handle this situation.
+Of course, the best case scenario is to use **C# 14.0 or later** and use the **field** keyword to handle this scenario.
 
 ```csharp
 public class Model

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title> | NStandard </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content=" | NStandard ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/zmjack/NStandard/blob/master/docfx/en/archived/State.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="NStandard">
+            NStandard
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+
+<h2 id="state">State</h2>
+<p><strong>State</strong> is used for data binding.</p>
+<br>
+<p>For example, there are two variables <code>a</code> <code>b</code> of type <strong>State&lt;int&gt;</strong>.</p>
+<pre><code class="lang-csharp">using var a = State.Use(2);
+using var b = State.Use(3);
+</code></pre>
+<p>and a variable <code>c</code> which is automatically calculated by <code>a + b</code>.</p>
+<pre><code class="lang-csharp">using var c = State.From(() =&gt; a + b);
+// c.Value is 5。
+Console.WriteLine(c.Value);
+</code></pre>
+<p>When any <strong>Value</strong> of <code>a</code> <code>b</code> is changed, the value of <code>c</code> will be changed according to the formula at the same time.</p>
+<pre><code class="lang-csharp">a.Value = 7;
+// c.Value is 10。
+Console.WriteLine(c.Value);
+</code></pre>
+<br>
+<h3 id="implementation">Implementation</h3>
+<p><strong>State</strong> collects dependencies at creation time and binds a notification function for each dependency.</p>
+<p>Subsequently, if the value of the dependency changes, the target <strong>State</strong> object is notified to set an expiration for the current value.</p>
+<p>When the <strong>State</strong> object gets the value, if the current value has expired, the latest value will be recalculated and cached.</p>
+<br>
+<p>In general, <strong>State</strong> should be used together with <strong>using</strong> to avoid possible memory leaks.</p>
+<p>But this is not necessary, you can still improve performance through manual management, especially for a large number of <strong>State</strong> object management.</p>
+<br>
+<p>Let's use an example to illustrate how <strong>State</strong> works.</p>
+<ol>
+<li><p>Define variables <code>a</code> <code>b</code>:</p>
+<pre><code class="lang-csharp">using var a = State.Use(2);
+using var b = State.Use(3);
+</code></pre>
+<p><img src="/images/State-001.png" alt="State-001.png"></p>
+</li>
+<li><p>Define variable <code>c</code> with value <code>a + b</code>.</p>
+<p>(This operation will also subscribe to notification events for <code>a</code> <code>b</code>.)</p>
+<pre><code class="lang-csharp">var c = State.From(() =&gt; a + b);
+</code></pre>
+<p><img src="/images/State-002.png" alt="State-002.png"></p>
+</li>
+<li><p>Get the value of <code>c</code> and output it.</p>
+<p>(The operation will evaluate the formula and cache the result.)</p>
+<pre><code class="lang-csharp">Console.WriteLine(c.Value);
+</code></pre>
+<p><img src="/images/State-003.png" alt="State-003.png"></p>
+</li>
+<li><p>Change the value of <code>a</code> to 7.</p>
+<p>(This operation will set the <code>c</code> value to <strong>Expired</strong>.)</p>
+<pre><code class="lang-csharp">a.Value = 7;
+</code></pre>
+<p><img src="/images/State-004.png" alt="State-004.png"></p>
+</li>
+<li><p>Retrieve the value of <code>c</code> and output it.</p>
+<p>(This operation will recalculate the formula and cache the result.)</p>
+<pre><code class="lang-csharp">Console.WriteLine(c.Value);
+</code></pre>
+<p><img src="/images/State-005.png" alt="State-005.png"></p>
+</li>
+<li><p>Dispose <code>c</code>.</p>
+<p>(The operation will unsubscribe from its dependencies' notification events.)</p>
+<pre><code class="lang-csharp">c.Dispose();
+</code></pre>
+<p><img src="/images/State-006.png" alt="State-006.png"></p>
+</li>
+</ol>
+<br>
+<h3 id="avoid-memory-leaks">Avoid memory leaks</h3>
+<p>Consider the following example:</p>
+<ul>
+<li><strong>root</strong> is a <strong>static</strong> <strong>State</strong> object.</li>
+<li>Array of <strong>State</strong> objects in member functions, dependent on <strong>root</strong>.</li>
+<li>Because these <strong>State</strong> objects are subscribed to <strong>static</strong> <strong>State</strong> update notifications, they will not be recycled when the function lifetime ends.</li>
+<li>To avoid memory leaks, <strong>using</strong> should be used or <strong>Dispose</strong> should be called manually.</li>
+<li>Calling the <strong>Release</strong> method of the subscriber to cancel all subscriptions that depend on the object can also avoid memory leaks, and the execution efficiency is higher.</li>
+</ul>
+<pre><code class="lang-csharp">class Program
+{
+    static State&lt;int&gt; root = State.Use(1);
+
+    static void Main(string[] args)
+    {
+        PrintMemory(&quot;Beginning:&quot;);
+        
+        MakeSomeStateObjects(1_000);
+        PrintMemory(&quot;Before release:&quot;);
+        
+        root.Release();
+        PrintMemory(&quot;After release:&quot;);
+    }
+    
+    static void MakeSomeStateObjects(int count)
+    {
+        var States = new State&lt;int&gt;[count];
+        for (int i = 0; i &lt; count; i++)
+        {
+            var index = i;
+            States[i] = State.From(() =&gt; root + index);
+        }
+        //States.DisposeAll();
+    }
+    
+    static void PrintMemory(string title)
+    {
+        Console.WriteLine($&quot;{title，-38}{GC.GetTotalMemory(true) / 1024:N0} KB&quot;);
+    }
+}
+</code></pre>
+<blockquote>
+<p>Beginning:                            504 KB<br>
+Before release:                       2,018 KB<br>
+After release:                        533 KB</p>
+</blockquote>
+<br>
+<h3 id="optional-events">Optional events</h3>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Changed</td>
+<td>void Changed (TValue value)</td>
+<td>Fired when the value is <strong>explicitly changed</strong>.</td>
+</tr>
+<tr>
+<td>Updating</td>
+<td>void Updating (TValue value)</td>
+<td>Fired when the value is <strong>set to expire</strong>.</td>
+</tr>
+</tbody>
+</table>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zmjack/NStandard/blob/master/docfx/en/archived/State.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

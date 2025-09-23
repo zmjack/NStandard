@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title> | NStandard </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content=" | NStandard ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/zmjack/NStandard/blob/master/docfx/cn/extensions/DateTimeExtensions.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="NStandard">
+            NStandard
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+
+<h2 id="datetime-extensions">DateTime Extensions</h2>
+<h3 id="startof--endof">StartOf &amp; EndOf</h3>
+<p>提供 <strong>DateTime</strong> / <strong>DateTimeOffset</strong> 将时间返回到起点或终点的操作。</p>
+<p><strong>StartOf</strong>  函数组:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>StartOfYear</strong></td>
+<td>(2020, 11, 13, 20, 30, 1) .<strong>StartOfYear</strong>()</td>
+<td>2020/<font color=red>1/1 0:00:00:000</font></td>
+</tr>
+<tr>
+<td><strong>StartOfMonth</strong></td>
+<td>(2020, 11, 13, 20, 30, 1) .<strong>StartOfMonth</strong>()</td>
+<td>2020/11/<font color=red>1 0:00:00:000</font></td>
+</tr>
+<tr>
+<td><strong>StartOfDay</strong></td>
+<td>(2020, 11, 13, 20, 30, 1) .<strong>StartOfDay</strong>()</td>
+<td>2020/11/13 <font color=red>0:00:00:000</font></td>
+</tr>
+<tr>
+<td><strong>StartOfHour</strong></td>
+<td>(2020, 11, 13, 20, 30, 1) .<strong>StartOfHour</strong>()</td>
+<td>2020/11/13 20:<font color=red>00:00:000</font></td>
+</tr>
+<tr>
+<td><strong>StartOfMinute</strong></td>
+<td>(2020, 11, 13, 20, 30, 1) .<strong>StartOfMinute</strong>()</td>
+<td>2020/11/13 20:30:<font color=red>00:000</font></td>
+</tr>
+<tr>
+<td><strong>StartOfSecond</strong></td>
+<td>(2020, 11, 13, 20, 30, 1) .<strong>StartOfSecond</strong>()</td>
+<td>2020/11/13 20:30:01:<font color=red>000</font></td>
+</tr>
+</tbody>
+</table>
+<p><strong>EndOf</strong>  函数组:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>EndOfYear</strong></td>
+<td>(2020, 11, 13, 20, 30, 1) .<strong>EndOfYear</strong>()</td>
+<td>2020/<font color=red>12/31 23:59:59:999</font></td>
+</tr>
+<tr>
+<td><strong>EndOfMonth</strong></td>
+<td>(2020, 11, 13, 20, 30, 1) .<strong>EndOfMonth</strong>()</td>
+<td>2020/11/<font color=red>30 23:59:59:999</font></td>
+</tr>
+<tr>
+<td><strong>EndOfDay</strong></td>
+<td>(2020, 11, 13, 20, 30, 1) .<strong>EndOfDay</strong>()</td>
+<td>2020/11/13 <font color=red>23:59:59:999</font></td>
+</tr>
+<tr>
+<td><strong>EndOfHour</strong></td>
+<td>(2020, 11, 13, 20, 30, 1) .<strong>EndOfHour</strong>()</td>
+<td>2020/11/13 20:<font color=red>59:59:999</font></td>
+</tr>
+<tr>
+<td><strong>EndOfMinute</strong></td>
+<td>(2020, 11, 13, 20, 30, 1) .<strong>EndOfMinute</strong>()</td>
+<td>2020/11/13 20:30:<font color=red>59:999</font></td>
+</tr>
+<tr>
+<td><strong>EndOfSecond</strong></td>
+<td>(2020, 11, 13, 20, 30, 1) .<strong>EndOfSecond</strong>()</td>
+<td>2020/11/13 20:30:01:<font color=red>999</font></td>
+</tr>
+</tbody>
+</table>
+<br>
+<h3 id="week">Week</h3>
+<p>获取 <strong>一年中</strong> 指定日期的周数。</p>
+<pre><code class="lang-csharp">/*  2020 - 01
+ *  Su  Mo  Tu  We  Th  Fr  Sa
+ *[            ( 1)  2   3   4 ]
+ *[( 5)  6   7   8   9  10  11 ]
+ *  12  13  14  15  16  17  18
+ *  19  20  21  22  23  24  25
+ *  26  27  28  29  30  31
+ */
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(2020, 1, 1) .<strong>Week</strong>()</td>
+<td>0</td>
+</tr>
+<tr>
+<td>(2020, 1, 5) .<strong>Week</strong>()</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<br>
+<h3 id="weekinmonth">WeekInMonth</h3>
+<p>获取指定日期 <strong>一个月</strong> 中的周数。</p>
+<pre><code class="lang-csharp">/*  2012 - 04                              2012 - 04
+ *  Su  Mo  Tu  We  Th   Fr  Sa            Su  Mo  Tu  We  Th  Fr  Sa
+ *                      [     1          [                          1]
+ *   2   3   4   5   6] [ 7   8          [  2   3   4   5   6   7   8]
+ *   9  10  11  12  13] [14  15          [  9  10  11  12  13  14  15]
+ * (16) 17  18  19  20] [21  22          [(16) 17  18  19  20  21  22]
+ *  23  24  25  26  27   28  29            23  24  25  26  27  28  29
+ *  30                                    30
+ */
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(2012, 4, 16) .<strong>WeekInMonth</strong> ( <strong>DayOfWeek.Friday</strong> )</td>
+<td>2</td>
+</tr>
+<tr>
+<td>(2012, 4, 16) .<strong>WeekInMonth</strong> ( <strong>DayOfWeek.Sunday</strong> )</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<br>
+<h3 id="adddays">AddDays</h3>
+<p>提供计算 <strong>工作日</strong> 或 <strong>非工作日</strong> 的特殊算术方法。</p>
+<pre><code class="lang-csharp">public static DateTime AddDays(this DateTime @this, int value, DayMode mode)
+</code></pre>
+<p><strong>DayMode</strong> 声明为：</p>
+<pre><code class="lang-csharp">public enum DayMode {
+    Undefined,
+    Weekday,
+    Weekend,
+}
+</code></pre>
+<pre><code class="lang-csharp">/*  2020 - 12                             2020 - 12
+ *  Su  Mo  Tu  We  Th  Fr  Sa            Su  Mo  Tu  We  Th  Fr  Sa
+ *           1   2   3   4   5
+ *   6   7   8   9  10  11  12
+ * (13) 14  15  16  17  18 [19]
+ *  20 [21] 22  23  24  25  26
+ *  27  28  29  30  31
+ */
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(2020, 12, 13) .<strong>AddDays</strong> ( 6, <strong>DayMode.Weekday</strong> )</td>
+<td>(2020, 12, 21)</td>
+</tr>
+<tr>
+<td>(2020, 12, 13) .<strong>AddDays</strong> ( 1, <strong>DayMode.Weekend</strong> )</td>
+<td>(2020, 12, 19)</td>
+</tr>
+</tbody>
+</table>
+<br>
+<h3 id="addtotalyears--addtotalmonths">AddTotalYears &amp; AddTotalMonths</h3>
+<ul>
+<li><strong>AddTotalYears</strong> ：返回一个新的 <strong>DateTime</strong>，它将指定的 <strong>年数差值</strong> 相加到此实例值中。</li>
+<li><strong>AddTotalMonths</strong> : 返回一个新的 <strong>DateTime</strong> ，它将指定的 <strong>月数差值</strong> 相加到此实例值中。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(2000, 2, 29) .<strong>AddTotalYears</strong> ( 1 )</td>
+<td>(2001, 3, 1)</td>
+</tr>
+<tr>
+<td>(2001, 3, 1) .<strong>AddTotalYears</strong> ( -1 )</td>
+<td>(2000, 3, 1)</td>
+</tr>
+</tbody>
+</table>
+<br>
+<h3 id="elapsed">Elapsed...</h3>
+<p>从 <strong>DateTime.MinValue</strong> 获取经过 ... 的单位次数。</p>
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(2012, 4, 16) .<strong>ElapsedDays</strong> ( )</td>
+<td>734608</td>
+</tr>
+<tr>
+<td>(2012, 4, 16) .<strong>ElapsedMonths</strong> ( )</td>
+<td>24135.5</td>
+</tr>
+</tbody>
+</table>
+<br>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zmjack/NStandard/blob/master/docfx/cn/extensions/DateTimeExtensions.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

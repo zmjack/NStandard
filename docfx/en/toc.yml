@@ -4,36 +4,62 @@
 - name: Getting Started
   href: getting-started.md
 
-- name: Evaluator
-  href: Evaluator.md
-
-- name: Field Feature
-  href: field-feature.md
-
-- name: Array Extensions
-  href: ArrayExtensions.md
-
-- name: DpContainer
-  href: DpContainer.md
-
-- name: SequenceInputStream
-  href: SequenceInputStream.md
-
-- name: State
-  href: State.md
-
-- name: UnitValue
-  href: UnitValue.md
-
-- name: Any Extensions
+- name: Source Generator
   items:
+
+  - name: Field Feature
+    href: code/field-feature.md
+
+  - name: Observable Feature
+    href: code/observable-feature.md
+
+  - name: DependencyProperty Feature
+    href: code/dependency-property-feature.md
+
+- name: Extensions
+  items:
+
+  - name: Array
+    href: extensions/ArrayExtensions.md
+
+  - name: DateTime
+    href: extensions/DateTimeExtensions.md
+
+- name: IO
+  items:
+
+  - name: Sequence Input Stream
+    href: io/SequenceInputStream.md
+
+- name: Utility
+  items:
+
+  - name: Evaluator
+    href: utility/Evaluator.md
+
   - name: Any.Chain
-    href: Any/Any.Chain.md
+    href: utility/Any.Chain.md
+
   - name: Any.Flat
-    href: Any/Any.Flat.md
+    href: utility/Any.Flat.md
+
   - name: Any.Forward
-    href: Any/Any.Forward.md
+    href: utility/Any.Forward.md
+
   - name: Any.ReDim
-    href: Any/Any.ReDim.md
+    href: utility/Any.ReDim.md
+
   - name: Any.Zip
-    href: Any/Any.Zip.md
+    href: utility/Any.Zip.md
+
+  - name: Dynamic programming
+    href: utility/DpContainer.md
+
+- name: Archived
+  items:
+
+  - name: State
+    href: archived/State.md
+
+  - name: UnitValue (Planned Deletion)
+    href: archived/UnitValue.md
