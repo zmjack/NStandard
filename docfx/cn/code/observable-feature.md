@@ -110,18 +110,6 @@ public partial class ObservablePerson_Mvvm : ObservableObject
 - 箭头语法
 - **Getter** 区域。
 
-分析器将解析以下语法，以收集依赖：
-
-- 函数调用参数
-- 字符串插值
-- 前缀一元运算符
-- 二元运行符
-- 三目运算
-- 条件运算符
-- 括号运算符
-
-<br/>
-
 ### 另一个例子
 
 ###### [KDA 分数](#tab/kda)

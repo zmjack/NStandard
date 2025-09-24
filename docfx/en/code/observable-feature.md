@@ -110,18 +110,6 @@ Dependency collection is limited to **properties**, including the following area
 - Arrow syntax
 - **Getter** areas.
 
-The analyzer parses the following syntax to collect dependencies:
-
-- Function call parameters
-- String interpolation
-- Prefix unary operators
-- Binary operators
-- Ternary operators
-- Conditional operators
-- Bracket operators
-
-<br/>
-
 ### Another example
 
 ###### [KDA Score](#tab/kda)
