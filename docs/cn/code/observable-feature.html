@@ -2,9 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Observable 特性 (预览) | NStandard </title>
+      <title>Observable 特性（预览） | NStandard </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Observable 特性 (预览) | NStandard ">
+      <meta name="title" content="Observable 特性（预览） | NStandard ">
       
       
       <link rel="icon" href="../../favicon.ico">
@@ -85,9 +85,11 @@
         </div>
 
         <article data-uid="">
-<h1 id="observable-特性-预览">Observable 特性 (预览)</h1>
+<h1 id="observable-特性预览">Observable 特性（预览）</h1>
 
 <br>
+<p>该特性用于简化通知模型的代码编写。</p>
+<p>例如：</p>
 <pre><code class="lang-csharp">[ObservableFeature]
 public partial class ObservablePerson
 {
@@ -98,31 +100,59 @@ public partial class ObservablePerson
     public string Description =&gt; $&quot;This person's name is {FullName}.&quot;;
 }
 </code></pre>
-<p>分析器会在编译期自动收集依赖：</p>
+<p>分析器将在编译时自动收集依赖项以生成通知调用：</p>
 <pre><code class="lang-mermaid">graph TB
 classDef leaf fill:#fdc
-subgraph Notification Model
+subgraph 通知模型
 n_FirstName[FirstName]:::leaf
 n_LastName[LastName]:::leaf
 n_HelloText(HelloText)
 n_Group(FullName&lt;br/&gt;Description)
+n_FirstName --&gt; n_HelloText
 n_FirstName --&gt; n_Group
 n_LastName --&gt; n_Group
-n_FirstName --&gt; n_HelloText
 end
-subgraph Reference Model
+subgraph 引用模型
 r_FirstName[FirstName]:::leaf
 r_LastName[LastName]:::leaf
 r_FullName(FullName)
 r_HelloText(HelloText)
 r_Description(Description)
-r_FirstName --&gt; r_FullName
-r_FirstName --&gt; r_HelloText
-r_LastName --&gt; r_FullName
-r_FullName --&gt; r_Description
+r_FullName --&gt; r_FirstName
+r_HelloText --&gt; r_FirstName
+r_FullName --&gt; r_LastName
+r_Description --&gt; r_FullName
 end
 </code></pre>
-<p>生成的分部代码：</p>
+<div class="tabGroup" id="tabgroup_1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_1_mvvm" role="tab" aria-controls="tabpanel_1_mvvm" data-tab="mvvm" tabindex="0" aria-selected="true">相似的 MVVM 代码</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_mvvm-g" role="tab" aria-controls="tabpanel_1_mvvm-g" data-tab="mvvm-g" tabindex="-1">生成代码</a>
+</li>
+</ul>
+<section id="tabpanel_1_mvvm" role="tabpanel" data-tab="mvvm">
+
+<pre><code class="lang-csharp">public partial class ObservablePerson_Mvvm : ObservableObject
+{
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description), nameof(HelloText))]
+    public string firstName;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description))]
+    public string lastName;
+
+    public string FullName =&gt; $&quot;{FirstName} {LastName}&quot;;
+    public string HelloText =&gt; $&quot;Hello {FirstName}&quot;;
+    public string Description =&gt; $&quot;This person's name is {FullName}.&quot;;
+}
+</code></pre>
+</section>
+<section id="tabpanel_1_mvvm-g" role="tabpanel" data-tab="mvvm-g" aria-hidden="true" hidden="hidden">
+
 <pre><code class="lang-csharp">public partial class ObservablePerson : INotifyPropertyChanging, INotifyPropertyChanged
 {
     public event PropertyChangingEventHandler PropertyChanging;
@@ -168,22 +198,9 @@ end
     }
 }
 </code></pre>
-<p>相似的 MVVM 代码：</p>
-<pre><code class="lang-csharp">public partial class ObservablePerson_Mvvm : ObservableObject
-{
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description), nameof(HelloText))]
-    public string firstName;
+</section>
+</div>
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description))]
-    public string lastName;
-
-    public string FullName =&gt; $&quot;{FirstName} {LastName}&quot;;
-    public string HelloText =&gt; $&quot;Hello {FirstName}&quot;;
-    public string Description =&gt; $&quot;This person's name is {FullName}.&quot;;
-}
-</code></pre>
 <p>与使用 <strong>NotifyPropertyChangedFor</strong> 标记引用位置相比，此功能可以显著减少复杂引用场景下的代码量。</p>
 <br>
 <h2 id="依赖收集">依赖收集</h2>
@@ -193,16 +210,16 @@ end
 <li><strong>Getter</strong> 区域。</li>
 </ul>
 <h3 id="另一个例子">另一个例子</h3>
-<div class="tabGroup" id="tabgroup_1">
+<div class="tabGroup" id="tabgroup_2">
 <ul role="tablist">
 <li role="presentation">
-<a href="#tabpanel_1_kda" role="tab" aria-controls="tabpanel_1_kda" data-tab="kda" tabindex="0" aria-selected="true">KDA 分数</a>
+<a href="#tabpanel_2_kda" role="tab" aria-controls="tabpanel_2_kda" data-tab="kda" tabindex="0" aria-selected="true">KDA 分数</a>
 </li>
 <li role="presentation">
-<a href="#tabpanel_1_KDA-g" role="tab" aria-controls="tabpanel_1_KDA-g" data-tab="KDA-g" tabindex="-1">生成部分</a>
+<a href="#tabpanel_2_kda-g" role="tab" aria-controls="tabpanel_2_kda-g" data-tab="kda-g" tabindex="-1">生成代码</a>
 </li>
 </ul>
-<section id="tabpanel_1_kda" role="tabpanel" data-tab="kda">
+<section id="tabpanel_2_kda" role="tabpanel" data-tab="kda">
 <pre><code class="lang-csharp">[ObservableFeature]
 public partial class KDA
 {
@@ -221,7 +238,7 @@ public partial class KDA
     }
 }
 </code></pre></section>
-<section id="tabpanel_1_KDA-g" role="tabpanel" data-tab="KDA-g" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_2_kda-g" role="tabpanel" data-tab="kda-g" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-csharp">public partial class KDA : INotifyPropertyChanging, INotifyPropertyChanged
 {

@@ -10,7 +10,7 @@
   - name: Field Feature
     href: code/field-feature.md
 
-  - name: Observable Feature
+  - name: Observable Feature (Preview)
     href: code/observable-feature.md
 
   - name: DependencyProperty Feature

@@ -10,7 +10,7 @@
   - name: Field 特性
     href: code/field-feature.md
 
-  - name: Observable 特性
+  - name: Observable 特性（预览）
     href: code/observable-feature.md
 
   - name: DependencyProperty 特性

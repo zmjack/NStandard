@@ -2,9 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Observable Feature | NStandard </title>
+      <title>Observable Feature (Preview) | NStandard </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Observable Feature | NStandard ">
+      <meta name="title" content="Observable Feature (Preview) | NStandard ">
       
       
       <link rel="icon" href="../../favicon.ico">
@@ -85,9 +85,11 @@
         </div>
 
         <article data-uid="">
-<h1 id="observable-feature">Observable Feature</h1>
+<h1 id="observable-feature-preview">Observable Feature (Preview)</h1>
 
 <br>
+<p>This feature is used to simplify the coding of the notification model.</p>
+<p>For example:</p>
 <pre><code class="lang-csharp">[ObservableFeature]
 public partial class ObservablePerson
 {
@@ -98,7 +100,7 @@ public partial class ObservablePerson
     public string Description =&gt; $&quot;This person's name is {FullName}.&quot;;
 }
 </code></pre>
-<p>The analyzer automatically collects dependencies at compile time:</p>
+<p>The analyzer will automatically collect dependencies at compile time to generate the notification calls:</p>
 <pre><code class="lang-mermaid">graph TB
 classDef leaf fill:#fdc
 subgraph Notification Model
@@ -106,9 +108,9 @@ n_FirstName[FirstName]:::leaf
 n_LastName[LastName]:::leaf
 n_HelloText(HelloText)
 n_Group(FullName&lt;br/&gt;Description)
+n_FirstName --&gt; n_HelloText
 n_FirstName --&gt; n_Group
 n_LastName --&gt; n_Group
-n_FirstName --&gt; n_HelloText
 end
 subgraph Reference Model
 r_FirstName[FirstName]:::leaf
@@ -116,13 +118,41 @@ r_LastName[LastName]:::leaf
 r_FullName(FullName)
 r_HelloText(HelloText)
 r_Description(Description)
-r_FirstName --&gt; r_FullName
-r_FirstName --&gt; r_HelloText
-r_LastName --&gt; r_FullName
-r_FullName --&gt; r_Description
+r_FullName --&gt; r_FirstName
+r_HelloText --&gt; r_FirstName
+r_FullName --&gt; r_LastName
+r_Description --&gt; r_FullName
 end
 </code></pre>
-<p>Generated partial code:</p>
+<div class="tabGroup" id="tabgroup_1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_1_mvvm" role="tab" aria-controls="tabpanel_1_mvvm" data-tab="mvvm" tabindex="0" aria-selected="true">Similar MVVM code</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_mvvm-g" role="tab" aria-controls="tabpanel_1_mvvm-g" data-tab="mvvm-g" tabindex="-1">Generated code</a>
+</li>
+</ul>
+<section id="tabpanel_1_mvvm" role="tabpanel" data-tab="mvvm">
+
+<pre><code class="lang-csharp">public partial class ObservablePerson_Mvvm : ObservableObject
+{
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description), nameof(HelloText))]
+    public string firstName;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description))]
+    public string lastName;
+
+    public string FullName =&gt; $&quot;{FirstName} {LastName}&quot;;
+    public string HelloText =&gt; $&quot;Hello {FirstName}&quot;;
+    public string Description =&gt; $&quot;This person's name is {FullName}.&quot;;
+}
+</code></pre>
+</section>
+<section id="tabpanel_1_mvvm-g" role="tabpanel" data-tab="mvvm-g" aria-hidden="true" hidden="hidden">
+
 <pre><code class="lang-csharp">public partial class ObservablePerson : INotifyPropertyChanging, INotifyPropertyChanged
 {
     public event PropertyChangingEventHandler PropertyChanging;
@@ -168,22 +198,9 @@ end
     }
 }
 </code></pre>
-<p>Similar MVVM code:</p>
-<pre><code class="lang-csharp">public partial class ObservablePerson_Mvvm : ObservableObject
-{
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description), nameof(HelloText))]
-    public string firstName;
+</section>
+</div>
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description))]
-    public string lastName;
-
-    public string FullName =&gt; $&quot;{FirstName} {LastName}&quot;;
-    public string HelloText =&gt; $&quot;Hello {FirstName}&quot;;
-    public string Description =&gt; $&quot;This person's name is {FullName}.&quot;;
-}
-</code></pre>
 <p>Compared to using <strong>NotifyPropertyChangedFor</strong> to mark reference locations, this feature can significantly reduce the amount of code in complex reference scenarios.</p>
 <br>
 <h2 id="dependency-collection">Dependency collection</h2>
@@ -193,16 +210,16 @@ end
 <li><strong>Getter</strong> areas.</li>
 </ul>
 <h3 id="another-example">Another example</h3>
-<div class="tabGroup" id="tabgroup_1">
+<div class="tabGroup" id="tabgroup_2">
 <ul role="tablist">
 <li role="presentation">
-<a href="#tabpanel_1_kda" role="tab" aria-controls="tabpanel_1_kda" data-tab="kda" tabindex="0" aria-selected="true">KDA Score</a>
+<a href="#tabpanel_2_kda" role="tab" aria-controls="tabpanel_2_kda" data-tab="kda" tabindex="0" aria-selected="true">KDA Score</a>
 </li>
 <li role="presentation">
-<a href="#tabpanel_1_KDA-g" role="tab" aria-controls="tabpanel_1_KDA-g" data-tab="KDA-g" tabindex="-1">Generated Part</a>
+<a href="#tabpanel_2_kda-g" role="tab" aria-controls="tabpanel_2_kda-g" data-tab="kda-g" tabindex="-1">Generated code</a>
 </li>
 </ul>
-<section id="tabpanel_1_kda" role="tabpanel" data-tab="kda">
+<section id="tabpanel_2_kda" role="tabpanel" data-tab="kda">
 <pre><code class="lang-csharp">[ObservableFeature]
 public partial class KDA
 {
@@ -221,7 +238,7 @@ public partial class KDA
     }
 }
 </code></pre></section>
-<section id="tabpanel_1_KDA-g" role="tabpanel" data-tab="KDA-g" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_2_kda-g" role="tabpanel" data-tab="kda-g" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-csharp">public partial class KDA : INotifyPropertyChanging, INotifyPropertyChanged
 {

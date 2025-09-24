@@ -1,10 +1,14 @@
-# Observable Feature
+# Observable Feature (Preview)
 
 <br/>
 
+This feature is used to simplify the coding of the notification model.
+
+For example:
+
 [!code-csharp[](../../../Tests/NStandard.Test/Analyzer/ObservableFeatureTests.cs#doc_ObservableFeature)]
 
-The analyzer automatically collects dependencies at compile time:
+The analyzer will automatically collect dependencies at compile time to generate the notification calls:
 
 ```mermaid
 graph TB
@@ -14,9 +18,9 @@ n_FirstName[FirstName]:::leaf
 n_LastName[LastName]:::leaf
 n_HelloText(HelloText)
 n_Group(FullName<br/>Description)
+n_FirstName --> n_HelloText
 n_FirstName --> n_Group
 n_LastName --> n_Group
-n_FirstName --> n_HelloText
 end
 subgraph Reference Model
 r_FirstName[FirstName]:::leaf
@@ -24,14 +28,33 @@ r_LastName[LastName]:::leaf
 r_FullName(FullName)
 r_HelloText(HelloText)
 r_Description(Description)
-r_FirstName --> r_FullName
-r_FirstName --> r_HelloText
-r_LastName --> r_FullName
-r_FullName --> r_Description
+r_FullName --> r_FirstName
+r_HelloText --> r_FirstName
+r_FullName --> r_LastName
+r_Description --> r_FullName
 end
 ```
 
-Generated partial code:
+###### [Similar MVVM code](#tab/mvvm)
+
+```csharp
+public partial class ObservablePerson_Mvvm : ObservableObject
+{
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description), nameof(HelloText))]
+    public string firstName;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description))]
+    public string lastName;
+
+    public string FullName => $"{FirstName} {LastName}";
+    public string HelloText => $"Hello {FirstName}";
+    public string Description => $"This person's name is {FullName}.";
+}
+```
+
+###### [Generated code](#tab/mvvm-g)
 
 ```csharp
 public partial class ObservablePerson : INotifyPropertyChanging, INotifyPropertyChanged
@@ -80,24 +103,7 @@ public partial class ObservablePerson : INotifyPropertyChanging, INotifyProperty
 }
 ```
 
-Similar MVVM code:
-
-```csharp
-public partial class ObservablePerson_Mvvm : ObservableObject
-{
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description), nameof(HelloText))]
-    public string firstName;
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description))]
-    public string lastName;
-
-    public string FullName => $"{FirstName} {LastName}";
-    public string HelloText => $"Hello {FirstName}";
-    public string Description => $"This person's name is {FullName}.";
-}
-```
+---
 
 Compared to using **NotifyPropertyChangedFor** to mark reference locations, this feature can significantly reduce the amount of code in complex reference scenarios.
 
@@ -116,7 +122,7 @@ Dependency collection is limited to **properties**, including the following area
 
 [!code-csharp[](../../../Tests/NStandard.Test/Analyzer/ObservableFeatureTests.cs#doc_KDA)]
 
-###### [Generated Part](#tab/KDA-g)
+###### [Generated code](#tab/kda-g)
 
 ```csharp
 public partial class KDA : INotifyPropertyChanging, INotifyPropertyChanged

@@ -1,37 +1,60 @@
-# Observable 特性 (预览)
+# Observable 特性（预览）
 
 <br/>
 
+该特性用于简化通知模型的代码编写。
+
+例如：
+
 [!code-csharp[](../../../Tests/NStandard.Test/Analyzer/ObservableFeatureTests.cs#doc_ObservableFeature)]
 
-分析器会在编译期自动收集依赖：
+分析器将在编译时自动收集依赖项以生成通知调用：
 
 ```mermaid
 graph TB
 classDef leaf fill:#fdc
-subgraph Notification Model
+subgraph 通知模型
 n_FirstName[FirstName]:::leaf
 n_LastName[LastName]:::leaf
 n_HelloText(HelloText)
 n_Group(FullName<br/>Description)
+n_FirstName --> n_HelloText
 n_FirstName --> n_Group
 n_LastName --> n_Group
-n_FirstName --> n_HelloText
 end
-subgraph Reference Model
+subgraph 引用模型
 r_FirstName[FirstName]:::leaf
 r_LastName[LastName]:::leaf
 r_FullName(FullName)
 r_HelloText(HelloText)
 r_Description(Description)
-r_FirstName --> r_FullName
-r_FirstName --> r_HelloText
-r_LastName --> r_FullName
-r_FullName --> r_Description
+r_FullName --> r_FirstName
+r_HelloText --> r_FirstName
+r_FullName --> r_LastName
+r_Description --> r_FullName
 end
 ```
 
-生成的分部代码：
+###### [相似的 MVVM 代码](#tab/mvvm)
+
+```csharp
+public partial class ObservablePerson_Mvvm : ObservableObject
+{
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description), nameof(HelloText))]
+    public string firstName;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description))]
+    public string lastName;
+
+    public string FullName => $"{FirstName} {LastName}";
+    public string HelloText => $"Hello {FirstName}";
+    public string Description => $"This person's name is {FullName}.";
+}
+```
+
+###### [生成代码](#tab/mvvm-g)
 
 ```csharp
 public partial class ObservablePerson : INotifyPropertyChanging, INotifyPropertyChanged
@@ -80,24 +103,7 @@ public partial class ObservablePerson : INotifyPropertyChanging, INotifyProperty
 }
 ```
 
-相似的 MVVM 代码：
-
-```csharp
-public partial class ObservablePerson_Mvvm : ObservableObject
-{
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description), nameof(HelloText))]
-    public string firstName;
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description))]
-    public string lastName;
-
-    public string FullName => $"{FirstName} {LastName}";
-    public string HelloText => $"Hello {FirstName}";
-    public string Description => $"This person's name is {FullName}.";
-}
-```
+---
 
 与使用 **NotifyPropertyChangedFor** 标记引用位置相比，此功能可以显著减少复杂引用场景下的代码量。
 
@@ -116,7 +122,7 @@ public partial class ObservablePerson_Mvvm : ObservableObject
 
 [!code-csharp[](../../../Tests/NStandard.Test/Analyzer/ObservableFeatureTests.cs#doc_KDA)]
 
-###### [生成部分](#tab/KDA-g)
+###### [生成代码](#tab/kda-g)
 
 ```csharp
 public partial class KDA : INotifyPropertyChanging, INotifyPropertyChanged
