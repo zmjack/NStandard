@@ -35,6 +35,8 @@ r_Description --> r_FullName
 end
 ```
 
+在复杂场景下，该功能可以显著减少代码量，让开发者从手动维护通知属性的任务中解放出来，提升代码质量。
+
 ###### [相似的 MVVM 代码](#tab/mvvm)
 
 ```csharp
@@ -104,8 +106,6 @@ public partial class ObservablePerson : INotifyPropertyChanging, INotifyProperty
 ```
 
 ---
-
-与使用 **NotifyPropertyChangedFor** 标记引用位置相比，此功能可以显著减少复杂引用场景下的代码量。
 
 <br/>
 

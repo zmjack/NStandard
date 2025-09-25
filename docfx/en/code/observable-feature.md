@@ -35,6 +35,8 @@ r_Description --> r_FullName
 end
 ```
 
+In complex scenarios, this feature can significantly reduce the amount of code, freeing developers from the task of manually maintaining notification properties and thus improving code quality.
+
 ###### [Similar MVVM code](#tab/mvvm)
 
 ```csharp

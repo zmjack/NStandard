@@ -124,6 +124,7 @@ r_FullName --&gt; r_LastName
 r_Description --&gt; r_FullName
 end
 </code></pre>
+<p>在复杂场景下，该功能可以显著减少代码量，让开发者从手动维护通知属性的任务中解放出来，提升代码质量。</p>
 <div class="tabGroup" id="tabgroup_1">
 <ul role="tablist">
 <li role="presentation">
@@ -200,8 +201,6 @@ end
 </code></pre>
 </section>
 </div>
-
-<p>与使用 <strong>NotifyPropertyChangedFor</strong> 标记引用位置相比，此功能可以显著减少复杂引用场景下的代码量。</p>
 <br>
 <h2 id="依赖收集">依赖收集</h2>
 <p>依赖收集范围仅限于 <strong>属性</strong>，包括以下区域：</p>
