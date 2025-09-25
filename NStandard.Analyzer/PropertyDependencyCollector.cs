@@ -124,7 +124,20 @@ public class PropertyDependencyCollector
 
                 if (state == PropertyState.GetAndSet)
                 {
-                    if (property.Modifiers.Any(x => x.ValueText == "partial"))
+                    bool hasPartial = false, hasStatic = false;
+                    foreach (var modifier in property.Modifiers)
+                    {
+                        if (modifier.ValueText == "partial")
+                        {
+                            hasPartial = true;
+                        }
+                        else if (modifier.ValueText == "static")
+                        {
+                            hasStatic = true;
+                        }
+                    }
+
+                    if (!hasStatic && hasPartial)
                     {
                         dependencies[property] = [];
                     }
