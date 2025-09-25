@@ -13,9 +13,12 @@ public class PropertyDependencyCollector
         {
             foreach (var reference in references)
             {
-                if (!dependencies[reference].Any())
+                if (dependencies.TryGetValue(reference, out var dependency))
                 {
-                    yield return reference;
+                    if (!dependency.Any())
+                    {
+                        yield return reference;
+                    }
                 }
                 else
                 {
@@ -121,7 +124,10 @@ public class PropertyDependencyCollector
 
                 if (state == PropertyState.GetAndSet)
                 {
-                    dependencies[property] = [];
+                    if (property.Modifiers.Any(x => x.ValueText == "partial"))
+                    {
+                        dependencies[property] = [];
+                    }
                 }
                 else if (state.HasFlag(PropertyState.GetBody))
                 {

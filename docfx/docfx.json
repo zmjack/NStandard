@@ -28,7 +28,7 @@
       "_appName": "NStandard",
       "_appTitle": "NStandard",
       "_enableSearch": true,
-      "pdf": true
+      "pdf": false
     }
   }
 }

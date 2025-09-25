@@ -22,386 +22,193 @@
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/Compatibility.md",
+      "source_relative_path": "en-us/Compatibility.md",
       "output": {
         ".html": {
-          "relative_path": "cn/Compatibility.html"
+          "relative_path": "en-us/Compatibility.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/archived/State.md",
+      "source_relative_path": "en-us/archived/State.md",
       "output": {
         ".html": {
-          "relative_path": "cn/archived/State.html"
+          "relative_path": "en-us/archived/State.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/archived/UnitValue.md",
+      "source_relative_path": "en-us/archived/UnitValue.md",
       "output": {
         ".html": {
-          "relative_path": "cn/archived/UnitValue.html"
+          "relative_path": "en-us/archived/UnitValue.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/code/dependency-property-feature.md",
+      "source_relative_path": "en-us/code/dependency-property-feature.md",
       "output": {
         ".html": {
-          "relative_path": "cn/code/dependency-property-feature.html"
+          "relative_path": "en-us/code/dependency-property-feature.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/code/field-feature.md",
+      "source_relative_path": "en-us/code/field-feature.md",
       "output": {
         ".html": {
-          "relative_path": "cn/code/field-feature.html"
+          "relative_path": "en-us/code/field-feature.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/code/observable-feature.md",
+      "source_relative_path": "en-us/code/observable-feature.md",
       "output": {
         ".html": {
-          "relative_path": "cn/code/observable-feature.html"
+          "relative_path": "en-us/code/observable-feature.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/extensions/ArrayExtensions.md",
+      "source_relative_path": "en-us/extensions/ArrayExtensions.md",
       "output": {
         ".html": {
-          "relative_path": "cn/extensions/ArrayExtensions.html"
+          "relative_path": "en-us/extensions/ArrayExtensions.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/extensions/DateTimeExtensions.md",
+      "source_relative_path": "en-us/extensions/DateTimeExtensions.md",
       "output": {
         ".html": {
-          "relative_path": "cn/extensions/DateTimeExtensions.html"
+          "relative_path": "en-us/extensions/DateTimeExtensions.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/getting-started.md",
+      "source_relative_path": "en-us/getting-started.md",
       "output": {
         ".html": {
-          "relative_path": "cn/getting-started.html"
+          "relative_path": "en-us/getting-started.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/introduction.md",
+      "source_relative_path": "en-us/introduction.md",
       "output": {
         ".html": {
-          "relative_path": "cn/introduction.html"
+          "relative_path": "en-us/introduction.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/io/SequenceInputStream.md",
+      "source_relative_path": "en-us/io/SequenceInputStream.md",
       "output": {
         ".html": {
-          "relative_path": "cn/io/SequenceInputStream.html"
+          "relative_path": "en-us/io/SequenceInputStream.html"
         }
       },
       "version": ""
     },
     {
       "type": "Toc",
-      "source_relative_path": "cn/toc.yml",
+      "source_relative_path": "en-us/toc.yml",
       "output": {
         ".html": {
-          "relative_path": "cn/toc.html"
+          "relative_path": "en-us/toc.html"
         },
         ".json": {
-          "relative_path": "cn/toc.json"
+          "relative_path": "en-us/toc.json"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/utility/Any.Chain.md",
+      "source_relative_path": "en-us/utility/Any.Chain.md",
       "output": {
         ".html": {
-          "relative_path": "cn/utility/Any.Chain.html"
+          "relative_path": "en-us/utility/Any.Chain.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/utility/Any.Flat.md",
+      "source_relative_path": "en-us/utility/Any.Flat.md",
       "output": {
         ".html": {
-          "relative_path": "cn/utility/Any.Flat.html"
+          "relative_path": "en-us/utility/Any.Flat.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/utility/Any.Forward.md",
+      "source_relative_path": "en-us/utility/Any.Forward.md",
       "output": {
         ".html": {
-          "relative_path": "cn/utility/Any.Forward.html"
+          "relative_path": "en-us/utility/Any.Forward.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/utility/Any.ReDim.md",
+      "source_relative_path": "en-us/utility/Any.ReDim.md",
       "output": {
         ".html": {
-          "relative_path": "cn/utility/Any.ReDim.html"
+          "relative_path": "en-us/utility/Any.ReDim.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/utility/Any.Zip.md",
+      "source_relative_path": "en-us/utility/Any.Zip.md",
       "output": {
         ".html": {
-          "relative_path": "cn/utility/Any.Zip.html"
+          "relative_path": "en-us/utility/Any.Zip.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/utility/DpContainer.md",
+      "source_relative_path": "en-us/utility/DpContainer.md",
       "output": {
         ".html": {
-          "relative_path": "cn/utility/DpContainer.html"
+          "relative_path": "en-us/utility/DpContainer.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "cn/utility/Evaluator.md",
+      "source_relative_path": "en-us/utility/Evaluator.md",
       "output": {
         ".html": {
-          "relative_path": "cn/utility/Evaluator.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/Compatibility.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/Compatibility.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/archived/State.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/archived/State.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/archived/UnitValue.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/archived/UnitValue.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/code/dependency-property-feature.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/code/dependency-property-feature.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/code/field-feature.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/code/field-feature.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/code/observable-feature.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/code/observable-feature.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/extensions/ArrayExtensions.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/extensions/ArrayExtensions.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/extensions/DateTimeExtensions.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/extensions/DateTimeExtensions.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/getting-started.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/getting-started.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/introduction.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/introduction.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/io/SequenceInputStream.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/io/SequenceInputStream.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Toc",
-      "source_relative_path": "en/toc.yml",
-      "output": {
-        ".html": {
-          "relative_path": "en/toc.html"
-        },
-        ".json": {
-          "relative_path": "en/toc.json"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/utility/Any.Chain.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/utility/Any.Chain.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/utility/Any.Flat.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/utility/Any.Flat.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/utility/Any.Forward.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/utility/Any.Forward.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/utility/Any.ReDim.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/utility/Any.ReDim.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/utility/Any.Zip.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/utility/Any.Zip.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/utility/DpContainer.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/utility/DpContainer.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "en/utility/Evaluator.md",
-      "output": {
-        ".html": {
-          "relative_path": "en/utility/Evaluator.html"
+          "relative_path": "en-us/utility/Evaluator.html"
         }
       },
       "version": ""
@@ -515,6 +322,199 @@
         },
         ".json": {
           "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/Compatibility.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/Compatibility.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/archived/State.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/archived/State.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/archived/UnitValue.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/archived/UnitValue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/code/dependency-property-feature.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/code/dependency-property-feature.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/code/field-feature.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/code/field-feature.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/code/observable-feature.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/code/observable-feature.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/extensions/ArrayExtensions.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/extensions/ArrayExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/extensions/DateTimeExtensions.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/extensions/DateTimeExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/getting-started.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/getting-started.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/introduction.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/introduction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/io/SequenceInputStream.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/io/SequenceInputStream.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "zh-cn/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/toc.html"
+        },
+        ".json": {
+          "relative_path": "zh-cn/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/utility/Any.Chain.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/utility/Any.Chain.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/utility/Any.Flat.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/utility/Any.Flat.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/utility/Any.Forward.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/utility/Any.Forward.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/utility/Any.ReDim.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/utility/Any.ReDim.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/utility/Any.Zip.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/utility/Any.Zip.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/utility/DpContainer.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/utility/DpContainer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "zh-cn/utility/Evaluator.md",
+      "output": {
+        ".html": {
+          "relative_path": "zh-cn/utility/Evaluator.html"
         }
       },
       "version": ""

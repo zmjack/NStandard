@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Observable Feature (Preview) | NStandard </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Observable Feature (Preview) | NStandard ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/zmjack/NStandard/blob/master/docfx/en-us/code/observable-feature.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="NStandard">
+            NStandard
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="observable-feature-preview">Observable Feature (Preview)</h1>
+
+<br>
+<p>This feature is used to simplify the coding of the notification model.</p>
+<p>For example:</p>
+<pre><code class="lang-csharp">[ObservableFeature]
+public partial class ObservablePerson
+{
+    public partial string FirstName { get; set; }
+    public partial string LastName { get; set; }
+    public string FullName =&gt; $&quot;{FirstName} {LastName}&quot;;
+    public string HelloText =&gt; $&quot;Hello {FirstName}&quot;;
+    public string Description =&gt; $&quot;This person's name is {FullName}.&quot;;
+}
+</code></pre>
+<p>The analyzer will automatically collect dependencies at compile time to generate the notification calls:</p>
+<pre><code class="lang-mermaid">graph TB
+classDef leaf fill:#fdc
+subgraph Notification Model
+n_FirstName[FirstName]:::leaf
+n_LastName[LastName]:::leaf
+n_HelloText(HelloText)
+n_Group(FullName&lt;br/&gt;Description)
+n_FirstName --&gt; n_HelloText
+n_FirstName --&gt; n_Group
+n_LastName --&gt; n_Group
+end
+subgraph Reference Model
+r_FirstName[FirstName]:::leaf
+r_LastName[LastName]:::leaf
+r_FullName(FullName)
+r_HelloText(HelloText)
+r_Description(Description)
+r_FullName --&gt; r_FirstName
+r_HelloText --&gt; r_FirstName
+r_FullName --&gt; r_LastName
+r_Description --&gt; r_FullName
+end
+</code></pre>
+<p>In complex scenarios, this feature can significantly reduce the amount of code, freeing developers from the task of manually maintaining notification properties and thus improving code quality.</p>
+<div class="tabGroup" id="tabgroup_1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_1_mvvm" role="tab" aria-controls="tabpanel_1_mvvm" data-tab="mvvm" tabindex="0" aria-selected="true">Similar MVVM code</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_mvvm-g" role="tab" aria-controls="tabpanel_1_mvvm-g" data-tab="mvvm-g" tabindex="-1">Generated code</a>
+</li>
+</ul>
+<section id="tabpanel_1_mvvm" role="tabpanel" data-tab="mvvm">
+
+<pre><code class="lang-csharp">public partial class ObservablePerson_Mvvm : ObservableObject
+{
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description), nameof(HelloText))]
+    public string firstName;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(FullName), nameof(Description))]
+    public string lastName;
+
+    public string FullName =&gt; $&quot;{FirstName} {LastName}&quot;;
+    public string HelloText =&gt; $&quot;Hello {FirstName}&quot;;
+    public string Description =&gt; $&quot;This person's name is {FullName}.&quot;;
+}
+</code></pre>
+</section>
+<section id="tabpanel_1_mvvm-g" role="tabpanel" data-tab="mvvm-g" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public partial class ObservablePerson : INotifyPropertyChanging, INotifyPropertyChanged
+{
+    public event PropertyChangingEventHandler PropertyChanging;
+    public event PropertyChangedEventHandler PropertyChanged;
+    
+    private string backing_FirstName;
+    public partial string FirstName
+    {
+        get =&gt; backing_FirstName;
+        set
+        {
+            if (!EqualityComparer&lt;string&gt;.Default.Equals(backing_FirstName, value))
+            {
+                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(&quot;FirstName&quot;));
+                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(&quot;FullName&quot;));
+                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(&quot;HelloText&quot;));
+                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(&quot;Description&quot;));
+                backing_FirstName = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;FirstName&quot;));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;FullName&quot;));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;HelloText&quot;));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;Description&quot;));
+            }
+        }
+    }
+    private string backing_LastName;
+    public partial string LastName
+    {
+        get =&gt; backing_LastName;
+        set
+        {
+            if (!EqualityComparer&lt;string&gt;.Default.Equals(backing_LastName, value))
+            {
+                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(&quot;LastName&quot;));
+                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(&quot;FullName&quot;));
+                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(&quot;Description&quot;));
+                backing_LastName = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;LastName&quot;));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;FullName&quot;));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;Description&quot;));
+            }
+        }
+    }
+}
+</code></pre>
+</section>
+</div>
+
+<p>Compared to using <strong>NotifyPropertyChangedFor</strong> to mark reference locations, this feature can significantly reduce the amount of code in complex reference scenarios.</p>
+<br>
+<h2 id="dependency-collection">Dependency collection</h2>
+<p>Dependency collection is limited to <strong>properties</strong>, including the following areas:</p>
+<ul>
+<li>Arrow syntax</li>
+<li><strong>Getter</strong> areas.</li>
+</ul>
+<h3 id="another-example">Another example</h3>
+<div class="tabGroup" id="tabgroup_2">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_2_kda" role="tab" aria-controls="tabpanel_2_kda" data-tab="kda" tabindex="0" aria-selected="true">KDA Score</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_2_kda-g" role="tab" aria-controls="tabpanel_2_kda-g" data-tab="kda-g" tabindex="-1">Generated code</a>
+</li>
+</ul>
+<section id="tabpanel_2_kda" role="tabpanel" data-tab="kda">
+<pre><code class="lang-csharp">[ObservableFeature]
+public partial class KDA
+{
+    public partial int Kills { get; set; }
+    public partial int Deaths { get; set; }
+    public partial int Assists { get; set; }
+
+    public double Score =&gt; Math.Round(Kills - Deaths + (Assists / 2.5), 1);
+    public Color PanelColor
+    {
+        get
+        {
+            if (Score &gt;= 0) return Color.FromArgb(0x99, 0x66, 0xcc, 0x66);
+            else return Color.FromArgb(0x99, 0xcc, 0x66, 0x66);
+        }
+    }
+}
+</code></pre></section>
+<section id="tabpanel_2_kda-g" role="tabpanel" data-tab="kda-g" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public partial class KDA : INotifyPropertyChanging, INotifyPropertyChanged
+{
+    public event PropertyChangingEventHandler PropertyChanging;
+    public event PropertyChangedEventHandler PropertyChanged;
+    
+    private int backing_Kills;
+    public partial int Kills
+    {
+        get =&gt; backing_Kills;
+        set
+        {
+            if (!EqualityComparer&lt;int&gt;.Default.Equals(backing_Kills, value))
+            {
+                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(&quot;Kills&quot;));
+                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(&quot;Score&quot;));
+                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(&quot;PanelColor&quot;));
+                backing_Kills = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;Kills&quot;));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;Score&quot;));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;PanelColor&quot;));
+            }
+        }
+    }
+    private int backing_Deaths;
+    public partial int Deaths
+    {
+        get =&gt; backing_Deaths;
+        set
+        {
+            if (!EqualityComparer&lt;int&gt;.Default.Equals(backing_Deaths, value))
+            {
+                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(&quot;Deaths&quot;));
+                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(&quot;Score&quot;));
+                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(&quot;PanelColor&quot;));
+                backing_Deaths = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;Deaths&quot;));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;Score&quot;));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;PanelColor&quot;));
+            }
+        }
+    }
+    private int backing_Assists;
+    public partial int Assists
+    {
+        get =&gt; backing_Assists;
+        set
+        {
+            if (!EqualityComparer&lt;int&gt;.Default.Equals(backing_Assists, value))
+            {
+                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(&quot;Assists&quot;));
+                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(&quot;Score&quot;));
+                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(&quot;PanelColor&quot;));
+                backing_Assists = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;Assists&quot;));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;Score&quot;));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(&quot;PanelColor&quot;));
+            }
+        }
+    }
+}
+</code></pre>
+</section>
+</div>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/zmjack/NStandard/blob/master/docfx/en-us/code/observable-feature.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
