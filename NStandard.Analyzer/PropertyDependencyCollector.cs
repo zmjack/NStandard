@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,62 +8,6 @@ namespace NStandard.Analyzer;
 
 public class PropertyDependencyCollector
 {
-    public static Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> ReverseDependecies(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies)
-    {
-        IEnumerable<PropertyDeclarationSyntax> GetRootReferences(IEnumerable<PropertyDeclarationSyntax> references)
-        {
-            foreach (var reference in references)
-            {
-                if (dependencies.TryGetValue(reference, out var dependency))
-                {
-                    if (!dependency.Any())
-                    {
-                        yield return reference;
-                    }
-                }
-                else
-                {
-                    foreach (var root in GetRootReferences(dependencies[reference]))
-                    {
-                        yield return root;
-                    }
-                }
-            }
-        }
-
-        var list = new Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>>();
-        foreach (var dependency in dependencies)
-        {
-            if (dependency.Key.ExpressionBody is null)
-            {
-                foreach (var accessor in dependency.Key.AccessorList!.Accessors)
-                {
-                    if (accessor.Keyword.ValueText == "set" && accessor.Body is null && accessor.ExpressionBody is null)
-                    {
-                        if (!list.ContainsKey(dependency.Key))
-                        {
-                            list[dependency.Key] = new HashSet<PropertyDeclarationSyntax>();
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (dependency.Value.Any())
-            {
-                foreach (var reference in GetRootReferences(dependency.Value))
-                {
-                    if (!list.ContainsKey(reference))
-                    {
-                        list[reference] = new HashSet<PropertyDeclarationSyntax>();
-                    }
-                    list[reference].Add(dependency.Key);
-                }
-            }
-        }
-        return list;
-    }
-
     [Flags]
     private enum PropertyState
     {
@@ -76,7 +21,7 @@ public class PropertyDependencyCollector
         GetAndSet = Get | Set,
     }
 
-    public Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> Collect(ClassDeclarationSyntax @class)
+    public Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> Collect(SemanticModel semantic, ClassDeclarationSyntax @class)
     {
         var dependencies = new Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>>();
         var properties = @class.DescendantNodes().OfType<PropertyDeclarationSyntax>();
@@ -124,22 +69,37 @@ public class PropertyDependencyCollector
 
                 if (state == PropertyState.GetAndSet)
                 {
-                    bool hasPartial = false, hasStatic = false;
-                    foreach (var modifier in property.Modifiers)
+                    bool markDependencyProperty = false;
+                    var attributes = property.AttributeLists.SelectMany(x => x.Attributes);
+                    foreach (var attr in attributes)
                     {
-                        if (modifier.ValueText == "partial")
+                        var attrType = semantic.GetTypeInfo(attr);
+                        if (attrType.ConvertedType!.ToString() == "NStandard.ComponentModel.DependencyPropertyAttribute")
                         {
-                            hasPartial = true;
-                        }
-                        else if (modifier.ValueText == "static")
-                        {
-                            hasStatic = true;
+                            markDependencyProperty = true;
+                            break;
                         }
                     }
 
-                    if (!hasStatic && hasPartial)
+                    if (!markDependencyProperty)
                     {
-                        dependencies[property] = [];
+                        bool hasPartial = false, hasStatic = false;
+                        foreach (var modifier in property.Modifiers)
+                        {
+                            if (modifier.ValueText == "partial")
+                            {
+                                hasPartial = true;
+                            }
+                            else if (modifier.ValueText == "static")
+                            {
+                                hasStatic = true;
+                            }
+                        }
+
+                        if (!hasStatic && hasPartial)
+                        {
+                            dependencies[property] = [];
+                        }
                     }
                 }
                 else if (state.HasFlag(PropertyState.GetBody))
@@ -513,5 +473,61 @@ public class PropertyDependencyCollector
         {
             yield return target;
         }
+    }
+
+    public static Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> ReverseDependecies(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies)
+    {
+        IEnumerable<PropertyDeclarationSyntax> GetRootReferences(IEnumerable<PropertyDeclarationSyntax> references)
+        {
+            foreach (var reference in references)
+            {
+                if (dependencies.TryGetValue(reference, out var dependency))
+                {
+                    if (!dependency.Any())
+                    {
+                        yield return reference;
+                    }
+                }
+                else
+                {
+                    foreach (var root in GetRootReferences(dependencies[reference]))
+                    {
+                        yield return root;
+                    }
+                }
+            }
+        }
+
+        var list = new Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>>();
+        foreach (var dependency in dependencies)
+        {
+            if (dependency.Key.ExpressionBody is null)
+            {
+                foreach (var accessor in dependency.Key.AccessorList!.Accessors)
+                {
+                    if (accessor.Keyword.ValueText == "set" && accessor.Body is null && accessor.ExpressionBody is null)
+                    {
+                        if (!list.ContainsKey(dependency.Key))
+                        {
+                            list[dependency.Key] = new HashSet<PropertyDeclarationSyntax>();
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (dependency.Value.Any())
+            {
+                foreach (var reference in GetRootReferences(dependency.Value))
+                {
+                    if (!list.ContainsKey(reference))
+                    {
+                        list[reference] = new HashSet<PropertyDeclarationSyntax>();
+                    }
+                    list[reference].Add(dependency.Key);
+                }
+            }
+        }
+        return list;
     }
 }

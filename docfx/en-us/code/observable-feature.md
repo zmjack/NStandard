@@ -111,12 +111,24 @@ Compared to using **NotifyPropertyChangedFor** to mark reference locations, this
 
 <br/>
 
-## Dependency collection
+## Dependency Collection and Notification Properties
 
-Dependency collection is limited to **properties**, including the following areas:
+### Dependency Collection
+
+Dependency collection is limited to **properties** that meet the following conditions:
 
 - Arrow syntax
 - **Getter** areas.
+
+### Notification Properties
+
+Notification properties are limited to **properties** that meet the following conditions:
+
+- Defined as **partial**
+- Not **static**
+- Declare only **getters** and **setters**
+
+<br/>
 
 ### Another example
 

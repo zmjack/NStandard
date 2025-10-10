@@ -15,7 +15,9 @@
       {
         "files": [
           "images/**",
-          "CNAME"
+          "CNAME",
+          "logo.svg",
+          "home.svg"
         ]
       }
     ],
@@ -25,8 +27,9 @@
       "modern"
     ],
     "globalMetadata": {
-      "_appName": "NStandard",
       "_appTitle": "NStandard",
+      "_appLogoPath": "logo.svg",
+      "_appLogoUrl": "/",
       "_enableSearch": true,
       "pdf": false
     }

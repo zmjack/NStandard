@@ -109,14 +109,26 @@ public partial class ObservablePerson : INotifyPropertyChanging, INotifyProperty
 
 <br/>
 
-## 依赖收集
+## 依赖收集与通知属性
 
-依赖收集范围仅限于 **属性**，包括以下区域：
+### 依赖收集
+
+依赖收集仅限于 **属性**，且满足以下条件：
 
 - 箭头语法
-- **Getter** 区域。
+- **Getter** 区域
 
-### 另一个例子
+### 通知属性
+
+通知属性仅限于 **属性**，且满足以下条件：
+
+- 定义为 **partial**
+- 不是 **static**
+- 仅声明 **Getter** 和 **Setter**
+
+<br/>
+
+## 另一个例子
 
 ###### [KDA 分数](#tab/kda)
 

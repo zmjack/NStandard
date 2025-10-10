@@ -47,7 +47,7 @@ public class ObservableFeatureGenerator : IIncrementalGenerator
 
             var properties = typeDeclaration.DescendantNodes().OfType<PropertyDeclarationSyntax>();
             var collector = new PropertyDependencyCollector();
-            var dependencies = collector.Collect(typeDeclaration);
+            var dependencies = collector.Collect(semantic, typeDeclaration);
 
             var reversedDependencies = PropertyDependencyCollector.ReverseDependecies(dependencies);
             var code = new StringBuilder();
