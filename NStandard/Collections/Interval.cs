@@ -363,13 +363,13 @@ public class Interval<T> : IEnumerable<T>, IEquatable<Interval<T>>
             var item = range.Start;
 
 #if NET7_0_OR_GREATER
-            while (item < range.End)
+            while (item <= range.End)
             {
                 yield return item;
                 item = Next(item);
             }
 #else
-            while (OpLessThan(item, range.End))
+            while (OpLessThanOrEqual(item, range.End))
             {
                 yield return item;
                 if (OpEqual(item, range.End)) break;

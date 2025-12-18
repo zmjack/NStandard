@@ -8,7 +8,7 @@
 		</TargetFrameworks>
 		<LangVersion>13.0</LangVersion>
 		<Authors>zmjack</Authors>
-		<Version>0.110.0</Version>
+		<Version>0.110.1</Version>
 		<Company>nstandard.net</Company>
 		<Description>
 			Json extensions for System.Text.Json.

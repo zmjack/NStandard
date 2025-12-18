@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using NStandard.Debug;
+using Xunit;
 
 namespace NStandard.Collections.Test;
 
@@ -348,4 +349,15 @@ public class IntervalTests
         Assert.True(interval.Contains(new() { (5, 6) }));
     }
 
+    [Fact]
+    public void EachTest()
+    {
+        var interval = new Interval<int>()
+        {
+            5,
+            (2, 3),
+            (7, 8),
+        };
+        Assert.Equal([2, 3, 5, 7, 8], interval);
+    }
 }
