@@ -7,7 +7,7 @@ public static class NumberFlow
     public static double DefaultIfNonNormal(double number) => IsNormal(number) ? number : 0;
     public static float DefaultIfNonNormal(float number) => IsNormal(number) ? number : 0;
 
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
     private unsafe static int SingleToInt32Bits(float value)

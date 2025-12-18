@@ -29,7 +29,7 @@ public class ConsoleContext : Scope<ConsoleContext>
             CursorLeft = Console.CursorLeft;
             CursorTop = Console.CursorTop;
 
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
             if (OperatingSystem.IsWindows())
             {
                 CursorSize = Console.CursorSize;
@@ -42,7 +42,7 @@ public class ConsoleContext : Scope<ConsoleContext>
         }
         catch { }
 
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
         if (OperatingSystem.IsWindows())
         {
             Title = Console.Title;
@@ -69,7 +69,7 @@ public class ConsoleContext : Scope<ConsoleContext>
             if (Console.CursorLeft != CursorLeft) Console.CursorLeft = CursorLeft;
             if (Console.CursorTop != CursorTop) Console.CursorTop = CursorTop;
 
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
             if (OperatingSystem.IsWindows())
             {
                 if (Console.CursorSize != CursorSize) Console.CursorSize = CursorSize;
@@ -81,7 +81,7 @@ public class ConsoleContext : Scope<ConsoleContext>
 #endif
         }
 
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
         if (OperatingSystem.IsWindows())
         {
             if (Console.Title != Title) Console.Title = Title!;

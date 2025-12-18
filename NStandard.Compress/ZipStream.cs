@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Dawnx.Compress;
+namespace NStandard.Compress;
 
 public partial class ZipStream : Stream, IEnumerable, IDisposable
 {
@@ -62,7 +62,10 @@ public partial class ZipStream : Stream, IEnumerable, IDisposable
     /// <returns></returns>
     public ZipStream AddEntry(string entryName, Stream inStream, CompressionMethod method = CompressionMethod.Deflated)
     {
-        using (new UpdateScope(this)) ZipFile.Add(new StaticDataSource(inStream), entryName, method, true);
+        using (new UpdateScope(this))
+        {
+            ZipFile.Add(new StaticDataSource(inStream), entryName, method, true);
+        }
         return this;
     }
     /// <summary>
@@ -86,7 +89,10 @@ public partial class ZipStream : Stream, IEnumerable, IDisposable
     /// <returns></returns>
     public ZipStream AddFileEntry(string entryName, string path, CompressionMethod method = CompressionMethod.Deflated)
     {
-        using (var file = new FileStream(path, FileMode.Open, FileAccess.Read)) AddEntry(entryName, file, method);
+        using (var file = new FileStream(path, FileMode.Open, FileAccess.Read))
+        {
+            AddEntry(entryName, file, method);
+        }
         return this;
     }
 
@@ -97,7 +103,10 @@ public partial class ZipStream : Stream, IEnumerable, IDisposable
     /// <returns></returns>
     public ZipStream AddDictionary(string dictionaryName)
     {
-        using (new UpdateScope(this)) ZipFile.AddDirectory(dictionaryName);
+        using (new UpdateScope(this))
+        {
+            ZipFile.AddDirectory(dictionaryName);
+        }
         return this;
     }
 

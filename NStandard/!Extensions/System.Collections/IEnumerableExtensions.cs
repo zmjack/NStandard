@@ -119,7 +119,7 @@ public static class IEnumerableExtensions
     /// <returns></returns>
     public static string Join<TSource>(this IEnumerable<TSource> @this, string separator)
     {
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
         return string.Join(separator, @this);
 #else
         return string.Join(separator, @this.Select(x => x?.ToString()).ToArray());

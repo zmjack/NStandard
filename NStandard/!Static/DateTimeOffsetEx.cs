@@ -19,7 +19,7 @@ public static class DateTimeOffsetEx
     /// <returns></returns>
     public static DateTimeOffset FromUnixTimeMilliseconds(long milliseconds)
     {
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
         return DateTimeOffset.FromUnixTimeMilliseconds(milliseconds);
 #else
         if (milliseconds < -62135596800000L || milliseconds > 253402300799999L)
@@ -39,7 +39,7 @@ public static class DateTimeOffsetEx
     /// <returns></returns>
     public static DateTimeOffset FromUnixTimeSeconds(long seconds)
     {
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
         return DateTimeOffset.FromUnixTimeSeconds(seconds);
 #else
         if (seconds < -62135596800L || seconds > 253402300799L)

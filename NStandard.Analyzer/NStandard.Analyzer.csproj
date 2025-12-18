@@ -8,7 +8,7 @@
 		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
 
-		<Version>0.100.3.5</Version>
+		<Version>0.110.0</Version>
 		<RootNamespace>NStandard.Analyzer</RootNamespace>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Authors>zmjack</Authors>

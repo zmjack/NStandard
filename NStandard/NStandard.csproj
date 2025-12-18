@@ -2,14 +2,13 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>
-			net8.0;net7.0;net6.0;net5.0;
+			net10.0;net8.0;net7.0;net6.0;
 			netstandard2.1;netstandard2.0;
-			net48;net472;net471;net47;net462;net461;net46;net452;net451;net35;
+			net48;net472;net471;net47;net462;net461;net46;net452;net451;net35
 		</TargetFrameworks>
 		<LangVersion Condition="'$(TargetFramework)'=='net8.0'">13.0</LangVersion>
 		<LangVersion Condition="'$(TargetFramework)'=='net7.0'">13.0</LangVersion>
 		<LangVersion Condition="'$(TargetFramework)'=='net6.0'">13.0</LangVersion>
-		<LangVersion Condition="'$(TargetFramework)'=='net5.0'">13.0</LangVersion>
 		<LangVersion Condition="'$(TargetFramework)'=='netstandard2.1'">13.0</LangVersion>
 		<LangVersion Condition="'$(TargetFramework)'=='netstandard2.0'">13.0</LangVersion>
 		<LangVersion Condition="'$(TargetFramework)'=='net48'">13.0</LangVersion>
@@ -26,7 +25,7 @@
 
 	<PropertyGroup>
 		<Nullable>enable</Nullable>
-		<Version>0.100.3</Version>
+		<Version>0.110.0</Version>
 		<RootNamespace>NStandard</RootNamespace>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Authors>zmjack</Authors>

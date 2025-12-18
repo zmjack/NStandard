@@ -509,7 +509,7 @@ public static class DateTimeOffsetExtensions
         else return days < 0 ? days + 7 : days;
     }
 
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
 #else
     /// <summary>
     /// Returns the number of milliseconds that have elapsed since 1970-01-01T00:00:00.000Z.

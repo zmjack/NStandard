@@ -28,7 +28,7 @@ namespace NStandard.Test.Collections
         }
         private void AssertEqual(Interval<int> left, Interval<int> right)
         {
-            Assert.AreEqual(true, left.ToArray().SequenceEqual(right.ToArray()));
+            Assert.AreEqual(true, left.SequenceEqual(right));
         }
 
         [TestMethod]

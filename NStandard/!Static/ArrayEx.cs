@@ -1,4 +1,4 @@
-﻿#if NET5_0_OR_GREATER
+﻿#if NET6_0_OR_GREATER
 using System.Runtime.CompilerServices;
 #endif
 
@@ -9,7 +9,7 @@ public static class ArrayEx
     private static ArgumentException Exception_InsufficientElements(string paramName) => new("Insufficient elements in source array.", paramName);
     private static ArgumentException Exception_CopyingOverflow(string paramName) => new("Copying the specified array results in overflow.", paramName);
 
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
 #else
     private static class EmptyArray<T>
     {
@@ -63,7 +63,7 @@ public static class ArrayEx
         }
     }
 
-#if NETCOREAPP3_0_OR_GREATER
+#if NET6_0_OR_GREATER
     /// <summary>
     /// Assign values to arrays of indeterminate dimensions using one-dimensional arrays.
     /// </summary>

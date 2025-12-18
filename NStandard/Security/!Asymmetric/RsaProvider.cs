@@ -88,7 +88,7 @@ public class RsaProvider
                 .ToCharArray().Pairs()
                 .GroupBy(x => x.Index / 64)
                 .Select(g => new string(g.Select(x => x.Value).ToArray()))
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
 #else
                 .ToArray()
 #endif
@@ -110,7 +110,7 @@ public class RsaProvider
     /// <returns></returns>
     public byte[] Encrypt(byte[] data, RSAEncryptionPadding padding)
     {
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
         return _innerProvider.Encrypt(data, padding);
 #else
         if (padding == RSAEncryptionPadding.Pkcs1) return _innerProvider.Encrypt(data, false);
@@ -133,7 +133,7 @@ public class RsaProvider
     /// <returns></returns>
     public byte[] Decrypt(byte[] data, RSAEncryptionPadding padding)
     {
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
         return _innerProvider.Decrypt(data, padding);
 #else
         if (padding == RSAEncryptionPadding.Pkcs1) return _innerProvider.Decrypt(data, false);
@@ -142,7 +142,7 @@ public class RsaProvider
 #endif
     }
 
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
 #else
     private HashAlgorithm GetHashAlgorithm(HashAlgorithmName hashAlgorithm)
     {
@@ -174,7 +174,7 @@ public class RsaProvider
     public byte[] SignData(byte[] data, HashAlgorithmName hashAlgorithm) => SignData(data, hashAlgorithm, RSASignaturePadding.Pkcs1);
     public byte[] SignData(byte[] data, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
     {
-#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
         return _innerProvider.SignData(data, hashAlgorithm, padding);
 #else
         if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
@@ -185,7 +185,7 @@ public class RsaProvider
     public byte[] SignData(byte[] data, int offset, int count, HashAlgorithmName hashAlgorithm) => SignData(data, offset, count, hashAlgorithm, RSASignaturePadding.Pkcs1);
     public byte[] SignData(byte[] data, int offset, int count, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
     {
-#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
         return _innerProvider.SignData(data, offset, count, hashAlgorithm, padding);
 #else
         if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
@@ -196,7 +196,7 @@ public class RsaProvider
     public byte[] SignData(Stream data, HashAlgorithmName hashAlgorithm) => SignData(data, hashAlgorithm, RSASignaturePadding.Pkcs1);
     public byte[] SignData(Stream data, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
     {
-#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
         return _innerProvider.SignData(data, hashAlgorithm, padding);
 #else
         if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
@@ -207,7 +207,7 @@ public class RsaProvider
     public bool VerifyData(byte[] data, byte[] signature, HashAlgorithmName hashAlgorithm) => VerifyData(data, signature, hashAlgorithm, RSASignaturePadding.Pkcs1);
     public bool VerifyData(byte[] data, byte[] signature, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
     {
-#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
         return _innerProvider.VerifyData(data, signature, hashAlgorithm, padding);
 #else
         if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
@@ -218,7 +218,7 @@ public class RsaProvider
     public bool VerifyData(byte[] data, int offset, int count, byte[] signature, HashAlgorithmName hashAlgorithm) => VerifyData(data, offset, count, signature, hashAlgorithm, RSASignaturePadding.Pkcs1);
     public bool VerifyData(byte[] data, int offset, int count, byte[] signature, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
     {
-#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
         return _innerProvider.VerifyData(data, offset, count, signature, hashAlgorithm, padding);
 #else
         if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
@@ -235,7 +235,7 @@ public class RsaProvider
     public bool VerifyData(Stream data, byte[] signature, HashAlgorithmName hashAlgorithm) => VerifyData(data, signature, hashAlgorithm, RSASignaturePadding.Pkcs1);
     public bool VerifyData(Stream data, byte[] signature, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
     {
-#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
         return _innerProvider.VerifyData(data, signature, hashAlgorithm, padding);
 #else
         if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
@@ -249,7 +249,7 @@ public class RsaProvider
     public byte[] SignHash(byte[] hash, HashAlgorithmName hashAlgorithm) => SignHash(hash, hashAlgorithm, RSASignaturePadding.Pkcs1);
     public byte[] SignHash(byte[] hash, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
     {
-#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
         return _innerProvider.SignHash(hash, hashAlgorithm, padding);
 #else
         if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");
@@ -260,7 +260,7 @@ public class RsaProvider
     public bool VerifyHash(byte[] hash, byte[] signature, HashAlgorithmName hashAlgorithm) => VerifyHash(hash, signature, hashAlgorithm, RSASignaturePadding.Pkcs1);
     public bool VerifyHash(byte[] hash, byte[] signature, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
     {
-#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
         return _innerProvider.VerifyHash(hash, signature, hashAlgorithm, padding);
 #else
         if (padding != RSASignaturePadding.Pkcs1) throw new NotSupportedException("Only RSASignaturePadding.Pkcs1 is supported.");

@@ -1,6 +1,6 @@
 ﻿using NStandard;
 
-namespace Dawnx.Compress;
+namespace NStandard.Compress;
 
 public partial class ZipStream
 {

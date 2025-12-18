@@ -146,7 +146,7 @@ public class HashMap<TKey, TValue> : IDictionary<TKey?, TValue?> where TKey : no
         }
     }
 
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
     public bool Remove(TKey? key, out TValue? value)
     {
         if (key is null)

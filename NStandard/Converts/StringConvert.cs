@@ -71,7 +71,7 @@ public static class StringConvert
     {
         if (@this.IsNullOrEmpty())
         {
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
             return Array.Empty<byte>();
 #else
             return ArrayEx.Empty<byte>();

@@ -175,7 +175,7 @@ public class Variant
         if (bool.TryParse(@this._string, out var ret)) return ret;
         throw TypeMismatch();
     }
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
     public static implicit operator Guid(Variant @this)
     {
         if (@this._string.IsNullOrWhiteSpace()) throw TypeMismatch();
@@ -292,7 +292,7 @@ public class Variant
         if (bool.TryParse(@this._string, out var ret)) return ret;
         throw TypeMismatch();
     }
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
     public static implicit operator Guid?(Variant @this)
     {
         if (@this._string.IsNullOrWhiteSpace()) return null;

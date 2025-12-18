@@ -178,7 +178,7 @@ public class DataFrame<T>
 
     public IEnumerable<Row> Rows() => InnerRows(Index, RowValues());
     public IEnumerable<Row> Head(int count) => InnerRows(Index.Take(count), RowValues().Take(count));
-#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
     public IEnumerable<Row> Tail(int count) => InnerRows(Index.TakeLast(count), RowValues().TakeLast(count));
 #else
     public IEnumerable<Row> Tail(int count) => InnerRows(Index.Skip(RowLength - count).Take(count), RowValues().Skip(RowLength - count).Take(count));

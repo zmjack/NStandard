@@ -1,7 +1,7 @@
 ﻿using NStandard.Converts;
 using NStandard.Static;
 using System.Text;
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
 using System.Net;
 #else
 using System.Web;
@@ -23,7 +23,7 @@ public static class StringFlow
     public static Guid GuidFromBase64(string? str) => new(BytesFromBase64(str));
     public static Guid GuidFromUrlSafeBase64(string? str) => new(BytesFromUrlSafeBase64(str));
 
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
     public static string? UrlEncode(string? str) => WebUtility.UrlEncode(str);
     public static string? UrlDecode(string? str) => WebUtility.UrlDecode(str);
     public static string? UrlEncode(string? str, Encoding e)

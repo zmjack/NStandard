@@ -1,7 +1,7 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
 using System.IO;
 
-namespace Dawnx.Compress;
+namespace NStandard.Compress;
 
 public partial class ZipStream
 {

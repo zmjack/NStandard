@@ -46,8 +46,12 @@ These frameworks are supported:
 Since the latest version contains breaking updates, it is recommended to update via the following path:
 
 ```mermaid
-graph LR
-0.0.0 --> 0.70.0 --> 0.85.1 --> 0.90.0 --> Lastest
+graph RL
+0.100.3 --> Lastest
+0.100.3L --> Lastest
+subgraph Upgrade Path
+0.0.0 --> 0.70.0 --> 0.85.1 --> 0.90.0 --> 0.100.3L[0.100.3]
+end
 ```
 
 ## Package reference suggestion
@@ -74,6 +78,24 @@ With Analyzer:
 <br/>
 
 ## Recently
+
+### Version: 0.110.0
+
+- Added **.NET 10** support, removed **.NET 5** support.
+
+- **[Breaking Change]**
+
+  Adjusted the **Interval** implementation to make it more intuitive for developers when writing iterative code:
+
+  ```csharp
+  class Interval<T> : IEnumerable<T>
+  ```
+
+  Original implementation:
+
+  ```csharp
+  class Interval<T> : IEnumerable<Interval<T>.Range>
+  ```
 
 ### Version 0.100.3
 

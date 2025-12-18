@@ -263,7 +263,7 @@ public struct HashCode
 #if false   // Origin code
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #else       // Custom code
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #endif
@@ -278,7 +278,7 @@ public struct HashCode
 #if false   // Origin code
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #else       // Custom code
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #endif
@@ -294,7 +294,7 @@ public struct HashCode
 #if false   // Origin code
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #else       // Custom code
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #endif
@@ -310,7 +310,7 @@ public struct HashCode
 #if false   // Origin code
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #else       // Custom code
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #endif
@@ -331,7 +331,7 @@ public struct HashCode
 #if false   // Origin code
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #else       // Custom code
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
 #endif

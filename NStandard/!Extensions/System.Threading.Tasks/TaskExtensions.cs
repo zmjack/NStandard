@@ -1,4 +1,4 @@
-﻿#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+﻿#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -14,7 +14,7 @@ public static class TaskExtensions
         catch (Exception ex) { onException(ex); }
     }
 
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
     public static async Task CatchAsync(this Task @this, Action<Exception> onException)
     {
         await Task.Run(() =>

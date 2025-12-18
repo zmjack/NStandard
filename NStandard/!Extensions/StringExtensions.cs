@@ -21,7 +21,7 @@ public static partial class StringExtensions
     /// <returns></returns>
     public static bool IsNullOrWhiteSpace(this string? @this)
     {
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
         return string.IsNullOrWhiteSpace(@this);
 #else
         if (@this == null) return true;

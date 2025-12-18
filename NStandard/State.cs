@@ -53,7 +53,7 @@ public sealed class State<T> : IState, IDisposable
     private readonly Func<T?> _getValue;
     private T? _value;
 
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET40_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET40_OR_GREATER
     private readonly Lazy<Type> _valueType = new(() => typeof(T));
     public Type ValueType => _valueType.Value;
 #else

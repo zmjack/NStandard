@@ -28,7 +28,7 @@ public static class Dynamic
         [nameof(OpGreaterThan)] = NewOpBinaryFuncSet(Expression.GreaterThan, typeof(bool)),
         [nameof(OpGreaterThanOrEqual)] = NewOpBinaryFuncSet(Expression.GreaterThanOrEqual, typeof(bool)),
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
         [nameof(OpIncrement)] = NewOpUnaryFuncSet(Expression.Increment),
         [nameof(OpDecrement)] = NewOpUnaryFuncSet(Expression.Decrement),
 #endif
@@ -48,7 +48,7 @@ public static class Dynamic
                 var lambdaGenericType = typeof(Func<>).MakeGenericType(typeof(Func<,>).MakeGenericType(operandType, operandType));
                 var lambdaMethod = _lambdaMethod.MakeGenericMethod(lambdaGenericType);
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
                 var param = Array.Empty<ParameterExpression>();
 #else
                 var param = ArrayEx.Empty<ParameterExpression>();
@@ -74,7 +74,7 @@ public static class Dynamic
                 var lambdaGenericType = typeof(Func<>).MakeGenericType(typeof(Func<,,>).MakeGenericType(operandType, operandType, operandType));
                 var lambdaMethod = _lambdaMethod.MakeGenericMethod(lambdaGenericType);
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
                 var param = Array.Empty<ParameterExpression>();
 #else
                 var param = ArrayEx.Empty<ParameterExpression>();
@@ -100,7 +100,7 @@ public static class Dynamic
                 var lambdaGenericType = typeof(Func<>).MakeGenericType(typeof(Func<,,>).MakeGenericType(operandType, operandType, retType));
                 var lambdaMethod = _lambdaMethod.MakeGenericMethod(lambdaGenericType);
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
                 var param = Array.Empty<ParameterExpression>();
 #else
                 var param = ArrayEx.Empty<ParameterExpression>();

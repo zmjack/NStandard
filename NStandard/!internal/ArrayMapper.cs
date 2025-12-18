@@ -24,7 +24,7 @@ internal static partial class ArrayMapper
         if (match.Success)
         {
             var captures = match.Groups[1].Captures;
-#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
             return captures.Select(x => x.Length - 1).ToArray();
 #else
             return captures.OfType<Capture>().Select(x => x.Length - 1).ToArray();
@@ -32,7 +32,7 @@ internal static partial class ArrayMapper
         }
         else
         {
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET46_OR_GREATER
             return Array.Empty<int>();
 #else 
             return ArrayEx.Empty<int>();

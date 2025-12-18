@@ -12,7 +12,7 @@ public static class Native
         var pref = (IntPtr**)&oref;
         var pobj = **pref;
         var offset = skipPrefix ? IntPtr.Size : 0;
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD1_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
         return pobj + offset;
 #else
         return new IntPtr(pobj.ToInt64() + offset);

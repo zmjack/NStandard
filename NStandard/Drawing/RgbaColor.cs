@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 #if NET6_0_OR_GREATER
 using System.Text.Json;
-#elif NET5_0_OR_GREATER
+#elif NET6_0_OR_GREATER
 using System.Buffers;
 using System.Text.Json;
 #endif
@@ -54,7 +54,7 @@ public partial struct RgbaColor : IJsonValue
         }
     }
 
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
     public JsonElement RawValue
     {
         set

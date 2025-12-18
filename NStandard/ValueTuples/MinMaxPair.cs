@@ -22,7 +22,7 @@ public struct MinMaxPair<T>(T min, T max)
         max = Max;
     }
 
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
     public static implicit operator MinMaxPair<T>((T Min, T Max) tuple)
     {
         return new MinMaxPair<T>

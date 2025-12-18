@@ -1,4 +1,4 @@
-﻿#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET45_OR_GREATER
+﻿#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET45_OR_GREATER
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using static NStandard.Dynamic;
 
 namespace NStandard.Collections;
 
-public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T>>
+public class Interval<T> : IEnumerable<T>, IEquatable<Interval<T>>
 #if NET7_0_OR_GREATER
     ,
     IAdditionOperators<Interval<T>, T, Interval<T>>,
@@ -40,7 +40,7 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
         {
 #if NET7_0_OR_GREATER
             return Start <= other.Start && other.End <= End;
-#else 
+#else
             return OpLessThanOrEqual(Start, other.Start) && OpLessThanOrEqual(other.End, End);
 #endif
         }
@@ -54,7 +54,7 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
 #endif
         }
 
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET47_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET47_OR_GREATER
         public static implicit operator Range((T Start, T End) tuple)
         {
             return new Range(tuple.Start, tuple.End);
@@ -73,11 +73,18 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
 
     private bool _normalized;
     private readonly List<Range> _ranges;
-#if NET5_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
-    public IReadOnlyCollection<Range> Ranges => _ranges;
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
+    public IReadOnlyCollection<Range> Ranges
 #else
-    public ICollection<Range> Ranges => _ranges;
+    public ICollection<Range> Ranges
 #endif
+    {
+        get
+        {
+            if (!_normalized) Normalize();
+            return _ranges;
+        }
+    }
 
     public int Count => Ranges.Count;
 
@@ -195,7 +202,7 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
 
     public void Add(Interval<T> interval)
     {
-        foreach (var range in interval)
+        foreach (var range in interval._ranges)
         {
             _ranges.Add(range);
         }
@@ -348,10 +355,28 @@ public class Interval<T> : IEnumerable<Interval<T>.Range>, IEquatable<Interval<T
         _normalized = true;
     }
 
-    public IEnumerator<Range> GetEnumerator()
+    public IEnumerator<T> GetEnumerator()
     {
         if (!_normalized) Normalize();
-        return _ranges.GetEnumerator();
+        foreach (var range in _ranges)
+        {
+            var item = range.Start;
+
+#if NET7_0_OR_GREATER
+            while (item < range.End)
+            {
+                yield return item;
+                item = Next(item);
+            }
+#else
+            while (OpLessThan(item, range.End))
+            {
+                yield return item;
+                if (OpEqual(item, range.End)) break;
+                item = Next(item);
+            }
+#endif
+        }
     }
 
     IEnumerator IEnumerable.GetEnumerator()

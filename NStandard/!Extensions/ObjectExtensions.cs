@@ -1,6 +1,6 @@
 ﻿using NStandard.Reflection;
 using System.ComponentModel;
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
 using System.Dynamic;
 #endif
 
@@ -52,7 +52,7 @@ public static class ObjectExtensions
     public static Reflector GetReflector(this object @this, Type type) => new(type, @this);
     public static Reflector GetReflector<T>(this object @this) => new(typeof(T), @this);
 
-#if NETCOREAPP1_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET451_OR_GREATER
     /// <summary>
     /// Converts the specified object to <see cref="ExpandoObject"/>.
     /// </summary>
