@@ -52,6 +52,13 @@ public class FieldFeatureGenerator : IIncrementalGenerator
 
         foreach (var typeDeclaration in nodes)
         {
+            if (!typeDeclaration.Modifiers.Any(x => x.ValueText == "partial"))
+            {
+                var error = Diagnostic.Create(Errors.FieldFeatureTargetNeedPartialKeyword, typeDeclaration.Identifier.GetLocation());
+                context.ReportDiagnostic(error);
+                continue;
+            }
+
             var semantic = compilation.GetSemanticModel(typeDeclaration.SyntaxTree);
             var symbol = _typeDetector.GetSymbol(compilation, typeDeclaration);
             var props = typeDeclaration.ChildNodes().OfType<PropertyDeclarationSyntax>();
@@ -114,7 +121,7 @@ public class FieldFeatureGenerator : IIncrementalGenerator
             code.AppendLine();
 
             code.AppendLine($"""
-            public dynamic? GetValue([CallerMemberName] string name = "")
+            public dynamic GetValue([CallerMemberName] string name = "")
             {"{"}
                 return name switch
                 {"{"}
@@ -129,7 +136,7 @@ public class FieldFeatureGenerator : IIncrementalGenerator
                     _ => throw new NotImplementedException($"FieldContainer.GetValue: {"{"}name{"}"} is not implemented."),
                 {"}"};
             {"}"}
-            public void SetValue(dynamic? value, [CallerMemberName] string name = "")
+            public void SetValue(dynamic value, [CallerMemberName] string name = "")
             {"{"}
                 switch (name)
                 {"{"}

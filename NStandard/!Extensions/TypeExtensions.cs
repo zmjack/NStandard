@@ -106,8 +106,12 @@ public static class TypeExtensions
             case Type when @this == typeof(decimal):
             case Type when @this == typeof(Guid):
             case Type when @this == typeof(DateTime):
+#if NET6_0_OR_GREATER
+            case Type when @this == typeof(DateOnly):
+#endif
             case Type when @this == typeof(string):
-            case Type when @this.IsEnum: return true;
+            case Type when @this.IsEnum:
+                return true;
         }
 
         if (includeNullable)
@@ -128,7 +132,11 @@ public static class TypeExtensions
                 case Type when @this == typeof(double?):
                 case Type when @this == typeof(decimal?):
                 case Type when @this == typeof(Guid?):
-                case Type when @this == typeof(DateTime?): return true;
+                case Type when @this == typeof(DateTime?):
+#if NET6_0_OR_GREATER
+                case Type when @this == typeof(DateOnly?):
+#endif
+                    return true;
             }
         }
 

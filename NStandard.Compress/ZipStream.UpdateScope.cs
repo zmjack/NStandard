@@ -1,6 +1,4 @@
-﻿using NStandard;
-
-namespace NStandard.Compress;
+﻿namespace NStandard.Compress;
 
 public partial class ZipStream
 {

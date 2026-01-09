@@ -25,7 +25,7 @@
 
 	<PropertyGroup>
 		<Nullable>enable</Nullable>
-		<Version>0.110.1</Version>
+		<Version>0.110.2</Version>
 		<RootNamespace>NStandard</RootNamespace>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Authors>zmjack</Authors>

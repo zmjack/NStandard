@@ -1,5 +1,4 @@
-﻿using NStandard.Debug;
-using Xunit;
+﻿using Xunit;
 
 namespace NStandard.Collections.Test;
 

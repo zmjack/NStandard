@@ -4,10 +4,10 @@ namespace NStandard.Analyzer
 {
     public static class Errors
     {
-        public static readonly DiagnosticDescriptor FieldFeatureDisabled = new DiagnosticDescriptor(
+        public static readonly DiagnosticDescriptor FieldFeatureTargetNeedPartialKeyword = new(
             "NA001",
             "NA001",
-            "Declared class or struct need to be marked with FieldFeature",
+            "Targets marked with FieldFeature must be modified with the `partial` keyword",
             "Generator",
             DiagnosticSeverity.Error,
             true
