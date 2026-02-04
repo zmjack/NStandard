@@ -81,7 +81,7 @@ With Analyzer:
 
 ### Version: 0.110.0
 
-- Added **.NET 10** support, removed **.NET 5** support.
+- Added support for **.NET 10**, removed support for **.NET 5**.
 
 - **[Breaking Change]**
 
