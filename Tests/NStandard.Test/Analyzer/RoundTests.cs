@@ -16,6 +16,15 @@ public partial class RoundTests
 
         [Round(1, MidpointRounding.AwayFromZero)]
         public partial decimal Decimal { get; set; }
+
+        [Round(1)]
+        public partial float? NullableSingle { get; set; }
+
+        [Round(1, MidpointRounding.ToEven)]
+        public partial double? NullableDouble { get; set; }
+
+        [Round(1, MidpointRounding.AwayFromZero)]
+        public partial decimal? NullableDecimal { get; set; }
     }
 
     [Fact]
@@ -26,9 +35,15 @@ public partial class RoundTests
             Single = 0.25f,
             Double = 0.25d,
             Decimal = 0.25m,
+            NullableSingle = 0.25f,
+            NullableDouble = 0.25d,
+            NullableDecimal = 0.25m,
         };
         Assert.Equal(0.2f, model.Single);
         Assert.Equal(0.2d, model.Double);
         Assert.Equal(0.3m, model.Decimal);
+        Assert.Equal(0.2f, model.NullableSingle);
+        Assert.Equal(0.2d, model.NullableDouble);
+        Assert.Equal(0.3m, model.NullableDecimal);
     }
 }

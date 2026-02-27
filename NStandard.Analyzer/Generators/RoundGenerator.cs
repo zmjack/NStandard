@@ -81,7 +81,10 @@ public class RoundGenerator : IIncrementalGenerator
                         }
 
                         var propKeyword = propType.ConvertedType!.ToString();
-                        if (propKeyword is not "float" and not "double" and not "decimal")
+                        if (propKeyword
+                            is not "float" and not "float?"
+                            and not "double" and not "double?"
+                            and not "decimal" and not "decimal?")
                         {
                             var error = Diagnostic.Create(Errors.NeedNumberType, prop.Identifier.GetLocation());
                             context.ReportDiagnostic(error);
@@ -94,8 +97,8 @@ public class RoundGenerator : IIncrementalGenerator
                         if (attr.ArgumentList!.Arguments.Count == 2)
                         {
                             var modeArgument = attr.ArgumentList!.Arguments[1];
-                            var memberAccess = (MemberAccessExpressionSyntax)modeArgument.Expression;
-                            var identifierName = (IdentifierNameSyntax)memberAccess.Name;
+                            var memberAccess = (modeArgument.Expression as MemberAccessExpressionSyntax)!;
+                            var identifierName = (memberAccess.Name as IdentifierNameSyntax)!;
                             var valueText = identifierName.Identifier.ValueText;
                             mode = (MidpointRounding)Enum.Parse(typeof(MidpointRounding), valueText);
                         }
@@ -131,11 +134,12 @@ public class RoundGenerator : IIncrementalGenerator
                 var backingName = $"backing_{prop.Name}";
                 var math = prop.Type switch
                 {
-                    "float" => "MathF",
-                    "double" => "Math",
-                    "decimal" => "decimal",
+                    "float" or "float?" => "MathF",
+                    "double" or "double?" => "Math",
+                    "decimal" or "decimal?" => "decimal",
                     _ => throw new NotSupportedException(),
                 };
+                var nullable = prop.Type.EndsWith("?");
 
                 code.AppendLine($"""
                 private {prop.Type} {backingName};
@@ -146,15 +150,33 @@ public class RoundGenerator : IIncrementalGenerator
 
                 if (prop.Mode == MidpointRounding.ToEven)
                 {
-                    code.AppendLine($"""
-                        set => {backingName} = {math}.Round(value, {prop.Digist});
-                    """);
+                    if (nullable)
+                    {
+                        code.AppendLine($"""
+                            set => {backingName} = value.HasValue ? {math}.Round(value.Value, {prop.Digist}) : null;
+                        """);
+                    }
+                    else
+                    {
+                        code.AppendLine($"""
+                            set => {backingName} = {math}.Round(value, {prop.Digist});
+                        """);
+                    }
                 }
                 else
                 {
-                    code.AppendLine($"""
-                        set => {backingName} = {math}.Round(value, {prop.Digist}, MidpointRounding.{prop.Mode});
-                    """);
+                    if (nullable)
+                    {
+                        code.AppendLine($"""
+                            set => {backingName} = value.HasValue ? {math}.Round(value.Value, {prop.Digist}, MidpointRounding.{prop.Mode}) : null;
+                        """);
+                    }
+                    else
+                    {
+                        code.AppendLine($"""
+                            set => {backingName} = {math}.Round(value, {prop.Digist}, MidpointRounding.{prop.Mode});
+                        """);
+                    }
                 }
                 code.AppendLine($"""
                 {"}"}
