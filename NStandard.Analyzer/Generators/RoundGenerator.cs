@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NStandard.Analyzer.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -10,10 +11,10 @@ using System.Text;
 namespace NStandard.Analyzer.Generators;
 
 [Generator]
-public class FieldFeatureGenerator : IIncrementalGenerator
+public class RoundGenerator : IIncrementalGenerator
 {
-    public const string FeatureAttributeName = "NStandard.Design.FieldFeatureAttribute";
-    public const string TargetAttributeName = "NStandard.Design.FieldBackendAttribute";
+    public const string FeatureAttributeName = "NStandard.Design.RoundFeatureAttribute";
+    public const string TargetAttributeName = "NStandard.Design.RoundAttribute";
     private readonly TypeDetector _typeDetector = new();
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
@@ -30,13 +31,14 @@ public class FieldFeatureGenerator : IIncrementalGenerator
         context.RegisterSourceOutput(compilation, Execute);
     }
 
-    private class Field
+    private class Info
     {
         public TypeSymbol Symbol { get; set; }
         public string Modifier { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
-        public object DefaultValue { get; set; }
+        public int Digist { get; set; }
+        public MidpointRounding Mode { get; set; }
     }
 
     public void Execute(SourceProductionContext context, (Compilation, ImmutableArray<TypeDeclarationSyntax>) tuple)
@@ -49,7 +51,7 @@ public class FieldFeatureGenerator : IIncrementalGenerator
             "System",
             "System.Runtime.CompilerServices",
         };
-        var list = new List<Field>();
+        var list = new List<Info>();
 
         foreach (var typeDeclaration in nodes)
         {
@@ -65,7 +67,6 @@ public class FieldFeatureGenerator : IIncrementalGenerator
             var props = typeDeclaration.ChildNodes().OfType<PropertyDeclarationSyntax>();
             foreach (var prop in props)
             {
-                var isTarget = false;
                 var attributes = prop.AttributeLists.SelectMany(x => x.Attributes);
                 foreach (var attr in attributes)
                 {
@@ -79,25 +80,35 @@ public class FieldFeatureGenerator : IIncrementalGenerator
                             usings.Add(_ns.ToDisplayString());
                         }
 
+                        var propKeyword = propType.ConvertedType!.ToString();
+                        if (propKeyword is not "float" and not "double" and not "decimal")
+                        {
+                            var error = Diagnostic.Create(Errors.NeedNumberType, prop.Identifier.GetLocation());
+                            context.ReportDiagnostic(error);
+                            continue;
+                        }
+
+                        var roundArgument = attr.ArgumentList!.Arguments[0];
+                        var digist = int.Parse(roundArgument.ToString());
+                        var mode = MidpointRounding.ToEven;
+                        if (attr.ArgumentList!.Arguments.Count == 2)
+                        {
+                            var modeArgument = attr.ArgumentList!.Arguments[1];
+                            var memberAccess = (MemberAccessExpressionSyntax)modeArgument.Expression;
+                            var identifierName = (IdentifierNameSyntax)memberAccess.Name;
+                            var valueText = identifierName.Identifier.ValueText;
+                            mode = (MidpointRounding)Enum.Parse(typeof(MidpointRounding), valueText);
+                        }
                         list.Add(new()
                         {
                             Symbol = symbol,
                             Modifier = prop.Modifiers.ToString(),
-                            Type = prop.Type!.ToString(),
+                            Type = propKeyword,
                             Name = prop.Identifier.Text,
+                            Digist = digist,
+                            Mode = mode,
                         });
-                        isTarget = true;
                         break;
-                    }
-                }
-
-                if (!isTarget)
-                {
-                    var accessorList = prop.AccessorList;
-                    foreach (var accessor in accessorList!.Accessors)
-                    {
-                        //TODO: Collect InvocationExpressionSyntax in get/set accessors
-                        //which invokes GetValue/SetValue methods
                     }
                 }
             }
@@ -115,56 +126,40 @@ public class FieldFeatureGenerator : IIncrementalGenerator
             builder.AppendLine();
 
             var code = new StringBuilder();
-            code.AppendLine($"""
-            public struct Fields
-            {"{"}
-            """);
             foreach (var prop in g)
             {
-                code.AppendLine($"""
-                    public {prop.Type} {prop.Name} {"{"} get; set; {"}"}
-                """);
-            }
-            code.AppendLine($"""
-            {"}"}
-            private Fields fields;
-            """);
+                var backingName = $"backing_{prop.Name}";
+                var math = prop.Type switch
+                {
+                    "float" => "MathF",
+                    "double" => "Math",
+                    "decimal" => "decimal",
+                    _ => throw new NotSupportedException(),
+                };
 
-            code.AppendLine();
+                code.AppendLine($"""
+                private {prop.Type} {backingName};
+                public partial {prop.Type} {prop.Name}
+                {"{"}
+                    get => {backingName};
+                """);
 
-            code.AppendLine($"""
-            public dynamic GetValue([CallerMemberName] string name = "")
-            {"{"}
-                return name switch
-                {"{"}
-            """);
-            foreach (var prop in g)
-            {
+                if (prop.Mode == MidpointRounding.ToEven)
+                {
+                    code.AppendLine($"""
+                        set => {backingName} = {math}.Round(value, {prop.Digist});
+                    """);
+                }
+                else
+                {
+                    code.AppendLine($"""
+                        set => {backingName} = {math}.Round(value, {prop.Digist}, MidpointRounding.{prop.Mode});
+                    """);
+                }
                 code.AppendLine($"""
-                        nameof({prop.Name}) => fields.{prop.Name},
-                """);
-            }
-            code.AppendLine($"""
-                    _ => throw new NotImplementedException($"FieldContainer.GetValue: {"{"}name{"}"} is not implemented."),
-                {"}"};
-            {"}"}
-            public void SetValue(dynamic value, [CallerMemberName] string name = "")
-            {"{"}
-                switch (name)
-                {"{"}
-            """);
-            foreach (var prop in g)
-            {
-                var property = $"{prop.Name}Property";
-                code.AppendLine($"""
-                        case nameof({prop.Name}): fields.{prop.Name} = value; break;
-                """);
-            }
-            code.AppendLine($"""
-                    default: throw new NotImplementedException($"FieldContainer.SetValue: {"{"}name{"}"} is not implemented.");
                 {"}"}
-            {"}"}
-            """);
+                """);
+            }
 
             builder.AppendLine(g.Key.Format(code.ToString()));
             context.AddSource($"{g.Key}.g.cs", builder.ToString());

@@ -4,10 +4,19 @@ namespace NStandard.Analyzer
 {
     public static class Errors
     {
-        public static readonly DiagnosticDescriptor FieldFeatureTargetNeedPartialKeyword = new(
+        public static readonly DiagnosticDescriptor NeedPartialKeyword = new(
             "NA001",
             "NA001",
-            "Targets marked with FieldFeature must be modified with the `partial` keyword",
+            "Target must be marked with the `partial` keyword",
+            "Generator",
+            DiagnosticSeverity.Error,
+            true
+        );
+
+        public static readonly DiagnosticDescriptor NeedNumberType = new(
+            "NA002",
+            "NA002",
+            "Target must be a number type",
             "Generator",
             DiagnosticSeverity.Error,
             true

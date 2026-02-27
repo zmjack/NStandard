@@ -38,6 +38,12 @@ public partial class ClassWrapper
             get => GetValue();
             set => SetValue(value);
         }
+
+        public int[] Numbers2
+        {
+            get => GetValue();
+            set => SetValue(value);
+        }
     }
 }
 

@@ -192,8 +192,8 @@ public class MeasureGenerator : IIncrementalGenerator
 
             foreach (var attr in attributes)
             {
-                var info = semantic.GetTypeInfo(attr);
-                if (!info.ConvertedType!.ToString().StartsWith(FeatureAttributeName)) continue;
+                var attrType = semantic.GetTypeInfo(attr);
+                if (!attrType.ConvertedType!.ToString().StartsWith(FeatureAttributeName)) continue;
 
                 var parentKind = typeDeclaration.Parent!.Kind();
                 if (parentKind != SyntaxKind.NamespaceDeclaration && parentKind != SyntaxKind.FileScopedNamespaceDeclaration)
@@ -211,7 +211,7 @@ public class MeasureGenerator : IIncrementalGenerator
                     continue;
                 }
 
-                var typeArguments = (info.ConvertedType as INamedTypeSymbol)!.TypeArguments;
+                var typeArguments = (attrType.ConvertedType as INamedTypeSymbol)!.TypeArguments;
                 if (typeArguments.Any())
                 {
                     // argument[0]
