@@ -18,9 +18,7 @@ public class MeasureGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-#if DEBUG
-        //if (!System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Launch();
-#endif
+        AnalyzerDebugger.DebugAvailable();
         var provider = context.SyntaxProvider
             .ForAttributeWithMetadataName(FeatureAttributeName,
                 static (node, _) => node is TypeDeclarationSyntax,

@@ -17,9 +17,7 @@ public class DependencyPropertyFeatureGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-#if DEBUG
-        //if (!System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Launch();
-#endif
+        AnalyzerDebugger.DebugAvailable();
         var provider = context.SyntaxProvider
             .ForAttributeWithMetadataName(FeatureAttributeName,
                 static (node, _) => node is ClassDeclarationSyntax,
@@ -55,7 +53,7 @@ public class DependencyPropertyFeatureGenerator : IIncrementalGenerator
             var semantic = compilation.GetSemanticModel(typeDeclaration.SyntaxTree);
             var symbol = _typeDetector.GetSymbol(compilation, typeDeclaration);
             var methods = typeDeclaration.ChildNodes().OfType<MethodDeclarationSyntax>();
-            var props = typeDeclaration.ChildNodes().OfType<PropertyDeclarationSyntax>();
+            var props = typeDeclaration.ChildNodes().OfType<Microsoft.CodeAnalysis.CSharp.Syntax.PropertyDeclarationSyntax>();
             foreach (var prop in props)
             {
                 var attributes = prop.AttributeLists.SelectMany(x => x.Attributes);

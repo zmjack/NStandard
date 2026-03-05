@@ -18,9 +18,7 @@ public class FieldFeatureGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-#if DEBUG
-        //if (!System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Launch();
-#endif
+        AnalyzerDebugger.DebugAvailable();
         var provider = context.SyntaxProvider
             .ForAttributeWithMetadataName(FeatureAttributeName,
                 static (node, _) => node is TypeDeclarationSyntax,
@@ -33,7 +31,7 @@ public class FieldFeatureGenerator : IIncrementalGenerator
     private class Field
     {
         public TypeSymbol Symbol { get; set; }
-        public string Modifier { get; set; }
+        public string Modifiers { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
         public object DefaultValue { get; set; }
@@ -62,7 +60,7 @@ public class FieldFeatureGenerator : IIncrementalGenerator
 
             var semantic = compilation.GetSemanticModel(typeDeclaration.SyntaxTree);
             var symbol = _typeDetector.GetSymbol(compilation, typeDeclaration);
-            var props = typeDeclaration.ChildNodes().OfType<PropertyDeclarationSyntax>();
+            var props = typeDeclaration.ChildNodes().OfType<Microsoft.CodeAnalysis.CSharp.Syntax.PropertyDeclarationSyntax>();
             foreach (var prop in props)
             {
                 var isTarget = false;
@@ -82,7 +80,7 @@ public class FieldFeatureGenerator : IIncrementalGenerator
                         list.Add(new()
                         {
                             Symbol = symbol,
-                            Modifier = prop.Modifiers.ToString(),
+                            Modifiers = prop.Modifiers.ToString(),
                             Type = prop.Type!.ToString(),
                             Name = prop.Identifier.Text,
                         });
@@ -93,12 +91,12 @@ public class FieldFeatureGenerator : IIncrementalGenerator
 
                 if (!isTarget)
                 {
-                    var accessorList = prop.AccessorList;
-                    foreach (var accessor in accessorList!.Accessors)
-                    {
-                        //TODO: Collect InvocationExpressionSyntax in get/set accessors
-                        //which invokes GetValue/SetValue methods
-                    }
+                    //TODO: Collect InvocationExpressionSyntax in get/set accessors
+                    //which invokes GetValue/SetValue methods
+                    //var accessorList = prop.AccessorList;
+                    //foreach (var accessor in accessorList!.Accessors)
+                    //{
+                    //}
                 }
             }
         }

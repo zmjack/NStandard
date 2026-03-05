@@ -1,12 +1,13 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using NStandard.Analyzer.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace NStandard.Analyzer;
 
-public class PropertyDependencyCollector
+internal class PropertyDependencyCollector : DependencyCollector<ClassDeclarationSyntax, Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>>, PropertyDeclarationSyntax>
 {
     [Flags]
     private enum PropertyState
@@ -21,7 +22,7 @@ public class PropertyDependencyCollector
         GetAndSet = Get | Set,
     }
 
-    public Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> Collect(SemanticModel semantic, ClassDeclarationSyntax @class)
+    public override Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> Collect(SemanticModel semantic, ClassDeclarationSyntax @class)
     {
         var dependencies = new Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>>();
         var properties = @class.DescendantNodes().OfType<PropertyDeclarationSyntax>();
@@ -67,7 +68,7 @@ public class PropertyDependencyCollector
                     }
                 }
 
-                if (state == PropertyState.GetAndSet)
+                if (state is PropertyState.GetAndSet)
                 {
                     bool markDependencyProperty = false;
                     var attributes = property.AttributeLists.SelectMany(x => x.Attributes);
@@ -125,258 +126,7 @@ public class PropertyDependencyCollector
         return dependencies;
     }
 
-    private IEnumerable<PropertyDeclarationSyntax> Collect(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, StatementSyntax syntax)
-    {
-        if (syntax is LocalDeclarationStatementSyntax localDeclarationStatementSyntax)
-        {
-            var declaration = localDeclarationStatementSyntax.Declaration;
-            foreach (var variable in declaration.Variables)
-            {
-                if (variable.Initializer is EqualsValueClauseSyntax equalsValueClauseSyntax)
-                {
-                    foreach (var target in Collect(dependencies, equalsValueClauseSyntax.Value))
-                    {
-                        yield return target;
-                    }
-                }
-            }
-        }
-        else if (syntax is ExpressionStatementSyntax expressionStatementSyntax)
-        {
-            foreach (var target in Collect(dependencies, expressionStatementSyntax.Expression))
-            {
-                yield return target;
-            }
-        }
-        else if (syntax is ReturnStatementSyntax returnStatementSyntax)
-        {
-            foreach (var target in Collect(dependencies, returnStatementSyntax.Expression!))
-            {
-                yield return target;
-            }
-        }
-        else if (syntax is IfStatementSyntax ifStatementSyntax)
-        {
-            foreach (var target in Collect(dependencies, ifStatementSyntax.Condition))
-            {
-                yield return target;
-            }
-            foreach (var target in Collect(dependencies, ifStatementSyntax.Statement))
-            {
-                yield return target;
-            }
-            if (ifStatementSyntax.Else is not null)
-            {
-                foreach (var target in Collect(dependencies, ifStatementSyntax.Else.Statement))
-                {
-                    yield return target;
-                }
-            }
-        }
-        else if (syntax is BlockSyntax blockSyntax)
-        {
-            foreach (var statement in blockSyntax.Statements)
-            {
-                foreach (var target in Collect(dependencies, statement))
-                {
-                    yield return target;
-                }
-            }
-        }
-        else if (syntax is WhileStatementSyntax whileStatementSyntax)
-        {
-            foreach (var target in Collect(dependencies, whileStatementSyntax.Condition))
-            {
-                yield return target;
-            }
-            foreach (var target in Collect(dependencies, whileStatementSyntax.Statement))
-            {
-                yield return target;
-            }
-        }
-        else if (syntax is ForEachStatementSyntax forEachStatementSyntax)
-        {
-            foreach (var target in Collect(dependencies, forEachStatementSyntax.Expression))
-            {
-                yield return target;
-            }
-            foreach (var target in Collect(dependencies, forEachStatementSyntax.Statement))
-            {
-                yield return target;
-            }
-        }
-        else if (syntax is ForStatementSyntax forStatementSyntax)
-        {
-            if (forStatementSyntax.Declaration is not null)
-            {
-                var declaration = forStatementSyntax.Declaration;
-                foreach (var variable in declaration.Variables)
-                {
-                    if (variable.Initializer is EqualsValueClauseSyntax equalsValueClauseSyntax)
-                    {
-                        foreach (var target in Collect(dependencies, equalsValueClauseSyntax.Value))
-                        {
-                            yield return target;
-                        }
-                    }
-                }
-            }
-            if (forStatementSyntax.Condition is not null)
-            {
-                foreach (var target in Collect(dependencies, forStatementSyntax.Condition))
-                {
-                    yield return target;
-                }
-            }
-            foreach (var incrementor in forStatementSyntax.Incrementors)
-            {
-                foreach (var target in Collect(dependencies, incrementor))
-                {
-                    yield return target;
-                }
-            }
-            foreach (var target in Collect(dependencies, forStatementSyntax.Statement))
-            {
-                yield return target;
-            }
-        }
-        else if (syntax is SwitchStatementSyntax switchStatementSyntax)
-        {
-            foreach (var target in Collect(dependencies, switchStatementSyntax.Expression))
-            {
-                yield return target;
-            }
-            foreach (var section in switchStatementSyntax.Sections)
-            {
-                foreach (var statement in section.Statements)
-                {
-                    foreach (var target in Collect(dependencies, statement))
-                    {
-                        yield return target;
-                    }
-                }
-            }
-        }
-        else if (syntax is TryStatementSyntax tryStatementSyntax)
-        {
-            foreach (var target in Collect(dependencies, tryStatementSyntax.Block))
-            {
-                yield return target;
-            }
-            foreach (var catchClause in tryStatementSyntax.Catches)
-            {
-                foreach (var target in Collect(dependencies, catchClause.Block))
-                {
-                    yield return target;
-                }
-            }
-            if (tryStatementSyntax.Finally is not null)
-            {
-                foreach (var target in Collect(dependencies, tryStatementSyntax.Finally.Block))
-                {
-                    yield return target;
-                }
-            }
-        }
-        else if (syntax is DoStatementSyntax doStatementSyntax)
-        {
-            foreach (var target in Collect(dependencies, doStatementSyntax.Condition))
-            {
-                yield return target;
-            }
-            foreach (var target in Collect(dependencies, doStatementSyntax.Statement))
-            {
-                yield return target;
-            }
-        }
-    }
-
-    private IEnumerable<PropertyDeclarationSyntax> Collect(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, ExpressionSyntax syntax)
-    {
-        // Map. BreakPoint set here while debuging.
-        if (syntax is IdentifierNameSyntax nameSyntax)
-        {
-            foreach (var target in CollectCore(dependencies, nameSyntax))
-            {
-                yield return target;
-            }
-        }
-        else if (syntax is InvocationExpressionSyntax invocationSyntax)
-        {
-            foreach (var target in CollectCore(dependencies, invocationSyntax))
-            {
-                yield return target;
-            }
-        }
-        else if (syntax is InterpolatedStringExpressionSyntax interpolatedStringSyntax)
-        {
-            foreach (var target in CollectCore(dependencies, interpolatedStringSyntax))
-            {
-                yield return target;
-            }
-        }
-        else if (syntax is BinaryExpressionSyntax binarySyntax)
-        {
-            foreach (var target in CollectCore(dependencies, binarySyntax))
-            {
-                yield return target;
-            }
-        }
-        else if (syntax is PrefixUnaryExpressionSyntax prefixUnarySyntax)
-        {
-            foreach (var target in CollectCore(dependencies, prefixUnarySyntax))
-            {
-                yield return target;
-            }
-        }
-        else if (syntax is ConditionalExpressionSyntax conditionalSyntax)
-        {
-            foreach (var target in CollectCore(dependencies, conditionalSyntax))
-            {
-                yield return target;
-            }
-        }
-        else if (syntax is BaseObjectCreationExpressionSyntax baseObjectCreationSyntax)
-        {
-            foreach (var target in CollectCore(dependencies, baseObjectCreationSyntax))
-            {
-                yield return target;
-            }
-        }
-        else if (syntax is ParenthesizedExpressionSyntax parenthesizedSyntax)
-        {
-            foreach (var target in CollectCore(dependencies, parenthesizedSyntax))
-            {
-                yield return target;
-            }
-        }
-        else if (syntax is IsPatternExpressionSyntax isPatternSyntax)
-        {
-            foreach (var target in CollectCore(dependencies, isPatternSyntax))
-            {
-                yield return target;
-            }
-        }
-        else if (syntax is LambdaExpressionSyntax lambdaSyntax)
-        {
-            if (lambdaSyntax.Body is BlockSyntax block)
-            {
-                foreach (var target in Collect(dependencies, block))
-                {
-                    yield return target;
-                }
-            }
-            else if (lambdaSyntax.Body is ExpressionSyntax expression)
-            {
-                foreach (var target in Collect(dependencies, expression))
-                {
-                    yield return target;
-                }
-            }
-        }
-    }
-
-    private IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, IdentifierNameSyntax syntax)
+    protected override IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, IdentifierNameSyntax syntax)
     {
         var reference = dependencies.Keys.FirstOrDefault(x => x.Identifier.ValueText == syntax.Identifier.ValueText);
         if (reference is not null)
@@ -385,7 +135,7 @@ public class PropertyDependencyCollector
         }
     }
 
-    private IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, InvocationExpressionSyntax syntax)
+    protected override IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, InvocationExpressionSyntax syntax)
     {
         var arguments = syntax.ArgumentList.Arguments;
         foreach (var argument in arguments)
@@ -397,7 +147,7 @@ public class PropertyDependencyCollector
         }
     }
 
-    private IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, InterpolatedStringExpressionSyntax syntax)
+    protected override IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, InterpolatedStringExpressionSyntax syntax)
     {
         var contents = syntax.Contents;
         var interrpolationSyntaxes = syntax.Contents.OfType<InterpolationSyntax>();
@@ -411,7 +161,7 @@ public class PropertyDependencyCollector
         }
     }
 
-    private IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, BinaryExpressionSyntax syntax)
+    protected override IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, BinaryExpressionSyntax syntax)
     {
         foreach (var target in Collect(dependencies, syntax.Left))
         {
@@ -423,7 +173,7 @@ public class PropertyDependencyCollector
         }
     }
 
-    private IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, PrefixUnaryExpressionSyntax syntax)
+    protected override IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, PrefixUnaryExpressionSyntax syntax)
     {
         foreach (var target in Collect(dependencies, syntax.Operand))
         {
@@ -431,7 +181,7 @@ public class PropertyDependencyCollector
         }
     }
 
-    private IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, ConditionalExpressionSyntax syntax)
+    protected override IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, ConditionalExpressionSyntax syntax)
     {
         foreach (var target in Collect(dependencies, syntax.Condition))
         {
@@ -447,7 +197,7 @@ public class PropertyDependencyCollector
         }
     }
 
-    private IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, BaseObjectCreationExpressionSyntax syntax)
+    protected override IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, BaseObjectCreationExpressionSyntax syntax)
     {
         var arguments = syntax.ArgumentList!.Arguments;
         foreach (var argument in arguments)
@@ -459,7 +209,7 @@ public class PropertyDependencyCollector
         }
     }
 
-    private IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, ParenthesizedExpressionSyntax syntax)
+    protected override IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, ParenthesizedExpressionSyntax syntax)
     {
         foreach (var target in Collect(dependencies, syntax.Expression))
         {
@@ -467,7 +217,7 @@ public class PropertyDependencyCollector
         }
     }
 
-    private IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, IsPatternExpressionSyntax syntax)
+    protected override IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, IsPatternExpressionSyntax syntax)
     {
         foreach (var target in Collect(dependencies, syntax.Expression))
         {
@@ -475,7 +225,7 @@ public class PropertyDependencyCollector
         }
     }
 
-    public static Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> ReverseDependecies(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies)
+    public Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> ReverseDependecies(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies)
     {
         IEnumerable<PropertyDeclarationSyntax> GetRootReferences(IEnumerable<PropertyDeclarationSyntax> references)
         {
@@ -530,4 +280,5 @@ public class PropertyDependencyCollector
         }
         return list;
     }
+
 }

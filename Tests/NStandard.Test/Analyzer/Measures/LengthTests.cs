@@ -13,8 +13,8 @@ public class LengthTests
     [Fact]
     public void AddTest()
     {
-        var cm100 = new cm(100);
-        var cm200 = cm100 + cm100;
+        cm cm100 = 100;
+        cm cm200 = cm100 + cm100;
 
         Assert.Equal(2000, (mm)cm200);
         Assert.Equal(200, cm200);
@@ -26,9 +26,9 @@ public class LengthTests
     [Fact]
     public void SubTest()
     {
-        var cm100 = new cm(100);
-        var cm40 = new cm(40);
-        var cm60 = cm100 - cm40;
+        cm cm100 = 100;
+        cm cm40 = 40;
+        cm cm60 = cm100 - cm40;
 
         Assert.Equal(600, (mm)cm60);
         Assert.Equal(60, cm60);
@@ -40,8 +40,8 @@ public class LengthTests
     [Fact]
     public void MulTest()
     {
-        var cm100 = new cm(100);
-        var cm200 = cm100 * 2;
+        cm cm100 = 100;
+        cm cm200 = cm100 * 2;
 
         Assert.Equal(2000, (mm)cm200);
         Assert.Equal(200, cm200);
@@ -53,8 +53,8 @@ public class LengthTests
     [Fact]
     public void DivTest()
     {
-        var cm100 = new cm(100);
-        var cm50 = cm100 / 2;
+        cm cm100 = 100;
+        cm cm50 = cm100 / 2;
 
         Assert.Equal(500, (mm)cm50);
         Assert.Equal(50, cm50);

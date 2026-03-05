@@ -19,9 +19,7 @@ public class RoundGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-#if DEBUG
-        //if (!System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Launch();
-#endif
+        AnalyzerDebugger.DebugAvailable();
         var provider = context.SyntaxProvider
             .ForAttributeWithMetadataName(FeatureAttributeName,
                 static (node, _) => node is TypeDeclarationSyntax,
@@ -34,7 +32,7 @@ public class RoundGenerator : IIncrementalGenerator
     private class Info
     {
         public TypeSymbol Symbol { get; set; }
-        public string Modifier { get; set; }
+        public string Modifiers { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
         public int Digist { get; set; }
@@ -64,7 +62,7 @@ public class RoundGenerator : IIncrementalGenerator
 
             var semantic = compilation.GetSemanticModel(typeDeclaration.SyntaxTree);
             var symbol = _typeDetector.GetSymbol(compilation, typeDeclaration);
-            var props = typeDeclaration.ChildNodes().OfType<PropertyDeclarationSyntax>();
+            var props = typeDeclaration.ChildNodes().OfType<Microsoft.CodeAnalysis.CSharp.Syntax.PropertyDeclarationSyntax>();
             foreach (var prop in props)
             {
                 var attributes = prop.AttributeLists.SelectMany(x => x.Attributes);
@@ -105,7 +103,7 @@ public class RoundGenerator : IIncrementalGenerator
                         list.Add(new()
                         {
                             Symbol = symbol,
-                            Modifier = prop.Modifiers.ToString(),
+                            Modifiers = prop.Modifiers.ToString(),
                             Type = propKeyword,
                             Name = prop.Identifier.Text,
                             Digist = digist,
@@ -143,7 +141,7 @@ public class RoundGenerator : IIncrementalGenerator
 
                 code.AppendLine($"""
                 private {prop.Type} {backingName};
-                public partial {prop.Type} {prop.Name}
+                {prop.Modifiers} {prop.Type} {prop.Name}
                 {"{"}
                     get => {backingName};
                 """);

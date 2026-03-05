@@ -17,9 +17,7 @@ public class ObservableFeatureGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-#if DEBUG
-        //if (!System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Launch();
-#endif
+        AnalyzerDebugger.DebugAvailable();
         var provider = context.SyntaxProvider
             .ForAttributeWithMetadataName(FeatureAttributeName,
                 static (node, _) => node is ClassDeclarationSyntax,
@@ -48,8 +46,7 @@ public class ObservableFeatureGenerator : IIncrementalGenerator
             var properties = typeDeclaration.DescendantNodes().OfType<PropertyDeclarationSyntax>();
             var collector = new PropertyDependencyCollector();
             var dependencies = collector.Collect(semantic, typeDeclaration);
-
-            var reversedDependencies = PropertyDependencyCollector.ReverseDependecies(dependencies);
+            var reversedDependencies = collector.ReverseDependecies(dependencies);
             var code = new StringBuilder();
             code.AppendLine("""
             public event PropertyChangingEventHandler PropertyChanging;

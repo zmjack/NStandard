@@ -15,8 +15,8 @@ public class StorageCapacityTests
     [Fact]
     public void AddTest()
     {
-        var KB256 = new KB(256);
-        var KB512 = KB256 + KB256;
+        KB KB256 = 256;
+        KB KB512 = KB256 + KB256;
 
         Assert.Equal(512 * 1024, (B)KB512);
         Assert.Equal(512, KB512);
@@ -30,9 +30,9 @@ public class StorageCapacityTests
     [Fact]
     public void SubTest()
     {
-        var KB256 = new KB(256);
-        var KB192 = new KB(192);
-        var KB64 = KB256 - KB192;
+        KB KB256 = 256;
+        KB KB192 = 192;
+        KB KB64 = KB256 - KB192;
 
         Assert.Equal(64 * 1024, (B)KB64);
         Assert.Equal(64, KB64);
@@ -46,8 +46,8 @@ public class StorageCapacityTests
     [Fact]
     public void MulTest()
     {
-        var KB256 = new KB(256);
-        var KB512 = KB256 * 2;
+        KB KB256 = 256;
+        KB KB512 = KB256 * 2;
 
         Assert.Equal(512 * 1024, (B)KB512);
         Assert.Equal(512, KB512);
@@ -61,8 +61,8 @@ public class StorageCapacityTests
     [Fact]
     public void DivTest()
     {
-        var KB256 = new KB(256);
-        var KB128 = KB256 / 2;
+        KB KB256 = 256;
+        KB KB128 = KB256 / 2;
 
         Assert.Equal(128 * 1024, (B)KB128);
         Assert.Equal(128, KB128);
