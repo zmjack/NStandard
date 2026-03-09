@@ -1,0 +1,34 @@
+<Solution>
+  <Folder Name="/Devs/">
+    <Project Path="NStandard.Compress/NStandard.Compress.csproj" />
+    <Project Path="NStandard.Debug/NStandard.Debug.csproj" />
+    <Project Path="NStandard.Trees/NStandard.Trees.csproj" />
+    <Project Path="NStandard.Windows/NStandard.Windows.csproj" />
+  </Folder>
+  <Folder Name="/Out of support/">
+    <Project Path="NStandard.Diagnostics/NStandard.Diagnostics.csproj" />
+    <Project Path="NStandard.Json.Net/NStandard.Json.Net.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="docfx-build.cmd" />
+    <File Path="docfx-serve.cmd" />
+    <File Path="docfx_docs.cmd" />
+    <File Path="LICENSE.md" />
+    <File Path="push.cmd" />
+    <File Path="README.md" />
+    <File Path="README.zh.md" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="private/ConsoleApp/ConsoleApp.csproj" />
+    <Project Path="private/WpfApp/WpfApp.csproj" />
+    <Project Path="Tests/NStandard.NET45.Test/NStandard.NET45.Test.csproj" />
+    <Project Path="Tests/NStandard.Test/NStandard.Test.csproj" />
+  </Folder>
+  <Project Path="NStandard.Analyzer/NStandard.Analyzer.csproj" />
+  <Project Path="NStandard.Dev/[NoRelease] NStandard.Dev.csproj" />
+  <Project Path="NStandard.Encoding/NStandard.Encoding.csproj" />
+  <Project Path="NStandard.Json/NStandard.Json.csproj" />
+  <Project Path="NStandard.Runtime/NStandard.Runtime.csproj" />
+  <Project Path="NStandard/NStandard.csproj" />
+</Solution>
