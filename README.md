@@ -79,7 +79,7 @@ With Analyzer:
 
 ## Recently
 
-### Version: 0.110.5
+### Version: 0.110.6
 
 - Added the `IndecesIterator` class for creating multi-dimensional iteration indices.
 
