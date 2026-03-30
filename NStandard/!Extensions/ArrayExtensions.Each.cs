@@ -1,4 +1,6 @@
-﻿namespace NStandard;
+﻿using NStandard.Iterators;
+
+namespace NStandard;
 
 public static partial class ArrayExtensions
 {
@@ -11,10 +13,10 @@ public static partial class ArrayExtensions
     /// <returns></returns>
     public static T[,] Each<T>(this T[,] @this, Action<T, int, int> task)
     {
-        var stepper = new IndicesStepper(0, @this.GetLengths());
-        foreach (var (value, indices) in Any.Zip(@this.AsEnumerable<T>(), stepper))
+        var iterator = new IndecesIterator(@this.GetLengths());
+        foreach (var (value, indeces) in Any.Zip(@this.AsEnumerable<T>(), iterator))
         {
-            task(value, indices[0], indices[1]);
+            task(value, indeces[0], indeces[1]);
         }
         return @this;
     }
@@ -28,10 +30,10 @@ public static partial class ArrayExtensions
     /// <returns></returns>
     public static T[,,] Each<T>(this T[,,] @this, Action<T, int, int, int> task)
     {
-        var stepper = new IndicesStepper(0, @this.GetLengths());
-        foreach (var (value, indices) in Any.Zip(@this.AsEnumerable<T>(), stepper))
+        var iterator = new IndecesIterator(@this.GetLengths());
+        foreach (var (value, indeces) in Any.Zip(@this.AsEnumerable<T>(), iterator))
         {
-            task(value, indices[0], indices[1], indices[2]);
+            task(value, indeces[0], indeces[1], indeces[2]);
         }
         return @this;
     }
@@ -45,10 +47,10 @@ public static partial class ArrayExtensions
     /// <returns></returns>
     public static Array Each<T>(this Array @this, Action<T, int[]> task)
     {
-        var stepper = new IndicesStepper(0, @this.GetLengths());
-        foreach (var (value, indices) in Any.Zip(@this.AsEnumerable<T>(), stepper))
+        var iterator = new IndecesIterator(@this.GetLengths());
+        foreach (var (value, indeces) in Any.Zip(@this.AsEnumerable<T>(), iterator))
         {
-            task(value, indices);
+            task(value, indeces);
         }
         return @this;
     }

@@ -1,4 +1,5 @@
-﻿#if NET6_0_OR_GREATER
+﻿using NStandard.Iterators;
+#if NET6_0_OR_GREATER
 using System.Runtime.CompilerServices;
 #endif
 
@@ -35,10 +36,10 @@ public static class ArrayEx
         var count = source.Count();
         if (destination.GetSequenceLength() < count) throw Exception_CopyingOverflow(nameof(source));
 
-        var stepper = new IndicesStepper(0, destination.GetLengths());
-        foreach (var (value, indices) in Any.Zip(source, stepper))
+        var iterator = new IndecesIterator(destination.GetLengths());
+        foreach (var (value, indeces) in Any.Zip(source, iterator))
         {
-            destination.SetValue(value, indices);
+            destination.SetValue(value, indeces);
         }
     }
 
@@ -56,10 +57,10 @@ public static class ArrayEx
         if ((source.Length - sourceIndex) < length) throw Exception_InsufficientElements(nameof(source));
         if ((destination.GetSequenceLength() - destinationIndex) < length) throw Exception_CopyingOverflow(nameof(source));
 
-        var stepper = new IndicesStepper(destinationIndex, destination.GetLengths());
-        foreach (var (value, indices) in Any.Zip(source.Skip(sourceIndex).Take(length), stepper))
+        var iterator = new IndecesIterator(destination.GetLengths(), destinationIndex);
+        foreach (var (value, indeces) in Any.Zip(source.Skip(sourceIndex).Take(length), iterator))
         {
-            destination.SetValue(value, indices);
+            destination.SetValue(value, indeces);
         }
     }
 

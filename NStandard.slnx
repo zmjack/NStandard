@@ -22,7 +22,7 @@
   <Folder Name="/Tests/">
     <Project Path="private/ConsoleApp/ConsoleApp.csproj" />
     <Project Path="private/WpfApp/WpfApp.csproj" />
-    <Project Path="Tests/NStandard.NET45.Test/NStandard.NET45.Test.csproj" />
+    <Project Path="Tests/NStandard.NET45.Test/NStandard.NET45.Test.csproj" Id="cfb18713-2221-456b-82a7-4f0302ba527e" />
     <Project Path="Tests/NStandard.Test/NStandard.Test.csproj" />
   </Folder>
   <Project Path="NStandard.Analyzer/NStandard.Analyzer.csproj" />

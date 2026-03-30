@@ -1,4 +1,6 @@
-﻿namespace NStandard;
+﻿using NStandard.Iterators;
+
+namespace NStandard;
 
 public static partial class ArrayExtensions
 {
@@ -60,10 +62,10 @@ public static partial class ArrayExtensions
     /// <returns></returns>
     public static IEnumerable<TRet> Select<T, TRet>(this T[,] @this, Func<T, int, int, TRet> selector)
     {
-        var stepper = new IndicesStepper(0, @this.GetLengths());
-        foreach (var (value, indices) in Any.Zip(@this.AsEnumerable<T>(), stepper))
+        var iterator = new IndecesIterator(@this.GetLengths());
+        foreach (var (value, indeces) in Any.Zip(@this.AsEnumerable<T>(), iterator))
         {
-            yield return selector(value, indices[0], indices[1]);
+            yield return selector(value, indeces[0], indeces[1]);
         }
     }
 
@@ -77,10 +79,10 @@ public static partial class ArrayExtensions
     /// <returns></returns>
     public static IEnumerable<TRet> Select<T, TRet>(this T[,,] @this, Func<T, int, int, int, TRet> selector)
     {
-        var stepper = new IndicesStepper(0, @this.GetLengths());
-        foreach (var (value, indices) in Any.Zip(@this.AsEnumerable<T>(), stepper))
+        var iterator = new IndecesIterator(@this.GetLengths());
+        foreach (var (value, indeces) in Any.Zip(@this.AsEnumerable<T>(), iterator))
         {
-            yield return selector(value, indices[0], indices[1], indices[2]);
+            yield return selector(value, indeces[0], indeces[1], indeces[2]);
         }
     }
 
@@ -94,10 +96,10 @@ public static partial class ArrayExtensions
     /// <returns></returns>
     public static IEnumerable<TRet> Select<T, TRet>(this Array @this, Func<T, int[], TRet> selector)
     {
-        var stepper = new IndicesStepper(0, @this.GetLengths());
-        foreach (var (value, indices) in Any.Zip(@this.AsEnumerable<T>(), stepper))
+        var iterator = new IndecesIterator(@this.GetLengths());
+        foreach (var (value, indeces) in Any.Zip(@this.AsEnumerable<T>(), iterator))
         {
-            yield return selector(value, indices);
+            yield return selector(value, indeces);
         }
     }
 

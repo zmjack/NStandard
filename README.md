@@ -79,6 +79,10 @@ With Analyzer:
 
 ## Recently
 
+### Version: 0.110.5
+
+- Added the `IndecesIterator` class for creating multi-dimensional iteration indices.
+
 ### Version: 0.110.0
 
 - Added support for **.NET 10**, removed support for **.NET 5**.

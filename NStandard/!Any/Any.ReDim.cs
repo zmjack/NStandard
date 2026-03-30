@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using NStandard.Iterators;
+using System.Collections;
 
 namespace NStandard;
 
@@ -26,10 +27,10 @@ public static partial class Any
         var newArray = Array.CreateInstance(elementType, lengths);
         var originLengths = origin.GetLengths();
 
-        var stepper = new IndicesStepper(0, Zip(originLengths, lengths).Select(pair => Math.Min(pair.Item1, pair.Item2)).ToArray());
-        foreach (var indices in stepper)
+        var iterator = new IndecesIterator([.. Zip(originLengths, lengths).Select(pair => Math.Min(pair.Item1, pair.Item2))]);
+        foreach (var indeces in iterator)
         {
-            newArray.SetValue(origin.GetValue(indices), indices);
+            newArray.SetValue(origin.GetValue(indeces), indeces);
         }
         variable = (newArray as TArray)!;
     }

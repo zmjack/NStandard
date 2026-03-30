@@ -135,15 +135,6 @@ public class Interval<T> : IEnumerable<T>, IEquatable<Interval<T>>
 #endif
     }
 
-    private int CompareRange(Range x, Range y)
-    {
-#if NET7_0_OR_GREATER
-        return x.Start < y.Start ? -1 : x.Start > y.Start ? 1 : 0;
-#else
-        return OpLessThan(x.Start, y.Start) ? -1 : OpGreaterThan(x.Start, y.Start) ? 1 : 0;
-#endif
-    }
-
     public bool Contains(Interval<T> other)
     {
         if (!_normalized) Normalize();
@@ -322,27 +313,36 @@ public class Interval<T> : IEnumerable<T>, IEquatable<Interval<T>>
         }
     }
 
+    private int Compare(Range x, Range y)
+    {
+#if NET7_0_OR_GREATER
+        return x.Start < y.Start ? -1 : x.Start > y.Start ? 1 : 0;
+#else
+        return OpLessThan(x.Start, y.Start) ? -1 : OpGreaterThan(x.Start, y.Start) ? 1 : 0;
+#endif
+    }
+
     public void Normalize()
     {
-        _ranges.Sort(CompareRange);
+        _ranges.Sort(Compare);
         for (var i = 0; i < _ranges.Count - 1;)
         {
             var current = _ranges[i];
-            var follow = _ranges[i + 1];
+            var next = _ranges[i + 1];
 
 #if NET7_0_OR_GREATER
-            if (Previous(follow.Start) <= current.End)
+            if (Previous(next.Start) <= current.End)
 #else
-            if (OpLessThanOrEqual(Previous(follow.Start), current.End))
+            if (OpLessThanOrEqual(Previous(next.Start), current.End))
 #endif
             {
 
 #if NET7_0_OR_GREATER
-                var start = current.Start < follow.Start ? current.Start : follow.Start;
-                var end = current.End > follow.End ? current.End : follow.End;
+                var start = current.Start < next.Start ? current.Start : next.Start;
+                var end = current.End > next.End ? current.End : next.End;
 #else
-                var start = OpLessThan(current.Start, follow.Start) ? current.Start : follow.Start;
-                var end = OpGreaterThan(current.End, follow.End) ? current.End : follow.End;
+                var start = OpLessThan(current.Start, next.Start) ? current.Start : next.Start;
+                var end = OpGreaterThan(current.End, next.End) ? current.End : next.End;
 #endif
                 _ranges[i] = new Range(current.Start, end);
                 _ranges.RemoveAt(i + 1);

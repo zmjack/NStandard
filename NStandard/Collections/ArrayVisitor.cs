@@ -1,4 +1,6 @@
-﻿namespace NStandard.Collections;
+﻿using NStandard.Iterators;
+
+namespace NStandard.Collections;
 
 public class ArrayVisitor(Array source)
 {
@@ -9,7 +11,7 @@ public class ArrayVisitor(Array source)
     public int[] Lengths { get; } = source.GetLengths();
     public int SequenceLength { get; } = source.GetSequenceLength();
 
-    private int[] GetIndices(int flattenedIndex)
+    private int[] GetIndeces(int flattenedIndex)
     {
         if (flattenedIndex < 0) throw Exception_FlattenedIndexMustBeGreaterThanZero(nameof(flattenedIndex));
 
@@ -43,7 +45,7 @@ public class ArrayVisitor(Array source)
         if (flattenedIndex < 0) throw Exception_FlattenedIndexMustBeGreaterThanZero(nameof(flattenedIndex));
         if (flattenedIndex >= SequenceLength) throw Exception_FlattenedIndexMustBeLessThanSequenceLength(SequenceLength, nameof(flattenedIndex));
 
-        var indeces = GetIndices(flattenedIndex);
+        var indeces = GetIndeces(flattenedIndex);
         Source.SetValue(value, indeces);
     }
 
@@ -52,14 +54,14 @@ public class ArrayVisitor(Array source)
         if (flattenedIndex < 0) throw Exception_FlattenedIndexMustBeGreaterThanZero(nameof(flattenedIndex));
         if (flattenedIndex >= SequenceLength) throw Exception_FlattenedIndexMustBeLessThanSequenceLength(SequenceLength, nameof(flattenedIndex));
 
-        var indeces = GetIndices(flattenedIndex);
+        var indeces = GetIndeces(flattenedIndex);
         return Source.GetValue(indeces);
     }
 
     public IEnumerable<object?> GetValues()
     {
-        var stepper = new IndicesStepper(0, Lengths);
-        foreach (var indeces in stepper)
+        var iterator = new IndecesIterator(Lengths);
+        foreach (var indeces in iterator)
         {
             yield return Source.GetValue(indeces);
         }
