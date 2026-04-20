@@ -25,7 +25,7 @@ These frameworks are supported:
 
 | Frameworks         | Versions                                                     |
 | ------------------ | ------------------------------------------------------------ |
-| **.NET**           | ![Static Badge](https://img.shields.io/badge/-8.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-5.0-8A2BE2) |
+| **.NET**           | ![Static Badge](https://img.shields.io/badge/-10.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-8.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-5.0-8A2BE2) |
 | **.NET Standard**  | ![Static Badge](https://img.shields.io/badge/-2.1-orange) ![Static Badge](https://img.shields.io/badge/-2.0-orange) |
 | **.NET Framework** | ![Static Badge](https://img.shields.io/badge/-4.8-blue) ![Static Badge](https://img.shields.io/badge/-4.7.2-blue) ![Static Badge](https://img.shields.io/badge/-4.7.1-blue) ![Static Badge](https://img.shields.io/badge/-4.7-blue) ![Static Badge](https://img.shields.io/badge/-4.6.2-blue) ![Static Badge](https://img.shields.io/badge/-4.6.1-blue) ![Static Badge](https://img.shields.io/badge/-4.6-blue) ![Static Badge](https://img.shields.io/badge/-4.5.2-blue) ![Static Badge](https://img.shields.io/badge/-4.5.1-blue) ![Static Badge](https://img.shields.io/badge/-3.5-blue) |
 
@@ -62,22 +62,26 @@ Every **10** minor version, the code will be cleaned up and all methods marked a
 
 Starting from **0.100.0**, please only reference **10** minor versions to ensure the best compatibility.
 
-For example, from **0.100.0** to **0.110.0** (excluding **0.110.0**):
+For example, from **0.110.0** to **0.120.0** (excluding **0.120.0**):
 
 ```xml
-<PackageReference Include="NStandard" Version="[0.100.0,0.110.0)" />
+<PackageReference Include="NStandard" Version="[0.110.0,0.120.0)" />
 ```
 
 With Analyzer:
 
 ```xml
-<PackageReference Include="NStandard" Version="[0.100.0,0.110.0)" />
-<PackageReference Include="NStandard.Analyzer" Version="[0.100.0,0.110.0)" />
+<PackageReference Include="NStandard" Version="[0.110.0,0.120.0)" />
+<PackageReference Include="NStandard.Analyzer" Version="[0.110.0,0.120.0)" />
 ```
 
 <br/>
 
 ## Recently
+
+### Version: 0.110.7
+
+- The `Scanner` class has been added to scan text and convert it sequentially into specified primitive types.
 
 ### Version: 0.110.6
 

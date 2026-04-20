@@ -60,7 +60,9 @@ public class NumberEvaluatorTests
     [Fact]
     public void ModelTest()
     {
-        var func = Evaluator.Numerical.Compile<Item>("${Price} >= 100 ? ${Price} * 0.8 : ${Price}");
+        var func = Evaluator.Numerical.Compile<Item>(
+            "${Price} >= 100 ? ${Price} * 0.8 : ${Price}"
+        );
         var actual = func(new Item { Price = 100 });
         Assert.Equal(80, actual);
     }

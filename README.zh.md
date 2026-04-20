@@ -25,7 +25,7 @@
 
 | 目标框架           | 版本                                                         |
 | ------------------ | ------------------------------------------------------------ |
-| **.NET**           | ![Static Badge](https://img.shields.io/badge/-8.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-5.0-8A2BE2) |
+| **.NET**           | ![Static Badge](https://img.shields.io/badge/-10.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-8.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-7.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-6.0-8A2BE2) ![Static Badge](https://img.shields.io/badge/-5.0-8A2BE2) |
 | **.NET Standard**  | ![Static Badge](https://img.shields.io/badge/-2.1-orange) ![Static Badge](https://img.shields.io/badge/-2.0-orange) |
 | **.NET Framework** | ![Static Badge](https://img.shields.io/badge/-4.8-blue) ![Static Badge](https://img.shields.io/badge/-4.7.2-blue) ![Static Badge](https://img.shields.io/badge/-4.7.1-blue) ![Static Badge](https://img.shields.io/badge/-4.7-blue) ![Static Badge](https://img.shields.io/badge/-4.6.2-blue) ![Static Badge](https://img.shields.io/badge/-4.6.1-blue) ![Static Badge](https://img.shields.io/badge/-4.6-blue) ![Static Badge](https://img.shields.io/badge/-4.5.2-blue) ![Static Badge](https://img.shields.io/badge/-4.5.1-blue) ![Static Badge](https://img.shields.io/badge/-3.5-blue) |
 
@@ -62,22 +62,26 @@ end
 
 从 **0.100.0** 开始，请只引用 **10** 个小版本以确保最好的兼容性。
 
-例如，从 **0.100.0** 到 **0.110.0**（不包含 **0.110.0**）：
+例如，从 **0.110.0** 到 **0.120.0**（不包含 **0.120.0**）：
 
 ```xml
-<PackageReference Include="NStandard" Version="[0.100.0,0.110.0)" />
+<PackageReference Include="NStandard" Version="[0.110.0,0.120.0)" />
 ```
 
 使用分析器：
 
 ```xml
-<PackageReference Include="NStandard" Version="[0.100.0,0.110.0)" />
-<PackageReference Include="NStandard.Analyzer" Version="[0.100.0,0.110.0)" />
+<PackageReference Include="NStandard" Version="[0.110.0,0.120.0)" />
+<PackageReference Include="NStandard.Analyzer" Version="[0.110.0,0.120.0)" />
 ```
 
 <br/>
 
 ## 最近更新
+
+### 版本：0.110.7
+
+- 新增 `Scanner` 类，用于扫描本文并按顺序转换为指定基础类型。
 
 ### 版本：0.110.6
 

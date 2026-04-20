@@ -36,6 +36,7 @@ public class ObservableFeatureGenerator : IIncrementalGenerator
         {
             "System",
             "System.ComponentModel",
+            "System.Collections.Generic"
         };
 
         foreach (var typeDeclaration in nodes)
