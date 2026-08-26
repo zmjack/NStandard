@@ -11,9 +11,9 @@ public static class ZipFileExtensions
 {
     public static ZipArchiveEntry CreateEntryFromSource(this ZipArchive @this, Stream source, string entryName)
     {
-        if (@this == null) throw new ArgumentNullException(nameof(@this));
-        if (source == null) throw new ArgumentNullException(nameof(source));
-        if (entryName == null) throw new ArgumentNullException(nameof(entryName));
+        if (@this is null) throw new ArgumentNullException(nameof(@this));
+        if (source is null) throw new ArgumentNullException(nameof(source));
+        if (entryName is null) throw new ArgumentNullException(nameof(entryName));
 
         var entry = @this.CreateEntry(entryName);
         using (var stream = entry.Open())
@@ -25,9 +25,9 @@ public static class ZipFileExtensions
 
     public static ZipArchiveEntry CreateEntryFromSource(this ZipArchive @this, byte[] source, string entryName)
     {
-        if (@this == null) throw new ArgumentNullException(nameof(@this));
-        if (source == null) throw new ArgumentNullException(nameof(source));
-        if (entryName == null) throw new ArgumentNullException(nameof(entryName));
+        if (@this is null) throw new ArgumentNullException(nameof(@this));
+        if (source is null) throw new ArgumentNullException(nameof(source));
+        if (entryName is null) throw new ArgumentNullException(nameof(entryName));
 
         var entry = @this.CreateEntry(entryName);
         using (var stream = entry.Open())
@@ -40,9 +40,9 @@ public static class ZipFileExtensions
 #if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
     public static ZipArchiveEntry CreateEntryFromSource(this ZipArchive @this, ReadOnlySpan<byte> source, string entryName)
     {
-        if (@this == null) throw new ArgumentNullException(nameof(@this));
-        if (source == null) throw new ArgumentNullException(nameof(source));
-        if (entryName == null) throw new ArgumentNullException(nameof(entryName));
+        if (@this is null) throw new ArgumentNullException(nameof(@this));
+        if (source.IsEmpty) throw new ArgumentNullException(nameof(source));
+        if (entryName is null) throw new ArgumentNullException(nameof(entryName));
 
         var entry = @this.CreateEntry(entryName);
         using (var stream = entry.Open())

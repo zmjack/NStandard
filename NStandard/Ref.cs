@@ -2,7 +2,7 @@
 
 namespace NStandard;
 
-[DebuggerDisplay("{Target}")]
+[DebuggerDisplay("[{GetHashCode()}] {Target}")]
 public class Ref<T>(T target)
 {
     public T Target { get; set; } = target;

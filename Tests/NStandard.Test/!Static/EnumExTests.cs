@@ -59,7 +59,7 @@ public class EnumExTests
     {
         Assert.Equal([TestEnums.A], TestEnums.A.GetFlags());
         Assert.Equal([TestEnums.B], TestEnums.B.GetFlags());
-        Assert.Equal(Array.Empty<TestEnums>(), TestEnums.D.GetFlags());
+        Assert.Equal([], TestEnums.D.GetFlags());
         Assert.Equal([TestEnums.A, TestEnums.B], TestEnums.AB.GetFlags());
         Assert.Equal([TestEnums.A], TestEnums.AD.GetFlags());
     }

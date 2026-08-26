@@ -36,4 +36,18 @@ public class Scanner(string s) : StringReader(s)
             throw new InvalidCastException($"\"{value}\" cannot be converted to {type}.", ex);
         }
     }
+
+    public bool TryNext<T>(out T ret) where T : IConvertible
+    {
+        try
+        {
+            ret = Next<T>();
+            return true;
+        }
+        catch
+        {
+            ret = default!;
+            return false;
+        }
+    }
 }

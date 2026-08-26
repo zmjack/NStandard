@@ -5,9 +5,6 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 #if NET6_0_OR_GREATER
 using System.Text.Json;
-#elif NET6_0_OR_GREATER
-using System.Buffers;
-using System.Text.Json;
 #endif
 
 namespace NStandard.Drawing;
