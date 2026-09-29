@@ -14,8 +14,8 @@ public class MathExTests
         Assert.Equal(2000, MathEx.Permut(2000, 1));
         Assert.Equal(2000 * 1999, MathEx.Permut(2000, 2));
 
-        Assert.Equal(3632428800, MathEx.Permut(14L, 10L));
-        Assert.Equal(3628800, MathEx.Permut(10L, 10L));
+        Assert.Equal(3632428800, MathEx.Permut(14, 10));
+        Assert.Equal(3628800, MathEx.Permut(10, 10));
     }
 
     [Fact]
@@ -26,8 +26,8 @@ public class MathExTests
         Assert.Equal(10, MathEx.Combin(5, 3));
         Assert.Equal(2000 * 1999 / 2, MathEx.Combin(2000, 2));
 
-        Assert.Equal(1001, MathEx.Combin(14L, 10L));
-        Assert.Equal(536878650, MathEx.Combin(50L, 8L));
+        Assert.Equal(1001, MathEx.Combin(14, 10));
+        Assert.Equal(536878650, MathEx.Combin(50, 8));
     }
 
     [Fact]

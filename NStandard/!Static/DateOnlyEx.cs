@@ -13,7 +13,7 @@ public static class DateOnlyEx
     /// Gets a System.DateOnly object that is set to the current date on this computer.
     /// </summary>
     /// <returns></returns>
-    public static DateOnly Today => DateOnly.FromDateTime(DateTime.Now);
+    public static DateOnly Today => DateOnly.FromDateTime(DateTime.Today);
 
     /// <summary>
     /// The number of complete years in the period. [ Similar as DATEDIF(*, *, "Y") function in Excel. ]

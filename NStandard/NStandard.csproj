@@ -25,7 +25,7 @@
 
 	<PropertyGroup>
 		<Nullable>enable</Nullable>
-		<Version>0.110.8</Version>
+		<Version>0.110.9</Version>
 		<RootNamespace>NStandard</RootNamespace>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Authors>zmjack</Authors>
@@ -54,6 +54,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="!Static\MathEx.Combin.cs" />
 		<None Include="..\LICENSE.md">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
@@ -75,14 +76,6 @@
 		</None>
 		<None Update="StructTuple.tt">
 			<LastGenOutput>StructTuple.cs</LastGenOutput>
-			<Generator>TextTemplatingFileGenerator</Generator>
-		</None>
-		<None Update="!Static\MathEx.Combin.tt">
-			<LastGenOutput>MathEx.Combin.cs</LastGenOutput>
-			<Generator>TextTemplatingFileGenerator</Generator>
-		</None>
-		<None Update="!Static\MathEx.Permut.tt">
-			<LastGenOutput>MathEx.Permut.cs</LastGenOutput>
 			<Generator>TextTemplatingFileGenerator</Generator>
 		</None>
 		<None Update="!Static\MathEx.Floor.tt">
@@ -117,16 +110,6 @@
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Any.Zip.tt</DependentUpon>
-		</Compile>
-		<Compile Update="!Static\MathEx.Combin.cs">
-			<DependentUpon>MathEx.Combin.tt</DependentUpon>
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-		</Compile>
-		<Compile Update="!Static\MathEx.Permut.cs">
-			<DependentUpon>MathEx.Permut.tt</DependentUpon>
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
 		</Compile>
 		<Compile Update="!Static\MathEx.Floor.cs">
 			<DependentUpon>MathEx.Floor.tt</DependentUpon>
