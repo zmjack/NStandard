@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace NStandard.Analyzer.Extensions;
 
-public static class ITypeSymbolExtensions
+internal static class ITypeSymbolExtensions
 {
-    public static IEnumerable<INamespaceSymbol> GetUsingNamespaces(this ITypeSymbol @this)
+    internal static IEnumerable<INamespaceSymbol> GetUsingNamespaces(this ITypeSymbol @this)
     {
         if (@this is INamedTypeSymbol namedType)
         {

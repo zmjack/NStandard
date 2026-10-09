@@ -8,7 +8,7 @@
 		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
 
-		<Version>0.110.9</Version>
+		<Version>0.111.0</Version>
 		<RootNamespace>NStandard.Analyzer</RootNamespace>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Authors>zmjack</Authors>
@@ -43,6 +43,11 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.7.0" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0" PrivateAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
+		<AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
 	</ItemGroup>
 
 </Project>

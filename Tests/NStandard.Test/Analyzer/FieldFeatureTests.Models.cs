@@ -2,10 +2,15 @@
 
 namespace NStandard.Analyzer.Test;
 
-public partial class ClassWrapper
+public interface IFieldFeatureLocationTestModel
+{
+    int Number { get; set; }
+}
+
+public partial class FieldFeatureClassWrapper
 {
     [FieldFeature]
-    public partial class Model
+    public partial class Model : IFieldFeatureLocationTestModel
     {
         [FieldBackend]
         public int Number
@@ -20,10 +25,13 @@ public partial class ClassWrapper
             get => GetValue();
             set => SetValue(value);
         }
+
+        [FixedArray(2)]
+        public partial int[] FixedSize2 { get; set; }
     }
 
     [FieldFeature]
-    public partial struct ValueModel
+    public partial struct ValueModel : IFieldFeatureLocationTestModel
     {
         [FieldBackend]
         public int Number
@@ -39,18 +47,15 @@ public partial class ClassWrapper
             set => SetValue(value);
         }
 
-        public int[] Numbers2
-        {
-            get => GetValue();
-            set => SetValue(value);
-        }
+        [FixedArray(2)]
+        public partial int[] FixedSize2 { get; set; }
     }
 }
 
-public partial struct StructWrapper
+public partial struct FieldFeatureStructWrapper
 {
     [FieldFeature]
-    public partial class Model
+    public partial class Model : IFieldFeatureLocationTestModel
     {
         [FieldBackend]
         public int Number
@@ -65,10 +70,13 @@ public partial struct StructWrapper
             get => GetValue();
             set => SetValue(value);
         }
+
+        [FixedArray(2)]
+        public partial int[] FixedSize2 { get; set; }
     }
 
     [FieldFeature]
-    public partial struct ValueModel
+    public partial struct ValueModel : IFieldFeatureLocationTestModel
     {
         [FieldBackend]
         public int Number
@@ -83,43 +91,8 @@ public partial struct StructWrapper
             get => GetValue();
             set => SetValue(value);
         }
-    }
-}
 
-#region ModelWithNoNS
-[FieldFeature]
-public partial class Model
-{
-    [FieldBackend]
-    public int Number
-    {
-        get => GetValue();
-        set => SetValue(value);
-    }
-
-    [FieldBackend]
-    public int[] Numbers
-    {
-        get => GetValue();
-        set => SetValue(value);
-    }
-}
-#endregion
-
-[FieldFeature]
-public partial struct ValueModel
-{
-    [FieldBackend]
-    public int Number
-    {
-        get => GetValue();
-        set => SetValue(value);
-    }
-
-    [FieldBackend]
-    public int[] Numbers
-    {
-        get => GetValue();
-        set => SetValue(value);
+        [FixedArray(2)]
+        public partial int[] FixedSize2 { get; set; }
     }
 }

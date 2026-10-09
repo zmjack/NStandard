@@ -12,7 +12,7 @@ public class Scanner(string s) : StringReader(s)
         do
         {
             current = Read();
-            if (current < 0) throw new InvalidOperationException("No more characters are available.");
+            if (current < 0) throw new InvalidOperationException($"No more characters are available.");
             pos++;
         } while (char.IsWhiteSpace((char)current));
 

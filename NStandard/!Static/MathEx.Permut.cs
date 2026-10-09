@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStandard.Static;
+﻿namespace NStandard.Static;
 
 public static partial class MathEx
 {

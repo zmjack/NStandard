@@ -1,61 +1,39 @@
-﻿using Xunit;
+﻿using NStandard.Design;
+using Xunit;
 
 namespace NStandard.Analyzer.Test;
 
-#region LegacyModel
-public partial class LegacyModel
+[FieldFeature]
+public partial class Model
 {
-    private int _number;
-    public int Number
-    {
-        get => _number;
-        set => _number = value;
-    }
-
-    private int[] _numbers;
-    public int[] Numbers
-    {
-        get => _numbers;
-        set => _numbers = value;
-    }
+    [FixedArray(2)]
+    public partial int[] FixedSize2 { get; set; }
 }
-#endregion
 
 public class FieldFeatureTests
 {
-    private static void Test<T>() where T : new()
+    private static void RunLocationTest<T>() where T : IFieldFeatureLocationTestModel, new()
     {
-        dynamic first = new T();
-        first.Number = 123;
-        first.Numbers = new int[] { 1, 2, 3 };
-
-        dynamic second = new T();
-        second.Number = 123;
-        second.Numbers = new int[] { 1, 2, 3 };
-
-        Assert.Equal(123, second.Number);
-        Assert.Equal([1, 2, 3], second.Numbers as int[]);
-        Assert.Equal(123, second.Number);
-        Assert.Equal([1, 2, 3], second.Numbers as int[]);
+        var item = new T { Number = 666 };
+        Assert.Equal(666, item.Number);
     }
 
     [Fact]
-    public void AllTests()
+    public void NormalTest()
     {
-        Test<LegacyModel>();
+        var item = new Model { };
+        Assert.Equal([0, 0], item.FixedSize2);
+        Assert.ThrowsAny<ArgumentException>(() => item.FixedSize2 = [1, 2, 3, 4]);
+        item.FixedSize2 = [7, 77];
+        Assert.Equal([7, 77], item.FixedSize2);
+    }
 
-        Test<Model>();
-        Test<ValueModel>();
-        Test<ClassWrapper.Model>();
-        Test<ClassWrapper.ValueModel>();
-        Test<StructWrapper.Model>();
-        Test<StructWrapper.ValueModel>();
-
-        Test<global::Model>();
-        Test<global::ValueModel>();
-        Test<global::ClassWrapper.Model>();
-        Test<global::ClassWrapper.ValueModel>();
-        Test<global::StructWrapper.Model>();
-        Test<global::StructWrapper.ValueModel>();
+    [Fact]
+    public void LocationTest()
+    {
+        RunLocationTest<FieldFeatureClassWrapper.Model>();
+        RunLocationTest<FieldFeatureClassWrapper.ValueModel>();
+        RunLocationTest<FieldFeatureStructWrapper.Model>();
+        RunLocationTest<FieldFeatureStructWrapper.ValueModel>();
     }
 }

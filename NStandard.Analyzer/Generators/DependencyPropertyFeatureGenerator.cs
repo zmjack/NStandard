@@ -29,7 +29,7 @@ public class DependencyPropertyFeatureGenerator : IIncrementalGenerator
 
     private class DependencyProperty
     {
-        public TypeSymbol Symbol { get; set; }
+        public TypeSymbol DeclarationType { get; set; }
         public string Modifier { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
@@ -51,9 +51,9 @@ public class DependencyPropertyFeatureGenerator : IIncrementalGenerator
         foreach (var typeDeclaration in nodes)
         {
             var semantic = compilation.GetSemanticModel(typeDeclaration.SyntaxTree);
-            var symbol = _typeDetector.GetSymbol(compilation, typeDeclaration);
+            var declarationType = _typeDetector.GetSymbol(compilation, typeDeclaration);
             var methods = typeDeclaration.ChildNodes().OfType<MethodDeclarationSyntax>();
-            var props = typeDeclaration.ChildNodes().OfType<Microsoft.CodeAnalysis.CSharp.Syntax.PropertyDeclarationSyntax>();
+            var props = typeDeclaration.ChildNodes().OfType<PropertyDeclarationSyntax>();
             foreach (var prop in props)
             {
                 var attributes = prop.AttributeLists.SelectMany(x => x.Attributes);
@@ -72,7 +72,7 @@ public class DependencyPropertyFeatureGenerator : IIncrementalGenerator
 
                         list.Add(new()
                         {
-                            Symbol = symbol,
+                            DeclarationType = declarationType,
                             Modifier = prop.Modifiers.ToString(),
                             Type = prop.Type!.ToString(),
                             Name = prop.Identifier.Text,
@@ -83,7 +83,7 @@ public class DependencyPropertyFeatureGenerator : IIncrementalGenerator
             }
         }
 
-        foreach (var g in list.GroupBy(x => x.Symbol))
+        foreach (var g in list.GroupBy(x => x.DeclarationType))
         {
             var builder = new StringBuilder();
 

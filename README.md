@@ -79,6 +79,21 @@ With Analyzer:
 
 ## Recently
 
+### Version: 0.111.0
+
+- Added `FixedArrayAttribute` for generating fixed-length array properties.
+
+  Its implementation differs from that of **InlineArray**; it is still allocated on the managed heap and is subject to fewer restrictions.
+
+  ```csharp
+  [FieldFeature]
+  public partial struct Model
+  {
+      [FixedArray(10)]
+      public partial int[] FixedSize10 { get; set; }
+  }
+  ```
+
 ### Version: 0.110.7
 
 - The `Scanner` class has been added to scan text and convert it sequentially into specified primitive types.

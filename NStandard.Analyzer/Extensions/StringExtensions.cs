@@ -6,7 +6,7 @@ internal static class StringExtensions
 {
     private static int GetCharPosition(ref string str, int pos) => pos < 0 ? str.Length + pos : pos;
 
-    public static string Slice(this string @this, int start, int stop)
+    internal static string Slice(this string @this, int start, int stop)
     {
         start = GetCharPosition(ref @this, start);
         stop = GetCharPosition(ref @this, stop);
@@ -15,7 +15,7 @@ internal static class StringExtensions
         return @this.Substring(start, length);
     }
 
-    public static IEnumerable<string> GetLines(this string @this)
+    internal static IEnumerable<string> GetLines(this string @this)
     {
         if (@this != null)
         {

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace NStandard.Analyzer
+﻿namespace NStandard.Analyzer
 {
     internal static class AnalyzerDebugger
     {

@@ -13,7 +13,8 @@ namespace NStandard.Analyzer.Generators;
 public class FieldFeatureGenerator : IIncrementalGenerator
 {
     public const string FeatureAttributeName = "NStandard.Design.FieldFeatureAttribute";
-    public const string TargetAttributeName = "NStandard.Design.FieldBackendAttribute";
+    public const string FieldBackendAttributeName = "NStandard.Design.FieldBackendAttribute";
+    public const string FixedArrayAttributeName = "NStandard.Design.FixedArrayAttribute";
     private readonly TypeDetector _typeDetector = new();
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
@@ -28,13 +29,21 @@ public class FieldFeatureGenerator : IIncrementalGenerator
         context.RegisterSourceOutput(compilation, Execute);
     }
 
-    private class Field
+    private enum PropertyType
     {
-        public TypeSymbol Symbol { get; set; }
+        Unknown,
+        FieldBackend,
+        FixedArray,
+    }
+
+    private class Property
+    {
+        public TypeSymbol DeclarationType { get; set; }
         public string Modifiers { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
-        public object DefaultValue { get; set; }
+        public PropertyType TypeKind { get; set; }
+        public object? Tag { get; set; }
     }
 
     public void Execute(SourceProductionContext context, (Compilation, ImmutableArray<TypeDeclarationSyntax>) tuple)
@@ -47,20 +56,19 @@ public class FieldFeatureGenerator : IIncrementalGenerator
             "System",
             "System.Runtime.CompilerServices",
         };
-        var list = new List<Field>();
+        var list = new List<Property>();
 
         foreach (var typeDeclaration in nodes)
         {
-            if (!typeDeclaration.Modifiers.Any(x => x.ValueText == "partial"))
+            if (!typeDeclaration.Modifiers.ContainsToken(SyntaxModifier.partial))
             {
-                var error = Diagnostic.Create(Errors.NeedPartialKeyword, typeDeclaration.Identifier.GetLocation());
-                context.ReportDiagnostic(error);
+                context.Report(ErrorKind.MissingPartialKeyword, typeDeclaration);
                 continue;
             }
 
             var semantic = compilation.GetSemanticModel(typeDeclaration.SyntaxTree);
-            var symbol = _typeDetector.GetSymbol(compilation, typeDeclaration);
-            var props = typeDeclaration.ChildNodes().OfType<Microsoft.CodeAnalysis.CSharp.Syntax.PropertyDeclarationSyntax>();
+            var declarationType = _typeDetector.GetSymbol(compilation, typeDeclaration);
+            var props = typeDeclaration.ChildNodes().OfType<PropertyDeclarationSyntax>();
             foreach (var prop in props)
             {
                 var isTarget = false;
@@ -68,8 +76,33 @@ public class FieldFeatureGenerator : IIncrementalGenerator
                 foreach (var attr in attributes)
                 {
                     var attrType = semantic.GetTypeInfo(attr);
-                    if (attrType.ConvertedType!.ToDisplayString() == TargetAttributeName)
+                    var attrName = attrType.ConvertedType?.ToDisplayString();
+                    var typeKind = attrName switch
                     {
+                        FieldBackendAttributeName => PropertyType.FieldBackend,
+                        FixedArrayAttributeName => PropertyType.FixedArray,
+                        _ => PropertyType.Unknown
+                    };
+
+                    if (typeKind != PropertyType.Unknown)
+                    {
+                        object? tag = null;
+                        if (typeKind == PropertyType.FixedArray)
+                        {
+                            if (!prop.Modifiers.ContainsToken(SyntaxModifier.partial))
+                            {
+                                context.Report(ErrorKind.MissingPartialKeyword, prop);
+                                continue;
+                            }
+                            if (prop.Type.Kind() != SyntaxKind.ArrayType)
+                            {
+                                context.Report(ErrorKind.NotArray, prop);
+                                continue;
+                            }
+                            var arg0 = attr.ArgumentList!.Arguments[0];
+                            tag = int.Parse(arg0.ToString());
+                        }
+
                         var propType = semantic.GetTypeInfo(prop.Type);
                         var propNamespaces = propType.ConvertedType!.GetUsingNamespaces();
                         foreach (var _ns in propNamespaces)
@@ -79,10 +112,12 @@ public class FieldFeatureGenerator : IIncrementalGenerator
 
                         list.Add(new()
                         {
-                            Symbol = symbol,
+                            DeclarationType = declarationType,
                             Modifiers = prop.Modifiers.ToString(),
                             Type = prop.Type!.ToString(),
                             Name = prop.Identifier.Text,
+                            TypeKind = typeKind,
+                            Tag = tag,
                         });
                         isTarget = true;
                         break;
@@ -101,10 +136,9 @@ public class FieldFeatureGenerator : IIncrementalGenerator
             }
         }
 
-        foreach (var g in list.GroupBy(x => x.Symbol))
+        foreach (var g in list.GroupBy(x => x.DeclarationType))
         {
             var builder = new StringBuilder();
-
             builder.AppendLine("// <auto-generated/>");
             foreach (var ns in usings.OrderBy(x => x))
             {
@@ -127,42 +161,76 @@ public class FieldFeatureGenerator : IIncrementalGenerator
             {"}"}
             private Fields fields;
             """);
-
             code.AppendLine();
 
-            code.AppendLine($"""
-            public dynamic GetValue([CallerMemberName] string name = "")
-            {"{"}
-                return name switch
-                {"{"}
-            """);
-            foreach (var prop in g)
             {
+                var props = g.Where(x => x.TypeKind == PropertyType.FieldBackend);
                 code.AppendLine($"""
-                        nameof({prop.Name}) => fields.{prop.Name},
-                """);
-            }
-            code.AppendLine($"""
-                    _ => throw new NotImplementedException($"FieldContainer.GetValue: {"{"}name{"}"} is not implemented."),
-                {"}"};
-            {"}"}
-            public void SetValue(dynamic value, [CallerMemberName] string name = "")
-            {"{"}
-                switch (name)
+                public dynamic GetValue([CallerMemberName] string name = "")
                 {"{"}
-            """);
-            foreach (var prop in g)
-            {
-                var property = $"{prop.Name}Property";
-                code.AppendLine($"""
-                        case nameof({prop.Name}): fields.{prop.Name} = value; break;
+                    return name switch
+                    {"{"}
                 """);
-            }
-            code.AppendLine($"""
-                    default: throw new NotImplementedException($"FieldContainer.SetValue: {"{"}name{"}"} is not implemented.");
+                foreach (var prop in props)
+                {
+                    code.AppendLine($"""
+                            nameof({prop.Name}) => fields.{prop.Name},
+                    """);
+                }
+                code.AppendLine($"""
+                        _ => throw new NotImplementedException($"FieldContainer.GetValue: {"{"}name{"}"} is not implemented."),
+                    {"}"};
                 {"}"}
-            {"}"}
-            """);
+                """);
+
+                code.AppendLine($"""
+                public void SetValue(dynamic value, [CallerMemberName] string name = "")
+                {"{"}
+                    switch (name)
+                    {"{"}
+                """);
+                foreach (var prop in props)
+                {
+                    var property = $"{prop.Name}Property";
+                    code.AppendLine($"""
+                            case nameof({prop.Name}): fields.{prop.Name} = value; break;
+                    """);
+                }
+                code.AppendLine($"""
+                        default: throw new NotImplementedException($"FieldContainer.SetValue: {"{"}name{"}"} is not implemented.");
+                    {"}"}
+                {"}"}
+                """);
+                code.AppendLine();
+            }
+            {
+                var props = g.Where(x => x.TypeKind == PropertyType.FixedArray);
+                foreach (var prop in props)
+                {
+                    var fixedSize = (int)prop.Tag!;
+                    code.AppendLine($"""
+                    {string.Join(" ", prop.Modifiers)} {prop.Type} {prop.Name}
+                    {"{"}
+                        get
+                        {"{"}
+                            if (fields.{prop.Name} is null) fields.{prop.Name} = new int[{fixedSize}];
+                            return fields.{prop.Name};
+                        {"}"}
+                        set
+                        {"{"}
+                            if (fields.{prop.Name} is null) fields.{prop.Name} = new int[{fixedSize}];
+                            if (value.Length != {fixedSize}) throw new ArgumentException($"The length of {"{"}nameof({prop.Name}){"}"} must be {fixedSize}.");
+
+                            int i = 0;
+                            foreach (var element in value)
+                            {"{"}
+                                fields.{prop.Name}[i++] = element;
+                            {"}"}
+                        {"}"}
+                    {"}"}
+                    """);
+                }
+            }
 
             builder.AppendLine(g.Key.Format(code.ToString()));
             context.AddSource($"{g.Key}.g.cs", builder.ToString());

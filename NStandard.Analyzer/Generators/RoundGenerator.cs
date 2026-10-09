@@ -31,7 +31,7 @@ public class RoundGenerator : IIncrementalGenerator
 
     private class Info
     {
-        public TypeSymbol Symbol { get; set; }
+        public TypeSymbol DeclarationType { get; set; }
         public string Modifiers { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
@@ -53,16 +53,15 @@ public class RoundGenerator : IIncrementalGenerator
 
         foreach (var typeDeclaration in nodes)
         {
-            if (!typeDeclaration.Modifiers.Any(x => x.ValueText == "partial"))
+            if (!typeDeclaration.Modifiers.ContainsToken(SyntaxModifier.partial))
             {
-                var error = Diagnostic.Create(Errors.NeedPartialKeyword, typeDeclaration.Identifier.GetLocation());
-                context.ReportDiagnostic(error);
+                context.Report(ErrorKind.MissingPartialKeyword, typeDeclaration);
                 continue;
             }
 
             var semantic = compilation.GetSemanticModel(typeDeclaration.SyntaxTree);
-            var symbol = _typeDetector.GetSymbol(compilation, typeDeclaration);
-            var props = typeDeclaration.ChildNodes().OfType<Microsoft.CodeAnalysis.CSharp.Syntax.PropertyDeclarationSyntax>();
+            var declarationType = _typeDetector.GetSymbol(compilation, typeDeclaration);
+            var props = typeDeclaration.ChildNodes().OfType<PropertyDeclarationSyntax>();
             foreach (var prop in props)
             {
                 var attributes = prop.AttributeLists.SelectMany(x => x.Attributes);
@@ -84,8 +83,7 @@ public class RoundGenerator : IIncrementalGenerator
                             and not "double" and not "double?"
                             and not "decimal" and not "decimal?")
                         {
-                            var error = Diagnostic.Create(Errors.NeedNumberType, prop.Identifier.GetLocation());
-                            context.ReportDiagnostic(error);
+                            context.Report(ErrorKind.NotNumberType, prop);
                             continue;
                         }
 
@@ -102,7 +100,7 @@ public class RoundGenerator : IIncrementalGenerator
                         }
                         list.Add(new()
                         {
-                            Symbol = symbol,
+                            DeclarationType = declarationType,
                             Modifiers = prop.Modifiers.ToString(),
                             Type = propKeyword,
                             Name = prop.Identifier.Text,
@@ -115,7 +113,7 @@ public class RoundGenerator : IIncrementalGenerator
             }
         }
 
-        foreach (var g in list.GroupBy(x => x.Symbol))
+        foreach (var g in list.GroupBy(x => x.DeclarationType))
         {
             var builder = new StringBuilder();
 

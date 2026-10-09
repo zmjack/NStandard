@@ -79,6 +79,21 @@ end
 
 ## 最近更新
 
+### 版本：0.111.0
+
+- 新增 `FixedArrayAttribute` 用于生成定长数组属性。
+
+  其实现方式与 **InlineArray** 不同；它仍分配在托管堆上，且受到的限制更少。
+
+  ```csharp
+  [FieldFeature]
+  public partial struct Model
+  {
+      [FixedArray(10)]
+      public partial int[] FixedSize10 { get; set; }
+  }
+  ```
+
 ### 版本：0.110.7
 
 - 新增 `Scanner` 类，用于扫描本文并按顺序转换为指定基础类型。

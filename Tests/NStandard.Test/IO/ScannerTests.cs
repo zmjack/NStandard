@@ -13,7 +13,7 @@ public class ScannerTests
     [Fact]
     public void NextTest()
     {
-        var scanner = new Scanner(" 0 1 C 23 45.67\t  89  Hello World  ");
+        using var scanner = new Scanner(" 0 1 C 23 45.67\t  89  Hello World  ");
         Assert.Equal(TestEnum.A, scanner.Next<TestEnum>());
         Assert.Equal(TestEnum.B, scanner.Next<TestEnum>());
         Assert.Equal(TestEnum.C, scanner.Next<TestEnum>());
@@ -27,7 +27,7 @@ public class ScannerTests
     [Fact]
     public void TryNextTest()
     {
-        var scanner = new Scanner(" 0 1 C 23 45.67\t  89  Hello World  ");
+        using var scanner = new Scanner(" 0 1 C 23 45.67\t  89  Hello World  ");
         Assert.True(scanner.TryNext<TestEnum>(out var e1));
         Assert.Equal(TestEnum.A, e1);
         Assert.True(scanner.TryNext<TestEnum>(out var e2));
