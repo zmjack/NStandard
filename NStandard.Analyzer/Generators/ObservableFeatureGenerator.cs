@@ -39,21 +39,37 @@ public class ObservableFeatureGenerator : IIncrementalGenerator
             "System.Collections.Generic"
         };
 
-        foreach (var typeDeclaration in nodes)
+        foreach (var classDeclaration in nodes)
         {
-            var semantic = compilation.GetSemanticModel(typeDeclaration.SyntaxTree);
-            var symbol = _typeDetector.GetSymbol(compilation, typeDeclaration);
+            var semantic = compilation.GetSemanticModel(classDeclaration.SyntaxTree);
+            var symbol = _typeDetector.GetSymbol(compilation, classDeclaration);
 
-            var properties = typeDeclaration.DescendantNodes().OfType<PropertyDeclarationSyntax>();
+            var isChanging = false;
+            var isChanged = false;
+            foreach (var type in classDeclaration.BaseList!.Types)
+            {
+                var convertedType = semantic.GetTypeInfo(type.Type).ConvertedType!;
+                var typeString = convertedType.ToDisplayString();
+                if (typeString == "System.ComponentModel.INotifyPropertyChanged")
+                {
+                    isChanged = true;
+                }
+                if (typeString == "System.ComponentModel.INotifyPropertyChanging")
+                {
+                    isChanging = true;
+                }
+            }
+            if (!isChanging && !isChanged)
+            {
+                context.Report(ErrorKind.NotPropertyChangedOrPropertyChanging, classDeclaration);
+                continue;
+            }
+
+            var properties = classDeclaration.DescendantNodes().OfType<PropertyDeclarationSyntax>();
             var collector = new PropertyDependencyCollector();
-            var dependencies = collector.Collect(semantic, typeDeclaration);
+            var dependencies = collector.Collect(semantic, classDeclaration);
             var reversedDependencies = collector.ReverseDependecies(dependencies);
             var code = new StringBuilder();
-            code.AppendLine("""
-            public event PropertyChangingEventHandler PropertyChanging;
-            public event PropertyChangedEventHandler PropertyChanged;
-            
-            """);
 
             foreach (var dep in dependencies)
             {
@@ -78,25 +94,37 @@ public class ObservableFeatureGenerator : IIncrementalGenerator
                         {"{"}
                             if (!EqualityComparer<{dep.Key.Type}>.Default.Equals({backingName}, value))
                             {"{"}
-                                PropertyChanging?.Invoke(this, new PropertyChangingEventArgs("{propertyName}"));
                     """);
-                    foreach (var notification in notifications)
+                    if (isChanging)
                     {
-                        var name = notification.Identifier.ValueText;
                         code.AppendLine($"""
-                                    PropertyChanging?.Invoke(this, new PropertyChangingEventArgs("{name}"));
+                                    PropertyChanging?.Invoke(this, new PropertyChangingEventArgs("{propertyName}"));
                         """);
+                        foreach (var notification in notifications)
+                        {
+                            var name = notification.Identifier.ValueText;
+                            code.AppendLine($"""
+                                        PropertyChanging?.Invoke(this, new PropertyChangingEventArgs("{name}"));
+                            """);
+                        }
                     }
+
                     code.AppendLine($"""
                                 {backingName} = value;
-                                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("{propertyName}"));
                     """);
-                    foreach (var notification in notifications)
+
+                    if (isChanged)
                     {
-                        var name = notification.Identifier.ValueText;
                         code.AppendLine($"""
-                                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("{name}"));
+                                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("{propertyName}"));
                         """);
+                        foreach (var notification in notifications)
+                        {
+                            var name = notification.Identifier.ValueText;
+                            code.AppendLine($"""
+                                        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("{name}"));
+                            """);
+                        }
                     }
 
                     code.AppendLine($"""
@@ -114,7 +142,12 @@ public class ObservableFeatureGenerator : IIncrementalGenerator
                 builder.AppendLine($"using {ns};");
             }
             builder.AppendLine();
-            builder.AppendLine(symbol.Format(code.ToString(), ": INotifyPropertyChanging, INotifyPropertyChanged"));
+
+            var baseList = new List<string>();
+            if (isChanging) baseList.Add("INotifyPropertyChanging");
+            if (isChanged) baseList.Add("INotifyPropertyChanged");
+
+            builder.AppendLine(symbol.Format(code.ToString(), $": {string.Join(", ", baseList)}"));
             context.AddSource($"{symbol}.g.cs", builder.ToString());
         }
     }

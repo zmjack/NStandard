@@ -12,7 +12,8 @@ internal static class SourceProductionContextExtensions
             ErrorKind.MissingPartialKeyword => Errors.MissingPartialKeyword,
             ErrorKind.NotNumberType => Errors.NotNumberType,
             ErrorKind.NotArray => Errors.NotArray,
-            _ => throw new NotImplementedException()
+            ErrorKind.NotPropertyChangedOrPropertyChanging => Errors.NotPropertyChangedOrPropertyChanging,
+            _ => Errors.Default,
         };
         var diagnostic = Diagnostic.Create(descriptor, location);
         @this.ReportDiagnostic(diagnostic);

@@ -7,9 +7,9 @@
         {
 #if DEBUG
             return;
-            if (!_confirmed && !Debugger.IsAttached)
+            if (!_confirmed && !System.Diagnostics.Debugger.IsAttached)
             {
-                Debugger.Launch();
+                System.Diagnostics.Debugger.Launch();
                 _confirmed = true;
             }
 #endif

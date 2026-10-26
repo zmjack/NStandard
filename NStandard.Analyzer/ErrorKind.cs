@@ -4,10 +4,11 @@ namespace NStandard.Analyzer;
 
 public enum ErrorKind
 {
-    Other,
+    Default,
     MissingPartialKeyword,
     NotNumberType,
     NotArray,
+    NotPropertyChangedOrPropertyChanging,
 }
 
 internal static class Errors
@@ -25,6 +26,16 @@ internal static class Errors
     internal static readonly DiagnosticDescriptor NotArray = new("NS003",
         "The target is not an array",
         "The target must be an array",
+        "Design", DiagnosticSeverity.Error, true
+    );
+    internal static readonly DiagnosticDescriptor NotPropertyChangedOrPropertyChanging = new("NS004",
+        "The type declaration does not implement INotifyPropertyChanged or INotifyPropertyChanging",
+        "The type declaration must implement INotifyPropertyChanged or INotifyPropertyChanging",
+        "Design", DiagnosticSeverity.Error, true
+    );
+    internal static readonly DiagnosticDescriptor Default = new("NS000",
+        "An unknown error occurred",
+        "An unknown error occurred",
         "Design", DiagnosticSeverity.Error, true
     );
 }
