@@ -11,9 +11,8 @@ public class MathExTests
         Assert.Equal(1, MathEx.Permut(0, 0));
         Assert.Equal(20, MathEx.Permut(5, 2));
         Assert.Equal(60, MathEx.Permut(5, 3));
-        Assert.Equal(2000, MathEx.Permut(2000, 1));
-        Assert.Equal(2000 * 1999, MathEx.Permut(2000, 2));
-
+        Assert.Equal(200, MathEx.Permut(200, 1));
+        Assert.Equal(200 * 199, MathEx.Permut(200, 2));
         Assert.Equal(3632428800, MathEx.Permut(14, 10));
         Assert.Equal(3628800, MathEx.Permut(10, 10));
     }
@@ -24,10 +23,24 @@ public class MathExTests
         Assert.Equal(1, MathEx.Combin(0, 0));
         Assert.Equal(10, MathEx.Combin(5, 2));
         Assert.Equal(10, MathEx.Combin(5, 3));
-        Assert.Equal(2000 * 1999 / 2, MathEx.Combin(2000, 2));
-
+        Assert.Equal(200 * 199 / 2, MathEx.Combin(200, 2));
         Assert.Equal(1001, MathEx.Combin(14, 10));
         Assert.Equal(536878650, MathEx.Combin(50, 8));
+    }
+
+    [Fact]
+    public void CombinOptimizedTest()
+    {
+        // Default: MathEx.Combination.Optimized = 20;
+        Assert.Equal(968, MathEx.Combination.OptimizedLength);
+        MathEx.Combination.Optimized = 7;
+        Assert.Equal(20 * sizeof(long), MathEx.Combination.OptimizedLength);
+        MathEx.Combination.Optimized = 1;
+        Assert.Equal(2 * sizeof(long), MathEx.Combination.OptimizedLength);
+        MathEx.Combination.Optimized = 6;
+        Assert.Equal(16 * sizeof(long), MathEx.Combination.OptimizedLength);
+        MathEx.Combination.Optimized = 2;
+        Assert.Equal(4 * sizeof(long), MathEx.Combination.OptimizedLength);
     }
 
     [Fact]

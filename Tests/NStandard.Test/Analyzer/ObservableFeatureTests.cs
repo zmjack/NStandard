@@ -1,4 +1,5 @@
 ﻿using NStandard.ComponentModel;
+using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using Xunit;
@@ -7,20 +8,25 @@ namespace NStandard.Analyzer.Test;
 
 #region doc_ObservableFeature
 [ObservableFeature]
-public partial class ObservablePerson
+public partial class ObservablePerson : INotifyPropertyChanging, INotifyPropertyChanged
 {
+    public event PropertyChangingEventHandler PropertyChanging;
+    public event PropertyChangedEventHandler PropertyChanged;
+
     public partial string FirstName { get; set; }
     public partial string LastName { get; set; }
-    public string FullName => $"{FirstName} {LastName}";
+    public string FullName => $"{FirstName} {LastName}".Trim();
     public string HelloText => $"Hello {FirstName}";
-    public string Description => $"This person's name is {FullName}.";
+    public string Description => $"The person's name is {FullName}.";
 }
 #endregion
 
 #region doc_KDA
 [ObservableFeature]
-public partial class KDA
+public partial class KDA : INotifyPropertyChanged
 {
+    public event PropertyChangedEventHandler PropertyChanged;
+
     public partial int Kills { get; set; }
     public partial int Deaths { get; set; }
     public partial int Assists { get; set; }
@@ -53,7 +59,7 @@ public class ObservableFeatureTests
         {
             sb.AppendLine($"Changed: {e.PropertyName}");
             var value = type.GetProperty(e.PropertyName)?.GetValue(observable);
-            sb.AppendLine($"    {e.PropertyName}: {value}");
+            sb.AppendLine($"<value>: {value}");
         };
 
         observable.FirstName = "Bill";
@@ -61,13 +67,16 @@ public class ObservableFeatureTests
         Changing: FirstName
         Changing: FullName
         Changing: HelloText
+        Changing: Description
         Changed: FirstName
-            FirstName: Bill
+        <value>: Bill
         Changed: FullName
-            FullName: Bill 
+        <value>: Bill
         Changed: HelloText
-            HelloText: Hello Bill
-
+        <value>: Hello Bill
+        Changed: Description
+        <value>: The person's name is Bill.
+        
         """, sb.ToString());
         sb.Clear();
 
@@ -75,10 +84,13 @@ public class ObservableFeatureTests
         Assert.Equal("""
         Changing: LastName
         Changing: FullName
+        Changing: Description
         Changed: LastName
-            LastName: Gates
+        <value>: Gates
         Changed: FullName
-            FullName: Bill Gates
+        <value>: Bill Gates
+        Changed: Description
+        <value>: The person's name is Bill Gates.
 
         """, sb.ToString());
     }

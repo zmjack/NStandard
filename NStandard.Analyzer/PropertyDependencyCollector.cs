@@ -137,6 +137,13 @@ internal class PropertyDependencyCollector : DependencyCollector<ClassDeclaratio
 
     protected override IEnumerable<PropertyDeclarationSyntax> CollectCore(Dictionary<PropertyDeclarationSyntax, ICollection<PropertyDeclarationSyntax>> dependencies, InvocationExpressionSyntax syntax)
     {
+        if (syntax.Expression is MemberAccessExpressionSyntax memberAccess)
+        {
+            foreach (var target in Collect(dependencies, memberAccess.Expression))
+            {
+                yield return target;
+            }
+        }
         var arguments = syntax.ArgumentList.Arguments;
         foreach (var argument in arguments)
         {
@@ -231,18 +238,18 @@ internal class PropertyDependencyCollector : DependencyCollector<ClassDeclaratio
         {
             foreach (var reference in references)
             {
-                if (dependencies.TryGetValue(reference, out var dependency))
+                if (dependencies.TryGetValue(reference, out var _dependencies))
                 {
-                    if (!dependency.Any())
+                    if (!_dependencies.Any())
                     {
                         yield return reference;
                     }
-                }
-                else
-                {
-                    foreach (var root in GetRootReferences(dependencies[reference]))
+                    else
                     {
-                        yield return root;
+                        foreach (var dependency in GetRootReferences(_dependencies))
+                        {
+                            yield return dependency;
+                        }
                     }
                 }
             }

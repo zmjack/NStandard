@@ -79,6 +79,11 @@ With Analyzer:
 
 ## Recently
 
+### Version: 0.111.1
+
+- Optimize the implementation of `MathEx.Combin` to improve performance.
+- Optimize the `ObservableFeatureGenerator` implementation and expand the scope of dependency collection.
+
 ### Version: 0.111.0
 
 - Added `FixedArrayAttribute` for generating fixed-length array properties.

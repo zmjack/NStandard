@@ -46,17 +46,20 @@ public class ObservableFeatureGenerator : IIncrementalGenerator
 
             var isChanging = false;
             var isChanged = false;
-            foreach (var type in classDeclaration.BaseList!.Types)
+            if (classDeclaration.BaseList is not null)
             {
-                var convertedType = semantic.GetTypeInfo(type.Type).ConvertedType!;
-                var typeString = convertedType.ToDisplayString();
-                if (typeString == "System.ComponentModel.INotifyPropertyChanged")
+                foreach (var type in classDeclaration.BaseList!.Types)
                 {
-                    isChanged = true;
-                }
-                if (typeString == "System.ComponentModel.INotifyPropertyChanging")
-                {
-                    isChanging = true;
+                    var convertedType = semantic.GetTypeInfo(type.Type).ConvertedType!;
+                    var typeString = convertedType.ToDisplayString();
+                    if (typeString == "System.ComponentModel.INotifyPropertyChanged")
+                    {
+                        isChanged = true;
+                    }
+                    if (typeString == "System.ComponentModel.INotifyPropertyChanging")
+                    {
+                        isChanging = true;
+                    }
                 }
             }
             if (!isChanging && !isChanged)

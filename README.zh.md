@@ -79,6 +79,11 @@ end
 
 ## 最近更新
 
+### 版本：0.111.1
+
+- 优化 `MathEx.Combin` 的实现，以提升性能。
+- 优化 `ObservableFeatureGenerator` 的实现，并扩大依赖收集的范围。
+
 ### 版本：0.111.0
 
 - 新增 `FixedArrayAttribute` 用于生成定长数组属性。

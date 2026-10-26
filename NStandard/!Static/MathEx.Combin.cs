@@ -4,48 +4,83 @@ namespace NStandard.Static;
 
 public static partial class MathEx
 {
-    private static class Combination
+    public static class Combination
     {
-        private static int _maxNumber = -1;
-        private static byte[] _binary = [];
+        private static int _optimized = 0;
+        private static byte[] _binary = [.. BitConverter.GetBytes(1L)];
 
-        public static int MaxNumber
+        public static int Optimized
         {
-            get => _maxNumber;
-            private set
+            get => _optimized;
+            set
             {
-                _binary = Generate(_maxNumber + 1, value);
-                _maxNumber = value;
+                if (value < 1) throw new ArgumentException("The optimized number must be greater than 0.", nameof(value));
+                if (value == _optimized) return;
+                if (value > _optimized)
+                {
+                    var binary = new byte[GetTerm(value) * sizeof(long)];
+                    Array.Copy(_binary, binary, _binary.Length);
+                    var index = GetTerm(_optimized) * sizeof(long);
+                    foreach (var b in Generate(_optimized + 1, value))
+                    {
+                        binary[index++] = b;
+                    }
+                    _binary = binary;
+                }
+                else
+                {
+                    var binary = new byte[GetTerm(value) * sizeof(long)];
+                    Array.Copy(_binary, binary, binary.Length);
+                    _binary = binary;
+                }
+                _optimized = value;
             }
         }
+        public static int OptimizedLength => _binary.Length;
 
         static Combination()
         {
-            MaxNumber = 20;
+            Optimized = 20;
         }
 
-        public static long Combin(int number, int chosen)
+        internal static long Combin(int number, int chosen)
         {
-            if (chosen < 0) throw new ArgumentException("The choice must be non-negative.", nameof(chosen));
-            if (number < chosen) throw new ArgumentException("The total must be greater than or equal to the choice.", nameof(chosen));
+            if (chosen < 0) throw new ArgumentException("The chosen must be non-negative.", nameof(chosen));
+            if (number < chosen) throw new ArgumentException("The number must be greater than or equal to the chosen.", nameof(chosen));
 
-            if (number > _maxNumber)
+            if (number <= _optimized)
             {
-                MaxNumber = number;
+                var _chosen = number - chosen;
+                if (_chosen < chosen) chosen = _chosen;
+
+                var div = number / 2;
+                var offset = (number & 1) == 0 ? 0 : div + 1;
+                var index = div * (div + 1) + offset + chosen;
+                return BitConverter.ToInt64(_binary, index * sizeof(long));
             }
-
-            var _chosen = number - chosen;
-            if (_chosen < chosen) chosen = _chosen;
-
-            var div = number / 2;
-            var offset = (number & 1) == 0 ? 0 : div + 1;
-            var index = div * (div + 1) + offset + chosen;
-            return BitConverter.ToInt64(_binary, index * sizeof(long));
+            else
+            {
+                var dp = new CombinDpContainer();
+                return dp[StructTuple.Create(number, chosen)];
+            }
         }
 
-        private static byte[] Generate(int start, int number)
+        private static int GetTerm(int number)
         {
-            var list = new List<byte>();
+            if (number % 2 == 0)
+            {
+                int k = number / 2 + 1;
+                return k * k;
+            }
+            else
+            {
+                int k = (number + 1) / 2;
+                return k * (k + 1);
+            }
+        }
+
+        private static IEnumerable<byte> Generate(int start, int number)
+        {
             var dp = new CombinDpContainer();
             /*
 			 * 	s	i	| n\k	|	0	1	2	3	4	5	6	7	8
@@ -64,10 +99,12 @@ public static partial class MathEx
                 for (int k = 0; k <= n / 2; k++)
                 {
                     var value = dp[StructTuple.Create(n, k)];
-                    list.AddRange(BitConverter.GetBytes(value));
+                    foreach (var b in BitConverter.GetBytes(value))
+                    {
+                        yield return b;
+                    }
                 }
             }
-            return [.. _binary, .. list];
         }
 
         private class CombinDpContainer : DpContainer<StructTuple<int, int>, long>

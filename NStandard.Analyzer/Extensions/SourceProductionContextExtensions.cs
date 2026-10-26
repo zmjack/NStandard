@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
 namespace NStandard.Analyzer.Extensions;
 
 internal static class SourceProductionContextExtensions
